@@ -8,22 +8,22 @@ def main():
     random.shuffle(assignedRoles)
 
     ### Game Setup ###
-    
-    print "Wolves wake up."
+
+    print("Wolves wake up.")
     wolfIndices = []
     for i in range(NUM_PLAYERS):
         if assignedRoles[i] == 'Wolf':
             wolfIndices.append(i)
-    print "[Hidden] Wolves are at indices: " + str(wolfIndices) + "\n"
+    print("[Hidden] Wolves are at indices: " + str(wolfIndices) + "\n")
 
-    print "Seer wakes up."
+    print("Seer wakes up.")
     seerPeekIndex = random.randint(0, NUM_PLAYERS - 1)
     seerPeekCharacter = assignedRoles[seerPeekIndex]
-    print "[Hidden] Seer sees that Player " + str(seerPeekIndex) + " is a " + str(seerPeekCharacter) + "\n"
+    print("[Hidden] Seer sees that Player " + str(seerPeekIndex) + " is a " + str(seerPeekCharacter) + "\n")
 
     ### Game Begins ###
 
-    print "GAME BEGINS"
+    print("GAME BEGINS")
     players = []
     for i in range(NUM_PLAYERS):
         if assignedRoles[i] == 'Wolf':
@@ -32,12 +32,14 @@ def main():
             players.append(Villager(i))
         elif assignedRoles[i] == 'Seer':
             players.append(Seer(i, seerPeekIndex, seerPeekCharacter))
-    print players
+    print(players)
+    print('\n')
 
     allStatements = []
     for p in players:
         allStatements.append(p.getNextStatement())
-    print allStatements
+    for p in allStatements:
+        print(p)
     # Make prediction
     # Verify prediction
     # End game
