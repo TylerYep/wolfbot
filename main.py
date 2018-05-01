@@ -4,45 +4,48 @@ import random
 def main():
     NUM_PLAYERS = 6
     ROLES = ('Villager', 'Villager', 'Villager', 'Wolf', 'Wolf', 'Seer')
-    assignedRoles = list(ROLES)
-    random.shuffle(assignedRoles)
+    assigned_roles = list(ROLES)
+    random.shuffle(assigned_roles)
 
     ### Game Setup ###
 
     print("Wolves wake up.")
-    wolfIndices = []
+    wolf_indices = set()
     for i in range(NUM_PLAYERS):
-        if assignedRoles[i] == 'Wolf':
-            wolfIndices.append(i)
-    print("[Hidden] Wolves are at indices: " + str(wolfIndices) + "\n")
+        if assigned_roles[i] == 'Wolf':
+            wolf_indices.add(i)
+    print("[Hidden] Wolves are at indices: " + str(wolf_indices) + "\n")
 
     print("Seer wakes up.")
-    seerPeekIndex = random.randint(0, NUM_PLAYERS - 1)
-    seerPeekCharacter = assignedRoles[seerPeekIndex]
-    print("[Hidden] Seer sees that Player " + str(seerPeekIndex) + " is a " + str(seerPeekCharacter) + "\n")
+    seer_peek_index = random.randint(0, NUM_PLAYERS - 1)
+    seer_peek_character = assigned_roles[seer_peek_index]
+    print("[Hidden] Seer sees that Player " + str(seer_peek_index) + " is a " + str(seer_peek_character) + "\n")
 
     ### Game Begins ###
 
     print("GAME BEGINS")
     players = []
     for i in range(NUM_PLAYERS):
-        if assignedRoles[i] == 'Wolf':
-            players.append(Wolf(i, wolfIndices))
-        elif assignedRoles[i] == 'Villager':
+        if assigned_roles[i] == 'Wolf':
+            players.append(Wolf(i, wolf_indices))
+        elif assigned_roles[i] == 'Villager':
             players.append(Villager(i))
-        elif assignedRoles[i] == 'Seer':
-            players.append(Seer(i, seerPeekIndex, seerPeekCharacter))
+        elif assigned_roles[i] == 'Seer':
+            players.append(Seer(i, seer_peek_index, seer_peek_character))
     print(players)
     print('\n')
 
     all_statements = []
     for p in players:
         all_statements.append(p.getNextStatement())
+        
     for p in all_statements:
-        print(p)
+        print(p.sentence)
 
     # Make prediction
-    baseline_solver(all_statements, NUM_PLAYERS)
+    # baseline_solver(all_statements, NUM_PLAYERS)
+
+
     # Verify prediction
     # End game
 
