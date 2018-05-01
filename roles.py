@@ -1,4 +1,6 @@
 import random
+from statements import get_seer_statements, get_wolf_statements, get_villager_statements, Statement
+
 
 class Player():
     def __init__(self):
@@ -17,10 +19,7 @@ class Wolf(Player):
         self.wolfIndices = wolfIndices
         # Select who i'm gonna imitate and then select the statement
 
-        self.statements = ["I am a Villager!"]
-        for index in range(self.NUM_PLAYERS):
-            for role in self.ROLES:
-                self.statements.append(self.getSeerStatement(index, role))
+        self.statements = get_villager_statements(playerIndex)
 
     def getNextStatement(self):
         return random.choice(self.statements)
@@ -34,7 +33,7 @@ class Villager(Player):
     def __init__(self, playerIndex):
         super().__init__()
         self.player = playerIndex
-        self.statements = ["I am a Villager!"]
+        self.statements = get_villager_statements(playerIndex)
 
     def getNextStatement(self):
         return random.choice(self.statements)
@@ -48,7 +47,8 @@ class Seer(Player):
     def __init__(self, playerIndex, seerPeekIndex, seerPeekCharacter):
         super().__init__()
         self.player = playerIndex
-        self.statements = [self.getSeerStatement(seerPeekIndex, seerPeekCharacter)]
+        #TODO Fix this call
+        self.statements = get_seer_statements(playerIndex)
 
     def getNextStatement(self):
         return random.choice(self.statements)
