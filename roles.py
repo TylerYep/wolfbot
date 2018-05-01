@@ -5,7 +5,6 @@ class Player():
         self.NUM_PLAYERS = 6
         self.ROLES = ('Villager', 'Villager', 'Villager', 'Wolf', 'Wolf', 'Seer')
 
-    @staticmethod
     def getSeerStatement(index, role):
         return "I am a Seer and I saw that Player " + str(index) + " was a " + str(role) + "."
 
