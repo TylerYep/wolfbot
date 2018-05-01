@@ -2,6 +2,9 @@ class Statement:
     def __init__(self, str, info):
         self.str = str
         self.info = info
+    def negate(self):
+        # returns a new negated statement
+        return Statement()
 
 def get_villager_statements(player_ind):
     return {Statement('I am a villager' , (player_ind, 'V'))}

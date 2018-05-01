@@ -35,12 +35,14 @@ def main():
     print(players)
     print('\n')
 
-    allStatements = []
+    all_statements = []
     for p in players:
-        allStatements.append(p.getNextStatement())
-    for p in allStatements:
+        all_statements.append(p.getNextStatement())
+    for p in all_statements:
         print(p)
+
     # Make prediction
+    baseline_solver(all_statements, NUM_PLAYERS)
     # Verify prediction
     # End game
 
