@@ -5,6 +5,10 @@ class Player():
         self.NUM_PLAYERS = 6
         self.ROLES = ('Villager', 'Villager', 'Villager', 'Wolf', 'Wolf', 'Seer')
 
+    @staticmethod
+    def getSeerStatement(index, role):
+        return "I am a Seer and I saw that Player " + str(index) + " was a " + str(role) + "."
+
 
 class Wolf(Player):
     def __init__(self, playerIndex, wolfIndices):
@@ -13,12 +17,11 @@ class Wolf(Player):
         self.player = playerIndex
         self.wolfIndices = wolfIndices
         # Select who i'm gonna imitate and then select the statement
-        
+
         self.statements = ["I am a Villager!"]
-        for i in range(self.NUM_PLAYERS):
-            for r in self.ROLES:
-                seerReveal = "I am a Seer and I saw that Player " + str(i) + " was a " + str(r) + "."
-                self.statements.append(seerReveal)
+        for index in range(self.NUM_PLAYERS):
+            for role in self.ROLES:
+                self.statements.append(self.getSeerStatement(index, role))
 
     def getNextStatement(self):
         return random.choice(self.statements)
@@ -26,8 +29,11 @@ class Wolf(Player):
     def __repr__(self):
         return 'Wolf'
 
+
+
 class Villager(Player):
     def __init__(self, playerIndex):
+        super().__init__()
         self.player = playerIndex
         self.statements = ["I am a Villager!"]
 
@@ -37,11 +43,13 @@ class Villager(Player):
     def __repr__(self):
         return 'Villager'
 
+
+
 class Seer(Player):
     def __init__(self, playerIndex, seerPeekIndex, seerPeekCharacter):
+        super().__init__()
         self.player = playerIndex
-        seerReveal = "I am a Seer and I saw that Player " + str(seerPeekIndex) + " was a " + str(seerPeekCharacter) + "."
-        self.statements = [seerReveal]
+        self.statements = [self.getSeerStatement(seerPeekIndex, seerPeekCharacter)]
 
     def getNextStatement(self):
         return random.choice(self.statements)
