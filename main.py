@@ -1,23 +1,23 @@
 from roles import Wolf, Villager, Seer
 import random
+import const
 
 def main():
-    NUM_PLAYERS = 6
-    ROLES = ('Villager', 'Villager', 'Villager', 'Wolf', 'Wolf', 'Seer')
-    assigned_roles = list(ROLES)
-    random.shuffle(assigned_roles)
 
     ### Game Setup ###
 
+    assigned_roles = list(const.ROLES)
+    random.shuffle(assigned_roles)
+
     print("Wolves wake up.")
     wolf_indices = set()
-    for i in range(NUM_PLAYERS):
+    for i in range(const.NUM_PLAYERS):
         if assigned_roles[i] == 'Wolf':
             wolf_indices.add(i)
     print("[Hidden] Wolves are at indices: " + str(wolf_indices) + "\n")
 
     print("Seer wakes up.")
-    seer_peek_index = random.randint(0, NUM_PLAYERS - 1)
+    seer_peek_index = random.randint(0, const.NUM_PLAYERS - 1)
     seer_peek_character = assigned_roles[seer_peek_index]
     print("[Hidden] Seer sees that Player " + str(seer_peek_index) + " is a " + str(seer_peek_character) + "\n")
 
@@ -25,7 +25,7 @@ def main():
 
     print("GAME BEGINS")
     players = []
-    for i in range(NUM_PLAYERS):
+    for i in range(const.NUM_PLAYERS):
         if assigned_roles[i] == 'Wolf':
             players.append(Wolf(i, wolf_indices))
         elif assigned_roles[i] == 'Villager':
@@ -44,11 +44,8 @@ def main():
     # Make prediction
     # baseline_solver(all_statements, NUM_PLAYERS)
 
-
     # Verify prediction
     # End game
-
-
 
 if __name__ == '__main__':
     main()
