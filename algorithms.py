@@ -7,12 +7,12 @@ def baseline_solver(statements, n_players):
         if ind == len(statements):
             return 0
         else:
-            t_count, f_count = -1*float('inf')
+            t_count, f_count = -float('inf')
             if is_consistent(statements[ind], state):
-                newstate = updateState() #TODO
+                newstate = updateState() # TODO
                 t_count = 1 + _bl_solver_rec(ind+1, newstate)
             if is_consistent(statements[ind].negate(), state):
-                newstate = updateState() #TODO
+                newstate = updateState() # TODO
                 t_count = _bl_solver_recurse(ind+1, newstate)
             return max(f_count, t_count)
 

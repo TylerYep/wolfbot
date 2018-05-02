@@ -1,4 +1,5 @@
 from roles import Wolf, Villager, Seer
+from algorithms import baseline_solver
 import random
 import const
 
