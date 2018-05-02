@@ -32,15 +32,14 @@ def main():
             players.append(Villager(i))
         elif assigned_roles[i] == 'Seer':
             players.append(Seer(i, seer_peek_index, seer_peek_character))
-    print(players)
-    print('\n')
+    print("[Hidden] " + str(players))
 
     all_statements = []
     for p in players:
         all_statements.append(p.getNextStatement())
-        
-    for p in all_statements:
-        print(p.sentence)
+
+    for i in range(len(all_statements)):
+        print("Player "+ str(i) + ": " + all_statements[i].sentence)
 
     # Make prediction
     # baseline_solver(all_statements, NUM_PLAYERS)
@@ -48,6 +47,8 @@ def main():
 
     # Verify prediction
     # End game
+
+
 
 if __name__ == '__main__':
     main()

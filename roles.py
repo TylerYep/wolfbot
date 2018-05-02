@@ -1,7 +1,6 @@
 import random
 from statements import get_seer_statements, get_wolf_statements, get_villager_statements, Statement
 
-
 class Player():
     def __init__(self):
         self.NUM_PLAYERS = 6
