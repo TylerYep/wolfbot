@@ -40,7 +40,7 @@ def main():
         all_statements.append(p.getNextStatement())
 
     for i in range(len(all_statements)):
-        print("Player "+ str(i) + ": " + all_statements[i].sentence)
+        print("Player "+ str(i) + ": " + all_statements[i].sentence + " " + str(all_statements[i].knowledge))
 
     # Make prediction
     # baseline_solver(all_statements, NUM_PLAYERS)

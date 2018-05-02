@@ -1,11 +1,11 @@
 import const
 
 def get_villager_statements(player_index):
-    return [Statement('I am a Villager.' , [(player_index, 'Villager')])]
+    return [Statement('I am a Villager.' , [(player_index, {'Villager'})])]
 
 def get_seer_statements(player_index, seen_index, seen_role):
     sentence = "I am a Seer and I saw that Player " + str(seen_index) + " was a " + str(seen_role) + "."
-    knowledge = [(player_index, 'Seer'), (seen_index, seen_role)]
+    knowledge = [(player_index, {'Seer'}), (seen_index, {seen_role})]
     return [Statement(sentence, knowledge)]
 
 def get_wolf_statements(player_index, wolf_indices):
@@ -21,15 +21,21 @@ class Statement:
     def __init__(self, sentence, knowledge):
         self.sentence = sentence
         self.knowledge = knowledge
+        # knowledge contains tuples of (player_index, set(role))
 
     def negate(self):
         ''' Returns a negated version of the statement. '''
-        return Statement()
+        neg = []
+        for tupl in self.knowledge:
+            newSet = set(const.ROLES) - tupl[1]
+            neg.append((tupl[0], newSet))
+        return Statement(self.sentence, neg)
 
 ### Testing ###
 
 if __name__ == '__main__':
-    s = get_villager_statements(4)
-    print(type(s))
-    for hi in s:
-        print(hi.sentence, hi.knowledge)
+    s = get_seer_statements(3, 4, 'Villager')
+    for statement in s:
+        print(statement.sentence, statement.knowledge)
+    st = s[0].negate()
+    print(st.sentence, st.knowledge)
