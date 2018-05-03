@@ -4,14 +4,13 @@ import random
 import const
 
 def main():
+    ### GAME SETUP ###
+    print("\n -- GAME SETUP -- \n")
 
     global game_roles
     game_roles = list(const.ROLES)
     random.shuffle(game_roles)
-    print("[Hidden] Initial roles: " + str(game_roles))
-
-    ### GAME SETUP ###
-    print("\n -- GAME SETUP -- \n")
+    print("[Hidden] Initial roles: " + str(game_roles) + '\n')
 
     # Print out progress messages and initialize needed variables
     if 'Wolf' in const.ROLE_SET:
@@ -42,8 +41,8 @@ def main():
     print("\n -- GAME BEGINS -- \n")
 
     all_statements = []
-    for p in players:
-        all_statements.append(p.getNextStatement())
+    for player in game_roles:
+        all_statements.append(player.getNextStatement())
 
     for i in range(len(all_statements)):
         print("Player "+ str(i) + ": " + all_statements[i].sentence +

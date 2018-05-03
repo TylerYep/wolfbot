@@ -2,7 +2,7 @@ import const
 
 def get_villager_statements(player_index):
     ''' Returns list of Statements a Villager can say. '''
-    return [Statement('I am a Villager.' , [(player_index, {'Villager'})])]
+    return [Statement("I am a Villager." , [(player_index, {'Villager'})])]
 
 def get_seer_statements(player_index, seen_index, seen_role):
     ''' Returns list of Statements a Seer can say. '''
@@ -23,11 +23,15 @@ def get_wolf_statements(player_index, wolf_indices):
 
 # TODO
 def get_robber_statements(player_index, robber_choice_index, robber_choice_character):
-    return [Statement("","")]
+    return [Statement("", "")]
 
 # TODO
 def get_mason_statements(player_index, mason_indices):
-    return [Statement("","")]
+    otherMason = mason_indices[0] if mason_indices[0] != player_index else mason_indices[1]
+    if len(mason_indices) == 1:
+        return [Statement("I am a Mason. The other Mason is unknown.", "")]
+    else:
+        return [Statement("I am a Mason. The other Mason is Player " + otherMason, "")]
 
 class Statement:
     def __init__(self, sentence, knowledge):
