@@ -46,8 +46,9 @@ def baseline_solver(statements, n_players):
             t_count, f_count = float('-inf'), float('-inf')
             truth_state = is_consistent(statements[ind], state)
             false_state = is_consistent(statements[ind].negate(), state)
+            # print(truth_state, false_state)
             if truth_state:
-                t_count = 1 + _bl_solver_rec(ind+1, truth_state)
+                t_count = 1 + _bl_solver_recurse(ind+1, truth_state)
             if false_state:
                 f_count = _bl_solver_recurse(ind+1, false_state)
             return max(f_count, t_count)
