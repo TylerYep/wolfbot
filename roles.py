@@ -43,6 +43,20 @@ class Mason(Player):
         self.statements = get_mason_statements(player_index, mason_indices)
 
 
+class Troublemaker(Player):
+    def __init__(self, player_index):
+        super().__init__(player_index)
+        self.role = 'Troublemaker'
+        self.statements = get_troublemaker_statements(player_index)
+
+
+class Drunk(Player):
+    def __init__(self, player_index):
+        super().__init__(player_index)
+        self.role = 'Drunk'
+        self.statements = get_drunk_statements(player_index)
+
+
 class Robber(Player):
     def __init__(self, player_index, robber_choice_index, robber_choice_character):
         super().__init__(player_index)

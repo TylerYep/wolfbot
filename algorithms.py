@@ -34,7 +34,7 @@ def is_consistent(statement, state):
                 # ADD MORE CHECKS
     return newState
 
-def baseline_solver(statements, n_players=const.NUM_PLAYERS):
+def baseline_solver(statements, n_players=const.NUM_ROLES):
     '''
     Returns maximal list of statements that can be true from a list
     of Statements.
