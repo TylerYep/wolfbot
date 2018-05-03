@@ -12,6 +12,7 @@ class Player():
     def __repr__(self):
         return self.role
 
+
 class Wolf(Player):
     def __init__(self, player_index, wolf_indices):
         super().__init__(player_index)
@@ -32,3 +33,13 @@ class Villager(Player):
         super().__init__(player_index)
         self.role = 'Villager'
         self.statements = get_villager_statements(player_index)
+
+
+### END BASELINE CHARACTERS ###
+
+
+class Robber(Player):
+    def __init__(self, player_index, robber_choice_index, robber_choice_character):
+        super().__init__(player_index)
+        self.role = 'Robber'
+        self.statements = get_robber_statements(player_index, robber_choice_index, robber_choice_character)

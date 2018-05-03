@@ -20,6 +20,8 @@ def get_wolf_statements(player_index, wolf_indices):
                 statements += get_seer_statements(player_index, i, role)
     return statements
 
+def get_robber_statements(player_index, robber_choice_index, robber_choice_character):
+    return []
 
 class Statement:
     def __init__(self, sentence, knowledge):
