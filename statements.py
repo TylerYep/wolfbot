@@ -14,7 +14,7 @@ def get_wolf_statements(player_index, wolf_indices):
     ''' Returns list of Statements a Wolf can say. '''
     statements = get_villager_statements(player_index)
     for i in range(const.NUM_PLAYERS):
-        # Wolf more likely to declare themselves as a villager?
+        # Wolf imitating seer more likely to declare they saw a villager?
         for role in const.ROLES:
             # Wolf should not give away other wolves or themselves
             if i not in wolf_indices and role != 'Seer':
@@ -40,7 +40,14 @@ class Statement:
         # knowledge contains tuples of (player_index, set(role))
 
     def negate(self):
-        ''' Returns a negated version of the statement. '''
+        ''' Returns a negated version of the first clause in a statement. '''
+        firstClause = self.knowledge[0]
+        newSet = set(const.ROLES) - firstClause[1]
+        neg = [(firstClause[0], newSet)]
+        return Statement('NOT + ' + self.sentence, neg)
+
+    def negateAll(self):
+        ''' Returns a negated version of every clause in the statement. '''
         neg = []
         for tupl in self.knowledge:
             newSet = set(const.ROLES) - tupl[1]
@@ -48,7 +55,6 @@ class Statement:
         return Statement('NOT + ' + self.sentence, neg)
 
 ### Testing ###
-
 if __name__ == '__main__':
     s = get_seer_statements(3, 4, 'Villager')
     for statement in s:
