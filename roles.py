@@ -1,6 +1,6 @@
 import random
 import const
-from statements import Statement, get_seer_statements, get_wolf_statements, get_villager_statements
+from statements import *
 
 class Player():
     def __init__(self, player_index):

@@ -1,4 +1,4 @@
-from roles import Wolf, Villager, Seer
+from roles import Wolf, Villager, Seer, Robber
 from algorithms import baseline_solver
 import random
 import const
@@ -18,8 +18,8 @@ def main():
         wolf_indices = wolf_init()
     if 'Seer' in const.ROLE_SET:
         seer_peek_index, seer_peek_character = seer_init()
-    # if 'Robber' in const.ROLE_SET:
-    #     robber_choice_index, robber_choice_character = robber_init()
+    if 'Robber' in const.ROLE_SET:
+        robber_choice_index, robber_choice_character = robber_init()
 
     # Initialize players
     players = []
@@ -31,8 +31,8 @@ def main():
             players.append(Villager(i))
         elif role == 'Seer':
             players.append(Seer(i, seer_peek_index, seer_peek_character))
-        # elif role == 'Robber':
-        #     players.append(Robber(i, robber_choice_index, robber_choice_character))
+        elif role == 'Robber':
+            players.append(Robber(i, robber_choice_index, robber_choice_character))
     game_roles = players
     print("[Hidden] Final roles: " + str(game_roles))
 
@@ -44,7 +44,8 @@ def main():
         all_statements.append(p.getNextStatement())
 
     for i in range(len(all_statements)):
-        print("Player "+ str(i) + ": " + all_statements[i].sentence + " " + str(all_statements[i].knowledge))
+        print("Player "+ str(i) + ": " + all_statements[i].sentence +
+                " " + str(all_statements[i].knowledge))
 
     ### Make prediction ###
     # baseline_solver(all_statements, NUM_PLAYERS)
@@ -69,7 +70,8 @@ def seer_init():
     print("Seer wakes up.")
     seer_peek_index = random.randint(0, const.NUM_PLAYERS - 1)
     seer_peek_character = game_roles[seer_peek_index]
-    print("[Hidden] Seer sees that Player " + str(seer_peek_index) + " is a " + str(seer_peek_character))
+    print("[Hidden] Seer sees that Player " + str(seer_peek_index) +
+            " is a " + str(seer_peek_character))
     print("Seer goes to sleep." + "\n")
     return seer_peek_index, seer_peek_character
 
@@ -83,8 +85,9 @@ def robber_init():
     while robber_choice_index == i:
         robber_choice_index = random.randint(0, const.NUM_PLAYERS - 1)
     robber_choice_character = game_roles[robber_choice_index]
-    game_roles = swapCharacters(game_roles, robber_index, robber_choice_index)
-    print("[Hidden] Robber switches with Player " + str(robber_choice_index) + " and becomes a " + str(robber_choice_character))
+    swapCharacters(robber_index, robber_choice_index)
+    print("[Hidden] Robber switches with Player " + str(robber_choice_index) +
+                " and becomes a " + str(robber_choice_character))
     print("Robber goes to sleep." + "\n")
     return robber_choice_index, robber_choice_character
 
