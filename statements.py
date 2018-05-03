@@ -14,14 +14,20 @@ def get_wolf_statements(player_index, wolf_indices):
     ''' Returns list of Statements a Wolf can say. '''
     statements = get_villager_statements(player_index)
     for i in range(const.NUM_PLAYERS):
+        # Wolf more likely to declare themselves as a villager?
         for role in const.ROLES:
             # Wolf should not give away other wolves or themselves
             if i not in wolf_indices and role != 'Seer':
                 statements += get_seer_statements(player_index, i, role)
     return statements
 
+# TODO
 def get_robber_statements(player_index, robber_choice_index, robber_choice_character):
-    return []
+    return [Statement("","")]
+
+# TODO
+def get_mason_statements(player_index, mason_indices):
+    return [Statement("","")]
 
 class Statement:
     def __init__(self, sentence, knowledge):
