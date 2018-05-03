@@ -35,7 +35,7 @@ class Statement:
         for tupl in self.knowledge:
             newSet = set(const.ROLES) - tupl[1]
             neg.append((tupl[0], newSet))
-        return Statement(self.sentence, neg)
+        return Statement('NOT + ' + self.sentence, neg)
 
 ### Testing ###
 

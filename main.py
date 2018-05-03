@@ -47,7 +47,8 @@ def main():
         print("Player "+ str(i) + ": " + all_statements[i].sentence + " " + str(all_statements[i].knowledge))
 
     ### Make prediction ###
-    # baseline_solver(all_statements, NUM_PLAYERS)
+    n_consistent = baseline_solver(all_statements, const.NUM_PLAYERS)
+    print(n_consistent)
 
 
     ### Verify prediction ###
