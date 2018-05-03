@@ -19,19 +19,24 @@ def get_wolf_statements(player_index, wolf_indices):
             # Wolf should not give away other wolves or themselves
             if i not in wolf_indices and role != 'Seer':
                 statements += get_seer_statements(player_index, i, role)
+    for j in range(const.NUM_PLAYERS):
+        statements += get_mason_statements(player_index, [player_index, j])
     return statements
 
 # TODO
 def get_robber_statements(player_index, robber_choice_index, robber_choice_character):
     return [Statement("", "")]
 
-# TODO
 def get_mason_statements(player_index, mason_indices):
     otherMason = mason_indices[0] if mason_indices[0] != player_index else mason_indices[1]
     if len(mason_indices) == 1:
-        return [Statement("I am a Mason. The other Mason is unknown.", "")]
+        sentence = "I am a Mason. The other Mason is unknown."
+        knowledge = [(player_index, {'Mason'})]
+        return [Statement(sentence, knowledge)]
     else:
-        return [Statement("I am a Mason. The other Mason is Player " + otherMason, "")]
+        sentence = "I am a Mason. The other Mason is Player " + str(otherMason)
+        knowledge = [(player_index, {'Mason'}), (otherMason, {'Mason'})]
+        return [Statement(sentence, knowledge)]
 
 class Statement:
     def __init__(self, sentence, knowledge):

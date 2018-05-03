@@ -1,4 +1,4 @@
-from roles import Wolf, Villager, Seer, Robber
+from roles import Wolf, Villager, Seer, Robber, Mason
 from algorithms import baseline_solver
 import random
 import const
@@ -8,7 +8,7 @@ def main():
     correct, total = 0.0, 0.0
     for _ in range(const.NUM_GAMES):
         correct += play_one_night_werewolf()
-        total += 2
+        total += const.ROLE_COUNTS['Wolf']
     logger.warning("Percentage correct: " + str(correct/total))
 
 def play_one_night_werewolf():
@@ -82,6 +82,8 @@ def night_falls():
             players.append(Seer(i, seer_peek_index, seer_peek_character))
         elif role == 'Robber':
             players.append(Robber(i, robber_choice_index, robber_choice_character))
+        elif role == 'Mason':
+            players.append(Mason(i, mason_indices))
     return players
 
 def wolf_init():
@@ -121,10 +123,10 @@ def robber_init():
 
 def mason_init():
     logger.info("Masons wake up.")
-    mason_indices = set()
+    mason_indices = []
     for i in range(const.NUM_PLAYERS):
         if game_roles[i] == 'Mason':
-            mason_indices.add(i)
+            mason_indices.append(i)
     logger.info("[Hidden] Masons are at indices: " + str(mason_indices))
     logger.info("Masons go to sleep." + "\n")
     return mason_indices
