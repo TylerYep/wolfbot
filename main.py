@@ -16,6 +16,8 @@ def main():
     # Print out progress messages and initialize needed variables
     if 'Wolf' in const.ROLE_SET:
         wolf_indices = wolf_init()
+    if 'Mason' in const.ROLE_SET:
+        mason_indices = mason_init()
     if 'Seer' in const.ROLE_SET:
         seer_peek_index, seer_peek_character = seer_init()
     if 'Robber' in const.ROLE_SET:
@@ -90,6 +92,16 @@ def robber_init():
                 " and becomes a " + str(robber_choice_character))
     print("Robber goes to sleep." + "\n")
     return robber_choice_index, robber_choice_character
+
+def mason_init():
+    print("Masons wake up.")
+    mason_indices = set()
+    for i in range(const.NUM_PLAYERS):
+        if game_roles[i] == 'Mason':
+            mason_indices.add(i)
+    print("[Hidden] Masons are at indices: " + str(mason_indices))
+    print("Masons go to sleep." + "\n")
+    return mason_indices
 
 def swapCharacters(i, j):
     temp = game_roles[i]

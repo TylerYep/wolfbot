@@ -17,7 +17,7 @@ class Wolf(Player):
     def __init__(self, player_index, wolf_indices):
         super().__init__(player_index)
         self.role = 'Wolf'
-        self.wolf_indices = wolf_indices
+        # self.wolf_indices = wolf_indices
         self.statements = get_wolf_statements(player_index, wolf_indices)
 
 
@@ -35,7 +35,12 @@ class Villager(Player):
         self.statements = get_villager_statements(player_index)
 
 
-### END BASELINE CHARACTERS ###
+class Mason(Player):
+    def __init__(self, player_index, mason_indices):
+        super().__init__(player_index)
+        self.role = 'Mason'
+        # self.mason_indices = mason_indices
+        self.statements = get_mason_statements(player_index, mason_indices)
 
 
 class Robber(Player):
