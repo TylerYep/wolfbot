@@ -1,31 +1,45 @@
+import const
+
+def get_villager_statements(player_index):
+    ''' Returns list of Statements a Villager can say. '''
+    return [Statement('I am a Villager.' , [(player_index, {'Villager'})])]
+
+def get_seer_statements(player_index, seen_index, seen_role):
+    ''' Returns list of Statements a Seer can say. '''
+    sentence = "I am a Seer and I saw that Player " + str(seen_index) + " was a " + str(seen_role) + "."
+    knowledge = [(player_index, {'Seer'}), (seen_index, {seen_role})]
+    return [Statement(sentence, knowledge)]
+
+def get_wolf_statements(player_index, wolf_indices):
+    ''' Returns list of Statements a Wolf can say. '''
+    statements = get_villager_statements(player_index)
+    for i in range(const.NUM_PLAYERS):
+        for role in const.ROLES:
+            # Wolf should not give away other wolves or themselves
+            if i not in wolf_indices and role != 'Seer':
+                statements += get_seer_statements(player_index, i, role)
+    return statements
+
+
 class Statement:
-    def __init__(self, str, info):
-        self.str = str
-        self.info = info
-        
+    def __init__(self, sentence, knowledge):
+        self.sentence = sentence
+        self.knowledge = knowledge
+        # knowledge contains tuples of (player_index, set(role))
+
     def negate(self):
-        # returns a new negated statement
-        return Statement()
+        ''' Returns a negated version of the statement. '''
+        neg = []
+        for tupl in self.knowledge:
+            newSet = set(const.ROLES) - tupl[1]
+            neg.append((tupl[0], newSet))
+        return Statement(self.sentence, neg)
 
-def get_villager_statements(player_ind):
-    return {Statement('I am a villager' , (player_ind, 'V'))}
-
-# TODO fill these in
-def get_seer_statements(player_ind, seen_ind, role):
-    pass
-# def getSeerStatement(index, role):
-#     return "I am a Seer and I saw that Player " + str(index) + " was a " + str(role) + "."
-
-def get_wolf_statements(player_ind):
-    # TODO call above two functions
-    # for index in range(self.NUM_PLAYERS):
-    #     for role in self.ROLES:
-    #         self.statements.append(self.getSeerStatement(index, role))
-
-    pass
+### Testing ###
 
 if __name__ == '__main__':
-    s = get_villager_statements(4)
-    print(type(s))
-    for hi in s:
-        print(hi.str, hi.info)
+    s = get_seer_statements(3, 4, 'Villager')
+    for statement in s:
+        print(statement.sentence, statement.knowledge)
+    st = s[0].negate()
+    print(st.sentence, st.knowledge)
