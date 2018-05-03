@@ -2,6 +2,7 @@ class Statement:
     def __init__(self, str, info):
         self.str = str
         self.info = info
+        
     def negate(self):
         # returns a new negated statement
         return Statement()
