@@ -13,24 +13,27 @@ def get_seer_statements(player_index, seen_index, seen_role):
 def get_wolf_statements(player_index, wolf_indices):
     ''' Returns list of Statements a Wolf can say. '''
     statements = get_villager_statements(player_index)
-    for i in range(const.NUM_ROLES):
+    for i in range(const.NUM_PLAYERS):
         # Wolf imitating seer more likely to declare they saw a villager?
         for role in const.ROLES:
             # Wolf should not give away other wolves or themselves
             if i not in wolf_indices and role != 'Seer':
                 statements += get_seer_statements(player_index, i, role)
-    for j in range(const.NUM_ROLES):
+    for j in range(const.NUM_PLAYERS):
         statements += get_mason_statements(player_index, [player_index, j])
     return statements
 
-# TODO Fill out
+# TODO Finish
 def get_robber_statements(player_index, robber_choice_index, robber_choice_character):
-    return [Statement("", "")]
+    # if robber_choice_character != 'Wolf':
+    sentence = "I am a Robber and I swapped with Player " + str(robber_choice_index) + ". I am now a " + robber_choice_character
+    knowledge = [(robber_choice_index, {robber_choice_character}), (player_index, {'Robber'})]
+    return [Statement(sentence, knowledge)]
 
 def get_mason_statements(player_index, mason_indices):
     if len(mason_indices) == 1:
         # TODO saving this knowledge
-        sentence = "I am a Mason. The other Mason is unknown."
+        sentence = "I am a Mason. The other Mason is not present."
         knowledge = [(player_index, {'Mason'})]
     else:
         otherMason = mason_indices[0] if mason_indices[0] != player_index else mason_indices[1]
@@ -42,7 +45,7 @@ class Statement:
     def __init__(self, sentence, knowledge):
         self.sentence = sentence
         self.knowledge = knowledge
-        # knowledge contains tuples of (player_index, set(role))
+        # Knowledge is a list of (player_index, set(role)) tuples
 
     def negate(self):
         ''' Returns a negated version of the first clause in a statement. '''

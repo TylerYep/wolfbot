@@ -9,7 +9,7 @@ ROLE_COUNTS = dict(Counter(ROLES))
 NUM_CENTER = 3
 NUM_PLAYERS = NUM_ROLES - NUM_CENTER
 
-NUM_GAMES = 2
+NUM_GAMES = 1
 
 logging.basicConfig(format='%(message)s', level=logging.INFO)
 logger = logging.getLogger()

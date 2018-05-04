@@ -12,7 +12,8 @@ def main():
     logger.warning("Percentage correct: " + str(correct/total))
 
 def print_roles():
-    logger.info("[Hidden] Current roles: " + str(game_roles) + '\n')
+    logger.info("[Hidden] Current roles: " + str(game_roles[:-3]) +
+                "\nCenter cards: " + str(game_roles[-3:]) + '\n')
 
 def play_one_night_werewolf():
     ### GAME SETUP ###
@@ -31,8 +32,7 @@ def play_one_night_werewolf():
     # Only get statements from players
     all_statements = []
     for j in range(const.NUM_PLAYERS):
-        player = game_roles[j]
-        all_statements.append(player.getNextStatement())
+        all_statements.append(game_roles[j].getNextStatement())
 
     logger.info("\n -- GAME BEGINS -- \n")
     for i in range(len(all_statements)):
@@ -52,6 +52,9 @@ def play_one_night_werewolf():
     for w in wolf_suspects:
         if game_roles[w].role == 'Wolf':
             correctGuesses += 1
+    for card in game_roles[-3:]:
+        if card == 'Wolf':
+            correctGuesses += 1
     return correctGuesses
 
     ### End game ###
@@ -66,12 +69,12 @@ def night_falls():
         mason_indices = mason_init()
     if 'Seer' in const.ROLE_SET:
         seer_peek_index, seer_peek_character = seer_init()
-    if 'Robber' in const.ROLE_SET:
-        robber_choice_index, robber_choice_character = robber_init()
-    if 'Troublemaker' in const.ROLE_SET:
-        logger.info('')
-    if 'Drunk' in const.ROLE_SET:
-        logger.info('')
+    # if 'Robber' in const.ROLE_SET:
+    #     robber_choice_index, robber_choice_character = robber_init()
+    # if 'Troublemaker' in const.ROLE_SET:
+    #     logger.info('')
+    # if 'Drunk' in const.ROLE_SET:
+    #     logger.info('')
     # if 'Insomniac' in const.ROLE_SET:
     #     logger.info('')
 
