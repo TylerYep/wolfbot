@@ -49,7 +49,7 @@ def play_one_night_werewolf():
     for card in game_roles[:const.NUM_PLAYERS]:
         if card.role == 'Wolf':
             totalWolves += 1
-    return correctGuesses, totalWolves, correctGuesses + totalWolves >= 3, correctGuesses == totalWolves
+    return correctGuesses, totalWolves, correctGuesses >= 1, correctGuesses == totalWolves
 
     ### End game ###
 

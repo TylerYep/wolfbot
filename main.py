@@ -12,8 +12,8 @@ def main():
         if s1: match1 += 1
         if s2: match2 += 1
     if total == 0.0: total += 1
-    logger.warning("S1 perfect: " + str(match1/total))
-    logger.warning("S2 perfect: " + str(match2/total))
+    logger.warning("S1 perfect: " + str(match1/const.NUM_GAMES))
+    logger.warning("S2 perfect: " + str(match2/const.NUM_GAMES))
     logger.warning("Percentage correct: " + str(correct/total))
 
 if __name__ == '__main__':
