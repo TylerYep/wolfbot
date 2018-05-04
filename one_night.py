@@ -68,15 +68,13 @@ def night_falls():
     if 'Seer' in game_set:
         seer_peek_index, seer_peek_character = seer_init()
     logger.info("Seer goes to sleep.\n")
-    # logger.info("Robber wakes up.")
-    # if 'Robber' in game_set:
-    #     robber_choice_index, robber_choice_character = robber_init()
-    # logger.info("Robber goes to sleep.\n")
+    logger.info("Robber wakes up.")
+    if 'Robber' in game_set:
+        robber_choice_index, robber_choice_character = robber_init()
+    logger.info("Robber goes to sleep.\n")
     # logger.info("Troublemaker wakes up.")
     # if 'Troublemaker' in game_set:
-    #     res = trblmkr_init()
-    #     trblmkr_choice_index1, trblmkr_choice_character1 = res[0]
-    #     trblmkr_choice_index2, trblmkr_choice_character2 = res[1]
+    #     trblmkr_choice_index1, trblmkr_choice_index2 = trblmkr_init()
     # logger.info("Troublemaker goes to sleep.\n")
     # logger.info("Drunk wakes up.")
     # if 'Drunk' in game_set:
