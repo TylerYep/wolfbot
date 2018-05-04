@@ -1,6 +1,7 @@
 import const
 import copy
 from statements import Statement
+import random 
 
 def count_roles(state):
     '''
@@ -63,6 +64,10 @@ def baseline_solver(statements, n_players=const.NUM_ROLES):
     _bl_solver_recurse(0, start_state)
     return solution
 
+def random_solver(statements, n_players=const.NUM_ROLES):
+    f_inds = random.sample(range(0, n_players), const.ROLE_COUNTS['Wolf'])
+    return [False if i in f_inds else True for i in range(n_players)]
+
 if __name__ == '__main__':
     statements = [
         Statement('Player 0: I am a Villager', [(0, {'Villager'})]),
@@ -72,6 +77,6 @@ if __name__ == '__main__':
         Statement('Player 4: I am a Seer and I saw that Player 3 was a Villager', [(4, {'Seer'}), (3, {'Villager'})]),
         Statement('Player 5: I am a Villager', [(5, {'Villager'})]),
     ]
-    print(baseline_solver(statements, 6))
+    print(random_solver(statements, 6))
     # state = [{'Villager'}, {'Villager'}, {'Villager'}, {'Villager', 'Seer', 'Wolf'}, {'Villager', 'Seer', 'Wolf'}, {'Villager', 'Seer', 'Wolf'}]
     # is_consistent(Statement('Player 3: I am a Seer and I saw that Player 2 was a Villager', [(3, {'Seer'}), (2, {'Villager'})]), state)

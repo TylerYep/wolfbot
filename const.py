@@ -2,15 +2,15 @@ from collections import Counter
 import logging
 
 ### Simulation Constants ###
-NUM_GAMES = 400
+NUM_GAMES = 100000
 
 ### Game Constants ###
-ROLES = ('Villager', 'Villager', 'Villager', 'Wolf', 'Wolf', 'Seer', 'Mason', 'Mason')
+ROLES = ('Villager', 'Villager', 'Villager', 'Wolf', 'Wolf', 'Seer') #, 'Mason', 'Mason')
 ROLE_SET = set(ROLES)
 NUM_ROLES = len(ROLES)
 ROLE_COUNTS = dict(Counter(ROLES))
 
-NUM_CENTER = 3
+NUM_CENTER = 0 
 NUM_PLAYERS = NUM_ROLES - NUM_CENTER
 
 

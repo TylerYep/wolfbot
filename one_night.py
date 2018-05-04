@@ -1,5 +1,5 @@
 from roles import Wolf, Villager, Seer, Robber, Mason
-from algorithms import baseline_solver
+from algorithms import baseline_solver, random_solver
 import random
 import const
 from const import logger
@@ -33,7 +33,8 @@ def play_one_night_werewolf():
                 " " + str(all_statements[i].knowledge))
 
     ### Make prediction ###
-    consistent_statements = baseline_solver(all_statements)
+    # consistent_statements = baseline_solver(all_statements)
+    consistent_statements = random_solver(all_statements)
     wolf_suspects = []
     for j in range(len(consistent_statements)):
         if not consistent_statements[j]:
