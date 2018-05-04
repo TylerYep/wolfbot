@@ -13,13 +13,13 @@ def get_seer_statements(player_index, seen_index, seen_role):
 def get_wolf_statements(player_index, wolf_indices):
     statements = get_villager_statements(player_index)
     for i in range(const.NUM_PLAYERS):
-        # Wolf imitating seer more likely to declare they saw a villager?
+        statements += get_mason_statements(player_index, [player_index, i])
+
+        # Wolf-seer more likely to declare they saw a villager
         for role in const.ROLES:
             # Wolf should not give away other wolves or themselves
             if i not in wolf_indices and role != 'Seer':
                 statements += get_seer_statements(player_index, i, role)
-    for j in range(const.NUM_PLAYERS):
-        statements += get_mason_statements(player_index, [player_index, j])
     return statements
 
 # TODO Finish

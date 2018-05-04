@@ -5,8 +5,8 @@ import const
 from const import logger
 
 def print_roles():
-    logger.debug("[Hidden] Current roles: " + str(game_roles[:-3]) +
-                "\n\t Center cards:  " + str(game_roles[-3:]) + '\n')
+    logger.debug("[Hidden] Current roles: " + str(game_roles[:const.NUM_PLAYERS]) +
+                "\n\t Center cards:  " + str(game_roles[const.NUM_PLAYERS:]) + '\n')
 
 def play_one_night_werewolf():
     ### GAME SETUP ###
@@ -15,7 +15,7 @@ def play_one_night_werewolf():
     global game_roles, game_set
     game_roles = list(const.ROLES)
     random.shuffle(game_roles)
-    game_set = set(game_roles[:-3])
+    game_set = set(game_roles[:const.NUM_PLAYERS])
 
     print_roles()
     game_roles = night_falls()
@@ -46,10 +46,10 @@ def play_one_night_werewolf():
     for w in wolf_suspects:
         if game_roles[w].role == 'Wolf':
             correctGuesses += 1
-    for card in game_roles[:-3]:
+    for card in game_roles[:const.NUM_PLAYERS]:
         if card.role == 'Wolf':
             totalWolves += 1
-    return correctGuesses, totalWolves
+    return correctGuesses, totalWolves, correctGuesses + totalWolves >= 3, correctGuesses == totalWolves
 
     ### End game ###
 
@@ -154,4 +154,4 @@ def swapCharacters(i, j):
     temp = game_roles[i]
     game_roles[i] = game_roles[j]
     game_roles[j] = temp
-    game_set = set(game_roles[:-3])
+    game_set = set(game_roles[:const.NUM_PLAYERS])
