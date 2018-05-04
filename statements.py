@@ -1,17 +1,16 @@
 import const
 
+''' Returns list of Statements that each role can say. '''
+
 def get_villager_statements(player_index):
-    ''' Returns list of Statements a Villager can say. '''
     return [Statement("I am a Villager." , [(player_index, {'Villager'})])]
 
 def get_seer_statements(player_index, seen_index, seen_role):
-    ''' Returns list of Statements a Seer can say. '''
     sentence = "I am a Seer and I saw that Player " + str(seen_index) + " was a " + str(seen_role) + "."
     knowledge = [(player_index, {'Seer'}), (seen_index, {seen_role})]
     return [Statement(sentence, knowledge)]
 
 def get_wolf_statements(player_index, wolf_indices):
-    ''' Returns list of Statements a Wolf can say. '''
     statements = get_villager_statements(player_index)
     for i in range(const.NUM_PLAYERS):
         # Wolf imitating seer more likely to declare they saw a villager?
@@ -26,7 +25,8 @@ def get_wolf_statements(player_index, wolf_indices):
 # TODO Finish
 def get_robber_statements(player_index, robber_choice_index, robber_choice_character):
     # if robber_choice_character != 'Wolf':
-    sentence = "I am a Robber and I swapped with Player " + str(robber_choice_index) + ". I am now a " + robber_choice_character
+    sentence = "I am a Robber and I swapped with Player " + str(robber_choice_index)
+    sentence += ". I am now a " + robber_choice_character
     knowledge = [(robber_choice_index, {robber_choice_character}), (player_index, {'Robber'})]
     return [Statement(sentence, knowledge)]
 
@@ -41,11 +41,12 @@ def get_mason_statements(player_index, mason_indices):
         knowledge = [(player_index, {'Mason'}), (otherMason, {'Mason'})]
     return [Statement(sentence, knowledge)]
 
+
 class Statement:
     def __init__(self, sentence, knowledge):
         self.sentence = sentence
         self.knowledge = knowledge
-        # Knowledge is a list of (player_index, set(role)) tuples
+        # self.knowledge is a list of (player_index, set(role)) tuples
 
     def negate(self):
         ''' Returns a negated version of the first clause in a statement. '''

@@ -7,21 +7,24 @@ from const import logger
 def main():
     correct, total = 0.0, 0.0
     for _ in range(const.NUM_GAMES):
-        correct += play_one_night_werewolf()
-        total += const.ROLE_COUNTS['Wolf']
+        c, t = play_one_night_werewolf()
+        correct += c
+        total += t
+    if total == 0.0: total += 1
     logger.warning("Percentage correct: " + str(correct/total))
 
 def print_roles():
-    logger.info("[Hidden] Current roles: " + str(game_roles[:-3]) +
-                "\nCenter cards: " + str(game_roles[-3:]) + '\n')
+    logger.debug("[Hidden] Current roles: " + str(game_roles[:-3]) +
+                "\n\t Center cards:  " + str(game_roles[-3:]) + '\n')
 
 def play_one_night_werewolf():
     ### GAME SETUP ###
     logger.info("\n -- NIGHT FALLS -- \n")
 
-    global game_roles
+    global game_roles, game_set
     game_roles = list(const.ROLES)
     random.shuffle(game_roles)
+    game_set = set(game_roles[:-3])
 
     print_roles()
     game_roles = night_falls()
@@ -29,7 +32,6 @@ def play_one_night_werewolf():
 
     ### GAME BEGINS ###
 
-    # Only get statements from players
     all_statements = []
     for j in range(const.NUM_PLAYERS):
         all_statements.append(game_roles[j].getNextStatement())
@@ -49,34 +51,49 @@ def play_one_night_werewolf():
 
     ### Verify prediction ###
     correctGuesses = 0
+    totalWolves = 0
     for w in wolf_suspects:
         if game_roles[w].role == 'Wolf':
             correctGuesses += 1
-    for card in game_roles[-3:]:
-        if card == 'Wolf':
-            correctGuesses += 1
-    return correctGuesses
+    for card in game_roles[:-3]:
+        if card.role == 'Wolf':
+            totalWolves += 1
+    return correctGuesses, totalWolves
 
     ### End game ###
 
 # Print out progress messages and initialize needed variables
 def night_falls():
-    if 'Wolf' in const.ROLE_SET:
+    logger.info("Wolves wake up.")
+    if 'Wolf' in game_set:
         wolf_indices = wolf_init()
-    # if 'Minion' in const.ROLE_SET:
-    #     logger.info('')
-    if 'Mason' in const.ROLE_SET:
+    logger.info("Wolves go to sleep.\n")
+    logger.info("Masons wake up.")
+    if 'Mason' in game_set:
         mason_indices = mason_init()
-    if 'Seer' in const.ROLE_SET:
+    logger.info("Masons go to sleep.\n")
+    logger.info("Seer wakes up.")
+    if 'Seer' in game_set:
         seer_peek_index, seer_peek_character = seer_init()
-    # if 'Robber' in const.ROLE_SET:
+    logger.info("Seer goes to sleep.\n")
+    # logger.info("Robber wakes up.")
+    # if 'Robber' in game_set:
     #     robber_choice_index, robber_choice_character = robber_init()
-    # if 'Troublemaker' in const.ROLE_SET:
-    #     logger.info('')
-    # if 'Drunk' in const.ROLE_SET:
-    #     logger.info('')
-    # if 'Insomniac' in const.ROLE_SET:
-    #     logger.info('')
+    # logger.info("Robber goes to sleep.\n")
+    # logger.info("Troublemaker wakes up.")
+    # if 'Troublemaker' in game_set:
+    #     res = trblmkr_init()
+    #     trblmkr_choice_index1, trblmkr_choice_character1 = res[0]
+    #     trblmkr_choice_index2, trblmkr_choice_character2 = res[1]
+    # logger.info("Troublemaker goes to sleep.\n")
+    # logger.info("Drunk wakes up.")
+    # if 'Drunk' in game_set:
+    #     drunk_choice_index, drunk_choice_character = drunk_init()
+    # logger.info("Drunk goes to sleep.\n")
+    # logger.info("Insomniac wakes up.")
+    # if 'Insomniac' in game_set:
+    #     insomniac_new_role = insomniac_init()
+    # logger.info("Insomniac goes to sleep.\n")
 
     # Initialize players
     players = []
@@ -95,31 +112,40 @@ def night_falls():
                 players.append(Robber(i, robber_choice_index, robber_choice_character))
             elif role == 'Mason':
                 players.append(Mason(i, mason_indices))
+            elif role == 'Troublemaker':
+                players.append("")
+            elif role == 'Drunk':
+                players.append("")
+            elif role == 'Insomniac':
+                players.append("")
     return players
 
 # TODO Wolf can look at card in center
 def wolf_init():
-    logger.info("Wolves wake up.")
     wolf_indices = set()
     for i in range(const.NUM_PLAYERS):
         if game_roles[i] == 'Wolf':
             wolf_indices.add(i)
-    logger.info("[Hidden] Wolves are at indices: " + str(wolf_indices))
-    logger.info("Wolves go to sleep." + "\n")
+    logger.debug("[Hidden] Wolves are at indices: " + str(wolf_indices))
     return wolf_indices
 
 # TODO Seer can look at two center cards
 def seer_init():
-    logger.info("Seer wakes up.")
     seer_peek_index = random.randint(0, const.NUM_PLAYERS - 1)
     seer_peek_character = game_roles[seer_peek_index]
-    logger.info("[Hidden] Seer sees that Player " + str(seer_peek_index) +
+    logger.debug("[Hidden] Seer sees that Player " + str(seer_peek_index) +
             " is a " + str(seer_peek_character))
-    logger.info("Seer goes to sleep." + "\n")
     return seer_peek_index, seer_peek_character
 
+def mason_init():
+    mason_indices = []
+    for i in range(const.NUM_PLAYERS):
+        if game_roles[i] == 'Mason':
+            mason_indices.append(i)
+    logger.debug("[Hidden] Masons are at indices: " + str(mason_indices))
+    return mason_indices
+
 def robber_init():
-    logger.info("Robber wakes up.")
     robber_index = -1
     for i in range(const.NUM_PLAYERS):
         if game_roles[i] == 'Robber':
@@ -129,26 +155,15 @@ def robber_init():
         robber_choice_index = random.randint(0, const.NUM_PLAYERS - 1)
     robber_choice_character = game_roles[robber_choice_index]
     swapCharacters(robber_index, robber_choice_index)
-    logger.info("[Hidden] Robber switches with Player " + str(robber_choice_index) +
+    logger.debug("[Hidden] Robber switches with Player " + str(robber_choice_index) +
                 " and becomes a " + str(robber_choice_character))
-    logger.info("Robber goes to sleep." + "\n")
     return robber_choice_index, robber_choice_character
-
-def mason_init():
-    logger.info("Masons wake up.")
-    mason_indices = []
-    for i in range(const.NUM_PLAYERS):
-        if game_roles[i] == 'Mason':
-            mason_indices.append(i)
-    logger.info("[Hidden] Masons are at indices: " + str(mason_indices))
-    logger.info("Masons go to sleep." + "\n")
-    return mason_indices
 
 def swapCharacters(i, j):
     temp = game_roles[i]
     game_roles[i] = game_roles[j]
     game_roles[j] = temp
-    return game_roles
+    game_set = set(game_roles[:-3])
 
 if __name__ == '__main__':
     main()

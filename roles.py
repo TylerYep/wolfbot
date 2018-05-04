@@ -10,7 +10,7 @@ class Player():
         return random.choice(tuple(self.statements))
 
     def __repr__(self):
-        return self.role
+        return "<" + self.role + ">"
 
 
 class Wolf(Player):
