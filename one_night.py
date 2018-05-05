@@ -16,6 +16,7 @@ def play_one_night_werewolf(solver):
     logger.info("\n -- GAME BEGINS -- \n")
     all_statements = getStatements(player_objs)
     consistent_statements = solver(all_statements)
+    # print(consistent_statements)
     wolf_suspects = makePredictions(consistent_statements)
     return verifyPredictions(wolf_suspects)
     ### End game ###

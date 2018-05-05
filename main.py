@@ -8,6 +8,7 @@ def main():
     match1, match2 = 0.0, 0.0
     for _ in range(const.NUM_GAMES):
         c, t, s1, s2 = play_one_night_werewolf(baseline_solver)
+        # c, t, s1, s2 = play_one_night_werewolf(random_solver)
         correct += c
         total += t
         if s1: match1 += 1
