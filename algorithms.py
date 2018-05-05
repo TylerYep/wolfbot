@@ -25,38 +25,65 @@ def is_consistent(statement, state):
 def switching_solver(statements, n_players=const.NUM_ROLES):
     '''
     Returns maximal list of statements that can be true from a list
-    of Statements.
-    Handles switching characters.
-    Outputs a list of [True, False, True ...] values.
+    of Statements. Handles switching characters.
+    Returns a list of [True, False, True ...] values and
+    the possible role sets for each player.
     '''
     solution = []
-    return solution
-
-def baseline_solver(statements, n_players=const.NUM_ROLES):
-    '''
-    Returns maximal list of statements that can be true from a list
-    of Statements.
-    Does not handle switching characters.
-    Outputs a list of [True, False, True ...] values.
-    '''
-    solution = []
+    finalState = []
     def _bl_solver_recurse(ind, state, path=[]):
-        nonlocal solution
+        '''
+        ind: index of statement being considered
+        state = list of possible role sets for each player
+        path = list of [True, False, True ...] values.
+        '''
+        nonlocal solution, finalState
         if ind == len(statements):
-            if path.count(True) > solution.count(True): solution = path
+            if path.count(True) > solution.count(True):
+                solution = path
+                finalState = state
             return
-        t_count, f_count = 0, 0
         truth_state = is_consistent(statements[ind], state)
         false_state = is_consistent(statements[ind].negate(), state)
         new_path, new_path2 = [], []
         if truth_state:
             new_path = list(path)
             new_path.append(True)
-            t_count = _bl_solver_recurse(ind+1, truth_state, new_path)
+            _bl_solver_recurse(ind+1, truth_state, new_path)
         if false_state:
             new_path2 = list(path)
             new_path2.append(False)
-            f_count = _bl_solver_recurse(ind+1, false_state, new_path2)
+            _bl_solver_recurse(ind+1, false_state, new_path2)
+
+    start_state = [copy.deepcopy(const.ROLE_SET) for i in range(n_players)]
+    _bl_solver_recurse(0, start_state)
+    return solution, finalState
+
+def baseline_solver(statements, n_players=const.NUM_ROLES):
+    '''
+    Returns maximal list of statements that can be true from a list
+    of Statements.
+    Does not handle switching characters.
+    Returns a list of [True, False, True ...] values.
+    '''
+    solution = []
+    def _bl_solver_recurse(ind, state, path=[]):
+        nonlocal solution
+        if ind == len(statements):
+            if path.count(True) > solution.count(True):
+                solution = path
+            return
+        truth_state = is_consistent(statements[ind], state)
+        false_state = is_consistent(statements[ind].negate(), state)
+        new_path, new_path2 = [], []
+        if truth_state:
+            new_path = list(path)
+            new_path.append(True)
+            _bl_solver_recurse(ind+1, truth_state, new_path)
+        if false_state:
+            new_path2 = list(path)
+            new_path2.append(False)
+            _bl_solver_recurse(ind+1, false_state, new_path2)
 
     start_state = [copy.deepcopy(const.ROLE_SET) for i in range(n_players)]
     _bl_solver_recurse(0, start_state)

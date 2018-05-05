@@ -1,5 +1,5 @@
 from one_night import play_one_night_werewolf
-from algorithms import baseline_solver, random_solver
+from algorithms import baseline_solver, random_solver, switching_solver
 import const
 from const import logger
 
@@ -7,8 +7,7 @@ def main():
     correct, total = 0.0, 0.0
     match1, match2 = 0.0, 0.0
     for _ in range(const.NUM_GAMES):
-        c, t, s1, s2 = play_one_night_werewolf(baseline_solver)
-        # c, t, s1, s2 = play_one_night_werewolf(random_solver)
+        c, t, s1, s2 = play_one_night_werewolf(switching_solver)
         correct += c
         total += t
         if s1: match1 += 1

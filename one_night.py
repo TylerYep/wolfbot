@@ -15,9 +15,12 @@ def play_one_night_werewolf(solver):
 
     logger.info("\n -- GAME BEGINS -- \n")
     all_statements = getStatements(player_objs)
-    consistent_statements = solver(all_statements)
-    # print(consistent_statements)
-    wolf_suspects = makePredictions(consistent_statements)
+    consistent_statements, consistent_roles = solver(all_statements)
+    logger.info(consistent_roles)
+    wolf_suspects, all_suspects = makePredictions(consistent_statements, consistent_roles)
+    print()
+    logger.info(all_suspects)
+    print()
     return verifyPredictions(wolf_suspects)
     ### End game ###
 
@@ -32,7 +35,7 @@ def verifyPredictions(wolf_suspects):
             totalWolves += 1
     return correctGuesses, totalWolves, correctGuesses >= 1, correctGuesses == totalWolves
 
-def makePredictions(consistent_statements):
+def makePredictions(consistent_statements, consistent_roles):
     wolf_suspects, all_suspects = [], []
     for j in range(len(consistent_statements)):
         if not consistent_statements[j]:
@@ -41,8 +44,12 @@ def makePredictions(consistent_statements):
             logger.info("I suspect Player " + str(j) + " is a Wolf!")
         else:
             # TODO make it guess the remaining roles
-            all_suspects.append("")
-    return wolf_suspects
+            guess_set = consistent_roles[j]
+            if len(guess_set) == 1:
+                all_suspects.append(next(iter(guess_set)))
+            else:
+                all_suspects.append("")
+    return wolf_suspects, all_suspects
 
 def getStatements(player_objs):
     all_statements = []
@@ -146,7 +153,7 @@ def drunk_init():
         if game_roles[i] == 'Drunk':
             drunk_index = i
     drunk_choice_index = const.NUM_PLAYERS + random.randint(0, const.NUM_CENTER - 1)
-    # Unknown to the Drunk player
+    # Unknown to the Drunk player??
     drunk_choice_character = game_roles[drunk_choice_index]
     swapCharacters(drunk_index, drunk_choice_index)
     logger.debug("[Hidden] Drunk switches with Center Card " + str(drunk_choice_index) +

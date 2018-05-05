@@ -5,11 +5,11 @@ logging.basicConfig(format='%(message)s', level=logging.INFO)
 logger = logging.getLogger()
 
 ### Simulation Constants ###
-NUM_GAMES = 5000
+NUM_GAMES = 1
 
 
 ### Game Constants ###
-ROLES = ('Villager', 'Villager', 'Villager', 'Wolf', 'Wolf', 'Seer')#, 'Mason', 'Mason')
+ROLES = ('Villager', 'Villager', 'Villager', 'Wolf', 'Wolf', 'Seer', 'Mason', 'Mason')
 ROLE_SET = set(ROLES)
 NUM_ROLES = len(ROLES)
 ROLE_COUNTS = dict(Counter(ROLES)) # Dict of {'Villager': 3, 'Wolf': 2, ... }

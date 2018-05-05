@@ -1,3 +1,7 @@
 # WolfBot
-### One Night Werewolf: AI Edition
+### One Night Ultimate Werewolf: AI Edition
 By Tyler Yep and Harry Sha
+
+To try it out, run 'python3 main.py' in the terminal.
+
+Constants, along with their use cases, are listed in const.py.
