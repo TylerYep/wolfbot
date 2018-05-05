@@ -1,52 +1,10 @@
 import const
 
-''' Returns list of Statements that each role can say. '''
-
-def get_villager_statements(player_index):
-    return [Statement("I am a Villager." , [(player_index, {'Villager'})])]
-
-def get_seer_statements(player_index, seen_index, seen_role):
-    sentence = "I am a Seer and I saw that Player " + str(seen_index) + " was a " + str(seen_role) + "."
-    knowledge = [(player_index, {'Seer'}), (seen_index, {seen_role})]
-    return [Statement(sentence, knowledge)]
-
-def get_wolf_statements(player_index, wolf_indices):
-    statements = get_villager_statements(player_index)
-    for i in range(const.NUM_PLAYERS):
-        statements += get_mason_statements(player_index, [player_index, i])
-
-        # Wolf-seer more likely to declare they saw a villager
-        for role in const.ROLES:
-            # Wolf should not give away other wolves or themselves
-            if i not in wolf_indices and role != 'Seer':
-                statements += get_seer_statements(player_index, i, role)
-    return statements
-
-# TODO Finish
-def get_robber_statements(player_index, robber_choice_index, robber_choice_character):
-    # if robber_choice_character != 'Wolf':
-    sentence = "I am a Robber and I swapped with Player " + str(robber_choice_index)
-    sentence += ". I am now a " + robber_choice_character
-    knowledge = [(robber_choice_index, {robber_choice_character}), (player_index, {'Robber'})]
-    return [Statement(sentence, knowledge)]
-
-def get_mason_statements(player_index, mason_indices):
-    if len(mason_indices) == 1:
-        # TODO saving this knowledge
-        sentence = "I am a Mason. The other Mason is not present."
-        knowledge = [(player_index, {'Mason'})]
-    else:
-        otherMason = mason_indices[0] if mason_indices[0] != player_index else mason_indices[1]
-        sentence = "I am a Mason. The other Mason is Player " + str(otherMason)
-        knowledge = [(player_index, {'Mason'}), (otherMason, {'Mason'})]
-    return [Statement(sentence, knowledge)]
-
-
 class Statement:
     def __init__(self, sentence, knowledge):
         self.sentence = sentence
         self.knowledge = knowledge
-        # self.knowledge is a list of (player_index, set(role)) tuples
+        # knowledge is a list of (player_index, set(role)) tuples
 
     def negate(self):
         ''' Returns a negated version of the first clause in a statement. '''

@@ -1,7 +1,7 @@
+from statements import Statement
 import const
 import copy
-from statements import Statement
-import random 
+import random
 
 def count_roles(state):
     '''
@@ -11,9 +11,9 @@ def count_roles(state):
     '''
     count = {role: 0 for role in const.ROLE_SET}
     for s in state:
+        # Get only element of s
         if len(s) == 1:
-            for role in s: # There's only one
-                count[role] += 1
+            count[next(iter(s))] += 1
     return count
 
 def is_consistent(statement, state):
@@ -65,6 +65,11 @@ def baseline_solver(statements, n_players=const.NUM_ROLES):
     return solution
 
 def random_solver(statements, n_players=const.NUM_ROLES):
+    '''
+    Only works if there are no center cards.
+    Returns random list of [True, False, True ...] values for each statement.
+    '''
+    assert const.NUM_CENTER == 0
     f_inds = random.sample(range(0, n_players), const.ROLE_COUNTS['Wolf'])
     return [False if i in f_inds else True for i in range(n_players)]
 
@@ -78,5 +83,3 @@ if __name__ == '__main__':
         Statement('Player 5: I am a Villager', [(5, {'Villager'})]),
     ]
     print(random_solver(statements, 6))
-    # state = [{'Villager'}, {'Villager'}, {'Villager'}, {'Villager', 'Seer', 'Wolf'}, {'Villager', 'Seer', 'Wolf'}, {'Villager', 'Seer', 'Wolf'}]
-    # is_consistent(Statement('Player 3: I am a Seer and I saw that Player 2 was a Villager', [(3, {'Seer'}), (2, {'Villager'})]), state)
