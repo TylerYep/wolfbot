@@ -3,19 +3,6 @@ import const
 import copy
 import random
 
-def count_roles(state):
-    '''
-    Returns a dictionary of counts for each role in a state.
-    Only counts players in which we are sure of their role
-    such as {'Villager': 3, 'Robber': 0, 'Seer': 0, 'Wolf': 1}
-    '''
-    count = {role: 0 for role in const.ROLE_SET}
-    for s in state:
-        # Get only element of s
-        if len(s) == 1:
-            count[next(iter(s))] += 1
-    return count
-
 def is_consistent(statement, state):
     '''
     Returns the new state if the statement is consistent with state.
@@ -35,10 +22,21 @@ def is_consistent(statement, state):
                 # ADD MORE CHECKS
     return newState
 
+def switching_solver(statements, n_players=const.NUM_ROLES):
+    '''
+    Returns maximal list of statements that can be true from a list
+    of Statements.
+    Handles switching characters.
+    Outputs a list of [True, False, True ...] values.
+    '''
+    solution = []
+    return solution
+
 def baseline_solver(statements, n_players=const.NUM_ROLES):
     '''
     Returns maximal list of statements that can be true from a list
     of Statements.
+    Does not handle switching characters.
     Outputs a list of [True, False, True ...] values.
     '''
     solution = []
@@ -72,6 +70,19 @@ def random_solver(statements, n_players=const.NUM_ROLES):
     assert const.NUM_CENTER == 0
     f_inds = random.sample(range(0, n_players), const.ROLE_COUNTS['Wolf'])
     return [False if i in f_inds else True for i in range(n_players)]
+
+def count_roles(state):
+    '''
+    Returns a dictionary of counts for each role in a state.
+    Only counts players in which we are sure of their role
+    such as {'Villager': 3, 'Robber': 0, 'Seer': 0, 'Wolf': 1}
+    '''
+    count = {role: 0 for role in const.ROLE_SET}
+    for s in state:
+        # Get only element of s
+        if len(s) == 1:
+            count[next(iter(s))] += 1
+    return count
 
 if __name__ == '__main__':
     statements = [

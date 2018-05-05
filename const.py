@@ -1,6 +1,9 @@
 from collections import Counter
 import logging
 
+logging.basicConfig(format='%(message)s', level=logging.INFO)
+logger = logging.getLogger()
+
 ### Simulation Constants ###
 NUM_GAMES = 1
 
@@ -16,8 +19,6 @@ NUM_PLAYERS = NUM_ROLES - NUM_CENTER
 
 
 ### Logging Constants ###
-logging.basicConfig(format='%(message)s', level=logging.INFO)
-logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 
 ''' DEBUG = Include all hidden messages '''

@@ -18,7 +18,6 @@ def play_one_night_werewolf(solver):
     consistent_statements = solver(all_statements)
     wolf_suspects = makePredictions(consistent_statements)
     return verifyPredictions(wolf_suspects)
-
     ### End game ###
 
 def verifyPredictions(wolf_suspects):
@@ -139,6 +138,19 @@ def robber_init():
     logger.debug("[Hidden] Robber switches with Player " + str(robber_choice_index) +
                 " and becomes a " + str(robber_choice_character))
     return robber_choice_index, robber_choice_character
+
+def drunk_init():
+    drunk_index = -1
+    for i in range(const.NUM_PLAYERS):
+        if game_roles[i] == 'Drunk':
+            drunk_index = i
+    drunk_choice_index = const.NUM_PLAYERS + random.randint(0, const.NUM_CENTER - 1)
+    # Unknown to the Drunk player
+    drunk_choice_character = game_roles[drunk_choice_index]
+    swapCharacters(drunk_index, drunk_choice_index)
+    logger.debug("[Hidden] Drunk switches with Center Card " + str(drunk_choice_index) +
+                " and becomes a " + str(drunk_choice_character))
+    return drunk_choice_index, drunk_choice_character
 
 def swapCharacters(i, j):
     temp = game_roles[i]
