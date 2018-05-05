@@ -67,9 +67,12 @@ class Mason(Player):
     @staticmethod
     def get_mason_statements(player_index, mason_indices):
         if len(mason_indices) == 1:
-            # TODO saving this knowledge
             sentence = "I am a Mason. The other Mason is not present."
             knowledge = [(player_index, {'Mason'})]
+            for ind in range(const.NUM_PLAYERS):
+                if ind != player_index:
+                    knowledge.append((ind, {role for role in const.ROLES} - {'Mason'}))
+
         else:
             otherMason = mason_indices[0] if mason_indices[0] != player_index else mason_indices[1]
             sentence = "I am a Mason. The other Mason is Player " + str(otherMason)

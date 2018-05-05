@@ -31,7 +31,7 @@ def switching_solver(statements, n_players=const.NUM_ROLES):
     '''
     solution = []
     finalState = []
-    def _bl_solver_recurse(ind, state, path=[]):
+    def _switch_recurse(ind, state, path=[]):
         '''
         ind: index of statement being considered
         state = list of possible role sets for each player
@@ -49,14 +49,14 @@ def switching_solver(statements, n_players=const.NUM_ROLES):
         if truth_state:
             new_path = list(path)
             new_path.append(True)
-            _bl_solver_recurse(ind+1, truth_state, new_path)
+            _switch_recurse(ind+1, truth_state, new_path)
         if false_state:
             new_path2 = list(path)
             new_path2.append(False)
-            _bl_solver_recurse(ind+1, false_state, new_path2)
+            _switch_recurse(ind+1, false_state, new_path2)
 
     start_state = [copy.deepcopy(const.ROLE_SET) for i in range(n_players)]
-    _bl_solver_recurse(0, start_state)
+    _switch_recurse(0, start_state)
     return solution, finalState
 
 def baseline_solver(statements, n_players=const.NUM_ROLES):
