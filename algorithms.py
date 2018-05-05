@@ -64,13 +64,13 @@ def baseline_solver(statements, n_players=const.NUM_ROLES):
     _bl_solver_recurse(0, start_state)
     return solution
 
-def random_solver(statements, n_players=const.NUM_ROLES):
+def random_solver(statements, n_players=const.NUM_PLAYERS):
     '''
     Only works if there are no center cards.
     Returns random list of [True, False, True ...] values for each statement.
     '''
-    assert const.NUM_CENTER == 0
-    f_inds = random.sample(range(0, n_players), const.ROLE_COUNTS['Wolf'])
+    # assert const.NUM_CENTER == 0
+    f_inds = random.sample(range(0, const.NUM_ROLES), const.ROLE_COUNTS['Wolf'])
     return [False if i in f_inds else True for i in range(n_players)]
 
 if __name__ == '__main__':
