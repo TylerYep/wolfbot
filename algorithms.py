@@ -87,7 +87,7 @@ def is_consistent_bl(statement, state):
             return False
         newState = deepcopy(newState)
         newState[proposed_ind] = proposed_roles & state[proposed_ind]
-        count = count_roles(newState)
+        count = count_roles_old(newState)
         for proposed_role in proposed_roles:
             if count[proposed_role] > const.ROLE_COUNTS[proposed_role]:
                 return False
@@ -131,6 +131,18 @@ def random_solver(statements, n_players=const.NUM_PLAYERS):
     '''
     f_inds = random.sample(range(0, const.NUM_ROLES), const.ROLE_COUNTS['Wolf'])
     return [False if i in f_inds else True for i in range(n_players)]
+
+def count_roles_old(state):
+    '''
+    Returns a dictionary of counts for each role in a state.
+    Only counts players in which we are sure of their role
+    such as {'Villager': 3, 'Robber': 0, 'Seer': 0, 'Wolf': 1}
+    '''
+    count = {role: 0 for role in const.ROLE_SET}
+    for s in state:
+        if len(s) == 1:
+            count[next(iter(s))] += 1
+    return count
 
 def count_roles(state):
     '''
