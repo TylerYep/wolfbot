@@ -9,11 +9,11 @@ def is_consistent(statement, state):
     otherwise returns False.
     State: list that contains a set of possible roles for each player.
     '''
-    newState = SolverState(state.index, state.possible_roles, state.switch_dict, state.path)
+    newState = SolverState(state.index, deepcopy(state.possible_roles), dict(state.switch_dict), list(state.path))
     for proposed_ind, proposed_roles in statement.knowledge:
         if not (proposed_roles & state.possible_roles[proposed_ind]):
             return False
-        newState = SolverState(state.index, state.possible_roles, state.switch_dict, state.path)
+        newState = SolverState(state.index, deepcopy(state.possible_roles), dict(state.switch_dict), list(state.path))
         newState.possible_roles[proposed_ind] = proposed_roles & state.possible_roles[proposed_ind]
         count = count_roles(newState)
         for proposed_role in proposed_roles:
@@ -54,20 +54,23 @@ def switching_solver(statements, n_players=const.NUM_ROLES):
         nonlocal solution, final_state
         if state.index == len(statements):
             if state.path.count(True) > solution.count(True):
-                solution = state.path
-                final_state = SolverState(state.index, state.possible_roles, state.switch_dict, state.path)
+                solution = list(state.path)
+                new_possible = deepcopy(state.possible_roles)
+                final_state = SolverState(state.index, new_possible, dict(state.switch_dict), list(state.path))
             return
         truth_state = is_consistent(statements[state.index], state)
         false_state = is_consistent(statements[state.index].negate(), state)
         if truth_state:
             new_path = list(state.path)
             new_path.append(True)
-            new_state1 = SolverState(state.index+1, truth_state.possible_roles, state.switch_dict, new_path)
+            new_possible1 = deepcopy(truth_state.possible_roles)
+            new_state1 = SolverState(state.index+1, new_possible1, dict(state.switch_dict), new_path)
             _switch_recurse(new_state1)
         if false_state:
             new_path2 = list(state.path)
             new_path2.append(False)
-            new_state2 = SolverState(state.index+1, false_state.possible_roles, state.switch_dict, new_path2)
+            new_possible2 = deepcopy(false_state.possible_roles)
+            new_state2 = SolverState(state.index+1, new_possible2, dict(state.switch_dict), new_path2)
             _switch_recurse(new_state2)
     _switch_recurse(start_state)
     return solution, final_state.possible_roles
