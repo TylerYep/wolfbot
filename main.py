@@ -15,7 +15,7 @@ def main():
     if total == 0.0: total += 1
     logger.warning("S1: Found at least 1 Wolf: " + str(match1 / const.NUM_GAMES))
     logger.warning("S2: Found all Wolves: " + str(match2 / const.NUM_GAMES))
-    logger.warning("Percentage correct guesses: " + str(correct / total))
+    logger.warning("Correct guesses (not accusing extraneous wolves): " + str(correct / total))
 
 if __name__ == '__main__':
     main()

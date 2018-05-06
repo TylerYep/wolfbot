@@ -1,10 +1,9 @@
 from roles import Wolf, Villager, Seer, Robber, Mason
 from predictions import makePredictions, verifyPredictions
-import random
-import const
 from const import logger
-from algorithms import baseline_solver 
-import pickle 
+import const
+import pickle
+import random
 
 def play_one_night_werewolf(solver):
     global game_roles, player_set
@@ -22,10 +21,7 @@ def play_one_night_werewolf(solver):
     with open('test.pkl', 'wb') as f:
         pickle.dump(game, f)
     solution = solver(all_statements)
-    consistent_statements, consistent_roles = solution.path, solution.possible_roles
-    consistent_statements_old, consistent_roles_old = baseline_solver(all_statements)
-    print(consistent_statements, consistent_statements_old)
-    all_role_guesses = makePredictions(consistent_statements, consistent_roles)
+    all_role_guesses = makePredictions(solution.path, solution.possible_roles)
     logger.info('\nMy guesses: ' + str(all_role_guesses) + '\n')
     return verifyPredictions(game_roles, all_role_guesses)
     ### End game ###

@@ -4,13 +4,13 @@ import const
 import random
 
 class SolverState():
-    def __init__(self, possible_roles, switch_dict, path=[]): 
+    def __init__(self, possible_roles, switch_dict, path=[]):
         self.possible_roles = possible_roles
         self.switch_dict = switch_dict
         self.path = path
     def __repr__(self):
         return "\n<" + str(self.possible_roles) + ">\n"
-        
+
 
 def is_consistent(statement, state):
     '''
@@ -18,17 +18,17 @@ def is_consistent(statement, state):
     otherwise returns False.
     State: list that contains a set of possible roles for each player.
     '''
-    #newState = SolverState(deepcopy(state.possible_roles), dict(state.switch_dict))
     new_possible_roles = deepcopy(state.possible_roles)
     for proposed_ind, proposed_roles in statement.knowledge:
         intersection = proposed_roles & new_possible_roles[proposed_ind]
         if not intersection:
-            return False 
+            return False
         new_possible_roles[proposed_ind] = intersection
         count = count_roles(new_possible_roles)
         for proposed_role in proposed_roles:
             if count[proposed_role] > const.ROLE_COUNTS[proposed_role]:
                 return False
+        # Add more checks!
     newState = SolverState(new_possible_roles, dict(state.switch_dict))
     return newState
 
@@ -53,7 +53,7 @@ def switching_solver(statements, n_players=const.NUM_ROLES):
         nonlocal solution
         if ind == len(statements):
             if state.path.count(True) > solution.path.count(True):
-                solution = state 
+                solution = state
                 final_state = state.possible_roles
             return
         truth_state = is_consistent(statements[ind], state)
@@ -64,7 +64,7 @@ def switching_solver(statements, n_players=const.NUM_ROLES):
         if false_state:
             false_state.path = list(state.path) + [False]
             _switch_recurse(ind + 1, false_state)
-    
+
     _switch_recurse(0, start_state)
     return solution
 
@@ -85,13 +85,11 @@ def baseline_solver(statements, n_players=const.NUM_ROLES):
         for proposed_ind, proposed_roles in statement.knowledge:
             if not (proposed_roles & state[proposed_ind]):
                 return False
-            newState = deepcopy(newState)
             newState[proposed_ind] = proposed_roles & state[proposed_ind]
             count = count_roles(newState)
             for proposed_role in proposed_roles:
                 if count[proposed_role] > const.ROLE_COUNTS[proposed_role]:
                     return False
-                    # ADD MORE CHECKS
         return newState
 
     final_state, solution = [], []
