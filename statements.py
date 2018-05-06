@@ -21,6 +21,10 @@ class Statement:
             neg.append((tupl[0], newSet))
         return Statement('NOT + ' + self.sentence, neg)
 
+    def __repr__(self):
+        return str(self.sentence) # + " " + str(self.knowledge)
+
+
 ### Testing ###
 if __name__ == '__main__':
     s = get_seer_statements(3, 4, 'Villager')

@@ -1,4 +1,5 @@
 from roles import Wolf, Villager, Seer, Robber, Mason
+from predictions import makePredictions, verifyPredictions
 import random
 import const
 from const import logger
@@ -16,47 +17,16 @@ def play_one_night_werewolf(solver):
     logger.info("\n -- GAME BEGINS -- \n")
     all_statements = getStatements(player_objs)
     consistent_statements, consistent_roles = solver(all_statements)
-    logger.info(consistent_roles)
-    wolf_suspects, all_suspects = makePredictions(consistent_statements, consistent_roles)
-    print()
-    logger.info(all_suspects)
-    print()
-    return verifyPredictions(wolf_suspects)
+    all_role_guesses = makePredictions(consistent_statements, consistent_roles)
+    logger.info('\nMy guesses: ' + str(all_role_guesses) + '\n')
+    return verifyPredictions(game_roles, all_role_guesses)
     ### End game ###
-
-def verifyPredictions(wolf_suspects):
-    correctGuesses = 0
-    totalWolves = 0
-    for w in wolf_suspects:
-        if game_roles[w] == 'Wolf':
-            correctGuesses += 1
-    for card in game_roles[:const.NUM_PLAYERS]:
-        if card == 'Wolf':
-            totalWolves += 1
-    return correctGuesses, totalWolves, correctGuesses >= 1, correctGuesses == totalWolves
-
-def makePredictions(consistent_statements, consistent_roles):
-    wolf_suspects, all_suspects = [], []
-    for j in range(len(consistent_statements)):
-        if not consistent_statements[j]:
-            wolf_suspects.append(j)
-            all_suspects.append('Wolf')
-            logger.info("I suspect Player " + str(j) + " is a Wolf!")
-        else:
-            # TODO make it guess the remaining roles
-            guess_set = consistent_roles[j]
-            if len(guess_set) == 1:
-                all_suspects.append(next(iter(guess_set)))
-            else:
-                all_suspects.append("")
-    return wolf_suspects, all_suspects
 
 def getStatements(player_objs):
     all_statements = []
     for j in range(const.NUM_PLAYERS):
         all_statements.append(player_objs[j].getNextStatement())
-        logger.info("Player " + str(j) + ": " + all_statements[j].sentence +
-                " " + str(all_statements[j].knowledge))
+        logger.info("Player " + str(j) + ": " + str(all_statements[j]))
     return all_statements
 
 # Print out progress messages and initialize needed variables
@@ -153,7 +123,7 @@ def drunk_init():
         if game_roles[i] == 'Drunk':
             drunk_index = i
     drunk_choice_index = const.NUM_PLAYERS + random.randint(0, const.NUM_CENTER - 1)
-    # Unknown to the Drunk player??
+    # TODO role unknown to the Drunk player?
     drunk_choice_character = game_roles[drunk_choice_index]
     swapCharacters(drunk_index, drunk_choice_index)
     logger.debug("[Hidden] Drunk switches with Center Card " + str(drunk_choice_index) +

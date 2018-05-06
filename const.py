@@ -5,7 +5,7 @@ logging.basicConfig(format='%(message)s', level=logging.INFO)
 logger = logging.getLogger()
 
 ### Simulation Constants ###
-NUM_GAMES = 1000
+NUM_GAMES = 1
 
 
 ### Game Constants ###
@@ -19,7 +19,7 @@ NUM_PLAYERS = NUM_ROLES - NUM_CENTER
 
 
 ### Logging Constants ###
-logger.setLevel(logging.WARNING)
+logger.setLevel(logging.DEBUG)
 
 ''' DEBUG = Include all hidden messages '''
 ''' INFO = Regular gameplay '''
