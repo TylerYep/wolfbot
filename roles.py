@@ -24,7 +24,8 @@ class Wolf(Player):
     def get_wolf_statements(player_index, wolf_indices):
         statements = Villager.get_villager_statements(player_index)
         for i in range(const.NUM_PLAYERS):
-            statements += Mason.get_mason_statements(player_index, [player_index, i])
+            if player_index != i:
+                statements += Mason.get_mason_statements(player_index, [player_index, i])
 
             # Wolf-seer more likely to declare they saw a villager
             # Wolf should not give away other wolves or themselves
