@@ -3,6 +3,16 @@ from copy import deepcopy
 import const
 import random
 
+class SolverState():
+    def __init__(self, index, possible_roles, switch_dict, path=[]):
+        self.index = index
+        self.possible_roles = possible_roles
+        self.switch_dict = switch_dict
+        self.path = path
+    def __repr__(self):
+        return "\n<" + str(self.possible_roles) + ">\n"
+        
+
 def is_consistent(statement, state):
     '''
     Returns the new state if the statement is consistent with state,
@@ -15,22 +25,12 @@ def is_consistent(statement, state):
             return False
         newState = SolverState(state.index, deepcopy(state.possible_roles), dict(state.switch_dict), list(state.path))
         newState.possible_roles[proposed_ind] = proposed_roles & state.possible_roles[proposed_ind]
-        count = count_roles(newState)
+        count = count_roles(newState.possible_roles)
         for proposed_role in proposed_roles:
             if count[proposed_role] > const.ROLE_COUNTS[proposed_role]:
                 return False
                 # ADD MORE CHECKS
     return newState
-
-class SolverState():
-    def __init__(self, index, possible_roles, switch_dict, path=[]):
-        self.index = index
-        self.possible_roles = possible_roles
-        self.switch_dict = switch_dict
-        self.path = path
-    def __repr__(self):
-        return "\n<" + str(self.possible_roles) + ">\n"
-
 
 def switching_solver(statements, n_players=const.NUM_ROLES):
     '''
@@ -42,8 +42,7 @@ def switching_solver(statements, n_players=const.NUM_ROLES):
     possible_rols = [deepcopy(const.ROLE_SET) for i in range(n_players)]
     switch_dict = {a:a for a in range(const.NUM_ROLES)}
     start_state = SolverState(0, possible_rols, switch_dict)
-    final_state = []
-    solution = []
+    final_state, solution = [], []
 
     def _switch_recurse(state):
         '''
@@ -75,25 +74,6 @@ def switching_solver(statements, n_players=const.NUM_ROLES):
     _switch_recurse(start_state)
     return solution, final_state.possible_roles
 
-def is_consistent_bl(statement, state):
-    '''
-    Returns the new state if the statement is consistent with state.
-    otherwise returns False.
-    State: list that contains a set of possible roles for each player.
-    '''
-    newState = deepcopy(state)
-    for proposed_ind, proposed_roles in statement.knowledge:
-        if not (proposed_roles & state[proposed_ind]):
-            return False
-        newState = deepcopy(newState)
-        newState[proposed_ind] = proposed_roles & state[proposed_ind]
-        count = count_roles_old(newState)
-        for proposed_role in proposed_roles:
-            if count[proposed_role] > const.ROLE_COUNTS[proposed_role]:
-                return False
-                # ADD MORE CHECKS
-    return newState
-
 def baseline_solver(statements, n_players=const.NUM_ROLES):
     '''
     Returns maximal list of statements that can be true from a list
@@ -101,12 +81,32 @@ def baseline_solver(statements, n_players=const.NUM_ROLES):
     Does not handle switching characters.
     Returns a list of [True, False, True ...] values.
     '''
-    solution = []
+    def is_consistent_bl(statement, state):
+        '''
+        Returns the new state if the statement is consistent with state.
+        otherwise returns False.
+        State: list that contains a set of possible roles for each player.
+        '''
+        newState = deepcopy(state)
+        for proposed_ind, proposed_roles in statement.knowledge:
+            if not (proposed_roles & state[proposed_ind]):
+                return False
+            newState = deepcopy(newState)
+            newState[proposed_ind] = proposed_roles & state[proposed_ind]
+            count = count_roles(newState)
+            for proposed_role in proposed_roles:
+                if count[proposed_role] > const.ROLE_COUNTS[proposed_role]:
+                    return False
+                    # ADD MORE CHECKS
+        return newState
+
+    final_state, solution = [], []
     def _bl_solver_recurse(ind, state, path=[]):
-        nonlocal solution
+        nonlocal solution, final_state
         if ind == len(statements):
             if path.count(True) > solution.count(True):
                 solution = path
+                final_state = state
             return
         truth_state = is_consistent_bl(statements[ind], state)
         false_state = is_consistent_bl(statements[ind].negate(), state)
@@ -122,7 +122,7 @@ def baseline_solver(statements, n_players=const.NUM_ROLES):
 
     start_state = [deepcopy(const.ROLE_SET) for i in range(n_players)]
     _bl_solver_recurse(0, start_state)
-    return solution
+    return solution, final_state
 
 def random_solver(statements, n_players=const.NUM_PLAYERS):
     '''
@@ -132,26 +132,14 @@ def random_solver(statements, n_players=const.NUM_PLAYERS):
     f_inds = random.sample(range(0, const.NUM_ROLES), const.ROLE_COUNTS['Wolf'])
     return [False if i in f_inds else True for i in range(n_players)]
 
-def count_roles_old(state):
+def count_roles(state):
     '''
-    Returns a dictionary of counts for each role in a state.
+    Returns a dictionary of counts for each role in [proposed roles sets].
     Only counts players in which we are sure of their role
     such as {'Villager': 3, 'Robber': 0, 'Seer': 0, 'Wolf': 1}
     '''
     count = {role: 0 for role in const.ROLE_SET}
     for s in state:
-        if len(s) == 1:
-            count[next(iter(s))] += 1
-    return count
-
-def count_roles(state):
-    '''
-    Returns a dictionary of counts for each role in a state.
-    Only counts players in which we are sure of their role
-    such as {'Villager': 3, 'Robber': 0, 'Seer': 0, 'Wolf': 1}
-    '''
-    count = {role: 0 for role in const.ROLE_SET}
-    for s in state.possible_roles:
         if len(s) == 1:
             count[next(iter(s))] += 1
     return count
