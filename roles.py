@@ -109,3 +109,9 @@ class Drunk(Player):
         super().__init__(player_index)
         self.role = 'Drunk'
         self.statements = self.get_drunk_statements(player_index)
+
+class Insomniac(Player):
+    def __init__(self, player_index):
+        super().__init__(player_index)
+        self.role = 'Insomniac'
+        self.statements = self.get_insomniac_statements(player_index)

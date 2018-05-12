@@ -6,10 +6,11 @@ import pickle
 import random
 
 def play_one_night_werewolf(solver):
-    global game_roles, player_set
+    global game_roles, original_roles, player_set
     game_roles = list(const.ROLES)
     random.shuffle(game_roles)
     player_set = set(game_roles[:const.NUM_PLAYERS])
+    original_roles = list(game_roles)
 
     print_roles()
     player_objs = night_falls()
@@ -17,14 +18,14 @@ def play_one_night_werewolf(solver):
 
     logger.info("\n -- GAME BEGINS -- \n")
     all_statements = getStatements(player_objs)
+
     game = [game_roles, all_statements]
-    with open('test.pkl', 'wb') as f:
-        pickle.dump(game, f)
+    with open('test.pkl', 'wb') as f: pickle.dump(game, f)
+
     solution = solver(all_statements)
     all_role_guesses = makePredictions(solution.path, solution.possible_roles)
     logger.info('\nMy guesses: ' + str(all_role_guesses) + '\n')
     return verifyPredictions(game_roles, all_role_guesses)
-    ### End game ###
 
 def getStatements(player_objs):
     all_statements = []
@@ -52,18 +53,18 @@ def night_falls():
     if 'Robber' in player_set:
         robber_choice_index, robber_choice_character = robber_init()
     sleep('Robber')
-    # wake(Troublemaker)
-    # if 'Troublemaker' in player_set:
-    #     trblmkr_choice_index1, trblmkr_choice_index2 = trblmkr_init()
-    # sleep(Troublemaker)
-    # wake('Drunk')
-    # if 'Drunk' in player_set:
-    #     drunk_choice_index, drunk_choice_character = drunk_init()
-    # sleep('Drunk')
-    # wake('Insomniac')
-    # if 'Insomniac' in player_set:
-    #     insomniac_new_role = insomniac_init()
-    # sleep('Insomniac')
+    wake('Troublemaker')
+    if 'Troublemaker' in player_set:
+        trblmkr_choice_index1, trblmkr_choice_index2 = troublemaker_init()
+    sleep('Troublemaker')
+    wake('Drunk')
+    if 'Drunk' in player_set:
+        drunk_choice_index, drunk_choice_character = drunk_init()
+    sleep('Drunk')
+    wake('Insomniac')
+    if 'Insomniac' in player_set:
+        insomniac_new_role = insomniac_init(insomniac_ind)
+    sleep('Insomniac')
 
     # Initialize players
     players = []
@@ -131,6 +132,25 @@ def drunk_init():
                 " and becomes a " + str(drunk_choice_character))
     return drunk_choice_index, drunk_choice_character
 
+def troublemaker_init():
+    troublemaker_index = find_role_index('Troublemaker')
+    troublemaker_choice_index1 = random.randint(0, const.NUM_PLAYERS - 1)
+    troublemaker_choice_index2 = random.randint(0, const.NUM_PLAYERS - 1)
+    while troublemaker_choice_index1 == troublemaker_index:
+        troublemaker_choice_index1 = random.randint(0, const.NUM_PLAYERS - 1)
+    while troublemaker_choice_index2 == troublemaker_index or troublemaker_choice_index2 == troublemaker_choice_index1:
+        troublemaker_choice_index2 = random.randint(0, const.NUM_PLAYERS - 1)
+    troublemaker_choice_character1 = game_roles[troublemaker_choice_index1]
+    troublemaker_choice_character2 = game_roles[troublemaker_choice_index2]
+    swapCharacters(troublemaker_choice_index1, troublemaker_choice_index2)
+    logger.debug("[Hidden] Troublemaker switches Player " + str(troublemaker_choice_index1)
+        + " with Player " + str(troublemaker_choice_index2))
+    return troublemaker_choice_index1, troublemaker_choice_index2
+
+def insomniac_init(index):
+    insomniac_new_role = game_roles[index]
+    return insomniac_new_role
+
 def swapCharacters(i, j):
     temp = game_roles[i]
     game_roles[i] = game_roles[j]
@@ -139,7 +159,7 @@ def swapCharacters(i, j):
 
 def find_role_index(role):
     for i in range(const.NUM_PLAYERS):
-        if game_roles[i] == role:
+        if original_roles[i] == role:
             return i
     return -1
 
