@@ -93,7 +93,10 @@ def wolf_init():
 
 # TODO Seer can look at two center cards
 def seer_init():
+    seer_index = find_role_index('Seer')
     seer_peek_index = random.randint(0, const.NUM_PLAYERS - 1)
+    while seer_peek_index == seer_index:
+        seer_peek_index = random.randint(0, const.NUM_PLAYERS - 1)
     seer_peek_character = game_roles[seer_peek_index]
     logger.debug("[Hidden] Seer sees that Player " + str(seer_peek_index) +
             " is a " + str(seer_peek_character))
@@ -108,12 +111,9 @@ def mason_init():
     return mason_indices
 
 def robber_init():
-    robber_index = -1
-    for i in range(const.NUM_PLAYERS):
-        if game_roles[i] == 'Robber':
-            robber_index = i
+    robber_index = find_role_index('Robber')
     robber_choice_index = random.randint(0, const.NUM_PLAYERS - 1)
-    while robber_choice_index == i:
+    while robber_choice_index == robber_index:
         robber_choice_index = random.randint(0, const.NUM_PLAYERS - 1)
     robber_choice_character = game_roles[robber_choice_index]
     swapCharacters(robber_index, robber_choice_index)
@@ -122,10 +122,7 @@ def robber_init():
     return robber_choice_index, robber_choice_character
 
 def drunk_init():
-    drunk_index = -1
-    for i in range(const.NUM_PLAYERS):
-        if game_roles[i] == 'Drunk':
-            drunk_index = i
+    drunk_index = find_role_index('Drunk')
     drunk_choice_index = const.NUM_PLAYERS + random.randint(0, const.NUM_CENTER - 1)
     # TODO role unknown to the Drunk player?
     drunk_choice_character = game_roles[drunk_choice_index]
@@ -139,6 +136,12 @@ def swapCharacters(i, j):
     game_roles[i] = game_roles[j]
     game_roles[j] = temp
     player_set = set(game_roles[:const.NUM_PLAYERS])
+
+def find_role_index(role):
+    for i in range(const.NUM_PLAYERS):
+        if game_roles[i] == role:
+            return i
+    return -1
 
 def print_roles():
     logger.debug("[Hidden] Current roles: " + str(game_roles[:const.NUM_PLAYERS]) +
