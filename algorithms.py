@@ -18,10 +18,16 @@ def is_consistent(statement, state):
     otherwise returns False.
     State: list that contains a set of possible roles for each player.
     '''
+    new_switch_dict = dict(state.switch_dict)
+    if len(statement.switches) != 0:
+        for i, j in statement.switches:
+            new_switch_dict[i] = j
+            new_switch_dict[j] = i
+
     new_possible_roles = deepcopy(state.possible_roles)
     for proposed_ind, proposed_roles in statement.knowledge:
         intersection = proposed_roles & new_possible_roles[proposed_ind]
-        if not intersection:
+        if len(intersection) == 0:
             return False
         new_possible_roles[proposed_ind] = intersection
         count = count_roles(new_possible_roles)
@@ -29,8 +35,7 @@ def is_consistent(statement, state):
             if count[proposed_role] > const.ROLE_COUNTS[proposed_role]:
                 return False
         # Add more checks!
-    newState = SolverState(new_possible_roles, dict(state.switch_dict))
-    return newState
+    return SolverState(new_possible_roles, new_switch_dict)
 
 def switching_solver(statements, n_players=const.NUM_ROLES):
     '''
@@ -40,7 +45,7 @@ def switching_solver(statements, n_players=const.NUM_ROLES):
     the possible role sets for each player.
     '''
     possible_roles = [deepcopy(const.ROLE_SET) for i in range(n_players)]
-    switch_dict = {a:a for a in range(const.NUM_ROLES)}
+    switch_dict = {i:i for i in range(const.NUM_ROLES)}
     start_state = SolverState(possible_roles, switch_dict)
     solution = SolverState([],[],[])
 
@@ -102,7 +107,6 @@ def baseline_solver(statements, n_players=const.NUM_ROLES):
             return
         truth_state = is_consistent_bl(statements[ind], state)
         false_state = is_consistent_bl(statements[ind].negate(), state)
-        new_path, new_path2 = [], []
         if truth_state:
             new_path = list(path)
             new_path.append(True)

@@ -17,7 +17,6 @@ class Wolf(Player):
     def __init__(self, player_index, wolf_indices):
         super().__init__(player_index)
         self.role = 'Wolf'
-        # self.wolf_indices = wolf_indices
         self.statements = self.get_wolf_statements(player_index, wolf_indices)
 
     @staticmethod
@@ -45,7 +44,7 @@ class Seer(Player):
     def get_seer_statements(player_index, seen_index, seen_role):
         sentence = "I am a Seer and I saw that Player " + str(seen_index) + " was a " + str(seen_role) + "."
         knowledge = [(player_index, {'Seer'}), (seen_index, {seen_role})]
-        return [Statement(sentence, knowledge)]
+        return [Statement(sentence, knowledge, [])]
 
 
 class Villager(Player):
@@ -56,13 +55,12 @@ class Villager(Player):
 
     @staticmethod
     def get_villager_statements(player_index):
-        return [Statement("I am a Villager." , [(player_index, {'Villager'})])]
+        return [Statement("I am a Villager." , [(player_index, {'Villager'})], [])]
 
 class Mason(Player):
     def __init__(self, player_index, mason_indices):
         super().__init__(player_index)
         self.role = 'Mason'
-        # self.mason_indices = mason_indices
         self.statements = self.get_mason_statements(player_index, mason_indices)
 
     @staticmethod
@@ -73,12 +71,11 @@ class Mason(Player):
             for ind in range(const.NUM_PLAYERS):
                 if ind != player_index:
                     knowledge.append((ind, {role for role in const.ROLES} - {'Mason'}))
-
         else:
             otherMason = mason_indices[0] if mason_indices[0] != player_index else mason_indices[1]
-            sentence = "I am a Mason. The other Mason is Player " + str(otherMason)
+            sentence = "I am a Mason. The other Mason is Player " + str(otherMason) + '.'
             knowledge = [(player_index, {'Mason'}), (otherMason, {'Mason'})]
-        return [Statement(sentence, knowledge)]
+        return [Statement(sentence, knowledge, [])]
 
 
 class Robber(Player):
@@ -87,14 +84,14 @@ class Robber(Player):
         self.role = 'Robber'
         self.statements = self.get_robber_statements(player_index, robber_choice_index, robber_choice_character)
 
-    # TODO Finish
     @staticmethod
     def get_robber_statements(player_index, robber_choice_index, robber_choice_character):
+        # TODO Finish
         # if robber_choice_character != 'Wolf':
-        sentence = "I am a Robber and I swapped with Player " + str(robber_choice_index)
-        sentence += ". I am now a " + robber_choice_character
+        sentence = "I am a Robber and I swapped with Player " + str(robber_choice_index) + \
+                    ". I am now a " + robber_choice_character + "."
         knowledge = [(robber_choice_index, {robber_choice_character}), (player_index, {'Robber'})]
-        return [Statement(sentence, knowledge)]
+        return [Statement(sentence, knowledge, [])]
 
 
 class Troublemaker(Player):

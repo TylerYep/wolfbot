@@ -1,17 +1,22 @@
 import const
 
 class Statement:
-    def __init__(self, sentence, knowledge):
+    def __init__(self, sentence, knowledge, switches):
+        '''
+        sentence is a string representation of the statement
+        knowledge is a list of (player_index, set(role)) tuples
+        switches is a list of (player_index, new_index) tuples
+        '''
         self.sentence = sentence
         self.knowledge = knowledge
-        # knowledge is a list of (player_index, set(role)) tuples
+        self.switches = switches
 
     def negate(self):
         ''' Returns a negated version of the first clause in a statement. '''
         firstClause = self.knowledge[0]
         newSet = set(const.ROLES) - firstClause[1]
         neg = [(firstClause[0], newSet)]
-        return Statement('NOT + ' + self.sentence, neg)
+        return Statement('NOT + ' + self.sentence, neg, []) #TODO
 
     def negateAll(self):
         ''' Returns a negated version of every clause in the statement. '''
@@ -19,10 +24,10 @@ class Statement:
         for tupl in self.knowledge:
             newSet = set(const.ROLES) - tupl[1]
             neg.append((tupl[0], newSet))
-        return Statement('NOT + ' + self.sentence, neg)
+        return Statement('NOT + ' + self.sentence, neg, []) #TODO
 
     def __repr__(self):
-        return str(self.sentence) # + " " + str(self.knowledge)
+        return str(self.sentence) # + " " + str(self.knowledge) + " " + str(self.switches)
 
 
 ### Testing ###

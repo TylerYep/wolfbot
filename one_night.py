@@ -14,17 +14,18 @@ def play_one_night_werewolf(solver):
 
     print_roles()
     player_objs = night_falls()
-    print_roles()
 
     logger.info("\n -- GAME BEGINS -- \n")
     all_statements = getStatements(player_objs)
+    print_roles()
 
     game = [game_roles, all_statements]
     with open('test.pkl', 'wb') as f: pickle.dump(game, f)
 
     solution = solver(all_statements)
-    all_role_guesses = makePredictions(solution.path, solution.possible_roles)
-    logger.info('\nMy guesses: ' + str(all_role_guesses) + '\n')
+    all_role_guesses = makePredictions(solution)
+    logger.info("\n[Wolfbot] Role guesses: " + str(all_role_guesses[:const.NUM_PLAYERS]) +
+                "\n\t  Center cards: " + str(all_role_guesses[const.NUM_PLAYERS:]) + '\n')
     return verifyPredictions(game_roles, all_role_guesses)
 
 def getStatements(player_objs):
@@ -70,9 +71,9 @@ def night_falls():
     players = []
     for i in range(const.NUM_ROLES):
         if i >= const.NUM_PLAYERS:
-            players.append(game_roles[i])
+            players.append(original_roles[i])
         else:
-            role = game_roles[i]
+            role = original_roles[i]
             if role == 'Wolf': players.append(Wolf(i, wolf_indices))
             elif role == 'Villager': players.append(Villager(i))
             elif role == 'Seer': players.append(Seer(i, seer_peek_index, seer_peek_character))

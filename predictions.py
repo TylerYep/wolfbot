@@ -1,11 +1,14 @@
 import const
 from const import logger
 
-def makePredictions(consistent_statements, consistent_roles):
+def makePredictions(solution):
     '''
     Uses a list of true/false statements and possible role sets
     to return a list of predictions for all roles
     '''
+    consistent_statements = solution.path
+    consistent_roles = solution.possible_roles
+    switches_dict = solution.switches_dict
     all_role_guesses = []
     curr_role_counts = dict(const.ROLE_COUNTS)
     for j in range(const.NUM_ROLES):
