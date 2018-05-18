@@ -29,8 +29,11 @@ class Wolf(Player):
             # Wolf-seer more likely to declare they saw a villager
             # Wolf should not give away other wolves or themselves
             for role in const.ROLES:
-                if i not in wolf_indices and role != 'Seer':
-                    statements += Seer.get_seer_statements(player_index, i, role)
+                if i not in wolf_indices:
+                    statements += Robber.get_robber_statements(player_index, i, role)
+                    if role != 'Seer':
+                        statements += Seer.get_seer_statements(player_index, i, role)
+
         return statements
 
 
