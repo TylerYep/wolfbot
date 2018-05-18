@@ -91,7 +91,7 @@ class Robber(Player):
         sentence = "I am a Robber and I swapped with Player " + str(robber_choice_index) + \
                     ". I am now a " + robber_choice_character + "."
         knowledge = [(robber_choice_index, {robber_choice_character}), (player_index, {'Robber'})]
-        return [Statement(sentence, knowledge, [])]
+        return [Statement(sentence, knowledge, [(robber_choice_index, player_index)])]
 
 
 class Troublemaker(Player):

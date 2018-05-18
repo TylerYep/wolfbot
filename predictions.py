@@ -9,7 +9,6 @@ def makePredictions(solution):
     consistent_statements = solution.path
     consistent_roles = solution.possible_roles
     switch_dict = solution.switch_dict
-    print(switch_dict)
 
     all_role_guesses = []
     curr_role_counts = dict(const.ROLE_COUNTS)

@@ -59,7 +59,6 @@ def switching_solver(statements, n_players=const.NUM_ROLES):
         if ind == len(statements):
             if state.path.count(True) > solution.path.count(True):
                 solution = state
-                final_state = state.possible_roles
             return
         truth_state = is_consistent(statements[ind], state)
         false_state = is_consistent(statements[ind].negate(), state)
