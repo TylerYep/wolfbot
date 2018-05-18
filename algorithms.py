@@ -108,12 +108,10 @@ def baseline_solver(statements, n_players=const.NUM_ROLES):
         truth_state = is_consistent_bl(statements[ind], state)
         false_state = is_consistent_bl(statements[ind].negate(), state)
         if truth_state:
-            new_path = list(path)
-            new_path.append(True)
+            new_path = list(path) + [True]
             _bl_solver_recurse(ind+1, truth_state, new_path)
         if false_state:
-            new_path2 = list(path)
-            new_path2.append(False)
+            new_path2 = list(path) + [False]
             _bl_solver_recurse(ind+1, false_state, new_path2)
 
     start_state = [deepcopy(const.ROLE_SET) for i in range(n_players)]

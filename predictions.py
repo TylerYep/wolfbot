@@ -8,7 +8,9 @@ def makePredictions(solution):
     '''
     consistent_statements = solution.path
     consistent_roles = solution.possible_roles
-    switches_dict = solution.switches_dict
+    switch_dict = solution.switch_dict
+    print(switch_dict)
+
     all_role_guesses = []
     curr_role_counts = dict(const.ROLE_COUNTS)
     for j in range(const.NUM_ROLES):
@@ -36,7 +38,11 @@ def makePredictions(solution):
             all_role_guesses.append('Wolf')
             curr_role_counts['Wolf'] -= 1
             logger.info("I suspect Player " + str(j) + " is a Wolf!")
-    return all_role_guesses
+
+    final_guesses = []
+    for i in range(len(all_role_guesses)):
+        final_guesses.append(all_role_guesses[switch_dict[i]])
+    return final_guesses
 
 def verifyPredictions(game_roles, all_role_guesses):
     correctGuesses = 0
