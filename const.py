@@ -9,8 +9,9 @@ NUM_GAMES = 1
 
 
 ### Game Constants ###
-ROLES = ('Villager', 'Villager', 'Villager', 'Wolf', 'Wolf', 'Seer',
-            'Mason', 'Mason', 'Robber', 'Drunk', 'Troublemaker')
+# ROLES = ('Villager', 'Villager', 'Villager', 'Wolf', 'Wolf', 'Seer',
+#             'Mason', 'Mason', 'Robber', 'Drunk', 'Troublemaker')
+ROLES = ('Villager', 'Villager', 'Villager', 'Wolf', 'Robber')
 ROLE_SET = set(ROLES)
 NUM_ROLES = len(ROLES)
 ROLE_COUNTS = dict(Counter(ROLES)) # Dict of {'Villager': 3, 'Wolf': 2, ... }

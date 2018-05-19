@@ -1,5 +1,6 @@
 from copy import deepcopy
 from statements import Statement
+from const import logger
 import random
 import const
 from algorithms import switching_solver
@@ -7,10 +8,9 @@ from predictions import makePredictions
 import pickle
 import pprint
 
-
 with open('possible_statements.pkl', 'rb') as f:
     possible_statements = pickle.load(f)
-    #pprint.pprint(possible)
+    # pprint.pprint(possible_statements)
 
 class Player():
     def __init__(self, player_index):
@@ -32,24 +32,26 @@ class Wolf(Player):
     @staticmethod
     def get_wolf_statements(player_index, wolf_indices):        # TODO: Have the wolf choose its role ahead of time
         statements = Villager.get_villager_statements(player_index)
-        for k in range(const.NUM_CENTER):
-            statements += Drunk.get_drunk_statements(player_index, k + const.NUM_PLAYERS)
+        if 'Drunk' in const.ROLE_SET:
+            for k in range(const.NUM_CENTER):
+                statements += Drunk.get_drunk_statements(player_index, k + const.NUM_PLAYERS)
         for i in range(const.NUM_PLAYERS):
-            if player_index != i:
-                mason_indices = [player_index, i]
-                statements += Mason.get_mason_statements(player_index, mason_indices)
-
-            for j in range(const.NUM_PLAYERS): # Troublemaker should not refer to other wolves or themselves
-                if i != j != player_index and i != player_index and i not in wolf_indices and j not in wolf_indices:
-                    statements += Troublemaker.get_troublemaker_statements(player_index, i, j)
+            if 'Mason' in const.ROLE_SET:
+                if player_index != i:
+                    mason_indices = [player_index, i]
+                    statements += Mason.get_mason_statements(player_index, mason_indices)
+            if 'Troublemaker' in const.ROLE_SET:
+                for j in range(const.NUM_PLAYERS): # Troublemaker should not refer to other wolves or themselves
+                    if i != j != player_index and i != player_index and i not in wolf_indices and j not in wolf_indices:
+                        statements += Troublemaker.get_troublemaker_statements(player_index, i, j)
 
             # Wolf-seer more likely to declare they saw a villager
             for role in const.ROLES:
-                if role != 'Wolf':      # "I robbed a Wolf and now I'm a Wolf..."
-                    statements += Robber.get_robber_statements(player_index, i, role)
-
-                if i not in wolf_indices:
-                    if role != 'Seer':      # "Hey, I'm a Seer and I saw another Seer..."
+                if 'Robber' in const.ROLE_SET:
+                    if role != 'Wolf':      # "I robbed a Wolf and now I'm a Wolf..."
+                        statements += Robber.get_robber_statements(player_index, i, role)
+                if 'Seer' in const.ROLE_SET:
+                    if i not in wolf_indices and role != 'Seer':      # "Hey, I'm a Seer and I saw another Seer..."
                         statements += Seer.get_seer_statements(player_index, i, role, None, None)
 
                     # Wolf using these usually gives himself away
@@ -57,9 +59,8 @@ class Wolf(Player):
                             for role2 in const.ROLES:
                                 if role2 != 'Seer':
                                     statements += Seer.get_seer_statements(player_index, i, role, c, role2)
-
         return statements
-    
+
     def getNextStatement(self, previousStatements):
         def expectimax(statement_list, ind, depth=None):
             #legal_actions = state.getLegalActions(agent)
@@ -70,7 +71,7 @@ class Wolf(Player):
                 print(sol)
                 #predictions = makePredictions(sol)
                 return 0, None # TODO
-            if ind == self.player: # It's Me 
+            if ind == self.player: # It's Me
                 values = [expectimax(deepcopy(statement_list) + [statement], ind + 1, depth-1) for statement in self.statements]
                 vals = [v[0] for v in values]
                 best_move = self.statements[vals.index(max(vals))]
@@ -78,8 +79,8 @@ class Wolf(Player):
             else:
                 values = [expectimax(deepcopy(statement_list) + [statement], ind + 1, depth-1) for statement in possible_statements[ind]]
                 vals = [v[0] for v in values]
-                return sum(vals)/len(vals), None 
-        
+                return sum(vals)/len(vals), None
+
         return random.choice(tuple(self.statements))
         best_val, best_move =  expectimax(previousStatements, self.player, 5)
         return best_move
@@ -143,12 +144,16 @@ class Robber(Player):
 
     @staticmethod
     def get_robber_statements(player_index, robber_choice_index, robber_choice_character):
-        # TODO if robber_choice_character != 'Wolf':
-        sentence = "I am a Robber and I swapped with Player " + str(robber_choice_index) + \
-                    ". I am now a " + robber_choice_character + "."
-        knowledge = [(player_index, {'Robber'}), (robber_choice_index, {robber_choice_character})]
-        switches = [(const.ROBBER_PRIORITY, robber_choice_index, player_index)]
-        return [Statement(sentence, knowledge, switches)]
+        # TODO Finish Robber-Wolf
+        if robber_choice_character == 'Wolf':
+            logger.debug("Robber is a Wolf now!")
+            return Wolf.get_wolf_statements(player_index, [])
+        else:
+            sentence = "I am a Robber and I swapped with Player " + str(robber_choice_index) + \
+                        ". I am now a " + robber_choice_character + "."
+            knowledge = [(player_index, {'Robber'}), (robber_choice_index, {robber_choice_character})]
+            switches = [(const.ROBBER_PRIORITY, robber_choice_index, player_index)]
+            return [Statement(sentence, knowledge, switches)]
 
 
 class Troublemaker(Player):
@@ -208,12 +213,11 @@ def get_possible_statements():
             # Wolf-seer more likely to declare they saw a villager
             for role in const.ROLES:
                 if role != 'Seer':      # "Hey, I'm a Seer and I saw another Seer..."
-                    possible[player_index]+= Seer.get_seer_statements(player_index, i, role)
+                    possible[player_index]+= Seer.get_seer_statements(player_index, i, role, None, None)
                 if role != 'Wolf':      # "I robbed a Wolf and now I'm a Wolf..."
                     possible[player_index]+= Robber.get_robber_statements(player_index, i, role)
     return possible
 
-#import pprint
-#possib = get_possible_statements()
-#pprint.pprint(possib)
-#with open('possible_statements.pkl', 'wb') as f: pickle.dump(possib, f)
+# possib = get_possible_statements()
+# pprint.pprint(possib)
+# with open('possible_statements.pkl', 'wb') as f: pickle.dump(possib, f)
