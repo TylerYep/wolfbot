@@ -1,22 +1,25 @@
 from roles import Villager, Wolf, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
 from predictions import makePredictions, print_guesses, verifyPredictions
 from const import logger
+from possible import get_possible_statements
 import const
 import pickle
 import random
 
+
 def play_one_night_werewolf(solver):
     global game_roles, original_roles, player_set
     game_roles = list(const.ROLES)
-    random.shuffle(game_roles)
+    #random.shuffle(game_roles)
     player_set = set(game_roles[:const.NUM_PLAYERS])
     original_roles = list(game_roles)
 
     print_roles()
     player_objs = night_falls()
-
+    possible_statements = get_possible_statements(const.ROLE_SET)
+    print(possible_statements)
     logger.info("\n -- GAME BEGINS -- \n")
-    all_statements = getStatements(player_objs)
+    all_statements = getStatements(player_objs, possible_statements)
     print_roles()
 
     game = [game_roles, all_statements]
@@ -29,10 +32,10 @@ def play_one_night_werewolf(solver):
 
     return verifyPredictions(game_roles, all_role_guesses)
 
-def getStatements(player_objs):
+def getStatements(player_objs, possible_statements):
     all_statements = []
     for j in range(const.NUM_PLAYERS):
-        statement = player_objs[j].getNextStatement(all_statements)
+        statement = player_objs[j].getNextStatement(all_statements, possible_statements)
         all_statements.append(statement)
         logger.info("Player " + str(j) + ": " + str(all_statements[j].sentence))
     return all_statements
