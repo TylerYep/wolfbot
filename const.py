@@ -7,8 +7,6 @@ logger = logging.getLogger()
 ### Simulation Constants ###
 NUM_GAMES = 1
 
-
-
 ### Game Constants ###
 ROLES = ('Villager', 'Villager', 'Villager', 'Wolf', 'Seer')
 ROLE_SET = set(ROLES)

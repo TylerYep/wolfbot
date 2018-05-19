@@ -10,14 +10,13 @@ import random
 def play_one_night_werewolf(solver):
     global game_roles, original_roles, player_set
     game_roles = list(const.ROLES)
-    #random.shuffle(game_roles)
+    random.shuffle(game_roles)
     player_set = set(game_roles[:const.NUM_PLAYERS])
     original_roles = list(game_roles)
 
     print_roles()
     player_objs = night_falls()
     possible_statements = get_possible_statements(const.ROLE_SET)
-    print(possible_statements)
     logger.info("\n -- GAME BEGINS -- \n")
     all_statements = getStatements(player_objs, possible_statements)
     print_roles()

@@ -35,7 +35,7 @@ def makePredictions(solution):
         elif not consistent_statements[j]:      # Player is lying
             all_role_guesses.append('Wolf')
             curr_role_counts['Wolf'] -= 1
-            logger.info("I suspect Player " + str(j) + " is a Wolf!")
+            #logger.info("I suspect Player " + str(j) + " is a Wolf!")
 
     # Assign the remaining unknown cards by recursing and finding a consistent placement
     solution = []

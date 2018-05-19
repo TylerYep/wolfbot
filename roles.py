@@ -23,6 +23,7 @@ class Wolf(Player):
         super().__init__(player_index)
         self.role = 'Wolf'
         self.statements = self.get_wolf_statements(player_index, wolf_indices)
+        self.wolf_indices = wolf_indices
 
     @staticmethod
     def get_wolf_statements(player_index, wolf_indices):        # TODO: Have the wolf choose its role ahead of time
@@ -49,16 +50,25 @@ class Wolf(Player):
         return statements
     
     def getNextStatement(self, previousStatements, possible_statements):
+        def eval(solution):
+            val = 5
+            if len(solution) == 0: 
+                return -10
+            for wolfi in self.wolf_indices:
+                if solution[wolfi] == 'Wolf':
+                    val -= 5
+            return val
         def expectimax(statement_list, ind, depth=None):
             #legal_actions = state.getLegalActions(agent)
             #if depth == 0:
             #    return self.evaluationFunction(state), None
             if ind == const.NUM_PLAYERS:
                 sol = switching_solver(statement_list)
-                all_role_guesses = makePredictions(sol)
-                pprint.pprint(statement_list)
-                print(all_role_guesses)
-                return 0, None # TODO
+                solution = makePredictions(sol)
+                #pprint.pprint(statement_list)
+                #print(solution)
+                #print(eval(solution))
+                return eval(solution), None # TODO
             if ind == self.player: # It's Me 
                 values = [expectimax(deepcopy(statement_list) + [statement], ind + 1, depth-1) for statement in self.statements]
                 vals = [v[0] for v in values]
@@ -68,7 +78,7 @@ class Wolf(Player):
                 values = [expectimax(deepcopy(statement_list) + [statement], ind + 1, depth-1) for statement in possible_statements[ind]]
                 vals = [v[0] for v in values]
                 return sum(vals)/len(vals), None         
-        return random.choice(tuple(self.statements))
+        #return random.choice(tuple(self.statements))
         best_val, best_move =  expectimax(previousStatements, self.player, 5)
         return best_move
 
