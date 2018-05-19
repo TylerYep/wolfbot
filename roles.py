@@ -95,15 +95,23 @@ class Robber(Player):
         sentence = "I am a Robber and I swapped with Player " + str(robber_choice_index) + \
                     ". I am now a " + robber_choice_character + "."
         knowledge = [(player_index, {'Robber'}), (robber_choice_index, {robber_choice_character})]
-        return [Statement(sentence, knowledge, [(1, robber_choice_index, player_index)])]
+        switches = [(const.ROBBER_PRIORITY, robber_choice_index, player_index)]
+        return [Statement(sentence, knowledge, switches)]
 
 
 class Troublemaker(Player):
-    def __init__(self, player_index):
+    def __init__(self, player_index, trblmkr_index1, trblmkr_index2):
         super().__init__(player_index)
         self.role = 'Troublemaker'
-        self.statements = self.get_troublemaker_statements(player_index)
+        self.statements = self.get_troublemaker_statements(player_index, trblmkr_index1, trblmkr_index2)
 
+    @staticmethod
+    def get_troublemaker_statements(player_index, trblmkr_index1, trblmkr_index2):
+        sentence = "I am a Troublemaker and I swapped Player " + str(trblmkr_index1) + \
+                    " with Player " + str(trblmkr_index2) + "."
+        knowledge = [(player_index, {'Troublemaker'})]
+        switches = [(const.TRBLMKR_PRIORITY, trblmkr_index1, trblmkr_index2)]
+        return [Statement(sentence, knowledge, switches)]
 
 class Drunk(Player):
     def __init__(self, player_index, drunk_choice_index):
@@ -115,7 +123,9 @@ class Drunk(Player):
     def get_drunk_statements(player_index, drunk_choice_index):
         sentence = "I am a Drunk and I swapped with Center " + \
                     str(drunk_choice_index - const.NUM_PLAYERS) + "."
-        return [Statement(sentence, [(player_index, {'Drunk'})], [(3, drunk_choice_index, player_index)])]
+        knowledge = [(player_index, {'Drunk'})]
+        switches = [(const.DRUNK_PRIORITY, drunk_choice_index, player_index)]
+        return [Statement(sentence, knowledge, switches)]
 
 class Insomniac(Player):
     def __init__(self, player_index, new_insomniac_index, insomniac_new_role):
@@ -126,4 +136,4 @@ class Insomniac(Player):
     @staticmethod
     def get_insomniac_statements(player_index, new_insomniac_index, insomniac_new_role):
         sentence = "I was the Insomniac and when I woke up I was a " + str(insomniac_new_role) + "."
-        return [Statement(sentence, [(player_index, {'Insomniac'})], [(9, new_insomniac_index, player_index)])]
+        return [Statement(sentence, [(player_index, {'Insomniac'})])]

@@ -9,13 +9,18 @@ NUM_GAMES = 1
 
 
 ### Game Constants ###
-ROLES = ('Villager', 'Villager', 'Villager', 'Wolf', 'Wolf', 'Seer', 'Mason', 'Mason', 'Robber', 'Drunk')
+ROLES = ('Villager', 'Villager', 'Villager', 'Wolf', 'Wolf', 'Seer',
+            'Mason', 'Mason', 'Robber', 'Drunk', 'Troublemaker')
 ROLE_SET = set(ROLES)
 NUM_ROLES = len(ROLES)
 ROLE_COUNTS = dict(Counter(ROLES)) # Dict of {'Villager': 3, 'Wolf': 2, ... }
 
 NUM_CENTER = 2
 NUM_PLAYERS = NUM_ROLES - NUM_CENTER
+
+ROBBER_PRIORITY = 1
+TRBLMKR_PRIORITY = 2
+DRUNK_PRIORITY = 3
 
 
 ### Logging Constants ###

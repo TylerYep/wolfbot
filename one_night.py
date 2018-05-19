@@ -57,7 +57,7 @@ def night_falls():
     sleep('Robber')
     wake('Troublemaker') # Priority 2
     if 'Troublemaker' in player_set:
-        trblmkr_choice_index1, trblmkr_choice_index2 = troublemaker_init()
+        trblmkr_index1, trblmkr_index2 = troublemaker_init()
     sleep('Troublemaker')
     wake('Drunk') # Priority 3
     if 'Drunk' in player_set:
@@ -71,7 +71,7 @@ def night_falls():
     # Initialize players
     players = []
     for i in range(const.NUM_ROLES):
-        if i >= const.NUM_PLAYERS:
+        if i >= const.NUM_PLAYERS:      # Center cards
             players.append(original_roles[i])
         else:
             role = original_roles[i]
@@ -80,7 +80,7 @@ def night_falls():
             elif role == 'Seer': players.append(Seer(i, seer_peek_index, seer_peek_character))
             elif role == 'Robber': players.append(Robber(i, robber_choice_index, robber_choice_character))
             elif role == 'Mason': players.append(Mason(i, mason_indices))
-            elif role == 'Troublemaker': players.append(Troublemaker(i))
+            elif role == 'Troublemaker': players.append(Troublemaker(i, trblmkr_index1, trblmkr_index2))
             elif role == 'Drunk': players.append(Drunk(i, drunk_choice_index))
             elif role == 'Insomniac': players.append(Insomniac(i, new_insomniac_index, insomniac_new_role))
     return players
@@ -140,8 +140,6 @@ def troublemaker_init():
         troublemaker_choice_index1 = random.randint(0, const.NUM_PLAYERS - 1)
     while troublemaker_choice_index2 == troublemaker_index or troublemaker_choice_index2 == troublemaker_choice_index1:
         troublemaker_choice_index2 = random.randint(0, const.NUM_PLAYERS - 1)
-    troublemaker_choice_character1 = game_roles[troublemaker_choice_index1]
-    troublemaker_choice_character2 = game_roles[troublemaker_choice_index2]
     swapCharacters(troublemaker_choice_index1, troublemaker_choice_index2)
     logger.debug("[Hidden] Troublemaker switches Player " + str(troublemaker_choice_index1)
         + " with Player " + str(troublemaker_choice_index2))
