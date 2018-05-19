@@ -21,7 +21,6 @@ class Wolf(Player):
 
     @staticmethod
     def get_wolf_statements(player_index, wolf_indices):        # TODO: Have the wolf choose its role ahead of time
-
         statements = Villager.get_villager_statements(player_index)
         for k in range(const.NUM_CENTER):
             statements += Drunk.get_drunk_statements(player_index, k + const.NUM_PLAYERS)
@@ -36,24 +35,37 @@ class Wolf(Player):
 
             # Wolf-seer more likely to declare they saw a villager
             for role in const.ROLES:
+                if role != 'Wolf':      # "I robbed a Wolf and now I'm a Wolf..."
+                    statements += Robber.get_robber_statements(player_index, i, role)
+
                 if i not in wolf_indices:
                     if role != 'Seer':      # "Hey, I'm a Seer and I saw another Seer..."
-                        statements += Seer.get_seer_statements(player_index, i, role)
-                    if role != 'Wolf':      # "I robbed a Wolf and now I'm a Wolf..."
-                        statements += Robber.get_robber_statements(player_index, i, role)
+                        statements += Seer.get_seer_statements(player_index, i, role, None, None)
+
+                    # Wolf using these usually gives himself away
+                        for c in range(const.NUM_CENTER):
+                            for role2 in const.ROLES:
+                                if role2 != 'Seer':
+                                    statements += Seer.get_seer_statements(player_index, i, role, c, role2)
+
         return statements
 
 
 class Seer(Player):
-    def __init__(self, player_index, seer_peek_index, seer_peek_character):
+    def __init__(self, player_index, seer_peek_index, seer_peek_character, seer_peek_index2, seer_peek_character2):
         super().__init__(player_index)
         self.role = 'Seer'
-        self.statements = self.get_seer_statements(player_index, seer_peek_index, seer_peek_character)
+        self.statements = self.get_seer_statements(player_index, seer_peek_index, seer_peek_character,
+                                                    seer_peek_index2, seer_peek_character2)
 
     @staticmethod
-    def get_seer_statements(player_index, seen_index, seen_role):
+    def get_seer_statements(player_index, seen_index, seen_role, seen_index2, seen_role2):
         sentence = "I am a Seer and I saw that Player " + str(seen_index) + " was a " + str(seen_role) + "."
         knowledge = [(player_index, {'Seer'}), (seen_index, {seen_role})]
+        if seen_index2 != None:
+            sentence = "I am a Seer and I saw that Center " + str(seen_index) + " was a " + str(seen_role) \
+                        + " and that Center " + str(seen_index2) + " was a " + str(seen_role2) + "."
+            knowledge += [(seen_index2, {seen_role2})]
         return [Statement(sentence, knowledge)]
 
 
