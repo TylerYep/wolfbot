@@ -13,31 +13,35 @@ def makePredictions(solution):
     all_role_guesses = []
     curr_role_counts = dict(const.ROLE_COUNTS)
     for j in range(const.NUM_ROLES):
+        #print('1', curr_role_counts)
         guess_set = consistent_roles[j]
-
         if j >= len(consistent_statements):     # Center cards
-            for r in const.ROLE_SET:
+            for r in const.ROLE_SET:       # Remove already chosen cards
                 if curr_role_counts[r] == 0:
-                    guess_set |= set(r)
+                    guess_set |= set([r])
             if len(guess_set) == 1:
                 all_role_guesses.append(next(iter(guess_set)))
             else:
-                for r in const.ROLE_SET:
-                    if curr_role_counts[r] >= 1:
+                for r in const.ROLE_SET:        # Assign a random card
+                    if curr_role_counts[r] > 0:
                         curr_role_counts[r] -= 1
                         all_role_guesses.append(r)
                         break
 
         elif consistent_statements[j]:      # Player is telling the truth
+            #print(guess_set)
             role = next(iter(guess_set))
             curr_role_counts[role] -= 1
             all_role_guesses.append(role)
+            #print('2', curr_role_counts, role)
 
         elif not consistent_statements[j]:      # Player is lying
             all_role_guesses.append('Wolf')
             curr_role_counts['Wolf'] -= 1
             logger.info("I suspect Player " + str(j) + " is a Wolf!")
-
+            #print('3', curr_role_counts, 'Wolf')
+            
+    # TODO move this to the beginning and switch inline
     final_guesses = []
     for i in range(len(all_role_guesses)):
         final_guesses.append(all_role_guesses[switch_dict[i]])

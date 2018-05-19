@@ -1,4 +1,4 @@
-from roles import Wolf, Villager, Seer, Robber, Mason
+from roles import Wolf, Villager, Seer, Robber, Mason, Drunk, Troublemaker
 from predictions import makePredictions, verifyPredictions
 from const import logger
 import const
@@ -60,7 +60,7 @@ def night_falls():
     sleep('Troublemaker')
     wake('Drunk')
     if 'Drunk' in player_set:
-        drunk_choice_index, drunk_choice_character = drunk_init()
+        drunk_choice_index = drunk_init()
     sleep('Drunk')
     wake('Insomniac')
     if 'Insomniac' in player_set:
@@ -80,7 +80,7 @@ def night_falls():
             elif role == 'Robber': players.append(Robber(i, robber_choice_index, robber_choice_character))
             elif role == 'Mason': players.append(Mason(i, mason_indices))
             elif role == 'Troublemaker': players.append("")
-            elif role == 'Drunk': players.append("")
+            elif role == 'Drunk': players.append(Drunk(i, drunk_choice_index))
             elif role == 'Insomniac': players.append("")
     return players
 
@@ -126,12 +126,10 @@ def robber_init():
 def drunk_init():
     drunk_index = find_role_index('Drunk')
     drunk_choice_index = const.NUM_PLAYERS + random.randint(0, const.NUM_CENTER - 1)
-    # TODO role unknown to the Drunk player?
-    drunk_choice_character = game_roles[drunk_choice_index]
     swapCharacters(drunk_index, drunk_choice_index)
     logger.debug("[Hidden] Drunk switches with Center Card " + str(drunk_choice_index) +
-                " and becomes a " + str(drunk_choice_character))
-    return drunk_choice_index, drunk_choice_character
+                " and unknowingly becomes a " + str(game_roles[drunk_choice_index]))
+    return drunk_choice_index
 
 def troublemaker_init():
     troublemaker_index = find_role_index('Troublemaker')

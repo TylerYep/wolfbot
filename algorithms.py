@@ -70,6 +70,7 @@ def switching_solver(statements, n_players=const.NUM_ROLES):
             _switch_recurse(ind + 1, false_state)
 
     _switch_recurse(0, start_state)
+    
     return solution
 
 def baseline_solver(statements, n_players=const.NUM_ROLES):

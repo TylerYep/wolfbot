@@ -1,7 +1,7 @@
 import const
 
 class Statement:
-    def __init__(self, sentence, knowledge, switches):
+    def __init__(self, sentence, knowledge, switches=[]):
         '''
         sentence is a string representation of the statement
         knowledge is a list of (player_index, set(role)) tuples
@@ -13,10 +13,12 @@ class Statement:
 
     def negate(self):
         ''' Returns a negated version of the first clause in a statement. '''
-        firstClause = self.knowledge[0]
-        newSet = set(const.ROLES) - firstClause[1]
-        neg = [(firstClause[0], newSet)]
-        return Statement('NOT + ' + self.sentence, neg, []) #TODO
+        neg = []
+        if len(self.knowledge) != 0:
+            firstClause = self.knowledge[0]
+            newSet = set(const.ROLES) - firstClause[1]
+            neg = [(firstClause[0], newSet)]
+        return Statement('NOT + ' + self.sentence, neg, [])
 
     def negateAll(self):
         ''' Returns a negated version of every clause in the statement. '''

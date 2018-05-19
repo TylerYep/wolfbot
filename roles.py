@@ -33,7 +33,6 @@ class Wolf(Player):
                     statements += Robber.get_robber_statements(player_index, i, role)
                     if role != 'Seer':
                         statements += Seer.get_seer_statements(player_index, i, role)
-
         return statements
 
 
@@ -47,7 +46,7 @@ class Seer(Player):
     def get_seer_statements(player_index, seen_index, seen_role):
         sentence = "I am a Seer and I saw that Player " + str(seen_index) + " was a " + str(seen_role) + "."
         knowledge = [(player_index, {'Seer'}), (seen_index, {seen_role})]
-        return [Statement(sentence, knowledge, [])]
+        return [Statement(sentence, knowledge)]
 
 
 class Villager(Player):
@@ -58,7 +57,8 @@ class Villager(Player):
 
     @staticmethod
     def get_villager_statements(player_index):
-        return [Statement("I am a Villager." , [(player_index, {'Villager'})], [])]
+        return [Statement("I am a Villager." , [(player_index, {'Villager'})])]
+
 
 class Mason(Player):
     def __init__(self, player_index, mason_indices):
@@ -78,7 +78,7 @@ class Mason(Player):
             otherMason = mason_indices[0] if mason_indices[0] != player_index else mason_indices[1]
             sentence = "I am a Mason. The other Mason is Player " + str(otherMason) + '.'
             knowledge = [(player_index, {'Mason'}), (otherMason, {'Mason'})]
-        return [Statement(sentence, knowledge, [])]
+        return [Statement(sentence, knowledge)]
 
 
 class Robber(Player):
@@ -105,10 +105,16 @@ class Troublemaker(Player):
 
 
 class Drunk(Player):
-    def __init__(self, player_index):
+    def __init__(self, player_index, drunk_choice_index):
         super().__init__(player_index)
         self.role = 'Drunk'
-        self.statements = self.get_drunk_statements(player_index)
+        self.statements = self.get_drunk_statements(player_index, drunk_choice_index)
+
+    @staticmethod
+    def get_drunk_statements(player_index, drunk_choice_index):
+        sentence = "I am a Drunk and I swapped with Center " + \
+                    str(drunk_choice_index - const.NUM_PLAYERS) + "."
+        return [Statement(sentence, [], [(drunk_choice_index, player_index)])]
 
 class Insomniac(Player):
     def __init__(self, player_index):
