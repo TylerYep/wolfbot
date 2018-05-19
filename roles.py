@@ -1,11 +1,13 @@
 from copy import deepcopy
 from statements import Statement
+from const import logger
 import random
 import const
 from algorithms import switching_solver
 from predictions import makePredictions, verifyPredictions
 import pickle
 import pprint
+
 
 class Player():
     def __init__(self, player_index):
@@ -56,11 +58,11 @@ class Wolf(Player):
                                 if role2 != 'Seer':
                                     statements += Seer.get_seer_statements(player_index, i, role, c, role2)
         return statements
-    
+
     def getNextStatement(self, previousStatements, possible_statements):
         def eval(solution):
             val = 5
-            if len(solution) == 0: 
+            if len(solution) == 0:
                 return -10
             for wolfi in self.wolf_indices:
                 if solution[wolfi] == 'Wolf':
@@ -74,7 +76,7 @@ class Wolf(Player):
                 #print(solution)
                 #print(eval(solution))
                 return eval(solution), None
-            if ind == self.player: # It's Me 
+            if ind == self.player: # It's Me
                 values = [expectimax(deepcopy(statement_list) + [statement], ind + 1, depth-1) for statement in self.statements]
                 vals = [v[0] for v in values]
                 best_move = self.statements[vals.index(max(vals))]
@@ -82,7 +84,7 @@ class Wolf(Player):
             else: #If he's the other wolf, he can also say anything... TODO make them play as a team?
                 values = [expectimax(deepcopy(statement_list) + [statement], ind + 1, depth-1) for statement in possible_statements[ind]]
                 vals = [v[0] for v in values]
-                return sum(vals)/len(vals), None         
+                return sum(vals)/len(vals), None
         if self.player in [0]:
             return random.choice(tuple(self.statements))
         else :
@@ -148,12 +150,16 @@ class Robber(Player):
 
     @staticmethod
     def get_robber_statements(player_index, robber_choice_index, robber_choice_character):
-        # TODO if robber_choice_character != 'Wolf':
-        sentence = "I am a Robber and I swapped with Player " + str(robber_choice_index) + \
-                    ". I am now a " + robber_choice_character + "."
-        knowledge = [(player_index, {'Robber'}), (robber_choice_index, {robber_choice_character})]
-        switches = [(const.ROBBER_PRIORITY, robber_choice_index, player_index)]
-        return [Statement(sentence, knowledge, switches)]
+        # TODO Finish Robber-Wolf
+        if robber_choice_character == 'Wolf':
+            logger.debug("Robber is a Wolf now!")
+            return Wolf.get_wolf_statements(player_index, [])
+        else:
+            sentence = "I am a Robber and I swapped with Player " + str(robber_choice_index) + \
+                        ". I am now a " + robber_choice_character + "."
+            knowledge = [(player_index, {'Robber'}), (robber_choice_index, {robber_choice_character})]
+            switches = [(const.ROBBER_PRIORITY, robber_choice_index, player_index)]
+            return [Statement(sentence, knowledge, switches)]
 
 
 class Troublemaker(Player):
