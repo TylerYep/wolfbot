@@ -83,21 +83,28 @@ class Wolf(Player):
                 values = [expectimax(deepcopy(statement_list) + [statement], ind + 1, depth-1) for statement in possible_statements[ind]]
                 vals = [v[0] for v in values]
                 return sum(vals)/len(vals), None         
-        #return random.choice(tuple(self.statements))
-        best_val, best_move =  expectimax(previousStatements, self.player, 5)
-        return best_move
+        if self.player in [0]:
+            return random.choice(tuple(self.statements))
+        else :
+            best_val, best_move =  expectimax(previousStatements, self.player, 5)
+            return best_move
 
 
 class Seer(Player):
-    def __init__(self, player_index, seer_peek_index, seer_peek_character):
+    def __init__(self, player_index, seer_peek_index, seer_peek_character, seer_peek_index2, seer_peek_character2):
         super().__init__(player_index)
         self.role = 'Seer'
-        self.statements = self.get_seer_statements(player_index, seer_peek_index, seer_peek_character)
+        self.statements = self.get_seer_statements(player_index, seer_peek_index, seer_peek_character,
+                                                    seer_peek_index2, seer_peek_character2)
 
     @staticmethod
-    def get_seer_statements(player_index, seen_index, seen_role):
+    def get_seer_statements(player_index, seen_index, seen_role, seen_index2, seen_role2):
         sentence = "I am a Seer and I saw that Player " + str(seen_index) + " was a " + str(seen_role) + "."
         knowledge = [(player_index, {'Seer'}), (seen_index, {seen_role})]
+        if seen_index2 != None:
+            sentence = "I am a Seer and I saw that Center " + str(seen_index) + " was a " + str(seen_role) \
+                        + " and that Center " + str(seen_index2) + " was a " + str(seen_role2) + "."
+            knowledge += [(seen_index2, {seen_role2})]
         return [Statement(sentence, knowledge)]
 
 

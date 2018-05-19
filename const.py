@@ -5,7 +5,7 @@ logging.basicConfig(format='%(message)s', level=logging.INFO)
 logger = logging.getLogger()
 
 ### Simulation Constants ###
-NUM_GAMES = 1
+NUM_GAMES = 10
 
 ### Game Constants ###
 ROLES = ('Villager', 'Villager', 'Villager', 'Wolf', 'Seer')
@@ -22,7 +22,7 @@ DRUNK_PRIORITY = 3
 
 
 ### Logging Constants ###
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.WARNING)
 
 ''' DEBUG = Include all hidden messages '''
 ''' INFO = Regular gameplay '''

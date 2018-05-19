@@ -22,10 +22,16 @@ def get_possible_statements(role_set=const.ROLE_SET):
 
             # Wolf-seer more likely to declare they saw a villager
             for role in const.ROLES:
-                if role != 'Seer': # "Hey, I'm a Seer and I saw another Seer..."
-                    if i != player_index:
-                        possible[player_index]+= Seer.get_seer_statements(player_index, i, role)
-                if 'Robber' in role_set:
+                if 'Robber' in const.ROLE_SET:
                     if role != 'Wolf':      # "I robbed a Wolf and now I'm a Wolf..."
                         possible[player_index]+= Robber.get_robber_statements(player_index, i, role)
+                if 'Seer' in const.ROLE_SET:
+                    if role != 'Seer':      # "Hey, I'm a Seer and I saw another Seer..."
+                        possible[player_index]+= Seer.get_seer_statements(player_index, i, role, None, None)
+
+                    # Wolf using these usually gives himself away
+                        for c in range(const.NUM_CENTER):
+                            for role2 in const.ROLES:
+                                if role2 != 'Seer':
+                                    possible[player_index]+= Seer.get_seer_statements(player_index, i, role, c, role2)
     return possible

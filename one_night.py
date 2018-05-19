@@ -4,6 +4,7 @@ from const import logger
 import const
 import pickle
 import random
+from possible import get_possible_statements
 
 def play_one_night_werewolf(solver):
     global game_roles, original_roles, player_set
@@ -16,9 +17,9 @@ def play_one_night_werewolf(solver):
     player_objs = night_falls()
 
     logger.info("\n -- GAME BEGINS -- \n")
-    all_statements = getStatements(player_objs)
+    possib = get_possible_statements(const.ROLE_SET)
+    all_statements = getStatements(player_objs, possib)
     print_roles()
-
     game = [game_roles, all_statements]
     with open('test.pkl', 'wb') as f: pickle.dump(game, f)
 
@@ -29,10 +30,10 @@ def play_one_night_werewolf(solver):
 
     return verifyPredictions(game_roles, all_role_guesses)
 
-def getStatements(player_objs):
+def getStatements(player_objs, possib):
     all_statements = []
     for j in range(const.NUM_PLAYERS):
-        statement = player_objs[j].getNextStatement(all_statements)
+        statement = player_objs[j].getNextStatement(all_statements, possib)
         all_statements.append(statement)
         logger.info("Player " + str(j) + ": " + str(all_statements[j].sentence))
     return all_statements
@@ -100,7 +101,7 @@ def wolf_init():
 def seer_init():
     seer_index = find_role_index('Seer')
     choose_center = random.choice([True, False])
-    if choose_center:
+    if choose_center and const.NUM_CENTER > 0:
         seer_peek_index = get_random_center()
         seer_peek_character = game_roles[seer_peek_index]
         if const.NUM_CENTER > 1:
@@ -143,6 +144,7 @@ def robber_init():
 
 def drunk_init():
     drunk_index = find_role_index('Drunk')
+    assert(const.NUM_CENTER != 0)
     drunk_choice_index = get_random_center()
     swapCharacters(drunk_index, drunk_choice_index)
     logger.debug("[Hidden] Drunk switches with Center Card " + str(drunk_choice_index) +
