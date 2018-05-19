@@ -27,26 +27,34 @@ class Wolf(Player):
 
     @staticmethod
     def get_wolf_statements(player_index, wolf_indices):        # TODO: Have the wolf choose its role ahead of time
-
         statements = Villager.get_villager_statements(player_index)
-        for k in range(const.NUM_CENTER):
-            statements += Drunk.get_drunk_statements(player_index, k + const.NUM_PLAYERS)
+        if 'Drunk' in const.ROLE_SET:
+            for k in range(const.NUM_CENTER):
+                statements += Drunk.get_drunk_statements(player_index, k + const.NUM_PLAYERS)
         for i in range(const.NUM_PLAYERS):
-            if player_index != i:
-                mason_indices = [player_index, i]
-                statements += Mason.get_mason_statements(player_index, mason_indices)
-
-            for j in range(const.NUM_PLAYERS): # Troublemaker should not refer to other wolves or themselves
-                if i != j != player_index and i != player_index and i not in wolf_indices and j not in wolf_indices:
-                    statements += Troublemaker.get_troublemaker_statements(player_index, i, j)
+            if 'Mason' in const.ROLE_SET:
+                if player_index != i:
+                    mason_indices = [player_index, i]
+                    statements += Mason.get_mason_statements(player_index, mason_indices)
+            if 'Troublemaker' in const.ROLE_SET:
+                for j in range(const.NUM_PLAYERS): # Troublemaker should not refer to other wolves or themselves
+                    if i != j != player_index and i != player_index and i not in wolf_indices and j not in wolf_indices:
+                        statements += Troublemaker.get_troublemaker_statements(player_index, i, j)
 
             # Wolf-seer more likely to declare they saw a villager
             for role in const.ROLES:
-                if i not in wolf_indices:
-                    if role != 'Seer':      # "Hey, I'm a Seer and I saw another Seer..."
-                        statements += Seer.get_seer_statements(player_index, i, role)
+                if 'Robber' in const.ROLE_SET:
                     if role != 'Wolf':      # "I robbed a Wolf and now I'm a Wolf..."
                         statements += Robber.get_robber_statements(player_index, i, role)
+                if 'Seer' in const.ROLE_SET:
+                    if i not in wolf_indices and role != 'Seer':      # "Hey, I'm a Seer and I saw another Seer..."
+                        statements += Seer.get_seer_statements(player_index, i, role, None, None)
+
+                    # Wolf using these usually gives himself away
+                        for c in range(const.NUM_CENTER):
+                            for role2 in const.ROLES:
+                                if role2 != 'Seer':
+                                    statements += Seer.get_seer_statements(player_index, i, role, c, role2)
         return statements
     
     def getNextStatement(self, previousStatements, possible_statements):
@@ -59,22 +67,19 @@ class Wolf(Player):
                     val -= 5
             return val
         def expectimax(statement_list, ind, depth=None):
-            #legal_actions = state.getLegalActions(agent)
-            #if depth == 0:
-            #    return self.evaluationFunction(state), None
             if ind == const.NUM_PLAYERS:
                 sol = switching_solver(statement_list)
                 solution = makePredictions(sol)
                 #pprint.pprint(statement_list)
                 #print(solution)
                 #print(eval(solution))
-                return eval(solution), None # TODO
+                return eval(solution), None
             if ind == self.player: # It's Me 
                 values = [expectimax(deepcopy(statement_list) + [statement], ind + 1, depth-1) for statement in self.statements]
                 vals = [v[0] for v in values]
                 best_move = self.statements[vals.index(max(vals))]
                 return max(vals), best_move
-            else:
+            else: #If he's the other wolf, he can also say anything... TODO make them play as a team?
                 values = [expectimax(deepcopy(statement_list) + [statement], ind + 1, depth-1) for statement in possible_statements[ind]]
                 vals = [v[0] for v in values]
                 return sum(vals)/len(vals), None         
