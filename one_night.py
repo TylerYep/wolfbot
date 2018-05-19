@@ -32,7 +32,7 @@ def getStatements(player_objs):
     all_statements = []
     for j in range(const.NUM_PLAYERS):
         all_statements.append(player_objs[j].getNextStatement())
-        logger.info("Player " + str(j) + ": " + str(all_statements[j]))
+        logger.info("Player " + str(j) + ": " + str(all_statements[j].sentence))
     return all_statements
 
 # Print out progress messages and initialize needed variables

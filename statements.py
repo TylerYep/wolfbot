@@ -15,9 +15,9 @@ class Statement:
         ''' Returns a negated version of the first clause in a statement. '''
         neg = []
         if len(self.knowledge) != 0:
-            firstClause = self.knowledge[0]
-            newSet = set(const.ROLES) - firstClause[1]
-            neg = [(firstClause[0], newSet)]
+            playerClause = self.knowledge[0]
+            newSet = set(const.ROLES) - playerClause[1]
+            neg = [(playerClause[0], newSet)]
         return Statement('NOT + ' + self.sentence, neg, [])
 
     def negateAll(self):
@@ -29,13 +29,13 @@ class Statement:
         return Statement('NOT + ' + self.sentence, neg, []) #TODO
 
     def __repr__(self):
-        return str(self.sentence) # + " " + str(self.knowledge) + " " + str(self.switches)
+        return "Statement(\'" + self.sentence + "\', " + str(self.knowledge) + ", " + str(self.switches) + ')'
 
 
 ### Testing ###
 if __name__ == '__main__':
-    s = get_seer_statements(3, 4, 'Villager')
+    s = Seer.get_seer_statements(3, 4, 'Villager')
     for statement in s:
-        print(statement.sentence, statement.knowledge)
+        print(statement)
     st = s[0].negate()
-    print(st.sentence, st.knowledge)
+    print(st)

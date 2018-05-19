@@ -9,7 +9,7 @@ class SolverState():
         self.switch_dict = switch_dict
         self.path = path
     def __repr__(self):
-        return "\n<" + str(self.possible_roles) + ">\n"
+        return "\n" + str(self.possible_roles) + "\n" + str(self.path) + '\n' + str(self.switch_dict) + '\n'
 
 
 def is_consistent(statement, state):
@@ -35,7 +35,7 @@ def is_consistent(statement, state):
             if count[proposed_role] > const.ROLE_COUNTS[proposed_role]:
                 return False
         # Add more checks!
-    return SolverState(new_possible_roles, new_switch_dict)
+    return SolverState(new_possible_roles, new_switch_dict, list(state.path))
 
 def switching_solver(statements, n_players=const.NUM_ROLES):
     '''
@@ -70,7 +70,6 @@ def switching_solver(statements, n_players=const.NUM_ROLES):
             _switch_recurse(ind + 1, false_state)
 
     _switch_recurse(0, start_state)
-    
     return solution
 
 def baseline_solver(statements, n_players=const.NUM_ROLES):
@@ -140,11 +139,12 @@ def count_roles(state):
 
 if __name__ == '__main__':
     statements = [
-        Statement('Player 0: I am a Villager', [(0, {'Villager'})]),
-        Statement('Player 1: I am a Villager', [(1, {'Villager'})]),
-        Statement('Player 2: I am a Seer and I saw that Player 3 was a Wolf', [(2, {'Seer'}), (3, {'Wolf'})]),
-        Statement('Player 3: I am a Seer and I saw that Player 5 was a Villager', [(3, {'Seer'}), (5, {'Villager'})]),
-        Statement('Player 4: I am a Seer and I saw that Player 3 was a Villager', [(4, {'Seer'}), (3, {'Villager'})]),
-        Statement('Player 5: I am a Villager', [(5, {'Villager'})]),
+        Statement('I am a Villager.', [(0, {'Villager'})], []),
+        Statement('I am a Seer and I saw that Player 2 was a Villager.', [(1, {'Seer'}), (2, {'Villager'})], []),
+        Statement('I am a Villager.', [(2, {'Villager'})], []),
+        Statement('I am a Robber and I swapped with Player 2. I am now a Villager.', [(3, {'Robber'}), (2, {'Villager'})], [(2, 3)]),
+        Statement('I am a Robber and I swapped with Player 6. I am now a Villager.', [(4, {'Robber'}), (6, {'Villager'})], [(6, 4)]),
+        Statement('I am a Seer and I saw that Player 0 was a Wolf.', [(5, {'Seer'}), (0, {'Wolf'})], []),
+        Statement('I am a Villager.', [(6, {'Villager'})], [])
     ]
-    print(random_solver(statements, 6))
+    print(switching_solver(statements))

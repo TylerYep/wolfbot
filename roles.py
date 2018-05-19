@@ -30,9 +30,10 @@ class Wolf(Player):
             # Wolf should not give away other wolves or themselves
             for role in const.ROLES:
                 if i not in wolf_indices:
-                    statements += Robber.get_robber_statements(player_index, i, role)
                     if role != 'Seer':
                         statements += Seer.get_seer_statements(player_index, i, role)
+                    if role != 'Wolf':
+                        statements += Robber.get_robber_statements(player_index, i, role)
         return statements
 
 
@@ -93,7 +94,7 @@ class Robber(Player):
         # if robber_choice_character != 'Wolf':
         sentence = "I am a Robber and I swapped with Player " + str(robber_choice_index) + \
                     ". I am now a " + robber_choice_character + "."
-        knowledge = [(robber_choice_index, {robber_choice_character}), (player_index, {'Robber'})]
+        knowledge = [(player_index, {'Robber'}), (robber_choice_index, {robber_choice_character})]
         return [Statement(sentence, knowledge, [(robber_choice_index, player_index)])]
 
 
