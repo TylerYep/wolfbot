@@ -100,7 +100,7 @@ def wolf_init():
 def seer_init():
     seer_index = find_role_index('Seer')
     choose_center = random.choice([True, False])
-    if choose_center:
+    if choose_center and const.NUM_CENTER > 0:
         seer_peek_index = get_random_center()
         seer_peek_character = game_roles[seer_peek_index]
         if const.NUM_CENTER > 1:
@@ -143,6 +143,7 @@ def robber_init():
 
 def drunk_init():
     drunk_index = find_role_index('Drunk')
+    assert(const.NUM_CENTER != 0)
     drunk_choice_index = get_random_center()
     swapCharacters(drunk_index, drunk_choice_index)
     logger.debug("[Hidden] Drunk switches with Center Card " + str(drunk_choice_index) +
