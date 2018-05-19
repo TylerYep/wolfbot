@@ -90,12 +90,11 @@ class Robber(Player):
 
     @staticmethod
     def get_robber_statements(player_index, robber_choice_index, robber_choice_character):
-        # TODO Finish
-        # if robber_choice_character != 'Wolf':
+        # TODO if robber_choice_character != 'Wolf':
         sentence = "I am a Robber and I swapped with Player " + str(robber_choice_index) + \
                     ". I am now a " + robber_choice_character + "."
         knowledge = [(player_index, {'Robber'}), (robber_choice_index, {robber_choice_character})]
-        return [Statement(sentence, knowledge, [(robber_choice_index, player_index)])]
+        return [Statement(sentence, knowledge, [(1, robber_choice_index, player_index)])]
 
 
 class Troublemaker(Player):
@@ -115,7 +114,7 @@ class Drunk(Player):
     def get_drunk_statements(player_index, drunk_choice_index):
         sentence = "I am a Drunk and I swapped with Center " + \
                     str(drunk_choice_index - const.NUM_PLAYERS) + "."
-        return [Statement(sentence, [], [(drunk_choice_index, player_index)])]
+        return [Statement(sentence, [(player_index, {'Drunk'})], [(3, drunk_choice_index, player_index)])]
 
 class Insomniac(Player):
     def __init__(self, player_index):

@@ -50,15 +50,15 @@ def night_falls():
     if 'Seer' in player_set:
         seer_peek_index, seer_peek_character = seer_init()
     sleep('Seer')
-    wake('Robber')
+    wake('Robber') # 1
     if 'Robber' in player_set:
         robber_choice_index, robber_choice_character = robber_init()
     sleep('Robber')
-    wake('Troublemaker')
+    wake('Troublemaker') # 2
     if 'Troublemaker' in player_set:
         trblmkr_choice_index1, trblmkr_choice_index2 = troublemaker_init()
     sleep('Troublemaker')
-    wake('Drunk')
+    wake('Drunk') # 3
     if 'Drunk' in player_set:
         drunk_choice_index = drunk_init()
     sleep('Drunk')

@@ -2,14 +2,15 @@ from statements import Statement
 from copy import deepcopy
 import const
 import random
+from predictions import *
 
 class SolverState():
-    def __init__(self, possible_roles, switch_dict, path=[]):
+    def __init__(self, possible_roles, switches, path=[]):
         self.possible_roles = possible_roles
-        self.switch_dict = switch_dict
+        self.switches = switches
         self.path = path
     def __repr__(self):
-        return "\n" + str(self.possible_roles) + "\n" + str(self.path) + '\n' + str(self.switch_dict) + '\n'
+        return "\n" + str(self.possible_roles) + "\n" + str(self.path) + '\n' + str(self.switches) + '\n'
 
 
 def is_consistent(statement, state):
@@ -18,13 +19,9 @@ def is_consistent(statement, state):
     otherwise returns False.
     State: list that contains a set of possible roles for each player.
     '''
-    new_switch_dict = dict(state.switch_dict)
-    if len(statement.switches) != 0:
-        for i, j in statement.switches:
-            temp = new_switch_dict[i]
-            new_switch_dict[i] = new_switch_dict[j]
-            new_switch_dict[j] = temp
-
+    new_switches = deepcopy(state.switches)
+    for s in statement.switches:
+        new_switches.append(s)
     new_possible_roles = deepcopy(state.possible_roles)
     for proposed_ind, proposed_roles in statement.knowledge:
         intersection = proposed_roles & new_possible_roles[proposed_ind]
@@ -36,7 +33,7 @@ def is_consistent(statement, state):
             if count[proposed_role] > const.ROLE_COUNTS[proposed_role]:
                 return False
         # Add more checks!
-    return SolverState(new_possible_roles, new_switch_dict, list(state.path))
+    return SolverState(new_possible_roles, new_switches, list(state.path))
 
 def switching_solver(statements, n_players=const.NUM_ROLES):
     '''
@@ -46,9 +43,8 @@ def switching_solver(statements, n_players=const.NUM_ROLES):
     the possible role sets for each player.
     '''
     possible_roles = [deepcopy(const.ROLE_SET) for i in range(n_players)]
-    switch_dict = {i:i for i in range(const.NUM_ROLES)}
-    start_state = SolverState(possible_roles, switch_dict)
-    solution = SolverState([],[],[])
+    start_state = SolverState(possible_roles, [])
+    solution = SolverState([],[])
 
     def _switch_recurse(ind, state):
         '''
@@ -140,12 +136,18 @@ def count_roles(state):
 
 if __name__ == '__main__':
     statements = [
-        Statement('I am a Villager.', [(0, {'Villager'})], []),
-        Statement('I am a Seer and I saw that Player 2 was a Villager.', [(1, {'Seer'}), (2, {'Villager'})], []),
-        Statement('I am a Villager.', [(2, {'Villager'})], []),
-        Statement('I am a Robber and I swapped with Player 2. I am now a Villager.', [(3, {'Robber'}), (2, {'Villager'})], [(2, 3)]),
-        Statement('I am a Robber and I swapped with Player 6. I am now a Villager.', [(4, {'Robber'}), (6, {'Villager'})], [(6, 4)]),
-        Statement('I am a Seer and I saw that Player 0 was a Wolf.', [(5, {'Seer'}), (0, {'Wolf'})], []),
-        Statement('I am a Villager.', [(6, {'Villager'})], [])
+        Statement('I am a Robber and I swapped with Player 6. I am now a Drunk.', [(0, {'Robber'}), (6, {'Drunk'})], [(0, 6, 0)]),
+        Statement('I am a Robber and I swapped with Player 0. I am now a Seer.', [(1, {'Robber'}), (0, {'Seer'})], [(0, 0, 1)]),
+        Statement('I am a Seer and I saw that Player 3 was a Villager.', [(2, {'Seer'}), (3, {'Villager'})], []),
+        Statement('I am a Villager.', [(3, {'Villager'})], []),
+        Statement('I am a Mason. The other Mason is Player 5.', [(4, {'Mason'}), (5, {'Mason'})], []),
+        Statement('I am a Mason. The other Mason is Player 4.', [(5, {'Mason'}), (4, {'Mason'})], []),
+        Statement('I am a Drunk and I swapped with Center 1.', [(6, {'Drunk'})], [(1, 9, 6)]),
+        Statement('I am a Robber and I swapped with Player 5. I am now a Seer.', [(7, {'Robber'}), (5, {'Seer'})], [(0, 5, 7)])
     ]
-    print(switching_solver(statements))
+    solution = switching_solver(statements)
+    print(solution)
+
+    all_role_guesses = makePredictions(solution)
+    logger.info("\n[Wolfbot] Role guesses: " + str(all_role_guesses[:const.NUM_PLAYERS]) +
+                "\n\t  Center cards: " + str(all_role_guesses[const.NUM_PLAYERS:]) + '\n')
