@@ -20,20 +20,26 @@ class Wolf(Player):
         self.statements = self.get_wolf_statements(player_index, wolf_indices)
 
     @staticmethod
-    def get_wolf_statements(player_index, wolf_indices):
-        # TODO: Have the wolf choose its role ahead of time
+    def get_wolf_statements(player_index, wolf_indices):        # TODO: Have the wolf choose its role ahead of time
+
         statements = Villager.get_villager_statements(player_index)
+        for k in range(const.NUM_CENTER):
+            statements += Drunk.get_drunk_statements(player_index, k + const.NUM_PLAYERS)
         for i in range(const.NUM_PLAYERS):
             if player_index != i:
-                statements += Mason.get_mason_statements(player_index, [player_index, i])
+                mason_indices = [player_index, i]
+                statements += Mason.get_mason_statements(player_index, mason_indices)
+
+            for j in range(const.NUM_PLAYERS): # Troublemaker should not refer to other wolves or themselves
+                if i != j != player_index and i != player_index and i not in wolf_indices and j not in wolf_indices:
+                    statements += Troublemaker.get_troublemaker_statements(player_index, i, j)
 
             # Wolf-seer more likely to declare they saw a villager
-            # Wolf should not give away other wolves or themselves
             for role in const.ROLES:
                 if i not in wolf_indices:
-                    if role != 'Seer':
+                    if role != 'Seer':      # "Hey, I'm a Seer and I saw another Seer..."
                         statements += Seer.get_seer_statements(player_index, i, role)
-                    if role != 'Wolf':
+                    if role != 'Wolf':      # "I robbed a Wolf and now I'm a Wolf..."
                         statements += Robber.get_robber_statements(player_index, i, role)
         return statements
 

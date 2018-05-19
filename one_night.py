@@ -23,6 +23,7 @@ def play_one_night_werewolf(solver):
     with open('test.pkl', 'wb') as f: pickle.dump(game, f)
 
     solution = solver(all_statements)
+    logger.info("Solver interpretation: " + str(solution.path))
     all_role_guesses = makePredictions(solution)
     print_guesses(all_role_guesses)
 
