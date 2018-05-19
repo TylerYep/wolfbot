@@ -21,8 +21,9 @@ def is_consistent(statement, state):
     new_switch_dict = dict(state.switch_dict)
     if len(statement.switches) != 0:
         for i, j in statement.switches:
-            new_switch_dict[i] = j
-            new_switch_dict[j] = i
+            temp = new_switch_dict[i]
+            new_switch_dict[i] = new_switch_dict[j]
+            new_switch_dict[j] = temp
 
     new_possible_roles = deepcopy(state.possible_roles)
     for proposed_ind, proposed_roles in statement.knowledge:
