@@ -149,5 +149,4 @@ if __name__ == '__main__':
     print(solution)
 
     all_role_guesses = makePredictions(solution)
-    logger.info("\n[Wolfbot] Role guesses: " + str(all_role_guesses[:const.NUM_PLAYERS]) +
-                "\n\t  Center cards: " + str(all_role_guesses[const.NUM_PLAYERS:]) + '\n')
+    print_guesses()

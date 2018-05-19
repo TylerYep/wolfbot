@@ -21,6 +21,7 @@ class Wolf(Player):
 
     @staticmethod
     def get_wolf_statements(player_index, wolf_indices):
+        # TODO: Have the wolf choose its role ahead of time
         statements = Villager.get_villager_statements(player_index)
         for i in range(const.NUM_PLAYERS):
             if player_index != i:
@@ -117,7 +118,12 @@ class Drunk(Player):
         return [Statement(sentence, [(player_index, {'Drunk'})], [(3, drunk_choice_index, player_index)])]
 
 class Insomniac(Player):
-    def __init__(self, player_index):
+    def __init__(self, player_index, new_insomniac_index, insomniac_new_role):
         super().__init__(player_index)
         self.role = 'Insomniac'
-        self.statements = self.get_insomniac_statements(player_index)
+        self.statements = self.get_insomniac_statements(player_index, new_insomniac_index, insomniac_new_role)
+
+    @staticmethod
+    def get_insomniac_statements(player_index, new_insomniac_index, insomniac_new_role):
+        sentence = "I was the Insomniac and when I woke up I was a " + str(insomniac_new_role) + "."
+        return [Statement(sentence, [(player_index, {'Insomniac'})], [(9, new_insomniac_index, player_index)])]

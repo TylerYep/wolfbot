@@ -1,5 +1,5 @@
-from roles import Wolf, Villager, Seer, Robber, Mason, Drunk, Troublemaker
-from predictions import makePredictions, verifyPredictions
+from roles import Villager, Wolf, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
+from predictions import makePredictions, print_guesses, verifyPredictions
 from const import logger
 import const
 import pickle
@@ -24,8 +24,8 @@ def play_one_night_werewolf(solver):
 
     solution = solver(all_statements)
     all_role_guesses = makePredictions(solution)
-    logger.info("\n[Wolfbot] Role guesses: " + str(all_role_guesses[:const.NUM_PLAYERS]) +
-                "\n\t  Center cards: " + str(all_role_guesses[const.NUM_PLAYERS:]) + '\n')
+    print_guesses(all_role_guesses)
+
     return verifyPredictions(game_roles, all_role_guesses)
 
 def getStatements(player_objs):
@@ -38,6 +38,7 @@ def getStatements(player_objs):
 # Print out progress messages and initialize needed variables
 def night_falls():
     logger.info("\n -- NIGHT FALLS -- \n")
+    insomniac_ind = find_role_index('Insomniac')
     wake('Wolves')
     if 'Wolf' in player_set:
         wolf_indices = wolf_init()
@@ -50,21 +51,21 @@ def night_falls():
     if 'Seer' in player_set:
         seer_peek_index, seer_peek_character = seer_init()
     sleep('Seer')
-    wake('Robber') # 1
+    wake('Robber') # Priority 1
     if 'Robber' in player_set:
         robber_choice_index, robber_choice_character = robber_init()
     sleep('Robber')
-    wake('Troublemaker') # 2
+    wake('Troublemaker') # Priority 2
     if 'Troublemaker' in player_set:
         trblmkr_choice_index1, trblmkr_choice_index2 = troublemaker_init()
     sleep('Troublemaker')
-    wake('Drunk') # 3
+    wake('Drunk') # Priority 3
     if 'Drunk' in player_set:
         drunk_choice_index = drunk_init()
     sleep('Drunk')
     wake('Insomniac')
     if 'Insomniac' in player_set:
-        insomniac_new_role = insomniac_init(insomniac_ind)
+        new_insomniac_index, insomniac_new_role = insomniac_init(insomniac_ind)
     sleep('Insomniac')
 
     # Initialize players
@@ -79,9 +80,9 @@ def night_falls():
             elif role == 'Seer': players.append(Seer(i, seer_peek_index, seer_peek_character))
             elif role == 'Robber': players.append(Robber(i, robber_choice_index, robber_choice_character))
             elif role == 'Mason': players.append(Mason(i, mason_indices))
-            elif role == 'Troublemaker': players.append("")
+            elif role == 'Troublemaker': players.append(Troublemaker(i))
             elif role == 'Drunk': players.append(Drunk(i, drunk_choice_index))
-            elif role == 'Insomniac': players.append("")
+            elif role == 'Insomniac': players.append(Insomniac(i, new_insomniac_index, insomniac_new_role))
     return players
 
 # TODO Wolf can look at card in center
@@ -147,8 +148,9 @@ def troublemaker_init():
     return troublemaker_choice_index1, troublemaker_choice_index2
 
 def insomniac_init(index):
+    new_insomniac_index = find_role_index('Insomniac')
     insomniac_new_role = game_roles[index]
-    return insomniac_new_role
+    return new_insomniac_index, insomniac_new_role
 
 def swapCharacters(i, j):
     temp = game_roles[i]
