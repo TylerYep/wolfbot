@@ -32,7 +32,8 @@ def play_one_night_werewolf(solver):
 def getStatements(player_objs):
     all_statements = []
     for j in range(const.NUM_PLAYERS):
-        all_statements.append(player_objs[j].getNextStatement())
+        statement = player_objs[j].getNextStatement(all_statements)
+        all_statements.append(statement)
         logger.info("Player " + str(j) + ": " + str(all_statements[j].sentence))
     return all_statements
 
