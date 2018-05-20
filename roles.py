@@ -4,7 +4,7 @@ from const import logger
 import random
 import const
 from algorithms import switching_solver
-from predictions import makePredictions, verifyPredictions
+from predictions import make_predictions, verify_predictions
 import pickle
 import pprint
 
@@ -60,6 +60,7 @@ class Wolf(Player):
         return statements
 
     def getNextStatement(self, previousStatements, possible_statements):
+        return super().getNextStatement()
         def eval(solution):
             val = 5
             if len(solution) == 0:
@@ -71,7 +72,7 @@ class Wolf(Player):
         def expectimax(statement_list, ind, depth=None):
             if ind == const.NUM_PLAYERS:
                 sol = switching_solver(statement_list)
-                solution = makePredictions(sol)
+                solution = make_predictions(sol)
                 #pprint.pprint(statement_list)
                 #print(solution)
                 #print(eval(solution))
@@ -104,8 +105,8 @@ class Seer(Player):
         sentence = "I am a Seer and I saw that Player " + str(seen_index) + " was a " + str(seen_role) + "."
         knowledge = [(player_index, {'Seer'}), (seen_index, {seen_role})]
         if seen_index2 != None:
-            sentence = "I am a Seer and I saw that Center " + str(seen_index) + " was a " + str(seen_role) \
-                        + " and that Center " + str(seen_index2) + " was a " + str(seen_role2) + "."
+            sentence = "I am a Seer and I saw that Center " + str(seen_index - const.NUM_PLAYERS) + " was a " + str(seen_role) \
+                        + " and that Center " + str(seen_index2 - const.NUM_PLAYERS) + " was a " + str(seen_role2) + "."
             knowledge += [(seen_index2, {seen_role2})]
         return [Statement(sentence, knowledge)]
 

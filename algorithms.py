@@ -32,7 +32,6 @@ def is_consistent(statement, state):
         for proposed_role in proposed_roles:
             if count[proposed_role] > const.ROLE_COUNTS[proposed_role]:
                 return False
-        # Add more checks!
     return SolverState(new_possible_roles, new_switches, list(state.path))
 
 def switching_solver(statements, n_players=const.NUM_ROLES):
@@ -148,5 +147,5 @@ if __name__ == '__main__':
     solution = switching_solver(statements)
     print(solution)
 
-    all_role_guesses = makePredictions(solution)
+    all_role_guesses = make_predictions(solution)
     print_guesses()

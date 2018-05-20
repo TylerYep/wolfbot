@@ -1,3 +1,5 @@
+import sys
+if sys.version_info < (3, 0): sys.stdout.write("\n\nRequires Python 3, not Python 2!\n\n\n")
 from one_night import play_one_night_werewolf
 from algorithms import baseline_solver, random_solver, switching_solver
 import const
