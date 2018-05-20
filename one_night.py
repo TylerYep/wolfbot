@@ -10,6 +10,7 @@ def play_one_night_werewolf(solver):
     global game_roles, original_roles, player_set
     game_roles = list(const.ROLES)
     random.shuffle(game_roles)
+    
     player_set = set(game_roles[:const.NUM_PLAYERS])
     original_roles = list(game_roles)
 
