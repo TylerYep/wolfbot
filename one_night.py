@@ -97,23 +97,20 @@ def wolf_init():
     logger.debug("[Hidden] Wolves are at indices: " + str(wolf_indices))
     return wolf_indices
 
-# TODO Seer can look at two center cards
 def seer_init():
     seer_index = find_role_index('Seer')
-    choose_center = random.choice([True, False])
-    if choose_center and const.NUM_CENTER > 0:
+    choose_center = random.choice([True, False]) # Choose distribution of choosing center or middle cards
+    if choose_center and const.NUM_CENTER > 1:
         seer_peek_index = get_random_center()
         seer_peek_character = game_roles[seer_peek_index]
-        if const.NUM_CENTER > 1:
+        seer_peek_index2 = get_random_center()
+        while seer_peek_index2 == seer_peek_index:
             seer_peek_index2 = get_random_center()
-            while seer_peek_index2 == seer_peek_index:
-                seer_peek_index2 = get_random_center()
-            seer_peek_character2 = game_roles[seer_peek_index2]
-            logger.debug("[Hidden] Seer sees that Center " + str(seer_peek_index) +
-                    " is a " + str(seer_peek_character) + " and Center " + str(seer_peek_index2) +
-                    " is a " + str(seer_peek_character2))
-            return seer_peek_index, seer_peek_character, seer_peek_index2, seer_peek_character2
-        return seer_peek_index, seer_peek_character, None, None
+        seer_peek_character2 = game_roles[seer_peek_index2]
+        logger.debug("[Hidden] Seer sees that Center " + str(seer_peek_index - const.NUM_PLAYERS) +
+                " is a " + str(seer_peek_character) + " and Center " + str(seer_peek_index2 - const.NUM_PLAYERS) +
+                " is a " + str(seer_peek_character2))
+        return seer_peek_index, seer_peek_character, seer_peek_index2, seer_peek_character2
     else:
         seer_peek_index = get_random_player()
         while seer_peek_index == seer_index:
@@ -147,7 +144,7 @@ def drunk_init():
     assert(const.NUM_CENTER != 0)
     drunk_choice_index = get_random_center()
     swapCharacters(drunk_index, drunk_choice_index)
-    logger.debug("[Hidden] Drunk switches with Center Card " + str(drunk_choice_index) +
+    logger.debug("[Hidden] Drunk switches with Center Card " + str(drunk_choice_index - const.NUM_PLAYERS) +
                 " and unknowingly becomes a " + str(game_roles[drunk_choice_index]))
     return drunk_choice_index
 
