@@ -1,5 +1,5 @@
 from roles import Villager, Wolf, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
-from predictions import make_predictions, print_guesses, verify_predictions
+from predictions import make_predictions, print_guesses
 from const import logger
 import const
 import pickle
@@ -28,7 +28,7 @@ def play_one_night_werewolf(solver):
     all_role_guesses = make_predictions(solution)
     print_guesses(all_role_guesses)
 
-    return verify_predictions(game_roles, all_role_guesses)
+    return game_roles, all_role_guesses
 
 def getStatements(player_objs, possib):
     all_statements = []

@@ -1,10 +1,10 @@
 from copy import deepcopy
+from algorithms import switching_solver
+from predictions import make_predictions
 from statements import Statement
 from const import logger
-import random
 import const
-from algorithms import switching_solver
-from predictions import make_predictions, verify_predictions
+import random
 import pickle
 import pprint
 
@@ -179,7 +179,7 @@ class Troublemaker(Player):
         sentence = "I am a Troublemaker and I swapped Player " + str(trblmkr_index1) + \
                     " with Player " + str(trblmkr_index2) + "."
         knowledge = [(player_index, {'Troublemaker'})]
-        switches = [(const.TRBLMKR_PRIORITY, trblmkr_index1, trblmkr_index2)]
+        switches = [(const.TROUBLEMAKER_PRIORITY, trblmkr_index1, trblmkr_index2)]
         return [Statement(sentence, knowledge, switches)]
 
 class Drunk(Player):

@@ -78,14 +78,3 @@ def make_predictions(solution):
 def print_guesses(all_role_guesses):
     logger.info("\n[Wolfbot] Role guesses: " + str(all_role_guesses[:const.NUM_PLAYERS]) +
                 "\n\t  Center cards: " + str(all_role_guesses[const.NUM_PLAYERS:]) + '\n')
-
-def verify_predictions(game_roles, all_role_guesses):
-    correctGuesses = 0
-    totalWolves = 0
-    for r in range(len(all_role_guesses)):
-        if game_roles[r] == 'Wolf' == all_role_guesses[r]:
-            correctGuesses += 1
-    for card in game_roles[:const.NUM_PLAYERS]:
-        if card == 'Wolf':
-            totalWolves += 1
-    return correctGuesses, totalWolves, correctGuesses >= 1, correctGuesses == totalWolves
