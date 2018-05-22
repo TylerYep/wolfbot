@@ -56,7 +56,7 @@ class Mason(Player):
             knowledge = [(player_index, {'Mason'})]
             for ind in range(const.NUM_PLAYERS):
                 if ind != player_index:
-                    knowledge.append((ind, {role for role in const.ROLES} - {'Mason'}))
+                    knowledge.append((ind, set(const.ROLE_SET) - {'Mason'}))
         else:
             otherMason = mason_indices[0] if mason_indices[0] != player_index else mason_indices[1]
             sentence = "I am a Mason. The other Mason is Player " + str(otherMason) + '.'
@@ -94,7 +94,7 @@ class Troublemaker(Player):
     @staticmethod
     def get_troublemaker_statements(player_index, trblmkr_index1, trblmkr_index2):
         sentence = "I am a Troublemaker and I swapped Player " + str(trblmkr_index1) + \
-                    " with Player " + str(trblmkr_index2) + "."
+                    " and Player " + str(trblmkr_index2) + "."
         knowledge = [(player_index, {'Troublemaker'})]
         switches = [(const.TROUBLEMAKER_PRIORITY, trblmkr_index1, trblmkr_index2)]
         return [Statement(sentence, knowledge, switches)]

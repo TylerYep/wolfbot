@@ -34,22 +34,21 @@ def is_consistent(statement, state):
                 return False
     return SolverState(new_possible_roles, new_switches, list(state.path))
 
-def switching_solver(statements, n_players=const.NUM_ROLES):
+def switching_solver(statements, known_true=[], known_false=[]):
     '''
     Returns maximal list of statements that can be true from a list
     of Statements. Handles switching characters.
     Returns a list of [True, False, True ...] values and
     the possible role sets for each player.
     '''
-    possible_roles = [deepcopy(const.ROLE_SET) for i in range(n_players)]
+    possible_roles = [deepcopy(const.ROLE_SET) for i in range(const.NUM_ROLES)]
     start_state = SolverState(possible_roles, [])
     solution = SolverState([],[])
 
     def _switch_recurse(ind, state):
         '''
-        ind: index of statement being considered
-        state = list of possible role sets for each player
-        path = list of [True, False, True ...] values.
+        ind = index of statement being considered
+        state.path = list of [True, False, True ...] values.
         '''
         nonlocal solution
         if ind == len(statements):
@@ -58,17 +57,19 @@ def switching_solver(statements, n_players=const.NUM_ROLES):
             return
         truth_state = is_consistent(statements[ind], state)
         false_state = is_consistent(statements[ind].negate(), state)
-        if truth_state:
+
+        if truth_state and ind not in known_false:
             truth_state.path = list(state.path) + [True]
             _switch_recurse(ind + 1, truth_state)
-        if false_state:
+
+        if false_state and ind not in known_true:
             false_state.path = list(state.path) + [False]
             _switch_recurse(ind + 1, false_state)
 
     _switch_recurse(0, start_state)
     return solution
 
-def baseline_solver(statements, n_players=const.NUM_ROLES):
+def baseline_solver(statements):
     '''
     Returns maximal list of statements that can be true from a list
     of Statements.
@@ -109,17 +110,19 @@ def baseline_solver(statements, n_players=const.NUM_ROLES):
             new_path2 = list(path) + [False]
             _bl_solver_recurse(ind+1, false_state, new_path2)
 
-    start_state = [deepcopy(const.ROLE_SET) for i in range(n_players)]
+    start_state = [deepcopy(const.ROLE_SET) for i in range(const.NUM_ROLES)]
     _bl_solver_recurse(0, start_state)
-    return solution, final_state
+    return SolverState(final_state, [], solution)
 
-def random_solver(statements, n_players=const.NUM_PLAYERS):
+def random_solver(statements):
     '''
     Only works if there are no center cards.
     Returns random list of [True, False, True ...] values for each statement.
     '''
     f_inds = random.sample(range(0, const.NUM_ROLES), const.ROLE_COUNTS['Wolf'])
-    return [False if i in f_inds else True for i in range(n_players)]
+    path = [False if i in f_inds else True for i in range(const.NUM_PLAYERS)]
+    all_possible = [deepcopy(const.ROLE_SET) for i in range(const.NUM_ROLES)]
+    return SolverState(all_possible, [], path)
 
 def count_roles(state):
     '''

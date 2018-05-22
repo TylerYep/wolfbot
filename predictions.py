@@ -21,8 +21,8 @@ def make_predictions(solution):
     curr_role_counts = dict(const.ROLE_COUNTS)
     for j in range(const.NUM_ROLES):
         guess_set = consistent_roles[j]
-        if j >= len(consistent_statements) or consistent_statements[j]:     # Center cards or Player is telling the truth
-            for r in const.ROLE_SET:                # Remove already chosen cards
+        if j >= len(consistent_statements) or consistent_statements[j]:     # Center card or Player is telling the truth
+            for r in const.ROLE_SET:                                        # Remove already chosen cards
                 if curr_role_counts[r] == 0:
                     guess_set -= set([r])
 
@@ -33,47 +33,39 @@ def make_predictions(solution):
             else:
                 all_role_guesses.append('')
 
-        elif not consistent_statements[j]:      # Player is lying
+        elif not consistent_statements[j]:          # Player is lying
             all_role_guesses.append('Wolf')
             curr_role_counts['Wolf'] -= 1
-            #logger.info("I suspect Player " + str(j) + " is a Wolf!")
 
-    # Assign the remaining unknown cards by recursing and finding a consistent placement
-    solved = []
-    def recurse_assign(all_role_guesses, curr_role_counts):
-        new_guesses = list(all_role_guesses)
-        nonlocal solved
-        found = True
-        for i in range(const.NUM_ROLES):
-            if all_role_guesses[i] == '':
-                found = False
-        if found:
-            solved = list(new_guesses)
-            return True
-
-        for i in range(const.NUM_ROLES):
-            if all_role_guesses[i] == '':
-                for r in solution.possible_roles[i]:
-                    if curr_role_counts[r] > 0:
-                        curr_role_counts[r] -= 1
-                        new_guesses[i] = r
-                        if recurse_assign(new_guesses, dict(curr_role_counts)): return True
-                        curr_role_counts[r] += 1
-                        new_guesses[i] = ''
-        return False
-
-    found_solution = recurse_assign(list(all_role_guesses), dict(curr_role_counts))
-    if not found_solution:
+    solved = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts))
+    if not solved:
         for j in range(len(all_role_guesses)):
             if all_role_guesses[j] == 'Wolf':
                 all_role_guesses[j] = ''
                 curr_role_counts['Wolf'] += 1
-        recurse_assign(list(all_role_guesses), dict(curr_role_counts))
-    final_guesses = []
-    for i in range(len(solved)):
-        final_guesses.append(solved[switch_dict[i]])
+        solved = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts))
+
+    final_guesses = [solved[switch_dict[i]] for i in range(len(solved))]
     return final_guesses
 
+# Assign the remaining unknown cards by recursing and finding a consistent placement
+def recurse_assign(solution, all_role_guesses, curr_role_counts):
+    found = True
+    for i in range(const.NUM_ROLES):
+        if all_role_guesses[i] == '': found = False
+    if found: return all_role_guesses
+
+    for i in range(const.NUM_ROLES):
+        if all_role_guesses[i] == '':
+            for r in solution.possible_roles[i]:
+                if curr_role_counts[r] > 0:
+                    curr_role_counts[r] -= 1
+                    all_role_guesses[i] = r
+                    result = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts))
+                    if result: return result
+                    curr_role_counts[r] += 1
+                    all_role_guesses[i] = ''
+    return False
 
 def print_guesses(all_role_guesses):
     logger.info("\n[Wolfbot] Role guesses: " + str(all_role_guesses[:const.NUM_PLAYERS]) +

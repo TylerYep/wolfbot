@@ -1,7 +1,7 @@
 import sys
 if sys.version_info < (3, 0): sys.stdout.write("\n\nRequires Python 3, not Python 2!\n\n\n")
 from one_night import play_one_night_werewolf
-from algorithms import baseline_solver, random_solver, switching_solver
+from algorithms import random_solver, baseline_solver, switching_solver
 import const
 from const import logger
 
@@ -19,13 +19,13 @@ def main():
         correct2 += c2
         total2 += t2
         if c2 >= 1: match1 += 1 # Found at least 1 Wolf
-        if c2 == t2: match2 += 1 # Found all wolves
+        if c2 == t2: match2 += 1 # Found two player wolves
 
     if total1 == 0.0: total1 += 1
     if total2 == 0.0: total2 += 1
     logger.warning("Accuracy for all predictions: " + str(correct1 / total1))
     logger.warning("S1: Found at least 1 Wolf: " + str(match1 / const.NUM_GAMES))
-    logger.warning("S2: Found all Wolves: " + str(match2 / const.NUM_GAMES))
+    logger.warning("S2: Found two player Wolves: " + str(match2 / const.NUM_GAMES))
     logger.warning("Correct guesses (not accusing extraneous wolves): " + str(correct2 / total2))
 
 # Returns fraction of how many roles were guessed correctly out of all roles.

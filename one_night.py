@@ -19,14 +19,14 @@ def play_one_night_werewolf(solver):
     player_objs = night_falls()
 
     logger.info("\n -- GAME BEGINS -- \n")
-    possib = None # get_possible_statements(const.ROLE_SET)
+    possib = None                                                   # get_possible_statements(const.ROLE_SET)
     all_statements = get_statements(player_objs, possib)
     print_roles()
     saved_game = [game_roles, all_statements]
     with open('test.pkl', 'wb') as f: pickle.dump(saved_game, f)
 
     solution = solver(all_statements)
-    logger.debug("Solver interpretation: " + str(solution.path))
+    #logger.debug("Solver interpretation: " + str(solution.path))
     all_role_guesses = make_predictions(solution)
     print_guesses(all_role_guesses)
 
@@ -38,7 +38,7 @@ def get_statements(player_objs, possib):
         statement = player_objs[j].getNextStatement(stated_roles, given_statements, possib)
         stated_roles.append(statement.speaker)
         given_statements.append(statement)
-        logger.info("Player " + str(j) + ": " + str(given_statements[j].sentence))
+        logger.info("Player " + str(j) + ": " + str(statement.sentence))
     # logger.debug("Stated roles: " + str(stated_roles) + '\n')
     return given_statements
 
@@ -103,7 +103,7 @@ def wolf_init():
 
 def seer_init():
     seer_index = find_role_index('Seer')
-    choose_center = random.choice([True, False]) # Choose distribution of choosing center or middle cards
+    choose_center = random.choice([True, False]) # Change distribution of choosing center or middle cards
     if choose_center and const.NUM_CENTER > 1:
         seer_peek_index = get_random_center()
         seer_peek_character = game_roles[seer_peek_index]

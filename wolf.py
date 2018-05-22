@@ -35,7 +35,7 @@ class Wolf(Player):
                 statements += Drunk.get_drunk_statements(player_index, k + const.NUM_PLAYERS)
         if 'Troublemaker' in const.ROLE_SET:
             for i in range(const.NUM_PLAYERS):
-                for j in range(const.NUM_PLAYERS):
+                for j in range(i+1, const.NUM_PLAYERS):
                     # Troublemaker should not refer to other wolves or themselves
                     if i != j != player_index and i != player_index and i not in wolf_indices and j not in wolf_indices:
                         statements += Troublemaker.get_troublemaker_statements(player_index, i, j)
