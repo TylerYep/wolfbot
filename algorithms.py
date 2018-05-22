@@ -1,8 +1,8 @@
+from predictions import make_predictions, print_guesses
 from statements import Statement
 from copy import deepcopy
 import const
 import random
-from predictions import *
 
 class SolverState():
     def __init__(self, possible_roles, switches, path=[]):

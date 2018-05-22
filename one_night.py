@@ -1,16 +1,17 @@
-from roles import Villager, Wolf, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
+from roles import Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
+from wolf import Wolf
 from predictions import make_predictions, print_guesses
+from possible import get_possible_statements
 from const import logger
 import const
 import pickle
 import random
-from possible import get_possible_statements
 
 def play_one_night_werewolf(solver):
     global game_roles, original_roles, player_set
     game_roles = list(const.ROLES)
     random.shuffle(game_roles)
-    
+
     player_set = set(game_roles[:const.NUM_PLAYERS])
     original_roles = list(game_roles)
 
@@ -18,26 +19,28 @@ def play_one_night_werewolf(solver):
     player_objs = night_falls()
 
     logger.info("\n -- GAME BEGINS -- \n")
-    possib = get_possible_statements(const.ROLE_SET)
-    all_statements = getStatements(player_objs, possib)
+    possib = None # get_possible_statements(const.ROLE_SET)
+    all_statements = get_statements(player_objs, possib)
     print_roles()
-    game = [game_roles, all_statements]
-    with open('test.pkl', 'wb') as f: pickle.dump(game, f)
+    saved_game = [game_roles, all_statements]
+    with open('test.pkl', 'wb') as f: pickle.dump(saved_game, f)
 
     solution = solver(all_statements)
-    logger.info("Solver interpretation: " + str(solution.path))
+    logger.debug("Solver interpretation: " + str(solution.path))
     all_role_guesses = make_predictions(solution)
     print_guesses(all_role_guesses)
 
     return game_roles, all_role_guesses
 
-def getStatements(player_objs, possib):
-    all_statements = []
+def get_statements(player_objs, possib):
+    stated_roles, given_statements = [], []
     for j in range(const.NUM_PLAYERS):
-        statement = player_objs[j].getNextStatement(all_statements, possib)
-        all_statements.append(statement)
-        logger.info("Player " + str(j) + ": " + str(all_statements[j].sentence))
-    return all_statements
+        statement = player_objs[j].getNextStatement(stated_roles, given_statements, possib)
+        stated_roles.append(statement.speaker)
+        given_statements.append(statement)
+        logger.info("Player " + str(j) + ": " + str(given_statements[j].sentence))
+    # logger.debug("Stated roles: " + str(stated_roles) + '\n')
+    return given_statements
 
 # Print out progress messages and initialize needed variables
 def night_falls():
@@ -69,7 +72,7 @@ def night_falls():
     sleep('Drunk')
     wake('Insomniac')
     if 'Insomniac' in player_set:
-        new_insomniac_index, insomniac_new_role = insomniac_init(insomniac_ind)
+        insomniac_new_role = insomniac_init(insomniac_ind)
     sleep('Insomniac')
 
     # Initialize players
@@ -86,7 +89,7 @@ def night_falls():
             elif role == 'Mason': players.append(Mason(i, mason_indices))
             elif role == 'Troublemaker': players.append(Troublemaker(i, trblmkr_index1, trblmkr_index2))
             elif role == 'Drunk': players.append(Drunk(i, drunk_choice_index))
-            elif role == 'Insomniac': players.append(Insomniac(i, new_insomniac_index, insomniac_new_role))
+            elif role == 'Insomniac': players.append(Insomniac(i, insomniac_new_role))
     return players
 
 # TODO Wolf can look at card in center
@@ -163,9 +166,8 @@ def troublemaker_init():
     return troublemaker_choice_index1, troublemaker_choice_index2
 
 def insomniac_init(index):
-    new_insomniac_index = find_role_index('Insomniac')
     insomniac_new_role = game_roles[index]
-    return new_insomniac_index, insomniac_new_role
+    return insomniac_new_role
 
 def swapCharacters(i, j):
     temp = game_roles[i]

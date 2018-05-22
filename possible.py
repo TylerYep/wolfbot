@@ -1,11 +1,12 @@
-from roles import *
+from roles import Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
+from wolf import Wolf
 import const
 
 def get_possible_statements(role_set=const.ROLE_SET):
     possible = {}
     for player_index in range(const.NUM_PLAYERS):
         possible[player_index] = Villager.get_villager_statements(player_index)
-        
+
         if 'Drunk' in role_set:
             for k in range(const.NUM_CENTER):
                 possible[player_index] += Drunk.get_drunk_statements(player_index, k + const.NUM_PLAYERS)

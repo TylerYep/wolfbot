@@ -9,8 +9,9 @@ def main():
     correct1, total1 = 0.0, 0.0
     correct2, total2 = 0.0, 0.0
     match1, match2 = 0.0, 0.0
-    for _ in range(const.NUM_GAMES):
+    for num in range(const.NUM_GAMES):
         game_roles, all_role_guesses = play_one_night_werewolf(switching_solver)
+        if num % 10 == 0 and const.NUM_GAMES > 10: logger.warning(str(num))
         c, t = correctness_strict(game_roles, all_role_guesses)
         correct1 += c
         total1 += t

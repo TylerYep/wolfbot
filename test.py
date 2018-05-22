@@ -1,4 +1,5 @@
 from roles import *
+from wolf import Wolf
 import pickle
 from algorithms import switching_solver
 from predictions import make_predictions, print_guesses

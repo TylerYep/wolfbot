@@ -10,6 +10,7 @@ class Statement:
         self.sentence = sentence
         self.knowledge = knowledge
         self.switches = switches
+        self.speaker = next(iter(knowledge[0][1])) if len(self.knowledge) != 0 else None
 
     def negate(self):
         ''' Returns a negated version of the first clause in a statement. '''
@@ -31,28 +32,6 @@ class Statement:
     def __repr__(self):
         return "Statement(\'" + self.sentence + "\', " + str(self.knowledge) + ", " + str(self.switches) + '),'
 
-def possible_statements():
-    possible = {}
-    for player_index in range(const.NUM_PLAYERS):
-        possible[player_index] = Villager.get_villager_statements(player_index)
-        for k in range(const.NUM_CENTER):
-            possible[player_index] += Drunk.get_drunk_statements(player_index, k + const.NUM_PLAYERS)
-        for i in range(const.NUM_PLAYERS):
-            if player_index != i:
-                mason_indices = [player_index, i]
-                possible[player_index]+= Mason.get_mason_statements(player_index, mason_indices)
-
-            for j in range(const.NUM_PLAYERS): # Troublemaker should not refer to other wolves or themselves
-                if i != j != player_index and i != player_index: #and i not in wolf_indices and j not in wolf_indices:
-                    possible[player_index] += Troublemaker.get_troublemaker_statements(player_index, i, j)
-
-            # Wolf-seer more likely to declare they saw a villager
-            for role in const.ROLES:
-                if role != 'Seer':      # "Hey, I'm a Seer and I saw another Seer..."
-                    possible[player_index]+= Seer.get_seer_statements(player_index, i, role)
-                if role != 'Wolf':      # "I robbed a Wolf and now I'm a Wolf..."
-                    possible[player_index]+= Robber.get_robber_statements(player_index, i, role)
-    return possible
 
 ### Testing ###
 if __name__ == '__main__':

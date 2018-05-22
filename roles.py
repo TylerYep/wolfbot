@@ -1,101 +1,17 @@
-from copy import deepcopy
-from algorithms import switching_solver
-from predictions import make_predictions
 from statements import Statement
 from const import logger
 import const
 import random
-import pickle
-import pprint
 
 class Player():
     def __init__(self, player_index):
         self.player = player_index
 
-    def getNextStatement(self, prev=None, possib=None):
+    def getNextStatement(self, stated_roles=None, previous=None, possible=None):
         return random.choice(tuple(self.statements))
 
     def __repr__(self):
         return "<" + self.role + ">"
-
-
-class Wolf(Player):
-    def __init__(self, player_index, wolf_indices):
-        super().__init__(player_index)
-        self.role = 'Wolf'
-        self.statements = self.get_wolf_statements(player_index, wolf_indices)
-        self.wolf_indices = wolf_indices
-
-    @staticmethod
-    def get_wolf_statements(player_index, wolf_indices):        # TODO: Have the wolf choose its role ahead of time
-        if 'Villager' in const.ROLE_SET:
-            statements = Villager.get_villager_statements(player_index)
-        if 'Mason' in const.ROLE_SET:
-            statements += Mason.get_mason_statements(player_index, [player_index])
-            for i in range(const.NUM_PLAYERS):
-                if player_index != i:
-                    mason_indices = [player_index, i]
-                    statements += Mason.get_mason_statements(player_index, mason_indices)
-        if 'Drunk' in const.ROLE_SET:
-            for k in range(const.NUM_CENTER):
-                statements += Drunk.get_drunk_statements(player_index, k + const.NUM_PLAYERS)
-        if 'Troublemaker' in const.ROLE_SET:
-            for i in range(const.NUM_PLAYERS):
-                for j in range(const.NUM_PLAYERS): # Troublemaker should not refer to other wolves or themselves
-                    if i != j != player_index and i != player_index and i not in wolf_indices and j not in wolf_indices:
-                        statements += Troublemaker.get_troublemaker_statements(player_index, i, j)
-        if 'Robber' in const.ROLE_SET:
-            for i in range(const.NUM_PLAYERS):
-                for role in const.ROLES:
-                    if role != 'Wolf':      # "I robbed Player 0 and now I'm a Wolf..."
-                        statements += Robber.get_robber_statements(player_index, i, role)
-        if 'Seer' in const.ROLE_SET:
-            for role in const.ROLES:
-                for i in range(const.NUM_PLAYERS): # Wolf-seer adds villager three times
-                    if i not in wolf_indices and role != 'Seer':      # "Hey, I'm a Seer and I saw another Seer..."
-                        statements += Seer.get_seer_statements(player_index, i, role, None, None)
-            # Wolf using these usually gives himself away
-            for c1 in range(const.NUM_CENTER):
-                for c2 in range(const.NUM_CENTER):
-                    for role1 in const.ROLES:
-                        for role2 in const.ROLES:
-                            if role1 != 'Seer' and role2 != 'Seer' and c1 != c2:
-                                statements += Seer.get_seer_statements(player_index,
-                                                c1  + const.NUM_PLAYERS, role1, c2 + const.NUM_PLAYERS, role2)
-        return statements
-
-    def getNextStatement(self, previousStatements, possible_statements):
-        return super().getNextStatement()
-        def eval(solution):
-            val = 5
-            if len(solution) == 0:
-                return -10
-            for wolfi in self.wolf_indices:
-                if solution[wolfi] == 'Wolf':
-                    val -= 5
-            return val
-        def expectimax(statement_list, ind, depth=None):
-            if ind == const.NUM_PLAYERS:
-                sol = switching_solver(statement_list)
-                solution = make_predictions(sol)
-                #pprint.pprint(statement_list)
-                #print(solution)
-                #print(eval(solution))
-                return eval(solution), None
-            if ind == self.player:              # It's Me
-                values = [expectimax(deepcopy(statement_list) + [statement], ind + 1, depth-1) for statement in self.statements]
-                vals = [v[0] for v in values]
-                best_move = self.statements[vals.index(max(vals))]
-                return max(vals), best_move
-            else:           # If he's the other wolf, he can also say anything... TODO make them play as a team?
-                values = [expectimax(deepcopy(statement_list) + [statement], ind + 1, depth-1) for statement in possible_statements[ind]]
-                vals = [v[0] for v in values]
-                return sum(vals) / len(vals), None
-        if self.player in [0]:
-            return random.choice(tuple(self.statements))
-        else:
-            best_val, best_move =  expectimax(previousStatements, self.player, 5)
-            return best_move
 
 
 class Seer(Player):
@@ -158,6 +74,7 @@ class Robber(Player):
     def get_robber_statements(player_index, robber_choice_index, robber_choice_character):
         # TODO Finish Robber-Wolf
         if robber_choice_character == 'Wolf':
+            from wolf import Wolf
             logger.debug("Robber is a Wolf now!")
             return Wolf.get_wolf_statements(player_index, [])
         else:
@@ -182,6 +99,7 @@ class Troublemaker(Player):
         switches = [(const.TROUBLEMAKER_PRIORITY, trblmkr_index1, trblmkr_index2)]
         return [Statement(sentence, knowledge, switches)]
 
+
 class Drunk(Player):
     def __init__(self, player_index, drunk_choice_index):
         super().__init__(player_index)
@@ -196,18 +114,32 @@ class Drunk(Player):
         switches = [(const.DRUNK_PRIORITY, drunk_choice_index, player_index)]
         return [Statement(sentence, knowledge, switches)]
 
+
 class Insomniac(Player):
-    def __init__(self, player_index, new_insomniac_index, insomniac_new_role):
+    def __init__(self, player_index, insomniac_new_role):
         super().__init__(player_index)
         self.role = 'Insomniac'
-        self.statements = self.get_insomniac_statements(player_index, new_insomniac_index, insomniac_new_role)
+        self.player_index = player_index
+        self.new_role = insomniac_new_role
+        self.statements = self.get_insomniac_statements(player_index, insomniac_new_role)
 
     @staticmethod
-    def get_insomniac_statements(player_index, new_insomniac_index, insomniac_new_role):
-        sentence = "I was the Insomniac and when I woke up I was a " + str(insomniac_new_role) + "."
-        return [Statement(sentence, [(player_index, {'Insomniac'})])]
+    def get_insomniac_statements(player_index, insomniac_new_role, new_insomniac_index=None):
+        knowledge = [(player_index, {'Insomniac'})]
+        sentence = "I am a Insomniac and when I woke up I was a " + str(insomniac_new_role) + "."
+        if new_insomniac_index == None:
+            if insomniac_new_role != 'Insomniac':
+                sentence += " I don't know who I switched with."
+        else:
+            sentence += " I switched with Player " + str(new_insomniac_index) + '.'
+        # switches = [(player_index, new_insomniac_index)]
+        return [Statement(sentence, knowledge)]
 
-#import pprint
-#possib = get_possible_statements()
-#pprint.pprint(possib)
-#with open('possible_statements.pkl', 'wb') as f: pickle.dump(possib, f)
+    def getNextStatement(self, stated_roles, previous, possible): # TODO acting as a wolf
+        possible_switches = []
+        for i in range(len(stated_roles)):
+            if stated_roles[i] == self.new_role:
+                possible_switches.append(i)
+        if len(possible_switches) == 1: # TODO how to handle multiple possible switches
+            self.statements = self.get_insomniac_statements(self.player_index, self.new_role, possible_switches[0])
+        return random.choice(tuple(self.statements))
