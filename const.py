@@ -21,6 +21,8 @@ ROBBER_PRIORITY = 1
 TROUBLEMAKER_PRIORITY = 2
 DRUNK_PRIORITY = 3
 
+USE_AI_PLAYERS = False
+
 ### Logging Constants ###
 logger.setLevel(logging.DEBUG)
 

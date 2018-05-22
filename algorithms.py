@@ -34,7 +34,7 @@ def is_consistent(statement, state):
                 return False
     return SolverState(new_possible_roles, new_switches, list(state.path))
 
-def switching_solver(statements, known_true=[], known_false=[]):
+def switching_solver(statements, known_true=None):
     '''
     Returns maximal list of statements that can be true from a list
     of Statements. Handles switching characters.
@@ -44,6 +44,10 @@ def switching_solver(statements, known_true=[], known_false=[]):
     possible_roles = [deepcopy(const.ROLE_SET) for i in range(const.NUM_ROLES)]
     start_state = SolverState(possible_roles, [])
     solution = SolverState([],[])
+    # if known_true != None:
+    #     temp = statements[0]
+    #     statements[0] = statements[known_true]
+    #     statements[known_true] = temp
 
     def _switch_recurse(ind, state):
         '''
@@ -58,18 +62,23 @@ def switching_solver(statements, known_true=[], known_false=[]):
         truth_state = is_consistent(statements[ind], state)
         false_state = is_consistent(statements[ind].negate(), state)
 
-        if truth_state and ind not in known_false:
+        if truth_state:
             truth_state.path = list(state.path) + [True]
             _switch_recurse(ind + 1, truth_state)
 
-        if false_state and ind not in known_true:
+        if false_state and ind != known_true:
             false_state.path = list(state.path) + [False]
             _switch_recurse(ind + 1, false_state)
 
     _switch_recurse(0, start_state)
+
+    # if known_true != None:
+    #     temp = solution.path[0]
+    #     solution.path[0] = solution.path[known_true]
+    #     solution.path[known_true] = temp
     return solution
 
-def baseline_solver(statements):
+def baseline_solver(statements, known_true=None):
     '''
     Returns maximal list of statements that can be true from a list
     of Statements.
@@ -114,7 +123,7 @@ def baseline_solver(statements):
     _bl_solver_recurse(0, start_state)
     return SolverState(final_state, [], solution)
 
-def random_solver(statements):
+def random_solver(statements, known_true=None):
     '''
     Only works if there are no center cards.
     Returns random list of [True, False, True ...] values for each statement.

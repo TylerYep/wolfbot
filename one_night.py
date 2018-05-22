@@ -11,26 +11,33 @@ def play_one_night_werewolf(solver):
     global game_roles, original_roles, player_set
     game_roles = list(const.ROLES)
     random.shuffle(game_roles)
-
     player_set = set(game_roles[:const.NUM_PLAYERS])
     original_roles = list(game_roles)
 
-    print_roles()
     player_objs = night_falls()
 
     logger.info("\n -- GAME BEGINS -- \n")
     possib = None                                                   # get_possible_statements(const.ROLE_SET)
     all_statements = get_statements(player_objs, possib)
     print_roles()
-    saved_game = [game_roles, all_statements]
-    with open('test.pkl', 'wb') as f: pickle.dump(saved_game, f)
 
-    solution = solver(all_statements)
-    #logger.debug("Solver interpretation: " + str(solution.path))
-    all_role_guesses = make_predictions(solution)
-    print_guesses(all_role_guesses)
+    save_game = [game_roles, all_statements]
+    with open('test.pkl', 'wb') as f: pickle.dump(save_game, f)
 
-    return game_roles, all_role_guesses
+    if const.USE_AI_PLAYERS:
+        for i in range(const.NUM_PLAYERS):
+            if original_roles[i] != 'Wolf':
+                solution = solver(all_statements, i)
+                logger.debug("Solver interpretation: " + str(solution.path))
+        all_role_guesses = make_predictions(solution)
+        print_guesses(all_role_guesses)
+        return game_roles, all_role_guesses
+    else:
+        solution = solver(all_statements)
+        logger.debug("Solver interpretation: " + str(solution.path))
+        all_role_guesses = make_predictions(solution)
+        print_guesses(all_role_guesses)
+        return game_roles, all_role_guesses
 
 def get_statements(player_objs, possib):
     stated_roles, given_statements = [], []
@@ -44,6 +51,7 @@ def get_statements(player_objs, possib):
 
 # Print out progress messages and initialize needed variables
 def night_falls():
+    print_roles()
     logger.info("\n -- NIGHT FALLS -- \n")
     insomniac_ind = find_role_index('Insomniac')
     wake('Wolves')
