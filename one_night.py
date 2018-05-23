@@ -2,16 +2,11 @@ from roles import Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
 from wolf import Wolf
 from predictions import make_predictions, print_guesses
 from possible import get_possible_statements
+from statistics import GameResult
 from const import logger
 import const
 import pickle
 import random
-
-class GameResult:
-    def __init__(self, actual, guessed, statements):
-        self.actual = actual
-        self.guessed = guessed
-        self.statements = statements
 
 def play_one_night_werewolf(solver):
     global game_roles, original_roles, player_set

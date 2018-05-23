@@ -1,5 +1,5 @@
-from roles import *
-from wolf import Wolf
+from const import logger
+import const
 import pickle
 from algorithms import switching_solver
 from predictions import make_predictions, print_guesses
@@ -15,7 +15,6 @@ if __name__ == '__main__':
         print(s)
 
     solution = switching_solver(all_statements)
-    #c, d = baseline_solver(all_statements)
     print(solution)
 
     all_role_guesses = make_predictions(solution)
