@@ -37,7 +37,7 @@ def play_one_night_werewolf(solver):
         logger.debug("Solver interpretation: " + str(solution.path))
         all_role_guesses = make_predictions(solution)
         print_guesses(all_role_guesses)
-        return game_roles, all_role_guesses
+        return game_roles, all_role_guesses, all_statements
 
 def get_statements(player_objs, possib):
     stated_roles, given_statements = [], []

@@ -4,6 +4,8 @@ from one_night import play_one_night_werewolf
 from algorithms import random_solver, baseline_solver, switching_solver
 import const
 from const import logger
+import time
+import pickle
 
 def main():
     metrics = [correctness_strict, correctness_lenient_center, verify_predictions]
@@ -13,7 +15,7 @@ def main():
     match1, match2 = 0.0, 0.0
 
     for num in range(const.NUM_GAMES):
-        game_roles, all_role_guesses = play_one_night_werewolf(switching_solver)
+        game_roles, all_role_guesses, statements = play_one_night_werewolf(switching_solver)
         if num % 10 == 0 and const.NUM_GAMES > 10: logger.warning(str(num))
         
         for i in range(NUM_METRICS):
@@ -29,6 +31,23 @@ def main():
     logger.warning("S1: Found at least 1 Wolf: " + str(match1 / const.NUM_GAMES))
     logger.warning("S2: Found two player Wolves: " + str(match2 / const.NUM_GAMES))
     logger.warning("Correct guesses (not accusing extraneous wolves): " + str(correct[2] / total[2]))
+
+class GameResult:
+    def __init__(self, actual, guessed, statements):
+        self.actual = actual
+        self.guessed = guessed
+        self.statements = statements
+        
+def generate_data(n_sim=3000):
+    sim_list = []
+    logger.setLevel(30)
+    for i in range(n_sim):
+        if i%250 == 0: print('Simulation: ', i)
+        simulation = GameResult(*play_one_night_werewolf(switching_solver))
+        sim_list.append(simulation)
+    
+    fname = 'data/simulation_'+time.strftime("%Y%m%d_%H%M%S")+'.pkl'
+    with open(fname, 'wb') as f: pickle.dump(sim_list, f)
 
 # Returns fraction of how many roles were guessed correctly out of all roles.
 def correctness_strict(game_roles, all_role_guesses):
@@ -69,3 +88,4 @@ def verify_predictions(game_roles, all_role_guesses):
 
 if __name__ == '__main__':
     main()
+    #generate_data(500)
