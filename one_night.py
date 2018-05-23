@@ -7,6 +7,12 @@ import const
 import pickle
 import random
 
+class GameResult:
+    def __init__(self, actual, guessed, statements):
+        self.actual = actual
+        self.guessed = guessed
+        self.statements = statements
+
 def play_one_night_werewolf(solver):
     global game_roles, original_roles, player_set
     game_roles = list(const.ROLES)
@@ -31,13 +37,13 @@ def play_one_night_werewolf(solver):
                 logger.debug("Solver interpretation: " + str(solution.path))
         all_role_guesses = make_predictions(solution)
         print_guesses(all_role_guesses)
-        return game_roles, all_role_guesses
+        return GameResult(game_roles, all_role_guesses, all_statements)
     else:
         solution = solver(all_statements)
         logger.debug("Solver interpretation: " + str(solution.path))
         all_role_guesses = make_predictions(solution)
         print_guesses(all_role_guesses)
-        return game_roles, all_role_guesses, all_statements
+        return GameResult(game_roles, all_role_guesses, all_statements)
 
 def get_statements(player_objs, possib):
     stated_roles, given_statements = [], []

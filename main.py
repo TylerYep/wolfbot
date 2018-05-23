@@ -1,6 +1,6 @@
 import sys
 if sys.version_info < (3, 0): sys.stdout.write("\n\nRequires Python 3, not Python 2!\n\n\n")
-from one_night import play_one_night_werewolf
+from one_night import play_one_night_werewolf, GameResult
 from algorithms import random_solver, baseline_solver, switching_solver
 import const
 from const import logger
@@ -15,11 +15,11 @@ def main():
     match1, match2 = 0.0, 0.0
 
     for num in range(const.NUM_GAMES):
-        game_roles, all_role_guesses, statements = play_one_night_werewolf(switching_solver)
+        game_result = play_one_night_werewolf(switching_solver)
         if num % 10 == 0 and const.NUM_GAMES > 10: logger.warning(str(num))
-        
+
         for i in range(NUM_METRICS):
-            c, t = metrics[i](game_roles, all_role_guesses)
+            c, t = metrics[i](game_result.actual, game_result.guessed)
             correct[i] += c
             total[i] += t
             if c >= 1 and i == 2: match1 += 1 # Found at least 1 Wolf
@@ -32,21 +32,15 @@ def main():
     logger.warning("S2: Found two player Wolves: " + str(match2 / const.NUM_GAMES))
     logger.warning("Correct guesses (not accusing extraneous wolves): " + str(correct[2] / total[2]))
 
-class GameResult:
-    def __init__(self, actual, guessed, statements):
-        self.actual = actual
-        self.guessed = guessed
-        self.statements = statements
-        
 def generate_data(n_sim=3000):
     sim_list = []
     logger.setLevel(30)
     for i in range(n_sim):
-        if i%250 == 0: print('Simulation: ', i)
-        simulation = GameResult(*play_one_night_werewolf(switching_solver))
+        if i % 250 == 0: print('Simulation: ', i)
+        simulation = play_one_night_werewolf(switching_solver)
         sim_list.append(simulation)
-    
-    fname = 'data/simulation_'+time.strftime("%Y%m%d_%H%M%S")+'.pkl'
+
+    fname = 'data/simulation_' + time.strftime("%Y%m%d_%H%M%S") + '.pkl'
     with open(fname, 'wb') as f: pickle.dump(sim_list, f)
 
 # Returns fraction of how many roles were guessed correctly out of all roles.
@@ -88,4 +82,4 @@ def verify_predictions(game_roles, all_role_guesses):
 
 if __name__ == '__main__':
     main()
-    #generate_data(500)
+    #generate_data(50)
