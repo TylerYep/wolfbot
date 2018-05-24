@@ -8,15 +8,17 @@ import const
 import pickle
 import random
 
-def play_one_night_werewolf(solver, fix_wolf_ind=-1):
+def play_one_night_werewolf(solver):
     global game_roles, original_roles, player_set
     game_roles = list(const.ROLES)
     random.shuffle(game_roles)
-    if fix_wolf_ind > 0:
+
+    if const.FIXED_WOLF_INDEX != None:
         wolf_ind = game_roles.index('Wolf')
-        curr_role = game_roles[fix_wolf_ind]
-        game_roles[fix_wolf_ind] = 'Wolf'
+        curr_role = game_roles[const.FIXED_WOLF_INDEX]
+        game_roles[const.FIXED_WOLF_INDEX] = 'Wolf'
         game_roles[wolf_ind] = curr_role
+
     player_set = set(game_roles[:const.NUM_PLAYERS])
     original_roles = list(game_roles)
 
@@ -59,7 +61,8 @@ def get_statements(player_objs, possib):
 def night_falls():
     print_roles()
     logger.info("\n -- NIGHT FALLS -- \n")
-    insomniac_ind = find_role_index('Insomniac')
+    if 'Insomniac' in player_set:
+        insomniac_ind = original_roles.index('Insomniac')
     wake('Wolves')
     if 'Wolf' in player_set:
         wolf_indices = wolf_init()
@@ -98,12 +101,13 @@ def night_falls():
             role = original_roles[i]
             if role == 'Wolf': players.append(Wolf(i, wolf_indices))
             elif role == 'Villager': players.append(Villager(i))
-            elif role == 'Seer': players.append(Seer(i, seer_peek_index, seer_peek_character, seer_peek_index2, seer_peek_character2))
             elif role == 'Robber': players.append(Robber(i, robber_choice_index, robber_choice_character))
             elif role == 'Mason': players.append(Mason(i, mason_indices))
             elif role == 'Troublemaker': players.append(Troublemaker(i, trblmkr_index1, trblmkr_index2))
             elif role == 'Drunk': players.append(Drunk(i, drunk_choice_index))
             elif role == 'Insomniac': players.append(Insomniac(i, insomniac_new_role))
+            elif role == 'Seer': players.append(Seer(i, seer_peek_index, seer_peek_character,
+                                                        seer_peek_index2, seer_peek_character2))
     return players
 
 # TODO Wolf can look at card in center
@@ -116,7 +120,7 @@ def wolf_init():
     return wolf_indices
 
 def seer_init():
-    seer_index = find_role_index('Seer')
+    seer_index = original_roles.index('Seer')
     choose_center = random.choice([True, False]) # Change distribution of choosing center or middle cards
     if choose_center and const.NUM_CENTER > 1:
         seer_peek_index = get_random_center()
@@ -147,7 +151,7 @@ def mason_init():
     return mason_indices
 
 def robber_init():
-    robber_index = find_role_index('Robber')
+    robber_index = original_roles.index('Robber')
     robber_choice_index = get_random_player()
     while robber_choice_index == robber_index:
         robber_choice_index = get_random_player()
@@ -158,7 +162,7 @@ def robber_init():
     return robber_choice_index, robber_choice_character
 
 def drunk_init():
-    drunk_index = find_role_index('Drunk')
+    drunk_index = original_roles.index('Drunk')
     assert(const.NUM_CENTER != 0)
     drunk_choice_index = get_random_center()
     swapCharacters(drunk_index, drunk_choice_index)
@@ -167,7 +171,7 @@ def drunk_init():
     return drunk_choice_index
 
 def troublemaker_init():
-    troublemaker_index = find_role_index('Troublemaker')
+    troublemaker_index = original_roles.index('Troublemaker')
     troublemaker_choice_index1 = get_random_player()
     troublemaker_choice_index2 = get_random_player()
     while troublemaker_choice_index1 == troublemaker_index:
@@ -188,12 +192,6 @@ def swapCharacters(i, j):
     game_roles[i] = game_roles[j]
     game_roles[j] = temp
     player_set = set(game_roles[:const.NUM_PLAYERS])
-
-def find_role_index(role):
-    for i in range(const.NUM_PLAYERS):
-        if original_roles[i] == role:
-            return i
-    return -1
 
 def get_random_player():
     return random.randint(0, const.NUM_PLAYERS - 1)
