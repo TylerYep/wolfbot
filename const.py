@@ -5,8 +5,8 @@ logging.basicConfig(format='%(message)s', level=logging.INFO)
 logger = logging.getLogger()
 
 ### Simulation Constants ###
-NUM_GAMES = 10
-FIXED_WOLF_INDEX = 3
+NUM_GAMES = 1
+FIXED_WOLF_INDEX = None
 
 ### Game Constants ###
 

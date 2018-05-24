@@ -6,8 +6,9 @@ from predictions import make_predictions, print_guesses
 
 if __name__ == '__main__':
     with open('test.pkl', 'rb') as f:
-        roles, all_statements = pickle.load(f)
-
+        original_roles, roles, all_statements = pickle.load(f)
+    logger.debug("[Hidden] Current roles: " + str(original_roles[:const.NUM_PLAYERS]) +
+            "\n\t Center cards:  " + str(original_roles[const.NUM_PLAYERS:]) + '\n')
     logger.info("[SOLUTION] Role guesses: " + str(roles[:const.NUM_PLAYERS]) +
                 "\n\t  Center cards: " + str(roles[const.NUM_PLAYERS:]) + '\n')
     print('STATEMENTS: ')

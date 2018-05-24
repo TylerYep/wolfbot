@@ -29,7 +29,7 @@ def play_one_night_werewolf(solver):
     all_statements = get_statements(player_objs, possib)
     print_roles()
 
-    save_game = [game_roles, all_statements]
+    save_game = [original_roles, game_roles, all_statements]
     with open('test.pkl', 'wb') as f: pickle.dump(save_game, f)
 
     if const.USE_AI_PLAYERS:
@@ -59,6 +59,7 @@ def get_statements(player_objs, possib):
 
 # Print out progress messages and initialize needed variables
 def night_falls():
+    ''' Initialize role object array and perform all switching and peeking actions to begin. '''
     print_roles()
     logger.info("\n -- NIGHT FALLS -- \n")
     if 'Insomniac' in player_set:
@@ -194,9 +195,11 @@ def swapCharacters(i, j):
     player_set = set(game_roles[:const.NUM_PLAYERS])
 
 def get_random_player():
+    ''' Gets a random player index (not in the center). '''
     return random.randint(0, const.NUM_PLAYERS - 1)
 
 def get_random_center():
+    ''' Gets a random index of a center card. '''
     return const.NUM_PLAYERS + random.randint(0, const.NUM_CENTER - 1)
 
 def print_roles():

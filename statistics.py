@@ -1,4 +1,5 @@
 import const
+from collections import Counter
 from const import logger
 
 class GameResult:
@@ -35,27 +36,27 @@ class Statistics:
 
     # Returns fraction of how many roles were guessed correctly out of all roles.
     def correctness_strict(self, game_result):
-        correct, total = 0.0, 0.0
+        correct = 0.0
         for i in range(const.NUM_ROLES):
-            total += 1
             if game_result.actual[i] == game_result.guessed[i]:
                 correct += 1
-        return correct, total
+        return correct, const.NUM_ROLES
 
     # Returns fraction of how many player roles were guessed correctly.
     # Optionally adds a bonus for a matching center set.
     def correctness_lenient_center(self, game_result):
-        correct, total = 0.0, 0.0
+        correct = const.NUM_CENTER
         for i in range(const.NUM_PLAYERS):
-            total += 1
             if game_result.actual[i] == game_result.guessed[i]:
                 correct += 1
-        center_set = set(game_result.actual[const.NUM_PLAYERS:])
-        center_set2 = set(game_result.guessed[const.NUM_PLAYERS:])
-        # TODO fix this please
-        correct += len(center_set & center_set2)
-        total += const.NUM_CENTER
-        return correct, total
+        center_set = dict(Counter(game_result.actual[const.NUM_PLAYERS:]))
+        center_set2 = game_result.guessed[const.NUM_PLAYERS:]
+        for guess in center_set2:
+            if guess not in center_set or center_set[guess] == 0:
+                correct -= 1
+            else:
+                center_set[guess] -= 1
+        return correct, const.NUM_ROLES
 
     # Returns fraction of how many Wolves were correctly identified.
     # Only counts Wolves that are players.
