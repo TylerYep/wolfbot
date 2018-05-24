@@ -1,0 +1,37 @@
+==Going second last using expectimax 10000
+
+Accuracy for all predictions: 0.7502
+Accuracy with lenient center scores: 0.7502
+S1: Found at least 1 Wolf: 0.3755
+S2: Found two player Wolves: 0.3755
+Correct guesses (not accusing extraneous wolves): 0.3755
+
+==Going second last using random 10000
+
+Accuracy for all predictions: 0.9308
+Accuracy with lenient center scores: 0.9308
+S1: Found at least 1 Wolf: 0.827
+S2: Found two player Wolves: 0.827
+Correct guesses (not accusing extraneous wolves): 0.827
+
+
+==Using these parameters:
+### Simulation Constants ###
+NUM_GAMES = 10000
+
+### Game Constants ###
+
+#ROLES = ('Villager', 'Villager', 'Villager', 'Wolf', 'Wolf', 'Seer',
+#        'Mason', 'Mason', 'Robber', 'Drunk', 'Troublemaker', 'Insomniac')
+ROLES = ('Villager', 'Villager', 'Villager', 'Seer', 'Wolf')
+
+ROLE_SET = set(ROLES)
+NUM_ROLES = len(ROLES)
+ROLE_COUNTS = dict(Counter(ROLES)) # Dict of {'Villager': 3, 'Wolf': 2, ... }
+
+NUM_CENTER = 0
+NUM_PLAYERS = NUM_ROLES - NUM_CENTER
+
+ROBBER_PRIORITY = 1
+TROUBLEMAKER_PRIORITY = 2
+DRUNK_PRIORITY = 3
