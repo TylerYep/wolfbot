@@ -8,17 +8,22 @@ import const
 import pickle
 import random
 
-def play_one_night_werewolf(solver):
+def play_one_night_werewolf(solver, fix_wolf_ind=-1):
     global game_roles, original_roles, player_set
     game_roles = list(const.ROLES)
     random.shuffle(game_roles)
+    if fix_wolf_ind > 0:
+        wolf_ind = game_roles.index('Wolf')
+        curr_role = game_roles[fix_wolf_ind]
+        game_roles[fix_wolf_ind] = 'Wolf'
+        game_roles[wolf_ind] = curr_role
     player_set = set(game_roles[:const.NUM_PLAYERS])
     original_roles = list(game_roles)
 
     player_objs = night_falls()
 
     logger.info("\n -- GAME BEGINS -- \n")
-    possib = None                                                   # get_possible_statements(const.ROLE_SET)
+    possib = get_possible_statements(const.ROLE_SET)
     all_statements = get_statements(player_objs, possib)
     print_roles()
 
