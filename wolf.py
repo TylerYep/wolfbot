@@ -95,13 +95,15 @@ class Wolf(Player):
             if ind == self.player:              # It's Me
                 vals = _get_next_vals(statement_list, self.statements, state, ind, depth, True)
                 best_move = self.statements[vals.index(max(vals))]
+                if len(vals) == 0: return -10, super.getNextStatement()
                 return max(vals), best_move
             else:
                 vals = _get_next_vals(statement_list, possible_statements[ind], state, ind, depth)
-                #if len(vals) == 0: #TODO think more about this.
-                #    return 10, None
+                if len(vals) == 0:
+                    return 10, None
                 return sum(vals) / len(vals), None
-        
+        #if self.player in [0, 1, 2, 3]:
+        #    return super().getNextStatement()
         possible_roles = [deepcopy(const.ROLE_SET) for i in range(const.NUM_ROLES)]
         start_state = SolverState(possible_roles, [])
         for i in range(self.player):
