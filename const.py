@@ -6,7 +6,7 @@ logger = logging.getLogger()
 
 ### Simulation Constants ###
 NUM_GAMES = 100
-FIXED_WOLF_INDEX = None 
+FIXED_WOLF_INDEX = None
 
 ### Game Constants ###
 

@@ -62,7 +62,7 @@ class Wolf(Player):
         return statements
 
     def getNextStatement(self, stated_roles, previous_statements, possible_statements):
-        return super().getNextStatement()
+        #return super().getNextStatement()
         def eval(solution):
             val = 5
             if len(solution) == 0:
@@ -74,6 +74,12 @@ class Wolf(Player):
 
         def _get_next_vals(statement_list, actions, state, ind, depth, is_wolf=False):
             values = []
+            #print(statement_list)
+            #print(state.possible_roles)
+            #print(ind)
+            #print(actions)
+            #print(self.wolf_indices)
+
             for statement in actions:
                 if is_wolf: new_state = state #If you're the wolf, let yourself be inconsistent (also we need a value for each state)_
                 else: new_state = is_consistent(statement, state)
@@ -92,8 +98,8 @@ class Wolf(Player):
                 return max(vals), best_move
             else:
                 vals = _get_next_vals(statement_list, possible_statements[ind], state, ind, depth)
-                if len(vals) == 0: #TODO think more about this.
-                    return 10, None
+                #if len(vals) == 0: #TODO think more about this.
+                #    return 10, None
                 return sum(vals) / len(vals), None
         
         possible_roles = [deepcopy(const.ROLE_SET) for i in range(const.NUM_ROLES)]

@@ -2,7 +2,7 @@ from roles import Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
 from wolf import Wolf
 import const
 
-def get_possible_statements(role_set=const.ROLE_SET):
+def get_possible_statements(wolf_indices, role_set=const.ROLE_SET):
     possible = {}
     for player_index in range(const.NUM_PLAYERS):
         statements = []
@@ -35,8 +35,10 @@ def get_possible_statements(role_set=const.ROLE_SET):
         if 'Seer' in const.ROLE_SET:
             for role in const.ROLES:
                 for i in range(const.NUM_PLAYERS):
-                    if role != 'Seer':      # "Hey, I'm a Seer and I saw another Seer..."
+                    if role not in ['Seer', 'Wolf'] and i not in wolf_indices:      # "Hey, I'm a Seer and I saw another Seer..."
                         possible[player_index] += Seer.get_seer_statements(player_index, i, role, None, None)
+            for i in wolf_indices:
+                possible[player_index] += Seer.get_seer_statements(player_index, i, 'Wolf', None, None)
             for c1 in range(const.NUM_CENTER):
                 for c2 in range(c1 + 1, const.NUM_CENTER):
                     for role1 in const.ROLES:
