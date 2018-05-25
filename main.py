@@ -9,7 +9,7 @@ import time
 import pickle
 
 def main():
-    SOLVERS = [switching_solver]
+    SOLVERS = [switching_solver, random_solver]
     for solver in SOLVERS:
         logger.warning('\n' + solver.__name__ + '\n')
         stats = Statistics()

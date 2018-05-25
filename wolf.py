@@ -62,7 +62,7 @@ class Wolf(Player):
         return statements
 
     def getNextStatement(self, stated_roles, previous_statements, possible_statements):
-        #return super().getNextStatement()
+        return super().getNextStatement()
         def eval(solution):
             val = 5
             if len(solution) == 0:
