@@ -37,8 +37,8 @@ def play_one_night_werewolf(solver):
             if original_roles[i] != 'Wolf':
                 solution = solver(all_statements, i)
                 logger.debug("Solver interpretation: " + str(solution.path))
-        all_role_guesses = make_predictions(solution)
-        print_guesses(all_role_guesses)
+                all_role_guesses = make_predictions(solution)
+                print_guesses(all_role_guesses)
         return GameResult(game_roles, all_role_guesses, all_statements)
     else:
         solution = solver(all_statements)

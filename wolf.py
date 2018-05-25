@@ -46,7 +46,6 @@ class Wolf(Player):
                         statements += Robber.get_robber_statements(player_index, i, role)
         if 'Seer' in const.ROLE_SET:
             for role in const.ROLES:
-                # Wolf-seer more likely to say they saw a Villager
                 for i in range(const.NUM_PLAYERS):
                     if i not in wolf_indices and role != 'Seer':      # "Hey, I'm a Seer and I saw another Seer..."
                         statements += Seer.get_seer_statements(player_index, i, role, None, None)

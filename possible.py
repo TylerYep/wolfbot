@@ -5,34 +5,44 @@ import const
 def get_possible_statements(role_set=const.ROLE_SET):
     possible = {}
     for player_index in range(const.NUM_PLAYERS):
-        possible[player_index] = Villager.get_villager_statements(player_index)
-
-        if 'Drunk' in role_set:
-            for k in range(const.NUM_CENTER):
-                possible[player_index] += Drunk.get_drunk_statements(player_index, k + const.NUM_PLAYERS)
-
-        for i in range(const.NUM_PLAYERS):
-            if 'Mason' in role_set:
+        statements = []
+        if 'Villager' in const.ROLE_SET:
+            possible[player_index] += Villager.get_villager_statements(player_index)
+        if 'Insomniac' in const.ROLE_SET:
+            for role in const.ROLES:
+                if role != 'Wolf':
+                    possible[player_index] += Insomniac.get_insomniac_statements(player_index, role)
+        if 'Mason' in const.ROLE_SET:
+            statements += Mason.get_mason_statements(player_index, [player_index])
+            for i in range(const.NUM_PLAYERS):
                 if player_index != i:
                     mason_indices = [player_index, i]
-                    possible[player_index]+= Mason.get_mason_statements(player_index, mason_indices)
-            if 'Troublemaker' in role_set:
-                for j in range(const.NUM_PLAYERS): # Troublemaker should not refer to other wolves or themselves
-                    if i != j != player_index and i != player_index: #and i not in wolf_indices and j not in wolf_indices:
+                    possible[player_index] += Mason.get_mason_statements(player_index, mason_indices)
+        if 'Drunk' in const.ROLE_SET:
+            for k in range(const.NUM_CENTER):
+                possible[player_index] += Drunk.get_drunk_statements(player_index, k + const.NUM_PLAYERS)
+        if 'Troublemaker' in const.ROLE_SET:
+            for i in range(const.NUM_PLAYERS):
+                for j in range(i+1, const.NUM_PLAYERS):
+                    # Troublemaker should not switch themselves
+                    if i != j != player_index and i != player_index:
                         possible[player_index] += Troublemaker.get_troublemaker_statements(player_index, i, j)
-
-            # Wolf-seer more likely to declare they saw a villager
+        if 'Robber' in const.ROLE_SET:
+            for i in range(const.NUM_PLAYERS):
+                for role in const.ROLES:
+                    if role != 'Wolf':      # "I robbed Player 0 and now I'm a Wolf..."
+                        possible[player_index] += Robber.get_robber_statements(player_index, i, role)
+        if 'Seer' in const.ROLE_SET:
             for role in const.ROLES:
-                if 'Robber' in const.ROLE_SET:
-                    if role != 'Wolf':      # "I robbed a Wolf and now I'm a Wolf..."
-                        possible[player_index]+= Robber.get_robber_statements(player_index, i, role)
-                if 'Seer' in const.ROLE_SET:
+                for i in range(const.NUM_PLAYERS):
                     if role != 'Seer':      # "Hey, I'm a Seer and I saw another Seer..."
-                        possible[player_index]+= Seer.get_seer_statements(player_index, i, role, None, None)
-
-                    # Wolf using these usually gives himself away
-                        for c in range(const.NUM_CENTER):
-                            for role2 in const.ROLES:
-                                if role2 != 'Seer':
-                                    possible[player_index]+= Seer.get_seer_statements(player_index, i, role, c, role2)
+                        possible[player_index] += Seer.get_seer_statements(player_index, i, role, None, None)
+            for c1 in range(const.NUM_CENTER):
+                for c2 in range(c1 + 1, const.NUM_CENTER):
+                    for role1 in const.ROLES:
+                        for role2 in const.ROLES:
+                            if role1 != 'Seer' and role2 != 'Seer' and c1 != c2:
+                                if role1 != role2 or const.ROLE_COUNTS[role1] >= 2:
+                                    possible[player_index] += Seer.get_seer_statements(player_index,
+                                            c1  + const.NUM_PLAYERS, role1, c2 + const.NUM_PLAYERS, role2)
     return possible

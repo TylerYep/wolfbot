@@ -64,7 +64,7 @@ def recurse_assign(solution, all_role_guesses, curr_role_counts):
     for i in range(const.NUM_ROLES):
         if all_role_guesses[i] == '':
             leftover_roles = list(solution.possible_roles[i])
-            #random.shuffle(leftover_roles)
+            random.shuffle(leftover_roles)
             for r in leftover_roles:
                 if curr_role_counts[r] > 0:
                     curr_role_counts[r] -= 1
