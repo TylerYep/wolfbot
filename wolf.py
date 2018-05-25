@@ -1,12 +1,13 @@
 from roles import Player, Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
 from copy import deepcopy
-from algorithms import switching_solver
+from algorithms import switching_solver, SolverState, is_consistent
 from predictions import make_predictions
 from statements import Statement
 from const import logger
 import const
 import pickle
 from pprint import pprint
+import random
 
 class Wolf(Player):
     def __init__(self, player_index, wolf_indices):
@@ -61,7 +62,7 @@ class Wolf(Player):
         return statements
 
     def getNextStatement(self, stated_roles, previous_statements, possible_statements):
-        return super().getNextStatement()
+        #return super().getNextStatement()
         def eval(solution):
             val = 5
             if len(solution) == 0:
@@ -71,29 +72,44 @@ class Wolf(Player):
                     val -= 5
             return val
 
-        def expectimax(statement_list, ind, depth=None):
+        def _get_next_vals(statement_list, actions, state, ind, depth, is_wolf=False):
+            values = []
+            #print(statement_list)
+            #print(state.possible_roles)
+            #print(ind)
+            #print(actions)
+            #print(self.wolf_indices)
+
+            for statement in actions:
+                if is_wolf: new_state = state #If you're the wolf, let yourself be inconsistent (also we need a value for each state)_
+                else: new_state = is_consistent(statement, state)
+                if new_state:
+                    values.append(expectimax(deepcopy(statement_list) + [statement], new_state, ind+1, depth - 1))
+            return [v[0] for v in values]
+
+        def expectimax(statement_list, state, ind, depth=None):
             if ind == const.NUM_PLAYERS:
                 sol = switching_solver(statement_list)
                 solution = make_predictions(sol)
-                #pprint.pprint(statement_list)
-                #print(solution)
-                #print(eval(solution))
                 return eval(solution), None
             if ind == self.player:              # It's Me
-                values = [expectimax(deepcopy(statement_list) + [statement], ind + 1, depth-1) for statement in self.statements]
-                vals = [v[0] for v in values]
+                vals = _get_next_vals(statement_list, self.statements, state, ind, depth, True)
                 best_move = self.statements[vals.index(max(vals))]
                 return max(vals), best_move
-            else:           # If he's the other wolf, he can also say anything... TODO make them play as a team?
-                values = [expectimax(deepcopy(statement_list) + [statement], ind + 1, depth-1) for statement in possible_statements[ind]]
-                vals = [v[0] for v in values]
+            else:
+                vals = _get_next_vals(statement_list, possible_statements[ind], state, ind, depth)
+                #if len(vals) == 0: #TODO think more about this.
+                #    return 10, None
                 return sum(vals) / len(vals), None
-
-        if self.player in [0]:
-            return random.choice(tuple(self.statements))
-        else:
-            best_val, best_move =  expectimax(previous_statements, self.player, 5)
-            return best_move
+        
+        possible_roles = [deepcopy(const.ROLE_SET) for i in range(const.NUM_ROLES)]
+        start_state = SolverState(possible_roles, [])
+        for i in range(self.player):
+            if i not in self.wolf_indices:
+                start_state = is_consistent(previous_statements[i], start_state)
+        #best_val, best_move =  expectimax(previous_statements, self.player, 5)
+        best_val, best_move =  expectimax(previous_statements, start_state, self.player, 5)
+        return best_move
 
 #possib = get_possible_statements()
 #pprint.pprint(possib)

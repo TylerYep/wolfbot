@@ -31,5 +31,7 @@ def generate_data(n_sim=3000):
     with open(fname, 'wb') as f: pickle.dump(sim_list, f)
 
 if __name__ == '__main__':
+    t0 = time.time()
     main()
+    print('Time taken: ', time.time()-t0)
     #generate_data(50)

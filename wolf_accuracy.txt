@@ -14,6 +14,13 @@ S1: Found at least 1 Wolf: 0.827
 S2: Found two player Wolves: 0.827
 Correct guesses (not accusing extraneous wolves): 0.827
 
+==Goine second last using expecimax but random
+Accuracy for all predictions: 0.43122
+Accuracy with lenient center scores: 0.43122
+S1: Found at least 1 Wolf: 0.2016
+S2: Found two player Wolves: 0.2016
+Correct guesses (not accusing extraneous wolves): 0.2016
+
 
 ==Using these parameters:
 ### Simulation Constants ###

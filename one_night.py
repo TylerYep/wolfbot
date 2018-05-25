@@ -23,9 +23,9 @@ def play_one_night_werewolf(solver):
     original_roles = list(game_roles)
 
     player_objs = night_falls()
-
+    wolf_inds = [i for i in range(const.NUM_PLAYERS) if game_roles[i] == 'Wolf']
     logger.info("\n -- GAME BEGINS -- \n")
-    possib = get_possible_statements(const.ROLE_SET)
+    possib = get_possible_statements(wolf_inds, const.ROLE_SET)
     all_statements = get_statements(player_objs, possib)
     print_roles()
 
