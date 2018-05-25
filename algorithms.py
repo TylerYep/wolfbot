@@ -56,8 +56,10 @@ def switching_solver(statements, known_true=None):
         '''
         nonlocal solution
         if ind == len(statements):
-            if state.path.count(True) > solution.path.count(True):
+            if state.path.count(True) > solution[0].path.count(True):
                 solution = [state]
+            elif state.path.count(True) == solution[0].path.count(True):
+                solution.append(state)
             return
         truth_state = is_consistent(statements[ind], state)
         false_state = is_consistent(statements[ind].negate(), state)
@@ -76,7 +78,7 @@ def switching_solver(statements, known_true=None):
     #     temp = solution.path[0]
     #     solution.path[0] = solution.path[known_true]
     #     solution.path[known_true] = temp
-    return solution
+    return random.choice(solution)
 
 def baseline_solver(statements, known_true=None):
     '''

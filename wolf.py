@@ -62,7 +62,7 @@ class Wolf(Player):
         return statements
 
     def getNextStatement(self, stated_roles, previous_statements, possible_statements):
-        #return super().getNextStatement()
+        return super().getNextStatement()
         def eval(solution):
             val = 5
             if len(solution) == 0:
@@ -90,9 +90,10 @@ class Wolf(Player):
                 vals = _get_next_vals(statement_list, self.statements, state, ind, depth, True)
                 best_move = self.statements[vals.index(max(vals))]
                 return max(vals), best_move
-            else:           # If he's the other wolf, he can also say anything... TODO make them play as a team?
+            else:
                 vals = _get_next_vals(statement_list, possible_statements[ind], state, ind, depth)
-                if len(vals) == 0: return 10, None
+                if len(vals) == 0: #TODO think more about this.
+                    return 10, None
                 return sum(vals) / len(vals), None
         
         possible_roles = [deepcopy(const.ROLE_SET) for i in range(const.NUM_ROLES)]
