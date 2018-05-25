@@ -43,7 +43,7 @@ def switching_solver(statements, known_true=None):
     '''
     possible_roles = [deepcopy(const.ROLE_SET) for i in range(const.NUM_ROLES)]
     start_state = SolverState(possible_roles, [])
-    solution = SolverState([],[])
+    solution = [SolverState([],[])]
     # if known_true != None:
     #     temp = statements[0]
     #     statements[0] = statements[known_true]
@@ -57,7 +57,7 @@ def switching_solver(statements, known_true=None):
         nonlocal solution
         if ind == len(statements):
             if state.path.count(True) > solution.path.count(True):
-                solution = state
+                solution = [state]
             return
         truth_state = is_consistent(statements[ind], state)
         false_state = is_consistent(statements[ind].negate(), state)

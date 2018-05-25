@@ -5,8 +5,8 @@ logging.basicConfig(format='%(message)s', level=logging.INFO)
 logger = logging.getLogger()
 
 ### Simulation Constants ###
-NUM_GAMES = 1
-FIXED_WOLF_INDEX = 3
+NUM_GAMES = 50
+FIXED_WOLF_INDEX = None 
 
 ### Game Constants ###
 
@@ -28,8 +28,8 @@ DRUNK_PRIORITY = 3
 USE_AI_PLAYERS = False
 
 ### Logging Constants ###
-logger.setLevel(logging.DEBUG)
-#logger.setLevel(logging.WARNING)
+#logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.WARNING)
 
 ''' DEBUG = Include all hidden messages '''
 ''' INFO = Regular gameplay '''
