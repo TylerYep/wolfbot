@@ -42,16 +42,15 @@ def get_basic_guesses(solution, curr_role_counts):
                 all_role_guesses.append('')
 
         elif not consistent_statements[j]:          # Player is lying
-            if curr_role_counts['Wolf'] > 0:
-                all_role_guesses.append('Wolf')
-                curr_role_counts['Wolf'] -= 1
-            else:                                   # TODO Robber stole from a Wolf!
-                all_role_guesses.append('')
-                for i in range(len(all_role_guesses)):
-                    if all_role_guesses[i] == 'Robber':
-                        all_role_guesses[i] = 'Wolf'
-                        curr_role_counts['Robber'] += 1
-                print(all_role_guesses, curr_role_counts)
+#            if curr_role_counts['Wolf'] > 0:
+            all_role_guesses.append('Wolf')
+            curr_role_counts['Wolf'] -= 1
+#            else:                                   # TODO Robber stole from a Wolf!
+#                all_role_guesses.append('')
+#                for i in range(len(all_role_guesses)):
+#                    if all_role_guesses[i] == 'Robber':
+#                        all_role_guesses[i] = 'Wolf'
+#                        curr_role_counts['Robber'] += 1
     return all_role_guesses
 
 def recurse_assign(solution, all_role_guesses, curr_role_counts):

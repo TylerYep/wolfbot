@@ -7,7 +7,7 @@ def get_possible_statements(role_set=const.ROLE_SET):
     for player_index in range(const.NUM_PLAYERS):
         statements = []
         if 'Villager' in const.ROLE_SET:
-            possible[player_index] += Villager.get_villager_statements(player_index)
+            possible[player_index] = Villager.get_villager_statements(player_index)
         if 'Insomniac' in const.ROLE_SET:
             for role in const.ROLES:
                 if role != 'Wolf':
