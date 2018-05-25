@@ -166,9 +166,9 @@ def drunk_init():
     drunk_index = original_roles.index('Drunk')
     assert(const.NUM_CENTER != 0)
     drunk_choice_index = get_random_center()
-    swapCharacters(drunk_index, drunk_choice_index)
     logger.debug("[Hidden] Drunk switches with Center Card " + str(drunk_choice_index - const.NUM_PLAYERS) +
                 " and unknowingly becomes a " + str(game_roles[drunk_choice_index]))
+    swapCharacters(drunk_index, drunk_choice_index)
     return drunk_choice_index
 
 def troublemaker_init():
