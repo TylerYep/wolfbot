@@ -125,6 +125,7 @@ class Insomniac(Player):
 
     @staticmethod
     def get_insomniac_statements(player_index, insomniac_new_role, new_insomniac_index=None):
+        # TODO Insomniac-wolf
         knowledge = [(player_index, {'Insomniac'})]
         sentence = "I am a Insomniac and when I woke up I was a " + str(insomniac_new_role) + "."
         if new_insomniac_index == None:
@@ -135,7 +136,7 @@ class Insomniac(Player):
         # switches = [(player_index, new_insomniac_index)]
         return [Statement(sentence, knowledge)]
 
-    def getNextStatement(self, stated_roles, previous, possible): # TODO acting as a wolf
+    def get_statement(self, stated_roles, previous, possible): # TODO acting as a wolf
         possible_switches = []
         for i in range(len(stated_roles)):
             if stated_roles[i] == self.new_role:

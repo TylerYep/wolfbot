@@ -4,15 +4,15 @@ import const
 def get_possible_statements(wolf_indices):
     possible = {}
     for player_index in range(const.NUM_PLAYERS):
-        statements = []
+        possible[player_index] = []
         if 'Villager' in const.ROLE_SET:
-            possible[player_index] = Villager.get_villager_statements(player_index)
+            possible[player_index] += Villager.get_villager_statements(player_index)
         if 'Insomniac' in const.ROLE_SET:
             for role in const.ROLES:
                 if role != 'Wolf':
                     possible[player_index] += Insomniac.get_insomniac_statements(player_index, role)
         if 'Mason' in const.ROLE_SET:
-            statements += Mason.get_mason_statements(player_index, [player_index])
+            possible[player_index] += Mason.get_mason_statements(player_index, [player_index])
             for i in range(const.NUM_PLAYERS):
                 if player_index != i:
                     mason_indices = [player_index, i]
@@ -23,8 +23,7 @@ def get_possible_statements(wolf_indices):
         if 'Troublemaker' in const.ROLE_SET:
             for i in range(const.NUM_PLAYERS):
                 for j in range(i+1, const.NUM_PLAYERS):
-                    # Troublemaker should not switch themselves
-                    if i != j != player_index and i != player_index:
+                    if i != j != player_index and i != player_index: # Troublemaker should not switch themselves
                         possible[player_index] += Troublemaker.get_troublemaker_statements(player_index, i, j)
         if 'Robber' in const.ROLE_SET:
             for i in range(const.NUM_PLAYERS):
