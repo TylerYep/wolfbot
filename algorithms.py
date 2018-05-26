@@ -44,10 +44,6 @@ def switching_solver(statements, known_true=None):
     possible_roles = [deepcopy(const.ROLE_SET) for i in range(const.NUM_ROLES)]
     start_state = SolverState(possible_roles, [])
     solution = [SolverState([],[])]
-    # if known_true != None:
-    #     temp = statements[0]
-    #     statements[0] = statements[known_true]
-    #     statements[known_true] = temp
 
     def _switch_recurse(ind, state):
         '''
@@ -73,11 +69,6 @@ def switching_solver(statements, known_true=None):
             _switch_recurse(ind + 1, false_state)
 
     _switch_recurse(0, start_state)
-
-    # if known_true != None:
-    #     temp = solution.path[0]
-    #     solution.path[0] = solution.path[known_true]
-    #     solution.path[known_true] = temp
     return random.choice(solution)
 
 def baseline_solver(statements, known_true=None):
@@ -138,7 +129,7 @@ def random_solver(statements, known_true=None):
 def count_roles(state):
     '''
     Returns a dictionary of counts for each role in [proposed roles sets].
-    Only counts players in which we are sure of their role
+    Only counts players in which we are sure of their role,
     such as {'Villager': 3, 'Robber': 0, 'Seer': 0, 'Wolf': 1}
     '''
     count = {role: 0 for role in const.ROLE_SET}

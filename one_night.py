@@ -14,10 +14,10 @@ def play_one_night_werewolf(solver):
     random.shuffle(game_roles)
 
     if const.FIXED_WOLF_INDEX != None:
-        wolf_ind = game_roles.index('Wolf')
-        curr_role = game_roles[const.FIXED_WOLF_INDEX]
-        game_roles[const.FIXED_WOLF_INDEX] = 'Wolf'
-        game_roles[wolf_ind] = curr_role
+        wolf_inds = list(wolf_init())
+        if len(wolf_inds) != 0:
+            wolf_ind = random.choice(wolf_inds)
+            swapCharacters(wolf_ind, const.FIXED_WOLF_INDEX)
 
     player_set = set(game_roles[:const.NUM_PLAYERS])
     original_roles = list(game_roles)
@@ -39,6 +39,7 @@ def play_one_night_werewolf(solver):
                 logger.debug("Solver interpretation: " + str(solution.path))
                 all_role_guesses = make_predictions(solution)
                 print_guesses(all_role_guesses)
+        # TODO add voting mechanic
         return GameResult(game_roles, all_role_guesses, all_statements)
     else:
         solution = solver(all_statements)
@@ -48,7 +49,8 @@ def play_one_night_werewolf(solver):
         return GameResult(game_roles, all_role_guesses, all_statements)
 
 def get_statements(player_objs, possib):
-    stated_roles, given_statements = [], []
+    stated_roles = []
+    given_statements = []
     for j in range(const.NUM_PLAYERS):
         statement = player_objs[j].getNextStatement(stated_roles, given_statements, possib)
         stated_roles.append(statement.speaker)
@@ -60,8 +62,8 @@ def get_statements(player_objs, possib):
 # Print out progress messages and initialize needed variables
 def night_falls():
     ''' Initialize role object array and perform all switching and peeking actions to begin. '''
-    print_roles()
     logger.info("\n -- NIGHT FALLS -- \n")
+    print_roles()
     if 'Insomniac' in player_set:
         insomniac_ind = original_roles.index('Insomniac')
     wake('Wolves')
@@ -96,19 +98,17 @@ def night_falls():
     # Initialize players
     players = []
     for i in range(const.NUM_ROLES):
-        if i >= const.NUM_PLAYERS:      # Center cards
-            players.append(original_roles[i])
-        else:
-            role = original_roles[i]
-            if role == 'Wolf': players.append(Wolf(i, wolf_indices))
-            elif role == 'Villager': players.append(Villager(i))
-            elif role == 'Robber': players.append(Robber(i, robber_choice_index, robber_choice_character))
-            elif role == 'Mason': players.append(Mason(i, mason_indices))
-            elif role == 'Troublemaker': players.append(Troublemaker(i, trblmkr_index1, trblmkr_index2))
-            elif role == 'Drunk': players.append(Drunk(i, drunk_choice_index))
-            elif role == 'Insomniac': players.append(Insomniac(i, insomniac_new_role))
-            elif role == 'Seer': players.append(Seer(i, seer_peek_index, seer_peek_character,
-                                                        seer_peek_index2, seer_peek_character2))
+        role = original_roles[i]
+        if i >= const.NUM_PLAYERS: players.append(role)      # Center cards
+        elif role == 'Wolf': players.append(Wolf(i, wolf_indices))
+        elif role == 'Villager': players.append(Villager(i))
+        elif role == 'Robber': players.append(Robber(i, robber_choice_index, robber_choice_character))
+        elif role == 'Mason': players.append(Mason(i, mason_indices))
+        elif role == 'Troublemaker': players.append(Troublemaker(i, trblmkr_index1, trblmkr_index2))
+        elif role == 'Drunk': players.append(Drunk(i, drunk_choice_index))
+        elif role == 'Insomniac': players.append(Insomniac(i, insomniac_new_role))
+        elif role == 'Seer': players.append(Seer(i, seer_peek_index, seer_peek_character,
+                                                    seer_peek_index2, seer_peek_character2))
     return players
 
 # TODO Wolf can look at card in center
@@ -117,7 +117,7 @@ def wolf_init():
     for i in range(const.NUM_PLAYERS):
         if game_roles[i] == 'Wolf':
             wolf_indices.add(i)
-    logger.debug("[Hidden] Wolves are at indices: " + str(wolf_indices))
+    # logger.debug("[Hidden] Wolves are at indices: " + str(wolf_indices))
     return wolf_indices
 
 def seer_init():
@@ -163,12 +163,12 @@ def robber_init():
     return robber_choice_index, robber_choice_character
 
 def drunk_init():
-    drunk_index = original_roles.index('Drunk')
     assert(const.NUM_CENTER != 0)
+    drunk_index = original_roles.index('Drunk')
     drunk_choice_index = get_random_center()
+    swapCharacters(drunk_index, drunk_choice_index)
     logger.debug("[Hidden] Drunk switches with Center Card " + str(drunk_choice_index - const.NUM_PLAYERS) +
                 " and unknowingly becomes a " + str(game_roles[drunk_choice_index]))
-    swapCharacters(drunk_index, drunk_choice_index)
     return drunk_choice_index
 
 def troublemaker_init():
