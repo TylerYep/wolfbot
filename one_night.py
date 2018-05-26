@@ -1,7 +1,6 @@
 from roles import Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
 from wolf import Wolf
 from predictions import make_predictions, print_guesses
-from possible import get_possible_statements
 from statistics import GameResult
 from const import logger
 import const
@@ -13,8 +12,8 @@ def play_one_night_werewolf(solver):
     game_roles = list(const.ROLES)
     random.shuffle(game_roles)
 
+    wolf_inds = find_all_indices('Wolf')
     if const.FIXED_WOLF_INDEX != None:
-        wolf_inds = list(wolf_init())
         if len(wolf_inds) != 0:
             wolf_ind = random.choice(wolf_inds)
             swapCharacters(wolf_ind, const.FIXED_WOLF_INDEX)
@@ -23,10 +22,8 @@ def play_one_night_werewolf(solver):
     original_roles = list(game_roles)
 
     player_objs = night_falls()
-    wolf_inds = [i for i in range(const.NUM_PLAYERS) if game_roles[i] == 'Wolf']
     logger.info("\n -- GAME BEGINS -- \n")
-    possib = get_possible_statements(wolf_inds, const.ROLE_SET)
-    all_statements = get_statements(player_objs, possib)
+    all_statements = get_statements(player_objs, wolf_inds)
     print_roles()
 
     save_game = [original_roles, game_roles, all_statements]
@@ -48,11 +45,10 @@ def play_one_night_werewolf(solver):
         print_guesses(all_role_guesses)
         return GameResult(game_roles, all_role_guesses, all_statements)
 
-def get_statements(player_objs, possib):
-    stated_roles = []
-    given_statements = []
+def get_statements(player_objs, wolf_inds):
+    stated_roles, given_statements = [], []
     for j in range(const.NUM_PLAYERS):
-        statement = player_objs[j].getNextStatement(stated_roles, given_statements, possib)
+        statement = player_objs[j].get_statement(stated_roles, given_statements)
         stated_roles.append(statement.speaker)
         given_statements.append(statement)
         logger.info("Player " + str(j) + ": " + str(statement.sentence))
@@ -113,11 +109,8 @@ def night_falls():
 
 # TODO Wolf can look at card in center
 def wolf_init():
-    wolf_indices = set()
-    for i in range(const.NUM_PLAYERS):
-        if game_roles[i] == 'Wolf':
-            wolf_indices.add(i)
-    # logger.debug("[Hidden] Wolves are at indices: " + str(wolf_indices))
+    wolf_indices = set(find_all_indices('Wolf'))
+    logger.debug("[Hidden] Wolves are at indices: " + str(wolf_indices))
     return wolf_indices
 
 def seer_init():
@@ -144,10 +137,7 @@ def seer_init():
         return seer_peek_index, seer_peek_character, None, None
 
 def mason_init():
-    mason_indices = []
-    for i in range(const.NUM_PLAYERS):
-        if game_roles[i] == 'Mason':
-            mason_indices.append(i)
+    mason_indices = find_all_indices('Mason')
     logger.debug("[Hidden] Masons are at indices: " + str(mason_indices))
     return mason_indices
 
@@ -193,6 +183,10 @@ def swapCharacters(i, j):
     game_roles[i] = game_roles[j]
     game_roles[j] = temp
     player_set = set(game_roles[:const.NUM_PLAYERS])
+
+def find_all_indices(role):
+    return [i for i in range(const.NUM_PLAYERS) if game_roles[i] == role]
+
 
 def get_random_player():
     ''' Gets a random player index (not in the center). '''

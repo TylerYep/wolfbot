@@ -1,12 +1,12 @@
 from roles import Player, Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
 from algorithms import switching_solver, SolverState, is_consistent
 from predictions import make_predictions
+from possible import get_possible_statements
 from statements import Statement
 from const import logger
 import const
 import pickle
 from copy import deepcopy
-from pprint import pprint
 import random
 
 class Wolf(Player):
@@ -61,9 +61,10 @@ class Wolf(Player):
                                             c1  + const.NUM_PLAYERS, role1, c2 + const.NUM_PLAYERS, role2)
         return statements
 
-    def getNextStatement(self, stated_roles, previous_statements, possible_statements):
+    def get_statement(self, stated_roles, previous_statements):
+        possible_statements = get_possible_statements(self.wolf_indices)
         if not const.USE_WOLF_AI or self.player in [0, 1, 2, 3]:
-            return super().getNextStatement()
+            return super().get_statement()
 
         def eval(solution):
             val = 5
@@ -106,6 +107,3 @@ class Wolf(Player):
                 start_state = is_consistent(previous_statements[i], start_state)
         best_val, best_move =  expectimax(previous_statements, start_state, self.player, 5)
         return best_move
-
-#possib = get_possible_statements()
-#pprint.pprint(possib)

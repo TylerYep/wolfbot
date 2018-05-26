@@ -1,8 +1,7 @@
 from roles import Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
-from wolf import Wolf
 import const
 
-def get_possible_statements(wolf_indices, role_set=const.ROLE_SET):
+def get_possible_statements(wolf_indices):
     possible = {}
     for player_index in range(const.NUM_PLAYERS):
         statements = []

@@ -19,9 +19,7 @@ def is_consistent(statement, state):
     otherwise returns False.
     State: list that contains a set of possible roles for each player.
     '''
-    new_switches = deepcopy(state.switches)
-    for s in statement.switches:
-        new_switches.append(s)
+    new_switches = deepcopy(state.switches) + statement.switches
     new_possible_roles = deepcopy(state.possible_roles)
     for proposed_ind, proposed_roles in statement.knowledge:
         intersection = proposed_roles & new_possible_roles[proposed_ind]

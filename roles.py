@@ -7,7 +7,7 @@ class Player():
     def __init__(self, player_index):
         self.player = player_index
 
-    def getNextStatement(self, stated_roles=None, previous=None, possible=None):
+    def get_statement(self, stated_roles=None, previous=None):
         return random.choice(tuple(self.statements))
 
     def __repr__(self):

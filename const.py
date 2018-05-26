@@ -12,6 +12,8 @@ FIXED_WOLF_INDEX = None
 
 ROLES = ('Villager', 'Villager', 'Villager', 'Wolf', 'Wolf', 'Seer',
        'Mason', 'Mason', 'Drunk', 'Troublemaker', 'Insomniac', 'Robber')
+ROLES = ('Villager', 'Villager', 'Villager', 'Seer',
+       'Mason', 'Mason', 'Drunk', 'Troublemaker', 'Insomniac', 'Robber', 'Wolf', 'Wolf')
 # ROLES = ('Villager', 'Villager', 'Villager', 'Seer', 'Wolf')
 
 ROLE_SET = set(ROLES)
@@ -29,8 +31,8 @@ USE_WOLF_AI = False
 USE_AI_PLAYERS = False
 
 ### Logging Constants ###
-# logger.setLevel(logging.DEBUG)
-logger.setLevel(logging.WARNING)
+logger.setLevel(logging.DEBUG)
+# logger.setLevel(logging.WARNING)
 
 ''' DEBUG = Include all hidden messages '''
 ''' INFO = Regular gameplay '''
