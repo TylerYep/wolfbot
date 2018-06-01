@@ -82,7 +82,7 @@ class Wolf(Player):
         possible_statements = get_possible_statements(self.wolf_indices)
         if const.USE_WOLF_RL:
             return self.get_statement_rl(previous_statements)
-        if not const.USE_WOLF_AI or self.player in [0, 1, 2, 3]:
+        if not const.USE_WOLF_AI or self.player in [0, 1]:
             return super().get_statement()
         
         def eval(solution):
