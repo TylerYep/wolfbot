@@ -37,13 +37,13 @@ def play_one_night_werewolf(solver):
                 all_role_guesses = make_predictions(solution)
                 print_guesses(all_role_guesses)
         # TODO add voting mechanic
-        return GameResult(game_roles, all_role_guesses, all_statements)
+        return GameResult(game_roles, all_role_guesses, all_statements, wolf_inds)
     else:
         solution = solver(all_statements)
         logger.debug("Solver interpretation: " + str(solution.path))
         all_role_guesses = make_predictions(solution)
         print_guesses(all_role_guesses)
-        return GameResult(game_roles, all_role_guesses, all_statements)
+        return GameResult(game_roles, all_role_guesses, all_statements, wolf_inds)
 
 def get_statements(player_objs, wolf_inds):
     stated_roles, given_statements = [], []

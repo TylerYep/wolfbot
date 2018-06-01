@@ -3,10 +3,12 @@ from collections import Counter
 from const import logger
 
 class GameResult:
-    def __init__(self, actual, guessed, statements):
+    def __init__(self, actual, guessed, statements, wi):
         self.actual = actual
         self.guessed = guessed
         self.statements = statements
+        self.wolf_inds = wi
+        
 
 class Statistics:
     def __init__(self):
