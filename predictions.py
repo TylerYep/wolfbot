@@ -8,7 +8,6 @@ def make_predictions(solution):
     Uses a list of true/false statements and possible role sets
     to return a list of predictions for all roles
     '''
-    switch_dict = get_switch_dict(solution)
     curr_role_counts = dict(const.ROLE_COUNTS)
     all_role_guesses = get_basic_guesses(solution, curr_role_counts)
 
@@ -20,6 +19,7 @@ def make_predictions(solution):
                 curr_role_counts['Wolf'] += 1
         solved = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts))
 
+    switch_dict = get_switch_dict(solution)
     final_guesses = [solved[switch_dict[i]] for i in range(len(solved))]
     return final_guesses
 
