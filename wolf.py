@@ -9,13 +9,16 @@ import pickle
 from copy import deepcopy
 import random
 
+
 class Wolf(Player):
     def __init__(self, player_index, wolf_indices):
         super().__init__(player_index)
         self.role = 'Wolf'
         self.statements = self.get_wolf_statements(player_index, wolf_indices)
         self.wolf_indices = wolf_indices
-
+        if const.USE_WOLF_RL:
+            with open(const.EXPERIENCE_PATH, 'rb') as f:
+                self.experience = pickle.load(f)
     @staticmethod
     def get_wolf_statements(player_index, wolf_indices):
         statements = []
@@ -60,12 +63,28 @@ class Wolf(Player):
                                     statements += Seer.get_seer_statements(player_index,
                                             c1  + const.NUM_PLAYERS, role1, c2 + const.NUM_PLAYERS, role2)
         return statements
+    
+    def get_statement_rl(self, previous_statements):
+        state = (tuple(self.wolf_indices), tuple([s.sentence for s in previous_statements]))
+        scores = self.experience[state]
+        choice = None
+        best_score = -100
+        for potential_statement, score in scores.items():
+            if score > best_score:
+                best_score = score
+                choice = potential_statement
+        if choice is None: return super().get_statement()
+        for statement in self.statements:
+            if choice == statement.sentence:
+                return statement
 
     def get_statement(self, stated_roles, previous_statements):
         possible_statements = get_possible_statements(self.wolf_indices)
+        if const.USE_WOLF_RL:
+            return self.get_statement_rl(previous_statements)
         if not const.USE_WOLF_AI or self.player in [0, 1, 2, 3]:
             return super().get_statement()
-
+        
         def eval(solution):
             val = 5
             if len(solution) == 0:
