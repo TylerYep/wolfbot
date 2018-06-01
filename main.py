@@ -32,4 +32,5 @@ def generate_data(n_sim=1):
     with open(fname, 'wb') as f: pickle.dump(sim_list, f)
 
 if __name__ == '__main__':
+    #generate_data(100000)
     main()

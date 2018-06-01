@@ -3,15 +3,20 @@ from main import GameResult
 import os
 import collections
 
-def main(folder='data'):
+#self.actual = actual
+#self.guessed = guessed
+#self.statements = statements
+
+if __name__ == '__main__':
+    folder = 'data' #TODO make this changeable
+    
     #TODO Load in a master dict 
     experience_dict = collections.defaultdict(list)
-    
     for f in os.listdir(folder):
         file_path = os.path.join(folder, f)
         with open(file_path, 'rb') as data_file:
             for game in pickle.load(data_file):
-                pass
+                print(game)
                 # TODO some sort of evaluation
                 #val = evaluate(game)
                 # TODO How do we want to model the state?
@@ -20,7 +25,3 @@ def main(folder='data'):
                 #experience_dict[state][statement] = (1-a)*experience_dict[state][statement] + a*val
                 
                 # TODO test while training to see improvement :)
-
-                
-if __name__ == '__main__':
-    main()
