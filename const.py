@@ -10,9 +10,9 @@ FIXED_WOLF_INDEX = None
 
 ### Game Constants ###
 
-ROLES = ('Villager', 'Villager', 'Villager', 'Wolf', 'Wolf', 'Seer',
-       'Mason', 'Mason', 'Drunk', 'Troublemaker', 'Insomniac', 'Robber')
-# ROLES = ('Villager', 'Villager', 'Villager', 'Seer', 'Wolf')
+#ROLES = ('Villager', 'Villager', 'Villager', 'Wolf', 'Wolf', 'Seer',
+#       'Mason', 'Mason', 'Drunk', 'Troublemaker', 'Insomniac', 'Robber')
+ROLES = ('Villager', 'Villager', 'Villager', 'Seer', 'Wolf')
 
 ROLE_SET = set(ROLES)
 NUM_ROLES = len(ROLES)
