@@ -9,10 +9,9 @@ import pickle
 from copy import deepcopy
 import random
 
-
-with open(const.EXPERIENCE_PATH, 'rb') as f:
-    experience = pickle.load(f)
-    print('Done loading')
+# with open(const.EXPERIENCE_PATH, 'rb') as f:
+#     experience = pickle.load(f)
+#     print('Done loading')
 
 class Wolf(Player):
     def __init__(self, player_index, wolf_indices):
@@ -87,10 +86,7 @@ class Wolf(Player):
                 best_score = score
                 choice = potential_statement
         if choice is None:
-            print(1)
             return super().get_statement()
-        else:
-            print(2)
         for statement in self.statements:
             if choice == statement.sentence:
                 return statement
@@ -101,23 +97,12 @@ class Wolf(Player):
         # wolves in a positions - # of ones that are actually wolves, size of set
         def eval(solver_result, predictions):
             ''' Evaluates a complete or incomplete game. '''
-            val = 10 * const.EVAL_UNIT
-            if len(predictions) == 0: return -10 * const.EVAL_UNIT
+            val = 10
+            if len(predictions) == 0: return -10
             for wolfi in self.wolf_indices:
                 if predictions[wolfi] == 'Wolf':
-                    val -= 5 * const.EVAL_UNIT
+                    val -= 5
             return val
-
-        def _get_next_vals(statement_list, actions, state, ind, depth, is_wolf=False):
-            ''' Evaluate current state (value of consistent statements) and return values. '''
-            values = []
-            for statement in actions:
-                if is_wolf: new_state = state # If you're the wolf, let yourself be inconsistent (each state needs a value)
-                else: new_state = is_consistent(statement, state)
-                if new_state:
-                    new_statements = deepcopy(statement_list) + [statement]
-                    values.append(expectimax(new_statements, new_state, ind + 1, depth - 1))
-            return [v[0] for v in values]
 
         def expectimax(statement_list, state, ind, depth=None):
             ''' Runs expectimax on the list of statements and the current state using the given depth. '''
@@ -130,14 +115,25 @@ class Wolf(Player):
                 trimmed_statements = [self.statements[i] for i in sorted(indices)]
                 vals = _get_next_vals(statement_list, trimmed_statements, state, ind, depth, True)
                 best_move = self.statements[vals.index(max(vals))]
-                if len(vals) == 0: return -5 * const.EVAL_UNIT, super.getNextStatement()
+                if len(vals) == 0: return -5, super.getNextStatement()
                 return max(vals), best_move
             else:                               # Get expected value of remaining statements
                 indices = random.sample(range(len(possible_statements[ind])), const.BRANCH_FACTOR * self.player)
                 trimmed_statements = [possible_statements[ind][i] for i in sorted(indices)]
                 vals = _get_next_vals(statement_list, trimmed_statements, state, ind, depth)
-                if len(vals) == 0: return 10 * const.EVAL_UNIT, None
+                if len(vals) == 0: return 10, None
                 return sum(vals) / len(vals), None
+
+        def _get_next_vals(statement_list, actions, state, ind, depth, is_wolf=False):
+            ''' Evaluate current state (value of consistent statements) and return values. '''
+            values = []
+            for statement in actions:
+                if is_wolf: new_state = state # If you're the wolf, let yourself be inconsistent (each state needs a value)
+                else: new_state = is_consistent(statement, state)
+                if new_state:
+                    new_statements = deepcopy(statement_list) + [statement]
+                    values.append(expectimax(new_statements, new_state, ind + 1, depth - 1))
+            return [v[0] for v in values]
 
         possible_roles = [deepcopy(const.ROLE_SET) for i in range(const.NUM_ROLES)]
         start_state = SolverState(possible_roles, [])

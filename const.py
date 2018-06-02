@@ -5,7 +5,7 @@ logging.basicConfig(format='%(message)s', level=logging.INFO)
 logger = logging.getLogger()
 
 ### Simulation Constants ###
-NUM_GAMES = 50
+NUM_GAMES = 1000
 FIXED_WOLF_INDEX = None
 
 ### Game Constants ###
@@ -27,14 +27,12 @@ DRUNK_PRIORITY = 3
 USE_AI_PLAYERS = False
 
 ''' Expectimax Wolf Player'''
-USE_WOLF_AI = True
+USE_WOLF_AI = False
 EXPECTIMAX_DEPTH = 3
-EVAL_UNIT = 10
-BRANCH_FACTOR = 3
+BRANCH_FACTOR = 5
 
 ''' Reinforcement Learning Wolf Player'''
 USE_WOLF_RL = False
->>>>>>> 05894329da7bb2fb03a5d686a4117bb7052d6530
 EXPERIENCE_PATH = 'wolf_player.pkl'
 
 ### Logging Constants ###

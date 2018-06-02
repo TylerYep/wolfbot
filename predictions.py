@@ -20,10 +20,8 @@ def make_predictions(solution):
                 all_role_guesses[j] = ''
                 curr_role_counts['Robber'] += 1
         solved = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts))
-    if not solved: 
-        cpy = list(const.ROLES)
-        random.shuffle(cpy)
-        return cpy
+    if not solved:  # Last resort: remove all restrictions and assign randomly from curr_role_counts dict
+        solved = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts), False)
 
     switch_dict = get_switch_dict(solution)
     final_guesses = [solved[switch_dict[i]] for i in range(len(solved))]
@@ -59,7 +57,7 @@ def get_basic_guesses(solution, curr_role_counts):
                 curr_role_counts['Wolf'] -= 1
     return all_role_guesses
 
-def recurse_assign(solution, all_role_guesses, curr_role_counts):
+def recurse_assign(solution, all_role_guesses, curr_role_counts, restrict_possible=True):
     ''' Assign the remaining unknown cards by recursing and finding a consistent placement. '''
     found = True
     for i in range(const.NUM_ROLES):
@@ -68,7 +66,7 @@ def recurse_assign(solution, all_role_guesses, curr_role_counts):
 
     for i in range(const.NUM_ROLES):
         if all_role_guesses[i] == '':
-            leftover_roles = list(solution.possible_roles[i])
+            leftover_roles = list(solution.possible_roles[i]) if restrict_possible else list(const.ROLE_SET)
             random.shuffle(leftover_roles)
             for r in leftover_roles:
                 if curr_role_counts[r] > 0:
