@@ -5,15 +5,13 @@ logging.basicConfig(format='%(message)s', level=logging.INFO)
 logger = logging.getLogger()
 
 ### Simulation Constants ###
-NUM_GAMES = 500
+NUM_GAMES = 50
 FIXED_WOLF_INDEX = None
 
 ### Game Constants ###
-
 ROLES = ('Villager', 'Villager', 'Villager', 'Wolf', 'Wolf', 'Seer',
       'Mason', 'Mason', 'Drunk', 'Troublemaker', 'Insomniac', 'Robber')
 NUM_CENTER = 3
-
 # ROLES = ('Villager', 'Villager', 'Villager', 'Seer', 'Wolf')
 # NUM_CENTER = 0
 
@@ -26,10 +24,16 @@ NUM_PLAYERS = NUM_ROLES - NUM_CENTER
 ROBBER_PRIORITY = 1
 TROUBLEMAKER_PRIORITY = 2
 DRUNK_PRIORITY = 3
-
-USE_WOLF_AI = False
-USE_WOLF_RL = False
 USE_AI_PLAYERS = False
+
+''' Expectimax Wolf Player'''
+USE_WOLF_AI = True
+EXPECTIMAX_DEPTH = 3
+EVAL_UNIT = 10
+BRANCH_FACTOR = 3
+
+''' Reinforcement Learning Wolf Player'''
+USE_WOLF_RL = False
 EXPERIENCE_PATH = 'wolf_player.pkl'
 
 ### Logging Constants ###

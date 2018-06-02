@@ -5,7 +5,7 @@ import const
 import random
 
 class SolverState():
-    def __init__(self, possible_roles, switches, path=[]):
+    def __init__(self, possible_roles, switches=[], path=[]):
         self.possible_roles = possible_roles
         self.switches = switches
         self.path = path
@@ -143,11 +143,12 @@ if __name__ == '__main__':
         Statement('I am a Villager.', [(3, {'Villager'})], []),
         Statement('I am a Mason. The other Mason is Player 5.', [(4, {'Mason'}), (5, {'Mason'})], []),
         Statement('I am a Mason. The other Mason is Player 4.', [(5, {'Mason'}), (4, {'Mason'})], []),
-        Statement('I am a Drunk and I swapped with Center 1.', [(6, {'Drunk'})], [(1, 9, 6)]),
-        Statement('I am a Robber and I swapped with Player 5. I am now a Seer.', [(7, {'Robber'}), (5, {'Seer'})], [(0, 5, 7)])
+        # Statement('I am a Drunk and I swapped with Center 1.', [(6, {'Drunk'})], [(1, 9, 6)]),
+        # Statement('I am a Robber and I swapped with Player 5. I am now a Seer.', [(7, {'Robber'}), (5, {'Seer'})], [(0, 5, 7)])
     ]
     solution = switching_solver(statements)
     print(solution)
 
     all_role_guesses = make_predictions(solution)
-    print_guesses()
+    print(all_role_guesses)
+    print_guesses(all_role_guesses)

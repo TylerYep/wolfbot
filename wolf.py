@@ -67,7 +67,7 @@ class Wolf(Player):
     def get_statement(self, stated_roles, previous_statements):
         if const.USE_WOLF_RL:
             return self.get_statement_rl(previous_statements)
-        elif const.USE_WOLF_AI and self.player in [0, 1]:
+        elif const.USE_WOLF_AI and self.player not in [0, 1]:
             return self.get_statement_expectimax(stated_roles, previous_statements)
         else:
             return super().get_statement()
@@ -90,44 +90,53 @@ class Wolf(Player):
     def get_statement_expectimax(self, stated_roles, previous_statements):
         possible_statements = get_possible_statements(self.wolf_indices)
 
-        def eval(solution):
-            val = 5
-            if len(solution) == 0:
-                return -10
+        # wolves in a positions - # of ones that are actually wolves, size of set
+        def eval(solver_result, predictions):
+            ''' Evaluates a complete or incomplete game. '''
+            val = 10 * const.EVAL_UNIT
+            if len(predictions) == 0: return -10 * const.EVAL_UNIT
             for wolfi in self.wolf_indices:
-                if solution[wolfi] == 'Wolf':
-                    val -= 5
+                if predictions[wolfi] == 'Wolf':
+                    val -= 5 * const.EVAL_UNIT
             return val
 
         def _get_next_vals(statement_list, actions, state, ind, depth, is_wolf=False):
+            ''' Evaluate current state (value of consistent statements) and return values. '''
             values = []
             for statement in actions:
-                if is_wolf: new_state = state # If you're the wolf, let yourself be inconsistent (also we need a value for each state)
+                if is_wolf: new_state = state # If you're the wolf, let yourself be inconsistent (each state needs a value)
                 else: new_state = is_consistent(statement, state)
                 if new_state:
                     new_statements = deepcopy(statement_list) + [statement]
-                    values.append(expectimax(new_statements, new_state, ind+1, depth - 1))
+                    values.append(expectimax(new_statements, new_state, ind + 1, depth - 1))
             return [v[0] for v in values]
 
         def expectimax(statement_list, state, ind, depth=None):
-            if ind == const.NUM_PLAYERS:
-                sol = switching_solver(statement_list)
-                solution = make_predictions(sol)
-                return eval(solution), None
-            if ind == self.player:              # It's Me
-                vals = _get_next_vals(statement_list, self.statements, state, ind, depth, True)
+            ''' Runs expectimax on the list of statements and the current state using the given depth. '''
+            if ind == const.NUM_PLAYERS or depth == 0:
+                solver_result = switching_solver(statement_list)
+                predictions = make_predictions(solver_result)
+                return eval(solver_result, predictions), None
+            if ind == self.player:              # Choose your own move, maximize val
+                indices = random.sample(range(len(self.statements)), const.BRANCH_FACTOR * self.player)
+                trimmed_statements = [self.statements[i] for i in sorted(indices)]
+                vals = _get_next_vals(statement_list, trimmed_statements, state, ind, depth, True)
                 best_move = self.statements[vals.index(max(vals))]
-                if len(vals) == 0: return -10, super.getNextStatement()
+                if len(vals) == 0: return -5 * const.EVAL_UNIT, super.getNextStatement()
                 return max(vals), best_move
-            else:
-                vals = _get_next_vals(statement_list, possible_statements[ind], state, ind, depth)
-                if len(vals) == 0: return 10, None
+            else:                               # Get expected value of remaining statements
+                indices = random.sample(range(len(possible_statements[ind])), const.BRANCH_FACTOR * self.player)
+                trimmed_statements = [possible_statements[ind][i] for i in sorted(indices)]
+                vals = _get_next_vals(statement_list, trimmed_statements, state, ind, depth)
+                if len(vals) == 0: return 10 * const.EVAL_UNIT, None
                 return sum(vals) / len(vals), None
 
         possible_roles = [deepcopy(const.ROLE_SET) for i in range(const.NUM_ROLES)]
         start_state = SolverState(possible_roles, [])
         for i in range(self.player):
             if i not in self.wolf_indices:
-                start_state = is_consistent(previous_statements[i], start_state)
-        best_val, best_move =  expectimax(previous_statements, start_state, self.player, 5)
+                st = is_consistent(previous_statements[i], start_state)
+                if st: start_state = st
+        print("player index: ", self.player)
+        best_val, best_move =  expectimax(previous_statements, start_state, self.player, const.EXPECTIMAX_DEPTH)
         return best_move
