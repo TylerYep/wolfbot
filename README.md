@@ -10,3 +10,6 @@ TODO: Assume the first given statements are true.
 TODO: Implement other reinforcement learning one. (q-learning-ish)
 
 Choose statements that do a good job, not necessarily the absolute best ones.
+Todo insomniac
+todo voting
+todo

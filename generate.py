@@ -8,10 +8,9 @@ import const
 import time
 import pickle
 
-
 def generate_data(n_sim=1):
     sim_list = []
-    logger.setLevel(30)
+    logger.setLevel(logging.WARNING)
     for i in range(n_sim):
         if i % 250 == 0: print('Simulation: ', i)
         simulation = play_one_night_werewolf(switching_solver)
@@ -21,4 +20,4 @@ def generate_data(n_sim=1):
     with open(fname, 'wb') as f: pickle.dump(sim_list, f)
 
 if __name__ == '__main__':
-    generate_data(100000)
+    generate_data(1000)

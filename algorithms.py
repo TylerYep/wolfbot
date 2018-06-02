@@ -12,7 +12,6 @@ class SolverState():
     def __repr__(self):
         return "\n" + str(self.possible_roles) + "\n" + str(self.path) + '\n' + str(self.switches) + '\n'
 
-# TODO ensure wolf is in the possible set for all false statements
 def is_consistent(statement, state):
     '''
     Returns the new state if the statement is consistent with state,

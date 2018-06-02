@@ -27,7 +27,7 @@ def play_one_night_werewolf(solver):
     print_roles()
 
     save_game = [original_roles, game_roles, all_statements]
-    with open('test.pkl', 'wb') as f: pickle.dump(save_game, f)
+    with open('replay.pkl', 'wb') as f: pickle.dump(save_game, f)
 
     if const.USE_AI_PLAYERS:
         for i in range(const.NUM_PLAYERS):
@@ -52,7 +52,6 @@ def get_statements(player_objs, wolf_inds):
         stated_roles.append(statement.speaker)
         given_statements.append(statement)
         logger.info("Player " + str(j) + ": " + str(statement.sentence))
-    # logger.debug("Stated roles: " + str(stated_roles) + '\n')
     return given_statements
 
 # Print out progress messages and initialize needed variables

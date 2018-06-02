@@ -10,13 +10,15 @@ def make_predictions(solution):
     '''
     curr_role_counts = dict(const.ROLE_COUNTS)
     all_role_guesses = get_basic_guesses(solution, curr_role_counts)
-
     solved = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts))
     if not solved:
         for j in range(len(all_role_guesses)):
             if all_role_guesses[j] == 'Wolf':
                 all_role_guesses[j] = ''
                 curr_role_counts['Wolf'] += 1
+            if all_role_guesses[j] == 'Robber':
+                all_role_guesses[j] = ''
+                curr_role_counts['Robber'] += 1
         solved = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts))
 
     switch_dict = get_switch_dict(solution)
@@ -42,15 +44,15 @@ def get_basic_guesses(solution, curr_role_counts):
                 all_role_guesses.append('')
 
         elif not consistent_statements[j]:          # Player is lying
-#            if curr_role_counts['Wolf'] > 0:
-            all_role_guesses.append('Wolf')
-            curr_role_counts['Wolf'] -= 1
-#            else:                                   # TODO Robber stole from a Wolf!
-#                all_role_guesses.append('')
-#                for i in range(len(all_role_guesses)):
-#                    if all_role_guesses[i] == 'Robber':
-#                        all_role_guesses[i] = 'Wolf'
-#                        curr_role_counts['Robber'] += 1
+            if curr_role_counts['Wolf'] == 0:
+                if curr_role_counts['Robber'] > 0:
+                    all_role_guesses.append('Robber')   # Robber stole from a Wolf!
+                    curr_role_counts['Robber'] -= 1
+                else:
+                    all_role_guesses.append('')
+            else:
+                all_role_guesses.append('Wolf')
+                curr_role_counts['Wolf'] -= 1
     return all_role_guesses
 
 def recurse_assign(solution, all_role_guesses, curr_role_counts):

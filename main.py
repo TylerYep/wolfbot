@@ -20,17 +20,4 @@ def main():
         stats.print_results()
     logger.warning('Time taken: ' + str(time.time() - start_time))
 
-def generate_data(n_sim=1):
-    sim_list = []
-    logger.setLevel(30)
-    for i in range(n_sim):
-        if i % 250 == 0: print('Simulation: ', i)
-        simulation = play_one_night_werewolf(switching_solver)
-        sim_list.append(simulation)
-
-    fname = 'data/simulation_' + time.strftime("%Y%m%d_%H%M%S") + '.pkl'
-    with open(fname, 'wb') as f: pickle.dump(sim_list, f)
-
-if __name__ == '__main__':
-    #generate_data(10000)
-    main()
+if __name__ == '__main__': main()
