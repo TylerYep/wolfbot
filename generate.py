@@ -9,15 +9,25 @@ import time
 import pickle
 
 def generate_data(n_sim=1):
+    weights = [3**i for i in range(1, const.NUM_PLAYERS+1)]
     sim_list = []
-    logger.setLevel(logging.WARNING)
-    for i in range(n_sim):
-        if i % 250 == 0: print('Simulation: ', i)
-        simulation = play_one_night_werewolf(switching_solver)
-        sim_list.append(simulation)
+    logger.setLevel(30)
+    for i, w in enumerate(weights):
+        const.FIXED_WOLF_INDEX = i
+        print(i)
+        for _ in range(w):
+            #if i % 1000 == 0: print('Simulation: ', i)
+            simulation = play_one_night_werewolf(switching_solver)
+            sim_list.append(simulation)
 
     fname = 'data/simulation_' + time.strftime("%Y%m%d_%H%M%S") + '.pkl'
     with open(fname, 'wb') as f: pickle.dump(sim_list, f)
 
 if __name__ == '__main__':
-    generate_data(1000)
+    generate_data()
+#    for i in range(1000): 
+#        try:
+#            generate_data(1000)
+#            print('Just finished batch:', i)
+#        except:
+#            print('something went wrong')

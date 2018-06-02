@@ -9,15 +9,20 @@ import pickle
 from copy import deepcopy
 import random
 
+
+with open(const.EXPERIENCE_PATH, 'rb') as f:
+    experience = pickle.load(f)
+    print('Done loading')
+
 class Wolf(Player):
     def __init__(self, player_index, wolf_indices):
         super().__init__(player_index)
         self.role = 'Wolf'
         self.statements = self.get_wolf_statements(player_index, wolf_indices)
         self.wolf_indices = wolf_indices
-        if const.USE_WOLF_RL:
-            with open(const.EXPERIENCE_PATH, 'rb') as f:
-                self.experience = pickle.load(f)
+#        if const.USE_WOLF_RL:
+#            with open(const.EXPERIENCE_PATH, 'rb') as f:
+#                print('done loading')
 
     @staticmethod
     def get_wolf_statements(player_index, wolf_indices):
@@ -74,7 +79,7 @@ class Wolf(Player):
 
     def get_statement_rl(self, previous_statements):
         state = (tuple(self.wolf_indices), tuple([s.sentence for s in previous_statements]))
-        scores = self.experience[state]
+        scores = experience[state]
         choice = None
         best_score = -100
         for potential_statement, score in scores.items():
@@ -82,7 +87,10 @@ class Wolf(Player):
                 best_score = score
                 choice = potential_statement
         if choice is None:
+            print(1)
             return super().get_statement()
+        else:
+            print(2)
         for statement in self.statements:
             if choice == statement.sentence:
                 return statement

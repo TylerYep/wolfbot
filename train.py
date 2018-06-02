@@ -7,7 +7,7 @@ def evaluate(game):
     val = 5
     for wolfi in game.wolf_inds:
         if game.guessed[wolfi] == 'Wolf':
-            val -= 10
+            val = -5
     return val
 
 def get_wolf_state(game):
@@ -21,7 +21,7 @@ def train(folder, eta=0.01):
     experience_dict = collections.defaultdict(const._get_int_dict)
     count_dict = collections.defaultdict(int) # NOTE: For testing purposes
     for f in os.listdir(folder):
-        print(f)
+        #print(f)
         file_path = os.path.join(folder, f)
         with open(file_path, 'rb') as data_file:
             for game in pickle.load(data_file):

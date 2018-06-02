@@ -20,6 +20,10 @@ def make_predictions(solution):
                 all_role_guesses[j] = ''
                 curr_role_counts['Robber'] += 1
         solved = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts))
+    if not solved: 
+        cpy = list(const.ROLES)
+        random.shuffle(cpy)
+        return cpy
 
     switch_dict = get_switch_dict(solution)
     final_guesses = [solved[switch_dict[i]] for i in range(len(solved))]
