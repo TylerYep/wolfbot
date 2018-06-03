@@ -22,7 +22,7 @@ class Seer(Player):
                                                     seer_peek_index2, seer_peek_character2)
 
     @staticmethod
-    def get_seer_statements(player_index, seen_index, seen_role, seen_index2, seen_role2):
+    def get_seer_statements(player_index, seen_index, seen_role, seen_index2=None, seen_role2=None):
         sentence = "I am a Seer and I saw that Player " + str(seen_index) + " was a " + str(seen_role) + "."
         knowledge = [(player_index, {'Seer'}), (seen_index, {seen_role})]
         if seen_index2 != None:
@@ -135,20 +135,20 @@ class Insomniac(Player):
                 sentence += " I don't know who I switched with."
         else:
             sentence += " I switched with Player " + str(new_insomniac_index) + '.'
-        # switches = [(player_index, new_insomniac_index)]
+        # switches = [(player_index, new_insomniac_index)]  # TODO put this into known_switches
         return [Statement(sentence, knowledge)]
 
-    def get_statement(self, stated_roles, previous): # TODO acting as a wolf
+    def get_statement(self, stated_roles, previous):
         if self.new_role == 'Wolf':
             from wolf import Wolf
             logger.warning("Insomniac is a Wolf now!")
             insomniac_wolf = Wolf(self.player_index)
             return insomniac_wolf.get_statement(stated_roles, previous)
-
-        possible_switches = []
-        for i in range(len(stated_roles)):
-            if stated_roles[i] == self.new_role:
-                possible_switches.append(i)
-        if len(possible_switches) == 1: # TODO how to handle multiple possible switches
-            self.statements = self.get_insomniac_statements(self.player_index, self.new_role, possible_switches[0])
-        return random.choice(tuple(self.statements))
+        else:
+            possible_switches = []
+            for i in range(len(stated_roles)):
+                if stated_roles[i] == self.new_role:
+                    possible_switches.append(i)
+            if len(possible_switches) == 1: # TODO how to handle multiple possible switches
+                self.statements = self.get_insomniac_statements(self.player_index, self.new_role, possible_switches[0])
+            return random.choice(tuple(self.statements))

@@ -31,7 +31,7 @@ def is_consistent(statement, state):
                 return False
     return SolverState(new_possible_roles, new_switches, list(state.path))
 
-def switching_solver(statements, known_true=None, known_switches=[]):
+def switching_solver(statements, known_true=None):
     '''
     Returns maximal list of statements that can be true from a list
     of Statements. Handles switching characters.
@@ -49,10 +49,6 @@ def switching_solver(statements, known_true=None, known_switches=[]):
         '''
         nonlocal solution
         if ind == len(statements):
-            if len(known_switches) != 0:
-                for switch in known_switches:
-                    if switch not in state.switches: return
-                    
             if state.path.count(True) > solution[0].path.count(True):
                 solution = [state]
             elif state.path.count(True) == solution[0].path.count(True):

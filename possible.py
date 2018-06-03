@@ -34,9 +34,9 @@ def get_possible_statements(wolf_indices):
             for role in const.ROLES:
                 for i in range(const.NUM_PLAYERS):
                     if role not in ['Seer', 'Wolf'] and i not in wolf_indices:      # "Hey, I'm a Seer and I saw another Seer..."
-                        possible[player_index] += Seer.get_seer_statements(player_index, i, role, None, None)
+                        possible[player_index] += Seer.get_seer_statements(player_index, i, role)
             for i in wolf_indices:
-                possible[player_index] += Seer.get_seer_statements(player_index, i, 'Wolf', None, None)
+                possible[player_index] += Seer.get_seer_statements(player_index, i, 'Wolf')
             for c1 in range(const.NUM_CENTER):
                 for c2 in range(c1 + 1, const.NUM_CENTER):
                     for role1 in const.ROLES:

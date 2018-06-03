@@ -2,6 +2,7 @@ import const
 from const import logger
 from copy import deepcopy
 import random
+import pickle
 
 def make_predictions_fast(solution):
     '''
@@ -64,9 +65,6 @@ def get_basic_guesses(solution, curr_role_counts):
             if curr_role_counts['Wolf'] > 0:
                 all_role_guesses.append('Wolf')
                 curr_role_counts['Wolf'] -= 1
-            elif curr_role_counts['Robber'] > 0:
-                all_role_guesses.append('Robber')   # Robber stole from a Wolf!
-                curr_role_counts['Robber'] -= 1
             else:
                 all_role_guesses.append('')
 

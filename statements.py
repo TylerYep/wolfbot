@@ -22,12 +22,12 @@ class Statement:
         return Statement('NOT + ' + self.sentence, neg, [])
 
     def negateAll(self):
-        ''' Returns a negated version of every clause in the statement. '''
+        ''' Returns a negated version of every clause in the statement. Unused. '''
         neg = []
         for tupl in self.knowledge:
             newSet = set(const.ROLES) - tupl[1]
             neg.append((tupl[0], newSet))
-        return Statement('NOT + ' + self.sentence, neg, []) #TODO
+        return Statement('NOT + ' + self.sentence, neg, [])
 
     def __repr__(self):
         return "Statement(\'" + self.sentence + "\', " + str(self.knowledge) + ", " + str(self.switches) + '),'

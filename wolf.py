@@ -15,22 +15,33 @@ import random
 #         print('Done loading')
 
 class Wolf(Player):
-    def __init__(self, player_index, wolf_indices=[]):
+    def __init__(self, player_index, wolf_indices=[], wolf_center_index=None, wolf_center_role=None):
         super().__init__(player_index)
         self.role = 'Wolf'
-        self.statements = [] # self.get_wolf_statements(player_index, wolf_indices)
+        self.statements = []
         self.wolf_indices = wolf_indices
+        self.center_index = wolf_center_index
+        self.center_role = wolf_center_role
 
     def get_wolf_statements(self, stated_roles, previous_statements):
+        # role = self.center_role
+        # if role != None and role != 'Wolf' and role != 'Mason':
+        #     return self.get_easy_wolf_statements(stated_roles)
+
         statements = []
         if 'Villager' in const.ROLE_SET:
             statements += Villager.get_villager_statements(self.player_index)
         if 'Insomniac' in const.ROLE_SET: # and 'Insomniac' not in stated_roles:
             statements += Insomniac.get_insomniac_statements(self.player_index, 'Insomniac')
-        # if 'Mason' in const.ROLE_SET and 'Mason' in stated_roles:
-        #     for i in range(len(stated_roles)):
-        #         mason_indices = [player_index, i]
-        #         statements += Mason.get_mason_statements(player_index, mason_indices)
+        if 'Mason' in const.ROLE_SET:
+            # Only say you are a Mason if you are the last player and there are no Masons.
+            if self.player_index == const.NUM_PLAYERS - 1:
+                mason_indices = [self.player_index]
+                for i in range(len(stated_roles)):
+                    if stated_roles[i] == 'Mason':
+                        mason_indices.append(i)
+                if len(mason_indices) == 1:
+                    statements += Mason.get_mason_statements(self.player_index, mason_indices)
         if 'Drunk' in const.ROLE_SET: # and 'Drunk' not in stated_roles:
             for k in range(const.NUM_CENTER):
                 statements += Drunk.get_drunk_statements(self.player_index, k + const.NUM_PLAYERS)
@@ -45,7 +56,7 @@ class Wolf(Player):
         if 'Seer' in const.ROLE_SET:
             for i in range(len(stated_roles)):
                 if i not in self.wolf_indices and stated_roles[i] != 'Seer':      # "Hey, I'm a Seer and I saw another Seer..."
-                    statements += Seer.get_seer_statements(self.player_index, i, stated_roles[i], None, None)
+                    statements += Seer.get_seer_statements(self.player_index, i, stated_roles[i])
         return statements
 
     def get_statement(self, stated_roles, previous_statements):
@@ -126,6 +137,37 @@ class Wolf(Player):
         best_val, best_move =  expectimax(previous_statements, start_state, self.player_index, const.EXPECTIMAX_DEPTH)
         return best_move
 
+    def get_easy_wolf_statements(self, stated_roles):
+        statements = []
+        role = self.center_role
+        if role == 'Villager':
+            statements += Villager.get_villager_statements(self.player_index)
+        elif role == 'Robber':
+            for i in range(len(stated_roles)):
+                statements += Robber.get_robber_statements(self.player_index, i, stated_roles[i])
+        elif role == 'Troublemaker':
+            for i in range(len(stated_roles)):
+                for j in range(i+1, len(stated_roles)):
+                    if j not in self.wolf_indices:
+                        statements += Troublemaker.get_troublemaker_statements(self.player_index, i, j)
+        elif role == 'Drunk':
+            statements += Drunk.get_drunk_statements(self.player_index, self.center_index)
+        elif role == 'Insomniac':
+            statements += Insomniac.get_insomniac_statements(self.player_index, 'Insomniac')
+        elif role == 'Seer':
+            for i in range(len(stated_roles)):
+                if i not in self.wolf_indices and stated_roles[i] != 'Seer':      # "Hey, I'm a Seer and I saw another Seer..."
+                    statements += Seer.get_seer_statements(self.player_index, i, stated_roles[i])
+            for c1 in range(const.NUM_CENTER):
+                for c2 in range(c1 + 1, const.NUM_CENTER):
+                    for role1 in const.ROLES:
+                        for role2 in const.ROLES:
+                            if role1 != 'Seer' and role2 != 'Seer':
+                                if role1 != role2 or const.ROLE_COUNTS[role1] >= 2:
+                                    statements += Seer.get_seer_statements(self.player_index,
+                                            c1  + const.NUM_PLAYERS, role1, c2 + const.NUM_PLAYERS, role2)
+        return statements
+
     # Random Wolf Player
     def get_wolf_statements_random(self):
         player_index = self.player_index
@@ -161,13 +203,13 @@ class Wolf(Player):
             for role in const.ROLES:
                 for i in range(const.NUM_PLAYERS):
                     if i not in wolf_indices and role != 'Seer':      # "Hey, I'm a Seer and I saw another Seer..."
-                        statements += Seer.get_seer_statements(player_index, i, role, None, None)
+                        statements += Seer.get_seer_statements(player_index, i, role)
             # Wolf using these usually gives himself away
             for c1 in range(const.NUM_CENTER):
                 for c2 in range(c1 + 1, const.NUM_CENTER):
                     for role1 in const.ROLES:
                         for role2 in const.ROLES:
-                            if role1 != 'Seer' and role2 != 'Seer' and c1 != c2:
+                            if role1 != 'Seer' and role2 != 'Seer':
                                 if role1 != role2 or const.ROLE_COUNTS[role1] >= 2:
                                     statements += Seer.get_seer_statements(player_index,
                                             c1  + const.NUM_PLAYERS, role1, c2 + const.NUM_PLAYERS, role2)

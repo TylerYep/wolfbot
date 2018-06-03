@@ -12,7 +12,7 @@ def play_one_night_werewolf(solver):
     game_roles = list(const.ROLES)
     random.shuffle(game_roles)
 
-    wolf_inds = find_all_indices('Wolf')
+    wolf_inds = find_all_player_indices('Wolf')
     if const.FIXED_WOLF_INDEX != None:
         if len(wolf_inds) != 0:
             wolf_ind = random.choice(wolf_inds)
@@ -29,14 +29,14 @@ def play_one_night_werewolf(solver):
     save_game = [original_roles, game_roles, all_statements]
     with open('replay.pkl', 'wb') as f: pickle.dump(save_game, f)
 
+    # TODO Add voting mechanic and create proper player guesses.
+    # TODO IMPORTANT: Fake wolves cannot use solver solution here!!
     if const.USE_AI_PLAYERS:
         for i in range(const.NUM_PLAYERS):
-            if original_roles[i] != 'Wolf':
-                solution = solver(all_statements, i)
-                logger.debug("Solver interpretation: " + str(solution.path))
-                all_role_guesses = make_predictions(solution)
-                print_guesses(all_role_guesses)
-        # TODO add voting mechanic
+            solution = solver(all_statements, i)
+            logger.debug("Solver interpretation: " + str(solution.path))
+            all_role_guesses = make_predictions(solution)
+            print_guesses(all_role_guesses)
         return GameResult(game_roles, all_role_guesses, all_statements, wolf_inds)
 
     else:
@@ -64,7 +64,7 @@ def night_falls():
         insomniac_ind = original_roles.index('Insomniac')
     wake('Wolves')
     if 'Wolf' in player_set:
-        wolf_indices = wolf_init()
+        wolf_indices, wolf_center_index, wolf_center_role = wolf_init()
     sleep('Wolves')
     wake('Masons')
     if 'Mason' in player_set:
@@ -96,7 +96,7 @@ def night_falls():
     for i in range(const.NUM_ROLES):
         role = original_roles[i]
         if i >= const.NUM_PLAYERS: players.append(role)      # Center cards
-        elif role == 'Wolf': players.append(Wolf(i, wolf_indices))
+        elif role == 'Wolf': players.append(Wolf(i, wolf_indices, wolf_center_index, wolf_center_role))
         elif role == 'Villager': players.append(Villager(i))
         elif role == 'Robber': players.append(Robber(i, robber_choice_index, robber_choice_character))
         elif role == 'Mason': players.append(Mason(i, mason_indices))
@@ -107,15 +107,19 @@ def night_falls():
                                                     seer_peek_index2, seer_peek_character2))
     return players
 
-# TODO Wolf can look at card in center
 def wolf_init():
-    wolf_indices = set(find_all_indices('Wolf'))
+    wolf_indices = set(find_all_player_indices('Wolf'))
+    wolf_center_index, wolf_center_role = None, None
+    if len(wolf_indices) == 1:
+        wolf_center_index = get_random_center()
+        wolf_center_role = game_roles[wolf_center_index]
     logger.debug("[Hidden] Wolves are at indices: " + str(wolf_indices))
-    return wolf_indices
+    return wolf_indices, wolf_center_index, wolf_center_role
 
+# TODO Change distribution of choosing center or middle cards
 def seer_init():
     seer_index = original_roles.index('Seer')
-    choose_center = random.choice([True, False]) # Change distribution of choosing center or middle cards
+    choose_center = random.choice([True, False])
     if choose_center and const.NUM_CENTER > 1:
         seer_peek_index = get_random_center()
         seer_peek_character = game_roles[seer_peek_index]
@@ -137,7 +141,7 @@ def seer_init():
         return seer_peek_index, seer_peek_character, None, None
 
 def mason_init():
-    mason_indices = find_all_indices('Mason')
+    mason_indices = find_all_player_indices('Mason')
     logger.debug("[Hidden] Masons are at indices: " + str(mason_indices))
     return mason_indices
 
@@ -184,9 +188,8 @@ def swap_characters(i, j):
     game_roles[j] = temp
     player_set = set(game_roles[:const.NUM_PLAYERS])
 
-def find_all_indices(role):
+def find_all_player_indices(role):
     return [i for i in range(const.NUM_PLAYERS) if game_roles[i] == role]
-
 
 def get_random_player():
     ''' Gets a random player index (not in the center). '''
