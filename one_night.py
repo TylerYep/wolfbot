@@ -110,7 +110,7 @@ def night_falls():
 def wolf_init():
     wolf_indices = set(find_all_player_indices('Wolf'))
     wolf_center_index, wolf_center_role = None, None
-    if len(wolf_indices) == 1:
+    if len(wolf_indices) == 1 and const.NUM_CENTER > 0:
         wolf_center_index = get_random_center()
         wolf_center_role = game_roles[wolf_center_index]
     logger.debug("[Hidden] Wolves are at indices: " + str(wolf_indices))
