@@ -16,7 +16,7 @@ def play_one_night_werewolf(solver):
     if const.FIXED_WOLF_INDEX != None:
         if len(wolf_inds) != 0:
             wolf_ind = random.choice(wolf_inds)
-            swapCharacters(wolf_ind, const.FIXED_WOLF_INDEX)
+            swap_characters(wolf_ind, const.FIXED_WOLF_INDEX)
 
     player_set = set(game_roles[:const.NUM_PLAYERS])
     original_roles = list(game_roles)
@@ -146,7 +146,7 @@ def robber_init():
     while robber_choice_index == robber_index:
         robber_choice_index = get_random_player()
     robber_choice_character = game_roles[robber_choice_index]
-    swapCharacters(robber_index, robber_choice_index)
+    swap_characters(robber_index, robber_choice_index)
     logger.debug("[Hidden] Robber switches with Player " + str(robber_choice_index) +
                 " and becomes a " + str(robber_choice_character))
     return robber_choice_index, robber_choice_character
@@ -155,7 +155,7 @@ def drunk_init():
     assert(const.NUM_CENTER != 0)
     drunk_index = original_roles.index('Drunk')
     drunk_choice_index = get_random_center()
-    swapCharacters(drunk_index, drunk_choice_index)
+    swap_characters(drunk_index, drunk_choice_index)
     logger.debug("[Hidden] Drunk switches with Center Card " + str(drunk_choice_index - const.NUM_PLAYERS) +
                 " and unknowingly becomes a " + str(game_roles[drunk_choice_index]))
     return drunk_choice_index
@@ -168,7 +168,7 @@ def troublemaker_init():
         troublemaker_choice_index1 = get_random_player()
     while troublemaker_choice_index2 == troublemaker_index or troublemaker_choice_index2 == troublemaker_choice_index1:
         troublemaker_choice_index2 = get_random_player()
-    swapCharacters(troublemaker_choice_index1, troublemaker_choice_index2)
+    swap_characters(troublemaker_choice_index1, troublemaker_choice_index2)
     logger.debug("[Hidden] Troublemaker switches Player " + str(troublemaker_choice_index1)
         + " with Player " + str(troublemaker_choice_index2))
     return troublemaker_choice_index1, troublemaker_choice_index2
@@ -177,7 +177,7 @@ def insomniac_init(index):
     insomniac_new_role = game_roles[index]
     return insomniac_new_role
 
-def swapCharacters(i, j):
+def swap_characters(i, j):
     temp = game_roles[i]
     game_roles[i] = game_roles[j]
     game_roles[j] = temp

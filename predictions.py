@@ -3,6 +3,19 @@ from const import logger
 from copy import deepcopy
 import random
 
+def make_predictions_fast(solution):
+    '''
+    Uses a list of true/false statements and possible role sets
+    to return a rushed list of predictions for all roles
+    '''
+    curr_role_counts = dict(const.ROLE_COUNTS)
+    all_role_guesses = get_basic_guesses(solution, curr_role_counts)
+    solved = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts), False)
+
+    switch_dict = get_switch_dict(solution)
+    final_guesses = [solved[switch_dict[i]] for i in range(len(solved))]
+    return final_guesses
+
 def make_predictions(solution):
     '''
     Uses a list of true/false statements and possible role sets
@@ -66,7 +79,8 @@ def recurse_assign(solution, all_role_guesses, curr_role_counts, restrict_possib
 
     for i in range(const.NUM_ROLES):
         if all_role_guesses[i] == '':
-            leftover_roles = list(solution.possible_roles[i]) if restrict_possible else list(const.ROLE_SET)
+            if restrict_possible: leftover_roles = list(solution.possible_roles[i])
+            else: leftover_roles = [k for k,v in curr_role_counts.items() if v > 0]
             random.shuffle(leftover_roles)
             for r in leftover_roles:
                 if curr_role_counts[r] > 0:

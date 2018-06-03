@@ -1,6 +1,6 @@
 from roles import Player, Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
 from algorithms import switching_solver, SolverState, is_consistent
-from predictions import make_predictions
+from predictions import make_predictions_fast
 from possible import get_possible_statements
 from statements import Statement
 from const import logger
@@ -9,19 +9,17 @@ import pickle
 from copy import deepcopy
 import random
 
-# with open(const.EXPERIENCE_PATH, 'rb') as f:
-#     experience = pickle.load(f)
-#     print('Done loading')
+# if const.USE_WOLF_RL:
+#     with open(const.EXPERIENCE_PATH, 'rb') as f:
+#         experience = pickle.load(f)
+#         print('Done loading')
 
 class Wolf(Player):
     def __init__(self, player_index, wolf_indices):
         super().__init__(player_index)
         self.role = 'Wolf'
-        self.statements = self.get_wolf_statements(player_index, wolf_indices)
+        self.statements = [] # self.get_wolf_statements(player_index, wolf_indices)
         self.wolf_indices = wolf_indices
-#        if const.USE_WOLF_RL:
-#            with open(const.EXPERIENCE_PATH, 'rb') as f:
-#                print('done loading')
 
     @staticmethod
     def get_wolf_statements(player_index, wolf_indices):
@@ -68,10 +66,39 @@ class Wolf(Player):
                                             c1  + const.NUM_PLAYERS, role1, c2 + const.NUM_PLAYERS, role2)
         return statements
 
+    @staticmethod
+    def get_wolf_statements_logic(player_index, wolf_indices, stated_roles, previous_statements):
+        statements = []
+        if 'Villager' in const.ROLE_SET:
+            statements += Villager.get_villager_statements(player_index)
+        if 'Insomniac' in const.ROLE_SET: # and 'Insomniac' not in stated_roles:
+            statements += Insomniac.get_insomniac_statements(player_index, 'Insomniac')
+        if 'Mason' in const.ROLE_SET and 'Mason' in stated_roles:
+            for i in range(len(stated_roles)):
+                mason_indices = [player_index, i]
+                statements += Mason.get_mason_statements(player_index, mason_indices)
+        if 'Drunk' in const.ROLE_SET: # and 'Drunk' not in stated_roles:
+            for k in range(const.NUM_CENTER):
+                statements += Drunk.get_drunk_statements(player_index, k + const.NUM_PLAYERS)
+        if 'Troublemaker' in const.ROLE_SET:  # and 'Troublemaker' not in stated_roles:
+            for i in range(len(stated_roles)):
+                for j in range(i+1, len(stated_roles)):
+                    if j not in wolf_indices:
+                        statements += Troublemaker.get_troublemaker_statements(player_index, i, j)
+        if 'Robber' in const.ROLE_SET:  # and 'Robber' not in stated_roles:
+            for i in range(len(stated_roles)):
+                statements += Robber.get_robber_statements(player_index, i, stated_roles[i])
+        if 'Seer' in const.ROLE_SET:
+            for i in range(len(stated_roles)):
+                if i not in wolf_indices and stated_roles[i] != 'Seer':      # "Hey, I'm a Seer and I saw another Seer..."
+                    statements += Seer.get_seer_statements(player_index, i, stated_roles[i], None, None)
+        return statements
+
     def get_statement(self, stated_roles, previous_statements):
+        self.statements = self.get_wolf_statements_logic(self.player, self.wolf_indices, stated_roles, previous_statements)
         if const.USE_WOLF_RL:
             return self.get_statement_rl(previous_statements)
-        elif const.USE_WOLF_AI and self.player not in [0, 1]:
+        elif const.USE_WOLF_AI:
             return self.get_statement_expectimax(stated_roles, previous_statements)
         else:
             return super().get_statement()
@@ -108,16 +135,15 @@ class Wolf(Player):
             ''' Runs expectimax on the list of statements and the current state using the given depth. '''
             if ind == const.NUM_PLAYERS or depth == 0:
                 solver_result = switching_solver(statement_list)
-                predictions = make_predictions(solver_result)
+                predictions = make_predictions_fast(solver_result)
                 return eval(solver_result, predictions), None
             if ind == self.player:              # Choose your own move, maximize val
-                indices = random.sample(range(len(self.statements)), const.BRANCH_FACTOR * self.player)
-                trimmed_statements = [self.statements[i] for i in sorted(indices)]
-                vals = _get_next_vals(statement_list, trimmed_statements, state, ind, depth, True)
+                vals = _get_next_vals(statement_list, self.statements, state, ind, depth, True)
                 best_move = self.statements[vals.index(max(vals))]
                 if len(vals) == 0: return -5, super.getNextStatement()
                 return max(vals), best_move
             else:                               # Get expected value of remaining statements
+                assert(const.EXPECTIMAX_DEPTH != 1)
                 indices = random.sample(range(len(possible_statements[ind])), const.BRANCH_FACTOR * self.player)
                 trimmed_statements = [possible_statements[ind][i] for i in sorted(indices)]
                 vals = _get_next_vals(statement_list, trimmed_statements, state, ind, depth)
@@ -135,12 +161,12 @@ class Wolf(Player):
                     values.append(expectimax(new_statements, new_state, ind + 1, depth - 1))
             return [v[0] for v in values]
 
+        self.statements = self.get_wolf_statements_logic(self.player, self.wolf_indices, stated_roles, previous_statements)
         possible_roles = [deepcopy(const.ROLE_SET) for i in range(const.NUM_ROLES)]
         start_state = SolverState(possible_roles, [])
         for i in range(self.player):
             if i not in self.wolf_indices:
                 st = is_consistent(previous_statements[i], start_state)
                 if st: start_state = st
-        print("player index: ", self.player)
         best_val, best_move =  expectimax(previous_statements, start_state, self.player, const.EXPECTIMAX_DEPTH)
         return best_move
