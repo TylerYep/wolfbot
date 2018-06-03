@@ -9,10 +9,6 @@ import pickle
 from copy import deepcopy
 import random
 
-# if const.USE_WOLF_RL:
-#     with open(const.EXPERIENCE_PATH, 'rb') as f:
-#         experience = pickle.load(f)
-#         print('Done loading')
 
 class Wolf(Player):
     def __init__(self, player_index, wolf_indices=[], wolf_center_index=None, wolf_center_role=None):
@@ -22,6 +18,12 @@ class Wolf(Player):
         self.wolf_indices = wolf_indices
         self.center_index = wolf_center_index
         self.center_role = wolf_center_role
+        if const.USE_WOLF_RL:
+            with open(const.EXPERIENCE_PATH, 'rb') as f:
+                self.experience = pickle.load(f)
+                #print(self.experience)
+                #print('Done loading')
+        #else: print('no')
 
     def get_wolf_statements(self, stated_roles, previous_statements):
         # role = self.center_role
@@ -61,7 +63,8 @@ class Wolf(Player):
 
     def get_statement(self, stated_roles, previous_statements):
         if const.USE_WOLF_RL:
-            self.statements = self.get_wolf_statements(stated_roles, previous_statements)
+            #self.statements = self.get_wolf_statements(stated_roles, previous_statements)
+            self.statements = self.get_wolf_statements_random()
             return self.get_statement_rl(previous_statements)
         elif const.USE_EXPECTIMAX_WOLF:
             self.statements = self.get_wolf_statements(stated_roles, previous_statements)
@@ -72,10 +75,11 @@ class Wolf(Player):
 
     def get_statement_rl(self, previous_statements):
         state = (tuple(self.wolf_indices), tuple([s.sentence for s in previous_statements]))
-        scores = experience[state]
+        scores = self.experience[state]
         choice = None
         best_score = -100
         for potential_statement, score in scores.items():
+            score = score[1]/score[0]
             if score > best_score:
                 best_score = score
                 choice = potential_statement
@@ -84,6 +88,7 @@ class Wolf(Player):
         for statement in self.statements:
             if choice == statement.sentence:
                 return statement
+        return super().get_statement()
 
     def get_statement_expectimax(self, stated_roles, previous_statements):
         possible_statements = get_possible_statements(self.wolf_indices)

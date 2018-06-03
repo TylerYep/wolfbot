@@ -15,10 +15,10 @@ def main():
         logger.warning('\n' + solver.__name__ + '\n')
         stats = Statistics()
         for num in range(const.NUM_GAMES):
-            if num % 10 == 0: print('Game: ', num)
             game_result = play_one_night_werewolf(solver)
             stats.add_result(game_result)
         stats.print_results()
     logger.warning('Time taken: ' + str(time.time() - start_time))
+    return stats
 
 if __name__ == '__main__': main()
