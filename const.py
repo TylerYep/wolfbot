@@ -9,10 +9,10 @@ NUM_GAMES = 100
 FIXED_WOLF_INDEX = None
 
 ### Game Constants ###
-# ROLES = ('Villager', 'Villager', 'Villager', 'Wolf', 'Wolf', 'Seer',
-#       'Mason', 'Mason', 'Drunk', 'Troublemaker', 'Insomniac', 'Robber')
-# NUM_CENTER = 3
-ROLES, NUM_CENTER = ('Villager', 'Villager', 'Villager', 'Seer', 'Wolf'), 0
+ROLES = ('Villager', 'Villager', 'Villager', 'Wolf', 'Wolf', 'Seer',
+        'Mason', 'Mason', 'Drunk', 'Troublemaker', 'Insomniac', 'Robber')
+NUM_CENTER = 3
+# ROLES, NUM_CENTER = ('Villager', 'Villager', 'Villager', 'Seer', 'Wolf'), 0
 
 ROLE_SET = set(ROLES)
 NUM_ROLES = len(ROLES)
@@ -20,13 +20,11 @@ ROLE_COUNTS = dict(Counter(ROLES)) # Dict of {'Villager': 3, 'Wolf': 2, ... }
 
 NUM_PLAYERS = NUM_ROLES - NUM_CENTER
 
-ROBBER_PRIORITY = 1
-TROUBLEMAKER_PRIORITY = 2
-DRUNK_PRIORITY = 3
+ROBBER_PRIORITY, TROUBLEMAKER_PRIORITY, DRUNK_PRIORITY = 1, 2, 3
 USE_AI_PLAYERS = False
 
 ''' Expectimax Wolf Player'''
-USE_WOLF_AI = True
+USE_EXPECTIMAX_WOLF = False
 EXPECTIMAX_DEPTH = 1
 BRANCH_FACTOR = 5
 

@@ -5,7 +5,7 @@ import random
 
 class Player():
     def __init__(self, player_index):
-        self.player = player_index
+        self.player_index = player_index
 
     def get_statement(self, stated_roles=None, previous=None):
         return random.choice(tuple(self.statements))
@@ -68,21 +68,25 @@ class Robber(Player):
     def __init__(self, player_index, robber_choice_index, robber_choice_character):
         super().__init__(player_index)
         self.role = 'Robber'
+        self.new_role = robber_choice_character
         self.statements = self.get_robber_statements(player_index, robber_choice_index, robber_choice_character)
 
     @staticmethod
     def get_robber_statements(player_index, robber_choice_index, robber_choice_character):
-        # TODO Finish Robber-Wolf
-        if robber_choice_character == 'Wolf':
+        sentence = "I am a Robber and I swapped with Player " + str(robber_choice_index) + \
+                    ". I am now a " + robber_choice_character + "."
+        knowledge = [(player_index, {'Robber'}), (robber_choice_index, {robber_choice_character})]
+        switches = [(const.ROBBER_PRIORITY, robber_choice_index, player_index)]
+        return [Statement(sentence, knowledge, switches)]
+
+    def get_statement(self, stated_roles, previous):
+        if self.new_role == 'Wolf':
             from wolf import Wolf
-            logger.debug("Robber is a Wolf now!")
-            return Wolf.get_wolf_statements(player_index, [])
+            logger.warning("Robber is a Wolf now!")
+            robber_wolf = Wolf(self.player_index)
+            return robber_wolf.get_statement(stated_roles, previous)
         else:
-            sentence = "I am a Robber and I swapped with Player " + str(robber_choice_index) + \
-                        ". I am now a " + robber_choice_character + "."
-            knowledge = [(player_index, {'Robber'}), (robber_choice_index, {robber_choice_character})]
-            switches = [(const.ROBBER_PRIORITY, robber_choice_index, player_index)]
-            return [Statement(sentence, knowledge, switches)]
+            return random.choice(tuple(self.statements))
 
 
 class Troublemaker(Player):
@@ -119,13 +123,11 @@ class Insomniac(Player):
     def __init__(self, player_index, insomniac_new_role):
         super().__init__(player_index)
         self.role = 'Insomniac'
-        self.player_index = player_index
         self.new_role = insomniac_new_role
         self.statements = self.get_insomniac_statements(player_index, insomniac_new_role)
 
     @staticmethod
     def get_insomniac_statements(player_index, insomniac_new_role, new_insomniac_index=None):
-        # TODO Insomniac-wolf
         knowledge = [(player_index, {'Insomniac'})]
         sentence = "I am a Insomniac and when I woke up I was a " + str(insomniac_new_role) + "."
         if new_insomniac_index == None:
@@ -137,6 +139,12 @@ class Insomniac(Player):
         return [Statement(sentence, knowledge)]
 
     def get_statement(self, stated_roles, previous): # TODO acting as a wolf
+        if self.new_role == 'Wolf':
+            from wolf import Wolf
+            logger.warning("Insomniac is a Wolf now!")
+            insomniac_wolf = Wolf(self.player_index)
+            return insomniac_wolf.get_statement(stated_roles, previous)
+
         possible_switches = []
         for i in range(len(stated_roles)):
             if stated_roles[i] == self.new_role:
