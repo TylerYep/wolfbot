@@ -12,29 +12,27 @@ class GameResult:
 
 class Statistics:
     def __init__(self):
-        self.metrics = [self.correctness_strict, self.correctness_lenient_center, self.verify_predictions]
+        self.metrics = [self.correctness_strict, self.correctness_lenient_center, self.wolf_predictions_one,
+                        self.wolf_predictions_all, self.wolf_predictions_center]
         self.NUM_METRICS = len(self.metrics)
         self.correct = [0.0 for _ in range(self.NUM_METRICS)]
         self.total = [0.0 for _ in range(self.NUM_METRICS)]
         self.match1, self.match2 = 0.0, 0.0
 
     def add_result(self, game_result):
-        for i in range(self.NUM_METRICS):
-            fn = self.metrics[i]
+        for metric_index in range(self.NUM_METRICS):
+            fn = self.metrics[metric_index]
             c, t = fn(game_result)
-            self.correct[i] += c
-            self.total[i] += t
-            if c >= 1 and i == 2: self.match1 += 1 # Found at least 1 Wolf
-            if c == t and i == 2: self.match2 += 1 # Found two player wolves
+            self.correct[metric_index] += c
+            self.total[metric_index] += t
 
     def print_results(self):
+        sentences = ["Accuracy for all predictions: ", "Accuracy with lenient center scores: ",
+                    "S1: Found at least 1 Wolf player: ", "S2: Found all Wolf players: ",
+                    "Percentage of correct Wolf guesses (including Wolves in the center): "]
         for i in range(self.NUM_METRICS):
             if self.total[i] == 0: self.total[i] += 1
-        logger.warning("Accuracy for all predictions: " + str(self.correct[0] / self.total[0]))
-        logger.warning("Accuracy with lenient center scores: " + str(self.correct[1] / self.total[1]))
-        logger.warning("S1: Found at least 1 Wolf: " + str(self.match1 / const.NUM_GAMES))
-        logger.warning("S2: Found two player Wolves: " + str(self.match2 / const.NUM_GAMES))
-        logger.warning("Correct guesses (not accusing extraneous wolves): " + str(self.correct[2] / self.total[2]))
+            logger.warning(sentences[i] + str(self.correct[i] / self.total[i]))
 
     # Returns fraction of how many roles were guessed correctly out of all roles.
     def correctness_strict(self, game_result):
@@ -60,15 +58,33 @@ class Statistics:
                 center_set[guess] -= 1
         return correct, const.NUM_ROLES
 
+    # Returns 1 if at least one Wolf was correctly identified.
+    def wolf_predictions_one(self, game_result):
+        correctGuesses = 0
+        totalWolves = 1
+        for r in range(const.NUM_PLAYERS):
+            if game_result.actual[r] == 'Wolf' == game_result.guessed[r]:
+                correctGuesses += 1
+        return int(correctGuesses > 0), totalWolves
+
+    # Returns 1 if all Wolves were correctly identified.
+    def wolf_predictions_all(self, game_result):
+        correctGuesses = 0
+        totalWolves = 0
+        for r in range(const.NUM_PLAYERS):
+            if game_result.actual[r] == 'Wolf':
+                totalWolves += 1
+                if game_result.guessed[r] == 'Wolf':
+                    correctGuesses += 1
+        return int(correctGuesses == totalWolves), 1
+
     # Returns fraction of how many Wolves were correctly identified.
-    # Only counts Wolves that are players.
-    def verify_predictions(self, game_result):
+    def wolf_predictions_center(self, game_result):
         correctGuesses = 0
         totalWolves = 0
         for r in range(const.NUM_ROLES):
-            if game_result.actual[r] == 'Wolf' == game_result.guessed[r]:
-                correctGuesses += 1
-        for card in game_result.actual[:const.NUM_PLAYERS]:
-            if card == 'Wolf':
+            if game_result.actual[r] == 'Wolf':
                 totalWolves += 1
+                if game_result.guessed[r] == 'Wolf':
+                    correctGuesses += 1
         return correctGuesses, totalWolves

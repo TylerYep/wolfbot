@@ -25,7 +25,7 @@ USE_AI_PLAYERS = False
 
 ''' Expectimax Wolf Player'''
 USE_EXPECTIMAX_WOLF = True
-EXPECTIMAX_DEPTH = 1
+EXPECTIMAX_DEPTH = 2
 BRANCH_FACTOR = 5
 
 ''' Reinforcement Learning Wolf Player'''
