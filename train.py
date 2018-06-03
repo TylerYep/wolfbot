@@ -27,7 +27,7 @@ def train(folder, eta=0.01):
         file_path = os.path.join(folder, f)
         with open(file_path, 'rb') as data_file:
             for game in pickle.load(data_file):
-                if counter %100 == 0:
+                if counter % 100 == 0:
                     test(experience_dict)
                 val = evaluate(game)
                 states, statements = get_wolf_state(game)

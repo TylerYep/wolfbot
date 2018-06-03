@@ -12,11 +12,6 @@ def make_predictions_fast(solution):
     curr_role_counts = dict(const.ROLE_COUNTS)
     all_role_guesses = get_basic_guesses(solution, curr_role_counts)
     solved = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts), False)
-
-    if not solved:                              # TODO Remove when fixed
-        save_game = [solution, all_role_guesses, curr_role_counts]
-        with open('predictions.pkl', 'wb') as f: pickle.dump(save_game, f)
-
     switch_dict = get_switch_dict(solution)
     final_guesses = [solved[switch_dict[i]] for i in range(len(solved))]
     return final_guesses
@@ -86,7 +81,7 @@ def recurse_assign(solution, all_role_guesses, curr_role_counts, restrict_possib
                 if curr_role_counts[r] > 0:
                     curr_role_counts[r] -= 1
                     all_role_guesses[i] = r
-                    result = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts))
+                    result = recurse_assign(solution, all_role_guesses, curr_role_counts, restrict_possible)
                     if result: return result
                     curr_role_counts[r] += 1
                     all_role_guesses[i] = ''
