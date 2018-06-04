@@ -82,7 +82,7 @@ class Robber(Player):
     def get_statement(self, stated_roles, previous):
         if self.new_role == 'Wolf':
             from wolf import Wolf
-            logger.warning("Robber is a Wolf now!")
+            #logger.warning("Robber is a Wolf now!")
             robber_wolf = Wolf(self.player_index)
             return robber_wolf.get_statement(stated_roles, previous)
         else:
@@ -141,7 +141,7 @@ class Insomniac(Player):
     def get_statement(self, stated_roles, previous):
         if self.new_role == 'Wolf':
             from wolf import Wolf
-            logger.warning("Insomniac is a Wolf now!")
+#            logger.warning("Insomniac is a Wolf now!")
             insomniac_wolf = Wolf(self.player_index)
             return insomniac_wolf.get_statement(stated_roles, previous)
         else:
