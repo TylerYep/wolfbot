@@ -1,0 +1,41 @@
+random_solver
+
+Accuracy for all predictions: 0.14739166666666667
+Accuracy with lenient center scores: 0.18905833333333333
+S1: Found at least 1 Wolf player: 0.316
+S2: Found all Wolf players: 0.1051
+Percentage of correct Wolf guesses (including Wolves in the center): 0.1699
+
+baseline_solver
+
+Accuracy for all predictions: 0.5577416666666667
+Accuracy with lenient center scores: 0.6273
+S1: Found at least 1 Wolf player: 0.731
+S2: Found all Wolf players: 0.4469
+Percentage of correct Wolf guesses (including Wolves in the center): 0.58105
+
+switching_solver
+
+Accuracy for all predictions: 0.807975
+Accuracy with lenient center scores: 0.8550416666666667
+S1: Found at least 1 Wolf player: 0.8401
+S2: Found all Wolf players: 0.629
+Percentage of correct Wolf guesses (including Wolves in the center): 0.7069
+Time taken: 1193.2269577980042
+
+EXPECTIMAX
+Accuracy for all predictions: 0.7185
+Accuracy with lenient center scores: 0.7605
+S1: Found at least 1 Wolf player: 0.479
+S2: Found all Wolf players: 0.186
+Percentage of correct Wolf guesses (including Wolves in the center): 0.3925
+Time taken: 1072.169737815857
+
+RANDOM
+Accuracy for all predictions: 0.815
+Accuracy with lenient center scores: 0.8616666666666667
+S1: Found at least 1 Wolf player: 0.847
+S2: Found all Wolf players: 0.656
+Percentage of correct Wolf guesses (including Wolves in the center): 0.712
+Time taken: 57.86407232284546
+
