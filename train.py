@@ -30,7 +30,7 @@ def train(folder, eta=0.001):
         file_path = os.path.join(folder, f)
         with open(file_path, 'rb') as data_file:
             for game in pickle.load(data_file):
-                if counter % 50 == 0:
+                if counter % 10 == 0:
                     with open('wolf_temp.pkl', 'wb') as f: pickle.dump(experience_dict, f)
                     print('Iteration: ', counter)
                     test()
@@ -42,6 +42,7 @@ def train(folder, eta=0.001):
                     experience_dict[state][statement] = new
                     count_dict[(state)] += 1
                 counter += 1
+                if counter > 5000: break
 
 def test():
     stat_list.append(main.main())
