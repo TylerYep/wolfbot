@@ -15,7 +15,7 @@ def main():
         logger.warning('\n' + solver.__name__ + '\n')
         stats = Statistics()
         for num in range(const.NUM_GAMES):
-            if num % 500 == 0: print('Game: ', num)
+            # if num % 10 == 0: print('Game: ', num)
             game_result = play_one_night_werewolf(solver)
             stats.add_result(game_result)
         stats.print_results()

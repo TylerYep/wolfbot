@@ -12,7 +12,7 @@ if __name__ == '__main__':
     print('STATEMENTS: ')
     for i, s in enumerate(all_statements):
         print(s)
-    
+    logger.setLevel(0)
     logger.warning("[Hidden] Current roles: " + str(original_roles[:const.NUM_PLAYERS]) +
             "\n\t Center cards:  " + str(original_roles[const.NUM_PLAYERS:]) + '\n')
     logger.warning("[SOLUTION] Role guesses: " + str(game_roles[:const.NUM_PLAYERS]) +

@@ -66,7 +66,7 @@ def switching_solver(statements, known_true=None):
             _switch_recurse(ind + 1, false_state)
 
     _switch_recurse(0, start_state)
-    return random.choice(solution)
+    return solution
 
 def baseline_solver(statements, known_true=None):
     '''
@@ -111,7 +111,7 @@ def baseline_solver(statements, known_true=None):
 
     start_state = [deepcopy(const.ROLE_SET) for i in range(const.NUM_ROLES)]
     _bl_solver_recurse(0, start_state)
-    return SolverState(final_state, [], solution)
+    return [SolverState(final_state, [], solution)]
 
 def random_solver(statements, known_true=None):
     '''
@@ -121,7 +121,7 @@ def random_solver(statements, known_true=None):
     f_inds = random.sample(range(0, const.NUM_ROLES), const.ROLE_COUNTS['Wolf'])
     path = [False if i in f_inds else True for i in range(const.NUM_PLAYERS)]
     all_possible = [deepcopy(const.ROLE_SET) for i in range(const.NUM_ROLES)]
-    return SolverState(all_possible, [], path)
+    return [SolverState(all_possible, [], path)]
 
 def count_roles(state):
     '''
@@ -143,8 +143,8 @@ if __name__ == '__main__':
         Statement('I am a Villager.', [(3, {'Villager'})], []),
         Statement('I am a Mason. The other Mason is Player 5.', [(4, {'Mason'}), (5, {'Mason'})], []),
         Statement('I am a Mason. The other Mason is Player 4.', [(5, {'Mason'}), (4, {'Mason'})], []),
-        # Statement('I am a Drunk and I swapped with Center 1.', [(6, {'Drunk'})], [(1, 9, 6)]),
-        # Statement('I am a Robber and I swapped with Player 5. I am now a Seer.', [(7, {'Robber'}), (5, {'Seer'})], [(0, 5, 7)])
+        Statement('I am a Drunk and I swapped with Center 1.', [(6, {'Drunk'})], [(1, 9, 6)]),
+        Statement('I am a Robber and I swapped with Player 5. I am now a Seer.', [(7, {'Robber'}), (5, {'Seer'})], [(0, 5, 7)])
     ]
     solution = switching_solver(statements)
     print(solution)

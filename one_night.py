@@ -3,6 +3,7 @@ from wolf import Wolf
 from predictions import make_predictions, print_guesses
 from statistics import GameResult
 from const import logger
+from collections import defaultdict
 import const
 import pickle
 import random
@@ -12,6 +13,7 @@ def play_one_night_werewolf(solver):
     game_roles = list(const.ROLES)
     random.shuffle(game_roles)
 
+    # TODO must add robber and insomniac if they become wolves
     wolf_inds = find_all_player_indices('Wolf')
     if const.FIXED_WOLF_INDEX != None:
         if len(wolf_inds) != 0:
@@ -29,22 +31,38 @@ def play_one_night_werewolf(solver):
     save_game = [original_roles, game_roles, all_statements]
     with open('replay.pkl', 'wb') as f: pickle.dump(save_game, f)
 
-    # TODO Add voting mechanic and create proper player guesses.
     # TODO IMPORTANT: Fake wolves cannot use solver solution here!!
-    if const.USE_AI_PLAYERS:
+    if const.USE_VOTING:
+        all_role_guesses_arr = []
         for i in range(const.NUM_PLAYERS):
-            solution = solver(all_statements, i)
-            logger.debug("Solver interpretation: " + str(solution.path))
-            all_role_guesses = make_predictions(solution)
-            print_guesses(all_role_guesses)
-        return GameResult(game_roles, all_role_guesses, all_statements, wolf_inds)
+            if i in wolf_inds:
+                pass
+            else:
+                all_solutions = solver(all_statements, i)
+                prediction = make_predictions(all_solutions)
+                all_role_guesses_arr.append(prediction)
+        all_role_guesses, confidence = get_voting_result(all_role_guesses_arr)
+        print_guesses(all_role_guesses)
+        return GameResult(game_roles, all_role_guesses, all_statements, wolf_inds, confidence)
 
     else:
-        solution = solver(all_statements)
-        logger.debug("Solver interpretation: " + str(solution.path))
-        all_role_guesses = make_predictions(solution)
+        all_solutions = solver(all_statements)
+        # for solution in all_solutions:
+        #     logger.debug("Solver interpretation: " + str(solution.path))
+        all_role_guesses = make_predictions(all_solutions)
         print_guesses(all_role_guesses)
         return GameResult(game_roles, all_role_guesses, all_statements, wolf_inds)
+
+def get_voting_result(all_role_guesses_arr):
+    all_role_guesses, confidence = [], []
+    for i in range(const.NUM_ROLES):
+        role_dict = defaultdict(int)
+        for prediction in all_role_guesses_arr:
+            role_dict[prediction[i]] += 1
+        role, count = max(role_dict.items(), key=lambda x: x[1])
+        all_role_guesses.append(role)
+        confidence.append(count / const.NUM_PLAYERS)
+    return all_role_guesses, confidence
 
 def get_statements(player_objs, wolf_inds):
     stated_roles, given_statements = [], []
@@ -180,6 +198,7 @@ def troublemaker_init():
 
 def insomniac_init(index):
     insomniac_new_role = game_roles[index]
+    logger.debug("[Hidden] Insomniac wakes up as a " + insomniac_new_role)
     return insomniac_new_role
 
 def swap_characters(i, j):

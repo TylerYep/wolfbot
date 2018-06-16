@@ -3,11 +3,13 @@ from collections import Counter
 from const import logger
 
 class GameResult:
-    def __init__(self, actual, guessed, statements, wolf_inds):
+    def __init__(self, actual, guessed, statements, wolf_inds,
+                    confidence=[1.0 for _ in range(const.NUM_PLAYERS)]):
         self.actual = actual
         self.guessed = guessed
         self.statements = statements
         self.wolf_inds = wolf_inds
+        self.confidence = confidence
 
 
 class Statistics:
@@ -25,6 +27,14 @@ class Statistics:
             c, t = fn(game_result)
             self.correct[metric_index] += c
             self.total[metric_index] += t
+
+    # # TODO array of game results ? or consolidate ahead of time?
+    # def add_voting_result(self, game_result):
+    #     for metric_index in range(self.NUM_METRICS):
+    #         fn = self.metrics[metric_index]
+    #         c, t = fn(game_result)
+    #         self.correct[metric_index] += c
+    #         self.total[metric_index] += t
 
     def print_results(self):
         sentences = ["Accuracy for all predictions: ", "Accuracy with lenient center scores: ",

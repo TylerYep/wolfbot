@@ -96,12 +96,14 @@ class Wolf(Player):
             for wolfi in self.wolf_indices:
                 if predictions[wolfi] == 'Wolf':
                     val -= 5
+                if 'Wolf' in solver_result.possible_roles[wolfi]:
+                    val -= 5
             return val
 
         def expectimax(statement_list, state, ind, depth=None):
             ''' Runs expectimax on the list of statements and the current state using the given depth. '''
             if ind == const.NUM_PLAYERS or depth == 0:
-                solver_result = switching_solver(statement_list)
+                solver_result = random.choice(switching_solver(statement_list))
                 predictions = make_predictions_fast(solver_result)
                 return eval(solver_result, predictions), None
             if ind == self.player_index:              # Choose your own move, maximize val
