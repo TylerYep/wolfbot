@@ -9,16 +9,19 @@ import time
 import pickle
 
 def main():
-    start_time = time.time()
+    # Initialize array of solvers used in game simulations.
     SOLVERS = [switching_solver]
+
+    start_time = time.time()
     for solver in SOLVERS:
         logger.warning('\n' + solver.__name__ + '\n')
         stats = Statistics()
         for num in range(const.NUM_GAMES):
-            # if num % 10 == 0: print('Game: ', num)
+            if const.SHOW_PROGRESS and num % 100 == 0:
+                logger.warning('Currently on Game: ', num)
             game_result = play_one_night_werewolf(solver)
             stats.add_result(game_result)
-        stats.print_results()
+        stats.print_statistics()
     logger.warning('Time taken: ' + str(time.time() - start_time))
 
 if __name__ == '__main__': main()

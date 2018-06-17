@@ -26,8 +26,9 @@ class Seer(Player):
         sentence = "I am a Seer and I saw that Player " + str(seen_index) + " was a " + str(seen_role) + "."
         knowledge = [(player_index, {'Seer'}), (seen_index, {seen_role})]
         if seen_index2 != None:
-            sentence = "I am a Seer and I saw that Center " + str(seen_index - const.NUM_PLAYERS) + " was a " + str(seen_role) \
-                        + " and that Center " + str(seen_index2 - const.NUM_PLAYERS) + " was a " + str(seen_role2) + "."
+            sentence = "I am a Seer and I saw that Center " + str(seen_index - const.NUM_PLAYERS) \
+                        + " was a " + str(seen_role) + " and that Center " \
+                        + str(seen_index2 - const.NUM_PLAYERS) + " was a " + str(seen_role2) + "."
             knowledge += [(seen_index2, {seen_role2})]
         return [Statement(sentence, knowledge)]
 
@@ -82,7 +83,7 @@ class Robber(Player):
     def get_statement(self, stated_roles, previous):
         if self.new_role == 'Wolf':
             from wolf import Wolf
-            #logger.warning("Robber is a Wolf now!")
+            # logger.warning("Robber is a Wolf now!")
             robber_wolf = Wolf(self.player_index)
             return robber_wolf.get_statement(stated_roles, previous)
         else:

@@ -11,7 +11,6 @@ def make_predictions_fast(solution):
     '''
     all_role_guesses, curr_role_counts = get_basic_guesses(solution)
     solved = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts), False)
-
     switch_dict = get_switch_dict(solution)
     final_guesses = [solved[switch_dict[i]] for i in range(len(solved))]
     return final_guesses
@@ -25,6 +24,7 @@ def make_predictions(solution_arr):
     random.shuffle(solution_arr)
     for solution in solution_arr:
         if len(solution.possible_roles) < const.NUM_ROLES:
+            # TODO Fix this in one_night
             logger.warning(str(solution))
             logger.warning("This is going to crash because no solution was found... \
                 because the robber wolf or whatever said something that cannot be consistent")
@@ -47,8 +47,8 @@ def make_predictions(solution_arr):
             solved = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts))
             if solved: break
 
-    if not solved:          # Last resort: assign randomly from curr_role_counts dict
-        logger.warning("Serious error has occurred.")
+    if not solved:          # TODO Last resort: assign randomly from curr_role_counts dict
+        logger.warning("Choosing without using possible roles (should not happen)")
         solution = random.choice(solution_arr)
         all_role_guesses, curr_role_counts = get_basic_guesses(solution)
         solved = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts), False)
@@ -58,6 +58,11 @@ def make_predictions(solution_arr):
     return final_guesses
 
 def get_basic_guesses(solution):
+    '''
+    Populates the basic set of predictions, or adds the empty string if the
+    possible roles set is not of size 1. For each statement, take the
+    intersection and update the role counts for each character.
+    '''
     all_role_guesses = []
     consistent_statements = list(solution.path)
     consistent_roles = deepcopy(solution.possible_roles)
@@ -82,7 +87,6 @@ def get_basic_guesses(solution):
                 curr_role_counts['Wolf'] -= 1
             else:
                 all_role_guesses.append('')
-
     return all_role_guesses, curr_role_counts
 
 def recurse_assign(solution, all_role_guesses, curr_role_counts, restrict_possible=True):
@@ -111,6 +115,7 @@ def recurse_assign(solution, all_role_guesses, curr_role_counts, restrict_possib
     return False
 
 def get_switch_dict(solution):
+    ''' Converts array of switches into a dictionary to index with. '''
     switch_dict = {i:i for i in range(const.NUM_ROLES)}
     switches = sorted(solution.switches, key=lambda x: x[0])
     for priority, i, j in switches:

@@ -22,7 +22,7 @@ class Statement:
         return Statement('NOT + ' + self.sentence, neg, [])
 
     def negateAll(self):
-        ''' Returns a negated version of every clause in the statement. Unused. '''
+        ''' Returns a negated version of every clause in the statement. '''
         neg = []
         for tupl in self.knowledge:
             newSet = set(const.ROLES) - tupl[1]

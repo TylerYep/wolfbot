@@ -5,6 +5,7 @@ import const
 import random
 
 class SolverState():
+    ''' Each solver returns a SolverState object with the result. '''
     def __init__(self, possible_roles, switches=[], path=[]):
         self.possible_roles = possible_roles
         self.switches = switches

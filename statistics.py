@@ -3,6 +3,7 @@ from collections import Counter
 from const import logger
 
 class GameResult:
+    ''' Each round of one_night returns a GameResult. '''
     def __init__(self, actual, guessed, statements, wolf_inds,
                     confidence=[1.0 for _ in range(const.NUM_PLAYERS)]):
         self.actual = actual
@@ -13,6 +14,7 @@ class GameResult:
 
 
 class Statistics:
+    ''' Initialize a Statistics object. '''
     def __init__(self):
         self.metrics = [self.correctness_strict, self.correctness_lenient_center, self.wolf_predictions_one,
                         self.wolf_predictions_all, self.wolf_predictions_center]
@@ -22,21 +24,15 @@ class Statistics:
         self.match1, self.match2 = 0.0, 0.0
 
     def add_result(self, game_result):
+        ''' Updates the Statistics object with a GameResult. '''
         for metric_index in range(self.NUM_METRICS):
             fn = self.metrics[metric_index]
             c, t = fn(game_result)
             self.correct[metric_index] += c
             self.total[metric_index] += t
 
-    # # TODO array of game results ? or consolidate ahead of time?
-    # def add_voting_result(self, game_result):
-    #     for metric_index in range(self.NUM_METRICS):
-    #         fn = self.metrics[metric_index]
-    #         c, t = fn(game_result)
-    #         self.correct[metric_index] += c
-    #         self.total[metric_index] += t
-
-    def print_results(self):
+    def print_statistics(self):
+        ''' Outputs overall statistics of inputed game results. '''
         sentences = ["Accuracy for all predictions: ", "Accuracy with lenient center scores: ",
                     "S1: Found at least 1 Wolf player: ", "S2: Found all Wolf players: ",
                     "Percentage of correct Wolf guesses (including Wolves in the center): "]
@@ -44,17 +40,20 @@ class Statistics:
             if self.total[i] == 0: self.total[i] += 1
             logger.warning(sentences[i] + str(self.correct[i] / self.total[i]))
 
-    # Returns fraction of how many roles were guessed correctly out of all roles.
     def correctness_strict(self, game_result):
+        ''' Returns fraction of how many roles were guessed correctly out of all roles. '''
         correct = 0.0
         for i in range(const.NUM_ROLES):
             if game_result.actual[i] == game_result.guessed[i]:
                 correct += 1
         return correct, const.NUM_ROLES
 
-    # Returns fraction of how many player roles were guessed correctly.
-    # Optionally adds a bonus for a matching center set.
+
     def correctness_lenient_center(self, game_result):
+        '''
+        Returns fraction of how many player roles were guessed correctly.
+        Optionally adds a bonus for a matching center set.
+        '''
         correct = const.NUM_CENTER
         for i in range(const.NUM_PLAYERS):
             if game_result.actual[i] == game_result.guessed[i]:
@@ -68,8 +67,8 @@ class Statistics:
                 center_set[guess] -= 1
         return correct, const.NUM_ROLES
 
-    # Returns 1 if at least one Wolf was correctly identified.
     def wolf_predictions_one(self, game_result):
+        ''' Returns 1 if at least one Wolf was correctly identified. '''
         correctGuesses = 0
         totalWolves = 1
         for r in range(const.NUM_PLAYERS):
@@ -77,8 +76,8 @@ class Statistics:
                 correctGuesses += 1
         return int(correctGuesses > 0), totalWolves
 
-    # Returns 1 if all Wolves were correctly identified.
     def wolf_predictions_all(self, game_result):
+        ''' Returns 1 if all Wolves were correctly identified. '''
         correctGuesses = 0
         totalWolves = 0
         for r in range(const.NUM_PLAYERS):
@@ -88,8 +87,8 @@ class Statistics:
                     correctGuesses += 1
         return int(correctGuesses == totalWolves), 1
 
-    # Returns fraction of how many Wolves were correctly identified.
     def wolf_predictions_center(self, game_result):
+        ''' Returns fraction of how many Wolves were correctly identified. '''
         correctGuesses = 0
         totalWolves = 0
         for r in range(const.NUM_ROLES):

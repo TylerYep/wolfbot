@@ -28,4 +28,4 @@ if __name__ == '__main__':
 
     stats = Statistics()
     stats.add_result(game_result)
-    stats.print_results()
+    stats.print_statistics()

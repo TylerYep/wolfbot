@@ -9,6 +9,7 @@ import pickle
 import random
 
 def play_one_night_werewolf(solver):
+    ''' Plays one round of One Night Ultimate Werewolf. '''
     global game_roles, original_roles, player_set
     game_roles = list(const.ROLES)
     random.shuffle(game_roles)
@@ -35,7 +36,7 @@ def play_one_night_werewolf(solver):
     if const.USE_VOTING:
         all_role_guesses_arr = []
         for i in range(const.NUM_PLAYERS):
-            if i in wolf_inds:
+            if i in wolf_inds: # Or is robber-wolf
                 pass
             else:
                 all_solutions = solver(all_statements, i)
@@ -54,6 +55,7 @@ def play_one_night_werewolf(solver):
         return GameResult(game_roles, all_role_guesses, all_statements, wolf_inds)
 
 def get_voting_result(all_role_guesses_arr):
+    ''' Take most common role guess as the final guess for that index. '''
     all_role_guesses, confidence = [], []
     for i in range(const.NUM_ROLES):
         role_dict = defaultdict(int)
@@ -65,6 +67,7 @@ def get_voting_result(all_role_guesses_arr):
     return all_role_guesses, confidence
 
 def get_statements(player_objs, wolf_inds):
+    ''' Returns array of each player's statements. '''
     stated_roles, given_statements = [], []
     for j in range(const.NUM_PLAYERS):
         statement = player_objs[j].get_statement(stated_roles, given_statements)
@@ -126,6 +129,7 @@ def night_falls():
     return players
 
 def wolf_init():
+    ''' Initializes Wolf - gets Wolf indices and a random center card, if applicable. '''
     wolf_indices = set(find_all_player_indices('Wolf'))
     wolf_center_index, wolf_center_role = None, None
     if len(wolf_indices) == 1 and const.NUM_CENTER > 0:
@@ -136,6 +140,7 @@ def wolf_init():
 
 # TODO Change distribution of choosing center or middle cards
 def seer_init():
+    ''' Initializes Seer - either sees 2 center cards or 1 player card. '''
     seer_index = original_roles.index('Seer')
     choose_center = random.choice([True, False])
     if choose_center and const.NUM_CENTER > 1:
@@ -159,11 +164,13 @@ def seer_init():
         return seer_peek_index, seer_peek_character, None, None
 
 def mason_init():
+    ''' Initializes Mason - sees all other Masons. '''
     mason_indices = find_all_player_indices('Mason')
     logger.debug("[Hidden] Masons are at indices: " + str(mason_indices))
     return mason_indices
 
 def robber_init():
+    ''' Initializes Robber - switches roles with another player. '''
     robber_index = original_roles.index('Robber')
     robber_choice_index = get_random_player()
     while robber_choice_index == robber_index:
@@ -175,6 +182,7 @@ def robber_init():
     return robber_choice_index, robber_choice_character
 
 def drunk_init():
+    ''' Initializes Drunk - switches with a card in the center. '''
     assert(const.NUM_CENTER != 0)
     drunk_index = original_roles.index('Drunk')
     drunk_choice_index = get_random_center()
@@ -184,6 +192,7 @@ def drunk_init():
     return drunk_choice_index
 
 def troublemaker_init():
+    ''' Initializes Troublemaker - switches one player with another player. '''
     troublemaker_index = original_roles.index('Troublemaker')
     troublemaker_choice_index1 = get_random_player()
     troublemaker_choice_index2 = get_random_player()
@@ -197,17 +206,20 @@ def troublemaker_init():
     return troublemaker_choice_index1, troublemaker_choice_index2
 
 def insomniac_init(index):
+    ''' Initializes Insomniac - learns new role. '''
     insomniac_new_role = game_roles[index]
     logger.debug("[Hidden] Insomniac wakes up as a " + insomniac_new_role)
     return insomniac_new_role
 
 def swap_characters(i, j):
+    ''' Util function to swap two characters, updating game_roles and the player_set. '''
     temp = game_roles[i]
     game_roles[i] = game_roles[j]
     game_roles[j] = temp
     player_set = set(game_roles[:const.NUM_PLAYERS])
 
 def find_all_player_indices(role):
+    ''' Util function to find all indices of a given role. '''
     return [i for i in range(const.NUM_PLAYERS) if game_roles[i] == role]
 
 def get_random_player():

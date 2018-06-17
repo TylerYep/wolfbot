@@ -88,9 +88,11 @@ class Wolf(Player):
     def get_statement_expectimax(self, stated_roles, previous_statements):
         possible_statements = get_possible_statements(self.wolf_indices)
 
-        # wolves in a positions - # of ones that are actually wolves, size of set
         def eval(solver_result, predictions):
-            ''' Evaluates a complete or incomplete game. '''
+            '''
+            Evaluates a complete or incomplete game.
+            # wolves in a positions - # of ones that are actually wolves, size of set
+            '''
             val = 10
             if len(predictions) == 0: return -10
             for wolfi in self.wolf_indices:
@@ -111,7 +113,7 @@ class Wolf(Player):
                 best_move = self.statements[vals.index(max(vals))]
                 if len(vals) == 0: return -5, super.getNextStatement()
                 return max(vals), best_move
-            else:                               # Get expected value of remaining statements
+            else:             # Get expected value of remaining statements
                 assert(const.EXPECTIMAX_DEPTH != 1)
                 indices = random.sample(range(len(possible_statements[ind])), const.BRANCH_FACTOR * self.player_index)
                 trimmed_statements = [possible_statements[ind][i] for i in sorted(indices)]
@@ -123,7 +125,7 @@ class Wolf(Player):
             ''' Evaluate current state (value of consistent statements) and return values. '''
             values = []
             for statement in actions:
-                if is_wolf: new_state = state # If you're the wolf, let yourself be inconsistent (each state needs a value)
+                if is_wolf: new_state = state # If you're a Wolf, let yourself be inconsistent (each state needs a value)
                 else: new_state = is_consistent(statement, state)
                 if new_state:
                     new_statements = deepcopy(statement_list) + [statement]
