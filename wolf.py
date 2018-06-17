@@ -27,7 +27,6 @@ class Wolf(Player):
         # role = self.center_role
         # if role != None and role != 'Wolf' and role != 'Mason':
         #     return self.get_easy_wolf_statements(stated_roles)
-
         statements = []
         if 'Villager' in const.ROLE_SET:
             statements += Villager.get_villager_statements(self.player_index)
@@ -105,7 +104,7 @@ class Wolf(Player):
         def expectimax(statement_list, state, ind, depth=None):
             ''' Runs expectimax on the list of statements and the current state using the given depth. '''
             if ind == const.NUM_PLAYERS or depth == 0:
-                solver_result = random.choice(switching_solver(statement_list))
+                solver_result = random.choice(switching_solver(statement_list)) # TODO is this right?
                 predictions = make_predictions_fast(solver_result)
                 return eval(solver_result, predictions), None
             if ind == self.player_index:              # Choose your own move, maximize val

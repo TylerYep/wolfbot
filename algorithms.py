@@ -72,8 +72,7 @@ def switching_solver(statements, known_true=None):
 def baseline_solver(statements, known_true=None):
     '''
     Returns maximal list of statements that can be true from a list
-    of Statements.
-    Does not handle switching characters.
+    of Statements. Does not handle switching characters.
     Returns a list of [True, False, True ...] values.
     '''
     def is_consistent_bl(statement, state):

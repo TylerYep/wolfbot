@@ -1,6 +1,6 @@
 from roles import Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
 from wolf import Wolf
-from predictions import make_predictions, print_guesses
+from predictions import make_predictions, make_evil_prediction, print_guesses
 from statistics import GameResult
 from const import logger
 from collections import defaultdict
@@ -14,7 +14,6 @@ def play_one_night_werewolf(solver):
     game_roles = list(const.ROLES)
     random.shuffle(game_roles)
 
-    # TODO must add robber and insomniac if they become wolves
     wolf_inds = find_all_player_indices('Wolf')
     if const.FIXED_WOLF_INDEX != None:
         if len(wolf_inds) != 0:
@@ -32,16 +31,19 @@ def play_one_night_werewolf(solver):
     save_game = [original_roles, game_roles, all_statements]
     with open('replay.pkl', 'wb') as f: pickle.dump(save_game, f)
 
-    # TODO IMPORTANT: Fake wolves cannot use solver solution here!!
     if const.USE_VOTING:
         all_role_guesses_arr = []
         for i in range(const.NUM_PLAYERS):
-            if i in wolf_inds: # Or is robber-wolf
-                pass
+            # Good player vs Bad player guesses
+            # TODO what happens when a wolf becomes good?
+            if i in wolf_inds or player_objs[i].new_role == 'Wolf':
+                all_solutions = solver(all_statements, i)
+                prediction = make_evil_prediction(all_solutions)
             else:
                 all_solutions = solver(all_statements, i)
                 prediction = make_predictions(all_solutions)
-                all_role_guesses_arr.append(prediction)
+            print(prediction)
+            all_role_guesses_arr.append(prediction)
         all_role_guesses, confidence = get_voting_result(all_role_guesses_arr)
         print_guesses(all_role_guesses)
         return GameResult(game_roles, all_role_guesses, all_statements, wolf_inds, confidence)
@@ -138,10 +140,10 @@ def wolf_init():
     logger.debug("[Hidden] Wolves are at indices: " + str(wolf_indices))
     return wolf_indices, wolf_center_index, wolf_center_role
 
-# TODO Change distribution of choosing center or middle cards
 def seer_init():
     ''' Initializes Seer - either sees 2 center cards or 1 player card. '''
     seer_index = original_roles.index('Seer')
+    # TODO Change distribution of choosing center or middle cards
     choose_center = random.choice([True, False])
     if choose_center and const.NUM_CENTER > 1:
         seer_peek_index = get_random_center()

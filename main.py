@@ -11,14 +11,13 @@ import pickle
 def main():
     # Initialize array of solvers used in game simulations.
     SOLVERS = [switching_solver]
-
     start_time = time.time()
     for solver in SOLVERS:
         logger.warning('\n' + solver.__name__ + '\n')
         stats = Statistics()
         for num in range(const.NUM_GAMES):
-            if const.SHOW_PROGRESS and num % 100 == 0:
-                logger.warning('Currently on Game: ', num)
+            if const.SHOW_PROGRESS and num % 10 == 0:
+                logger.warning('Currently on Game: ' + str(num))
             game_result = play_one_night_werewolf(solver)
             stats.add_result(game_result)
         stats.print_statistics()

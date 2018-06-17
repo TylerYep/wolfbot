@@ -18,6 +18,7 @@ class Seer(Player):
     def __init__(self, player_index, seer_peek_index, seer_peek_character, seer_peek_index2, seer_peek_character2):
         super().__init__(player_index)
         self.role = 'Seer'
+        self.new_role = ''
         self.statements = self.get_seer_statements(player_index, seer_peek_index, seer_peek_character,
                                                     seer_peek_index2, seer_peek_character2)
 
@@ -37,6 +38,7 @@ class Villager(Player):
     def __init__(self, player_index):
         super().__init__(player_index)
         self.role = 'Villager'
+        self.new_role = ''
         self.statements = self.get_villager_statements(player_index)
 
     @staticmethod
@@ -48,6 +50,7 @@ class Mason(Player):
     def __init__(self, player_index, mason_indices):
         super().__init__(player_index)
         self.role = 'Mason'
+        self.new_role = ''
         self.statements = self.get_mason_statements(player_index, mason_indices)
 
     @staticmethod
@@ -59,9 +62,9 @@ class Mason(Player):
                 if ind != player_index:
                     knowledge.append((ind, set(const.ROLE_SET) - {'Mason'}))
         else:
-            otherMason = mason_indices[0] if mason_indices[0] != player_index else mason_indices[1]
-            sentence = "I am a Mason. The other Mason is Player " + str(otherMason) + '.'
-            knowledge = [(player_index, {'Mason'}), (otherMason, {'Mason'})]
+            other_mason = mason_indices[0] if mason_indices[0] != player_index else mason_indices[1]
+            sentence = "I am a Mason. The other Mason is Player " + str(other_mason) + '.'
+            knowledge = [(player_index, {'Mason'}), (other_mason, {'Mason'})]
         return [Statement(sentence, knowledge)]
 
 
@@ -94,6 +97,7 @@ class Troublemaker(Player):
     def __init__(self, player_index, trblmkr_index1, trblmkr_index2):
         super().__init__(player_index)
         self.role = 'Troublemaker'
+        self.new_role = ''
         self.statements = self.get_troublemaker_statements(player_index, trblmkr_index1, trblmkr_index2)
 
     @staticmethod
@@ -109,6 +113,7 @@ class Drunk(Player):
     def __init__(self, player_index, drunk_choice_index):
         super().__init__(player_index)
         self.role = 'Drunk'
+        self.new_role = ''
         self.statements = self.get_drunk_statements(player_index, drunk_choice_index)
 
     @staticmethod
@@ -136,7 +141,7 @@ class Insomniac(Player):
                 sentence += " I don't know who I switched with."
         else:
             sentence += " I switched with Player " + str(new_insomniac_index) + '.'
-        # switches = [(player_index, new_insomniac_index)]  # TODO put this into known_switches
+        # switches = [(player_index, new_insomniac_index)]  # TODO 
         return [Statement(sentence, knowledge)]
 
     def get_statement(self, stated_roles, previous):

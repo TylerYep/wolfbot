@@ -6,14 +6,14 @@ logger = logging.getLogger()
 
 ''' Simulation Constants '''
 NUM_GAMES = 1
-SHOW_PROGRESS = False
+SHOW_PROGRESS = True
 FIXED_WOLF_INDEX = None
 
 ''' Game Constants '''
 ROLES = ('Villager', 'Villager', 'Villager', 'Wolf', 'Wolf', 'Seer',
         'Mason', 'Mason', 'Drunk', 'Troublemaker', 'Insomniac', 'Robber')
 NUM_CENTER = 3
-USE_VOTING = False
+USE_VOTING = True
 
 ''' Util Constants '''
 ROLE_SET = set(ROLES)
@@ -23,7 +23,7 @@ NUM_PLAYERS = NUM_ROLES - NUM_CENTER
 ROBBER_PRIORITY, TROUBLEMAKER_PRIORITY, DRUNK_PRIORITY = 1, 2, 3
 
 ''' Expectimax Wolf Player'''
-USE_EXPECTIMAX_WOLF = True
+USE_EXPECTIMAX_WOLF = False
 EXPECTIMAX_DEPTH = 1
 BRANCH_FACTOR = 5
 
@@ -33,7 +33,7 @@ EXPERIENCE_PATH = 'wolf_player.pkl'
 
 ''' Logging Constants '''
 logger.setLevel(logging.DEBUG)
-#logger.setLevel(logging.WARNING)
+logger.setLevel(logging.WARNING)
 
 ''' DEBUG = Include all hidden messages '''
 ''' INFO = Regular gameplay '''

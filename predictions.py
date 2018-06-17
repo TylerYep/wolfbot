@@ -4,6 +4,16 @@ from copy import deepcopy
 import random
 import pickle
 
+def make_evil_prediction(solution_arr):
+    solution = random.choice(solution_arr)
+    all_role_guesses, curr_role_counts = get_basic_guesses(solution)
+    print(all_role_guesses, curr_role_counts)
+    solved = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts), False)
+
+    switch_dict = get_switch_dict(solution)
+    final_guesses = [solved[switch_dict[i]] for i in range(len(solved))]
+    return final_guesses
+
 def make_predictions_fast(solution):
     '''
     Uses a list of true/false statements and possible role sets
@@ -23,11 +33,7 @@ def make_predictions(solution_arr):
     solved = None
     random.shuffle(solution_arr)
     for solution in solution_arr:
-        if len(solution.possible_roles) < const.NUM_ROLES:
-            # TODO Fix this in one_night
-            logger.warning(str(solution))
-            logger.warning("This is going to crash because no solution was found... \
-                because the robber wolf or whatever said something that cannot be consistent")
+        assert(len(solution.possible_roles) == const.NUM_ROLES)
         all_role_guesses, curr_role_counts = get_basic_guesses(solution)
         solved = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts))
         if solved: break
@@ -39,7 +45,7 @@ def make_predictions(solution_arr):
             logger.warning("Could not find solution: " + str(count))
             count += 1
             all_role_guesses, curr_role_counts = get_basic_guesses(solution)
-            for j in range(len(all_role_guesses)):
+            for j in range(const.NUM_ROLES):
                 for role in ['Wolf', 'Robber', 'Insomniac']:
                     if all_role_guesses[j] == role:
                         all_role_guesses[j] = ''
@@ -47,7 +53,8 @@ def make_predictions(solution_arr):
             solved = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts))
             if solved: break
 
-    if not solved:          # TODO Last resort: assign randomly from curr_role_counts dict
+    # TODO remove when unnecessary
+    if not solved:          # Last resort: assign randomly from curr_role_counts dict
         logger.warning("Choosing without using possible roles (should not happen)")
         solution = random.choice(solution_arr)
         all_role_guesses, curr_role_counts = get_basic_guesses(solution)
