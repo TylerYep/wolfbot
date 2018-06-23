@@ -33,7 +33,7 @@ EXPERIENCE_PATH = 'wolf_player.pkl'
 
 ''' Logging Constants '''
 logger.setLevel(logging.DEBUG)
-logger.setLevel(logging.WARNING)
+#logger.setLevel(logging.WARNING)
 
 ''' DEBUG = Include all hidden messages '''
 ''' INFO = Regular gameplay '''

@@ -5,9 +5,12 @@ import random
 import pickle
 
 def make_evil_prediction(solution_arr):
+    '''
+    Makes the Wolf character's prediction for the game.
+    '''
     solution = random.choice(solution_arr)
     all_role_guesses, curr_role_counts = get_basic_guesses(solution)
-    print(all_role_guesses, curr_role_counts)
+    # print(all_role_guesses, curr_role_counts)
     solved = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts), False)
 
     switch_dict = get_switch_dict(solution)
@@ -18,6 +21,7 @@ def make_predictions_fast(solution):
     '''
     Uses a list of true/false statements and possible role sets
     to return a rushed list of predictions for all roles.
+    Does not restrict guesses to the possible sets.
     '''
     all_role_guesses, curr_role_counts = get_basic_guesses(solution)
     solved = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts), False)

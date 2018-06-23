@@ -42,7 +42,7 @@ def play_one_night_werewolf(solver):
             else:
                 all_solutions = solver(all_statements, i)
                 prediction = make_predictions(all_solutions)
-            print(prediction)
+            # print(prediction)
             all_role_guesses_arr.append(prediction)
         all_role_guesses, confidence = get_voting_result(all_role_guesses_arr)
         print_guesses(all_role_guesses)
