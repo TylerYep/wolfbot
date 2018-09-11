@@ -33,9 +33,9 @@ class Statistics:
 
     def print_statistics(self):
         ''' Outputs overall statistics of inputed game results. '''
-        sentences = ["Accuracy for all predictions: ", "Accuracy with lenient center scores: ",
-                    "S1: Found at least 1 Wolf player: ", "S2: Found all Wolf players: ",
-                    "Percentage of correct Wolf guesses (including Wolves in the center): "]
+        sentences = ['Accuracy for all predictions: ', 'Accuracy with lenient center scores: ',
+                    'S1: Found at least 1 Wolf player: ', 'S2: Found all Wolf players: ',
+                    'Percentage of correct Wolf guesses (including Wolves in the center): ']
         for i in range(self.NUM_METRICS):
             if self.total[i] == 0: self.total[i] += 1
             logger.warning(sentences[i] + str(self.correct[i] / self.total[i]))

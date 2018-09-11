@@ -54,7 +54,7 @@ class Wolf(Player):
                 statements += Robber.get_robber_statements(self.player_index, i, stated_roles[i])
         if 'Seer' in const.ROLE_SET:
             for i in range(len(stated_roles)):
-                if i not in self.wolf_indices and stated_roles[i] != 'Seer':      # "Hey, I'm a Seer and I saw another Seer..."
+                if i not in self.wolf_indices and stated_roles[i] != 'Seer':      # 'Hey, I'm a Seer and I saw another Seer...'
                     statements += Seer.get_seer_statements(self.player_index, i, stated_roles[i])
         return statements
 
@@ -159,7 +159,7 @@ class Wolf(Player):
             statements += Insomniac.get_insomniac_statements(self.player_index, 'Insomniac')
         elif role == 'Seer':
             for i in range(len(stated_roles)):
-                if i not in self.wolf_indices and stated_roles[i] != 'Seer':      # "Hey, I'm a Seer and I saw another Seer..."
+                if i not in self.wolf_indices and stated_roles[i] != 'Seer':      # 'Hey, I'm a Seer and I saw another Seer...'
                     statements += Seer.get_seer_statements(self.player_index, i, stated_roles[i])
             for c1 in range(const.NUM_CENTER):
                 for c2 in range(c1 + 1, const.NUM_CENTER):
@@ -200,12 +200,12 @@ class Wolf(Player):
         if 'Robber' in const.ROLE_SET:
             for i in range(const.NUM_PLAYERS):
                 for role in const.ROLES:
-                    if role != 'Wolf':      # "I robbed Player 0 and now I'm a Wolf..."
+                    if role != 'Wolf':      # 'I robbed Player 0 and now I'm a Wolf...'
                         statements += Robber.get_robber_statements(player_index, i, role)
         if 'Seer' in const.ROLE_SET:
             for role in const.ROLES:
                 for i in range(const.NUM_PLAYERS):
-                    if i not in wolf_indices and role != 'Seer':      # "Hey, I'm a Seer and I saw another Seer..."
+                    if i not in wolf_indices and role != 'Seer':      # 'Hey, I'm a Seer and I saw another Seer...'
                         statements += Seer.get_seer_statements(player_index, i, role)
             # Wolf using these usually gives himself away
             for c1 in range(const.NUM_CENTER):

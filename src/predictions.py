@@ -46,7 +46,7 @@ def make_predictions(solution_arr):
         random.shuffle(solution_arr)
         count = 1
         for solution in solution_arr:
-            logger.warning("Could not find solution: " + str(count))
+            logger.warning('Could not find solution: ' + str(count))
             count += 1
             all_role_guesses, curr_role_counts = get_basic_guesses(solution)
             for j in range(const.NUM_ROLES):
@@ -59,7 +59,7 @@ def make_predictions(solution_arr):
 
     # TODO remove when unnecessary
     if not solved:          # Last resort: assign randomly from curr_role_counts dict
-        logger.warning("Choosing without using possible roles (should not happen)")
+        logger.warning('Choosing without using possible roles (should not happen)')
         solution = random.choice(solution_arr)
         all_role_guesses, curr_role_counts = get_basic_guesses(solution)
         solved = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts), False)
@@ -136,5 +136,5 @@ def get_switch_dict(solution):
     return switch_dict
 
 def print_guesses(all_role_guesses):
-    logger.info("\n[Wolfbot] Role guesses: " + str(all_role_guesses[:const.NUM_PLAYERS]) +
-                "\n\t  Center cards: " + str(all_role_guesses[const.NUM_PLAYERS:]) + '\n')
+    logger.info('\n[Wolfbot] Role guesses: ' + str(all_role_guesses[:const.NUM_PLAYERS]) +
+                '\n\t  Center cards: ' + str(all_role_guesses[const.NUM_PLAYERS:]) + '\n')

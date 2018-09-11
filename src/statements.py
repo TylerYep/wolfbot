@@ -30,7 +30,7 @@ class Statement:
         return Statement('NOT + ' + self.sentence, neg, [])
 
     def __repr__(self):
-        return "Statement(\'" + self.sentence + "\', " + str(self.knowledge) + ", " + str(self.switches) + '),'
+        return 'Statement(\'' + self.sentence + '\', ' + str(self.knowledge) + ', ' + str(self.switches) + '),'
 
 
 ### Testing ###
