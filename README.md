@@ -6,9 +6,14 @@ To try it out, run 'python3 src/main.py' in the terminal.
 Constants, along with their use cases, are listed in const.py.
 
 # Development
+## September 2018
+By rough estimate, with 12 roles, there are roughly 250 million different games
+that can occur (role assignments, and then switching scenarios).
+
+
 ## June 2018
 Presented the final iteration of the project at the CS 221 Project Fair. Good feedback
-overall, main points moving forward may be looking into taking the minimum expectation
+overall, main points moving forward may be looking into using the minimum expectation
 for the Wolf players, adding new statements from each player (more than one round of speaking),
 and adding wildcard characters like Minions and Tanners. More to come!
 
@@ -37,11 +42,13 @@ game mechanics slowly to ensure all scenarios are covered and interpreted optima
 First steps were to recreate a simplified version of game in Python. We initially only
 used 5 characters in the game: Villager (x3), Wolf (x2), and Seer. In one_night.py,
 we randomly assign roles from const.py, have night fall, and then have each character
-give a statement about what they did during the night. Emphasis on making code expandable
+give a statement about what they did during the night. Emphasis on making code expand
+naturally, minimizing refactoring.
 
 Next, we made a solver for a set of statements from each player. Majority of
 the work here goes to Harry for introducing a Consistency verifier for Statements,
 and creating the Baseline Solver.
+
 
 # Files
 ## Game Simulation
@@ -60,8 +67,9 @@ and creating the Baseline Solver.
 
 ## Game Components
 * roles.py (Stores all Good player roles and their associated methods)  
-(May separate into individual files in the future)  
+  (May separate into individual files in the future)  
 * wolf.py (Stores all Evil player roles and their associated methods)  
 * statements.py (Statement class with associated methods)  
+
 
 Wolf Theory: Choose statements that do a good job, not necessarily the absolute best ones.

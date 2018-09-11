@@ -1,19 +1,18 @@
-from collections import Counter, defaultdict
+from collections import Counter
 import logging
-def _get_int_dict(): return defaultdict(int)
 logging.basicConfig(format='%(message)s', level=logging.INFO)
 logger = logging.getLogger()
 
 ''' Simulation Constants '''
 NUM_GAMES = 1
-SHOW_PROGRESS = True
+SHOW_PROGRESS = False
 FIXED_WOLF_INDEX = None
 
 ''' Game Constants '''
 ROLES = ('Villager', 'Villager', 'Villager', 'Wolf', 'Wolf', 'Seer',
         'Mason', 'Mason', 'Drunk', 'Troublemaker', 'Insomniac', 'Robber')
 NUM_CENTER = 3
-USE_VOTING = True
+USE_VOTING = False
 
 ''' Util Constants '''
 ROLE_SET = set(ROLES)

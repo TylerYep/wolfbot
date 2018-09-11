@@ -4,8 +4,9 @@ from predictions import make_predictions, make_evil_prediction, print_guesses
 from statistics import GameResult
 from const import logger
 from collections import defaultdict
+from encoder import WolfBotEncoder
+import json
 import const
-import pickle
 import random
 
 def play_one_night_werewolf(solver):
@@ -29,7 +30,8 @@ def play_one_night_werewolf(solver):
     print_roles()
 
     save_game = [original_roles, game_roles, all_statements]
-    with open('data/replay.pkl', 'wb') as f: pickle.dump(save_game, f)
+    with open('data/replay.json', 'w') as f:
+        json.dump(save_game, f, cls=WolfBotEncoder)
 
     if const.USE_VOTING:
         all_role_guesses_arr = []
@@ -144,8 +146,8 @@ def wolf_init():
 def seer_init():
     ''' Initializes Seer - either sees 2 center cards or 1 player card. '''
     seer_index = original_roles.index('Seer')
-    # TODO Change distribution of choosing center or middle cards
-    choose_center = random.choice([True, False])
+    # Picks two player cards more often, because that generally yields higher win rates.
+    choose_center = random.choices([True, False], [0.75, 0.25])
     if choose_center and const.NUM_CENTER > 1:
         seer_peek_index = get_random_center()
         seer_peek_character = game_roles[seer_peek_index]

@@ -5,7 +5,7 @@ class Statement:
         '''
         sentence is a string representation of the statement
         knowledge is a list of (player_index, set(role)) tuples
-        switches is a list of (player_index, new_index) tuples
+        switches is a list of (player_priority, player_index, new_index) tuples
         '''
         self.sentence = sentence
         self.knowledge = knowledge
@@ -29,8 +29,11 @@ class Statement:
             neg.append((tupl[0], newSet))
         return Statement('NOT + ' + self.sentence, neg, [])
 
+    def json_repr(self):
+        return {'type': 'Statement', 'sentence': self.sentence, 'knowledge': self.knowledge, 'switches': self.switches}
+
     def __repr__(self):
-        return 'Statement(\'' + self.sentence + '\', ' + str(self.knowledge) + ', ' + str(self.switches) + '),'
+        return 'Statement(\'' + self.sentence + '\', ' + str(self.knowledge) + ', ' + str(self.switches) + ')'
 
 
 ### Testing ###

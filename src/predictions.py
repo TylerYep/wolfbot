@@ -2,8 +2,8 @@ import const
 from const import logger
 from copy import deepcopy
 import random
-import pickle
 
+# TODO bug here with empty set
 def make_evil_prediction(solution_arr):
     '''
     Makes the Wolf character's prediction for the game.

@@ -1,13 +1,14 @@
 from const import logger
+from encoder import WolfBotDecoder
 import const
-import pickle
+import json
 from algorithms import switching_solver
 from predictions import make_predictions, print_guesses, make_predictions_fast
 from statistics import Statistics, GameResult
 
 if __name__ == '__main__':
-    with open('data/replay.pkl', 'rb') as f:
-       original_roles, game_roles, all_statements = pickle.load(f)
+    with open('data/replay.json', 'r') as f:
+       original_roles, game_roles, all_statements = json.load(f, cls=WolfBotDecoder)
 
     print('STATEMENTS: ')
     for i, s in enumerate(all_statements):

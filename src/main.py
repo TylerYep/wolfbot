@@ -1,12 +1,11 @@
 import sys
-if sys.version_info < (3, 0): sys.stdout.write('\n\n Requires Python 3, not Python 2! \n\n\n')
+if sys.version_info < (3, 0): sys.stdout.write('\n\n\n Requires Python 3, not Python 2! \n\n\n\n')
 from one_night import play_one_night_werewolf
 from algorithms import random_solver, baseline_solver, switching_solver
 from statistics import GameResult, Statistics
 from const import logger
 import const
 import time
-import pickle
 
 def main():
     # Initialize array of solvers used in game simulations.
