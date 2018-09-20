@@ -3,11 +3,6 @@ import logging
 logging.basicConfig(format='%(message)s', level=logging.INFO)
 logger = logging.getLogger()
 
-''' Simulation Constants '''
-NUM_GAMES = 1
-SHOW_PROGRESS = False
-FIXED_WOLF_INDEX = None
-
 ''' Game Constants '''
 ROLES = ('Villager', 'Villager', 'Villager', 'Wolf', 'Wolf', 'Seer',
         'Mason', 'Mason', 'Drunk', 'Troublemaker', 'Insomniac', 'Robber')
@@ -30,9 +25,14 @@ BRANCH_FACTOR = 5
 USE_WOLF_RL = False
 EXPERIENCE_PATH = 'data/wolf_player.pkl'
 
+''' Simulation Constants '''
+NUM_GAMES = 1
+SHOW_PROGRESS = False or NUM_GAMES > 10
+FIXED_WOLF_INDEX = None
+
 ''' Logging Constants '''
 logger.setLevel(logging.DEBUG)
-#logger.setLevel(logging.WARNING)
+if NUM_GAMES > 10: logger.setLevel(logging.WARNING)
 
 ''' DEBUG = Include all hidden messages '''
 ''' INFO = Regular gameplay '''
