@@ -1,5 +1,6 @@
 from statements import Statement
 from const import logger
+from util import find_all_player_indices, get_random_center, get_random_player, swap_characters
 import const
 import random
 
@@ -18,12 +19,37 @@ class Player():
 
 
 class Seer(Player):
-    def __init__(self, player_index, seer_peek_index, seer_peek_character, seer_peek_index2, seer_peek_character2):
+    def __init__(self, player_index, game_roles):
         super().__init__(player_index)
+        seer_peek_index, seer_peek_character, seer_peek_index2, seer_peek_character2 = self.seer_init(game_roles)
         self.role = 'Seer'
         self.new_role = ''
         self.statements = self.get_seer_statements(player_index, seer_peek_index, seer_peek_character,
                                                     seer_peek_index2, seer_peek_character2)
+
+    def seer_init(self, game_roles):
+        ''' Initializes Seer - either sees 2 center cards or 1 player card. '''
+        # Picks two center cards more often, because that generally yields higher win rates.
+        choose_center = random.choices([True, False], [0.9, 0.1])
+        if choose_center and const.NUM_CENTER > 1:
+            seer_peek_index = get_random_center()
+            seer_peek_character = game_roles[seer_peek_index]
+            seer_peek_index2 = get_random_center()
+            while seer_peek_index2 == seer_peek_index:
+                seer_peek_index2 = get_random_center()
+            seer_peek_character2 = game_roles[seer_peek_index2]
+            logger.debug('[Hidden] Seer sees that Center ' + str(seer_peek_index - const.NUM_PLAYERS) +
+                    ' is a ' + str(seer_peek_character) + ' and Center ' + str(seer_peek_index2 - const.NUM_PLAYERS) +
+                    ' is a ' + str(seer_peek_character2))
+            return seer_peek_index, seer_peek_character, seer_peek_index2, seer_peek_character2
+        else:
+            seer_peek_index = get_random_player()
+            while seer_peek_index == self.player_index:
+                seer_peek_index = get_random_player()
+            seer_peek_character = game_roles[seer_peek_index]
+            logger.debug('[Hidden] Seer sees that Player ' + str(seer_peek_index) +
+                    ' is a ' + str(seer_peek_character))
+            return seer_peek_index, seer_peek_character, None, None
 
     @staticmethod
     def get_seer_statements(player_index, seen_index, seen_role, seen_index2=None, seen_role2=None):
@@ -50,11 +76,18 @@ class Villager(Player):
 
 
 class Mason(Player):
-    def __init__(self, player_index, mason_indices):
+    def __init__(self, player_index, game_roles, ORIGINAL_ROLES):
         super().__init__(player_index)
+        mason_indices = self.mason_init(game_roles, ORIGINAL_ROLES)
         self.role = 'Mason'
         self.new_role = ''
         self.statements = self.get_mason_statements(player_index, mason_indices)
+
+    def mason_init(self, game_roles, ORIGINAL_ROLES):
+        ''' Initializes Mason - sees all other Masons. '''
+        mason_indices = find_all_player_indices(ORIGINAL_ROLES, 'Mason')
+        logger.debug('[Hidden] Masons are at indices: ' + str(mason_indices))
+        return mason_indices
 
     @staticmethod
     def get_mason_statements(player_index, mason_indices):
@@ -72,11 +105,23 @@ class Mason(Player):
 
 
 class Robber(Player):
-    def __init__(self, player_index, robber_choice_index, robber_choice_character):
+    def __init__(self, player_index, game_roles):
         super().__init__(player_index)
+        robber_choice_index, robber_choice_character = self.robber_init(game_roles)
         self.role = 'Robber'
         self.new_role = robber_choice_character
         self.statements = self.get_robber_statements(player_index, robber_choice_index, robber_choice_character)
+
+    def robber_init(self, game_roles):
+        ''' Initializes Robber - switches roles with another player. '''
+        robber_choice_index = get_random_player()
+        while robber_choice_index == self.player_index:
+            robber_choice_index = get_random_player()
+        robber_choice_character = game_roles[robber_choice_index]
+        logger.debug('[Hidden] Robber switches with Player ' + str(robber_choice_index) +
+                    ' and becomes a ' + str(robber_choice_character))
+        swap_characters(game_roles, self.player_index, robber_choice_index)
+        return robber_choice_index, robber_choice_character
 
     @staticmethod
     def get_robber_statements(player_index, robber_choice_index, robber_choice_character):
@@ -89,7 +134,7 @@ class Robber(Player):
     def get_statement(self, stated_roles, previous):
         if self.new_role == 'Wolf':
             from wolf import Wolf
-            # logger.warning('Robber is a Wolf now!')
+            logger.warning('Robber is a Wolf now!')
             robber_wolf = Wolf(self.player_index)
             return robber_wolf.get_statement(stated_roles, previous)
         else:
@@ -97,11 +142,25 @@ class Robber(Player):
 
 
 class Troublemaker(Player):
-    def __init__(self, player_index, trblmkr_index1, trblmkr_index2):
+    def __init__(self, player_index, game_roles):
         super().__init__(player_index)
+        trblmkr_index1, trblmkr_index2 = self.troublemaker_init(game_roles)
         self.role = 'Troublemaker'
         self.new_role = ''
         self.statements = self.get_troublemaker_statements(player_index, trblmkr_index1, trblmkr_index2)
+
+    def troublemaker_init(self, game_roles):
+        ''' Initializes Troublemaker - switches one player with another player. '''
+        troublemaker_choice_index1 = get_random_player()
+        troublemaker_choice_index2 = get_random_player()
+        while troublemaker_choice_index1 == self.player_index:
+            troublemaker_choice_index1 = get_random_player()
+        while troublemaker_choice_index2 == self.player_index or troublemaker_choice_index2 == troublemaker_choice_index1:
+            troublemaker_choice_index2 = get_random_player()
+        swap_characters(game_roles, troublemaker_choice_index1, troublemaker_choice_index2)
+        logger.debug('[Hidden] Troublemaker switches Player ' + str(troublemaker_choice_index1)
+            + ' with Player ' + str(troublemaker_choice_index2))
+        return troublemaker_choice_index1, troublemaker_choice_index2
 
     @staticmethod
     def get_troublemaker_statements(player_index, trblmkr_index1, trblmkr_index2):
@@ -113,11 +172,21 @@ class Troublemaker(Player):
 
 
 class Drunk(Player):
-    def __init__(self, player_index, drunk_choice_index):
+    def __init__(self, player_index, game_roles):
         super().__init__(player_index)
+        drunk_choice_index = self.drunk_init(game_roles)
         self.role = 'Drunk'
         self.new_role = ''
         self.statements = self.get_drunk_statements(player_index, drunk_choice_index)
+
+    def drunk_init(self, game_roles):
+        ''' Initializes Drunk - switches with a card in the center. '''
+        assert(const.NUM_CENTER != 0)
+        drunk_choice_index = get_random_center()
+        logger.debug('[Hidden] Drunk switches with Center Card ' + str(drunk_choice_index - const.NUM_PLAYERS) +
+                    ' and unknowingly becomes a ' + str(game_roles[drunk_choice_index]))
+        swap_characters(game_roles, self.player_index, drunk_choice_index)
+        return drunk_choice_index
 
     @staticmethod
     def get_drunk_statements(player_index, drunk_choice_index):
@@ -129,11 +198,18 @@ class Drunk(Player):
 
 
 class Insomniac(Player):
-    def __init__(self, player_index, insomniac_new_role):
+    def __init__(self, player_index, game_roles):
         super().__init__(player_index)
+        insomniac_new_role = self.insomniac_init(game_roles)
         self.role = 'Insomniac'
         self.new_role = insomniac_new_role
         self.statements = self.get_insomniac_statements(player_index, insomniac_new_role)
+
+    def insomniac_init(self, game_roles):
+        ''' Initializes Insomniac - learns new role. '''
+        insomniac_new_role = game_roles[self.player_index]
+        logger.debug('[Hidden] Insomniac wakes up as a ' + insomniac_new_role)
+        return insomniac_new_role
 
     @staticmethod
     def get_insomniac_statements(player_index, insomniac_new_role, new_insomniac_index=None):
@@ -150,7 +226,7 @@ class Insomniac(Player):
     def get_statement(self, stated_roles, previous):
         if self.new_role == 'Wolf':
             from wolf import Wolf
-            # logger.warning('Insomniac is a Wolf now!')
+            logger.warning('Insomniac is a Wolf now!')
             insomniac_wolf = Wolf(self.player_index)
             return insomniac_wolf.get_statement(stated_roles, previous)
         else:

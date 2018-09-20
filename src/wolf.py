@@ -3,6 +3,7 @@ from algorithms import switching_solver, SolverState, is_consistent
 from predictions import make_predictions_fast
 from possible import get_possible_statements
 from statements import Statement
+from util import find_all_player_indices, get_random_center
 from const import logger
 import const
 import pickle
@@ -15,13 +16,25 @@ if const.USE_WOLF_RL:
         print('Done loading')
 
 class Wolf(Player):
-    def __init__(self, player_index, wolf_indices=[], wolf_center_index=None, wolf_center_role=None):
+    def __init__(self, player_index, game_roles=None, ORIGINAL_ROLES=None):
         super().__init__(player_index)
         self.role = 'Wolf'
         self.statements = []
-        self.wolf_indices = wolf_indices
-        self.center_index = wolf_center_index
-        self.center_role = wolf_center_role
+        if game_roles is not None:
+            wolf_indices, wolf_center_index, wolf_center_role = self.wolf_init(game_roles, ORIGINAL_ROLES)
+        self.wolf_indices = wolf_indices if game_roles is not None else []
+        self.center_index = wolf_center_index if game_roles is not None else None
+        self.center_role = wolf_center_role if game_roles is not None else None
+
+    def wolf_init(self, game_roles, ORIGINAL_ROLES):
+        ''' Initializes Wolf - gets Wolf indices and a random center card, if applicable. '''
+        wolf_indices = set(find_all_player_indices(ORIGINAL_ROLES, 'Wolf'))
+        wolf_center_index, wolf_center_role = None, None
+        if len(wolf_indices) == 1 and const.NUM_CENTER > 0:
+            wolf_center_index = get_random_center()
+            wolf_center_role = game_roles[wolf_center_index]
+        logger.debug('[Hidden] Wolves are at indices: ' + str(wolf_indices))
+        return wolf_indices, wolf_center_index, wolf_center_role
 
     def get_wolf_statements(self, stated_roles, previous_statements):
         # role = self.center_role
