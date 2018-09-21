@@ -3,8 +3,8 @@ import os
 import collections
 import const
 import main
-def _get_int_dict():
-    return collections.defaultdict(int)
+
+def _get_int_dict(): return collections.defaultdict(int)
 
 def evaluate(game):
     val = 5

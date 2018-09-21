@@ -19,3 +19,7 @@ def get_random_player():
 def get_random_center():
     ''' Gets a random index of a center card. '''
     return const.NUM_PLAYERS + random.randint(0, const.NUM_CENTER - 1)
+    
+def print_roles(game_roles):
+    logger.debug('[Hidden] Current roles: ' + str(game_roles[:const.NUM_PLAYERS]) +
+                '\n\t Center cards:  ' + str(game_roles[const.NUM_PLAYERS:]) + '\n')

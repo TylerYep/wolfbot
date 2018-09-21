@@ -1,20 +1,13 @@
-from roles import Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
-from wolf import Wolf
+from roles import Wolf, Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
 from predictions import make_predictions, make_evil_prediction, print_guesses
 from statistics import GameResult
 from const import logger
 from collections import defaultdict
 from encoder import WolfBotEncoder
-from util import find_all_player_indices, swap_characters
+from util import find_all_player_indices, swap_characters, print_roles
 import json
 import const
 import random
-
-def override_wolf_index(game_roles, wolf_inds):
-    if const.FIXED_WOLF_INDEX != None:
-        if len(wolf_inds) != 0:
-            wolf_ind = random.choice(wolf_inds)
-            swap_characters(game_roles, wolf_ind, const.FIXED_WOLF_INDEX)
 
 def play_one_night_werewolf(solver):
     ''' Plays one round of One Night Ultimate Werewolf. '''
@@ -22,14 +15,12 @@ def play_one_night_werewolf(solver):
     random.shuffle(game_roles)
     global ORIGINAL_ROLES
     ORIGINAL_ROLES = list(game_roles)
-
     wolf_inds = find_all_player_indices(game_roles, 'Wolf')
-    # override_wolf_index(game_roles, wolf_inds)
 
     player_objs = night_falls(game_roles)
 
     logger.info('\n -- GAME BEGINS -- \n')
-    all_statements = get_statements(player_objs, wolf_inds)
+    all_statements = get_statements(player_objs)
     print_roles(game_roles)
 
     save_game = [ORIGINAL_ROLES, game_roles, all_statements]
@@ -71,17 +62,23 @@ def get_voting_result(all_role_guesses_arr):
         confidence.append(count / const.NUM_PLAYERS)
     return all_role_guesses, confidence
 
-def get_statements(player_objs, wolf_inds):
+def get_statements(player_objs):
     ''' Returns array of each player's statements. '''
     stated_roles, given_statements = [], []
     for j in range(const.NUM_PLAYERS):
         statement = player_objs[j].get_statement(stated_roles, given_statements)
-        # TODO: bug with RL wolf without a speaker field
         stated_roles.append(statement.speaker)
         given_statements.append(statement)
         logger.info('Player ' + str(j) + ': ' + str(statement.sentence))
     return given_statements
 
+def init_roles(game_roles, player_objs, Role):
+    role_str = Role.__name__
+    wake(role_str)
+    for i in range(const.NUM_PLAYERS):
+        if ORIGINAL_ROLES[i] == role_str:
+            player_objs[i] = Role(i, game_roles, ORIGINAL_ROLES)
+    sleep(role_str)
 
 def night_falls(game_roles):
     ''' Initialize role object list and perform all switching and peeking actions to begin. '''
@@ -90,55 +87,25 @@ def night_falls(game_roles):
 
     # Players perform actions on game_roles and add objects to list
     player_objs = list(game_roles)
-    # TODO condense this
-    wake('Wolves')
-    for i in range(const.NUM_PLAYERS):
-        if ORIGINAL_ROLES[i] == 'Wolf':
-            player_objs[i] = Wolf(i, game_roles, ORIGINAL_ROLES)
-    sleep('Wolves')
-    wake('Masons')
-    for i in range(const.NUM_PLAYERS):
-        if ORIGINAL_ROLES[i] == 'Mason':
-            player_objs[i] = Mason(i, game_roles, ORIGINAL_ROLES)
-    sleep('Masons')
-    wake('Seer')
-    for i in range(const.NUM_PLAYERS):
-        if ORIGINAL_ROLES[i] == 'Seer':
-            player_objs[i] = Seer(i, game_roles)
-    sleep('Seer')
-    wake('Robber')
-    for i in range(const.NUM_PLAYERS):
-        if ORIGINAL_ROLES[i] == 'Robber':
-            player_objs[i] = Robber(i, game_roles)
-    sleep('Robber')
-    wake('Troublemaker')
-    for i in range(const.NUM_PLAYERS):
-        if ORIGINAL_ROLES[i] == 'Troublemaker':
-            player_objs[i] = Troublemaker(i, game_roles)
-    sleep('Troublemaker')
-    wake('Drunk')
-    for i in range(const.NUM_PLAYERS):
-        if ORIGINAL_ROLES[i] == 'Drunk':
-            player_objs[i] = Drunk(i, game_roles)
-    sleep('Drunk')
-    wake('Insomniac')
-    for i in range(const.NUM_PLAYERS):
-        if ORIGINAL_ROLES[i] == 'Insomniac':
-            player_objs[i] = Insomniac(i, game_roles)
-    sleep('Insomniac')
+    AWAKE_ORDER = (Wolf, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac)
+    for role in AWAKE_ORDER:
+        init_roles(game_roles, player_objs, role)
 
-    # Initialize remaining characters TODO use function map? for Hunter too...
     for i in range(const.NUM_PLAYERS):
-        if ORIGINAL_ROLES[i] == 'Villager':
+        if ORIGINAL_ROLES[i] in ['Villager', 'Hunter']:
             player_objs[i] = Villager(i)
+
     return player_objs[:const.NUM_PLAYERS]
 
-def print_roles(game_roles):
-    logger.debug('[Hidden] Current roles: ' + str(game_roles[:const.NUM_PLAYERS]) +
-                '\n\t Center cards:  ' + str(game_roles[const.NUM_PLAYERS:]) + '\n')
+# TODO: convert to plurals
+def wake(role_str):
+    logger.info(role_str + ', wake up.')
 
-def wake(role):
-    logger.info(role + ', wake up.')
+def sleep(role_str):
+    logger.info(role_str + ', go to sleep.\n')
 
-def sleep(role):
-    logger.info(role + ', go to sleep.\n')
+def override_wolf_index(game_roles, wolf_inds):
+    if const.FIXED_WOLF_INDEX != None:
+        if len(wolf_inds) != 0:
+            wolf_ind = random.choice(wolf_inds)
+            swap_characters(game_roles, wolf_ind, const.FIXED_WOLF_INDEX)

@@ -1,7 +1,8 @@
-from collections import Counter
+from collections import Counter    , defaultdict
 import logging
 logging.basicConfig(format='%(message)s', level=logging.INFO)
 logger = logging.getLogger()
+def _get_int_dict(): return defaultdict(int) # TODO remove when RL is fixed.
 
 ''' Game Constants '''
 ROLES = ('Villager', 'Villager', 'Villager', 'Wolf', 'Wolf', 'Seer',
@@ -27,12 +28,12 @@ EXPERIENCE_PATH = 'data/wolf_player.pkl'
 
 ''' Simulation Constants '''
 NUM_GAMES = 1
-SHOW_PROGRESS = False or NUM_GAMES > 10
+SHOW_PROGRESS = False or NUM_GAMES >= 10
 FIXED_WOLF_INDEX = None
 
 ''' Logging Constants '''
 logger.setLevel(logging.DEBUG)
-if NUM_GAMES > 10: logger.setLevel(logging.WARNING)
+if NUM_GAMES >= 10: logger.setLevel(logging.WARNING)
 
 ''' DEBUG = Include all hidden messages '''
 ''' INFO = Regular gameplay '''

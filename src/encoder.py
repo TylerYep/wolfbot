@@ -1,4 +1,4 @@
-from roles import Player
+from roles.player import Player
 from statements import Statement
 import json
 import pickle

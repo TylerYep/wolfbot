@@ -1,7 +1,15 @@
-from roles import Player, Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
+from .player import Player
+from .villager import Villager
+from .mason import Mason
+from .seer import Seer
+from .robber import Robber
+from .troublemaker import Troublemaker
+from .drunk import Drunk
+from .insomniac import Insomniac
+from .possible import get_possible_statements
+
 from algorithms import switching_solver, SolverState, is_consistent
 from predictions import make_predictions_fast
-from possible import get_possible_statements
 from statements import Statement
 from util import find_all_player_indices, get_random_center
 from const import logger
@@ -13,7 +21,6 @@ import random
 if const.USE_WOLF_RL:
     with open(const.EXPERIENCE_PATH, 'rb') as f:
         experience = pickle.load(f)
-        print('Done loading')
 
 class Wolf(Player):
     def __init__(self, player_index, game_roles=None, ORIGINAL_ROLES=None):
@@ -96,6 +103,10 @@ class Wolf(Player):
         for statement in self.statements:
             if choice == statement.sentence:
                 return statement
+
+        # TODO See if this line not supposed to be here
+        logger.warning('No match found. Using random statement...')
+        return super().get_statement()
 
     def get_statement_expectimax(self, stated_roles, previous_statements):
         possible_statements = get_possible_statements(self.wolf_indices)
