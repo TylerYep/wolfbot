@@ -1,13 +1,7 @@
-from .villager import Villager
-from .mason import Mason
-from .seer import Seer
-from .robber import Robber
-from .troublemaker import Troublemaker
-from .drunk import Drunk
-from .insomniac import Insomniac
+from ..village import Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
 import const
 
-# Used for Wolf class only
+# Used by Wolf class only
 def get_possible_statements(wolf_indices):
     possible = {}
     for player_index in range(const.NUM_PLAYERS):

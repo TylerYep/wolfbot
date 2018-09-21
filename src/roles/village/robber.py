@@ -36,7 +36,7 @@ class Robber(Player):
         if self.new_role == 'Wolf':
             # Import Wolf here to avoid circular dependency
             from .wolf import Wolf
-            logger.warning('Robber is a Wolf now!')
+            logger.debug('Robber is a Wolf now!')
             robber_wolf = Wolf(self.player_index)
             return robber_wolf.get_statement(stated_roles, previous)
         else:

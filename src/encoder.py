@@ -1,12 +1,13 @@
 from roles import Player, Wolf, Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
 from statements import Statement
+from statistics import GameResult
 import json
 import pickle
 import const
 
 class WolfBotEncoder(json.JSONEncoder):
     def default(self, obj):
-        if isinstance(obj, Player) or isinstance(obj, Statement):
+        if isinstance(obj, Player) or isinstance(obj, Statement) or isinstance(obj, GameResult):
             return obj.json_repr()
         elif isinstance(obj, set):
             return {'type': 'Set', 'data': tuple(obj)}

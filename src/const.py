@@ -1,6 +1,7 @@
 from collections import Counter, defaultdict
 import logging
 logging.basicConfig(format='%(message)s', level=logging.INFO)
+logging.TRACE = 5
 logger = logging.getLogger()
 def _get_int_dict(): return defaultdict(int) # TODO remove when RL is fixed.
 
@@ -18,7 +19,7 @@ NUM_PLAYERS = NUM_ROLES - NUM_CENTER
 ROBBER_PRIORITY, TROUBLEMAKER_PRIORITY, DRUNK_PRIORITY = 1, 2, 3
 
 ''' Expectimax Wolf Player'''
-USE_EXPECTIMAX_WOLF = True
+USE_EXPECTIMAX_WOLF = False
 EXPECTIMAX_DEPTH = 1
 BRANCH_FACTOR = 5
 
@@ -27,7 +28,7 @@ USE_WOLF_RL = False
 EXPERIENCE_PATH = 'data/wolf_player.pkl'
 
 ''' Simulation Constants '''
-NUM_GAMES = 10
+NUM_GAMES = 1
 SHOW_PROGRESS = False or NUM_GAMES >= 10
 FIXED_WOLF_INDEX = None
 
@@ -35,6 +36,7 @@ FIXED_WOLF_INDEX = None
 logger.setLevel(logging.DEBUG)
 if NUM_GAMES >= 10: logger.setLevel(logging.WARNING)
 
+''' TRACE = Debugging mode for development '''
 ''' DEBUG = Include all hidden messages '''
 ''' INFO = Regular gameplay '''
 ''' WARNING = Results only '''

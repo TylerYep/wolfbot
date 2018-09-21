@@ -16,7 +16,7 @@ class Seer(Player):
 
     def seer_init(self, game_roles):
         ''' Initializes Seer - either sees 2 center cards or 1 player card. '''
-        # Picks two center cards more often, because that generally yields higher win rates.
+        # Pick two center cards more often, because that generally yields higher win rates.
         choose_center = random.choices([True, False], [0.9, 0.1])
         if choose_center and const.NUM_CENTER > 1:
             seer_peek_index = get_random_center()
@@ -46,5 +46,5 @@ class Seer(Player):
             sentence = 'I am a Seer and I saw that Center ' + str(seen_index - const.NUM_PLAYERS) \
                         + ' was a ' + str(seen_role) + ' and that Center ' \
                         + str(seen_index2 - const.NUM_PLAYERS) + ' was a ' + str(seen_role2) + '.'
-            knowledge += [(seen_index2, {seen_role2})]
+            knowledge.append((seen_index2, {seen_role2}))
         return [Statement(sentence, knowledge)]

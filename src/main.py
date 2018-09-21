@@ -8,8 +8,8 @@ import const
 import time
 
 def main():
-    # Initialize array of solvers used in game simulations.
-    SOLVERS = [switching_solver]
+    ''' Initialize  '''
+    SOLVERS = [switching_solver] # Solvers used in game simulations.
     start_time = time.time()
     for solver in SOLVERS:
         logger.warning('\n' + solver.__name__ + '\n')

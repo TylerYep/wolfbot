@@ -1,4 +1,3 @@
-from predictions import make_predictions, print_guesses
 from statements import Statement
 from copy import deepcopy
 import const
@@ -155,7 +154,3 @@ if __name__ == '__main__':
     ]
     solution = switching_solver(statements)
     print(solution)
-
-    all_role_guesses = make_predictions(solution)
-    print(all_role_guesses)
-    print_guesses(all_role_guesses)

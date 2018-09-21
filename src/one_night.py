@@ -11,14 +11,13 @@ import random
 
 def play_one_night_werewolf(solver):
     ''' Plays one round of One Night Ultimate Werewolf. '''
+    global ORIGINAL_ROLES
     game_roles = list(const.ROLES)
     random.shuffle(game_roles)
-    global ORIGINAL_ROLES
     ORIGINAL_ROLES = list(game_roles)
     wolf_inds = find_all_player_indices(game_roles, 'Wolf')
 
     player_objs = night_falls(game_roles)
-
     logger.info('\n -- GAME BEGINS -- \n')
     all_statements = get_statements(player_objs)
     print_roles(game_roles)
@@ -32,21 +31,22 @@ def play_one_night_werewolf(solver):
             # Good player vs Bad player guesses        TODO what happens when a wolf becomes good?
             if i in wolf_inds or player_objs[i].new_role == 'Wolf':
                 all_solutions = solver(all_statements, i)
-                prediction = make_evil_prediction(all_solutions)
+                all_role_guesses_arr.append(make_evil_prediction(all_solutions))
             else:
                 all_solutions = solver(all_statements, i)
-                prediction = make_predictions(all_solutions)
-            all_role_guesses_arr.append(prediction)
+                all_role_guesses_arr.append(make_predictions(all_solutions))
+        for solution in all_role_guesses_arr:
+            logger.log(5, 'Player prediction: ' + str(solution))
         all_role_guesses, confidence = get_voting_result(all_role_guesses_arr)
         print_guesses(all_role_guesses)
         logger.debug('Confidence level: ' + str([float('{0:0.2f}'.format(n)) for n in confidence]))
 
-        most_likely_wolf = get_most_likely_wolf(game_roles, all_role_guesses, confidence)
-        return GameResult(game_roles, all_role_guesses, all_statements, wolf_inds, most_likely_wolf)
+        found_single_vote_wolf = get_most_likely_wolf(game_roles, all_role_guesses, confidence)
+        return GameResult(game_roles, all_role_guesses, all_statements, wolf_inds, found_single_vote_wolf)
     else:
         all_solutions = solver(all_statements)
         for solution in all_solutions:
-            logger.debug('Solver interpretation: ' + str(solution.path))
+            logger.log(5, 'Solver interpretation: ' + str(solution.path))
         all_role_guesses = make_predictions(all_solutions)
         print_guesses(all_role_guesses)
         return GameResult(game_roles, all_role_guesses, all_statements, wolf_inds)
@@ -56,25 +56,26 @@ def get_most_likely_wolf(game_roles, all_role_guesses, confidence):
     wolf_inds = find_all_player_indices(all_role_guesses[:const.NUM_PLAYERS], 'Wolf')
     max = 0
     most_likely_wolf = None
+    found_single_vote_wolf = False
     for i in wolf_inds:
         if confidence[i] > max:
             max = confidence[i]
             most_likely_wolf = i
 
-    if most_likely_wolf is not None:
-        logger.info('Player ' + str(most_likely_wolf) + ' was chosen as a Wolf.' + '\n'
-            + 'Player ' + str(most_likely_wolf) + ' was a ' + all_role_guesses[most_likely_wolf] + '!\n')
-        most_likely_wolf = all_role_guesses[most_likely_wolf]
-    else:
+    if most_likely_wolf is None:
         logger.info('No wolves were found.')
         final_wolf_inds = find_all_player_indices(game_roles[:const.NUM_PLAYERS], 'Wolf')
         if len(final_wolf_inds) == 0:
             logger.info('That was correct!\n')
-            most_likely_wolf = True
+            found_single_vote_wolf = True
         else:
             logger.info('Player(s) ' + str(final_wolf_inds) + ' was a Wolf!\n')
-            most_likely_wolf = False
-    return most_likely_wolf
+            found_single_vote_wolf = False
+    else:
+        logger.info('Player ' + str(most_likely_wolf) + ' was chosen as a Wolf.' + '\n'
+            + 'Player ' + str(most_likely_wolf) + ' was a ' + all_role_guesses[most_likely_wolf] + '!\n')
+        found_single_vote_wolf = all_role_guesses[most_likely_wolf] == 'Wolf'
+    return found_single_vote_wolf
 
 
 def get_voting_result(all_role_guesses_arr):
@@ -152,7 +153,7 @@ def sleep(role_str):
     logger.info(role_str + ', go to sleep.\n')
 
 
-def override_wolf_index(game_roles, wolf_inds):
+def override_wolf_index(game_roles):
     if const.FIXED_WOLF_INDEX != None:
         if len(wolf_inds) != 0:
             wolf_ind = random.choice(wolf_inds)

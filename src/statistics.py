@@ -4,19 +4,30 @@ from const import logger
 
 class GameResult:
     ''' Each round of one_night returns a GameResult. '''
-    def __init__(self, actual, guessed, statements, wolf_inds, most_likely_wolf=None):
+    def __init__(self, actual, guessed, statements, wolf_inds, found_single_vote_wolf=False):
         self.actual = actual
         self.guessed = guessed
         self.statements = statements
         self.wolf_inds = wolf_inds
-        self.most_likely_wolf = most_likely_wolf
+        self.found_single_vote_wolf = found_single_vote_wolf
+
+    def json_repr(self):
+        return {
+            'type': 'GameResult',
+            'actual': self.actual,
+            'guessed': self.guessed,
+            'statements': self.statements,
+            'wolf_inds': self.wolf_inds,
+            'found_single_vote_wolf': self.found_single_vote_wolf
+        }
 
 
 class Statistics:
     ''' Initialize a Statistics object. '''
     def __init__(self):
         self.metrics = [self.correctness_strict, self.correctness_lenient_center, self.wolf_predictions_one,
-                        self.wolf_predictions_all, self.wolf_predictions_center, self.chosen_wolf]
+                        self.wolf_predictions_all, self.wolf_predictions_center]
+        if const.USE_VOTING: self.metrics.append(self.voted_wolf)
         self.NUM_METRICS = len(self.metrics)
         self.correct = [0.0 for _ in range(self.NUM_METRICS)]
         self.total = [0.0 for _ in range(self.NUM_METRICS)]
@@ -35,10 +46,14 @@ class Statistics:
     def print_statistics(self):
         ''' Outputs overall statistics of inputed game results. '''
         logger.warning('\nNumber of Games: ' + str(self.num_games))
-        sentences = ['Accuracy for all predictions: ', 'Accuracy with lenient center scores: ',
-                    'S1: Found at least 1 Wolf player: ', 'S2: Found all Wolf players: ',
-                    'Percentage of correct Wolf guesses (including Wolves in the center): ',
-                    'Percentage of correct Wolf votes: ']
+        sentences = [
+            'Accuracy for all predictions: ',
+            'Accuracy with lenient center scores: ',
+            'S1: Found at least 1 Wolf player: ',
+            'S2: Found all Wolf players: ',
+            'Percentage of correct Wolf guesses (including center Wolves): ',
+            'Percentage of correct Wolf votes: '
+        ]
         for i in range(self.NUM_METRICS):
             if self.total[i] == 0: self.total[i] += 1
             logger.warning(sentences[i] + str(self.correct[i] / self.total[i]))
@@ -100,6 +115,6 @@ class Statistics:
                     correctGuesses += 1
         return correctGuesses, totalWolves
 
-    def chosen_wolf(self, game_result):
-        chosen_wolf_role = game_result.most_likely_wolf
-        return int(chosen_wolf_role == 'Wolf' or game_result.most_likely_wolf), 1
+    def voted_wolf(self, game_result):
+        ''' Returns 1/1 if the voted character was truly a Wolf. '''
+        return int(game_result.found_single_vote_wolf), 1

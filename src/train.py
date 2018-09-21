@@ -24,7 +24,7 @@ def get_wolf_state(game):
 
 def train(folder, eta=0.01):
     counter = 0
-    experience_dict = collections.defaultdict(_get_int_dict)
+    experience_dict = collections.defaultdict(const._get_int_dict)
     count_dict = collections.defaultdict(int) # NOTE: For testing purposes
     for f in os.listdir(folder):
         file_path = os.path.join(folder, f)

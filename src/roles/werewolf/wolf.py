@@ -1,13 +1,5 @@
-from .player import Player
-from .villager import Villager
-from .mason import Mason
-from .seer import Seer
-from .robber import Robber
-from .troublemaker import Troublemaker
-from .drunk import Drunk
-from .insomniac import Insomniac
+from ..village import Player, Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
 from .possible import get_possible_statements
-
 from algorithms import switching_solver, SolverState, is_consistent
 from predictions import make_predictions_fast
 from statements import Statement
@@ -32,6 +24,7 @@ class Wolf(Player):
         self.wolf_indices = wolf_indices if game_roles is not None else []
         self.center_index = wolf_center_index if game_roles is not None else None
         self.center_role = wolf_center_role if game_roles is not None else None
+        self.new_role = ''
 
     def wolf_init(self, game_roles, ORIGINAL_ROLES):
         ''' Initializes Wolf - gets Wolf indices and a random center card, if applicable. '''

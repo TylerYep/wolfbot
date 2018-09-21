@@ -7,8 +7,8 @@ Constants, along with their use cases, are listed in const.py.
 
 # Development
 ## September 2018
-Major refactoring update, and Single-Wolf Voting. The next primary focus will be on getting a
-conversation between roles - each character has more than one statement and is able to convey
+Major refactoring update and Single-Wolf Voting added! The next primary focus will be on getting
+a conversation between roles - each character has more than one statement and is able to convey
 different types of information. This will enable us to give varying confidence
 levels to Wolf accusations, and even allow us to add more evil roles, like the Tanner and
 Minion. By rough estimate, with 12 roles, there are roughly 250 million different games that can
