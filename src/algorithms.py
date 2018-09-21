@@ -10,8 +10,10 @@ class SolverState():
         self.possible_roles = possible_roles
         self.switches = switches
         self.path = path
+
     def __repr__(self):
         return '\n' + str(self.possible_roles) + '\n' + str(self.path) + '\n' + str(self.switches) + '\n'
+
 
 def is_consistent(statement, state):
     '''

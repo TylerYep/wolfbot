@@ -3,14 +3,18 @@ from const import logger
 from copy import deepcopy
 import random
 
-# TODO bug here with empty set
 def make_evil_prediction(solution_arr):
     '''
     Makes the Wolf character's prediction for the game.
     '''
+    # TODO Find out better than random solution when the Wolf gets contradicted in a later statement.
+    if len(solution_arr[0].path) == 0:
+        random_guesses = list(const.ROLES)
+        random.shuffle(random_guesses)
+        return random_guesses
+
     solution = random.choice(solution_arr)
     all_role_guesses, curr_role_counts = get_basic_guesses(solution)
-    # print(all_role_guesses, curr_role_counts)
     solved = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts), False)
 
     switch_dict = get_switch_dict(solution)
@@ -43,11 +47,7 @@ def make_predictions(solution_arr):
         if solved: break
 
     if not solved:
-        random.shuffle(solution_arr)
-        count = 1
         for solution in solution_arr:
-            logger.warning('Could not find solution: ' + str(count))
-            count += 1
             all_role_guesses, curr_role_counts = get_basic_guesses(solution)
             for j in range(const.NUM_ROLES):
                 for role in ['Wolf', 'Robber', 'Insomniac']:
@@ -56,13 +56,6 @@ def make_predictions(solution_arr):
                         curr_role_counts[role] += 1
             solved = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts))
             if solved: break
-
-    # TODO remove when unnecessary
-    if not solved:          # Last resort: assign randomly from curr_role_counts dict
-        logger.warning('Choosing without using possible roles (should not happen)')
-        solution = random.choice(solution_arr)
-        all_role_guesses, curr_role_counts = get_basic_guesses(solution)
-        solved = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts), False)
 
     switch_dict = get_switch_dict(solution)
     final_guesses = [solved[switch_dict[i]] for i in range(len(solved))]

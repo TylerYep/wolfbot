@@ -29,27 +29,53 @@ def play_one_night_werewolf(solver):
     if const.USE_VOTING:
         all_role_guesses_arr = []
         for i in range(const.NUM_PLAYERS):
-            # Good player vs Bad player guesses
-            # TODO what happens when a wolf becomes good?
+            # Good player vs Bad player guesses        TODO what happens when a wolf becomes good?
             if i in wolf_inds or player_objs[i].new_role == 'Wolf':
                 all_solutions = solver(all_statements, i)
                 prediction = make_evil_prediction(all_solutions)
             else:
                 all_solutions = solver(all_statements, i)
                 prediction = make_predictions(all_solutions)
-            # print(prediction)
             all_role_guesses_arr.append(prediction)
         all_role_guesses, confidence = get_voting_result(all_role_guesses_arr)
         print_guesses(all_role_guesses)
-        return GameResult(game_roles, all_role_guesses, all_statements, wolf_inds, confidence)
+        most_likely_wolf = get_most_likely_wolf(game_roles, all_role_guesses, confidence)
+        return GameResult(game_roles, all_role_guesses, all_statements, wolf_inds, most_likely_wolf)
     else:
         all_solutions = solver(all_statements)
-        # for solution in all_solutions:
-        #     logger.debug('Solver interpretation: ' + str(solution.path))
+        for solution in all_solutions:
+            logger.debug('Solver interpretation: ' + str(solution.path))
         all_role_guesses = make_predictions(all_solutions)
         print_guesses(all_role_guesses)
         return GameResult(game_roles, all_role_guesses, all_statements, wolf_inds)
 
+
+def get_most_likely_wolf(game_roles, all_role_guesses, confidence):
+    wolf_inds = find_all_player_indices(all_role_guesses[:const.NUM_PLAYERS], 'Wolf')
+    max = 0
+    most_likely_wolf = None
+    for i in wolf_inds:
+        if confidence[i] > max:
+            max = confidence[i]
+            most_likely_wolf = i
+
+    if most_likely_wolf is not None:
+        logger.info('Player ' + str(most_likely_wolf) + ' was chosen as a Wolf.' + '\n'
+            + 'Player ' + str(most_likely_wolf) + ' was a ' + all_role_guesses[most_likely_wolf] + '!\n')
+        most_likely_wolf = all_role_guesses[most_likely_wolf]
+    else:
+        logger.info('No wolves were found.')
+        final_wolf_inds = find_all_player_indices(game_roles[:const.NUM_PLAYERS], 'Wolf')
+        if len(final_wolf_inds) == 0:
+            logger.info('That was correct!\n')
+            most_likely_wolf = True
+        else:
+            logger.info('Player(s) ' + str(final_wolf_inds) + ' was a Wolf!\n')
+            most_likely_wolf = False
+
+    return most_likely_wolf
+
+# TODO Results don't add up... Recheck this algo
 def get_voting_result(all_role_guesses_arr):
     ''' Take most common role guess as the final guess for that index. '''
     all_role_guesses, confidence = [], []

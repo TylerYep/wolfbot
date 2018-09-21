@@ -7,8 +7,14 @@ Constants, along with their use cases, are listed in const.py.
 
 # Development
 ## September 2018
-By rough estimate, with 12 roles, there are roughly 250 million different games
-that can occur (role assignments, and then switching scenarios).
+Major refactoring update. No new features added yet, but the next primary focus will be on
+getting a conversation between roles - each character has more than one statement and is
+able to convey different types of information. This will enable us to give varying confidence
+levels to Wolf accusations, and even allow us to add more evil roles, like the Tanner and
+Minion. By rough estimate, with 12 roles, there are roughly 250 million different games
+that can occur (role assignments, and then switching scenarios). This is sufficient reason to
+develop AI that can face this challenge, and the introduction of multiple statements will
+only push this number higher.
 
 
 ## June 2018

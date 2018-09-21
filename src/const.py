@@ -1,4 +1,4 @@
-from collections import Counter    , defaultdict
+from collections import Counter, defaultdict
 import logging
 logging.basicConfig(format='%(message)s', level=logging.INFO)
 logger = logging.getLogger()
@@ -8,7 +8,7 @@ def _get_int_dict(): return defaultdict(int) # TODO remove when RL is fixed.
 ROLES = ('Villager', 'Villager', 'Villager', 'Wolf', 'Wolf', 'Seer',
         'Mason', 'Mason', 'Drunk', 'Troublemaker', 'Insomniac', 'Robber')
 NUM_CENTER = 3
-USE_VOTING = False
+USE_VOTING = True
 
 ''' Util Constants '''
 ROLE_SET = set(ROLES)
@@ -18,7 +18,7 @@ NUM_PLAYERS = NUM_ROLES - NUM_CENTER
 ROBBER_PRIORITY, TROUBLEMAKER_PRIORITY, DRUNK_PRIORITY = 1, 2, 3
 
 ''' Expectimax Wolf Player'''
-USE_EXPECTIMAX_WOLF = False
+USE_EXPECTIMAX_WOLF = True
 EXPECTIMAX_DEPTH = 1
 BRANCH_FACTOR = 5
 
