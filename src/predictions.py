@@ -21,6 +21,7 @@ def make_evil_prediction(solution_arr):
     final_guesses = [solved[switch_dict[i]] for i in range(len(solved))]
     return final_guesses
 
+
 def make_predictions_fast(solution):
     '''
     Uses a list of true/false statements and possible role sets
@@ -32,6 +33,7 @@ def make_predictions_fast(solution):
     switch_dict = get_switch_dict(solution)
     final_guesses = [solved[switch_dict[i]] for i in range(len(solved))]
     return final_guesses
+
 
 def make_predictions(solution_arr):
     '''
@@ -60,6 +62,7 @@ def make_predictions(solution_arr):
     switch_dict = get_switch_dict(solution)
     final_guesses = [solved[switch_dict[i]] for i in range(len(solved))]
     return final_guesses
+
 
 def get_basic_guesses(solution):
     '''
@@ -93,6 +96,7 @@ def get_basic_guesses(solution):
                 all_role_guesses.append('')
     return all_role_guesses, curr_role_counts
 
+
 def recurse_assign(solution, all_role_guesses, curr_role_counts, restrict_possible=True):
     '''
     Assign the remaining unknown cards by recursing and finding a consistent placement.
@@ -118,6 +122,7 @@ def recurse_assign(solution, all_role_guesses, curr_role_counts, restrict_possib
                     all_role_guesses[i] = ''
     return False
 
+
 def get_switch_dict(solution):
     ''' Converts array of switches into a dictionary to index with. '''
     switch_dict = {i:i for i in range(const.NUM_ROLES)}
@@ -127,6 +132,7 @@ def get_switch_dict(solution):
         switch_dict[i] = switch_dict[j]
         switch_dict[j] = temp
     return switch_dict
+
 
 def print_guesses(all_role_guesses):
     logger.info('\n[Wolfbot] Role guesses: ' + str(all_role_guesses[:const.NUM_PLAYERS]) +

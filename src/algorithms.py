@@ -34,6 +34,7 @@ def is_consistent(statement, state):
                 return False
     return SolverState(new_possible_roles, new_switches, list(state.path))
 
+
 def switching_solver(statements, known_true=None):
     '''
     Returns maximal list of statements that can be true from a list
@@ -70,6 +71,7 @@ def switching_solver(statements, known_true=None):
 
     _switch_recurse(0, start_state)
     return solution
+
 
 def baseline_solver(statements, known_true=None):
     '''
@@ -115,6 +117,7 @@ def baseline_solver(statements, known_true=None):
     _bl_solver_recurse(0, start_state)
     return [SolverState(final_state, [], solution)]
 
+
 def random_solver(statements, known_true=None):
     '''
     Only works if there are no center cards.
@@ -124,6 +127,7 @@ def random_solver(statements, known_true=None):
     path = [False if i in f_inds else True for i in range(const.NUM_PLAYERS)]
     all_possible = [deepcopy(const.ROLE_SET) for i in range(const.NUM_ROLES)]
     return [SolverState(all_possible, [], path)]
+
 
 def count_roles(state):
     '''
@@ -136,6 +140,7 @@ def count_roles(state):
         if len(s) == 1:
             count[next(iter(s))] += 1
     return count
+
 
 if __name__ == '__main__':
     statements = [

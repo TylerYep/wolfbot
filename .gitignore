@@ -4,8 +4,6 @@ __pycache__/
 *$py.class
 
 .DS_Store
-*.json
-*.pkl
 
 # C extensions
 *.so

@@ -39,6 +39,8 @@ def play_one_night_werewolf(solver):
             all_role_guesses_arr.append(prediction)
         all_role_guesses, confidence = get_voting_result(all_role_guesses_arr)
         print_guesses(all_role_guesses)
+        logger.debug('Confidence level: ' + str([float('{0:0.2f}'.format(n)) for n in confidence]))
+
         most_likely_wolf = get_most_likely_wolf(game_roles, all_role_guesses, confidence)
         return GameResult(game_roles, all_role_guesses, all_statements, wolf_inds, most_likely_wolf)
     else:
@@ -72,11 +74,27 @@ def get_most_likely_wolf(game_roles, all_role_guesses, confidence):
         else:
             logger.info('Player(s) ' + str(final_wolf_inds) + ' was a Wolf!\n')
             most_likely_wolf = False
-
     return most_likely_wolf
 
-# TODO Results don't add up... Recheck this algo
+
 def get_voting_result(all_role_guesses_arr):
+    ''' Take most common role guess array as the final guess for that index. '''
+    all_role_guesses, confidence = [], []
+    guess_histogram = defaultdict(int)
+    for prediction in all_role_guesses_arr:
+        guess_histogram[tuple(prediction)] += 1
+    all_role_guesses, tally = max(guess_histogram.items(), key=lambda x: x[1])
+
+    for i in range(const.NUM_ROLES):
+        role_dict = defaultdict(int)
+        for prediction in all_role_guesses_arr:
+            role_dict[prediction[i]] += 1
+        role, count = max(role_dict.items(), key=lambda x: x[1])
+        confidence.append(count / const.NUM_PLAYERS)
+    return list(all_role_guesses), confidence
+
+
+def get_voting_result_old(all_role_guesses_arr):
     ''' Take most common role guess as the final guess for that index. '''
     all_role_guesses, confidence = [], []
     for i in range(const.NUM_ROLES):
@@ -88,6 +106,7 @@ def get_voting_result(all_role_guesses_arr):
         confidence.append(count / const.NUM_PLAYERS)
     return all_role_guesses, confidence
 
+
 def get_statements(player_objs):
     ''' Returns array of each player's statements. '''
     stated_roles, given_statements = [], []
@@ -98,6 +117,7 @@ def get_statements(player_objs):
         logger.info('Player ' + str(j) + ': ' + str(statement.sentence))
     return given_statements
 
+
 def init_roles(game_roles, player_objs, Role):
     role_str = Role.__name__
     wake(role_str)
@@ -106,12 +126,12 @@ def init_roles(game_roles, player_objs, Role):
             player_objs[i] = Role(i, game_roles, ORIGINAL_ROLES)
     sleep(role_str)
 
+
 def night_falls(game_roles):
     ''' Initialize role object list and perform all switching and peeking actions to begin. '''
     logger.info('\n -- NIGHT FALLS -- \n')
     print_roles(game_roles)
 
-    # Players perform actions on game_roles and add objects to list
     player_objs = list(game_roles)
     AWAKE_ORDER = (Wolf, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac)
     for role in AWAKE_ORDER:
@@ -123,12 +143,14 @@ def night_falls(game_roles):
 
     return player_objs[:const.NUM_PLAYERS]
 
-# TODO: convert to plurals
+
 def wake(role_str):
     logger.info(role_str + ', wake up.')
 
+
 def sleep(role_str):
     logger.info(role_str + ', go to sleep.\n')
+
 
 def override_wolf_index(game_roles, wolf_inds):
     if const.FIXED_WOLF_INDEX != None:

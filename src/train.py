@@ -13,12 +13,14 @@ def evaluate(game):
             val = -5
     return val
 
+
 def get_wolf_state(game):
     states, statements = [], []
     for wolf_ind in game.wolf_inds:
         states.append((tuple(game.wolf_inds), tuple([s.sentence for s in game.statements[:wolf_ind]])))
         statements.append(game.statements[wolf_ind].sentence)
     return states, statements
+
 
 def train(folder, eta=0.01):
     counter = 0
@@ -38,8 +40,10 @@ def train(folder, eta=0.01):
                 counter += 1
     with open('data/wolf_player.pkl', 'wb') as f: pickle.dump(experience_dict, f)
 
+
 def test(experience_dict):
     main.main()
+
 
 if __name__ == '__main__':
     folder = 'data' # TODO make this changeable

@@ -22,4 +22,5 @@ def main():
         stats.print_statistics()
     logger.warning('Time taken: ' + str(time.time() - start_time))
 
+
 if __name__ == '__main__': main()

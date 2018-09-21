@@ -23,6 +23,7 @@ def generate_data(n_sim=1):
     fname = 'data/simulation_' + time.strftime('%Y%m%d_%H%M%S') + '.pkl'
     with open(fname, 'wb') as f: pickle.dump(sim_list, f)
 
+
 if __name__ == '__main__':
     generate_data()
 #    for i in range(1000):

@@ -21,9 +21,11 @@ class Statistics:
         self.correct = [0.0 for _ in range(self.NUM_METRICS)]
         self.total = [0.0 for _ in range(self.NUM_METRICS)]
         self.match1, self.match2 = 0.0, 0.0
+        self.num_games = 0
 
     def add_result(self, game_result):
         ''' Updates the Statistics object with a GameResult. '''
+        self.num_games += 1
         for metric_index in range(self.NUM_METRICS):
             fn = self.metrics[metric_index]
             c, t = fn(game_result)
@@ -32,6 +34,7 @@ class Statistics:
 
     def print_statistics(self):
         ''' Outputs overall statistics of inputed game results. '''
+        logger.warning('\nNumber of Games: ' + str(self.num_games))
         sentences = ['Accuracy for all predictions: ', 'Accuracy with lenient center scores: ',
                     'S1: Found at least 1 Wolf player: ', 'S2: Found all Wolf players: ',
                     'Percentage of correct Wolf guesses (including Wolves in the center): ',
@@ -67,7 +70,7 @@ class Statistics:
         return correct, const.NUM_ROLES
 
     def wolf_predictions_one(self, game_result):
-        ''' Returns 1 if at least one Wolf was correctly identified. '''
+        ''' Returns 1/1 if at least one Wolf was correctly identified. '''
         correctGuesses = 0
         totalWolves = 1
         for r in range(const.NUM_PLAYERS):
@@ -76,7 +79,7 @@ class Statistics:
         return int(correctGuesses > 0), totalWolves
 
     def wolf_predictions_all(self, game_result):
-        ''' Returns 1 if all Wolves were correctly identified. '''
+        ''' Returns 1/1 if all Wolves were correctly identified. '''
         correctGuesses = 0
         totalWolves = 0
         for r in range(const.NUM_PLAYERS):

@@ -27,7 +27,7 @@ USE_WOLF_RL = False
 EXPERIENCE_PATH = 'data/wolf_player.pkl'
 
 ''' Simulation Constants '''
-NUM_GAMES = 1
+NUM_GAMES = 10
 SHOW_PROGRESS = False or NUM_GAMES >= 10
 FIXED_WOLF_INDEX = None
 
