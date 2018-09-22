@@ -1,10 +1,9 @@
-import pickle
+from collections import defaultdict
+from encoder import WolfBotEncoder, WolfBotDecoder
+from main import main
 import os
-import collections
 import const
-import main
-
-def _get_int_dict(): return collections.defaultdict(int)
+import json
 
 def evaluate(game):
     val = 5
@@ -22,29 +21,37 @@ def get_wolf_state(game):
     return states, statements
 
 
+# TODO: Figure out a way to map state to JSON. There should be a better way to do this.
+def remap_keys(mapping):
+    return [{'wolf_inds': k, 'statements': v} for k, v in mapping.items()]
+
+
 def train(folder, eta=0.01):
     counter = 0
-    experience_dict = collections.defaultdict(const._get_int_dict)
-    count_dict = collections.defaultdict(int) # NOTE: For testing purposes
+    experience_dict = defaultdict(lambda: defaultdict(int))
+    count_dict = defaultdict(int) # NOTE: For testing purposes
     for f in os.listdir(folder):
         file_path = os.path.join(folder, f)
-        with open(file_path, 'rb') as data_file:
-            for game in pickle.load(data_file):
-                if counter % 100 == 0:
-                    test(experience_dict)
-                val = evaluate(game)
-                states, statements = get_wolf_state(game)
-                for state, statement in zip(states, statements):
-                    experience_dict[state][statement] = (1-eta)*experience_dict[state][statement] + eta*val
-                    count_dict[(state)] += 1
-                counter += 1
-    with open('data/wolf_player.pkl', 'wb') as f: pickle.dump(experience_dict, f)
+        if file_path[-5:] == '.json':
+            with open(file_path, 'r') as data_file:
+                json_obj = json.load(data_file, cls=WolfBotDecoder)
+                for game in json_obj:
+                    if counter % 100 == 0:
+                        test(experience_dict)
+                    val = evaluate(game)
+                    states, statements = get_wolf_state(game)
+                    for state, statement in zip(states, statements):
+                        experience_dict[state][statement] = (1-eta)*experience_dict[state][statement] + eta*val
+                        count_dict[(state)] += 1
+                    counter += 1
+
+    exp_dict = remap_keys(experience_dict)
+    with open('data/wolf_player.json', 'w') as f: json.dump(exp_dict, f, cls=WolfBotEncoder)
 
 
 def test(experience_dict):
-    main.main()
+    main()
 
 
 if __name__ == '__main__':
-    folder = 'data' # TODO make this changeable
-    train(folder)
+    train('data/simulations')

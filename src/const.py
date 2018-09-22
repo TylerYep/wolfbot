@@ -1,9 +1,8 @@
 from collections import Counter, defaultdict
 import logging
 logging.basicConfig(format='%(message)s', level=logging.INFO)
-logging.TRACE = 5
 logger = logging.getLogger()
-def _get_int_dict(): return defaultdict(int) # TODO remove when RL is fixed.
+def _get_int_dict(): return defaultdict(int) # TODO Delete this when wolf_player.pkl is obsolete
 
 ''' Game Constants '''
 ROLES = ('Villager', 'Villager', 'Villager', 'Wolf', 'Wolf', 'Seer',
@@ -25,6 +24,7 @@ BRANCH_FACTOR = 5
 
 ''' Reinforcement Learning Wolf Player'''
 USE_WOLF_RL = False
+# EXPERIENCE_PATH = 'data/wolf_player.json'
 EXPERIENCE_PATH = 'data/wolf_player.pkl'
 
 ''' Simulation Constants '''
@@ -33,6 +33,7 @@ SHOW_PROGRESS = False or NUM_GAMES >= 10
 FIXED_WOLF_INDEX = None
 
 ''' Logging Constants '''
+logging.TRACE = 5
 logger.setLevel(logging.DEBUG)
 if NUM_GAMES >= 10: logger.setLevel(logging.WARNING)
 

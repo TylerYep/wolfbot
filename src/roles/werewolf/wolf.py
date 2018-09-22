@@ -1,18 +1,22 @@
 from ..village import Player, Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
 from .possible import get_possible_statements
 from algorithms import switching_solver, SolverState, is_consistent
-from predictions import make_predictions_fast
+from predictions import make_prediction_fast
 from statements import Statement
 from util import find_all_player_indices, get_random_center
 from const import logger
+from encoder import WolfBotDecoder
 import const
 import pickle
+import json
 from copy import deepcopy
 import random
 
 if const.USE_WOLF_RL:
     with open(const.EXPERIENCE_PATH, 'rb') as f:
         experience = pickle.load(f)
+    # with open(const.EXPERIENCE_PATH, 'r') as f:
+    #     experience = json.load(f, cls=WolfBotDecoder)
 
 class Wolf(Player):
     def __init__(self, player_index, game_roles=None, ORIGINAL_ROLES=None):
@@ -97,7 +101,7 @@ class Wolf(Player):
             if choice == statement.sentence:
                 return statement
 
-        # TODO See if this line not supposed to be here
+        # TODO This line not supposed to be here?
         logger.warning('No match found. Using random statement...')
         return super().get_statement()
 
@@ -122,7 +126,7 @@ class Wolf(Player):
             ''' Runs expectimax on the list of statements and the current state using the given depth. '''
             if ind == const.NUM_PLAYERS or depth == 0:
                 solver_result = random.choice(switching_solver(statement_list)) # TODO is this right?
-                predictions = make_predictions_fast(solver_result)
+                predictions = make_prediction_fast(solver_result)
                 return eval(solver_result, predictions), None
             if ind == self.player_index:              # Choose your own move, maximize val
                 vals = _get_next_vals(statement_list, self.statements, state, ind, depth, True)

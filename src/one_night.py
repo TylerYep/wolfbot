@@ -1,5 +1,5 @@
 from roles import Wolf, Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
-from predictions import make_predictions, make_evil_prediction, print_guesses
+from predictions import make_prediction, make_evil_prediction, print_guesses
 from statistics import GameResult
 from const import logger
 from collections import defaultdict
@@ -15,6 +15,9 @@ def play_one_night_werewolf(solver):
     game_roles = list(const.ROLES)
     random.shuffle(game_roles)
     ORIGINAL_ROLES = list(game_roles)
+    # override_wolf_index(game_roles) # Crashes sometimes bc cannot be true.
+
+    # Get Wolf indices before switching
     wolf_inds = find_all_player_indices(game_roles, 'Wolf')
 
     player_objs = night_falls(game_roles)
@@ -25,29 +28,31 @@ def play_one_night_werewolf(solver):
     save_game = [ORIGINAL_ROLES, game_roles, all_statements]
     with open('data/replay.json', 'w') as f: json.dump(save_game, f, cls=WolfBotEncoder)
 
+    return consolidate_results(solver, game_roles, wolf_inds, player_objs, all_statements)
+
+def consolidate_results(solver, game_roles, wolf_inds, player_objs, all_statements):
     if const.USE_VOTING:
         all_role_guesses_arr = []
         for i in range(const.NUM_PLAYERS):
             # Good player vs Bad player guesses        TODO what happens when a wolf becomes good?
-            if i in wolf_inds or player_objs[i].new_role == 'Wolf':
-                all_solutions = solver(all_statements, i)
-                all_role_guesses_arr.append(make_evil_prediction(all_solutions))
-            else:
-                all_solutions = solver(all_statements, i)
-                all_role_guesses_arr.append(make_predictions(all_solutions))
+            all_solutions = solver(all_statements, i)
+            is_evil = i in wolf_inds or player_objs[i].new_role == 'Wolf'
+            print(all_solutions)
+            all_role_guesses_arr.append(make_prediction(all_solutions))
+
         for solution in all_role_guesses_arr:
-            logger.log(5, 'Player prediction: ' + str(solution))
+            logger.log(const.logging.TRACE, 'Player prediction: ' + str(solution))
         all_role_guesses, confidence = get_voting_result(all_role_guesses_arr)
         print_guesses(all_role_guesses)
         logger.debug('Confidence level: ' + str([float('{0:0.2f}'.format(n)) for n in confidence]))
-
         found_single_vote_wolf = get_most_likely_wolf(game_roles, all_role_guesses, confidence)
+
         return GameResult(game_roles, all_role_guesses, all_statements, wolf_inds, found_single_vote_wolf)
     else:
         all_solutions = solver(all_statements)
         for solution in all_solutions:
-            logger.log(5, 'Solver interpretation: ' + str(solution.path))
-        all_role_guesses = make_predictions(all_solutions)
+            logger.log(const.logging.TRACE, 'Solver interpretation: ' + str(solution.path))
+        all_role_guesses = make_prediction(all_solutions)
         print_guesses(all_role_guesses)
         return GameResult(game_roles, all_role_guesses, all_statements, wolf_inds)
 
@@ -96,7 +101,7 @@ def get_voting_result(all_role_guesses_arr):
 
 
 def get_voting_result_old(all_role_guesses_arr):
-    ''' Take most common role guess as the final guess for that index. '''
+    ''' Take most common role guess as the final guess for that index. May accuse too many of each role. '''
     all_role_guesses, confidence = [], []
     for i in range(const.NUM_ROLES):
         role_dict = defaultdict(int)
@@ -154,6 +159,7 @@ def sleep(role_str):
 
 
 def override_wolf_index(game_roles):
+    wolf_inds = find_all_player_indices(game_roles, 'Wolf')
     if const.FIXED_WOLF_INDEX != None:
         if len(wolf_inds) != 0:
             wolf_ind = random.choice(wolf_inds)

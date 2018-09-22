@@ -3,7 +3,7 @@ from encoder import WolfBotDecoder
 import const
 import json
 from algorithms import switching_solver
-from predictions import make_predictions, print_guesses, make_predictions_fast
+from predictions import make_prediction, print_guesses, make_prediction_fast
 from statistics import Statistics, GameResult
 
 if __name__ == '__main__':
@@ -22,7 +22,7 @@ if __name__ == '__main__':
     solution = switching_solver(all_statements)
     logger.warning(solution)
 
-    all_role_guesses = make_predictions(solution)
+    all_role_guesses = make_prediction(solution)
     print_guesses(all_role_guesses)
 
     game_result = GameResult(game_roles, all_role_guesses, all_statements, [])

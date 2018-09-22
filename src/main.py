@@ -8,8 +8,8 @@ import const
 import time
 
 def main():
-    ''' Initialize  '''
-    SOLVERS = [switching_solver] # Solvers used in game simulations.
+    ''' Simulate play_one_night_werewolf and create a Statistics instance for the runs. '''
+    SOLVERS = [switching_solver]    # Solvers used in game simulations.
     start_time = time.time()
     for solver in SOLVERS:
         logger.warning('\n' + solver.__name__ + '\n')
@@ -20,7 +20,7 @@ def main():
             game_result = play_one_night_werewolf(solver)
             stats.add_result(game_result)
         stats.print_statistics()
-    logger.warning('Time taken: ' + str(time.time() - start_time))
+    logger.warning('\nTime taken: ' + str(time.time() - start_time))
 
 
 if __name__ == '__main__': main()

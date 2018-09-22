@@ -14,15 +14,17 @@ def make_evil_prediction(solution_arr):
         return random_guesses
 
     solution = random.choice(solution_arr)
-    all_role_guesses, curr_role_counts = get_basic_guesses(solution)
-    solved = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts), False)
+    return make_prediction_fast(solution)
 
-    switch_dict = get_switch_dict(solution)
-    final_guesses = [solved[switch_dict[i]] for i in range(len(solved))]
-    return final_guesses
+    # all_role_guesses, curr_role_counts = get_basic_guesses(solution)
+    # solved = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts), False)
+    #
+    # switch_dict = get_switch_dict(solution)
+    # final_guesses = [solved[switch_dict[i]] for i in range(len(solved))]
+    # return final_guesses
 
 
-def make_predictions_fast(solution):
+def make_prediction_fast(solution):
     '''
     Uses a list of true/false statements and possible role sets
     to return a rushed list of predictions for all roles.
@@ -35,11 +37,13 @@ def make_predictions_fast(solution):
     return final_guesses
 
 
-def make_predictions(solution_arr):
+def make_prediction(solution_arr, is_evil=False):
     '''
     Uses a list of true/false statements and possible role sets
     to return a list of predictions for all roles
     '''
+    if is_evil: return make_evil_prediction(solution_arr)
+
     solved = None
     random.shuffle(solution_arr)
     for solution in solution_arr:

@@ -3,16 +3,16 @@
 By Tyler Yep and Harry Sha
 
 To try it out, run 'python3 src/main.py' in the terminal.  
-Constants, along with their use cases, are listed in const.py.
+Constants, along with their use cases, are listed in src/const.py.
 
 # Development
 ## September 2018
-Major refactoring update and Single-Wolf Voting added! The next primary focus will be on getting
-a conversation between roles - each character has more than one statement and is able to convey
-different types of information. This will enable us to give varying confidence
+Major refactoring update and Single-Wolf Voting added! The next primary focus will be on
+getting a conversation between roles - each character has more than one statement and is
+able to convey different types of information. This will enable us to give varying confidence
 levels to Wolf accusations, and even allow us to add more evil roles, like the Tanner and
-Minion. By rough estimate, with 12 roles, there are roughly 250 million different games that can
-occur (role assignments, and then switching scenarios). This is sufficient reason to
+Minion. By rough estimate, with 12 roles, there are roughly 250 million different games that
+can occur (role assignments, and then switching scenarios). This is sufficient reason to
 develop AI that can face this challenge, and the introduction of multiple statements will
 only push this number higher.
 
