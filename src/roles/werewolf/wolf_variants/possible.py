@@ -1,8 +1,8 @@
-from ..village import Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
+from ...village import Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
 import const
 
-# Used by Wolf class only
 def get_possible_statements(wolf_indices):
+    ''' Gets all possible statements that can be made by village team roles. '''
     possible = {}
     for player_index in range(const.NUM_PLAYERS):
         possible[player_index] = []

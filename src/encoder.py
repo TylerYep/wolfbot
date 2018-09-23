@@ -1,4 +1,4 @@
-from village import Player, Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
+from roles import Wolf, Player, Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
 from statements import Statement
 from statistics import GameResult
 import json
@@ -19,7 +19,7 @@ class WolfBotDecoder(json.JSONDecoder):
     def __init__(self):
         json.JSONDecoder.__init__(self, object_hook=self.json_to_objects)
         self.str_to_obj = {}
-        for role in (Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac):
+        for role in (Wolf, Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac):
             self.str_to_obj[role.__name__] = role
 
     def json_to_objects(self, obj):
@@ -34,7 +34,7 @@ class WolfBotDecoder(json.JSONDecoder):
             return GameResult(obj['actual'], obj['guessed'], obj['statements'],
                             obj['wolf_inds'], obj['found_single_vote_wolf'])
         elif type in const.ROLE_SET:
-            return self.str_to_obj[type](obj)
+            return self.str_to_obj[type](obj) # TODO
         return obj
 
 

@@ -1,9 +1,9 @@
+from .player import Player
 from statements import Statement
 from util import find_all_player_indices
 from const import logger
 import const
 import random
-from .player import Player
 
 class Mason(Player):
     def __init__(self, player_index, game_roles, ORIGINAL_ROLES):

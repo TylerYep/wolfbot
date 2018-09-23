@@ -1,8 +1,8 @@
+from .player import Player
 from statements import Statement
 from const import logger
 import const
 import random
-from .player import Player
 
 class Insomniac(Player):
     def __init__(self, player_index, game_roles, ORIGINAL_ROLES):

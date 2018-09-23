@@ -1,9 +1,9 @@
+from .player import Player
 from statements import Statement
 from util import get_random_player, swap_characters
 from const import logger
 import const
 import random
-from .player import Player
 
 class Troublemaker(Player):
     def __init__(self, player_index, game_roles, ORIGINAL_ROLES):

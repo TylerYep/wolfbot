@@ -37,8 +37,7 @@ def consolidate_results(solver, game_roles, wolf_inds, player_objs, all_statemen
             # Good player vs Bad player guesses        TODO what happens when a wolf becomes good?
             all_solutions = solver(all_statements, i)
             is_evil = i in wolf_inds or player_objs[i].new_role == 'Wolf'
-            print(all_solutions)
-            all_role_guesses_arr.append(make_prediction(all_solutions))
+            all_role_guesses_arr.append(make_prediction(all_solutions, is_evil))
 
         for solution in all_role_guesses_arr:
             logger.log(const.logging.TRACE, 'Player prediction: ' + str(solution))

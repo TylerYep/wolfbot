@@ -24,8 +24,7 @@ BRANCH_FACTOR = 5
 
 ''' Reinforcement Learning Wolf Player'''
 USE_WOLF_RL = False
-# EXPERIENCE_PATH = 'data/wolf_player.json'
-EXPERIENCE_PATH = 'data/wolf_player.pkl'
+EXPERIENCE_PATH = 'data/wolf_player.json'
 
 ''' Simulation Constants '''
 NUM_GAMES = 1
@@ -34,7 +33,7 @@ FIXED_WOLF_INDEX = None
 
 ''' Logging Constants '''
 logging.TRACE = 5
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.TRACE)
 if NUM_GAMES >= 10: logger.setLevel(logging.WARNING)
 
 ''' TRACE = Debugging mode for development '''

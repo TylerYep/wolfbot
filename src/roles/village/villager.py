@@ -1,5 +1,5 @@
-from statements import Statement
 from .player import Player
+from statements import Statement
 
 class Villager(Player):
     def __init__(self, player_index):
