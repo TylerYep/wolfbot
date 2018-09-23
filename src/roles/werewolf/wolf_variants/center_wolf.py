@@ -1,9 +1,10 @@
 from ...village import Player, Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
 import const
 
-def get_easy_wolf_statements(player_index, wolf_indices, stated_roles):
+# Currently unused. This info is hard to use
+def get_center_wolf_statements(player_index, center_role, center_index, wolf_indices, stated_roles):
     statements = []
-    role = self.center_role
+    role = center_role
     if role == 'Villager':
         statements += Villager.get_villager_statements(player_index)
     elif role == 'Robber':
@@ -15,7 +16,7 @@ def get_easy_wolf_statements(player_index, wolf_indices, stated_roles):
                 if j not in wolf_indices:
                     statements += Troublemaker.get_troublemaker_statements(player_index, i, j)
     elif role == 'Drunk':
-        statements += Drunk.get_drunk_statements(player_index, self.center_index)
+        statements += Drunk.get_drunk_statements(player_index, center_index)
     elif role == 'Insomniac':
         statements += Insomniac.get_insomniac_statements(player_index, 'Insomniac')
     elif role == 'Seer':

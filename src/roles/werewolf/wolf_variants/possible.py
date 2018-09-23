@@ -1,8 +1,11 @@
 from ...village import Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
 import const
 
-def get_possible_statements(wolf_indices):
-    ''' Gets all possible statements that can be made by village team roles. '''
+def get_expected_statements(wolf_indices):
+    '''
+    Gets all possible statements that can be made by another player from any index.
+    Used to find the 'expect' part of the Expectimax algorithm.
+    '''
     possible = {}
     for player_index in range(const.NUM_PLAYERS):
         possible[player_index] = []

@@ -18,12 +18,12 @@ NUM_PLAYERS = NUM_ROLES - NUM_CENTER
 ROBBER_PRIORITY, TROUBLEMAKER_PRIORITY, DRUNK_PRIORITY = 1, 2, 3
 
 ''' Expectimax Wolf Player'''
-USE_EXPECTIMAX_WOLF = False
+USE_EXPECTIMAX_WOLF = True
 EXPECTIMAX_DEPTH = 1
 BRANCH_FACTOR = 5
 
 ''' Reinforcement Learning Wolf Player'''
-USE_WOLF_RL = False
+USE_RL_WOLF = False
 EXPERIENCE_PATH = 'data/wolf_player.json'
 
 ''' Simulation Constants '''

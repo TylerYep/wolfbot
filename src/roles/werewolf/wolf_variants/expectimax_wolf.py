@@ -1,13 +1,15 @@
 from ...village import Player, Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
-from .possible import get_possible_statements
+from .reg_wolf import get_wolf_statements
+from .possible import get_expected_statements
 from algorithms import switching_solver, SolverState, is_consistent
 from predictions import make_prediction_fast
 from copy import deepcopy
 import const
 import random
 
-def get_statement_expectimax(player_index, wolf_indices, statements, stated_roles, previous_statements):
-    possible_statements = get_possible_statements(wolf_indices)
+def get_statement_expectimax(player_index, wolf_indices, stated_roles, previous_statements):
+    statements = get_wolf_statements(player_index, wolf_indices, stated_roles, previous_statements)
+    expected_player_statements = get_expected_statements(wolf_indices)
 
     def eval(solver_result, predictions):
         '''
@@ -36,8 +38,8 @@ def get_statement_expectimax(player_index, wolf_indices, statements, stated_role
             return max(vals), best_move
         else:             # Get expected value of remaining statements
             assert(const.EXPECTIMAX_DEPTH != 1)
-            indices = random.sample(range(len(possible_statements[ind])), const.BRANCH_FACTOR * player_index)
-            trimmed_statements = [possible_statements[ind][i] for i in sorted(indices)]
+            indices = random.sample(range(len(expected_player_statements[ind])), const.BRANCH_FACTOR * player_index)
+            trimmed_statements = [expected_player_statements[ind][i] for i in sorted(indices)]
             vals = _get_next_vals(statement_list, trimmed_statements, state, ind, depth)
             if len(vals) == 0: return 10, None
             return sum(vals) / len(vals), None

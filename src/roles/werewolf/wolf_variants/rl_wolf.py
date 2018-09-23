@@ -3,7 +3,7 @@ import const
 import json
 
 def get_statement_rl(wolf_indices, previous_statements):
-    EXPERIENCE = dict() #TODO what is it?
+    EXPERIENCE = dict()
     # Necessary to put this here to avoid circular import
     from encoder import WolfBotDecoder
     with open(const.EXPERIENCE_PATH, 'r') as f:
@@ -24,6 +24,6 @@ def get_statement_rl(wolf_indices, previous_statements):
         if choice == statement.sentence:
             return statement
 
-    # TODO This line not supposed to be here?
+    # TODO Is this already covered in the previous return
     logger.warning('No match found. Using random statement...')
     return super().get_statement()
