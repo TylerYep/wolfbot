@@ -38,7 +38,7 @@ def train(folder, eta=0.01):
     count_dict = defaultdict(int) # NOTE: For testing purposes
     for file in os.listdir(folder):
         file_path = os.path.join(folder, file)
-        if file_path[-5:] == '.json':
+        if file_path.lower().endswith('.json'):
             with open(file_path, 'r') as data_file:
                 json_obj = json.load(data_file, cls=WolfBotDecoder)
                 for game in json_obj:

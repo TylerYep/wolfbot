@@ -1,26 +1,30 @@
-from .player import Player
+''' mason.py '''
 from statements import Statement
 from util import find_all_player_indices
 from const import logger
 import const
-import random
+
+from .player import Player
 
 class Mason(Player):
+    ''' Mason Player class. '''
+
     def __init__(self, player_index, game_roles, ORIGINAL_ROLES):
         super().__init__(player_index)
-        mason_indices = self.mason_init(game_roles, ORIGINAL_ROLES)
+        self.mason_indices = self.mason_init(game_roles, ORIGINAL_ROLES)
         self.role = 'Mason'
         self.new_role = ''
-        self.statements = self.get_mason_statements(player_index, mason_indices)
+        self.statements = self.get_mason_statements(player_index, self.mason_indices)
 
     def mason_init(self, game_roles, ORIGINAL_ROLES):
         ''' Initializes Mason - sees all other Masons. '''
         mason_indices = find_all_player_indices(ORIGINAL_ROLES, 'Mason')
-        logger.debug('[Hidden] Masons are at indices: ' + str(mason_indices))
+        logger.debug('[Hidden] Masons are at indices: %s', str(mason_indices))
         return mason_indices
 
     @staticmethod
     def get_mason_statements(player_index, mason_indices):
+        ''' Gets Mason Statement. '''
         if len(mason_indices) == 1:
             sentence = 'I am a Mason. The other Mason is not present.'
             knowledge = [(player_index, {'Mason'})]

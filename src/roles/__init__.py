@@ -1,3 +1,4 @@
+''' Imports all Player objects. '''
 from .village.player import Player
 from .village.villager import Villager
 from .village.mason import Mason

@@ -1,7 +1,10 @@
-from .player import Player
+''' villager.py '''
 from statements import Statement
+from .player import Player
 
 class Villager(Player):
+    ''' Villager Player class. '''
+
     def __init__(self, player_index):
         super().__init__(player_index)
         self.role = 'Villager'
@@ -10,4 +13,5 @@ class Villager(Player):
 
     @staticmethod
     def get_villager_statements(player_index):
-        return [Statement('I am a Villager.' , [(player_index, {'Villager'})])]
+        ''' Gets Villager Statement. '''
+        return [Statement('I am a Villager.', [(player_index, {'Villager'})])]

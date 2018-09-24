@@ -33,7 +33,7 @@ class WolfBotDecoder(json.JSONDecoder):
         obj_type = obj['type']
         del obj['type']
         if obj_type == 'Set':
-            return set(**obj)
+            return set(obj['data'])
         if obj_type == 'Statement':
             return Statement(**obj)
         if obj_type == 'GameResult':

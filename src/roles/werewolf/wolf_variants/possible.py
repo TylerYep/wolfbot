@@ -1,5 +1,6 @@
-from ...village import Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
+''' possible.py '''
 import const
+from ...village import Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
 
 def get_expected_statements(wolf_indices):
     '''
@@ -47,6 +48,6 @@ def get_expected_statements(wolf_indices):
                         for role2 in const.ROLES:
                             if role1 != 'Seer' and role2 != 'Seer' and c1 != c2:
                                 if role1 != role2 or const.ROLE_COUNTS[role1] >= 2:
-                                    possible[player_index] += Seer.get_seer_statements(player_index,
-                                            c1  + const.NUM_PLAYERS, role1, c2 + const.NUM_PLAYERS, role2)
+                                    possible[player_index] += Seer.get_seer_statements(player_index, c1  + const.NUM_PLAYERS, role1,
+                                                                                       c2 + const.NUM_PLAYERS, role2)
     return possible

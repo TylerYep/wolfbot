@@ -1,14 +1,20 @@
-from ...village import Player, Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
-import const
+''' rl_wolf.py '''
 import json
+from const import logger
+import const
 
-def get_statement_rl(wolf_indices, previous_statements):
+from .reg_wolf import get_wolf_statements
+
+def get_statement_rl(player_index, wolf_indices, stated_roles, previous_statements):
+    ''' Gets Reinforcement Learning Wolf statement. '''
+    statements = get_wolf_statements(player_index, wolf_indices, stated_roles, previous_statements)
+
     EXPERIENCE = dict()
     # Necessary to put this here to avoid circular import
     from encoder import WolfBotDecoder
-    with open(const.EXPERIENCE_PATH, 'r') as f:
-        EXPERIENCE = json.load(f, cls=WolfBotDecoder)
-    assert(len(EXPERIENCE) > 0)
+    with open(const.EXPERIENCE_PATH, 'r') as exp_file:
+        EXPERIENCE = json.load(exp_file, cls=WolfBotDecoder)
+    assert EXPERIENCE
 
     state = (tuple(wolf_indices), tuple([s.sentence for s in previous_statements]))
     scores = EXPERIENCE[state]

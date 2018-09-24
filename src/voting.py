@@ -16,8 +16,8 @@ def consolidate_results(solver, game_roles, wolf_inds, player_objs, all_statemen
             is_evil = i in wolf_inds or player_objs[i].new_role == 'Wolf'
             all_role_guesses_arr.append(make_prediction(all_solutions, is_evil))
 
-        for solution in all_role_guesses_arr:
-            logger.log(const.logging.TRACE, 'Player prediction: %s', str(solution))
+        for prediction in all_role_guesses_arr:
+            logger.log(const.logging.TRACE, 'Player prediction: %s', str(prediction))
         all_role_guesses, confidence = get_voting_result(all_role_guesses_arr)
         print_guesses(all_role_guesses)
         logger.debug('Confidence level: %s', str([float('{0:0.2f}'.format(n)) for n in confidence]))

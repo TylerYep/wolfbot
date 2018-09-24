@@ -1,10 +1,14 @@
-from ..village import Player, Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
-from .wolf_variants import get_wolf_statements, get_center_wolf_statements, get_wolf_statements_random, get_statement_expectimax, get_statement_rl
+''' wolf.py '''
 from util import find_all_player_indices, get_random_center
 from const import logger
 import const
 
+from ..village import Player
+from .wolf_variants import get_wolf_statements_random, get_statement_expectimax, get_statement_rl
+
 class Wolf(Player):
+    ''' Wolf Player class. '''
+
     def __init__(self, player_index, game_roles=None, ORIGINAL_ROLES=None):
         ''' Constructor: ORIGINAL_ROLES defaults to None when a player becomes a Wolf and realizes it. '''
         super().__init__(player_index)
@@ -22,13 +26,15 @@ class Wolf(Player):
             if len(wolf_indices) == 1 and const.NUM_CENTER > 0:
                 wolf_center_index = get_random_center()
                 wolf_center_role = game_roles[wolf_center_index]
-            logger.debug('[Hidden] Wolves are at indices: ' + str(wolf_indices))
+            logger.debug('[Hidden] Wolves are at indices: %s', str(wolf_indices))
         return wolf_indices, wolf_center_index, wolf_center_role
 
     def get_statement(self, stated_roles, previous_statements):
+        ''' Get Wolf Statement. '''
         if const.USE_RL_WOLF:
-            return get_statement_rl(self.wolf_indices, previous_statements)
-        elif const.USE_EXPECTIMAX_WOLF:
-            return get_statement_expectimax(self.player_index, self.wolf_indices, stated_roles, previous_statements)
-        else:
-            return super().get_statement()
+            return get_statement_rl(self.player_index, self.wolf_indices,
+                                    stated_roles, previous_statements)
+        if const.USE_EXPECTIMAX_WOLF:
+            return get_statement_expectimax(self.player_index, self.wolf_indices,
+                                            stated_roles, previous_statements)
+        return super().get_statement()

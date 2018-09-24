@@ -1,7 +1,13 @@
-from ..village import Player, Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
+''' minion.py '''
+from util import find_all_player_indices
+from const import logger
 import const
 
+from ..village import Player, Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
+
 class Minion(Player):
+    ''' Minion Player class. '''
+
     def __init__(self, player_index, game_roles, ORIGINAL_ROLES=None):
         # Roles default to None when another player becomes a Minion and realizes it
         super().__init__(player_index)
@@ -15,5 +21,5 @@ class Minion(Player):
         wolf_indices = []
         if ORIGINAL_ROLES is not None:
             wolf_indices = set(find_all_player_indices(ORIGINAL_ROLES, 'Wolf'))
-        logger.debug('[Hidden] Wolves are at indices: ' + str(wolf_indices))
+        logger.debug('[Hidden] Wolves are at indices: %s', str(wolf_indices))
         return wolf_indices
