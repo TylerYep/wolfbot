@@ -1,3 +1,4 @@
+''' const.py '''
 from collections import Counter, defaultdict
 import logging
 logging.basicConfig(format='%(message)s', level=logging.INFO)
@@ -6,7 +7,7 @@ def _get_int_dict(): return defaultdict(int) # TODO Delete this when wolf_player
 
 ''' Game Constants '''
 ROLES = ('Villager', 'Villager', 'Villager', 'Wolf', 'Wolf', 'Seer',
-        'Mason', 'Mason', 'Drunk', 'Troublemaker', 'Insomniac', 'Robber')
+         'Mason', 'Mason', 'Drunk', 'Troublemaker', 'Insomniac', 'Robber')
 NUM_CENTER = 3
 USE_VOTING = True
 
@@ -18,7 +19,7 @@ NUM_PLAYERS = NUM_ROLES - NUM_CENTER
 ROBBER_PRIORITY, TROUBLEMAKER_PRIORITY, DRUNK_PRIORITY = 1, 2, 3
 
 ''' Expectimax Wolf Player'''
-USE_EXPECTIMAX_WOLF = True
+USE_EXPECTIMAX_WOLF = False
 EXPECTIMAX_DEPTH = 1
 BRANCH_FACTOR = 5
 
@@ -35,8 +36,9 @@ FIXED_WOLF_INDEX = None
 logging.TRACE = 5
 logger.setLevel(logging.TRACE)
 if NUM_GAMES >= 10: logger.setLevel(logging.WARNING)
-
-''' TRACE = Debugging mode for development '''
-''' DEBUG = Include all hidden messages '''
-''' INFO = Regular gameplay '''
-''' WARNING = Results only '''
+'''
+TRACE = Debugging mode for development
+DEBUG = Include all hidden messages
+INFO = Regular gameplay
+WARNING = Results only
+'''

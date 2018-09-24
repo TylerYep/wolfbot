@@ -1,14 +1,15 @@
-import const
-from const import logger
-from copy import deepcopy
+''' predictions.py '''
 import random
+from copy import deepcopy
+from const import logger
+import const
 
 def make_evil_prediction(solution_arr):
     '''
     Makes the Wolf character's prediction for the game.
     '''
-    # TODO Find out better than random solution when the Wolf gets contradicted in a later statement.
-    if len(solution_arr[0].path) == 0:
+    # TODO Find better than random solution when the Wolf gets contradicted in a later statement.
+    if not solution_arr[0].path:
         random_guesses = list(const.ROLES)
         random.shuffle(random_guesses)
         return random_guesses
@@ -47,7 +48,7 @@ def make_prediction(solution_arr, is_evil=False):
     solved = None
     random.shuffle(solution_arr)
     for solution in solution_arr:
-        assert(len(solution.possible_roles) == const.NUM_ROLES)
+        assert len(solution.possible_roles) == const.NUM_ROLES
         all_role_guesses, curr_role_counts = get_basic_guesses(solution)
         solved = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts))
         if solved: break
@@ -80,10 +81,10 @@ def get_basic_guesses(solution):
     curr_role_counts = dict(const.ROLE_COUNTS)
     for j in range(const.NUM_ROLES):
         guess_set = consistent_roles[j]
-        if j >= len(consistent_statements) or consistent_statements[j]:     # Center card or Player is telling the truth
-            for r in const.ROLE_SET:                                        # Remove already chosen cards
-                if curr_role_counts[r] == 0:
-                    guess_set -= set([r])
+        if j >= len(consistent_statements) or consistent_statements[j]:  # Center card or is truth
+            for rol in const.ROLE_SET:                                # Remove already chosen cards
+                if curr_role_counts[rol] == 0:
+                    guess_set -= set([rol])
 
             if len(guess_set) == 1:                 # Player is telling the truth
                 role = next(iter(guess_set))
@@ -114,30 +115,32 @@ def recurse_assign(solution, all_role_guesses, curr_role_counts, restrict_possib
     for i in range(const.NUM_ROLES):
         if all_role_guesses[i] == '':
             if restrict_possible: leftover_roles = list(solution.possible_roles[i])
-            else: leftover_roles = [k for k,v in curr_role_counts.items() if v > 0]
+            else: leftover_roles = [k for k, v in curr_role_counts.items() if v > 0]
             random.shuffle(leftover_roles)
-            for r in leftover_roles:
-                if curr_role_counts[r] > 0:
-                    curr_role_counts[r] -= 1
-                    all_role_guesses[i] = r
-                    result = recurse_assign(solution, all_role_guesses, curr_role_counts, restrict_possible)
+            for rol in leftover_roles:
+                if curr_role_counts[rol] > 0:
+                    curr_role_counts[rol] -= 1
+                    all_role_guesses[i] = rol
+                    result = recurse_assign(solution, all_role_guesses,
+                                            curr_role_counts, restrict_possible)
                     if result: return result
-                    curr_role_counts[r] += 1
+                    curr_role_counts[rol] += 1
                     all_role_guesses[i] = ''
     return False
 
 
 def get_switch_dict(solution):
     ''' Converts array of switches into a dictionary to index with. '''
-    switch_dict = {i:i for i in range(const.NUM_ROLES)}
+    switch_dict = {i: i for i in range(const.NUM_ROLES)}
     switches = sorted(solution.switches, key=lambda x: x[0])
-    for priority, i, j in switches:
+    for _, i, j in switches:
         temp = switch_dict[i]
         switch_dict[i] = switch_dict[j]
         switch_dict[j] = temp
     return switch_dict
 
 
-def print_guesses(all_role_guesses):
-    logger.info('\n[Wolfbot] Role guesses: ' + str(all_role_guesses[:const.NUM_PLAYERS]) +
-                '\n\t  Center cards: ' + str(all_role_guesses[const.NUM_PLAYERS:]) + '\n')
+def print_guesses(role_guesses):
+    ''' Formats guesses to console. '''
+    logger.info('\n[Wolfbot] Role guesses: %s\n\t  Center cards: %s\n',
+                str(role_guesses[:const.NUM_PLAYERS]), str(role_guesses[const.NUM_PLAYERS:]))

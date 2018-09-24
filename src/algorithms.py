@@ -1,17 +1,25 @@
-from statements import Statement
-from copy import deepcopy
-import const
+''' algorithms.py '''
+import sys
 import random
+
+from copy import deepcopy
+from statements import Statement
+import const
+
+if sys.version_info < (3, 0):
+    sys.stdout.write('Requires Python 3, not Python 2!\n')
+    sys.exit()
 
 class SolverState():
     ''' Each solver returns a SolverState object with the result. '''
-    def __init__(self, possible_roles, switches=[], path=[]):
+    def __init__(self, possible_roles, switches=None, path_init=None):
         self.possible_roles = possible_roles
-        self.switches = switches
-        self.path = path
+        self.switches = switches if switches is not None else []
+        self.path = path_init if path_init is not None else []
 
     def __repr__(self):
-        return '\n' + str(self.possible_roles) + '\n' + str(self.path) + '\n' + str(self.switches) + '\n'
+        return '\n' + str(self.possible_roles) + '\n' + str(self.path) \
+                + '\n' + str(self.switches) + '\n'
 
 
 def is_consistent(statement, state):
@@ -24,7 +32,7 @@ def is_consistent(statement, state):
     new_possible_roles = deepcopy(state.possible_roles)
     for proposed_ind, proposed_roles in statement.knowledge:
         intersection = proposed_roles & new_possible_roles[proposed_ind]
-        if len(intersection) == 0:
+        if not intersection:
             return False
         new_possible_roles[proposed_ind] = intersection
         count = count_roles(new_possible_roles)
@@ -43,7 +51,7 @@ def switching_solver(statements, known_true=None):
     '''
     possible_roles = [deepcopy(const.ROLE_SET) for i in range(const.NUM_ROLES)]
     start_state = SolverState(possible_roles, [])
-    solution = [SolverState([],[])]
+    solution = [SolverState([], [])]
 
     def _switch_recurse(ind, state):
         '''
@@ -84,20 +92,21 @@ def baseline_solver(statements, known_true=None):
         otherwise returns False.
         State: list that contains a set of possible roles for each player.
         '''
-        newState = deepcopy(state)
+        new_state = deepcopy(state)
         for proposed_ind, proposed_roles in statement.knowledge:
-            if not (proposed_roles & state[proposed_ind]):
+            if not proposed_roles & state[proposed_ind]:
                 return False
-            newState[proposed_ind] = proposed_roles & state[proposed_ind]
-            count = count_roles(newState)
+            new_state[proposed_ind] = proposed_roles & state[proposed_ind]
+            count = count_roles(new_state)
             for proposed_role in proposed_roles:
                 if count[proposed_role] > const.ROLE_COUNTS[proposed_role]:
                     return False
-        return newState
+        return new_state
 
     final_state, solution = [], []
-    def _bl_solver_recurse(ind, state, path=[]):
+    def _bl_solver_recurse(ind, state, path=None):
         nonlocal solution, final_state
+        if path is None: path = []
         if ind == len(statements):
             if path.count(True) > solution.count(True):
                 solution = path
@@ -142,15 +151,21 @@ def count_roles(state):
 
 
 if __name__ == '__main__':
-    statements = [
-        Statement('I am a Robber and I swapped with Player 6. I am now a Drunk.', [(0, {'Robber'}), (6, {'Drunk'})], [(0, 6, 0)]),
-        Statement('I am a Robber and I swapped with Player 0. I am now a Seer.', [(1, {'Robber'}), (0, {'Seer'})], [(0, 0, 1)]),
-        Statement('I am a Seer and I saw that Player 3 was a Villager.', [(2, {'Seer'}), (3, {'Villager'})], []),
+    statement_list = [
+        Statement('I am a Robber and I swapped with Player 6. I am now a Drunk.',
+                  [(0, {'Robber'}), (6, {'Drunk'})], [(0, 6, 0)]),
+        Statement('I am a Robber and I swapped with Player 0. I am now a Seer.',
+                  [(1, {'Robber'}), (0, {'Seer'})], [(0, 0, 1)]),
+        Statement('I am a Seer and I saw that Player 3 was a Villager.',
+                  [(2, {'Seer'}), (3, {'Villager'})], []),
         Statement('I am a Villager.', [(3, {'Villager'})], []),
-        Statement('I am a Mason. The other Mason is Player 5.', [(4, {'Mason'}), (5, {'Mason'})], []),
-        Statement('I am a Mason. The other Mason is Player 4.', [(5, {'Mason'}), (4, {'Mason'})], []),
-        Statement('I am a Drunk and I swapped with Center 1.', [(6, {'Drunk'})], [(1, 9, 6)]),
-        Statement('I am a Robber and I swapped with Player 5. I am now a Seer.', [(7, {'Robber'}), (5, {'Seer'})], [(0, 5, 7)])
+        Statement('I am a Mason. The other Mason is Player 5.',
+                  [(4, {'Mason'}), (5, {'Mason'})], []),
+        Statement('I am a Mason. The other Mason is Player 4.',
+                  [(5, {'Mason'}), (4, {'Mason'})], []),
+        Statement('I am a Drunk and I swapped with Center 1.',
+                  [(6, {'Drunk'})], [(1, 9, 6)]),
+        Statement('I am a Robber and I swapped with Player 5. I am now a Seer.',
+                  [(7, {'Robber'}), (5, {'Seer'})], [(0, 5, 7)])
     ]
-    solution = switching_solver(statements)
-    print(solution)
+    print(switching_solver(statement_list))

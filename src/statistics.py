@@ -1,6 +1,7 @@
-import const
+''' statistics.py '''
 from collections import Counter
 from const import logger
+import const
 
 class GameResult:
     ''' Each round of one_night returns a GameResult. '''
@@ -12,6 +13,7 @@ class GameResult:
         self.found_single_vote_wolf = found_single_vote_wolf
 
     def json_repr(self):
+        ''' Returns json representation of the GameResult. '''
         return {
             'type': 'GameResult',
             'actual': self.actual,
@@ -25,8 +27,9 @@ class GameResult:
 class Statistics:
     ''' Initialize a Statistics object. '''
     def __init__(self):
-        self.metrics = [self.correctness_strict, self.correctness_lenient_center, self.wolf_predictions_one,
-                        self.wolf_predictions_all, self.wolf_predictions_center]
+        self.metrics = [self.correctness_strict, self.correctness_lenient_center,
+                        self.wolf_predictions_one, self.wolf_predictions_all,
+                        self.wolf_predictions_center]
         if const.USE_VOTING: self.metrics.append(self.voted_wolf)
         self.NUM_METRICS = len(self.metrics)
         self.correct = [0.0 for _ in range(self.NUM_METRICS)]
@@ -39,13 +42,13 @@ class Statistics:
         self.num_games += 1
         for metric_index in range(self.NUM_METRICS):
             fn = self.metrics[metric_index]
-            c, t = fn(game_result)
-            self.correct[metric_index] += c
-            self.total[metric_index] += t
+            corr, tot = fn(game_result)
+            self.correct[metric_index] += corr
+            self.total[metric_index] += tot
 
     def print_statistics(self):
         ''' Outputs overall statistics of inputed game results. '''
-        logger.warning('\nNumber of Games: ' + str(self.num_games))
+        logger.warning('\nNumber of Games: %d', self.num_games)
         sentences = [
             'Accuracy for all predictions: ',
             'Accuracy with lenient center scores: ',
@@ -86,34 +89,34 @@ class Statistics:
 
     def wolf_predictions_one(self, game_result):
         ''' Returns 1/1 if at least one Wolf was correctly identified. '''
-        correctGuesses = 0
-        totalWolves = 1
+        correct_guesses = 0
+        total_wolves = 1
         for r in range(const.NUM_PLAYERS):
             if game_result.actual[r] == 'Wolf' == game_result.guessed[r]:
-                correctGuesses += 1
-        return int(correctGuesses > 0), totalWolves
+                correct_guesses += 1
+        return int(correct_guesses > 0), total_wolves
 
     def wolf_predictions_all(self, game_result):
         ''' Returns 1/1 if all Wolves were correctly identified. '''
-        correctGuesses = 0
-        totalWolves = 0
+        correct_guesses = 0
+        total_wolves = 0
         for r in range(const.NUM_PLAYERS):
             if game_result.actual[r] == 'Wolf':
-                totalWolves += 1
+                total_wolves += 1
                 if game_result.guessed[r] == 'Wolf':
-                    correctGuesses += 1
-        return int(correctGuesses == totalWolves), 1
+                    correct_guesses += 1
+        return int(correct_guesses == total_wolves), 1
 
     def wolf_predictions_center(self, game_result):
         ''' Returns fraction of how many Wolves were correctly identified. '''
-        correctGuesses = 0
-        totalWolves = 0
+        correct_guesses = 0
+        total_wolves = 0
         for r in range(const.NUM_ROLES):
             if game_result.actual[r] == 'Wolf':
-                totalWolves += 1
+                total_wolves += 1
                 if game_result.guessed[r] == 'Wolf':
-                    correctGuesses += 1
-        return correctGuesses, totalWolves
+                    correct_guesses += 1
+        return correct_guesses, total_wolves
 
     def voted_wolf(self, game_result):
         ''' Returns 1/1 if the voted character was truly a Wolf. '''

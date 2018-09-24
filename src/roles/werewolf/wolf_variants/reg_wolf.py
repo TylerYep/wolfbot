@@ -1,7 +1,7 @@
 from ...village import Player, Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
 import const
 
-# TODO: check whether confining statements to if role in const.ROLE_SET and role not in stated_roles
+# TODO: check better confining statements: if role in const.ROLE_SET and role not in stated_roles
 def get_wolf_statements(player_index, wolf_indices, stated_roles, previous_statements):
     # role = self.center_role
     # if role != None and role != 'Wolf' and role != 'Mason':

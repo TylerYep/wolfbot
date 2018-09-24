@@ -1,23 +1,26 @@
-from const import logger
-from encoder import WolfBotDecoder
-import const
+''' replay.py '''
 import json
-from algorithms import switching_solver
-from predictions import make_prediction, print_guesses, make_prediction_fast
+
 from statistics import Statistics, GameResult
+from algorithms import switching_solver
+from predictions import make_prediction, print_guesses
+from encoder import WolfBotDecoder
+from const import logger
+import const
 
-if __name__ == '__main__':
-    with open('data/replay.json', 'r') as f:
-       original_roles, game_roles, all_statements = json.load(f, cls=WolfBotDecoder)
+def run_replay():
+    ''' Runs last game stored in replay.json '''
+    with open('data/replay.json', 'r') as f_replay:
+        original_roles, game_roles, all_statements = json.load(f_replay, cls=WolfBotDecoder)
 
-    print('STATEMENTS: ')
-    for i, s in enumerate(all_statements):
-        print(s)
+    logger.warning('STATEMENTS: ')
+    for _, sentence in enumerate(all_statements):
+        logger.warning(sentence)
     logger.setLevel(0)
-    logger.warning('[Hidden] Current roles: ' + str(original_roles[:const.NUM_PLAYERS]) +
-            '\n\t Center cards:  ' + str(original_roles[const.NUM_PLAYERS:]) + '\n')
-    logger.warning('[SOLUTION] Role guesses: ' + str(game_roles[:const.NUM_PLAYERS]) +
-                '\n\t  Center cards: ' + str(game_roles[const.NUM_PLAYERS:]) + '\n')
+    logger.warning('[Hidden] Current roles: %s\n\t Center cards: %s\n',
+                   str(original_roles[:const.NUM_PLAYERS]), str(original_roles[const.NUM_PLAYERS:]))
+    logger.warning('[SOLUTION] Role guesses: %s\n\t  Center cards: %s\n',
+                   str(game_roles[:const.NUM_PLAYERS]), str(game_roles[const.NUM_PLAYERS:]))
 
     solution = switching_solver(all_statements)
     logger.warning(solution)
@@ -30,3 +33,6 @@ if __name__ == '__main__':
     stats = Statistics()
     stats.add_result(game_result)
     stats.print_statistics()
+
+if __name__ == '__main__':
+    run_replay()

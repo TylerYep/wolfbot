@@ -1,5 +1,6 @@
-import const
+''' util.py '''
 import random
+import const
 from const import logger
 
 def swap_characters(game_roles, i, j):
@@ -25,5 +26,6 @@ def get_random_center():
 
 
 def print_roles(game_roles):
-    logger.debug('[Hidden] Current roles: ' + str(game_roles[:const.NUM_PLAYERS]) +
-                '\n\t Center cards:  ' + str(game_roles[const.NUM_PLAYERS:]) + '\n')
+    ''' Formats hidden roles to console. '''
+    logger.debug('[Hidden] Current roles: %s\n\t  Center cards: %s\n',
+                 str(game_roles[:const.NUM_PLAYERS]), str(game_roles[const.NUM_PLAYERS:]))
