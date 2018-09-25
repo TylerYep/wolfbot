@@ -28,8 +28,12 @@ def get_wolf_state(game):
 # TODO: Figure out a way to map state to JSON. There should be a better way to do this.
 def remap_keys(mapping):
     ''' Remaps keys for jsonifying. '''
-    return [{'wolf_inds': k, 'statements': v} for k, v in mapping.items()]
-
+    exp_dict = defaultdict(lambda: defaultdict(int))
+    for k, v in mapping.items():
+        print(k)
+        print(v)
+        exp_dict[str(k)] = v
+    return exp_dict
 
 def train(folder, eta=0.01):
     ''' Trains Wolf using games stored in simulations. '''
@@ -42,6 +46,7 @@ def train(folder, eta=0.01):
             with open(file_path, 'r') as data_file:
                 json_obj = json.load(data_file, cls=WolfBotDecoder)
                 for game in json_obj:
+                    # See how training improves over time
                     if counter % 100 == 0:
                         test(experience_dict)
                     val = evaluate(game)
@@ -51,7 +56,9 @@ def train(folder, eta=0.01):
                         count_dict[(state)] += 1
                     counter += 1
 
+    print(experience_dict)
     exp_dict = remap_keys(experience_dict)
+    print(exp_dict)
     with open('data/wolf_player.json', 'w') as wolf_file:
         json.dump(exp_dict, wolf_file, cls=WolfBotEncoder)
 

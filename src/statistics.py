@@ -59,7 +59,7 @@ class Statistics:
         ]
         for i in range(self.NUM_METRICS):
             if self.total[i] == 0: self.total[i] += 1
-            logger.warning(sentences[i] + str(self.correct[i] / self.total[i]))
+            logger.warning('%s%s', sentences[i], str(self.correct[i] / self.total[i]))
 
     def correctness_strict(self, game_result):
         ''' Returns fraction of how many roles were guessed correctly out of all roles. '''

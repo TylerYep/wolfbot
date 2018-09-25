@@ -62,7 +62,8 @@ and creating the Baseline Solver.
 * main.py (Driver for game simulations)  
 * one_night.py (Plays one game of One Night Ultimate Werewolf)  
 * statistics.py (Used to aggregate many GameResults into fixed statistics)  
-* replay.py (python3 replay.py will run the last game that was played again)  
+* replay.py (python3 src/replay.py will run the last game that was played again)  
+* encoder.py (Used to encode all custom WolfBot class objects)  
 
 ## Algorithms and Solvers
 * algorithms.py (Includes all solvers and consistency checks for groups of statements)  
@@ -70,12 +71,27 @@ and creating the Baseline Solver.
 * possible.py (Finds all possible player statements for Wolves)  
 * predictions.py (Makes predictions given a SolverSolution)  
 * train.py (Used for Reinforcement Learning Wolf)  
+* voting.py (Used to aggregate prediction results)  
 
 ## Game Components
 * roles.py (Stores all Good player roles and their associated methods)  
   (May separate into individual files in the future)  
 * wolf.py (Stores all Evil player roles and their associated methods)  
 * statements.py (Statement class with associated methods)  
+* util.py (Some basic util functions)  
 
+## Roles
+Village Team: (Stores all Good player roles and their associated methods)  
+* Villager
+* Mason
+* Seer
+* Robber
+* Troublemaker
+* Drunk
+* Insomniac
+
+Werewolf Team: (Stores all Evil player roles and their associated methods)  
+* Wolf
+* Minion
 
 Wolf Theory: Choose statements that do a good job, not necessarily the absolute best ones.
