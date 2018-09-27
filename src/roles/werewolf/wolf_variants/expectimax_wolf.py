@@ -31,7 +31,7 @@ def get_statement_expectimax(player_index, wolf_indices, stated_roles, previous_
     def expectimax(statement_list, state, ind, depth=None):
         ''' Runs expectimax on the list of statements and current state using the given depth. '''
         if ind == const.NUM_PLAYERS or depth == 0:
-            solver_result = random.choice(switching_solver(statement_list)) # TODO is this right?
+            solver_result = random.choice(switching_solver(statement_list))
             predictions = make_prediction_fast(solver_result)
             return eval_fn(solver_result, predictions), None
         if ind == player_index:              # Choose your own move, maximize val

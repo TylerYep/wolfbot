@@ -1,9 +1,7 @@
 ''' minion.py '''
 from util import find_all_player_indices
 from const import logger
-import const
-
-from ..village import Player, Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
+from ..village import Player
 
 class Minion(Player):
     ''' Minion Player class. '''

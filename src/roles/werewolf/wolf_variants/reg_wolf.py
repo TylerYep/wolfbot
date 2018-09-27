@@ -2,7 +2,6 @@
 import const
 from ...village import Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
 
-# TODO: check better confining statements: if role in const.ROLE_SET and role not in stated_roles
 def get_wolf_statements(player_index, wolf_indices, stated_roles, previous_statements):
     ''' Gets Regular Wolf statement. '''
 
@@ -26,14 +25,22 @@ def get_wolf_statements(player_index, wolf_indices, stated_roles, previous_state
     if 'Drunk' in const.ROLE_SET:
         for k in range(const.NUM_CENTER):
             statements += Drunk.get_drunk_statements(player_index, k + const.NUM_PLAYERS)
-    if 'Troublemaker' in const.ROLE_SET:  # and 'Troublemaker' not in stated_roles:
+    if 'Troublemaker' in const.ROLE_SET:
         for i in range(len(stated_roles)):
             for j in range(i+1, len(stated_roles)):
                 if j not in wolf_indices:
                     statements += Troublemaker.get_troublemaker_statements(player_index, i, j)
     if 'Robber' in const.ROLE_SET:
         for i, stated_role in enumerate(stated_roles):
-            statements += Robber.get_robber_statements(player_index, i, stated_role)
+            if stated_role != 'Robber':
+                if stated_role == 'Seer':
+                    use_index = True
+                    for _, poss_set in previous_statements[i].knowledge:
+                        if 'Robber' in poss_set:
+                            use_index = False
+                    if not use_index:
+                        continue
+                statements += Robber.get_robber_statements(player_index, i, stated_role)
     if 'Seer' in const.ROLE_SET:
         for i, stated_role in enumerate(stated_roles):
             if i not in wolf_indices and stated_role != 'Seer':      # 'Hey, I'm a Seer and I saw another Seer...'

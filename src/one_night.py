@@ -16,7 +16,7 @@ def play_one_night_werewolf(solver):
     random.shuffle(game_roles)
     ORIGINAL_ROLES = list(game_roles)
     if const.FIXED_WOLF_INDEX is not None:
-        override_wolf_index(game_roles) # Crashes sometimes bc cannot be true.
+        override_wolf_index(game_roles)
 
     # Get Wolf indices before switching
     wolf_inds = find_all_player_indices(game_roles, 'Wolf')

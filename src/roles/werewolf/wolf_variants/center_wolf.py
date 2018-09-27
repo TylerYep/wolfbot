@@ -11,7 +11,8 @@ def get_center_wolf_statements(player_index, center_role, center_index, wolf_ind
         statements += Villager.get_villager_statements(player_index)
     elif role == 'Robber':
         for i, stated_role in enumerate(stated_roles):
-            statements += Robber.get_robber_statements(player_index, i, stated_role)
+            if stated_role != 'Robber':
+                statements += Robber.get_robber_statements(player_index, i, stated_role)
     elif role == 'Troublemaker':
         for i in range(len(stated_roles)):
             for j in range(i+1, len(stated_roles)):

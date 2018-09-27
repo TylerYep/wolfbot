@@ -1,9 +1,8 @@
 ''' const.py '''
-from collections import Counter, defaultdict
+from collections import Counter
 import logging
 logging.basicConfig(format='%(message)s', level=logging.INFO)
 logger = logging.getLogger()
-def _get_int_dict(): return defaultdict(int) # TODO Delete this when wolf_player.pkl is obsolete
 
 ''' Game Constants '''
 ROLES = ('Villager', 'Villager', 'Villager', 'Wolf', 'Wolf', 'Seer',
@@ -18,17 +17,20 @@ ROLE_COUNTS = dict(Counter(ROLES)) # Dict of {'Villager': 3, 'Wolf': 2, ... }
 NUM_PLAYERS = NUM_ROLES - NUM_CENTER
 ROBBER_PRIORITY, TROUBLEMAKER_PRIORITY, DRUNK_PRIORITY = 1, 2, 3
 
-''' Expectimax Wolf Player'''
+''' Basic Wolf Player '''
+USE_REG_WOLF = True
+
+''' Expectimax Wolf Player '''
 USE_EXPECTIMAX_WOLF = False
 EXPECTIMAX_DEPTH = 1
 BRANCH_FACTOR = 5
 
-''' Reinforcement Learning Wolf Player'''
-USE_RL_WOLF = True
+''' Reinforcement Learning Wolf Player '''
+USE_RL_WOLF = False
 EXPERIENCE_PATH = 'data/wolf_player.json'
 
 ''' Simulation Constants '''
-NUM_GAMES = 1
+NUM_GAMES = 20
 SHOW_PROGRESS = False or NUM_GAMES >= 10
 FIXED_WOLF_INDEX = None
 
@@ -42,3 +44,6 @@ DEBUG = Include all hidden messages
 INFO = Regular gameplay
 WARNING = Results only
 '''
+
+''' Ensure only one Wolf version is active '''
+assert sum([USE_REG_WOLF, USE_EXPECTIMAX_WOLF, USE_RL_WOLF]) <= 1

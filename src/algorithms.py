@@ -10,6 +10,7 @@ if sys.version_info < (3, 0):
     sys.stdout.write('Requires Python 3, not Python 2!\n')
     sys.exit()
 
+
 class SolverState():
     ''' Each solver returns a SolverState object with the result. '''
     def __init__(self, possible_roles, switches=None, path_init=None):

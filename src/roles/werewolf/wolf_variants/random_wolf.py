@@ -5,7 +5,6 @@ from ...village import Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insom
 # Random Wolf Player
 def get_wolf_statements_random(player_index, wolf_indices):
     ''' Gets Random Wolf statement. '''
-
     statements = []
     if 'Villager' in const.ROLE_SET:
         statements += Villager.get_villager_statements(player_index)
@@ -31,7 +30,7 @@ def get_wolf_statements_random(player_index, wolf_indices):
     if 'Robber' in const.ROLE_SET:
         for i in range(const.NUM_PLAYERS):
             for role in const.ROLES:
-                if role != 'Wolf':      # 'I robbed Player 0 and now I'm a Wolf...'
+                if role not in ('Wolf', 'Robber') and player_index != i:      # 'I robbed Player 0 and now I'm a Wolf...'
                     statements += Robber.get_robber_statements(player_index, i, role)
     if 'Seer' in const.ROLE_SET:
         for role in const.ROLES:

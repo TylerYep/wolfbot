@@ -11,9 +11,10 @@ def consolidate_results(solver, game_roles, wolf_inds, player_objs, all_statemen
     if const.USE_VOTING:
         all_role_guesses_arr = []
         for i in range(const.NUM_PLAYERS):
-            # Good player vs Bad player guesses        TODO what happens when a wolf becomes good?
+            # Good player vs Bad player guesses        TODO when a wolf becomes good?
             all_solutions = solver(all_statements, i)
-            is_evil = i in wolf_inds or player_objs[i].new_role == 'Wolf'
+            is_evil = i in wolf_inds and player_objs[i].new_role == ''
+            is_evil = is_evil or player_objs[i].new_role == 'Wolf'
             all_role_guesses_arr.append(make_prediction(all_solutions, is_evil))
 
         for prediction in all_role_guesses_arr:

@@ -4,15 +4,19 @@ from copy import deepcopy
 from const import logger
 import const
 
+def make_random_prediction(solution_arr):
+    ''' Makes a random prediction. '''
+    random_guesses = list(const.ROLES)
+    random.shuffle(random_guesses)
+    return random_guesses
+
 def make_evil_prediction(solution_arr):
     '''
     Makes the Wolf character's prediction for the game.
     '''
     # TODO Find better than random solution when the Wolf gets contradicted in a later statement.
     if not solution_arr[0].path:
-        random_guesses = list(const.ROLES)
-        random.shuffle(random_guesses)
-        return random_guesses
+        return make_random_prediction(solution_arr)
 
     solution = random.choice(solution_arr)
     return make_prediction_fast(solution)
@@ -48,7 +52,9 @@ def make_prediction(solution_arr, is_evil=False):
     solved = None
     random.shuffle(solution_arr)
     for solution in solution_arr:
-        assert len(solution.possible_roles) == const.NUM_ROLES
+        # This case only occurs when Wolves tell a perfect lie.
+        if len(solution.possible_roles) != const.NUM_ROLES:
+            return make_random_prediction(solution_arr)
         all_role_guesses, curr_role_counts = get_basic_guesses(solution)
         solved = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts))
         if solved: break

@@ -4,7 +4,7 @@ from const import logger
 import const
 
 from ..village import Player
-from .wolf_variants import get_wolf_statements_random, get_statement_expectimax, get_statement_rl
+from .wolf_variants import get_wolf_statements_random, get_statement_expectimax, get_statement_rl, get_wolf_statements
 
 class Wolf(Player):
     ''' Wolf Player class. '''
@@ -15,7 +15,7 @@ class Wolf(Player):
         self.role = 'Wolf'
         self.new_role = ''
         self.wolf_indices, self.wolf_center_index, self.wolf_center_role = self.wolf_init(game_roles, ORIGINAL_ROLES)
-        self.statements = get_wolf_statements_random(self.player_index, self.wolf_indices)
+        self.statements = []
 
     def wolf_init(self, game_roles, ORIGINAL_ROLES):
         ''' Initializes Wolf - gets Wolf indices and a random center card, if applicable. '''
@@ -31,6 +31,12 @@ class Wolf(Player):
 
     def get_statement(self, stated_roles, previous_statements):
         ''' Get Wolf Statement. '''
+        if const.USE_REG_WOLF:
+            self.statements = get_wolf_statements(self.player_index, self.wolf_indices,
+                                       stated_roles, previous_statements)
+        else:
+            self.statements = get_wolf_statements_random(self.player_index, self.wolf_indices)
+
         if const.USE_RL_WOLF:
             return get_statement_rl(self.player_index, self.wolf_indices,
                                     stated_roles, previous_statements, super().get_statement())

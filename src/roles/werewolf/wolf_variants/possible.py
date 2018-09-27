@@ -33,7 +33,7 @@ def get_expected_statements(wolf_indices):
         if 'Robber' in const.ROLE_SET:
             for i in range(const.NUM_PLAYERS):
                 for role in const.ROLES:
-                    if role != 'Wolf':      # 'I robbed Player 0 and now I'm a Wolf...'
+                    if role != 'Wolf' and role != 'Robber':      # 'I robbed Player 0 and now I'm a Wolf...'
                         possible[player_index] += Robber.get_robber_statements(player_index, i, role)
         if 'Seer' in const.ROLE_SET:
             for role in const.ROLES:
