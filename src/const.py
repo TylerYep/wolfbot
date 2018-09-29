@@ -13,7 +13,7 @@ USE_VOTING = True
 ''' Util Constants '''
 ROLE_SET = set(ROLES)
 NUM_ROLES = len(ROLES)
-ROLE_COUNTS = dict(Counter(ROLES)) # Dict of {'Villager': 3, 'Wolf': 2, ... }
+ROLE_COUNTS = dict(Counter(ROLES))  # Dict of {'Villager': 3, 'Wolf': 2, ... }
 NUM_PLAYERS = NUM_ROLES - NUM_CENTER
 ROBBER_PRIORITY, TROUBLEMAKER_PRIORITY, DRUNK_PRIORITY = 1, 2, 3
 
@@ -21,7 +21,7 @@ ROBBER_PRIORITY, TROUBLEMAKER_PRIORITY, DRUNK_PRIORITY = 1, 2, 3
 USE_REG_WOLF = True
 
 ''' Expectimax Wolf Player '''
-USE_EXPECTIMAX_WOLF = False
+USE_EXPECTIMAX_WOLF = True
 EXPECTIMAX_DEPTH = 1
 BRANCH_FACTOR = 5
 
@@ -30,7 +30,7 @@ USE_RL_WOLF = False
 EXPERIENCE_PATH = 'data/wolf_player.json'
 
 ''' Simulation Constants '''
-NUM_GAMES = 20
+NUM_GAMES = 1
 SHOW_PROGRESS = False or NUM_GAMES >= 10
 FIXED_WOLF_INDEX = None
 
@@ -46,4 +46,4 @@ WARNING = Results only
 '''
 
 ''' Ensure only one Wolf version is active '''
-assert sum([USE_REG_WOLF, USE_EXPECTIMAX_WOLF, USE_RL_WOLF]) <= 1
+assert sum([USE_EXPECTIMAX_WOLF, USE_RL_WOLF]) <= 1
