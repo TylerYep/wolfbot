@@ -55,8 +55,8 @@ def get_most_likely_wolf(game_roles, all_role_guesses, confidence):
         return True
 
     logger.info('Player %d was chosen as a Wolf.\nPlayer %d was a %s!\n',
-                most_likely_wolf, most_likely_wolf, all_role_guesses[most_likely_wolf])
-    return all_role_guesses[most_likely_wolf] == 'Wolf'
+                most_likely_wolf, most_likely_wolf, game_roles[most_likely_wolf])
+    return game_roles[most_likely_wolf] == 'Wolf'
 
 
 def get_voting_result(all_role_guesses_arr):
@@ -71,7 +71,7 @@ def get_voting_result(all_role_guesses_arr):
         role_dict = defaultdict(int)
         for prediction in all_role_guesses_arr:
             role_dict[prediction[i]] += 1
-        _, count = max(role_dict.items(), key=lambda x: x[1])
+        count = max(role_dict.values())
         confidence.append(count / const.NUM_PLAYERS)
     return list(all_role_guesses), confidence
 

@@ -35,7 +35,6 @@ class Wolf(Player):
         ''' Get Wolf Statement. '''
         if const.USE_REG_WOLF:
             if self.center_role not in (None, 'Wolf', 'Mason'):
-                logger.warning(self.center_role)
                 self.statements = get_center_wolf_statements(self.player_index, self.center_role,
                                                              self.center_index, self.wolf_indices, stated_roles)
             if not self.statements:

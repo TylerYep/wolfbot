@@ -95,5 +95,11 @@ Werewolf Team: (Stores all Evil player roles and their associated methods)
 * Minion
 
 Wolf Theory: Choose statements that do a good job, not necessarily the absolute best ones.
-Pylint entire directory using
-find . -iname "*.py" | xargs pylint 
+
+TODO:
+* Host on AWS (SOON)
+* UI and secure move API
+* Multiple Statements
+* Add Minion
+
+Pylint entire directory using: find . -iname "*.py" | xargs pylint
