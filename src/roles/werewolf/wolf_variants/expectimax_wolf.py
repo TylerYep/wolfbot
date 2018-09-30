@@ -35,12 +35,12 @@ def get_statement_expectimax(player_index, wolf_indices, statements, stated_role
         if ind == player_index:              # Choose your own move, maximize val
             vals = _get_next_vals(statement_list, statements, state, ind, depth, True)
             best_move = statements[vals.index(max(vals))]
-            if not vals: return -5, super.getNextStatement()
+            # if not vals: return -5, super.get_statement() Never called!!
             return max(vals), best_move
 
         # Get expected value of remaining statements
         assert const.EXPECTIMAX_DEPTH != 1
-        indices = random.sample(range(len(expected_player_statements[ind])), const.BRANCH_FACTOR * player_index)
+        indices = random.sample(range(len(expected_player_statements[ind])), const.BRANCH_FACTOR * player_index + 1)
         trimmed_statements = [expected_player_statements[ind][i] for i in sorted(indices)]
         vals = _get_next_vals(statement_list, trimmed_statements, state, ind, depth)
         if not vals: return 10, None
@@ -65,4 +65,5 @@ def get_statement_expectimax(player_index, wolf_indices, statements, stated_role
             if st: start_state = st
     best_val, best_move = expectimax(prev_statements, start_state, player_index, const.EXPECTIMAX_DEPTH)
     logger.info('Evaluation Function Score: %f', best_val)
+    logger.warning(best_move)
     return best_move

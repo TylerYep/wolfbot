@@ -22,7 +22,7 @@ USE_REG_WOLF = True
 
 ''' Expectimax Wolf Player '''
 USE_EXPECTIMAX_WOLF = True
-EXPECTIMAX_DEPTH = 1
+EXPECTIMAX_DEPTH = 2
 BRANCH_FACTOR = 5
 
 ''' Reinforcement Learning Wolf Player '''
@@ -30,7 +30,7 @@ USE_RL_WOLF = False
 EXPERIENCE_PATH = 'data/wolf_player.json'
 
 ''' Simulation Constants '''
-NUM_GAMES = 1
+NUM_GAMES = 10
 SHOW_PROGRESS = False or NUM_GAMES >= 10
 FIXED_WOLF_INDEX = None
 
