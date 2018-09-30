@@ -33,14 +33,14 @@ class Wolf(Player):
         ''' Get Wolf Statement. '''
         if const.USE_REG_WOLF:
             self.statements = get_wolf_statements(self.player_index, self.wolf_indices,
-                                       stated_roles, previous_statements)
+                                                  stated_roles, previous_statements)
         else:
             self.statements = get_wolf_statements_random(self.player_index, self.wolf_indices)
 
         if const.USE_RL_WOLF:
-            return get_statement_rl(self.player_index, self.wolf_indices,
-                                    stated_roles, previous_statements, super().get_statement())
+            return get_statement_rl(self.player_index, self.wolf_indices, stated_roles,
+                                    previous_statements, super().get_statement())
         if const.USE_EXPECTIMAX_WOLF:
-            return get_statement_expectimax(self.player_index, self.wolf_indices, self.statements,
-                                            stated_roles, previous_statements)
+            return get_statement_expectimax(self.player_index, self.wolf_indices,
+                                            self.statements, previous_statements)
         return super().get_statement()
