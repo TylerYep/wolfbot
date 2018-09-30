@@ -73,5 +73,4 @@ def get_statement_expectimax(player_index, wolf_indices, wolf_statements, prev_s
             if check_state: start_state = check_state
     best_val, best_move = expectimax(prev_statements, start_state, player_index)
     logger.info('Evaluation Function Score: %f', best_val)
-    logger.warning(best_move)
     return best_move

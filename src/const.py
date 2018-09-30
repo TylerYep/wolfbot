@@ -30,7 +30,7 @@ USE_RL_WOLF = False
 EXPERIENCE_PATH = 'data/wolf_player.json'
 
 ''' Simulation Constants '''
-NUM_GAMES = 30
+NUM_GAMES = 1
 SHOW_PROGRESS = False or NUM_GAMES >= 10
 FIXED_WOLF_INDEX = None
 

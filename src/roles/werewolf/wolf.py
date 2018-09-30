@@ -4,7 +4,8 @@ from const import logger
 import const
 
 from ..village import Player
-from .wolf_variants import get_wolf_statements_random, get_statement_expectimax, get_statement_rl, get_wolf_statements
+from .wolf_variants import get_wolf_statements_random, get_statement_expectimax, \
+                           get_statement_rl, get_wolf_statements, get_center_wolf_statements
 
 class Wolf(Player):
     ''' Wolf Player class. '''
@@ -14,13 +15,14 @@ class Wolf(Player):
         super().__init__(player_index)
         self.role = 'Wolf'
         self.new_role = ''
-        self.wolf_indices, self.wolf_center_index, self.wolf_center_role = self.wolf_init(game_roles, ORIGINAL_ROLES)
+        self.wolf_indices, self.center_index, self.center_role = self.wolf_init(game_roles, ORIGINAL_ROLES)
         self.statements = []
 
     def wolf_init(self, game_roles, ORIGINAL_ROLES):
         ''' Initializes Wolf - gets Wolf indices and a random center card, if applicable. '''
         wolf_indices = []
         wolf_center_index, wolf_center_role = None, None
+        # Only get center roles and wolf indices if not a Robber/Insomniac Wolf
         if ORIGINAL_ROLES is not None:
             wolf_indices = set(find_all_player_indices(ORIGINAL_ROLES, 'Wolf'))
             if len(wolf_indices) == 1 and const.NUM_CENTER > 0:
@@ -32,8 +34,13 @@ class Wolf(Player):
     def get_statement(self, stated_roles, previous_statements):
         ''' Get Wolf Statement. '''
         if const.USE_REG_WOLF:
-            self.statements = get_wolf_statements(self.player_index, self.wolf_indices,
-                                                  stated_roles, previous_statements)
+            if self.center_role not in (None, 'Wolf', 'Mason'):
+                logger.warning(self.center_role)
+                self.statements = get_center_wolf_statements(self.player_index, self.center_role,
+                                                             self.center_index, self.wolf_indices, stated_roles)
+            if not self.statements:
+                self.statements = get_wolf_statements(self.player_index, self.wolf_indices,
+                                                      stated_roles, previous_statements)
         else:
             self.statements = get_wolf_statements_random(self.player_index, self.wolf_indices)
 

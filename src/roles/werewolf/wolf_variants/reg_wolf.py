@@ -4,14 +4,11 @@ from ...village import Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insom
 
 def get_wolf_statements(player_index, wolf_indices, stated_roles, previous_statements):
     ''' Gets Regular Wolf statement. '''
-
-    # role = self.center_role
-    # if role != None and role != 'Wolf' and role != 'Mason':
-    #     return self.get_center_wolf_statements(player_index, center_role, center_index, stated_roles)
     statements = []
     if 'Villager' in const.ROLE_SET:
         statements += Villager.get_villager_statements(player_index)
     if 'Insomniac' in const.ROLE_SET:
+        # TODO check for switches and prioritize those statements
         statements += Insomniac.get_insomniac_statements(player_index, 'Insomniac')
     if 'Mason' in const.ROLE_SET:
         # Only say you are a Mason if you are the last player and there are no Masons.
