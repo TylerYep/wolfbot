@@ -39,7 +39,9 @@ class WolfBotDecoder(json.JSONDecoder):
         if obj_type == 'GameResult':
             return GameResult(**obj)
         if obj_type in const.ROLE_SET:
-            return self.str_to_obj[obj_type](obj) # TODO: implement argument spread
+            return Player(obj['player_index'], obj['new_role'])
+            # For recreating the entire player object:
+            # return self.str_to_obj[obj_type](obj)
         return obj
 
 

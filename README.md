@@ -94,6 +94,8 @@ Werewolf Team: (Stores all Evil player roles and their associated methods)
 * Wolf
 * Minion
 
+Tanner Team: (Wildcard player)
+
 Wolf Theory: Choose statements that do a good job, not necessarily the absolute best ones.
 
 TODO:
@@ -101,5 +103,6 @@ TODO:
 * UI and secure move API
 * Multiple Statements
 * Add Minion
+* Add Tanner!
 
 Pylint entire directory using: find . -iname "*.py" | xargs pylint

@@ -18,19 +18,16 @@ def play_one_night_werewolf(solver):
     if const.FIXED_WOLF_INDEX is not None:
         override_wolf_index(game_roles)
 
-    # Get Wolf indices before switching
-    wolf_inds = find_all_player_indices(game_roles, 'Wolf')
-
     player_objs = night_falls(game_roles)
     logger.info('\n -- GAME BEGINS -- \n')
     all_statements = get_statements(player_objs)
     print_roles(game_roles)
 
-    save_game = [ORIGINAL_ROLES, game_roles, all_statements]
+    save_game = [ORIGINAL_ROLES, game_roles, all_statements, player_objs]
     with open('data/replay.json', 'w') as f_replay:
         json.dump(save_game, f_replay, cls=WolfBotEncoder)
 
-    return consolidate_results(solver, game_roles, wolf_inds, player_objs, all_statements)
+    return consolidate_results(solver, ORIGINAL_ROLES, game_roles, player_objs, all_statements)
 
 def get_statements(player_objs):
     ''' Returns array of each player's statements. '''
@@ -64,7 +61,7 @@ def night_falls(game_roles):
         init_roles(game_roles, player_objs, role)
 
     for i in range(const.NUM_PLAYERS):
-        if ORIGINAL_ROLES[i] in ['Villager', 'Hunter']:
+        if ORIGINAL_ROLES[i] in ['Villager', 'Hunter', 'Tanner']:
             player_objs[i] = Villager(i)
 
     return player_objs[:const.NUM_PLAYERS]

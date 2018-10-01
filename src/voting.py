@@ -6,9 +6,10 @@ from predictions import make_prediction, print_guesses
 from const import logger
 import const
 
-def consolidate_results(solver, game_roles, wolf_inds, player_objs, all_statements):
+def consolidate_results(solver, ORIGINAL_ROLES, game_roles, player_objs, all_statements):
     ''' Consolidates results and returns final GameResult. '''
     if const.USE_VOTING:
+        wolf_inds = find_all_player_indices(ORIGINAL_ROLES, 'Wolf')
         all_role_guesses_arr = []
         for i in range(const.NUM_PLAYERS):
             # Good player vs Bad player guesses

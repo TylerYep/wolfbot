@@ -4,6 +4,7 @@ import random
 
 from copy import deepcopy
 from statements import Statement
+from const import logger
 import const
 
 if sys.version_info < (3, 0):
@@ -169,4 +170,4 @@ if __name__ == '__main__':
         Statement('I am a Robber and I swapped with Player 5. I am now a Seer.',
                   [(7, {'Robber'}), (5, {'Seer'})], [(0, 5, 7)])
     ]
-    print(switching_solver(statement_list))
+    logger.info(switching_solver(statement_list))

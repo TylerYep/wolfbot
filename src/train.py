@@ -41,15 +41,13 @@ def train(folder, eta=0.01):
         file_path = os.path.join(folder, file)
         if file_path.lower().endswith('.json'):
             with open(file_path, 'r') as data_file:
-                json_obj = json.load(data_file, cls=WolfBotDecoder)
-                for game in json_obj:
+                for game in json.load(data_file, cls=WolfBotDecoder):
                     # See how training improves over time
                     if counter % 100 == 0:
                         test(experience_dict)
-                    val = evaluate(game)
                     states, statements = get_wolf_state(game)
                     for state, statement in zip(states, statements):
-                        experience_dict[state][statement] = (1-eta)*experience_dict[state][statement] + eta*val
+                        experience_dict[state][statement] = (1-eta)*experience_dict[state][statement] + eta*evaluate(game)
                         count_dict[(state)] += 1
                     counter += 1
 

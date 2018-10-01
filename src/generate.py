@@ -9,10 +9,10 @@ from const import logger
 import const
 
 def generate_data():
-    ''' Simulate games and store in simulations folder. '''
-    weights = [3**i for i in range(1, const.NUM_PLAYERS+1)]
+    ''' Simulate games and store data in simulations folder. '''
+    weights = [3**i for i in range(1, const.NUM_PLAYERS + 1)]
     sim_list = []
-    logger.setLevel(30)
+    logger.setLevel(0)
     for i, weight in enumerate(weights):
         const.FIXED_WOLF_INDEX = i
         logger.warning('Computing index: %d', i)
