@@ -32,7 +32,3 @@ def get_statement_rl(player_index, wolf_indices, stated_roles, previous_statemen
     for statement in statements:
         if choice == statement.sentence:
             return statement
-
-    # TODO Is this already covered in the previous return
-    logger.warning('No match found. Using random statement...')
-    return default_answer

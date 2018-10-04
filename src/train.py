@@ -32,6 +32,7 @@ def remap_keys(mapping):
         exp_dict[str(k)] = v
     return exp_dict
 
+
 def train(folder, eta=0.01):
     ''' Trains Wolf using games stored in simulations. '''
     counter = 0
@@ -58,6 +59,7 @@ def train(folder, eta=0.01):
 
 def test(experience_dict):
     ''' Run main with a specific experience_dict. '''
+    assert not const.USE_RL_WOLF
     main()
 
 

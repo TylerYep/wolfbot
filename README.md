@@ -2,10 +2,14 @@
 ### One Night Ultimate Werewolf: AI Edition
 By Tyler Yep and Harry Sha
 
-To try it out, run 'python3 src/main.py' in the terminal.  
+To try it out, run 'python src/main.py' in the terminal. (Python 3.7)
 Constants, along with their use cases, are listed in src/const.py.
 
 # Development
+## October 2018
+More Wolf updates.
+
+
 ## September 2018
 Major refactoring update and Single-Wolf Voting added! The next primary focus will be on
 getting a conversation between roles - each character has more than one statement and is

@@ -14,20 +14,13 @@ def make_evil_prediction(solution_arr):
     '''
     Makes the Wolf character's prediction for the game.
     '''
-    # TODO Find better than random solution when the Wolf gets contradicted in a later statement.
+    # TODO Find better than random solution when the Wolf gets contradicted by a later statement.
     if not solution_arr[0].path:
         return make_random_prediction()
 
     solution = random.choice(solution_arr)
     return make_prediction_fast(solution)
-
-    # all_role_guesses, curr_role_counts = get_basic_guesses(solution)
-    # solved = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts), False)
-    #
-    # switch_dict = get_switch_dict(solution)
-    # final_guesses = [solved[switch_dict[i]] for i in range(len(solved))]
-    # return final_guesses
-
+    
 
 def make_prediction_fast(solution):
     '''
