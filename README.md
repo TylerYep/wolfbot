@@ -2,12 +2,13 @@
 ### One Night Ultimate Werewolf: AI Edition
 By Tyler Yep and Harry Sha
 
-To try it out, run 'python src/main.py' in the terminal. (Python 3.7)
+To try it out, run 'python src/main.py' in the terminal. (Python 3.7)  
 Constants, along with their use cases, are listed in src/const.py.
 
 # Development
 ## October 2018
-More Wolf updates.
+More Wolf updates - I updated the Expectimax algorithm and changed the statements
+Wolves use. Fully tested all Wolf types and finished Pylint refactoring.
 
 
 ## September 2018
@@ -99,6 +100,7 @@ Werewolf Team: (Stores all Evil player roles and their associated methods)
 * Minion
 
 Tanner Team: (Wildcard player)
+* Tanner
 
 Wolf Theory: Choose statements that do a good job, not necessarily the absolute best ones.
 
@@ -109,4 +111,5 @@ TODO:
 * Add Minion
 * Add Tanner!
 
-Pylint entire directory using: find . -iname "*.py" | xargs pylint
+Pylint entire directory using:
+find . -iname "*.py" | xargs pylint
