@@ -22,6 +22,7 @@ class Wolf(Player):
         ''' Initializes Wolf - gets Wolf indices and a random center card, if applicable. '''
         wolf_indices = []
         wolf_center_index, wolf_center_role = None, None
+        
         # Only get center roles and wolf indices if not a Robber/Insomniac Wolf
         if ORIGINAL_ROLES is not None:
             wolf_indices = set(find_all_player_indices(ORIGINAL_ROLES, 'Wolf'))
@@ -43,6 +44,7 @@ class Wolf(Player):
         else:
             self.statements = get_wolf_statements_random(self.player_index, self.wolf_indices)
 
+        # Choose one statement to return
         if const.USE_RL_WOLF:
             return get_statement_rl(self.player_index, self.wolf_indices, stated_roles,
                                     previous_statements, super().get_statement())

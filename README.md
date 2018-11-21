@@ -6,6 +6,11 @@ To try it out, run 'python src/main.py' in the terminal. (Python 3.7)
 Constants, along with their use cases, are listed in src/const.py.
 
 # Development
+## November 2018
+Started the basic framework for the Minion. Currently working on other projects, so will
+return to this project later.
+
+
 ## October 2018
 More Wolf updates - I updated the Expectimax algorithm and changed the statements
 Wolves use. Fully tested all Wolf types and finished Pylint refactoring.
@@ -67,7 +72,7 @@ and creating the Baseline Solver.
 * main.py (Driver for game simulations)  
 * one_night.py (Plays one game of One Night Ultimate Werewolf)  
 * statistics.py (Used to aggregate many GameResults into fixed statistics)  
-* replay.py (python3 src/replay.py will run the last game that was played again)  
+* replay.py (python src/replay.py will run the last game that was played again)  
 * encoder.py (Used to encode all custom WolfBot class objects)  
 
 ## Algorithms and Solvers

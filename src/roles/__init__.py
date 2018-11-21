@@ -8,3 +8,4 @@ from .village.troublemaker import Troublemaker
 from .village.drunk import Drunk
 from .village.insomniac import Insomniac
 from .werewolf.wolf import Wolf
+from .werewolf.minion import Minion

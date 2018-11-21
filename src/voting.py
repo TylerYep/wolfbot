@@ -36,7 +36,7 @@ def consolidate_results(solver, ORIGINAL_ROLES, game_roles, player_objs, all_sta
 
 
 def get_most_likely_wolf(game_roles, all_role_guesses, confidence):
-    ''' Creates confidence levels for each prediction and selects the most likly Wolf. '''
+    ''' Creates confidence levels for each prediction and selects the most likely Wolf. '''
     wolf_inds = find_all_player_indices(all_role_guesses[:const.NUM_PLAYERS], 'Wolf')
     max_confidence = 0
     most_likely_wolf = None

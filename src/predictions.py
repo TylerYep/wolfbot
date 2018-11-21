@@ -10,6 +10,7 @@ def make_random_prediction():
     random.shuffle(random_guesses)
     return random_guesses
 
+
 def make_evil_prediction(solution_arr):
     '''
     Makes the Wolf character's prediction for the game.
@@ -20,7 +21,7 @@ def make_evil_prediction(solution_arr):
 
     solution = random.choice(solution_arr)
     return make_prediction_fast(solution)
-    
+
 
 def make_prediction_fast(solution):
     '''
