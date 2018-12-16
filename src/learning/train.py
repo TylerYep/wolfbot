@@ -1,10 +1,15 @@
-''' train.py '''
+'''
+train.py
+To run, cd to src/ and run python -m learning.train
+'''
 import os
+import time
 import json
 
 from collections import defaultdict
 from encoder import WolfBotEncoder, WolfBotDecoder
 from main import main
+import const
 
 def evaluate(game):
     ''' Evaluation function. '''
@@ -53,15 +58,15 @@ def train(folder, eta=0.01):
                     counter += 1
 
     exp_dict = remap_keys(experience_dict)
-    with open('data/wolf_player.json', 'w') as wolf_file:
+    with open('learning/simulations/wolf_player_' + time.strftime('%Y%m%d_%H%M%S') + '.json', 'w') as wolf_file:
         json.dump(exp_dict, wolf_file, cls=WolfBotEncoder)
 
 
 def test(experience_dict):
     ''' Run main with a specific experience_dict. '''
     assert not const.USE_RL_WOLF
-    main()
+    main(save_replay=False)
 
 
 if __name__ == '__main__':
-    train('data/simulations')
+    train('learning/simulations')

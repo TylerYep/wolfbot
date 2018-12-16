@@ -7,7 +7,7 @@ from algorithms import random_solver, baseline_solver, switching_solver
 from const import logger
 import const
 
-def main():
+def main(save_replay=True):
     ''' Simulate play_one_night_werewolf and create a Statistics instance for the runs. '''
     SOLVERS = [switching_solver]    # Solvers used in game simulations.
     start_time = time.time()
@@ -17,7 +17,7 @@ def main():
         for num in range(const.NUM_GAMES):
             if const.SHOW_PROGRESS and num % 10 == 0:
                 logger.warning('Currently on Game: %d', num)
-            game_result = play_one_night_werewolf(solver)
+            game_result = play_one_night_werewolf(solver, save_replay)
             stats.add_result(game_result)
         stats.print_statistics()
     logger.warning('\nTime taken: %s', str(time.time() - start_time))

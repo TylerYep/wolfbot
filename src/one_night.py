@@ -9,7 +9,7 @@ from voting import consolidate_results
 from const import logger
 import const
 
-def play_one_night_werewolf(solver):
+def play_one_night_werewolf(solver, save_replay=True):
     ''' Plays one round of One Night Ultimate Werewolf. '''
     global ORIGINAL_ROLES
     game_roles = list(const.ROLES)
@@ -21,14 +21,14 @@ def play_one_night_werewolf(solver):
     player_objs = night_falls(game_roles)
     logger.info('\n -- GAME BEGINS -- \n')
     all_statements = get_statements(player_objs)
-    print(all_statements)
     print_roles(game_roles)
 
     save_game = [ORIGINAL_ROLES, game_roles, all_statements, player_objs]
-    with open('data/replay.json', 'w') as f_replay:
-        json.dump(save_game, f_replay, cls=WolfBotEncoder)
+    if save_replay:
+        with open('data/replay.json', 'w') as f_replay:
+            json.dump(save_game, f_replay, cls=WolfBotEncoder)
 
-    return consolidate_results(solver, ORIGINAL_ROLES, game_roles, player_objs, all_statements)
+    return consolidate_results(solver, save_game)
 
 
 def get_statements(player_objs):
