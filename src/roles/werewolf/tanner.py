@@ -15,8 +15,6 @@ class Tanner(Player):
         # Roles default to None when another player becomes a Tanner and realizes it
         super().__init__(player_index)
         self.role = 'Tanner'
-        self.statements = []
-        self.new_role = ''
 
     def get_statement(self, stated_roles=None, previous=None):
         ''' Get Tanner Statement. '''

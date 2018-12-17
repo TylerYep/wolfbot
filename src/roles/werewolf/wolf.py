@@ -18,9 +18,7 @@ class Wolf(Player):
         ''' Constructor: ORIGINAL_ROLES defaults to None when a player becomes a Wolf and realizes it. '''
         super().__init__(player_index)
         self.role = 'Wolf'
-        self.new_role = ''
         self.wolf_indices, self.center_index, self.center_role = self.wolf_init(game_roles, ORIGINAL_ROLES)
-        self.statements = []
 
     @staticmethod
     def wolf_init(game_roles, ORIGINAL_ROLES):

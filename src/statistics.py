@@ -44,8 +44,8 @@ class Statistics:
         ''' Updates the Statistics object with a GameResult. '''
         self.num_games += 1
         for metric_index in range(self.NUM_METRICS):
-            fn = self.metrics[metric_index]
-            corr, tot = fn(game_result)
+            func = self.metrics[metric_index]
+            corr, tot = func(game_result)
             self.correct[metric_index] += corr
             self.total[metric_index] += tot
 
@@ -67,7 +67,8 @@ class Statistics:
             if self.total[i] == 0: self.total[i] += 1
             logger.warning('%s%s', sentences[i], str(self.correct[i] / self.total[i]))
 
-    def correctness_strict(self, game_result):
+    @staticmethod
+    def correctness_strict(game_result):
         ''' Returns fraction of how many roles were guessed correctly out of all roles. '''
         correct = 0.0
         for i in range(const.NUM_ROLES):
@@ -75,7 +76,8 @@ class Statistics:
                 correct += 1
         return correct, const.NUM_ROLES
 
-    def correctness_lenient_center(self, game_result):
+    @staticmethod
+    def correctness_lenient_center(game_result):
         '''
         Returns fraction of how many player roles were guessed correctly.
         Optionally adds a bonus for a matching center set.
@@ -93,45 +95,51 @@ class Statistics:
                 center_set[guess] -= 1
         return correct, const.NUM_ROLES
 
-    def wolf_predictions_one(self, game_result):
+    @staticmethod
+    def wolf_predictions_one(game_result):
         ''' Returns 1/1 if at least one Wolf was correctly identified. '''
         correct_guesses = 0
         total_wolves = 1
-        for r in range(const.NUM_PLAYERS):
-            if game_result.actual[r] == 'Wolf' == game_result.guessed[r]:
+        for i in range(const.NUM_PLAYERS):
+            if game_result.actual[i] == 'Wolf' == game_result.guessed[i]:
                 correct_guesses += 1
         return int(correct_guesses > 0), total_wolves
 
-    def wolf_predictions_all(self, game_result):
+    @staticmethod
+    def wolf_predictions_all(game_result):
         ''' Returns 1/1 if all Wolves were correctly identified. '''
         correct_guesses = 0
         total_wolves = 0
-        for r in range(const.NUM_PLAYERS):
-            if game_result.actual[r] == 'Wolf':
+        for i in range(const.NUM_PLAYERS):
+            if game_result.actual[i] == 'Wolf':
                 total_wolves += 1
-                if game_result.guessed[r] == 'Wolf':
+                if game_result.guessed[i] == 'Wolf':
                     correct_guesses += 1
         return int(correct_guesses == total_wolves), 1
 
-    def wolf_predictions_center(self, game_result):
+    @staticmethod
+    def wolf_predictions_center(game_result):
         ''' Returns fraction of how many Wolves were correctly identified. '''
         correct_guesses = 0
         total_wolves = 0
-        for r in range(const.NUM_ROLES):
-            if game_result.actual[r] == 'Wolf':
+        for i in range(const.NUM_ROLES):
+            if game_result.actual[i] == 'Wolf':
                 total_wolves += 1
-                if game_result.guessed[r] == 'Wolf':
+                if game_result.guessed[i] == 'Wolf':
                     correct_guesses += 1
         return correct_guesses, total_wolves
 
-    def villager_wins(self, game_result):
+    @staticmethod
+    def villager_wins(game_result):
         ''' Returns 1/1 if the Villager team won. '''
         return int(game_result.winning_team == 'Villager'), 1
 
-    def tanner_wins(self, game_result):
+    @staticmethod
+    def tanner_wins(game_result):
         ''' Returns 1/1 if the Tanner won. '''
         return int(game_result.winning_team == 'Tanner'), 1
 
-    def werewolf_wins(self, game_result):
+    @staticmethod
+    def werewolf_wins(game_result):
         ''' Returns 1/1 if the Werewolf team won. '''
         return int(game_result.winning_team == 'Werewolf'), 1
