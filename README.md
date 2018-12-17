@@ -57,6 +57,7 @@ Next, we made a solver for a set of statements from each player. Majority of the
 ## Algorithms and Solvers
 * algorithms.py (Includes all solvers and consistency checks for groups of statements)  
 * generate.py (Used to generate data for many game iterations)  
+* possible.py (Finds all possible player statements for Wolves) 
 * predictions.py (Makes predictions given a SolverSolution)  
 * train.py (Used for Reinforcement Learning Wolf)  
 * voting.py (Used to aggregate prediction results)  

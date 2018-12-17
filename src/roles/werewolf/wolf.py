@@ -22,7 +22,7 @@ class Wolf(Player):
         ''' Initializes Wolf - gets Wolf indices and a random center card, if applicable. '''
         wolf_indices = []
         wolf_center_index, wolf_center_role = None, None
-        
+
         # Only get center roles and wolf indices if not a Robber/Insomniac Wolf
         if ORIGINAL_ROLES is not None:
             wolf_indices = set(find_all_player_indices(ORIGINAL_ROLES, 'Wolf'))
@@ -49,6 +49,23 @@ class Wolf(Player):
             return get_statement_rl(self.player_index, self.wolf_indices, stated_roles,
                                     previous_statements, super().get_statement())
         if const.USE_EXPECTIMAX_WOLF:
-            return get_statement_expectimax(self.player_index, self.wolf_indices,
-                                            self.statements, previous_statements)
+            return get_statement_expectimax(self.eval_fn, self.player_index, previous_statements,
+                                            self.statements, self.wolf_indices)
         return super().get_statement()
+
+    def eval_fn(statement_list):
+        '''
+        Evaluates a complete or incomplete game.
+        # wolves in a positions - # of ones that are actually wolves, size of set
+        '''
+        solver_result = random.choice(switching_solver(statement_list))
+        predictions = make_prediction_fast(solver_result)
+        val = 10
+        if not predictions:
+            return -10
+        for wolfi in wolf_indices:
+            if predictions[wolfi] == 'Wolf':
+                val -= 5
+            if 'Wolf' in solver_result.possible_roles[wolfi]:
+                val -= 5
+        return val
