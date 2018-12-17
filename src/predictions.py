@@ -141,7 +141,10 @@ def recurse_assign(solution, all_role_guesses, curr_role_counts, restrict_possib
 
 
 def get_switch_dict(solution):
-    ''' Converts array of switches into a dictionary to index with. '''
+    '''
+    Converts array of switches into a dictionary to index with.
+    Sorts by priority before iterating.
+    '''
     switch_dict = {i: i for i in range(const.NUM_ROLES)}
     switches = sorted(solution.switches, key=lambda x: x[0])
     for _, i, j in switches:

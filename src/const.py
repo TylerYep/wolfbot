@@ -4,7 +4,7 @@ import random
 import logging
 logging.basicConfig(format='%(message)s', level=logging.INFO)
 logger = logging.getLogger()
-# random.seed(9)
+# random.seed(0)
 
 ''' Game Constants '''
 ROLES = ('Villager', 'Villager', 'Villager', 'Wolf', 'Wolf', 'Seer',
@@ -19,7 +19,7 @@ ROLE_COUNTS = dict(Counter(ROLES))  # Dict of {'Villager': 3, 'Wolf': 2, ... }
 NUM_PLAYERS = NUM_ROLES - NUM_CENTER
 ROBBER_PRIORITY, TROUBLEMAKER_PRIORITY, DRUNK_PRIORITY = 1, 2, 3
 
-''' Basic Wolf Player '''
+''' Basic Wolf Player (Pruned statement set) '''
 USE_REG_WOLF = True
 
 ''' Expectimax Wolf Player '''
@@ -32,7 +32,7 @@ USE_RL_WOLF = False
 EXPERIENCE_PATH = 'learning/simulations/wolf_player.json'
 
 ''' Simulation Constants '''
-NUM_GAMES = 10
+NUM_GAMES = 1
 SHOW_PROGRESS = False or NUM_GAMES >= 10
 FIXED_WOLF_INDEX = None
 

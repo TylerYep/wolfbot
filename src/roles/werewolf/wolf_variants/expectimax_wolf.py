@@ -12,7 +12,7 @@ def get_statement_expectimax(player_index, wolf_indices, wolf_statements, prev_s
     ''' Gets Expectimax Wolf statement. '''
     expected_player_statements = get_expected_statements(wolf_indices)
 
-    def eval_fn(statement_list):
+    def wolf_eval_fn(statement_list):
         '''
         Evaluates a complete or incomplete game.
         # wolves in a positions - # of ones that are actually wolves, size of set
@@ -29,7 +29,7 @@ def get_statement_expectimax(player_index, wolf_indices, wolf_statements, prev_s
                 val -= 5
         return val
 
-    def expectimax(statement_list, state, ind, depth=const.EXPECTIMAX_DEPTH):
+    def expectimax(eval_fn, statement_list, state, ind, depth=const.EXPECTIMAX_DEPTH):
         '''
         Runs expectimax on the list of statements and current state using the given depth.
         Depth: how many players to look into the future.
@@ -37,7 +37,7 @@ def get_statement_expectimax(player_index, wolf_indices, wolf_statements, prev_s
         if ind == const.NUM_PLAYERS or depth == 0:
             return eval_fn(statement_list), None
         if ind == player_index:         # Choose your own move, maximize val
-            vals = _get_next_vals(statement_list, wolf_statements, state, ind, depth, True)
+            vals = _get_next_vals(eval_fn, statement_list, wolf_statements, state, ind, depth, True)
             best_indices = [index for index, value in enumerate(vals) if value == max(vals)]
             best_move = wolf_statements[random.choice(best_indices)]
             # if not vals: return -5, super.get_statement()
@@ -49,11 +49,11 @@ def get_statement_expectimax(player_index, wolf_indices, wolf_statements, prev_s
         sample_size = const.BRANCH_FACTOR * player_index
         indices = random.sample(range(len(expected_player_statements[ind])), sample_size)
         trimmed_statements = [expected_player_statements[ind][i] for i in sorted(indices)]
-        vals = _get_next_vals(statement_list, trimmed_statements, state, ind, depth)
+        vals = _get_next_vals(eval_fn, statement_list, trimmed_statements, state, ind, depth)
         if not vals: return 10, None
         return sum(vals) / len(vals), None
 
-    def _get_next_vals(statement_list, next_statements, state, ind, depth, is_wolf=False):
+    def _get_next_vals(eval_fn, statement_list, next_statements, state, ind, depth, is_wolf=False):
         ''' Evaluate current state (value of consistent statements) and return values. '''
         values = []
         for statement in next_statements:
@@ -61,7 +61,7 @@ def get_statement_expectimax(player_index, wolf_indices, wolf_statements, prev_s
             new_state = state if is_wolf else is_consistent(statement, state)
             if new_state:
                 new_statements = deepcopy(statement_list) + [statement]
-                val, _ = expectimax(new_statements, new_state, ind + 1, depth - 1)
+                val, _ = expectimax(eval_fn, new_statements, new_state, ind + 1, depth - 1)
                 values.append(val)
         return values
 
@@ -72,6 +72,6 @@ def get_statement_expectimax(player_index, wolf_indices, wolf_statements, prev_s
         if i not in wolf_indices:
             check_state = is_consistent(prev_statements[i], start_state)
             if check_state: start_state = check_state
-    best_val, best_move = expectimax(prev_statements, start_state, player_index)
-    logger.info('Evaluation Function Score: %f', best_val)
+    best_val, best_move = expectimax(wolf_eval_fn, prev_statements, start_state, player_index)
+    logger.debug('Evaluation Function Score: %f', best_val)
     return best_move
