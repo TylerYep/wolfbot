@@ -5,13 +5,14 @@ import const
 
 class GameResult:
     ''' Each round of one_night returns a GameResult. '''
-    def __init__(self, actual, guessed, statements, wolf_inds, killed_wolf=False, killed_tanner=False):
+    def __init__(self, actual, guessed, statements, wolf_inds, killed_wolf=False, killed_tanner=False, villager_win=False):
         self.actual = actual
         self.guessed = guessed
         self.statements = statements
         self.wolf_inds = wolf_inds
         self.killed_wolf = killed_wolf
         self.killed_tanner = killed_tanner
+        self.villager_win = villager_win
 
     def json_repr(self):
         ''' Returns json representation of the GameResult. '''
@@ -22,7 +23,8 @@ class GameResult:
             'statements': self.statements,
             'wolf_inds': self.wolf_inds,
             'killed_wolf': self.killed_wolf,
-            'killed_tanner': self.killed_tanner
+            'killed_tanner': self.killed_tanner,
+            'villager_win': self.villager_win
         }
 
 
@@ -32,7 +34,10 @@ class Statistics:
         self.metrics = [self.correctness_strict, self.correctness_lenient_center,
                         self.wolf_predictions_one, self.wolf_predictions_all,
                         self.wolf_predictions_center]
-        if const.USE_VOTING: self.metrics.append(self.voted_wolf)
+        if const.USE_VOTING:
+            self.metrics.append(self.villager_wins)
+            self.metrics.append(self.tanner_wins)
+            self.metrics.append(self.werewolf_wins)
         self.NUM_METRICS = len(self.metrics)
         self.correct = [0.0 for _ in range(self.NUM_METRICS)]
         self.total = [0.0 for _ in range(self.NUM_METRICS)]
@@ -57,8 +62,11 @@ class Statistics:
             'S1: Found at least 1 Wolf player: ',
             'S2: Found all Wolf players: ',
             'Percentage of correct Wolf guesses (including center Wolves): ',
-            'Percentage of correct Wolf votes: '
+            'Percentage of Villager Team wins: ',
+            'Percentage of Tanner Team wins: ',
+            'Percentage of Werewolf Team wins: '
         ]
+        assert len(sentences) == self.NUM_METRICS
         for i in range(self.NUM_METRICS):
             if self.total[i] == 0: self.total[i] += 1
             logger.warning('%s%s', sentences[i], str(self.correct[i] / self.total[i]))
@@ -120,6 +128,18 @@ class Statistics:
                     correct_guesses += 1
         return correct_guesses, total_wolves
 
-    def voted_wolf(self, game_result):
-        ''' Returns 1/1 if the voted character was truly a Wolf. '''
-        return int(game_result.killed_wolf), 1
+    def villager_wins(self, game_result):
+        ''' Returns 1/1 if the Villager team won. '''
+        return int(game_result.killed_wolf or game_result.villager_win), 1
+
+    def tanner_wins(self, game_result):
+        ''' Returns 1/1 if the Tanner won. '''
+        return int(game_result.killed_tanner and not game_result.killed_wolf), 1
+
+    def werewolf_wins(self, game_result):
+        ''' Returns 1/1 if the Werewolf team won. '''
+        active_wolf = False
+        for ind in game_result.wolf_inds:
+            if ind < const.NUM_PLAYERS:
+                active_wolf = True
+        return int(active_wolf and not game_result.killed_wolf and not game_result.killed_tanner), 1
