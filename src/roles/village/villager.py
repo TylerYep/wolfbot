@@ -5,7 +5,7 @@ from .player import Player
 class Villager(Player):
     ''' Villager Player class. '''
 
-    def __init__(self, player_index):
+    def __init__(self, player_index, game_roles, original_roles):
         super().__init__(player_index)
         self.role = 'Villager'
         self.statements = self.get_villager_statements(player_index)

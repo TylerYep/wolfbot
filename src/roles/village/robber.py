@@ -11,7 +11,7 @@ from .player import Player
 class Robber(Player):
     ''' Robber Player class. '''
 
-    def __init__(self, player_index, game_roles, ORIGINAL_ROLES):
+    def __init__(self, player_index, game_roles, original_roles):
         super().__init__(player_index)
         robber_choice_index, robber_choice_character = self.robber_init(player_index, game_roles)
         self.role = 'Robber'

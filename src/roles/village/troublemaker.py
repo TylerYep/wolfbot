@@ -9,7 +9,7 @@ from .player import Player
 class Troublemaker(Player):
     ''' Troublemaker Player class. '''
 
-    def __init__(self, player_index, game_roles, ORIGINAL_ROLES):
+    def __init__(self, player_index, game_roles, original_roles):
         super().__init__(player_index)
         tmkr_index1, tmkr_index2 = self.troublemaker_init(player_index, game_roles)
         self.role = 'Troublemaker'

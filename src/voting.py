@@ -9,9 +9,9 @@ import const
 
 def consolidate_results(save_game):
     ''' Consolidates results and returns final GameResult. '''
-    ORIGINAL_ROLES, game_roles, all_statements, player_objs = save_game
+    original_roles, game_roles, all_statements, player_objs = save_game
     if const.USE_VOTING:
-        orig_wolf_inds = find_all_player_indices(ORIGINAL_ROLES, 'Wolf')
+        orig_wolf_inds = find_all_player_indices(original_roles, 'Wolf')
         all_role_guesses_arr = []
         for i in range(const.NUM_PLAYERS):
             # Good player vs Bad player guesses

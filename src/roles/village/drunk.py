@@ -9,7 +9,7 @@ from .player import Player
 class Drunk(Player):
     ''' Drunk Player class. '''
 
-    def __init__(self, player_index, game_roles, ORIGINAL_ROLES):
+    def __init__(self, player_index, game_roles, original_roles):
         super().__init__(player_index)
         drunk_choice_index = self.drunk_init(player_index, game_roles)
         self.role = 'Drunk'

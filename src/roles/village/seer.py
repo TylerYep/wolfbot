@@ -11,7 +11,7 @@ from .player import Player
 class Seer(Player):
     ''' Seer Player class. '''
 
-    def __init__(self, player_index, game_roles, ORIGINAL_ROLES):
+    def __init__(self, player_index, game_roles, original_roles):
         super().__init__(player_index)
         seer_peek_index, seer_peek_character, \
             seer_peek_index2, seer_peek_character2 = self.seer_init(player_index, game_roles)
@@ -64,11 +64,11 @@ class Seer(Player):
             for i in range(const.NUM_PLAYERS):   # OK: 'Hey, I'm a Seer and I saw another Seer...'
                 statements += Seer.get_seer_statements(player_index, i, role)
         # Wolf using these usually gives himself away
-        for c1 in range(const.NUM_CENTER):
-            for c2 in range(c1 + 1, const.NUM_CENTER):
+        for cent1 in range(const.NUM_CENTER):
+            for cent2 in range(cent1 + 1, const.NUM_CENTER):
                 for role1 in const.ROLE_SET - {'Seer'}:
                     for role2 in const.ROLE_SET - {'Seer'}:
                         if role1 != role2 or const.ROLE_COUNTS[role1] >= 2:
-                            statements += Seer.get_seer_statements(player_index, c1 + const.NUM_PLAYERS,
-                                                                   role1, c2 + const.NUM_PLAYERS, role2)
+                            statements += Seer.get_seer_statements(player_index, cent1 + const.NUM_PLAYERS,
+                                                                   role1, cent2 + const.NUM_PLAYERS, role2)
         return statements

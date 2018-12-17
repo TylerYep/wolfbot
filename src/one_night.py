@@ -2,7 +2,7 @@
 import random
 import json
 
-from roles import Wolf, Minion, Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
+from roles import Wolf, Minion, Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac, Tanner
 from encoder import WolfBotEncoder
 from util import find_all_player_indices, swap_characters, print_roles
 from voting import consolidate_results
@@ -44,7 +44,7 @@ def get_statements(player_objs):
 
 
 def init_roles(game_roles, player_objs, Role):
-    ''' Interates through each player and initializes the Player object. '''
+    ''' Interates through each player in player_objs and initializes the Player object. '''
     role_str = Role.__name__
     logger.info('%s, wake up.', role_str)
     for i in range(const.NUM_PLAYERS):
@@ -58,14 +58,18 @@ def night_falls(game_roles):
     logger.info('\n -- NIGHT FALLS -- \n')
     print_roles(game_roles)
 
+    # Awaken each player in order (print command)
     player_objs = list(game_roles)
-    AWAKE_ORDER = (Wolf, Minion, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac)
-    for role in AWAKE_ORDER:
+    awake_order = (Wolf, Minion, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac)
+    for role in awake_order:
         init_roles(game_roles, player_objs, role)
 
+    # All other players wake up at the same time
     for i in range(const.NUM_PLAYERS):
-        if ORIGINAL_ROLES[i] in ['Villager', 'Hunter', 'Tanner']:
-            player_objs[i] = Villager(i)
+        if ORIGINAL_ROLES[i] == 'Tanner':
+            player_objs[i] = Tanner(i, game_roles, ORIGINAL_ROLES)
+        elif ORIGINAL_ROLES[i] == 'Villager':
+            player_objs[i] = Villager(i, game_roles, ORIGINAL_ROLES)
 
     return player_objs[:const.NUM_PLAYERS]
 

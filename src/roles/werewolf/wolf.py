@@ -14,21 +14,21 @@ from .wolf_variants import get_wolf_statements_random, get_statement_expectimax,
 class Wolf(Player):
     ''' Wolf Player class. '''
 
-    def __init__(self, player_index, game_roles=None, ORIGINAL_ROLES=None):
-        ''' Constructor: ORIGINAL_ROLES defaults to None when a player becomes a Wolf and realizes it. '''
+    def __init__(self, player_index, game_roles=None, original_roles=None):
+        ''' Constructor: original_roles defaults to None when a player becomes a Wolf and realizes it. '''
         super().__init__(player_index)
         self.role = 'Wolf'
-        self.wolf_indices, self.center_index, self.center_role = self.wolf_init(game_roles, ORIGINAL_ROLES)
+        self.wolf_indices, self.center_index, self.center_role = self.wolf_init(game_roles, original_roles)
 
     @staticmethod
-    def wolf_init(game_roles, ORIGINAL_ROLES):
+    def wolf_init(game_roles, original_roles):
         ''' Initializes Wolf - gets Wolf indices and a random center card, if applicable. '''
         wolf_indices = []
         wolf_center_index, wolf_center_role = None, None
 
         # Only get center roles and wolf indices if not a Robber/Insomniac Wolf
-        if ORIGINAL_ROLES is not None:
-            wolf_indices = set(find_all_player_indices(ORIGINAL_ROLES, 'Wolf'))
+        if original_roles is not None:
+            wolf_indices = set(find_all_player_indices(original_roles, 'Wolf'))
             if len(wolf_indices) == 1 and const.NUM_CENTER > 0:
                 wolf_center_index = get_random_center()
                 wolf_center_role = game_roles[wolf_center_index]
