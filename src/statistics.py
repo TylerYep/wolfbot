@@ -5,12 +5,13 @@ import const
 
 class GameResult:
     ''' Each round of one_night returns a GameResult. '''
-    def __init__(self, actual, guessed, statements, wolf_inds, found_single_vote_wolf=False):
+    def __init__(self, actual, guessed, statements, wolf_inds, killed_wolf=False, killed_tanner=False):
         self.actual = actual
         self.guessed = guessed
         self.statements = statements
         self.wolf_inds = wolf_inds
-        self.found_single_vote_wolf = found_single_vote_wolf
+        self.killed_wolf = killed_wolf
+        self.killed_tanner = killed_tanner
 
     def json_repr(self):
         ''' Returns json representation of the GameResult. '''
@@ -20,7 +21,8 @@ class GameResult:
             'guessed': self.guessed,
             'statements': self.statements,
             'wolf_inds': self.wolf_inds,
-            'found_single_vote_wolf': self.found_single_vote_wolf
+            'killed_wolf': self.killed_wolf,
+            'killed_tanner': self.killed_tanner
         }
 
 
@@ -120,4 +122,4 @@ class Statistics:
 
     def voted_wolf(self, game_result):
         ''' Returns 1/1 if the voted character was truly a Wolf. '''
-        return int(game_result.found_single_vote_wolf), 1
+        return int(game_result.killed_wolf), 1

@@ -1,7 +1,10 @@
 ''' minion.py '''
 from util import find_all_player_indices
 from const import logger
+import const
+
 from ..village import Player
+from .wolf import Wolf
 
 class Minion(Player):
     ''' Minion Player class. '''
@@ -12,6 +15,7 @@ class Minion(Player):
         self.role = 'Minion'
         self.statements = []
         self.wolf_indices = self.minion_init(ORIGINAL_ROLES)
+        self.center_role = None # Temporary, to use Wolf class
         self.new_role = ''
 
     def minion_init(self, ORIGINAL_ROLES):
@@ -23,18 +27,5 @@ class Minion(Player):
         return wolf_indices
 
     def get_statement(self, stated_roles, previous_statements):
-        ''' Get Wolf Statement. '''
-        if const.USE_REG_WOLF:
-            if not self.statements:
-                self.statements = get_wolf_statements(self.player_index, self.wolf_indices,
-                                                      stated_roles, previous_statements)
-        else:
-            self.statements = get_wolf_statements_random(self.player_index, self.wolf_indices)
-
-        if const.USE_RL_WOLF:
-            return get_statement_rl(self.player_index, self.wolf_indices, stated_roles,
-                                    previous_statements, super().get_statement())
-        if const.USE_EXPECTIMAX_WOLF:
-            return get_statement_expectimax(self.player_index, self.wolf_indices,
-                                            self.statements, previous_statements)
-        return super().get_statement()
+        ''' Get Minion Statement. '''
+        return Wolf.get_statement(self, stated_roles, previous_statements)

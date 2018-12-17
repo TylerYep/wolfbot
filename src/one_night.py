@@ -2,7 +2,7 @@
 import random
 import json
 
-from roles import Wolf, Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
+from roles import Wolf, Minion, Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
 from encoder import WolfBotEncoder
 from util import find_all_player_indices, swap_characters, print_roles
 from voting import consolidate_results
@@ -23,7 +23,7 @@ def play_one_night_werewolf(solver, save_replay=True):
     all_statements = get_statements(player_objs)
     print_roles(game_roles)
 
-    save_game = [ORIGINAL_ROLES, game_roles, all_statements, player_objs]
+    save_game = (ORIGINAL_ROLES, game_roles, all_statements, player_objs)
     if save_replay:
         with open('data/replay.json', 'w') as f_replay:
             json.dump(save_game, f_replay, cls=WolfBotEncoder)
@@ -58,7 +58,7 @@ def night_falls(game_roles):
     print_roles(game_roles)
 
     player_objs = list(game_roles)
-    AWAKE_ORDER = (Wolf, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac)
+    AWAKE_ORDER = (Wolf, Minion, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac)
     for role in AWAKE_ORDER:
         init_roles(game_roles, player_objs, role)
 

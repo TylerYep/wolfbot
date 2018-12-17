@@ -20,7 +20,8 @@ def get_statement_expectimax(player_index, wolf_indices, wolf_statements, prev_s
         solver_result = random.choice(switching_solver(statement_list))
         predictions = make_prediction_fast(solver_result)
         val = 10
-        if not predictions: return -10
+        if not predictions:
+            return -10
         for wolfi in wolf_indices:
             if predictions[wolfi] == 'Wolf':
                 val -= 5

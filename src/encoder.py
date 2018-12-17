@@ -4,7 +4,7 @@ import pickle
 
 from statistics import GameResult
 from statements import Statement
-from roles import Wolf, Player, Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
+from roles import Wolf, Minion, Player, Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
 import const
 
 class WolfBotEncoder(json.JSONEncoder):

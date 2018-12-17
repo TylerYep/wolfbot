@@ -1,8 +1,10 @@
 ''' const.py '''
 from collections import Counter
+import random
 import logging
 logging.basicConfig(format='%(message)s', level=logging.INFO)
 logger = logging.getLogger()
+# random.seed(9)
 
 ''' Game Constants '''
 ROLES = ('Villager', 'Villager', 'Villager', 'Wolf', 'Wolf', 'Seer',
@@ -27,7 +29,7 @@ BRANCH_FACTOR = 5
 
 ''' Reinforcement Learning Wolf Player '''
 USE_RL_WOLF = False
-EXPERIENCE_PATH = 'data/wolf_player.json'
+EXPERIENCE_PATH = 'learning/simulations/wolf_player.json'
 
 ''' Simulation Constants '''
 NUM_GAMES = 1

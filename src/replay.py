@@ -25,7 +25,8 @@ def replay_game():
 
     game_result = []
     if const.USE_VOTING:
-        game_result = consolidate_results(switching_solver, original_roles, game_roles, player_objs, all_statements)
+        save_game = (original_roles, game_roles, all_statements, player_objs)
+        game_result = consolidate_results(switching_solver, save_game)
     else:
         solution = switching_solver(all_statements)
         logger.warning('All Solver Solutions: ')

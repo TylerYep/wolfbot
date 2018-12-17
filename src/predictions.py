@@ -29,6 +29,8 @@ def make_prediction_fast(solution):
     to return a rushed list of predictions for all roles.
     Does not restrict guesses to the possible sets.
     '''
+    if len(solution.possible_roles) != const.NUM_ROLES:
+        return False
     all_role_guesses, curr_role_counts = get_basic_guesses(solution)
     solved = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts), False)
     switch_dict = get_switch_dict(solution)
@@ -41,7 +43,8 @@ def make_prediction(solution_arr, is_evil=False):
     Uses a list of true/false statements and possible role sets
     to return a list of predictions for all roles
     '''
-    if is_evil: return make_evil_prediction(solution_arr)
+    if is_evil:
+        return make_evil_prediction(solution_arr)
 
     solved = None
     random.shuffle(solution_arr)
@@ -80,6 +83,9 @@ def get_basic_guesses(solution):
     consistent_roles = deepcopy(solution.possible_roles)
     curr_role_counts = dict(const.ROLE_COUNTS)
     for j in range(const.NUM_ROLES):
+        if j >= len(consistent_roles): # Remove when all problems are fixed
+            print(solution, consistent_statements, consistent_roles)
+            print(all_role_guesses, curr_role_counts)
         guess_set = consistent_roles[j]
         if j >= len(consistent_statements) or consistent_statements[j]:  # Center card or is truth
             for rol in const.ROLE_SET:                                # Remove already chosen cards
@@ -105,17 +111,21 @@ def get_basic_guesses(solution):
 def recurse_assign(solution, all_role_guesses, curr_role_counts, restrict_possible=True):
     '''
     Assign the remaining unknown cards by recursing and finding a consistent placement.
-    If restrict_possible is enabled, then uses the possible-roles sets to assign.
+    If restrict_possible is enabled, then uses the possible_roles sets to assign.
+    else simply fills in slots with curr_role_counts.
     '''
     found = True
     for i in range(const.NUM_ROLES):
-        if all_role_guesses[i] == '': found = False
-    if found: return all_role_guesses
+        if all_role_guesses[i] == '':
+            found = False
+            break
+    if found:
+        return all_role_guesses
 
     for i in range(const.NUM_ROLES):
         if all_role_guesses[i] == '':
-            if restrict_possible: leftover_roles = list(solution.possible_roles[i])
-            else: leftover_roles = [k for k, v in curr_role_counts.items() if v > 0]
+            leftover_roles = list(solution.possible_roles[i]) if restrict_possible \
+                                else [k for k, v in curr_role_counts.items() if v > 0]
             random.shuffle(leftover_roles)
             for rol in leftover_roles:
                 if curr_role_counts[rol] > 0:
@@ -126,6 +136,7 @@ def recurse_assign(solution, all_role_guesses, curr_role_counts, restrict_possib
                     if result: return result
                     curr_role_counts[rol] += 1
                     all_role_guesses[i] = ''
+    # Unable to assign all roles
     return False
 
 

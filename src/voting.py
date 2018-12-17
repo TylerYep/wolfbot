@@ -14,19 +14,18 @@ def consolidate_results(solver, save_game):
         all_role_guesses_arr = []
         for i in range(const.NUM_PLAYERS):
             # Good player vs Bad player guesses
-            # TODO when a wolf becomes good?
-            all_solutions = solver(all_statements, i)
+            all_solutions = solver(all_statements, i)     # TODO when a wolf becomes good?
             is_evil = i in wolf_inds and player_objs[i].new_role == ''
             is_evil = is_evil or player_objs[i].new_role == 'Wolf'
             all_role_guesses_arr.append(make_prediction(all_solutions, is_evil))
 
         for prediction in all_role_guesses_arr:
             logger.log(const.logging.TRACE, 'Player prediction: %s', str(prediction))
-        all_role_guesses, confidence = get_voting_result(all_role_guesses_arr)
+        all_role_guesses, confidence, guessed_wolf_inds = get_voting_result(all_role_guesses_arr)
         print_guesses(all_role_guesses)
         logger.debug('Confidence level: %s', str([float('{0:0.2f}'.format(n)) for n in confidence]))
-        found_vote_wolf = get_most_likely_wolf(game_roles, all_role_guesses, confidence)
-        return GameResult(game_roles, all_role_guesses, all_statements, wolf_inds, found_vote_wolf)
+        killed_wolf, killed_tanner = eval_wolf_guesses(game_roles, guessed_wolf_inds)
+        return GameResult(game_roles, all_role_guesses, all_statements, wolf_inds, killed_wolf, killed_tanner)
 
     all_solutions = solver(all_statements)
     for solution in all_solutions:
@@ -36,17 +35,9 @@ def consolidate_results(solver, save_game):
     return GameResult(game_roles, all_role_guesses, all_statements, wolf_inds)
 
 
-def get_most_likely_wolf(game_roles, all_role_guesses, confidence):
+def eval_wolf_guesses(game_roles, guessed_wolf_inds):
     ''' Creates confidence levels for each prediction and selects the most likely Wolf. '''
-    wolf_inds = find_all_player_indices(all_role_guesses[:const.NUM_PLAYERS], 'Wolf')
-    max_confidence = 0
-    most_likely_wolf = None
-    for i in wolf_inds:
-        if confidence[i] > max_confidence:
-            max_confidence = confidence[i]
-            most_likely_wolf = i
-
-    if most_likely_wolf is None:
+    if not guessed_wolf_inds:
         logger.info('No wolves were found.')
         final_wolf_inds = find_all_player_indices(game_roles[:const.NUM_PLAYERS], 'Wolf')
         if final_wolf_inds:
@@ -56,36 +47,47 @@ def get_most_likely_wolf(game_roles, all_role_guesses, confidence):
         logger.info('That was correct!\n')
         return True
 
-    logger.info('Player %d was chosen as a Wolf.\nPlayer %d was a %s!\n',
-                most_likely_wolf, most_likely_wolf, game_roles[most_likely_wolf])
-    return game_roles[most_likely_wolf] == 'Wolf'
+    killed_wolf = False
+    killed_tanner = False
+    for chosen_wolf in guessed_wolf_inds:
+        if game_roles[chosen_wolf] == 'Wolf':
+            killed_wolf = True
+        elif game_roles[chosen_wolf] == 'Tanner':
+            killed_tanner = True
+        logger.info('Player %d was chosen as a Wolf.\nPlayer %d was a %s!\n',
+                    chosen_wolf, chosen_wolf, game_roles[chosen_wolf])
+
+    if killed_wolf:
+        logger.info('Village Team wins!')
+    elif killed_tanner:
+        logger.info('Tanner wins!')
+    else:
+        logger.info('Werewolf Team wins!')
+    return killed_wolf, killed_tanner
 
 
 def get_voting_result(all_role_guesses_arr):
-    ''' Take most common role guess array as the final guess for that index. '''
-    all_role_guesses, confidence = [], []
+    '''
+    Take most common role guess array as the final guess for that index.
+    guess_histogram stores counts of prediction arrays.
+    wolf_votes stores individual votes for Wolves.
+    '''
     guess_histogram = defaultdict(int)
+    wolf_votes = [0 for _ in range(const.NUM_PLAYERS)]
     for prediction in all_role_guesses_arr:
         guess_histogram[tuple(prediction)] += 1
-    all_role_guesses, _ = max(guess_histogram.items(), key=lambda x: x[1])
+        for x in range(const.NUM_PLAYERS):
+            if prediction[x] == 'Wolf':
+                wolf_votes[x] += 1
 
+    guessed_wolf_inds = [i for i, count in enumerate(wolf_votes) if count == max(wolf_votes)]
+    all_role_guesses, _ = max(guess_histogram.items(), key=lambda x: x[1])
+    confidence = []
     for i in range(const.NUM_ROLES):
         role_dict = defaultdict(int)
         for prediction in all_role_guesses_arr:
             role_dict[prediction[i]] += 1
         count = max(role_dict.values())
         confidence.append(count / const.NUM_PLAYERS)
-    return list(all_role_guesses), confidence
 
-
-def get_voting_result_old(all_role_guesses_arr):
-    ''' Take most common guess as the guess for that index. May accuse too many of each role. '''
-    all_role_guesses, confidence = [], []
-    for i in range(const.NUM_ROLES):
-        role_dict = defaultdict(int)
-        for prediction in all_role_guesses_arr:
-            role_dict[prediction[i]] += 1
-        role, count = max(role_dict.items(), key=lambda x: x[1])
-        all_role_guesses.append(role)
-        confidence.append(count / const.NUM_PLAYERS)
-    return all_role_guesses, confidence
+    return list(all_role_guesses), confidence, guessed_wolf_inds
