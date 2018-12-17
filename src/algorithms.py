@@ -153,7 +153,7 @@ def count_roles(state):
 
 
 if __name__ == '__main__':
-    statement_list = [
+    STATEMENT_LIST = [
         Statement('I am a Robber and I swapped with Player 6. I am now a Drunk.',
                   [(0, {'Robber'}), (6, {'Drunk'})], [(0, 6, 0)]),
         Statement('I am a Robber and I swapped with Player 0. I am now a Seer.',
@@ -170,4 +170,4 @@ if __name__ == '__main__':
         Statement('I am a Robber and I swapped with Player 5. I am now a Seer.',
                   [(7, {'Robber'}), (5, {'Seer'})], [(0, 5, 7)])
     ]
-    logger.info(switching_solver(statement_list))
+    logger.info(switching_solver(STATEMENT_LIST))

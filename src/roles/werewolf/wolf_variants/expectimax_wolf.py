@@ -1,8 +1,7 @@
 ''' expectimax_wolf.py '''
 import random
 from copy import deepcopy
-from algorithms import switching_solver, SolverState, is_consistent
-from predictions import make_prediction_fast
+from algorithms import SolverState, is_consistent
 from const import logger
 import const
 
@@ -23,7 +22,7 @@ def get_statement_expectimax(player_obj, prev_statements):
             vals = _get_next_vals(statement_list, player_obj.statements, state, ind, depth, True)
             best_indices = [index for index, value in enumerate(vals) if value == max(vals)]
             best_move = player_obj.statements[random.choice(best_indices)]
-            # if not vals: return -5, super.get_statement()
+            # if not vals: return -5, super.get_statement()     # is vals ever empty?
             return max(vals), best_move
 
         assert const.EXPECTIMAX_DEPTH != 1

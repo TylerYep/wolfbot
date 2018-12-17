@@ -7,7 +7,7 @@ Constants, along with their use cases, are listed in src/const.py.
 
 # Development
 ## December 2018
-More ideas with this project - for example, drawing out file dependencies and finding better representations. Using some unit testing to make sure everything works as expected before expanding the game. Minion and Tanner coming up next.
+Added the Minion and Tanner characters! More ideas with this project - for example, drawing out file dependencies and finding better representations. Using some unit testing to make sure everything works as expected before expanding the game.
 
 
 ## November 2018
@@ -57,7 +57,7 @@ Next, we made a solver for a set of statements from each player. Majority of the
 ## Algorithms and Solvers
 * algorithms.py (Includes all solvers and consistency checks for groups of statements)  
 * generate.py (Used to generate data for many game iterations)  
-* possible.py (Finds all possible player statements for Wolves) 
+* possible.py (Finds all possible player statements for Wolves)
 * predictions.py (Makes predictions given a SolverSolution)  
 * train.py (Used for Reinforcement Learning Wolf)  
 * voting.py (Used to aggregate prediction results)  
@@ -92,7 +92,7 @@ TODO:
 * Host on AWS (SOON)
 * UI and secure move API
 * Multiple Statements
-* Add Minion
+* Add Minion and Tanner Statements to possible statements
 * Add Tanner!
 
 Pylint entire directory using:

@@ -1,8 +1,4 @@
 ''' tanner.py '''
-from util import find_all_player_indices
-from const import logger
-import const
-
 from ..village import Player
 
 class Tanner(Player):

@@ -1,10 +1,10 @@
 ''' const.py '''
 from collections import Counter
-import random
+# import random
+# random.seed(0)
 import logging
 logging.basicConfig(format='%(message)s', level=logging.INFO)
 logger = logging.getLogger()
-# random.seed(0)
 
 ''' Game Constants '''
 ROLES = ('Villager', 'Villager', 'Villager', 'Wolf', 'Wolf', 'Seer',
@@ -23,7 +23,7 @@ ROBBER_PRIORITY, TROUBLEMAKER_PRIORITY, DRUNK_PRIORITY = 1, 2, 3
 USE_REG_WOLF = True
 
 ''' Expectimax Wolf Player '''
-USE_EXPECTIMAX_WOLF = False
+USE_EXPECTIMAX_WOLF = True
 EXPECTIMAX_DEPTH = 1
 BRANCH_FACTOR = 5
 

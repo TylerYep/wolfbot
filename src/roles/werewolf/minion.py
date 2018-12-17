@@ -8,7 +8,6 @@ from const import logger
 import const
 
 from ..village import Player
-from .wolf import Wolf
 from .wolf_variants import get_wolf_statements_random, get_statement_expectimax, get_wolf_statements
 
 class Minion(Player):
@@ -32,8 +31,14 @@ class Minion(Player):
 
     def get_statement(self, stated_roles, previous_statements):
         ''' Get Minion Statement. '''
-        self.statements = get_wolf_statements(self, stated_roles, previous_statements)
-        return get_statement_expectimax(self, previous_statements)
+        if const.USE_REG_WOLF:
+            self.statements = get_wolf_statements(self, stated_roles, previous_statements)
+        else:
+            self.statements = get_wolf_statements_random(self)
+
+        if const.USE_EXPECTIMAX_WOLF:
+            return get_statement_expectimax(self, previous_statements)
+        return super().get_statement()
 
     def eval_fn(self, statement_list):
         '''

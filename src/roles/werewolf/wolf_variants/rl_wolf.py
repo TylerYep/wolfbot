@@ -19,7 +19,9 @@ def get_statement_rl(player_obj, stated_roles, previous_statements, default_answ
     EXPERIENCE = defaultdict(lambda: defaultdict(int), exp_dict)
     assert EXPERIENCE
 
-    state = (tuple(wolf_indices), tuple([s.sentence for s in previous_statements]))
+    logger.info('Experience dict loaded.')
+
+    state = (tuple(player_obj.wolf_indices), tuple([s.sentence for s in previous_statements]))
     scores = EXPERIENCE[str(state)]
     choice = None
     best_score = -100
@@ -32,3 +34,5 @@ def get_statement_rl(player_obj, stated_roles, previous_statements, default_answ
     for statement in statements:
         if choice == statement.sentence:
             return statement
+            
+    return None #TODO

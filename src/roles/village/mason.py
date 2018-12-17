@@ -11,12 +11,12 @@ class Mason(Player):
 
     def __init__(self, player_index, game_roles, ORIGINAL_ROLES):
         super().__init__(player_index)
-        self.mason_indices = self.mason_init(game_roles, ORIGINAL_ROLES)
+        self.mason_indices = self.mason_init(ORIGINAL_ROLES)
         self.role = 'Mason'
         self.new_role = ''
         self.statements = self.get_mason_statements(player_index, self.mason_indices)
 
-    def mason_init(self, game_roles, ORIGINAL_ROLES):
+    def mason_init(self, ORIGINAL_ROLES):
         ''' Initializes Mason - sees all other Masons. '''
         mason_indices = find_all_player_indices(ORIGINAL_ROLES, 'Mason')
         logger.debug('[Hidden] Masons are at indices: %s', str(mason_indices))

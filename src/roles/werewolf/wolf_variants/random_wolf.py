@@ -32,7 +32,7 @@ def get_wolf_statements_random(player_obj):
     if 'Robber' in const.ROLE_SET:
         for i in range(const.NUM_PLAYERS):
             for role in const.ROLES:
-                if role not in ('Wolf', 'Robber') and player_index != i:      # 'I robbed Player 0 and now I'm a Wolf...'
+                if role not in ('Wolf', 'Robber', 'Minion') and player_index != i:      # 'I robbed Player 0 and now I'm a Wolf...'
                     statements += Robber.get_robber_statements(player_index, i, role)
     if 'Seer' in const.ROLE_SET:
         for role in const.ROLES:

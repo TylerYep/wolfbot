@@ -46,7 +46,7 @@ class Wolf(Player):
         else:
             self.statements = get_wolf_statements_random(self)
 
-        # Choose one statement to return
+        # Choose one statement to return by default
         if const.USE_RL_WOLF:
             return get_statement_rl(self, stated_roles, previous_statements, super().get_statement())
 

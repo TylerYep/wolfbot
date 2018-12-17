@@ -61,7 +61,8 @@ def eval_wolf_guesses(game_roles, guessed_wolf_inds):
     if villager_win or killed_wolf:
         logger.info('Village Team wins!')
         return 'Villager'
-    elif killed_tanner:
+
+    if killed_tanner:
         logger.info('Tanner wins!')
         return 'Tanner'
 
