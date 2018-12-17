@@ -3,9 +3,11 @@ import const
 from ...village import Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
 
 # Random Wolf Player
-def get_wolf_statements_random(player_index, wolf_indices):
+def get_wolf_statements_random(player_obj):
     ''' Gets Random Wolf statement (all completely stupid statements are removed) '''
     statements = []
+    player_index = player_obj.player_index
+    wolf_indices = player_obj.wolf_indices
     if 'Villager' in const.ROLE_SET:
         statements += Villager.get_villager_statements(player_index)
     if 'Insomniac' in const.ROLE_SET:

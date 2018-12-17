@@ -5,14 +5,12 @@ import const
 
 class GameResult:
     ''' Each round of one_night returns a GameResult. '''
-    def __init__(self, actual, guessed, statements, wolf_inds, killed_wolf=False, killed_tanner=False, villager_win=False):
+    def __init__(self, actual, guessed, statements, wolf_inds, winning_team=''):
         self.actual = actual
         self.guessed = guessed
         self.statements = statements
         self.wolf_inds = wolf_inds
-        self.killed_wolf = killed_wolf
-        self.killed_tanner = killed_tanner
-        self.villager_win = villager_win
+        self.winning_team = winning_team
 
     def json_repr(self):
         ''' Returns json representation of the GameResult. '''
@@ -22,9 +20,7 @@ class GameResult:
             'guessed': self.guessed,
             'statements': self.statements,
             'wolf_inds': self.wolf_inds,
-            'killed_wolf': self.killed_wolf,
-            'killed_tanner': self.killed_tanner,
-            'villager_win': self.villager_win
+            'winning_team': self.winning_team
         }
 
 
@@ -130,16 +126,12 @@ class Statistics:
 
     def villager_wins(self, game_result):
         ''' Returns 1/1 if the Villager team won. '''
-        return int(game_result.killed_wolf or game_result.villager_win), 1
+        return int(game_result.winning_team == 'Villager'), 1
 
     def tanner_wins(self, game_result):
         ''' Returns 1/1 if the Tanner won. '''
-        return int(game_result.killed_tanner and not game_result.killed_wolf), 1
+        return int(game_result.winning_team == 'Tanner'), 1
 
     def werewolf_wins(self, game_result):
         ''' Returns 1/1 if the Werewolf team won. '''
-        active_wolf = False
-        for ind in game_result.wolf_inds:
-            if ind < const.NUM_PLAYERS:
-                active_wolf = True
-        return int(active_wolf and not game_result.killed_wolf and not game_result.killed_tanner), 1
+        return int(game_result.winning_team == 'Werewolf'), 1

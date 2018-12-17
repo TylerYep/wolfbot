@@ -1,13 +1,15 @@
 ''' minion.py '''
+import random
+
+from algorithms import switching_solver
+from predictions import make_prediction_fast
 from util import find_all_player_indices
 from const import logger
 import const
 
 from ..village import Player
 from .wolf import Wolf
-# TODO TRIM THESE
-from .wolf_variants import get_wolf_statements_random, get_statement_expectimax, \
-                           get_statement_rl, get_wolf_statements, get_center_wolf_statements
+from .wolf_variants import get_wolf_statements_random, get_statement_expectimax, get_wolf_statements
 
 class Minion(Player):
     ''' Minion Player class. '''
@@ -30,10 +32,10 @@ class Minion(Player):
 
     def get_statement(self, stated_roles, previous_statements):
         ''' Get Minion Statement. '''
-        return get_statement_expectimax(self.eval_fn, self.player_index, previous_statements,
-                                        possible_statements, self.wolf_indices)
+        self.statements = get_wolf_statements(self, stated_roles, previous_statements)
+        return get_statement_expectimax(self, previous_statements)
 
-    def eval_fn(statement_list):
+    def eval_fn(self, statement_list):
         '''
         Evaluates a complete or incomplete game.
         # wolves in a positions - # of ones that are actually wolves, size of set
@@ -43,7 +45,9 @@ class Minion(Player):
         val = 10
         if not predictions:
             return -10
-        for wolfi in wolf_indices:
+        if predictions[self.player_index] == 'Wolf':
+            val += 10
+        for wolfi in self.wolf_indices:
             if predictions[wolfi] == 'Wolf':
                 val -= 5
             if 'Wolf' in solver_result.possible_roles[wolfi]:

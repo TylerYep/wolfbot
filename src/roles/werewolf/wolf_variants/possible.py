@@ -2,7 +2,7 @@
 import const
 from ...village import Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
 
-def get_expected_statements(wolf_indices):
+def get_expected_statements(wolf_indices=[]):
     '''
     Gets all possible statements that can be made by another player from any index.
     Used to find the 'expect' part of the Expectimax algorithm.

@@ -24,9 +24,8 @@ def consolidate_results(solver, save_game):
         all_role_guesses, confidence, guessed_wolf_inds = get_voting_result(all_role_guesses_arr)
         print_guesses(all_role_guesses)
         logger.debug('Confidence level: %s', str([float('{0:0.2f}'.format(n)) for n in confidence]))
-        killed_wolf, killed_tanner, villager_win = eval_wolf_guesses(game_roles, guessed_wolf_inds)
-        return GameResult(game_roles, all_role_guesses, all_statements, orig_wolf_inds, \
-                            killed_wolf, killed_tanner, villager_win)
+        winning_team = eval_wolf_guesses(game_roles, guessed_wolf_inds)
+        return GameResult(game_roles, all_role_guesses, all_statements, orig_wolf_inds, winning_team)
 
     all_solutions = solver(all_statements)
     for solution in all_solutions:
@@ -55,16 +54,19 @@ def eval_wolf_guesses(game_roles, guessed_wolf_inds):
                 killed_wolf = True
             elif game_roles[chosen_wolf] == 'Tanner':
                 killed_tanner = True
+
             logger.info('Player %d was chosen as a Wolf.\nPlayer %d was a %s!\n',
                         chosen_wolf, chosen_wolf, game_roles[chosen_wolf])
 
     if villager_win or killed_wolf:
         logger.info('Village Team wins!')
+        return 'Villager'
     elif killed_tanner:
         logger.info('Tanner wins!')
-    else:
-        logger.info('Werewolf Team wins!')
-    return killed_wolf, killed_tanner, villager_win
+        return 'Tanner'
+
+    logger.info('Werewolf Team wins!')
+    return 'Werewolf'
 
 
 def get_voting_result(all_role_guesses_arr):

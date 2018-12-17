@@ -1,4 +1,8 @@
 ''' wolf.py '''
+import random
+
+from algorithms import switching_solver
+from predictions import make_prediction_fast
 from util import find_all_player_indices, get_random_center
 from const import logger
 import const
@@ -36,24 +40,22 @@ class Wolf(Player):
         ''' Get Wolf Statement. '''
         if const.USE_REG_WOLF:
             if self.center_role not in (None, 'Wolf', 'Mason'):
-                self.statements = get_center_wolf_statements(self.player_index, self.center_role,
-                                                             self.center_index, self.wolf_indices, stated_roles)
+                self.statements = get_center_wolf_statements(self, stated_roles)
             if not self.statements:
-                self.statements = get_wolf_statements(self.player_index, self.wolf_indices,
-                                                      stated_roles, previous_statements)
+                self.statements = get_wolf_statements(self, stated_roles, previous_statements)
         else:
-            self.statements = get_wolf_statements_random(self.player_index, self.wolf_indices)
+            self.statements = get_wolf_statements_random(self)
 
         # Choose one statement to return
         if const.USE_RL_WOLF:
-            return get_statement_rl(self.player_index, self.wolf_indices, stated_roles,
-                                    previous_statements, super().get_statement())
+            return get_statement_rl(self, stated_roles, previous_statements, super().get_statement())
+
         if const.USE_EXPECTIMAX_WOLF:
-            return get_statement_expectimax(self.eval_fn, self.player_index, previous_statements,
-                                            self.statements, self.wolf_indices)
+            return get_statement_expectimax(self, previous_statements)
+
         return super().get_statement()
 
-    def eval_fn(statement_list):
+    def eval_fn(self, statement_list):
         '''
         Evaluates a complete or incomplete game.
         # wolves in a positions - # of ones that are actually wolves, size of set
@@ -63,7 +65,7 @@ class Wolf(Player):
         val = 10
         if not predictions:
             return -10
-        for wolfi in wolf_indices:
+        for wolfi in self.wolf_indices:
             if predictions[wolfi] == 'Wolf':
                 val -= 5
             if 'Wolf' in solver_result.possible_roles[wolfi]:

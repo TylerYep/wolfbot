@@ -6,9 +6,9 @@ import const
 
 from .reg_wolf import get_wolf_statements
 
-def get_statement_rl(player_index, wolf_indices, stated_roles, previous_statements, default_answer):
+def get_statement_rl(player_obj, stated_roles, previous_statements, default_answer):
     ''' Gets Reinforcement Learning Wolf statement. '''
-    statements = get_wolf_statements(player_index, wolf_indices, stated_roles, previous_statements)
+    statements = get_wolf_statements(player_obj, stated_roles, previous_statements)
 
     # Necessary to put this here to avoid circular import
     from encoder import WolfBotDecoder

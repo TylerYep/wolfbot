@@ -2,9 +2,13 @@
 import const
 from ...village import Villager, Seer, Robber, Troublemaker, Drunk, Insomniac
 
-def get_center_wolf_statements(player_index, center_role, center_index, wolf_indices, stated_roles):
+def get_center_wolf_statements(player_obj, stated_roles):
     ''' Center Wolf Player logic. '''
     statements = []
+    player_index = player_obj.player_index
+    wolf_indices = player_obj.wolf_indices
+    center_role = player_obj.center_role
+    center_index = player_obj.center_index
     if center_role == 'Villager':
         statements += Villager.get_villager_statements(player_index)
     elif center_role == 'Insomniac':
