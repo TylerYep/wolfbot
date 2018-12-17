@@ -34,5 +34,5 @@ def get_statement_rl(player_obj, stated_roles, previous_statements, default_answ
     for statement in statements:
         if choice == statement.sentence:
             return statement
-            
+
     return None #TODO

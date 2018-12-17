@@ -9,7 +9,7 @@ from .possible import get_expected_statements
 
 def get_statement_expectimax(player_obj, prev_statements):
     ''' Gets Expectimax Wolf statement. '''
-    expected_player_statements = get_expected_statements(player_obj.wolf_indices)
+    expected_player_statements = get_expected_statements()
 
     def expectimax(statement_list, state, ind, depth=const.EXPECTIMAX_DEPTH):
         '''

@@ -7,7 +7,7 @@ Constants, along with their use cases, are listed in src/const.py.
 
 # Development
 ## December 2018
-Added the Minion and Tanner characters! More ideas with this project - for example, drawing out file dependencies and finding better representations. Using some unit testing to make sure everything works as expected before expanding the game.
+Added the Minion and Tanner characters! I changed a large portion of how voting works and how possible statements are obtained (now saying you are a Wolf is not necessarily a bad idea). I have a lot more ideas to move forward with as well - for example, drawing out file dependencies and finding better representations, using some unit testing to make sure everything works as expected before expanding the game, and using the new Python 3.7 type-checking.
 
 
 ## November 2018

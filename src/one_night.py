@@ -9,11 +9,12 @@ from voting import consolidate_results
 from const import logger
 import const
 
-def play_one_night_werewolf(solver, save_replay=True):
+def play_one_night_werewolf(save_replay=True):
     ''' Plays one round of One Night Ultimate Werewolf. '''
     global ORIGINAL_ROLES
     game_roles = list(const.ROLES)
-    random.shuffle(game_roles)
+    if const.RANDOMIZE_ROLES:
+        random.shuffle(game_roles)
     ORIGINAL_ROLES = list(game_roles)
     if const.FIXED_WOLF_INDEX is not None:
         override_wolf_index(game_roles)
@@ -28,7 +29,7 @@ def play_one_night_werewolf(solver, save_replay=True):
         with open('data/replay.json', 'w') as f_replay:
             json.dump(save_game, f_replay, cls=WolfBotEncoder)
 
-    return consolidate_results(solver, save_game)
+    return consolidate_results(save_game)
 
 
 def get_statements(player_objs):

@@ -13,10 +13,10 @@ class Mason(Player):
         super().__init__(player_index)
         self.mason_indices = self.mason_init(ORIGINAL_ROLES)
         self.role = 'Mason'
-        self.new_role = ''
         self.statements = self.get_mason_statements(player_index, self.mason_indices)
 
-    def mason_init(self, ORIGINAL_ROLES):
+    @staticmethod
+    def mason_init(ORIGINAL_ROLES):
         ''' Initializes Mason - sees all other Masons. '''
         mason_indices = find_all_player_indices(ORIGINAL_ROLES, 'Mason')
         logger.debug('[Hidden] Masons are at indices: %s', str(mason_indices))
@@ -36,3 +36,13 @@ class Mason(Player):
             sentence = 'I am a Mason. The other Mason is Player ' + str(other_mason) + '.'
             knowledge = [(player_index, {'Mason'}), (other_mason, {'Mason'})]
         return [Statement(sentence, knowledge)]
+
+    @staticmethod
+    def get_all_statements(player_index):
+        ''' Required for all player types. Returns all possible role statements. '''
+        statements = Mason.get_mason_statements(player_index, [player_index])
+        for i in range(const.NUM_PLAYERS):
+            if player_index != i:
+                mason_indices = [player_index, i]
+                statements += Mason.get_mason_statements(player_index, mason_indices)
+        return statements

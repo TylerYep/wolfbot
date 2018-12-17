@@ -18,18 +18,10 @@ class Minion(Player):
         super().__init__(player_index)
         self.role = 'Minion'
         self.statements = []
-        self.wolf_indices = self.minion_init(ORIGINAL_ROLES)
+        self.wolf_indices = minion_init(ORIGINAL_ROLES)
         self.new_role = ''
 
-    def minion_init(self, ORIGINAL_ROLES):
-        ''' Initializes Minion - gets Wolf indices. '''
-        wolf_indices = []
-        if ORIGINAL_ROLES is not None:
-            wolf_indices = set(find_all_player_indices(ORIGINAL_ROLES, 'Wolf'))
-        logger.debug('[Hidden] Wolves are at indices: %s', str(wolf_indices))
-        return wolf_indices
-
-    def get_statement(self, stated_roles, previous_statements):
+    def get_statement(self, stated_roles=None, previous=None):
         ''' Get Minion Statement. '''
         if const.USE_REG_WOLF:
             self.statements = get_wolf_statements(self, stated_roles, previous_statements)
@@ -58,3 +50,12 @@ class Minion(Player):
             if 'Wolf' in solver_result.possible_roles[wolfi]:
                 val -= 5
         return val
+
+
+def minion_init(ORIGINAL_ROLES):
+    ''' Initializes Minion - gets Wolf indices. '''
+    wolf_indices = []
+    if ORIGINAL_ROLES is not None:
+        wolf_indices = set(find_all_player_indices(ORIGINAL_ROLES, 'Wolf'))
+    logger.debug('[Hidden] Wolves are at indices: %s', str(wolf_indices))
+    return wolf_indices

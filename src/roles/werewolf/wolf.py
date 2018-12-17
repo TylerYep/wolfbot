@@ -22,7 +22,8 @@ class Wolf(Player):
         self.wolf_indices, self.center_index, self.center_role = self.wolf_init(game_roles, ORIGINAL_ROLES)
         self.statements = []
 
-    def wolf_init(self, game_roles, ORIGINAL_ROLES):
+    @staticmethod
+    def wolf_init(game_roles, ORIGINAL_ROLES):
         ''' Initializes Wolf - gets Wolf indices and a random center card, if applicable. '''
         wolf_indices = []
         wolf_center_index, wolf_center_role = None, None
@@ -36,22 +37,22 @@ class Wolf(Player):
             logger.debug('[Hidden] Wolves are at indices: %s', str(wolf_indices))
         return wolf_indices, wolf_center_index, wolf_center_role
 
-    def get_statement(self, stated_roles, previous_statements):
+    def get_statement(self, stated_roles=None, previous=None):
         ''' Get Wolf Statement. '''
         if const.USE_REG_WOLF:
             if self.center_role not in (None, 'Wolf', 'Mason'):
                 self.statements = get_center_wolf_statements(self, stated_roles)
             if not self.statements:
-                self.statements = get_wolf_statements(self, stated_roles, previous_statements)
+                self.statements = get_wolf_statements(self, stated_roles, previous)
         else:
             self.statements = get_wolf_statements_random(self)
 
         # Choose one statement to return by default
         if const.USE_RL_WOLF:
-            return get_statement_rl(self, stated_roles, previous_statements, super().get_statement())
+            return get_statement_rl(self, stated_roles, previous, super().get_statement())
 
         if const.USE_EXPECTIMAX_WOLF:
-            return get_statement_expectimax(self, previous_statements)
+            return get_statement_expectimax(self, previous)
 
         return super().get_statement()
 

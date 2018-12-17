@@ -11,6 +11,7 @@ ROLES = ('Villager', 'Villager', 'Villager', 'Wolf', 'Wolf', 'Seer',
          'Mason', 'Mason', 'Drunk', 'Troublemaker', 'Insomniac', 'Robber', 'Minion')
 NUM_CENTER = 3
 USE_VOTING = True
+RANDOMIZE_ROLES = True
 
 ''' Util Constants '''
 ROLE_SET = set(ROLES)
@@ -20,10 +21,10 @@ NUM_PLAYERS = NUM_ROLES - NUM_CENTER
 ROBBER_PRIORITY, TROUBLEMAKER_PRIORITY, DRUNK_PRIORITY = 1, 2, 3
 
 ''' Basic Wolf Player (Pruned statement set) '''
-USE_REG_WOLF = True
+USE_REG_WOLF = False
 
 ''' Expectimax Wolf Player '''
-USE_EXPECTIMAX_WOLF = True
+USE_EXPECTIMAX_WOLF = False
 EXPECTIMAX_DEPTH = 1
 BRANCH_FACTOR = 5
 
