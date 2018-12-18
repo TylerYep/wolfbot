@@ -15,9 +15,8 @@ def consolidate_results(save_game):
         all_role_guesses_arr = []
         for i in range(const.NUM_PLAYERS):
             # Good player vs Bad player guesses
-            all_solutions = switching_solver(all_statements, i)     # TODO when a wolf becomes good?
-            is_evil = (i in orig_wolf_inds and player_objs[i].new_role == '') \
-                        or player_objs[i].new_role == 'Wolf'
+            all_solutions = switching_solver(all_statements, i)
+            is_evil = is_player_evil(player_objs, i, orig_wolf_inds)
             all_role_guesses_arr.append(make_prediction(all_solutions, is_evil))
 
         for prediction in all_role_guesses_arr:
@@ -34,6 +33,15 @@ def consolidate_results(save_game):
     all_role_guesses = make_prediction(all_solutions)
     print_guesses(all_role_guesses)
     return GameResult(game_roles, all_role_guesses, all_statements, orig_wolf_inds)
+
+
+def is_player_evil(player_objs, i, orig_wolf_inds):
+    ''' Decide whether a character is about to make an evil prediction. '''
+    # TODO When a wolf becomes good? Do I need to check for Wolf twice?
+    evil_set = {'Wolf', 'Tanner', 'Minion'}
+    return (i in orig_wolf_inds and player_objs[i].new_role == '') \
+        or (player_objs[i].role in evil_set and player_objs[i].new_role == '') \
+        or player_objs[i].new_role in evil_set
 
 
 def eval_wolf_guesses(game_roles, guessed_wolf_inds):

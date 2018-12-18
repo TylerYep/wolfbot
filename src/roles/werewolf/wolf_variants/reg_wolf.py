@@ -42,6 +42,7 @@ def get_wolf_statements(player_obj, stated_roles, previous_statements):
                 statements += Robber.get_robber_statements(player_index, i, stated_role)
     if 'Seer' in const.ROLE_SET:
         for i, stated_role in enumerate(stated_roles):
-            if i not in wolf_indices and stated_role != 'Seer':      # 'Hey, I'm a Seer and I saw another Seer...'
+            # 'Hey, I'm a Seer and I saw another Seer...'
+            if i not in wolf_indices and stated_role != 'Seer':
                 statements += Seer.get_seer_statements(player_index, i, stated_role)
     return statements

@@ -3,10 +3,10 @@ import random
 
 from algorithms import switching_solver
 from predictions import make_prediction_fast
-from const import logger
 import const
 
 from ..village import Player
+from .wolf_variants import get_wolf_statements_random, get_statement_expectimax
 
 class Tanner(Player):
     ''' Tanner Player class. '''
@@ -18,7 +18,11 @@ class Tanner(Player):
 
     def get_statement(self, stated_roles=None, previous=None):
         ''' Get Tanner Statement. '''
-        return None
+        self.statements = get_wolf_statements_random(self)
+
+        if const.USE_EXPECTIMAX_WOLF:
+            return get_statement_expectimax(self, previous)
+        return super().get_statement()
 
     def eval_fn(self, statement_list):
         '''

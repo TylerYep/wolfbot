@@ -5,7 +5,23 @@ from algorithms import SolverState, is_consistent
 from const import logger
 import const
 
-from .possible import get_expected_statements
+from ...village import Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
+
+def get_expected_statements():
+    '''
+    Gets all possible statements that can be made by a village player from any index.
+    Used to find the 'expect' part of the Expectimax algorithm.
+    Returns set of statement objects.
+    '''
+    possible = {}
+    for player_index in range(const.NUM_PLAYERS):
+        possible[player_index] = []
+        role_types = (Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac)
+        for Role in role_types:
+            if Role.__name__ in const.ROLE_SET:
+                possible[player_index] += Role.get_all_statements(player_index)
+    return possible
+
 
 def get_statement_expectimax(player_obj, prev_statements):
     ''' Gets Expectimax Wolf statement. '''
@@ -18,6 +34,7 @@ def get_statement_expectimax(player_obj, prev_statements):
         '''
         if ind == const.NUM_PLAYERS or depth == 0:
             return player_obj.eval_fn(statement_list), None
+
         if ind == player_obj.player_index:         # Choose your own move, maximize val
             vals = _get_next_vals(statement_list, player_obj.statements, state, ind, depth, True)
             best_indices = [index for index, value in enumerate(vals) if value == max(vals)]

@@ -34,16 +34,15 @@ class Statistics:
             self.metrics.append(self.villager_wins)
             self.metrics.append(self.tanner_wins)
             self.metrics.append(self.werewolf_wins)
-        self.NUM_METRICS = len(self.metrics)
-        self.correct = [0.0 for _ in range(self.NUM_METRICS)]
-        self.total = [0.0 for _ in range(self.NUM_METRICS)]
+        self.correct = [0.0 for _ in range(len(self.metrics))]
+        self.total = [0.0 for _ in range(len(self.metrics))]
         self.match1, self.match2 = 0.0, 0.0
         self.num_games = 0
 
     def add_result(self, game_result):
         ''' Updates the Statistics object with a GameResult. '''
         self.num_games += 1
-        for metric_index in range(self.NUM_METRICS):
+        for metric_index in range(len(self.metrics)):
             func = self.metrics[metric_index]
             corr, tot = func(game_result)
             self.correct[metric_index] += corr
@@ -62,8 +61,8 @@ class Statistics:
             'Percentage of Tanner Team wins: ',
             'Percentage of Werewolf Team wins: '
         ]
-        assert len(sentences) == self.NUM_METRICS
-        for i in range(self.NUM_METRICS):
+        assert len(sentences) == len(self.metrics)
+        for i in range(len(self.metrics)):
             if self.total[i] == 0: self.total[i] += 1
             logger.warning('%s%s', sentences[i], str(self.correct[i] / self.total[i]))
 

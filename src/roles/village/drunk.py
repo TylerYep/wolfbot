@@ -28,8 +28,8 @@ class Drunk(Player):
     @staticmethod
     def get_drunk_statements(player_index, drunk_choice_index):
         ''' Gets Drunk Statement. '''
-        sentence = 'I am a Drunk and I swapped with Center ' + \
-                    str(drunk_choice_index - const.NUM_PLAYERS) + '.'
+        sentence = 'I am a Drunk and I swapped with Center ' \
+                    + str(drunk_choice_index - const.NUM_PLAYERS) + '.'
         knowledge = [(player_index, {'Drunk'})]
         switches = [(const.DRUNK_PRIORITY, drunk_choice_index, player_index)]
         return [Statement(sentence, knowledge, switches)]

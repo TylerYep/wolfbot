@@ -32,8 +32,8 @@ class Troublemaker(Player):
     @staticmethod
     def get_troublemaker_statements(player_index, tmkr_index1, tmkr_index2):
         ''' Gets Troublemaker Statement. '''
-        sentence = 'I am a Troublemaker and I swapped Player ' + str(tmkr_index1) + \
-                    ' and Player ' + str(tmkr_index2) + '.'
+        sentence = 'I am a Troublemaker and I swapped Player ' + str(tmkr_index1) \
+                    + ' and Player ' + str(tmkr_index2) + '.'
         knowledge = [(player_index, {'Troublemaker'})]
         switches = [(const.TROUBLEMAKER_PRIORITY, tmkr_index1, tmkr_index2)]
         return [Statement(sentence, knowledge, switches)]

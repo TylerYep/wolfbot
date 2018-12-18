@@ -34,8 +34,8 @@ class Robber(Player):
     @staticmethod
     def get_robber_statements(player_index, robber_choice_index, robber_choice_character):
         ''' Gets Robber Statement. '''
-        sentence = 'I am a Robber and I swapped with Player ' + str(robber_choice_index) + \
-                    '. I am now a ' + robber_choice_character + '.'
+        sentence = 'I am a Robber and I swapped with Player ' + str(robber_choice_index) \
+                    + '. I am now a ' + robber_choice_character + '.'
         knowledge = [(player_index, {'Robber'}), (robber_choice_index, {robber_choice_character})]
         switches = [(const.ROBBER_PRIORITY, robber_choice_index, player_index)]
         return [Statement(sentence, knowledge, switches)]
@@ -58,5 +58,19 @@ class Robber(Player):
             logger.debug('Robber is a Wolf now!')
             robber_wolf = Wolf(self.player_index)
             return robber_wolf.get_statement(stated_roles, previous)
+
+        if self.new_role == 'Minion':
+            # Import Minion here to avoid circular dependency
+            from ..werewolf import Minion
+            logger.debug('Robber is a Minion now!')
+            robber_minion = Minion(self.player_index, None)
+            return robber_minion.get_statement(stated_roles, previous)
+
+        if self.new_role == 'Tanner':
+            # Import Tanner here to avoid circular dependency
+            from ..werewolf import Tanner
+            logger.debug('Robber is a Minion now!')
+            robber_tanner = Tanner(self.player_index, None)
+            return robber_tanner.get_statement(stated_roles, previous)
 
         return random.choice(tuple(self.statements))

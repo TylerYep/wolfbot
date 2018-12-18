@@ -54,6 +54,20 @@ class Insomniac(Player):
             insomniac_wolf = Wolf(self.player_index)
             return insomniac_wolf.get_statement(stated_roles, previous)
 
+        if self.new_role == 'Minion':
+            # Import Minion here to avoid circular dependency
+            from ..werewolf import Minion
+            logger.debug('Insomniac is a Minion now!')
+            insomniac_minion = Minion(self.player_index, None)
+            return insomniac_minion.get_statement(stated_roles, previous)
+
+        if self.new_role == 'Tanner':
+            # Import Tanner here to avoid circular dependency
+            from ..werewolf import Tanner
+            logger.debug('Insomniac is a Minion now!')
+            insomniac_tanner = Tanner(self.player_index, None)
+            return insomniac_tanner.get_statement(stated_roles, previous)
+
         possible_switches = []
         for i, stated_role in enumerate(stated_roles):
             if stated_role == self.new_role:
