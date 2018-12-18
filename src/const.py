@@ -30,7 +30,7 @@ BRANCH_FACTOR = 5
 
 ''' Reinforcement Learning Wolf Player '''
 USE_RL_WOLF = False
-EXPERIENCE_PATH = 'learning/simulations/wolf_player.json'
+EXPERIENCE_PATH = 'src/learning/simulations/wolf_player.json'
 
 ''' Simulation Constants '''
 NUM_GAMES = 1

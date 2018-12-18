@@ -61,7 +61,7 @@ class Statistics:
             'Percentage of Tanner Team wins: ',
             'Percentage of Werewolf Team wins: '
         ]
-        assert len(sentences) == len(self.metrics)
+        assert len(sentences) >= len(self.metrics)
         for i in range(len(self.metrics)):
             if self.total[i] == 0: self.total[i] += 1
             logger.warning('%s%s', sentences[i], str(self.correct[i] / self.total[i]))
