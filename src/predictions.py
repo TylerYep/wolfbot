@@ -60,7 +60,7 @@ def make_prediction(solution_arr, is_evil=False):
         for solution in solution_arr:
             all_role_guesses, curr_role_counts = get_basic_guesses(solution)
             for j in range(const.NUM_ROLES):
-                for role in ['Wolf', 'Robber', 'Insomniac']:
+                for role in ['Wolf', 'Minion', 'Robber', 'Insomniac', 'Tanner']:
                     if all_role_guesses[j] == role:
                         all_role_guesses[j] = ''
                         curr_role_counts[role] += 1
@@ -100,9 +100,12 @@ def get_basic_guesses(solution):
                 all_role_guesses.append('')
 
         elif not consistent_statements[j]:          # Player is lying
-            if curr_role_counts['Wolf'] > 0:
-                all_role_guesses.append('Wolf')
-                curr_role_counts['Wolf'] -= 1
+            liars = ['Wolf', 'Minion', 'Tanner']
+            choices = [r for r in liars if r in const.ROLE_SET and curr_role_counts[r] > 0]
+            if choices:
+                choice = random.choice(choices)
+                all_role_guesses.append(choice)
+                curr_role_counts[choice] -= 1
             else:
                 all_role_guesses.append('')
     return all_role_guesses, curr_role_counts

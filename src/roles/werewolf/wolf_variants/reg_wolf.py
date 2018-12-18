@@ -2,9 +2,11 @@
 import const
 from ...village import Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
 
-def get_wolf_statements(player_index, wolf_indices, stated_roles, previous_statements):
+def get_wolf_statements(player_obj, stated_roles, previous_statements):
     ''' Gets Regular Wolf statement. '''
     statements = []
+    player_index = player_obj.player_index
+    wolf_indices = player_obj.wolf_indices
     if 'Villager' in const.ROLE_SET:
         statements += Villager.get_villager_statements(player_index)
     if 'Insomniac' in const.ROLE_SET:
@@ -40,6 +42,7 @@ def get_wolf_statements(player_index, wolf_indices, stated_roles, previous_state
                 statements += Robber.get_robber_statements(player_index, i, stated_role)
     if 'Seer' in const.ROLE_SET:
         for i, stated_role in enumerate(stated_roles):
-            if i not in wolf_indices and stated_role != 'Seer':      # 'Hey, I'm a Seer and I saw another Seer...'
+            # 'Hey, I'm a Seer and I saw another Seer...'
+            if i not in wolf_indices and stated_role != 'Seer':
                 statements += Seer.get_seer_statements(player_index, i, stated_role)
     return statements

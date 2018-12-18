@@ -5,14 +5,12 @@ import const
 
 class GameResult:
     ''' Each round of one_night returns a GameResult. '''
-    def __init__(self, actual, guessed, statements, wolf_inds, killed_wolf=False, killed_tanner=False, villager_win=False):
+    def __init__(self, actual, guessed, statements, wolf_inds, winning_team=''):
         self.actual = actual
         self.guessed = guessed
         self.statements = statements
         self.wolf_inds = wolf_inds
-        self.killed_wolf = killed_wolf
-        self.killed_tanner = killed_tanner
-        self.villager_win = villager_win
+        self.winning_team = winning_team
 
     def json_repr(self):
         ''' Returns json representation of the GameResult. '''
@@ -22,9 +20,7 @@ class GameResult:
             'guessed': self.guessed,
             'statements': self.statements,
             'wolf_inds': self.wolf_inds,
-            'killed_wolf': self.killed_wolf,
-            'killed_tanner': self.killed_tanner,
-            'villager_win': self.villager_win
+            'winning_team': self.winning_team
         }
 
 
@@ -38,18 +34,17 @@ class Statistics:
             self.metrics.append(self.villager_wins)
             self.metrics.append(self.tanner_wins)
             self.metrics.append(self.werewolf_wins)
-        self.NUM_METRICS = len(self.metrics)
-        self.correct = [0.0 for _ in range(self.NUM_METRICS)]
-        self.total = [0.0 for _ in range(self.NUM_METRICS)]
+        self.correct = [0.0 for _ in range(len(self.metrics))]
+        self.total = [0.0 for _ in range(len(self.metrics))]
         self.match1, self.match2 = 0.0, 0.0
         self.num_games = 0
 
     def add_result(self, game_result):
         ''' Updates the Statistics object with a GameResult. '''
         self.num_games += 1
-        for metric_index in range(self.NUM_METRICS):
-            fn = self.metrics[metric_index]
-            corr, tot = fn(game_result)
+        for metric_index in range(len(self.metrics)):
+            func = self.metrics[metric_index]
+            corr, tot = func(game_result)
             self.correct[metric_index] += corr
             self.total[metric_index] += tot
 
@@ -66,12 +61,13 @@ class Statistics:
             'Percentage of Tanner Team wins: ',
             'Percentage of Werewolf Team wins: '
         ]
-        assert len(sentences) == self.NUM_METRICS
-        for i in range(self.NUM_METRICS):
+        assert len(sentences) == len(self.metrics)
+        for i in range(len(self.metrics)):
             if self.total[i] == 0: self.total[i] += 1
             logger.warning('%s%s', sentences[i], str(self.correct[i] / self.total[i]))
 
-    def correctness_strict(self, game_result):
+    @staticmethod
+    def correctness_strict(game_result):
         ''' Returns fraction of how many roles were guessed correctly out of all roles. '''
         correct = 0.0
         for i in range(const.NUM_ROLES):
@@ -79,7 +75,8 @@ class Statistics:
                 correct += 1
         return correct, const.NUM_ROLES
 
-    def correctness_lenient_center(self, game_result):
+    @staticmethod
+    def correctness_lenient_center(game_result):
         '''
         Returns fraction of how many player roles were guessed correctly.
         Optionally adds a bonus for a matching center set.
@@ -97,49 +94,51 @@ class Statistics:
                 center_set[guess] -= 1
         return correct, const.NUM_ROLES
 
-    def wolf_predictions_one(self, game_result):
+    @staticmethod
+    def wolf_predictions_one(game_result):
         ''' Returns 1/1 if at least one Wolf was correctly identified. '''
         correct_guesses = 0
         total_wolves = 1
-        for r in range(const.NUM_PLAYERS):
-            if game_result.actual[r] == 'Wolf' == game_result.guessed[r]:
+        for i in range(const.NUM_PLAYERS):
+            if game_result.actual[i] == 'Wolf' == game_result.guessed[i]:
                 correct_guesses += 1
         return int(correct_guesses > 0), total_wolves
 
-    def wolf_predictions_all(self, game_result):
+    @staticmethod
+    def wolf_predictions_all(game_result):
         ''' Returns 1/1 if all Wolves were correctly identified. '''
         correct_guesses = 0
         total_wolves = 0
-        for r in range(const.NUM_PLAYERS):
-            if game_result.actual[r] == 'Wolf':
+        for i in range(const.NUM_PLAYERS):
+            if game_result.actual[i] == 'Wolf':
                 total_wolves += 1
-                if game_result.guessed[r] == 'Wolf':
+                if game_result.guessed[i] == 'Wolf':
                     correct_guesses += 1
         return int(correct_guesses == total_wolves), 1
 
-    def wolf_predictions_center(self, game_result):
+    @staticmethod
+    def wolf_predictions_center(game_result):
         ''' Returns fraction of how many Wolves were correctly identified. '''
         correct_guesses = 0
         total_wolves = 0
-        for r in range(const.NUM_ROLES):
-            if game_result.actual[r] == 'Wolf':
+        for i in range(const.NUM_ROLES):
+            if game_result.actual[i] == 'Wolf':
                 total_wolves += 1
-                if game_result.guessed[r] == 'Wolf':
+                if game_result.guessed[i] == 'Wolf':
                     correct_guesses += 1
         return correct_guesses, total_wolves
 
-    def villager_wins(self, game_result):
+    @staticmethod
+    def villager_wins(game_result):
         ''' Returns 1/1 if the Villager team won. '''
-        return int(game_result.killed_wolf or game_result.villager_win), 1
+        return int(game_result.winning_team == 'Villager'), 1
 
-    def tanner_wins(self, game_result):
+    @staticmethod
+    def tanner_wins(game_result):
         ''' Returns 1/1 if the Tanner won. '''
-        return int(game_result.killed_tanner and not game_result.killed_wolf), 1
+        return int(game_result.winning_team == 'Tanner'), 1
 
-    def werewolf_wins(self, game_result):
+    @staticmethod
+    def werewolf_wins(game_result):
         ''' Returns 1/1 if the Werewolf team won. '''
-        active_wolf = False
-        for ind in game_result.wolf_inds:
-            if ind < const.NUM_PLAYERS:
-                active_wolf = True
-        return int(active_wolf and not game_result.killed_wolf and not game_result.killed_tanner), 1
+        return int(game_result.winning_team == 'Werewolf'), 1

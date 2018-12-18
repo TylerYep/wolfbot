@@ -6,9 +6,9 @@ import const
 
 from .reg_wolf import get_wolf_statements
 
-def get_statement_rl(player_index, wolf_indices, stated_roles, previous_statements, default_answer):
+def get_statement_rl(player_obj, stated_roles, previous_statements, default_answer):
     ''' Gets Reinforcement Learning Wolf statement. '''
-    statements = get_wolf_statements(player_index, wolf_indices, stated_roles, previous_statements)
+    statements = get_wolf_statements(player_obj, stated_roles, previous_statements)
 
     # Necessary to put this here to avoid circular import
     from encoder import WolfBotDecoder
@@ -19,7 +19,9 @@ def get_statement_rl(player_index, wolf_indices, stated_roles, previous_statemen
     EXPERIENCE = defaultdict(lambda: defaultdict(int), exp_dict)
     assert EXPERIENCE
 
-    state = (tuple(wolf_indices), tuple([s.sentence for s in previous_statements]))
+    logger.info('Experience dict loaded.')
+
+    state = (tuple(player_obj.wolf_indices), tuple([s.sentence for s in previous_statements]))
     scores = EXPERIENCE[str(state)]
     choice = None
     best_score = -100
@@ -32,3 +34,5 @@ def get_statement_rl(player_index, wolf_indices, stated_roles, previous_statemen
     for statement in statements:
         if choice == statement.sentence:
             return statement
+
+    return None # TODO

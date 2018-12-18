@@ -11,15 +11,16 @@ from .player import Player
 class Seer(Player):
     ''' Seer Player class. '''
 
-    def __init__(self, player_index, game_roles, ORIGINAL_ROLES):
+    def __init__(self, player_index, game_roles, original_roles):
         super().__init__(player_index)
-        seer_peek_index, seer_peek_character, seer_peek_index2, seer_peek_character2 = self.seer_init(game_roles)
+        seer_peek_index, seer_peek_character, \
+            seer_peek_index2, seer_peek_character2 = self.seer_init(player_index, game_roles)
         self.role = 'Seer'
-        self.new_role = ''
         self.statements = self.get_seer_statements(player_index, seer_peek_index, seer_peek_character,
                                                    seer_peek_index2, seer_peek_character2)
 
-    def seer_init(self, game_roles):
+    @staticmethod
+    def seer_init(player_index, game_roles):
         ''' Initializes Seer - either sees 2 center cards or 1 player card. '''
         # Pick two center cards more often, because that generally yields higher win rates.
         choose_center = random.choices([True, False], [0.9, 0.1])
@@ -36,7 +37,7 @@ class Seer(Player):
             return seer_peek_index, seer_peek_character, seer_peek_index2, seer_peek_character2
 
         seer_peek_index = get_random_player()
-        while seer_peek_index == self.player_index:
+        while seer_peek_index == player_index:
             seer_peek_index = get_random_player()
         seer_peek_character = game_roles[seer_peek_index]
         logger.debug('[Hidden] Seer sees that Player %d is a %s.',
@@ -54,3 +55,20 @@ class Seer(Player):
                         + str(seen_index2 - const.NUM_PLAYERS) + ' was a ' + str(seen_role2) + '.'
             knowledge.append((seen_index2, {seen_role2}))
         return [Statement(sentence, knowledge)]
+
+    @staticmethod
+    def get_all_statements(player_index):
+        ''' Required for all player types. Returns all possible role statements. '''
+        statements = []
+        for role in const.ROLES:
+            for i in range(const.NUM_PLAYERS):   # OK: 'Hey, I'm a Seer and I saw another Seer...'
+                statements += Seer.get_seer_statements(player_index, i, role)
+        # Wolf using these usually gives himself away
+        for cent1 in range(const.NUM_CENTER):
+            for cent2 in range(cent1 + 1, const.NUM_CENTER):
+                for role1 in const.ROLE_SET - {'Seer'}:
+                    for role2 in const.ROLE_SET - {'Seer'}:
+                        if role1 != role2 or const.ROLE_COUNTS[role1] >= 2:
+                            statements += Seer.get_seer_statements(player_index, cent1 + const.NUM_PLAYERS,
+                                                                   role1, cent2 + const.NUM_PLAYERS, role2)
+        return statements

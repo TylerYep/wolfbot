@@ -12,7 +12,8 @@ import const
 def replay_game():
     ''' Runs last game stored in replay.json '''
     with open('data/replay.json', 'r') as f_replay:
-        original_roles, game_roles, all_statements, player_objs = json.load(f_replay, cls=WolfBotDecoder)
+        original_roles, game_roles, all_statements, \
+                    player_objs = json.load(f_replay, cls=WolfBotDecoder)
 
     logger.setLevel(0)
     logger.warning('\n\nSTATEMENTS:\n')
@@ -26,7 +27,7 @@ def replay_game():
     game_result = []
     if const.USE_VOTING:
         save_game = (original_roles, game_roles, all_statements, player_objs)
-        game_result = consolidate_results(switching_solver, save_game)
+        game_result = consolidate_results(save_game)
     else:
         solution = switching_solver(all_statements)
         logger.warning('All Solver Solutions: ')

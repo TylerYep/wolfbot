@@ -9,3 +9,4 @@ from .village.drunk import Drunk
 from .village.insomniac import Insomniac
 from .werewolf.wolf import Wolf
 from .werewolf.minion import Minion
+from .werewolf.tanner import Tanner
