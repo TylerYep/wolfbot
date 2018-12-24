@@ -21,7 +21,7 @@ def play_one_night_werewolf(save_replay=True):
 
     player_objs = night_falls(game_roles)
     logger.info('\n -- GAME BEGINS -- \n')
-    all_statements = get_statements(player_objs)
+    all_statements = get_player_statements(player_objs)
     print_roles(game_roles)
 
     save_game = (ORIGINAL_ROLES, game_roles, all_statements, player_objs)
@@ -32,7 +32,7 @@ def play_one_night_werewolf(save_replay=True):
     return consolidate_results(save_game)
 
 
-def get_statements(player_objs):
+def get_player_statements(player_objs):
     ''' Returns array of each player's statements. '''
     stated_roles, given_statements = [], []
     for j in range(const.NUM_PLAYERS):

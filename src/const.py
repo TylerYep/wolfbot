@@ -36,6 +36,7 @@ EXPERIENCE_PATH = 'src/learning/simulations/wolf_player.json'
 NUM_GAMES = 1
 SHOW_PROGRESS = False or NUM_GAMES >= 10
 FIXED_WOLF_INDEX = None
+SAVE_REPLAY = NUM_GAMES < 10
 
 ''' Logging Constants '''
 logging.TRACE = 5

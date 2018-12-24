@@ -12,19 +12,11 @@ def consolidate_results(save_game):
     original_roles, game_roles, all_statements, player_objs = save_game
     orig_wolf_inds = find_all_player_indices(original_roles, 'Wolf')
     if const.USE_VOTING:
-        all_role_guesses_arr = []
-        for i in range(const.NUM_PLAYERS):
-            # Good player vs Bad player guesses
-            all_solutions = switching_solver(all_statements, i)
-            is_evil = is_player_evil(player_objs, i, orig_wolf_inds)
-            all_role_guesses_arr.append(make_prediction(all_solutions, is_evil))
-
-        for prediction in all_role_guesses_arr:
-            logger.log(const.logging.TRACE, 'Player prediction: %s', str(prediction))
-        all_role_guesses, confidence, guessed_wolf_inds = get_voting_result(all_role_guesses_arr)
+        indiv_preds = get_individual_preds(player_objs, all_statements, orig_wolf_inds)
+        all_role_guesses, confidence, guessed_wolf_inds = get_voting_result(indiv_preds)
         print_guesses(all_role_guesses)
         logger.debug('Confidence level: %s', str([float('{0:0.2f}'.format(n)) for n in confidence]))
-        winning_team = eval_wolf_guesses(game_roles, guessed_wolf_inds)
+        winning_team = eval_final_guesses(game_roles, guessed_wolf_inds)
         return GameResult(game_roles, all_role_guesses, all_statements, orig_wolf_inds, winning_team)
 
     all_solutions = switching_solver(all_statements)
@@ -44,11 +36,24 @@ def is_player_evil(player_objs, i, orig_wolf_inds):
         or player_objs[i].new_role in evil_set
 
 
-def eval_wolf_guesses(game_roles, guessed_wolf_inds):
+def get_individual_preds(player_objs, all_statements, orig_wolf_inds):
+    ''' Let each player make a prediction of every player's true role. '''
+    all_role_guesses_arr = []
+    # Good player vs Bad player guesses
+    for i in range(const.NUM_PLAYERS):
+        all_solutions = switching_solver(all_statements, i)
+        is_evil = is_player_evil(player_objs, i, orig_wolf_inds)
+        prediction = make_prediction(all_solutions, is_evil)
+        all_role_guesses_arr.append(prediction)
+
+    for pred in all_role_guesses_arr:
+        logger.log(const.logging.TRACE, 'Player prediction: %s', str(pred))
+    return all_role_guesses_arr
+
+
+def eval_final_guesses(game_roles, guessed_wolf_inds):
     ''' Decide which team won based on the final vote. '''
-    killed_wolf = False
-    killed_tanner = False
-    villager_win = False
+    killed_wolf, killed_tanner, villager_win = False, False, False
     if len(guessed_wolf_inds) == const.NUM_PLAYERS:
         logger.info('No wolves were found.')
         final_wolf_inds = find_all_player_indices(game_roles[:const.NUM_PLAYERS], 'Wolf')

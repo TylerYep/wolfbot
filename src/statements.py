@@ -8,6 +8,7 @@ class Statement:
         sentence is a string representation of the statement
         knowledge is a list of (player_index, set(role)) tuples
         switches is a list of (player_priority, player_index, new_index) tuples
+        speaker is the role that supposedly gave the statement.
         '''
         self.sentence = sentence
         self.knowledge = knowledge
