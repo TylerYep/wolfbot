@@ -11,7 +11,7 @@ if sys.version_info < (3, 0):
     sys.exit()
 
 
-class SolverState():
+class SolverState:
     ''' Each solver returns a SolverState object with the result. '''
     def __init__(self, possible_roles, switches=None, path_init=None):
         self.possible_roles = possible_roles

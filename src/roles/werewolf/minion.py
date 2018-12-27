@@ -16,7 +16,6 @@ class Minion(Player):
     def __init__(self, player_index, game_roles, original_roles=None):
         # Roles default to None when another player becomes a Minion and realizes it
         super().__init__(player_index)
-        self.role = 'Minion'
         self.wolf_indices = self.minion_init(original_roles)
 
     def minion_init(self, original_roles):

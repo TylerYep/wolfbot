@@ -4,12 +4,12 @@ from const import logger
 import const
 import util
 
-class Player():
+class Player:
     ''' Player class. '''
 
     def __init__(self, player_index, new_role=''):
         self.player_index = player_index
-        self.role = self.__class__.__name__
+        self.role = self.__class__.__name__ # e.g. 'Wolf'
         self.new_role = new_role
         self.statements = []
         self.is_user = const.IS_USER[player_index]

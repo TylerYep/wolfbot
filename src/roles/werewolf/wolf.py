@@ -19,7 +19,6 @@ class Wolf(Player):
         Constructor: original_roles defaults to None when a player becomes a Wolf and realizes it.
         '''
         super().__init__(player_index)
-        self.role = 'Wolf'
         self.wolf_indices, self.center_index, self.center_role \
                 = self.wolf_init(game_roles, original_roles)
 

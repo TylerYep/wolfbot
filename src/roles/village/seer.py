@@ -14,7 +14,6 @@ class Seer(Player):
     def __init__(self, player_index, game_roles, original_roles):
         super().__init__(player_index)
         peek_ind, peek_char, peek_ind2, peek_char2 = self.seer_init(game_roles)
-        self.role = 'Seer'
         self.statements = self.get_seer_statements(player_index, peek_ind, peek_char,
                                                    peek_ind2, peek_char2)
 

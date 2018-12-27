@@ -14,7 +14,6 @@ class Robber(Player):
     def __init__(self, player_index, game_roles, original_roles):
         super().__init__(player_index)
         choice_ind, choice_char = self.robber_init(game_roles)
-        self.role = 'Robber'
         self.new_role = choice_char
         self.statements = self.get_robber_statements(player_index, choice_ind, choice_char)
 

@@ -12,7 +12,6 @@ class Troublemaker(Player):
     def __init__(self, player_index, game_roles, original_roles):
         super().__init__(player_index)
         tmkr_index1, tmkr_index2 = self.troublemaker_init(game_roles)
-        self.role = 'Troublemaker'
         self.statements = self.get_troublemaker_statements(player_index, tmkr_index1, tmkr_index2)
 
     def troublemaker_init(self, game_roles):

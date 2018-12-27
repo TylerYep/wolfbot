@@ -12,7 +12,6 @@ class Mason(Player):
     def __init__(self, player_index, game_roles, original_roles):
         super().__init__(player_index)
         self.mason_indices = self.mason_init(original_roles)
-        self.role = 'Mason'
         self.statements = self.get_mason_statements(player_index, self.mason_indices)
 
     def mason_init(self, original_roles):

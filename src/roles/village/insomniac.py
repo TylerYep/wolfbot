@@ -13,7 +13,6 @@ class Insomniac(Player):
     def __init__(self, player_index, game_roles, original_roles):
         super().__init__(player_index)
         insomniac_new_role = self.insomniac_init(game_roles)
-        self.role = 'Insomniac'
         self.new_role = insomniac_new_role
         self.statements = self.get_insomniac_statements(player_index, insomniac_new_role)
 

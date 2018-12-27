@@ -12,7 +12,6 @@ class Drunk(Player):
     def __init__(self, player_index, game_roles, original_roles):
         super().__init__(player_index)
         drunk_choice_index = self.drunk_init(game_roles)
-        self.role = 'Drunk'
         self.statements = self.get_drunk_statements(player_index, drunk_choice_index)
 
     def drunk_init(self, game_roles):
