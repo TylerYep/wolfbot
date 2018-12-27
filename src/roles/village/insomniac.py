@@ -45,7 +45,7 @@ class Insomniac(Player):
             statements += Insomniac.get_insomniac_statements(player_index, role)
         return statements
 
-    def get_statement(self, stated_roles=None, previous=None):
+    def get_statement(self, stated_roles, previous):
         ''' Overrides get_statement when the Insomniac becomes a Wolf. '''
         if self.new_role == 'Wolf':
             # Import Wolf here to avoid circular dependency
@@ -75,4 +75,4 @@ class Insomniac(Player):
         if len(possible_switches) == 1: # TODO how to handle multiple possible switches
             self.statements = self.get_insomniac_statements(self.player_index, self.new_role,
                                                             possible_switches[0])
-        return random.choice(tuple(self.statements))
+        return super().get_statement(stated_roles, previous)

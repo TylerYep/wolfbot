@@ -1,8 +1,8 @@
 ''' troublemaker.py '''
 from statements import Statement
-from util import get_player, swap_characters
 from const import logger
 import const
+import util
 
 from .player import Player
 
@@ -17,10 +17,10 @@ class Troublemaker(Player):
 
     def troublemaker_init(self, game_roles):
         ''' Initializes Troublemaker - switches one player with another player. '''
-        choice_ind1 = get_player(self, [self.player_index])
-        choice_ind2 = get_player(self, [self.player_index, choice_ind1])
+        choice_ind1 = util.get_player(self, [self.player_index])
+        choice_ind2 = util.get_player(self, [self.player_index, choice_ind1])
 
-        swap_characters(game_roles, choice_ind1, choice_ind2)
+        util.swap_characters(game_roles, choice_ind1, choice_ind2)
         logger.debug('[Hidden] Troublemaker switches Player %d with Player %d.',
                      choice_ind1, choice_ind2)
         return choice_ind1, choice_ind2

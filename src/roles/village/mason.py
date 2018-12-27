@@ -1,8 +1,8 @@
 ''' mason.py '''
 from statements import Statement
-from util import find_all_player_indices
 from const import logger
 import const
+import util
 
 from .player import Player
 
@@ -17,7 +17,7 @@ class Mason(Player):
 
     def mason_init(self, original_roles):
         ''' Initializes Mason - sees all other Masons. '''
-        mason_indices = find_all_player_indices(original_roles, 'Mason')
+        mason_indices = util.find_all_player_indices(original_roles, 'Mason')
         logger.debug('[Hidden] Masons are at indices: %s', str(mason_indices))
         if self.is_user: logger.info('Masons are players: %s (You are player %s)',
                                      str(mason_indices), self.player_index)

@@ -2,9 +2,9 @@
 import random
 
 from statements import Statement
-from util import get_player, get_center
 from const import logger
 import const
+import util
 
 from .player import Player
 
@@ -23,8 +23,8 @@ class Seer(Player):
         # Pick two center cards more often, because that generally yields higher win rates.
         choose_center = random.choices([True, False], [0.9, 0.1])
         if choose_center and const.NUM_CENTER > 1:
-            peek_ind = get_center(self)
-            peek_ind2 = get_center(self, [peek_ind])
+            peek_ind = util.get_center(self)
+            peek_ind2 = util.get_center(self, [peek_ind])
             peek_char = game_roles[peek_ind]
             peek_char2 = game_roles[peek_ind2]
             logger.debug('[Hidden] Seer sees that Center %d is a %s and Center %d is a %s.',
@@ -32,7 +32,7 @@ class Seer(Player):
                          peek_ind2 - const.NUM_PLAYERS, str(peek_char2))
             return peek_ind, peek_char, peek_ind2, peek_char2
 
-        peek_ind = get_player(self, [self.player_index])
+        peek_ind = util.get_player(self, [self.player_index])
         peek_char = game_roles[peek_ind]
         logger.debug('[Hidden] Seer sees that Player %d is a %s.',
                      peek_ind, str(peek_char))

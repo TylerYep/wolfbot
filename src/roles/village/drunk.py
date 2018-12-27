@@ -1,8 +1,8 @@
 ''' drunk.py '''
 from statements import Statement
-from util import get_center, swap_characters
 from const import logger
 import const
+import util
 
 from .player import Player
 
@@ -18,11 +18,11 @@ class Drunk(Player):
     def drunk_init(self, game_roles):
         ''' Initializes Drunk - switches with a card in the center. '''
         assert const.NUM_CENTER != 0
-        drunk_choice_index = get_center(self)
+        drunk_choice_index = util.get_center(self)
         logger.debug('[Hidden] Drunk switches with Center Card %d and unknowingly becomes a %s.',
                      drunk_choice_index - const.NUM_PLAYERS, str(game_roles[drunk_choice_index]))
         if self.is_user: logger.info('You do not know your new role.')
-        swap_characters(game_roles, self.player_index, drunk_choice_index)
+        util.swap_characters(game_roles, self.player_index, drunk_choice_index)
         return drunk_choice_index
 
     @staticmethod

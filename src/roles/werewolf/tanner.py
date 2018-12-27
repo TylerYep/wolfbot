@@ -16,13 +16,13 @@ class Tanner(Player):
         super().__init__(player_index)
         self.role = 'Tanner'
 
-    def get_statement(self, stated_roles=None, previous=None):
+    def get_statement(self, stated_roles, previous):
         ''' Get Tanner Statement. '''
         self.statements = get_wolf_statements_random(self)
 
         if const.USE_EXPECTIMAX_WOLF:
             return get_statement_expectimax(self, previous)
-        return super().get_statement()
+        return super().get_statement(stated_roles, previous)
 
     def eval_fn(self, statement_list):
         '''

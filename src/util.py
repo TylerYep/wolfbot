@@ -27,24 +27,24 @@ def get_center(self_obj, vals_to_exclude=()):
 
 def get_random_player(vals_to_exclude=()):
     ''' Gets a random player index (not in the center). '''
-    choice_ind = None
-    while not choice_ind or choice_ind in vals_to_exclude:
+    choice_ind = -1
+    while choice_ind == -1 or choice_ind in vals_to_exclude:
         choice_ind = random.randint(0, const.NUM_PLAYERS - 1)
     return choice_ind
 
 
 def get_random_center(vals_to_exclude=()):
     ''' Gets a random index of a center card. '''
-    choice_ind = None
-    while not choice_ind or choice_ind in vals_to_exclude:
+    choice_ind = -1
+    while choice_ind == -1 or choice_ind in vals_to_exclude:
         choice_ind = const.NUM_PLAYERS + random.randint(0, const.NUM_CENTER - 1)
     return choice_ind
 
 
 def input_player(vals_to_exclude=()):
     ''' Prompts the user for a player index (not in the center). '''
-    choice_ind = None
-    while not choice_ind or choice_ind < 0 or choice_ind >= const.NUM_PLAYERS:
+    choice_ind = -1
+    while choice_ind < 0 or choice_ind >= const.NUM_PLAYERS:
         user_input = ''
         while not user_input.isdigit():
             user_input = input('Which player index (0-{})? '.format(const.NUM_PLAYERS - 1))
@@ -52,14 +52,14 @@ def input_player(vals_to_exclude=()):
 
         if choice_ind in vals_to_exclude:
             logger.info('You cannot choose yourself or any index twice.')
-            choice_ind = None
+            choice_ind = -1
     return choice_ind
 
 
 def input_center(vals_to_exclude=()):
     ''' Prompts the user for a center card index. '''
-    choice_ind = None
-    while not choice_ind or choice_ind < 0 or choice_ind >= const.NUM_CENTER:
+    choice_ind = -1
+    while choice_ind < 0 or choice_ind >= const.NUM_CENTER:
         user_input = ''
         while not user_input.isdigit():
             user_input = input('Which center card (0-{})? '.format(const.NUM_CENTER - 1))
@@ -67,8 +67,19 @@ def input_center(vals_to_exclude=()):
 
         if choice_ind + const.NUM_PLAYERS in vals_to_exclude:
             logger.info('You cannot choose any index twice.')
-            choice_ind = None
+            choice_ind = -1
     return choice_ind + const.NUM_PLAYERS
+
+
+def get_numeric_input(size):
+    ''' Prompts the user for an index between 0 and size. '''
+    choice_ind = -1
+    while choice_ind < 0 or choice_ind >= size:
+        user_input = ''
+        while not user_input.isdigit():
+            user_input = input('Enter a number from 0-{}: '.format(size - 1))
+        choice_ind = int(user_input)
+    return choice_ind
 
 
 def print_roles(game_roles):

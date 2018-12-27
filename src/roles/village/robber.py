@@ -2,9 +2,9 @@
 import random
 
 from statements import Statement
-from util import get_player, swap_characters
 from const import logger
 import const
+import util
 
 from .player import Player
 
@@ -20,11 +20,11 @@ class Robber(Player):
 
     def robber_init(self, game_roles):
         ''' Initializes Robber - switches roles with another player. '''
-        choice_ind = get_player(self, [self.player_index])
+        choice_ind = util.get_player(self, [self.player_index])
         choice_char = game_roles[choice_ind]
         logger.debug('[Hidden] Robber switches with Player %d and becomes a %s.',
                      choice_ind, str(choice_char))
-        swap_characters(game_roles, self.player_index, choice_ind)
+        util.swap_characters(game_roles, self.player_index, choice_ind)
         return choice_ind, choice_char
 
     @staticmethod
@@ -46,7 +46,7 @@ class Robber(Player):
                     statements += Robber.get_robber_statements(player_index, i, role)
         return statements
 
-    def get_statement(self, stated_roles=None, previous=None):
+    def get_statement(self, stated_roles, previous):
         ''' Overrides get_statement when the Insomniac becomes a Wolf. '''
         if self.new_role == 'Wolf':
             # Import Wolf here to avoid circular dependency
@@ -69,4 +69,4 @@ class Robber(Player):
             robber_tanner = Tanner(self.player_index, None)
             return robber_tanner.get_statement(stated_roles, previous)
 
-        return random.choice(tuple(self.statements))
+        return super().get_statement(stated_roles, previous)

@@ -3,9 +3,9 @@ import random
 
 from algorithms import switching_solver
 from predictions import make_prediction_fast
-from util import find_all_player_indices, get_center
 from const import logger
 import const
+import util
 
 from ..village import Player
 from .wolf_variants import get_wolf_statements_random, get_statement_expectimax, \
@@ -30,16 +30,16 @@ class Wolf(Player):
 
         # Only get center roles and wolf indices if not a Robber/Insomniac Wolf
         if original_roles is not None:
-            wolf_indices = set(find_all_player_indices(original_roles, 'Wolf'))
+            wolf_indices = set(util.find_all_player_indices(original_roles, 'Wolf'))
             if len(wolf_indices) == 1 and const.NUM_CENTER > 0:
-                wolf_center_index = get_center(self)
+                wolf_center_index = util.get_center(self)
                 wolf_center_role = game_roles[wolf_center_index]
             logger.debug('[Hidden] Wolves are at indices: %s', str(wolf_indices))
             if self.is_user: logger.info('Wolves are at indices: %s', str(wolf_indices))
 
         return wolf_indices, wolf_center_index, wolf_center_role
 
-    def get_statement(self, stated_roles=None, previous=None):
+    def get_statement(self, stated_roles, previous):
         ''' Get Wolf Statement. '''
         if const.USE_REG_WOLF:
             if self.center_role not in (None, 'Wolf', 'Mason'):
@@ -56,7 +56,7 @@ class Wolf(Player):
         if const.USE_EXPECTIMAX_WOLF:
             return get_statement_expectimax(self, previous)
 
-        return super().get_statement()
+        return super().get_statement(stated_roles, previous)
 
     def eval_fn(self, statement_list):
         '''
