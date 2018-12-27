@@ -2,7 +2,8 @@
 import random
 import json
 
-from roles import Wolf, Minion, Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac, Tanner
+from roles import Wolf, Minion, Villager, Mason, Seer, Robber, Troublemaker, Drunk, \
+                    Insomniac, Tanner, Hunter
 from encoder import WolfBotEncoder
 from util import find_all_player_indices, swap_characters, print_roles
 from voting import consolidate_results
@@ -15,6 +16,7 @@ def play_one_night_werewolf(save_replay=True):
     game_roles = list(const.ROLES)
     if const.RANDOMIZE_ROLES:
         random.shuffle(game_roles)
+
     ORIGINAL_ROLES = list(game_roles)
     if const.FIXED_WOLF_INDEX is not None:
         override_wolf_index(game_roles)
@@ -62,6 +64,7 @@ def night_falls(game_roles):
     player_objs = list(game_roles)
     awake_order = (Wolf, Minion, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac)
     for role in awake_order:
+        # role =
         init_roles(game_roles, player_objs, role)
 
     # All other players wake up at the same time
@@ -70,6 +73,8 @@ def night_falls(game_roles):
             player_objs[i] = Tanner(i, game_roles, ORIGINAL_ROLES)
         elif ORIGINAL_ROLES[i] == 'Villager':
             player_objs[i] = Villager(i, game_roles, ORIGINAL_ROLES)
+        elif ORIGINAL_ROLES[i] == 'Hunter':
+            player_objs[i] = Hunter(i, game_roles, ORIGINAL_ROLES)
 
     return player_objs[:const.NUM_PLAYERS]
 

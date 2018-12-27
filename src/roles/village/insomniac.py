@@ -1,6 +1,4 @@
 ''' insomniac.py '''
-import random
-
 from statements import Statement
 from const import logger
 import const

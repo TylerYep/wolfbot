@@ -5,7 +5,7 @@ from algorithms import SolverState, is_consistent
 from const import logger
 import const
 
-from ...village import Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
+from ...village import Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac, Hunter
 
 def get_expected_statements():
     '''
@@ -16,7 +16,7 @@ def get_expected_statements():
     possible = {}
     for player_index in range(const.NUM_PLAYERS):
         possible[player_index] = []
-        role_types = (Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac)
+        role_types = (Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac, Hunter)
         for Role in role_types:
             if Role.__name__ in const.ROLE_SET:
                 possible[player_index] += Role.get_all_statements(player_index)

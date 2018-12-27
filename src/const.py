@@ -1,12 +1,12 @@
 ''' const.py '''
 from collections import Counter
-# import random
+import random
 # random.seed(0)
 import logging
 
 ''' Game Constants '''
 ROLES = ('Insomniac', 'Villager', 'Villager', 'Villager', 'Wolf', 'Wolf', 'Seer', 'Tanner',
-         'Mason', 'Mason', 'Drunk', 'Troublemaker', 'Robber', 'Minion')
+         'Mason', 'Mason', 'Drunk', 'Troublemaker', 'Robber', 'Minion', 'Hunter')
 NUM_CENTER = 3
 USE_VOTING = True
 RANDOMIZE_ROLES = True
@@ -22,7 +22,7 @@ ROBBER_PRIORITY, TROUBLEMAKER_PRIORITY, DRUNK_PRIORITY = 1, 2, 3
 USE_REG_WOLF = True
 
 ''' Expectimax Wolf Player '''
-USE_EXPECTIMAX_WOLF = False
+USE_EXPECTIMAX_WOLF = True
 EXPECTIMAX_DEPTH = 1
 BRANCH_FACTOR = 5
 
@@ -40,7 +40,7 @@ SAVE_REPLAY = NUM_GAMES < 10
 INTERACTIVE_MODE_ON = False
 IS_USER = [False for _ in range(NUM_ROLES)]
 if INTERACTIVE_MODE_ON:
-    IS_USER[0] = True
+    IS_USER[random.randint(0, NUM_PLAYERS - 1)] = True
 
 ''' Logging Constants '''
 logging.basicConfig(format='%(message)s', level=logging.INFO)
@@ -48,7 +48,7 @@ logging.TRACE = 5
 logger = logging.getLogger()
 logger.setLevel(logging.TRACE)
 if NUM_GAMES >= 10: logger.setLevel(logging.WARNING)
-# if INTERACTIVE_MODE_ON: logger.setLevel(logging.INFO)
+if INTERACTIVE_MODE_ON: logger.setLevel(logging.INFO)
 '''
 TRACE = Debugging mode for development
 DEBUG = Include all hidden messages

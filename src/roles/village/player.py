@@ -19,7 +19,7 @@ class Player:
         if self.is_user:
             logger.info('Please choose from the following statements: ')
             for i, statement in enumerate(self.statements):
-                logger.info(str(i) + '. ' + statement.sentence)
+                logger.info('%i. %s', i, statement.sentence)
             choice = util.get_numeric_input(len(self.statements))
             return self.statements[choice]
 
