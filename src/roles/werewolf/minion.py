@@ -19,13 +19,14 @@ class Minion(Player):
         self.role = 'Minion'
         self.wolf_indices = self.minion_init(original_roles)
 
-    @staticmethod
-    def minion_init(original_roles):
+    def minion_init(self, original_roles):
         ''' Initializes Minion - gets Wolf indices. '''
         wolf_indices = []
         if original_roles is not None:
             wolf_indices = set(find_all_player_indices(original_roles, 'Wolf'))
             logger.debug('[Hidden] Wolves are at indices: %s', str(wolf_indices))
+            if self.is_user: logger.info('Wolves are at indices: %s', str(wolf_indices))
+
         return wolf_indices
 
     def get_statement(self, stated_roles=None, previous=None):

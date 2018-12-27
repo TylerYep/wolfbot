@@ -1,5 +1,6 @@
 ''' player.py '''
 import random
+import const
 
 class Player():
     ''' Player class. '''
@@ -9,6 +10,7 @@ class Player():
         self.role = 'Player'
         self.new_role = new_role
         self.statements = []
+        self.is_user = const.IS_USER[player_index]
 
     def get_statement(self, stated_roles=None, previous=None):
         ''' Gets Player Statement. '''

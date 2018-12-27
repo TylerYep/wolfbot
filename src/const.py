@@ -3,8 +3,6 @@ from collections import Counter
 # import random
 # random.seed(0)
 import logging
-logging.basicConfig(format='%(message)s', level=logging.INFO)
-logger = logging.getLogger()
 
 ''' Game Constants '''
 ROLES = ('Villager', 'Villager', 'Villager', 'Wolf', 'Wolf', 'Seer', 'Tanner',
@@ -38,10 +36,18 @@ SHOW_PROGRESS = False or NUM_GAMES >= 10
 FIXED_WOLF_INDEX = None
 SAVE_REPLAY = NUM_GAMES < 10
 
+''' Interactive Game Constants '''
+INTERACTIVE_MODE_ON = True
+IS_USER = [True for _ in range(NUM_ROLES)]
+IS_USER[3] = True
+
 ''' Logging Constants '''
+logging.basicConfig(format='%(message)s', level=logging.INFO)
 logging.TRACE = 5
+logger = logging.getLogger()
 logger.setLevel(logging.TRACE)
 if NUM_GAMES >= 10: logger.setLevel(logging.WARNING)
+if INTERACTIVE_MODE_ON: logger.setLevel(logging.INFO)
 '''
 TRACE = Debugging mode for development
 DEBUG = Include all hidden messages

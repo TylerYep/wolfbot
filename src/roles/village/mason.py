@@ -15,11 +15,12 @@ class Mason(Player):
         self.role = 'Mason'
         self.statements = self.get_mason_statements(player_index, self.mason_indices)
 
-    @staticmethod
-    def mason_init(original_roles):
+    def mason_init(self, original_roles):
         ''' Initializes Mason - sees all other Masons. '''
         mason_indices = find_all_player_indices(original_roles, 'Mason')
         logger.debug('[Hidden] Masons are at indices: %s', str(mason_indices))
+        if self.is_user: logger.info('Masons are players: %s (You are player %s)',
+                                     str(mason_indices), self.player_index)
         return mason_indices
 
     @staticmethod

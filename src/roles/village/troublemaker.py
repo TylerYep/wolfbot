@@ -1,6 +1,6 @@
 ''' troublemaker.py '''
 from statements import Statement
-from util import get_random_player, swap_characters
+from util import get_player, swap_characters
 from const import logger
 import const
 
@@ -11,23 +11,19 @@ class Troublemaker(Player):
 
     def __init__(self, player_index, game_roles, original_roles):
         super().__init__(player_index)
-        tmkr_index1, tmkr_index2 = self.troublemaker_init(player_index, game_roles)
+        tmkr_index1, tmkr_index2 = self.troublemaker_init(game_roles)
         self.role = 'Troublemaker'
         self.statements = self.get_troublemaker_statements(player_index, tmkr_index1, tmkr_index2)
 
-    @staticmethod
-    def troublemaker_init(player_index, game_roles):
+    def troublemaker_init(self, game_roles):
         ''' Initializes Troublemaker - switches one player with another player. '''
-        troublemaker_choice_index1 = get_random_player()
-        troublemaker_choice_index2 = get_random_player()
-        while troublemaker_choice_index1 == player_index:
-            troublemaker_choice_index1 = get_random_player()
-        while troublemaker_choice_index2 in (player_index, troublemaker_choice_index1):
-            troublemaker_choice_index2 = get_random_player()
-        swap_characters(game_roles, troublemaker_choice_index1, troublemaker_choice_index2)
+        choice_ind1 = get_player(self, [self.player_index])
+        choice_ind2 = get_player(self, [self.player_index, choice_ind1])
+
+        swap_characters(game_roles, choice_ind1, choice_ind2)
         logger.debug('[Hidden] Troublemaker switches Player %d with Player %d.',
-                     troublemaker_choice_index1, troublemaker_choice_index2)
-        return troublemaker_choice_index1, troublemaker_choice_index2
+                     choice_ind1, choice_ind2)
+        return choice_ind1, choice_ind2
 
     @staticmethod
     def get_troublemaker_statements(player_index, tmkr_index1, tmkr_index2):

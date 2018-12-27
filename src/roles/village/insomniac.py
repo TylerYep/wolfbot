@@ -12,16 +12,16 @@ class Insomniac(Player):
 
     def __init__(self, player_index, game_roles, original_roles):
         super().__init__(player_index)
-        insomniac_new_role = self.insomniac_init(player_index, game_roles)
+        insomniac_new_role = self.insomniac_init(game_roles)
         self.role = 'Insomniac'
         self.new_role = insomniac_new_role
         self.statements = self.get_insomniac_statements(player_index, insomniac_new_role)
 
-    @staticmethod
-    def insomniac_init(player_index, game_roles):
+    def insomniac_init(self, game_roles):
         ''' Initializes Insomniac - learns new role. '''
-        insomniac_new_role = game_roles[player_index]
+        insomniac_new_role = game_roles[self.player_index]
         logger.debug('[Hidden] Insomniac wakes up as a %s.', insomniac_new_role)
+        if self.is_user: logger.info('You woke up as a %s!', insomniac_new_role)
         return insomniac_new_role
 
     @staticmethod
