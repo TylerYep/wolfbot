@@ -116,12 +116,7 @@ def recurse_assign(solution, all_role_guesses, curr_role_counts, restrict_possib
     If restrict_possible is enabled, then uses the possible_roles sets to assign.
     else simply fills in slots with curr_role_counts.
     '''
-    found = True
-    for i in range(const.NUM_ROLES):
-        if all_role_guesses[i] == '':
-            found = False
-            break
-    if found:
+    if '' not in all_role_guesses:
         return all_role_guesses
 
     for i in range(const.NUM_ROLES):

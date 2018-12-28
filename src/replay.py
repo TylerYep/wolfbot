@@ -19,6 +19,7 @@ def replay_game():
     logger.warning('\n\nSTATEMENTS:\n')
     for sentence in all_statements:
         logger.warning(sentence)
+
     logger.warning('\n[Hidden] Current roles: %s\n\t Center cards: %s\n',
                    str(original_roles[:const.NUM_PLAYERS]), str(original_roles[const.NUM_PLAYERS:]))
     logger.warning('[SOLUTION] Role guesses: %s\n\t  Center cards: %s\n',

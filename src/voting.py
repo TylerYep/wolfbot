@@ -1,4 +1,6 @@
 ''' voting.py '''
+import random
+
 from statistics import GameResult
 from collections import defaultdict
 from util import find_all_player_indices
@@ -124,11 +126,10 @@ def get_voting_result(all_role_guesses_arr):
 
 def get_player_vote(ind, prediction):
     ''' Updates Wolf votes for a given prediction. '''
-    for i in range(const.NUM_PLAYERS):
-        # TODO find the most likely Wolf and only vote for that one
-        if prediction[i] == 'Wolf':
-            return i
-
-    # TODO There are some really complicated game mechanics for the Minion.
+    # TODO find the most likely Wolf and only vote for that one
+    wolf_inds = find_all_player_indices(prediction[:const.NUM_PLAYERS], 'Wolf')
+    if wolf_inds:
+        return random.choice(wolf_inds)
+    # There are some really complicated game mechanics for the Minion.
     # https://boardgamegeek.com/thread/1422062/pointing-center-free-parking
     return (ind + 1) % const.NUM_PLAYERS

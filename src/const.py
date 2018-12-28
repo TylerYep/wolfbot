@@ -10,6 +10,12 @@ NUM_CENTER = 3
 USE_VOTING = True
 RANDOMIZE_ROLES = True
 
+''' Simulation Constants '''
+NUM_GAMES = 1
+FIXED_WOLF_INDEX = None
+SHOW_PROGRESS = False or NUM_GAMES >= 10
+SAVE_REPLAY = NUM_GAMES < 10
+
 ''' Util Constants '''
 ROLE_SET = set(ROLES)
 NUM_ROLES = len(ROLES)
@@ -24,7 +30,7 @@ VILLAGE_ROLES = {'Villager', 'Mason', 'Seer', 'Robber', 'Troublemaker', 'Drunk',
 EVIL_ROLES = {'Tanner', 'Wolf', 'Minion'} & ROLE_SET
 
 ''' Basic Wolf Player (Pruned statement set) '''
-USE_REG_WOLF = False
+USE_REG_WOLF = True
 
 ''' Expectimax Wolf Player '''
 USE_EXPECTIMAX_WOLF = False
@@ -35,14 +41,8 @@ BRANCH_FACTOR = 5
 USE_RL_WOLF = False
 EXPERIENCE_PATH = 'src/learning/simulations/wolf_player.json'
 
-''' Simulation Constants '''
-NUM_GAMES = 1
-FIXED_WOLF_INDEX = None
-SHOW_PROGRESS = False or NUM_GAMES >= 10
-SAVE_REPLAY = NUM_GAMES < 10
-
 ''' Interactive Game Constants '''
-INTERACTIVE_MODE_ON = False
+INTERACTIVE_MODE_ON = True
 IS_USER = [False for _ in range(NUM_ROLES)]
 if INTERACTIVE_MODE_ON:
     IS_USER[random.randint(0, NUM_PLAYERS - 1)] = True
@@ -51,8 +51,7 @@ if INTERACTIVE_MODE_ON:
 TRACE = Debugging mode for development
 DEBUG = Include all hidden messages
 INFO = Regular gameplay
-WARNING = Results only
-'''
+WARNING = Results only '''
 logging.basicConfig(format='%(message)s', level=logging.INFO)
 logging.TRACE = 5
 logger = logging.getLogger()

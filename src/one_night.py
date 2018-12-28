@@ -16,8 +16,8 @@ def play_one_night_werewolf(save_replay=True):
     if const.RANDOMIZE_ROLES:
         random.shuffle(game_roles)
     ORIGINAL_ROLES = list(game_roles)
-    # if const.FIXED_WOLF_INDEX is not None:
-    #     override_wolf_index(game_roles)
+    if const.FIXED_WOLF_INDEX is not None:
+        override_wolf_index(game_roles)
 
     player_objs = night_falls(game_roles)
     logger.info('\n -- GAME BEGINS -- \n')

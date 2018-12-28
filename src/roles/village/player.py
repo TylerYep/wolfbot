@@ -18,10 +18,12 @@ class Player:
         ''' Gets Player Statement. '''
         if self.is_user:
             logger.info('Please choose from the following statements: ')
-            for i, statement in enumerate(self.statements):
+            sample_statements = random.sample(self.statements, 10) if len(self.statements) > 10 \
+                                else self.statements
+            for i, statement in enumerate(sample_statements):
                 logger.info('%i. %s', i, statement.sentence)
-            choice = util.get_numeric_input(len(self.statements))
-            return self.statements[choice]
+            choice = util.get_numeric_input(len(sample_statements))
+            return sample_statements[choice]
 
         return random.choice(tuple(self.statements))
 

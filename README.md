@@ -6,8 +6,12 @@ To try it out, run 'python src/main.py' in the terminal. (Python 3.7)
 Constants, along with their use cases, are listed in src/const.py.
 
 # Development
+## January 2018
+Interactive mode and Hunter added!
+
+
 ## December 2018
-Added the Minion and Tanner characters and fully integrated them into the game! I changed a large portion of how voting works and how possible statements are obtained (now, saying you are a Wolf is not necessarily a bad idea). I have a lot more ideas to move forward with as well - for example, drawing out file dependencies and finding better representations, using some unit testing to make sure everything works as expected before expanding the game, and using the new Python 3.7 type-checking. Overall, the game looks like it's in a stable state, and the Werewolf and Tanner teams look like they have the advantage. Time to start thinking of more advanced Village team tactics! 
+Added the Minion and Tanner characters and fully integrated them into the game! I changed a large portion of how voting works and how possible statements are obtained (now, saying you are a Wolf is not necessarily a bad idea). I have a lot more ideas to move forward with as well - for example, drawing out file dependencies and finding better representations, using some unit testing to make sure everything works as expected before expanding the game, and using the new Python 3.7 type-checking. Overall, the game looks like it's in a stable state, and the Werewolf and Tanner teams look like they have the advantage. Time to start thinking of more advanced Village team tactics!
 
 
 ## November 2018
@@ -44,6 +48,10 @@ First steps were to recreate a simplified version of game in Python. We initiall
 
 Next, we made a solver for a set of statements from each player. Majority of the work here goes to Harry for introducing a Consistency verifier for Statements, and creating the Baseline Solver.
 
+Pylint entire directory using:
+```
+find . -iname "*.py" | xargs pylint
+```
 
 # Files
 ## Game Simulation
@@ -85,57 +93,53 @@ Werewolf Team: (Stores all Evil player roles and their associated methods)
 Tanner Team: (Wildcard player)
 * Tanner
 
-Wolf Theory: Choose statements that do a good job, not necessarily the absolute best ones.
+Wolf Theory: Choose statements that do a good job, not necessarily the absolute best ones.  
 
+# Future Development Todos
 TODO:
-* Host on AWS (SOON)
+* Host on AWS
 * UI and secure move API
 * Multiple Statements
-* Add Minion & Tanner Statements to possible statements
-
-Pylint entire directory using:
-```
-find . -iname "*.py" | xargs pylint
-```
+* Unit testing
+* Type checking
 
 # File Dependency Tree
-Simplified version (some cycles exist)
+Simplified version (some cycles exist)  
 
 src/
 
-const.py
-|-- predictions.py
-|-- statistics.py
-|-- statements.py
-|-- util.py
-|   |-- algorithms.py   (const, statements)
-|   |-- roles/          (const, statements, util)
-|   |   |-- main.py           (algorithms, const, one_night, statistics)
-|   |   |-- generate.py       (algorithms, encoder, const, one_night)
-|   |   |-- encoder.py        (const, roles, statements, statistics)
-|   |   |   |-- one_night.py        (const, encoder, roles, voting, util)
-|   |   |   |-- replay.py           (algorithms, const, encoder, prediction, statistics, voting)
-|   |   |   |-- train.py            (encoder, main)
-|   |   |   |-- voting.py           (const, roles, statements, statistics)
+const.py  
+|-- predictions.py  
+|-- statistics.py  
+|-- statements.py  
+|-- util.py  
+|   |-- algorithms.py   (const, statements)  
+|   |-- roles/          (const, statements, util)  
+|   |   |-- main.py           (algorithms, const, one_night, statistics)  
+|   |   |-- generate.py       (algorithms, encoder, const, one_night)  
+|   |   |-- encoder.py        (const, roles, statements, statistics)  
+|   |   |   |-- one_night.py        (const, encoder, roles, voting, util)  
+|   |   |   |-- replay.py           (algorithms, const, encoder, prediction, statistics, voting)  
+|   |   |   |-- train.py            (encoder, main)  
+|   |   |   |-- voting.py           (const, roles, statements, statistics)  
 
-roles/        (imports const, statements, util)
+roles/        (imports const, statements, util)  
 
-villager/
-player.py
-|-- drunk.py
-|-- insmoniac.py (imports wolf in get_statements)
-|-- mason.py
-|-- robber.py (imports wolf in get_statements)
-|-- seer.py
-|-- troublemaker.py
-|-- villager.py
+villager/  
+player.py  
+|-- drunk.py  
+|-- insmoniac.py (imports wolf in get_statements)  
+|-- mason.py  
+|-- robber.py (imports wolf in get_statements)  
+|-- seer.py  
+|-- troublemaker.py  
+|-- villager.py  
 
-werewolf/ (imports player, villager)
-|-- minion.py
-|-- wolf.py (imports wolf in get_statements)
-|   |-- center_wolf.py
-|   |-- expectimax_wolf.py
-|   |-- random_wolf.py
-|   |-- reg_wolf.py
-|   |-- rl_wolf.py
-
+werewolf/ (imports player, villager)  
+|-- minion.py  
+|-- wolf.py (imports wolf in get_statements)  
+|   |-- center_wolf.py  
+|   |-- expectimax_wolf.py  
+|   |-- random_wolf.py  
+|   |-- reg_wolf.py  
+|   |-- rl_wolf.py  

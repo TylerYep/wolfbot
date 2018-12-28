@@ -4,7 +4,7 @@ import pickle
 
 from statistics import GameResult
 from statements import Statement
-from roles import Player #get_role_obj
+from roles import Player #, get_role_obj
 import const
 
 class WolfBotEncoder(json.JSONEncoder):
@@ -22,17 +22,15 @@ class WolfBotDecoder(json.JSONDecoder):
     ''' Decoder for all WolfBot objects '''
     def __init__(self):
         json.JSONDecoder.__init__(self, object_hook=self.json_to_objects)
-        self.str_to_obj = {}
-        for role in const.ROLE_SET: #TODO unnecessary
-            self.str_to_obj[role.__name__] = role
 
-    def json_to_objects(self, obj):
+    @staticmethod
+    def json_to_objects(obj):
         ''' Implements decoding method. '''
         if 'type' not in obj:
             return obj
         obj_type = obj['type']
         del obj['type']
-        print(obj)
+
         if obj_type == 'Set':
             return set(obj['data'])
         if obj_type == 'Statement':
@@ -42,7 +40,7 @@ class WolfBotDecoder(json.JSONDecoder):
         if obj_type in const.ROLE_SET:
             return Player(obj['player_index'], obj['new_role'])
             # For recreating the entire player object:
-            # return self.str_to_obj[obj_type](obj)
+            # return get_role_obj(obj_type)(player_index, game_roles, original_roles)
         return obj
 
 
