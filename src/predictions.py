@@ -100,8 +100,7 @@ def get_basic_guesses(solution):
                 all_role_guesses.append('')
 
         elif not consistent_statements[j]:          # Player is lying
-            liars = ['Wolf', 'Minion', 'Tanner']
-            choices = [r for r in liars if r in const.ROLE_SET and curr_role_counts[r] > 0]
+            choices = [r for r in const.EVIL_ROLES if curr_role_counts[r] > 0]
             if choices:
                 choice = random.choice(choices)
                 all_role_guesses.append(choice)

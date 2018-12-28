@@ -9,7 +9,7 @@ def get_center_wolf_statements(player_obj, stated_roles):
     wolf_indices = player_obj.wolf_indices
     center_role = player_obj.center_role
     center_index = player_obj.center_index
-    
+
     if center_role == 'Villager':
         statements += Villager.get_villager_statements(player_index)
     elif center_role == 'Hunter':

@@ -1,15 +1,12 @@
 ''' random_wolf.py '''
 import const
-from ...village import Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac, Hunter
+import roles
 
 # Random Wolf Player
 def get_wolf_statements_random(player_obj):
     ''' Gets Random Wolf statement '''
     statements = []
-    player_index = player_obj.player_index
-
-    role_types = (Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac, Hunter)
-    for Role in role_types:
-        if Role.__name__ in const.ROLE_SET:
-            statements += Role.get_all_statements(player_index)
+    for role in const.VILLAGE_ROLES:
+        role_obj = roles.get_role_obj(role)
+        statements += role_obj.get_all_statements(player_obj.player_index)
     return statements

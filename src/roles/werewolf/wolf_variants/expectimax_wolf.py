@@ -4,8 +4,7 @@ from copy import deepcopy
 from algorithms import SolverState, is_consistent
 from const import logger
 import const
-
-from ...village import Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac, Hunter
+import roles
 
 def get_expected_statements():
     '''
@@ -16,10 +15,9 @@ def get_expected_statements():
     possible = {}
     for player_index in range(const.NUM_PLAYERS):
         possible[player_index] = []
-        role_types = (Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac, Hunter)
-        for Role in role_types:
-            if Role.__name__ in const.ROLE_SET:
-                possible[player_index] += Role.get_all_statements(player_index)
+        for role in const.VILLAGE_ROLES:
+            role_obj = roles.get_role_obj(role)
+            possible[player_index] += role_obj.get_all_statements(player_index)
     return possible
 
 

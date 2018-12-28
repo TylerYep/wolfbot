@@ -4,8 +4,7 @@ import pickle
 
 from statistics import GameResult
 from statements import Statement
-from roles import Wolf, Minion, Player, Villager, Mason, Seer, Robber, \
-                    Troublemaker, Drunk, Insomniac, Tanner, Hunter
+from roles import Player #get_role_obj
 import const
 
 class WolfBotEncoder(json.JSONEncoder):
@@ -24,8 +23,7 @@ class WolfBotDecoder(json.JSONDecoder):
     def __init__(self):
         json.JSONDecoder.__init__(self, object_hook=self.json_to_objects)
         self.str_to_obj = {}
-        for role in (Wolf, Minion, Tanner, Villager, Mason, Seer, Robber, Troublemaker, \
-                     Drunk, Insomniac, Hunter):
+        for role in const.ROLE_SET: #TODO unnecessary
             self.str_to_obj[role.__name__] = role
 
     def json_to_objects(self, obj):
