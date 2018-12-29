@@ -22,7 +22,7 @@ class Statement:
             player_clause = self.knowledge[0]
             new_set = set(const.ROLES) - player_clause[1]
             neg = [(player_clause[0], new_set)]
-        return Statement('NOT + ' + self.sentence, neg, [])
+        return Statement('NOT - ' + self.sentence, neg, [])
 
     def negate_all(self):
         ''' Returns a negated version of every clause in the statement. '''
@@ -30,7 +30,7 @@ class Statement:
         for tupl in self.knowledge:
             new_set = set(const.ROLES) - tupl[1]
             neg.append((tupl[0], new_set))
-        return Statement('NOT + ' + self.sentence, neg, [])
+        return Statement('NOT - ' + self.sentence, neg, [])
 
     def json_repr(self):
         ''' Returns json representation of the Statement. '''
@@ -38,10 +38,8 @@ class Statement:
                 'knowledge': self.knowledge, 'switches': self.switches}
 
     def __repr__(self):
-        return 'Statement(\'' + self.sentence + '\', ' + str(self.knowledge) \
-                + ', ' + str(self.switches) + ')'
+        return 'Statement(\'{}\', {}, {}, {})'.format(self.sentence, self.knowledge,
+                                                      self.switches, self.speaker)
 
-
-### Testing ###
 if __name__ == '__main__':
     pass

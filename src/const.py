@@ -1,24 +1,35 @@
 ''' const.py '''
 from collections import Counter
-# import random
-# random.seed(0)
+import random
 import logging
-logging.basicConfig(format='%(message)s', level=logging.INFO)
-logger = logging.getLogger()
 
 ''' Game Constants '''
-ROLES = ('Villager', 'Villager', 'Villager', 'Wolf', 'Wolf', 'Seer', 'Tanner',
-         'Mason', 'Mason', 'Drunk', 'Troublemaker', 'Insomniac', 'Robber', 'Minion')
+ROLES = ('Insomniac', 'Villager', 'Villager', 'Villager', 'Wolf', 'Wolf', 'Seer', 'Tanner',
+         'Mason', 'Mason', 'Drunk', 'Troublemaker', 'Robber', 'Minion', 'Hunter')
 NUM_CENTER = 3
 USE_VOTING = True
 RANDOMIZE_ROLES = True
+
+''' Simulation Constants '''
+NUM_GAMES = 1
+FIXED_WOLF_INDEX = None
+SHOW_PROGRESS = False or NUM_GAMES >= 10
+SAVE_REPLAY = NUM_GAMES < 10
+UNIT_TEST = False
+if UNIT_TEST: random.seed(0)
 
 ''' Util Constants '''
 ROLE_SET = set(ROLES)
 NUM_ROLES = len(ROLES)
 ROLE_COUNTS = dict(Counter(ROLES))  # Dict of {'Villager': 3, 'Wolf': 2, ... }
 NUM_PLAYERS = NUM_ROLES - NUM_CENTER
+
+''' Game Rules '''
 ROBBER_PRIORITY, TROUBLEMAKER_PRIORITY, DRUNK_PRIORITY = 1, 2, 3
+AWAKE_ORDER = ('Wolf', 'Minion', 'Mason', 'Seer', 'Robber', 'Troublemaker', 'Drunk', 'Insomniac')
+VILLAGE_ROLES = {'Villager', 'Mason', 'Seer', 'Robber', 'Troublemaker', 'Drunk',
+                 'Insomniac', 'Hunter'} & ROLE_SET
+EVIL_ROLES = {'Tanner', 'Wolf', 'Minion'} & ROLE_SET
 
 ''' Basic Wolf Player (Pruned statement set) '''
 USE_REG_WOLF = True
@@ -32,22 +43,24 @@ BRANCH_FACTOR = 5
 USE_RL_WOLF = False
 EXPERIENCE_PATH = 'src/learning/simulations/wolf_player.json'
 
-''' Simulation Constants '''
-NUM_GAMES = 1
-SHOW_PROGRESS = False or NUM_GAMES >= 10
-FIXED_WOLF_INDEX = None
-SAVE_REPLAY = NUM_GAMES < 10
+''' Interactive Game Constants '''
+INTERACTIVE_MODE_ON = False
+IS_USER = [False for _ in range(NUM_ROLES)]
+if INTERACTIVE_MODE_ON:
+    IS_USER[random.randint(0, NUM_PLAYERS - 1)] = True
 
-''' Logging Constants '''
-logging.TRACE = 5
-logger.setLevel(logging.TRACE)
-if NUM_GAMES >= 10: logger.setLevel(logging.WARNING)
-'''
+''' Logging Constants
 TRACE = Debugging mode for development
 DEBUG = Include all hidden messages
 INFO = Regular gameplay
-WARNING = Results only
-'''
+WARNING = Results only '''
+logging.basicConfig(format='%(message)s', level=logging.INFO)#, filename='test1.txt', filemode='a')
+logging.TRACE = 5
+logger = logging.getLogger()
+logger.setLevel(logging.TRACE)
+
+if NUM_GAMES >= 10 and not UNIT_TEST: logger.setLevel(logging.WARNING)
+if INTERACTIVE_MODE_ON: logger.setLevel(logging.INFO)
 
 ''' Ensure only one Wolf version is active '''
 assert sum([USE_EXPECTIMAX_WOLF, USE_RL_WOLF]) <= 1

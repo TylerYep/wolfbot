@@ -11,7 +11,7 @@ if sys.version_info < (3, 0):
     sys.exit()
 
 
-class SolverState():
+class SolverState:
     ''' Each solver returns a SolverState object with the result. '''
     def __init__(self, possible_roles, switches=None, path_init=None):
         self.possible_roles = possible_roles
@@ -88,9 +88,9 @@ def count_roles(state):
     such as {'Villager': 3, 'Robber': 0, 'Seer': 0, 'Wolf': 1}
     '''
     count = {role: 0 for role in const.ROLE_SET}
-    for s in state:
-        if len(s) == 1:
-            count[next(iter(s))] += 1
+    for possible_roles in state:
+        if len(possible_roles) == 1:
+            count[next(iter(possible_roles))] += 1
     return count
 
 

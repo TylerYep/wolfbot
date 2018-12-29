@@ -7,7 +7,6 @@ class Villager(Player):
 
     def __init__(self, player_index, game_roles, original_roles):
         super().__init__(player_index)
-        self.role = 'Villager'
         self.statements = self.get_villager_statements(player_index)
 
     @staticmethod

@@ -1,4 +1,6 @@
 ''' voting.py '''
+import random
+
 from statistics import GameResult
 from collections import defaultdict
 from util import find_all_player_indices
@@ -13,11 +15,11 @@ def consolidate_results(save_game):
     orig_wolf_inds = find_all_player_indices(original_roles, 'Wolf')
     if const.USE_VOTING:
         indiv_preds = get_individual_preds(player_objs, all_statements, orig_wolf_inds)
-        all_role_guesses, confidence, guessed_wolf_inds = get_voting_result(indiv_preds)
-        print_guesses(all_role_guesses)
+        all_guesses, confidence, guessed_wolf_inds, vote_inds = get_voting_result(indiv_preds)
+        print_guesses(all_guesses)
         logger.debug('Confidence level: %s', str([float('{0:0.2f}'.format(n)) for n in confidence]))
-        winning_team = eval_final_guesses(game_roles, guessed_wolf_inds)
-        return GameResult(game_roles, all_role_guesses, all_statements, orig_wolf_inds, winning_team)
+        winning_team = eval_final_guesses(game_roles, guessed_wolf_inds, vote_inds)
+        return GameResult(game_roles, all_guesses, all_statements, orig_wolf_inds, winning_team)
 
     all_solutions = switching_solver(all_statements)
     for solution in all_solutions:
@@ -30,10 +32,9 @@ def consolidate_results(save_game):
 def is_player_evil(player_objs, i, orig_wolf_inds):
     ''' Decide whether a character is about to make an evil prediction. '''
     # TODO When a wolf becomes good? Do I need to check for Wolf twice?
-    evil_set = {'Wolf', 'Tanner', 'Minion'}
     return (i in orig_wolf_inds and player_objs[i].new_role == '') \
-        or (player_objs[i].role in evil_set and player_objs[i].new_role == '') \
-        or player_objs[i].new_role in evil_set
+        or (player_objs[i].role in const.EVIL_ROLES and player_objs[i].new_role == '') \
+        or player_objs[i].new_role in const.EVIL_ROLES
 
 
 def get_individual_preds(player_objs, all_statements, orig_wolf_inds):
@@ -51,7 +52,7 @@ def get_individual_preds(player_objs, all_statements, orig_wolf_inds):
     return all_role_guesses_arr
 
 
-def eval_final_guesses(game_roles, guessed_wolf_inds):
+def eval_final_guesses(game_roles, guessed_wolf_inds, vote_inds):
     ''' Decide which team won based on the final vote. '''
     killed_wolf, killed_tanner, villager_win = False, False, False
     if len(guessed_wolf_inds) == const.NUM_PLAYERS:
@@ -63,6 +64,12 @@ def eval_final_guesses(game_roles, guessed_wolf_inds):
             logger.info('That was correct!\n')
             villager_win = True
     else:
+        # Hunter kills the player he voted for if he dies.
+        for i in guessed_wolf_inds:
+            if game_roles[i] == 'Hunter':
+                guessed_wolf_inds.append(vote_inds[i])
+                logger.info('(Player %d) Hunter died and killed Player %d too!\n', i, vote_inds[i])
+
         for chosen_wolf in guessed_wolf_inds:
             if game_roles[chosen_wolf] == 'Wolf':
                 killed_wolf = True
@@ -93,15 +100,19 @@ def get_voting_result(all_role_guesses_arr):
     '''
     guess_histogram = defaultdict(int)
     wolf_votes = [0 for _ in range(const.NUM_PLAYERS)]
+    vote_inds = []
     for i, prediction in enumerate(all_role_guesses_arr):
         guess_histogram[tuple(prediction)] += 1
-        wolf_votes[get_player_vote(i, prediction)] += 1
+        vote_ind = get_player_vote(i, prediction)
+        wolf_votes[vote_ind] += 1
+        vote_inds.append(vote_ind)
 
     logger.debug('Vote Array: %s', str(wolf_votes))
     assert sum(wolf_votes) == const.NUM_PLAYERS
 
-    guessed_wolf_inds = [i for i, count in enumerate(wolf_votes) if count == max(wolf_votes)]
     all_role_guesses, _ = max(guess_histogram.items(), key=lambda x: x[1])
+    guessed_wolf_inds = [i for i, count in enumerate(wolf_votes) if count == max(wolf_votes)]
+
     confidence = []
     for i in range(const.NUM_ROLES):
         role_dict = defaultdict(int)
@@ -110,16 +121,15 @@ def get_voting_result(all_role_guesses_arr):
         count = max(role_dict.values())
         confidence.append(count / const.NUM_PLAYERS)
 
-    return list(all_role_guesses), confidence, guessed_wolf_inds
+    return list(all_role_guesses), confidence, guessed_wolf_inds, vote_inds
 
 
 def get_player_vote(ind, prediction):
     ''' Updates Wolf votes for a given prediction. '''
-    for i in range(const.NUM_PLAYERS):
-        # TODO find the most likely Wolf and only vote for that one
-        if prediction[i] == 'Wolf':
-            return i
-
-    # TODO There are some really complicated game mechanics for the Minion.
+    # TODO find the most likely Wolf and only vote for that one
+    wolf_inds = find_all_player_indices(prediction[:const.NUM_PLAYERS], 'Wolf')
+    if wolf_inds:
+        return random.choice(wolf_inds)
+    # There are some really complicated game mechanics for the Minion.
     # https://boardgamegeek.com/thread/1422062/pointing-center-free-parking
     return (ind + 1) % const.NUM_PLAYERS

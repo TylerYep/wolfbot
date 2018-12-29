@@ -33,8 +33,8 @@ def get_wolf_state(game):
 def remap_keys(mapping):
     ''' Remaps keys for jsonifying. '''
     exp_dict = defaultdict(lambda: defaultdict(int))
-    for k, v in mapping.items():
-        exp_dict[str(k)] = v
+    for k, val in mapping.items():
+        exp_dict[str(k)] = val
     return exp_dict
 
 
@@ -50,19 +50,21 @@ def train(folder, eta=0.01):
                 for game in json.load(data_file, cls=WolfBotDecoder):
                     # See how training improves over time
                     if counter % 100 == 0:
-                        test(experience_dict)
+                        test()
                     states, statements = get_wolf_state(game)
                     for state, statement in zip(states, statements):
-                        experience_dict[state][statement] = (1-eta)*experience_dict[state][statement] + eta*evaluate(game)
+                        experience_dict[state][statement] \
+                            = (1-eta)*experience_dict[state][statement] + eta*evaluate(game)
                         count_dict[(state)] += 1
                     counter += 1
 
     exp_dict = remap_keys(experience_dict)
-    with open('learning/simulations/wolf_player_' + time.strftime('%Y%m%d_%H%M%S') + '.json', 'w') as wolf_file:
+    with open('learning/simulations/wolf_player_' \
+              + time.strftime('%Y%m%d_%H%M%S') + '.json', 'w') as wolf_file:
         json.dump(exp_dict, wolf_file, cls=WolfBotEncoder)
 
 
-def test(experience_dict):
+def test(): # experience_dict as param
     ''' Run main with a specific experience_dict. '''
     assert not const.USE_RL_WOLF
     main(save_replay=False)

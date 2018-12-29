@@ -3,9 +3,9 @@ import random
 
 from algorithms import switching_solver
 from predictions import make_prediction_fast
-from util import find_all_player_indices, get_random_center
 from const import logger
 import const
+import util
 
 from ..village import Player
 from .wolf_variants import get_wolf_statements_random, get_statement_expectimax, \
@@ -19,26 +19,26 @@ class Wolf(Player):
         Constructor: original_roles defaults to None when a player becomes a Wolf and realizes it.
         '''
         super().__init__(player_index)
-        self.role = 'Wolf'
-        self.wolf_indices, self.center_index, \
-                self.center_role = self.wolf_init(game_roles, original_roles)
+        self.wolf_indices, self.center_index, self.center_role \
+                = self.wolf_init(game_roles, original_roles)
 
-    @staticmethod
-    def wolf_init(game_roles, original_roles):
+    def wolf_init(self, game_roles, original_roles):
         ''' Initializes Wolf - gets Wolf indices and a random center card, if applicable. '''
         wolf_indices = []
         wolf_center_index, wolf_center_role = None, None
 
         # Only get center roles and wolf indices if not a Robber/Insomniac Wolf
         if original_roles is not None:
-            wolf_indices = set(find_all_player_indices(original_roles, 'Wolf'))
+            wolf_indices = set(util.find_all_player_indices(original_roles, 'Wolf'))
             if len(wolf_indices) == 1 and const.NUM_CENTER > 0:
-                wolf_center_index = get_random_center()
+                wolf_center_index = util.get_center(self)
                 wolf_center_role = game_roles[wolf_center_index]
             logger.debug('[Hidden] Wolves are at indices: %s', str(wolf_indices))
+            if self.is_user: logger.info('Wolves are at indices: %s', str(wolf_indices))
+
         return wolf_indices, wolf_center_index, wolf_center_role
 
-    def get_statement(self, stated_roles=None, previous=None):
+    def get_statement(self, stated_roles, previous):
         ''' Get Wolf Statement. '''
         if const.USE_REG_WOLF:
             if self.center_role not in (None, 'Wolf', 'Mason'):
@@ -50,12 +50,13 @@ class Wolf(Player):
 
         # Choose one statement to return by default
         if const.USE_RL_WOLF:
-            return get_statement_rl(self, stated_roles, previous, super().get_statement())
+            default_statement = super().get_statement(stated_roles, previous)
+            return get_statement_rl(self, stated_roles, previous, default_statement)
 
         if const.USE_EXPECTIMAX_WOLF:
             return get_statement_expectimax(self, previous)
 
-        return super().get_statement()
+        return super().get_statement(stated_roles, previous)
 
     def eval_fn(self, statement_list):
         '''

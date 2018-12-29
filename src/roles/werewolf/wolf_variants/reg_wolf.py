@@ -1,6 +1,6 @@
 ''' reg_wolf.py '''
 import const
-from ...village import Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac
+from ...village import Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac, Hunter
 
 def get_wolf_statements(player_obj, stated_roles, previous_statements):
     ''' Gets Regular Wolf statement. '''
@@ -9,6 +9,8 @@ def get_wolf_statements(player_obj, stated_roles, previous_statements):
     wolf_indices = player_obj.wolf_indices
     if 'Villager' in const.ROLE_SET:
         statements += Villager.get_villager_statements(player_index)
+    if 'Hunter' in const.ROLE_SET:
+        statements += Hunter.get_hunter_statements(player_index)
     if 'Insomniac' in const.ROLE_SET:
         # TODO check for switches and prioritize those statements
         statements += Insomniac.get_insomniac_statements(player_index, 'Insomniac')

@@ -12,13 +12,14 @@ import const
 def replay_game():
     ''' Runs last game stored in replay.json '''
     with open('data/replay.json', 'r') as f_replay:
-        original_roles, game_roles, all_statements, \
-                    player_objs = json.load(f_replay, cls=WolfBotDecoder)
+        original_roles, game_roles, all_statements, player_objs \
+                     = json.load(f_replay, cls=WolfBotDecoder)
 
     logger.setLevel(0)
     logger.warning('\n\nSTATEMENTS:\n')
     for sentence in all_statements:
         logger.warning(sentence)
+
     logger.warning('\n[Hidden] Current roles: %s\n\t Center cards: %s\n',
                    str(original_roles[:const.NUM_PLAYERS]), str(original_roles[const.NUM_PLAYERS:]))
     logger.warning('[SOLUTION] Role guesses: %s\n\t  Center cards: %s\n',

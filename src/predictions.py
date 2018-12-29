@@ -100,8 +100,7 @@ def get_basic_guesses(solution):
                 all_role_guesses.append('')
 
         elif not consistent_statements[j]:          # Player is lying
-            liars = ['Wolf', 'Minion', 'Tanner']
-            choices = [r for r in liars if r in const.ROLE_SET and curr_role_counts[r] > 0]
+            choices = [r for r in const.EVIL_ROLES if curr_role_counts[r] > 0]
             if choices:
                 choice = random.choice(choices)
                 all_role_guesses.append(choice)
@@ -117,12 +116,7 @@ def recurse_assign(solution, all_role_guesses, curr_role_counts, restrict_possib
     If restrict_possible is enabled, then uses the possible_roles sets to assign.
     else simply fills in slots with curr_role_counts.
     '''
-    found = True
-    for i in range(const.NUM_ROLES):
-        if all_role_guesses[i] == '':
-            found = False
-            break
-    if found:
+    if '' not in all_role_guesses:
         return all_role_guesses
 
     for i in range(const.NUM_ROLES):

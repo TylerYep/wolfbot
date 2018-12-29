@@ -7,3 +7,4 @@ from .robber import Robber
 from .troublemaker import Troublemaker
 from .drunk import Drunk
 from .insomniac import Insomniac
+from .hunter import Hunter

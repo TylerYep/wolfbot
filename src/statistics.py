@@ -97,8 +97,7 @@ class Statistics:
     @staticmethod
     def wolf_predictions_one(game_result):
         ''' Returns 1/1 if at least one Wolf was correctly identified. '''
-        correct_guesses = 0
-        total_wolves = 1
+        correct_guesses, total_wolves = 0, 1
         for i in range(const.NUM_PLAYERS):
             if game_result.actual[i] == 'Wolf' == game_result.guessed[i]:
                 correct_guesses += 1
@@ -107,8 +106,7 @@ class Statistics:
     @staticmethod
     def wolf_predictions_all(game_result):
         ''' Returns 1/1 if all Wolves were correctly identified. '''
-        correct_guesses = 0
-        total_wolves = 0
+        correct_guesses, total_wolves = 0, 0
         for i in range(const.NUM_PLAYERS):
             if game_result.actual[i] == 'Wolf':
                 total_wolves += 1
@@ -119,8 +117,7 @@ class Statistics:
     @staticmethod
     def wolf_predictions_center(game_result):
         ''' Returns fraction of how many Wolves were correctly identified. '''
-        correct_guesses = 0
-        total_wolves = 0
+        correct_guesses, total_wolves = 0, 0
         for i in range(const.NUM_ROLES):
             if game_result.actual[i] == 'Wolf':
                 total_wolves += 1

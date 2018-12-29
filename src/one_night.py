@@ -2,12 +2,12 @@
 import random
 import json
 
-from roles import Wolf, Minion, Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac, Tanner
 from encoder import WolfBotEncoder
-from util import find_all_player_indices, swap_characters, print_roles
+from roles import get_role_obj
 from voting import consolidate_results
 from const import logger
 import const
+import util
 
 def play_one_night_werewolf(save_replay=True):
     ''' Plays one round of One Night Ultimate Werewolf. '''
@@ -22,7 +22,7 @@ def play_one_night_werewolf(save_replay=True):
     player_objs = night_falls(game_roles)
     logger.info('\n -- GAME BEGINS -- \n')
     all_statements = get_player_statements(player_objs)
-    print_roles(game_roles)
+    util.print_roles(game_roles)
 
     save_game = (ORIGINAL_ROLES, game_roles, all_statements, player_objs)
     if save_replay:
@@ -43,40 +43,38 @@ def get_player_statements(player_objs):
     return given_statements
 
 
-def init_roles(game_roles, player_objs, Role):
+def awaken_role(game_roles, player_objs, role_str):
     ''' Interates through each player in player_objs and initializes the Player object. '''
-    role_str = Role.__name__
     logger.info('%s, wake up.', role_str)
+    role_obj = get_role_obj(role_str)
     for i in range(const.NUM_PLAYERS):
         if ORIGINAL_ROLES[i] == role_str:
-            player_objs[i] = Role(i, game_roles, ORIGINAL_ROLES)
+            player_objs[i] = role_obj(i, game_roles, ORIGINAL_ROLES)
     logger.info('%s, go to sleep.\n', role_str)
 
 
 def night_falls(game_roles):
     ''' Initialize role object list and perform all switching and peeking actions to begin. '''
     logger.info('\n -- NIGHT FALLS -- \n')
-    print_roles(game_roles)
+    util.print_roles(game_roles)
 
     # Awaken each player in order (print command)
     player_objs = list(game_roles)
-    awake_order = (Wolf, Minion, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac)
-    for role in awake_order:
-        init_roles(game_roles, player_objs, role)
+    for role in const.AWAKE_ORDER:
+        awaken_role(game_roles, player_objs, role)
 
     # All other players wake up at the same time
-    for i in range(const.NUM_PLAYERS):
-        if ORIGINAL_ROLES[i] == 'Tanner':
-            player_objs[i] = Tanner(i, game_roles, ORIGINAL_ROLES)
-        elif ORIGINAL_ROLES[i] == 'Villager':
-            player_objs[i] = Villager(i, game_roles, ORIGINAL_ROLES)
+    for i, role in enumerate(ORIGINAL_ROLES):
+        if role in const.ROLE_SET - set(const.AWAKE_ORDER):
+            role_obj = get_role_obj(role)
+            player_objs[i] = role_obj(i, game_roles, ORIGINAL_ROLES)
 
     return player_objs[:const.NUM_PLAYERS]
 
 
 def override_wolf_index(game_roles):
     ''' Swap a Wolf to the const.FIXED_WOLF_INDEX. '''
-    wolf_inds = find_all_player_indices(game_roles, 'Wolf')
+    wolf_inds = util.find_all_player_indices(game_roles, 'Wolf')
     if wolf_inds:
         wolf_ind = random.choice(wolf_inds)
-        swap_characters(game_roles, wolf_ind, const.FIXED_WOLF_INDEX)
+        util.swap_characters(game_roles, wolf_ind, const.FIXED_WOLF_INDEX)

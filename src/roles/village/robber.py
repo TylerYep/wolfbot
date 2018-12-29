@@ -1,10 +1,8 @@
 ''' robber.py '''
-import random
-
 from statements import Statement
-from util import get_random_player, swap_characters
 from const import logger
 import const
+import util
 
 from .player import Player
 
@@ -13,31 +11,26 @@ class Robber(Player):
 
     def __init__(self, player_index, game_roles, original_roles):
         super().__init__(player_index)
-        robber_choice_index, robber_choice_character = self.robber_init(player_index, game_roles)
-        self.role = 'Robber'
-        self.new_role = robber_choice_character
-        self.statements = self.get_robber_statements(player_index, robber_choice_index,
-                                                     robber_choice_character)
+        choice_ind, choice_char = self.robber_init(game_roles)
+        self.new_role = choice_char
+        self.statements = self.get_robber_statements(player_index, choice_ind, choice_char)
 
-    @staticmethod
-    def robber_init(player_index, game_roles):
+    def robber_init(self, game_roles):
         ''' Initializes Robber - switches roles with another player. '''
-        robber_choice_index = get_random_player()
-        while robber_choice_index == player_index:
-            robber_choice_index = get_random_player()
-        robber_choice_character = game_roles[robber_choice_index]
+        choice_ind = util.get_player(self, [self.player_index])
+        choice_char = game_roles[choice_ind]
         logger.debug('[Hidden] Robber switches with Player %d and becomes a %s.',
-                     robber_choice_index, str(robber_choice_character))
-        swap_characters(game_roles, player_index, robber_choice_index)
-        return robber_choice_index, robber_choice_character
+                     choice_ind, str(choice_char))
+        util.swap_characters(game_roles, self.player_index, choice_ind)
+        return choice_ind, choice_char
 
     @staticmethod
-    def get_robber_statements(player_index, robber_choice_index, robber_choice_character):
+    def get_robber_statements(player_index, choice_ind, choice_char):
         ''' Gets Robber Statement. '''
-        sentence = 'I am a Robber and I swapped with Player ' + str(robber_choice_index) \
-                    + '. I am now a ' + robber_choice_character + '.'
-        knowledge = [(player_index, {'Robber'}), (robber_choice_index, {robber_choice_character})]
-        switches = [(const.ROBBER_PRIORITY, robber_choice_index, player_index)]
+        sentence = 'I am a Robber and I swapped with Player ' + str(choice_ind) \
+                    + '. I am now a ' + choice_char + '.'
+        knowledge = [(player_index, {'Robber'}), (choice_ind, {choice_char})]
+        switches = [(const.ROBBER_PRIORITY, choice_ind, player_index)]
         return [Statement(sentence, knowledge, switches)]
 
     @staticmethod
@@ -50,7 +43,7 @@ class Robber(Player):
                     statements += Robber.get_robber_statements(player_index, i, role)
         return statements
 
-    def get_statement(self, stated_roles=None, previous=None):
+    def get_statement(self, stated_roles, previous):
         ''' Overrides get_statement when the Insomniac becomes a Wolf. '''
         if self.new_role == 'Wolf':
             # Import Wolf here to avoid circular dependency
@@ -73,4 +66,4 @@ class Robber(Player):
             robber_tanner = Tanner(self.player_index, None)
             return robber_tanner.get_statement(stated_roles, previous)
 
-        return random.choice(tuple(self.statements))
+        return super().get_statement(stated_roles, previous)

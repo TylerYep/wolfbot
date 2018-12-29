@@ -1,6 +1,6 @@
 ''' center_wolf.py '''
 import const
-from ...village import Villager, Seer, Robber, Troublemaker, Drunk, Insomniac
+from ...village import Villager, Seer, Robber, Troublemaker, Drunk, Insomniac, Hunter
 
 def get_center_wolf_statements(player_obj, stated_roles):
     ''' Center Wolf Player logic. '''
@@ -9,8 +9,11 @@ def get_center_wolf_statements(player_obj, stated_roles):
     wolf_indices = player_obj.wolf_indices
     center_role = player_obj.center_role
     center_index = player_obj.center_index
+
     if center_role == 'Villager':
         statements += Villager.get_villager_statements(player_index)
+    elif center_role == 'Hunter':
+        statements += Hunter.get_hunter_statements(player_index)
     elif center_role == 'Insomniac':
         # TODO check for switches and prioritize those statements
         statements += Insomniac.get_insomniac_statements(player_index, 'Insomniac')
