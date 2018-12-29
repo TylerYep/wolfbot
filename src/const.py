@@ -15,6 +15,8 @@ NUM_GAMES = 1
 FIXED_WOLF_INDEX = None
 SHOW_PROGRESS = False or NUM_GAMES >= 10
 SAVE_REPLAY = NUM_GAMES < 10
+UNIT_TEST = False
+if UNIT_TEST: random.seed(0)
 
 ''' Util Constants '''
 ROLE_SET = set(ROLES)
@@ -42,7 +44,7 @@ USE_RL_WOLF = False
 EXPERIENCE_PATH = 'src/learning/simulations/wolf_player.json'
 
 ''' Interactive Game Constants '''
-INTERACTIVE_MODE_ON = True
+INTERACTIVE_MODE_ON = False
 IS_USER = [False for _ in range(NUM_ROLES)]
 if INTERACTIVE_MODE_ON:
     IS_USER[random.randint(0, NUM_PLAYERS - 1)] = True
@@ -52,14 +54,13 @@ TRACE = Debugging mode for development
 DEBUG = Include all hidden messages
 INFO = Regular gameplay
 WARNING = Results only '''
-logging.basicConfig(format='%(message)s', level=logging.INFO)
+logging.basicConfig(format='%(message)s', level=logging.INFO)#, filename='test1.txt', filemode='a')
 logging.TRACE = 5
 logger = logging.getLogger()
 logger.setLevel(logging.TRACE)
 
-if NUM_GAMES >= 10: logger.setLevel(logging.WARNING)
+if NUM_GAMES >= 10 and not UNIT_TEST: logger.setLevel(logging.WARNING)
 if INTERACTIVE_MODE_ON: logger.setLevel(logging.INFO)
 
 ''' Ensure only one Wolf version is active '''
 assert sum([USE_EXPECTIMAX_WOLF, USE_RL_WOLF]) <= 1
-# random.seed(0)

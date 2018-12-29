@@ -48,7 +48,14 @@ First steps were to recreate a simplified version of game in Python. We initiall
 
 Next, we made a solver for a set of statements from each player. Majority of the work here goes to Harry for introducing a Consistency verifier for Statements, and creating the Baseline Solver.
 
-Pylint entire directory using:
+# Developer Commands
+* For deterministic results during testing, run
+```
+PYTHONHASHSEED=0 python src/main.py
+```
+and make sure const.py sets the random seed.
+
+* Pylint entire directory using:
 ```
 find . -iname "*.py" | xargs pylint
 ```

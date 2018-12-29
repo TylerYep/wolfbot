@@ -1,0 +1,784 @@
+Currently on Game: 0
+
+ -- NIGHT FALLS -- 
+
+[Hidden] Current roles: ['Villager', 'Drunk', 'Mason', 'Wolf', 'Troublemaker', 'Villager', 'Villager', 'Tanner', 'Mason', 'Wolf', 'Insomniac']
+	  Center cards: ['Robber', 'Seer', 'Minion']
+
+Wolf, wake up.
+[Hidden] Wolves are at indices: {9, 3}
+[Hidden] Wolves are at indices: {9, 3}
+Wolf, go to sleep.
+
+Minion, wake up.
+Minion, go to sleep.
+
+Mason, wake up.
+[Hidden] Masons are at indices: [2, 8]
+[Hidden] Masons are at indices: [2, 8]
+Mason, go to sleep.
+
+Seer, wake up.
+Seer, go to sleep.
+
+Robber, wake up.
+Robber, go to sleep.
+
+Troublemaker, wake up.
+[Hidden] Troublemaker switches Player 8 with Player 2.
+Troublemaker, go to sleep.
+
+Drunk, wake up.
+[Hidden] Drunk switches with Center Card 1 and unknowingly becomes a Seer.
+Drunk, go to sleep.
+
+Insomniac, wake up.
+[Hidden] Insomniac wakes up as a Insomniac.
+Insomniac, go to sleep.
+
+
+ -- GAME BEGINS -- 
+
+Player 0: I am a Villager.
+Player 1: I am a Drunk and I swapped with Center 1.
+Player 2: I am a Mason. The other Mason is Player 8.
+Player 3: I am a Robber and I swapped with Player 0. I am now a Villager.
+Player 4: I am a Troublemaker and I swapped Player 8 and Player 2.
+Player 5: I am a Villager.
+Player 6: I am a Villager.
+Player 7: I am a Seer and I saw that Player 9 was a Seer.
+Player 8: I am a Mason. The other Mason is Player 2.
+Player 9: I am a Troublemaker and I swapped Player 4 and Player 7.
+Player 10: I am a Insomniac and when I woke up I was a Insomniac.
+[Hidden] Current roles: ['Villager', 'Seer', 'Mason', 'Wolf', 'Troublemaker', 'Villager', 'Villager', 'Tanner', 'Mason', 'Wolf', 'Insomniac']
+	  Center cards: ['Robber', 'Drunk', 'Minion']
+
+Player prediction: ['Robber', 'Minion', 'Mason', 'Villager', 'Troublemaker', 'Villager', 'Villager', 'Tanner', 'Mason', 'Wolf', 'Insomniac', 'Wolf', 'Drunk', 'Seer']
+Player prediction: ['Robber', 'Wolf', 'Mason', 'Villager', 'Troublemaker', 'Villager', 'Villager', 'Wolf', 'Mason', 'Tanner', 'Insomniac', 'Minion', 'Drunk', 'Seer']
+Player prediction: ['Robber', 'Wolf', 'Mason', 'Villager', 'Minion', 'Villager', 'Villager', 'Wolf', 'Mason', 'Troublemaker', 'Insomniac', 'Tanner', 'Drunk', 'Seer']
+Player prediction: ['Robber', 'Seer', 'Mason', 'Villager', 'Wolf', 'Villager', 'Villager', 'Minion', 'Mason', 'Troublemaker', 'Insomniac', 'Tanner', 'Drunk', 'Wolf']
+Player prediction: ['Robber', 'Seer', 'Mason', 'Villager', 'Troublemaker', 'Villager', 'Villager', 'Minion', 'Mason', 'Tanner', 'Insomniac', 'Wolf', 'Drunk', 'Wolf']
+Player prediction: ['Robber', 'Wolf', 'Mason', 'Villager', 'Troublemaker', 'Villager', 'Villager', 'Minion', 'Mason', 'Tanner', 'Insomniac', 'Seer', 'Drunk', 'Wolf']
+Player prediction: ['Robber', 'Tanner', 'Mason', 'Villager', 'Wolf', 'Villager', 'Villager', 'Minion', 'Mason', 'Troublemaker', 'Insomniac', 'Wolf', 'Drunk', 'Seer']
+Player prediction: ['Robber', 'Tanner', 'Mason', 'Wolf', 'Mason', 'Villager', 'Wolf', 'Villager', 'Insomniac', 'Villager', 'Drunk', 'Minion', 'Troublemaker', 'Seer']
+Player prediction: ['Robber', 'Seer', 'Mason', 'Villager', 'Troublemaker', 'Villager', 'Villager', 'Wolf', 'Mason', 'Wolf', 'Insomniac', 'Minion', 'Drunk', 'Tanner']
+Player prediction: ['Robber', 'Minion', 'Mason', 'Villager', 'Wolf', 'Villager', 'Villager', 'Wolf', 'Mason', 'Troublemaker', 'Insomniac', 'Tanner', 'Drunk', 'Seer']
+Player prediction: ['Robber', 'Seer', 'Mason', 'Villager', 'Troublemaker', 'Villager', 'Villager', 'Wolf', 'Mason', 'Tanner', 'Insomniac', 'Wolf', 'Drunk', 'Minion']
+Vote Array: [0, 2, 0, 1, 2, 1, 0, 3, 0, 2, 0]
+
+[Wolfbot] Role guesses: ['Robber', 'Minion', 'Mason', 'Villager', 'Troublemaker', 'Villager', 'Villager', 'Tanner', 'Mason', 'Wolf', 'Insomniac']
+	  Center cards: ['Wolf', 'Drunk', 'Seer']
+
+Confidence level: [1.0, 0.36, 1.0, 0.91, 0.55, 1.0, 0.91, 0.45, 0.91, 0.36, 0.91, 0.36, 0.91, 0.55]
+Player 7 was chosen as a Wolf.
+Player 7 was a Tanner!
+
+Tanner wins!
+
+ -- NIGHT FALLS -- 
+
+[Hidden] Current roles: ['Robber', 'Mason', 'Villager', 'Wolf', 'Villager', 'Wolf', 'Villager', 'Seer', 'Drunk', 'Tanner', 'Minion']
+	  Center cards: ['Troublemaker', 'Insomniac', 'Mason']
+
+Wolf, wake up.
+[Hidden] Wolves are at indices: {3, 5}
+[Hidden] Wolves are at indices: {3, 5}
+Wolf, go to sleep.
+
+Minion, wake up.
+[Hidden] Wolves are at indices: {3, 5}
+Minion, go to sleep.
+
+Mason, wake up.
+[Hidden] Masons are at indices: [1]
+Mason, go to sleep.
+
+Seer, wake up.
+[Hidden] Seer sees that Center 0 is a Troublemaker and Center 1 is a Insomniac.
+Seer, go to sleep.
+
+Robber, wake up.
+[Hidden] Robber switches with Player 5 and becomes a Wolf.
+Robber, go to sleep.
+
+Troublemaker, wake up.
+Troublemaker, go to sleep.
+
+Drunk, wake up.
+[Hidden] Drunk switches with Center Card 1 and unknowingly becomes a Insomniac.
+Drunk, go to sleep.
+
+Insomniac, wake up.
+Insomniac, go to sleep.
+
+
+ -- GAME BEGINS -- 
+
+Robber is a Wolf now!
+Player 0: I am a Drunk and I swapped with Center 0.
+Player 1: I am a Mason. The other Mason is not present.
+Player 2: I am a Villager.
+Player 3: I am a Seer and I saw that Player 1 was a Mason.
+Player 4: I am a Villager.
+Player 5: I am a Insomniac and when I woke up I was a Insomniac.
+Player 6: I am a Villager.
+Player 7: I am a Seer and I saw that Center 0 was a Troublemaker and that Center 1 was a Insomniac.
+Player 8: I am a Drunk and I swapped with Center 1.
+Player 9: I am a Seer and I saw that Center 0 was a Insomniac and that Center 2 was a Wolf.
+Player 10: I am a Troublemaker and I swapped Player 3 and Player 4.
+[Hidden] Current roles: ['Wolf', 'Mason', 'Villager', 'Wolf', 'Villager', 'Robber', 'Villager', 'Seer', 'Insomniac', 'Tanner', 'Minion']
+	  Center cards: ['Troublemaker', 'Drunk', 'Mason']
+
+Player prediction: ['Robber', 'Mason', 'Villager', 'Villager', 'Seer', 'Insomniac', 'Villager', 'Wolf', 'Minion', 'Wolf', 'Troublemaker', 'Drunk', 'Mason', 'Tanner']
+Player prediction: ['Tanner', 'Mason', 'Villager', 'Villager', 'Seer', 'Insomniac', 'Villager', 'Minion', 'Wolf', 'Wolf', 'Troublemaker', 'Robber', 'Drunk', 'Mason']
+Player prediction: ['Minion', 'Mason', 'Villager', 'Villager', 'Seer', 'Insomniac', 'Villager', 'Tanner', 'Robber', 'Wolf', 'Troublemaker', 'Wolf', 'Drunk', 'Mason']
+Player prediction: ['Robber', 'Mason', 'Villager', 'Villager', 'Seer', 'Insomniac', 'Villager', 'Tanner', 'Wolf', 'Wolf', 'Troublemaker', 'Drunk', 'Minion', 'Mason']
+Player prediction: ['Minion', 'Mason', 'Villager', 'Villager', 'Seer', 'Insomniac', 'Villager', 'Tanner', 'Wolf', 'Wolf', 'Troublemaker', 'Robber', 'Drunk', 'Mason']
+Player prediction: ['Wolf', 'Mason', 'Villager', 'Villager', 'Seer', 'Insomniac', 'Villager', 'Minion', 'Mason', 'Wolf', 'Troublemaker', 'Tanner', 'Drunk', 'Robber']
+Player prediction: ['Minion', 'Mason', 'Villager', 'Villager', 'Seer', 'Insomniac', 'Villager', 'Tanner', 'Mason', 'Wolf', 'Troublemaker', 'Wolf', 'Drunk', 'Robber']
+Player prediction: ['Wolf', 'Mason', 'Villager', 'Minion', 'Villager', 'Tanner', 'Villager', 'Seer', 'Insomniac', 'Wolf', 'Robber', 'Troublemaker', 'Drunk', 'Mason']
+Player prediction: ['Minion', 'Mason', 'Villager', 'Villager', 'Seer', 'Insomniac', 'Villager', 'Tanner', 'Mason', 'Wolf', 'Troublemaker', 'Wolf', 'Drunk', 'Robber']
+Player prediction: ['Minion', 'Mason', 'Villager', 'Villager', 'Tanner', 'Wolf', 'Villager', 'Wolf', 'Robber', 'Seer', 'Troublemaker', 'Insomniac', 'Drunk', 'Mason']
+Player prediction: ['Minion', 'Mason', 'Villager', 'Villager', 'Seer', 'Insomniac', 'Villager', 'Wolf', 'Robber', 'Wolf', 'Troublemaker', 'Mason', 'Drunk', 'Tanner']
+Vote Array: [1, 0, 0, 0, 0, 1, 0, 1, 1, 7, 0]
+
+[Wolfbot] Role guesses: ['Minion', 'Mason', 'Villager', 'Villager', 'Seer', 'Insomniac', 'Villager', 'Tanner', 'Mason', 'Wolf', 'Troublemaker']
+	  Center cards: ['Wolf', 'Drunk', 'Robber']
+
+Confidence level: [0.55, 1.0, 1.0, 0.91, 0.82, 0.82, 1.0, 0.45, 0.27, 0.91, 0.91, 0.27, 0.82, 0.55]
+Player 9 was chosen as a Wolf.
+Player 9 was a Tanner!
+
+Tanner wins!
+
+ -- NIGHT FALLS -- 
+
+[Hidden] Current roles: ['Seer', 'Villager', 'Villager', 'Tanner', 'Minion', 'Wolf', 'Robber', 'Troublemaker', 'Villager', 'Mason', 'Drunk']
+	  Center cards: ['Mason', 'Insomniac', 'Wolf']
+
+Wolf, wake up.
+[Hidden] Wolves are at indices: {5}
+Wolf, go to sleep.
+
+Minion, wake up.
+[Hidden] Wolves are at indices: {5}
+Minion, go to sleep.
+
+Mason, wake up.
+[Hidden] Masons are at indices: [9]
+Mason, go to sleep.
+
+Seer, wake up.
+[Hidden] Seer sees that Center 2 is a Wolf and Center 1 is a Insomniac.
+Seer, go to sleep.
+
+Robber, wake up.
+[Hidden] Robber switches with Player 1 and becomes a Villager.
+Robber, go to sleep.
+
+Troublemaker, wake up.
+[Hidden] Troublemaker switches Player 1 with Player 6.
+Troublemaker, go to sleep.
+
+Drunk, wake up.
+[Hidden] Drunk switches with Center Card 0 and unknowingly becomes a Mason.
+Drunk, go to sleep.
+
+Insomniac, wake up.
+Insomniac, go to sleep.
+
+
+ -- GAME BEGINS -- 
+
+Player 0: I am a Seer and I saw that Center 2 was a Wolf and that Center 1 was a Insomniac.
+Player 1: I am a Villager.
+Player 2: I am a Villager.
+Player 3: I am a Seer and I saw that Player 9 was a Villager.
+Player 4: I am a Robber and I swapped with Player 3. I am now a Seer.
+Player 5: I am a Troublemaker and I swapped Player 2 and Player 4.
+Player 6: I am a Robber and I swapped with Player 1. I am now a Villager.
+Player 7: I am a Troublemaker and I swapped Player 1 and Player 6.
+Player 8: I am a Villager.
+Player 9: I am a Mason. The other Mason is not present.
+Player 10: I am a Drunk and I swapped with Center 0.
+[Hidden] Current roles: ['Seer', 'Villager', 'Villager', 'Tanner', 'Minion', 'Wolf', 'Robber', 'Troublemaker', 'Villager', 'Mason', 'Mason']
+	  Center cards: ['Drunk', 'Insomniac', 'Wolf']
+
+Player prediction: ['Seer', 'Villager', 'Villager', 'Tanner', 'Minion', 'Wolf', 'Robber', 'Troublemaker', 'Villager', 'Mason', 'Mason', 'Drunk', 'Insomniac', 'Wolf']
+Player prediction: ['Seer', 'Villager', 'Villager', 'Minion', 'Tanner', 'Wolf', 'Robber', 'Troublemaker', 'Villager', 'Mason', 'Mason', 'Drunk', 'Insomniac', 'Wolf']
+Player prediction: ['Seer', 'Robber', 'Minion', 'Wolf', 'Villager', 'Troublemaker', 'Villager', 'Tanner', 'Villager', 'Mason', 'Mason', 'Drunk', 'Insomniac', 'Wolf']
+Player prediction: ['Tanner', 'Minion', 'Seer', 'Robber', 'Villager', 'Troublemaker', 'Wolf', 'Wolf', 'Villager', 'Villager', 'Mason', 'Drunk', 'Insomniac', 'Mason']
+Player prediction: ['Tanner', 'Wolf', 'Villager', 'Robber', 'Seer', 'Minion', 'Villager', 'Troublemaker', 'Wolf', 'Mason', 'Villager', 'Drunk', 'Insomniac', 'Mason']
+Player prediction: ['Seer', 'Robber', 'Tanner', 'Wolf', 'Villager', 'Troublemaker', 'Villager', 'Wolf', 'Villager', 'Mason', 'Minion', 'Drunk', 'Insomniac', 'Mason']
+Player prediction: ['Seer', 'Villager', 'Villager', 'Tanner', 'Wolf', 'Minion', 'Robber', 'Troublemaker', 'Villager', 'Mason', 'Mason', 'Drunk', 'Insomniac', 'Wolf']
+Player prediction: ['Seer', 'Villager', 'Villager', 'Minion', 'Wolf', 'Tanner', 'Robber', 'Troublemaker', 'Villager', 'Mason', 'Mason', 'Drunk', 'Insomniac', 'Wolf']
+Player prediction: ['Seer', 'Robber', 'Tanner', 'Minion', 'Villager', 'Troublemaker', 'Villager', 'Wolf', 'Villager', 'Mason', 'Mason', 'Drunk', 'Insomniac', 'Wolf']
+Player prediction: ['Seer', 'Villager', 'Villager', 'Tanner', 'Minion', 'Wolf', 'Robber', 'Troublemaker', 'Villager', 'Mason', 'Mason', 'Drunk', 'Insomniac', 'Wolf']
+Player prediction: ['Seer', 'Villager', 'Villager', 'Tanner', 'Minion', 'Wolf', 'Robber', 'Troublemaker', 'Villager', 'Mason', 'Mason', 'Drunk', 'Insomniac', 'Wolf']
+Vote Array: [0, 0, 0, 1, 2, 4, 1, 2, 1, 0, 0]
+
+[Wolfbot] Role guesses: ['Seer', 'Villager', 'Villager', 'Tanner', 'Minion', 'Wolf', 'Robber', 'Troublemaker', 'Villager', 'Mason', 'Mason']
+	  Center cards: ['Drunk', 'Insomniac', 'Wolf']
+
+Confidence level: [0.82, 0.55, 0.64, 0.36, 0.36, 0.36, 0.55, 0.64, 0.91, 0.91, 0.82, 1.0, 1.0, 0.73]
+Player 5 was chosen as a Wolf.
+Player 5 was a Wolf!
+
+Village Team wins!
+
+ -- NIGHT FALLS -- 
+
+[Hidden] Current roles: ['Villager', 'Wolf', 'Villager', 'Villager', 'Troublemaker', 'Mason', 'Tanner', 'Insomniac', 'Robber', 'Minion', 'Mason']
+	  Center cards: ['Wolf', 'Drunk', 'Seer']
+
+Wolf, wake up.
+[Hidden] Wolves are at indices: {1}
+Wolf, go to sleep.
+
+Minion, wake up.
+[Hidden] Wolves are at indices: {1}
+Minion, go to sleep.
+
+Mason, wake up.
+[Hidden] Masons are at indices: [5, 10]
+[Hidden] Masons are at indices: [5, 10]
+Mason, go to sleep.
+
+Seer, wake up.
+Seer, go to sleep.
+
+Robber, wake up.
+[Hidden] Robber switches with Player 4 and becomes a Troublemaker.
+Robber, go to sleep.
+
+Troublemaker, wake up.
+[Hidden] Troublemaker switches Player 1 with Player 9.
+Troublemaker, go to sleep.
+
+Drunk, wake up.
+Drunk, go to sleep.
+
+Insomniac, wake up.
+[Hidden] Insomniac wakes up as a Insomniac.
+Insomniac, go to sleep.
+
+
+ -- GAME BEGINS -- 
+
+Player 0: I am a Villager.
+Player 1: I am a Drunk and I swapped with Center 0.
+Player 2: I am a Villager.
+Player 3: I am a Villager.
+Player 4: I am a Troublemaker and I swapped Player 1 and Player 9.
+Player 5: I am a Mason. The other Mason is Player 10.
+Player 6: I am a Seer and I saw that Center 0 was a Insomniac and that Center 2 was a Troublemaker.
+Player 7: I am a Insomniac and when I woke up I was a Insomniac.
+Player 8: I am a Robber and I swapped with Player 4. I am now a Troublemaker.
+Player 9: I am a Troublemaker and I swapped Player 1 and Player 6.
+Player 10: I am a Mason. The other Mason is Player 5.
+[Hidden] Current roles: ['Villager', 'Minion', 'Villager', 'Villager', 'Robber', 'Mason', 'Tanner', 'Insomniac', 'Troublemaker', 'Wolf', 'Mason']
+	  Center cards: ['Wolf', 'Drunk', 'Seer']
+
+Player prediction: ['Villager', 'Seer', 'Villager', 'Villager', 'Robber', 'Mason', 'Tanner', 'Insomniac', 'Troublemaker', 'Drunk', 'Mason', 'Minion', 'Wolf', 'Wolf']
+Player prediction: ['Villager', 'Wolf', 'Villager', 'Villager', 'Robber', 'Mason', 'Tanner', 'Insomniac', 'Troublemaker', 'Drunk', 'Mason', 'Minion', 'Seer', 'Wolf']
+Player prediction: ['Villager', 'Wolf', 'Villager', 'Villager', 'Robber', 'Mason', 'Tanner', 'Insomniac', 'Troublemaker', 'Drunk', 'Mason', 'Wolf', 'Minion', 'Seer']
+Player prediction: ['Villager', 'Seer', 'Villager', 'Villager', 'Robber', 'Mason', 'Minion', 'Insomniac', 'Troublemaker', 'Drunk', 'Mason', 'Tanner', 'Wolf', 'Wolf']
+Player prediction: ['Villager', 'Tanner', 'Villager', 'Villager', 'Robber', 'Mason', 'Wolf', 'Insomniac', 'Troublemaker', 'Drunk', 'Mason', 'Minion', 'Seer', 'Wolf']
+Player prediction: ['Villager', 'Seer', 'Villager', 'Villager', 'Robber', 'Mason', 'Tanner', 'Insomniac', 'Troublemaker', 'Drunk', 'Mason', 'Minion', 'Wolf', 'Wolf']
+Player prediction: ['Villager', 'Insomniac', 'Villager', 'Villager', 'Tanner', 'Mason', 'Seer', 'Minion', 'Wolf', 'Wolf', 'Mason', 'Drunk', 'Robber', 'Troublemaker']
+Player prediction: ['Villager', 'Seer', 'Villager', 'Villager', 'Robber', 'Mason', 'Wolf', 'Insomniac', 'Troublemaker', 'Drunk', 'Mason', 'Minion', 'Wolf', 'Tanner']
+Player prediction: ['Villager', 'Seer', 'Villager', 'Villager', 'Robber', 'Mason', 'Tanner', 'Insomniac', 'Troublemaker', 'Drunk', 'Mason', 'Minion', 'Wolf', 'Wolf']
+Player prediction: ['Villager', 'Wolf', 'Villager', 'Villager', 'Wolf', 'Mason', 'Drunk', 'Insomniac', 'Tanner', 'Troublemaker', 'Mason', 'Minion', 'Robber', 'Seer']
+Player prediction: ['Villager', 'Seer', 'Villager', 'Villager', 'Robber', 'Mason', 'Tanner', 'Insomniac', 'Troublemaker', 'Drunk', 'Mason', 'Minion', 'Wolf', 'Wolf']
+Vote Array: [1, 4, 0, 0, 1, 0, 3, 0, 0, 2, 0]
+
+[Wolfbot] Role guesses: ['Villager', 'Seer', 'Villager', 'Villager', 'Robber', 'Mason', 'Tanner', 'Insomniac', 'Troublemaker', 'Drunk', 'Mason']
+	  Center cards: ['Minion', 'Wolf', 'Wolf']
+
+Confidence level: [1.0, 0.55, 1.0, 1.0, 0.82, 1.0, 0.55, 0.91, 0.82, 0.82, 1.0, 0.73, 0.55, 0.64]
+Player 1 was chosen as a Wolf.
+Player 1 was a Minion!
+
+Werewolf Team wins!
+
+ -- NIGHT FALLS -- 
+
+[Hidden] Current roles: ['Troublemaker', 'Villager', 'Wolf', 'Wolf', 'Mason', 'Minion', 'Robber', 'Insomniac', 'Villager', 'Villager', 'Drunk']
+	  Center cards: ['Seer', 'Mason', 'Tanner']
+
+Wolf, wake up.
+[Hidden] Wolves are at indices: {2, 3}
+[Hidden] Wolves are at indices: {2, 3}
+Wolf, go to sleep.
+
+Minion, wake up.
+[Hidden] Wolves are at indices: {2, 3}
+Minion, go to sleep.
+
+Mason, wake up.
+[Hidden] Masons are at indices: [4]
+Mason, go to sleep.
+
+Seer, wake up.
+Seer, go to sleep.
+
+Robber, wake up.
+[Hidden] Robber switches with Player 3 and becomes a Wolf.
+Robber, go to sleep.
+
+Troublemaker, wake up.
+[Hidden] Troublemaker switches Player 8 with Player 9.
+Troublemaker, go to sleep.
+
+Drunk, wake up.
+[Hidden] Drunk switches with Center Card 2 and unknowingly becomes a Tanner.
+Drunk, go to sleep.
+
+Insomniac, wake up.
+[Hidden] Insomniac wakes up as a Insomniac.
+Insomniac, go to sleep.
+
+
+ -- GAME BEGINS -- 
+
+Player 0: I am a Troublemaker and I swapped Player 8 and Player 9.
+Player 1: I am a Villager.
+Player 2: I am a Troublemaker and I swapped Player 0 and Player 1.
+Player 3: I am a Robber and I swapped with Player 2. I am now a Troublemaker.
+Player 4: I am a Mason. The other Mason is not present.
+Player 5: I am a Troublemaker and I swapped Player 3 and Player 4.
+Robber is a Wolf now!
+Player 6: I am a Drunk and I swapped with Center 2.
+Player 7: I am a Insomniac and when I woke up I was a Insomniac.
+Player 8: I am a Villager.
+Player 9: I am a Villager.
+Player 10: I am a Drunk and I swapped with Center 2.
+[Hidden] Current roles: ['Troublemaker', 'Villager', 'Wolf', 'Robber', 'Mason', 'Minion', 'Wolf', 'Insomniac', 'Villager', 'Villager', 'Tanner']
+	  Center cards: ['Seer', 'Mason', 'Drunk']
+
+Player prediction: ['Troublemaker', 'Villager', 'Wolf', 'Wolf', 'Mason', 'Tanner', 'Mason', 'Insomniac', 'Villager', 'Villager', 'Minion', 'Seer', 'Robber', 'Drunk']
+Player prediction: ['Villager', 'Wolf', 'Robber', 'Troublemaker', 'Mason', 'Tanner', 'Mason', 'Insomniac', 'Villager', 'Villager', 'Wolf', 'Minion', 'Seer', 'Drunk']
+Player prediction: ['Villager', 'Wolf', 'Robber', 'Troublemaker', 'Mason', 'Minion', 'Wolf', 'Insomniac', 'Villager', 'Villager', 'Tanner', 'Mason', 'Seer', 'Drunk']
+Player prediction: ['Villager', 'Minion', 'Robber', 'Troublemaker', 'Mason', 'Wolf', 'Tanner', 'Insomniac', 'Villager', 'Villager', 'Mason', 'Seer', 'Wolf', 'Drunk']
+Player prediction: ['Villager', 'Minion', 'Robber', 'Troublemaker', 'Mason', 'Tanner', 'Wolf', 'Insomniac', 'Villager', 'Villager', 'Seer', 'Wolf', 'Mason', 'Drunk']
+Player prediction: ['Minion', 'Villager', 'Wolf', 'Mason', 'Tanner', 'Troublemaker', 'Wolf', 'Insomniac', 'Villager', 'Villager', 'Seer', 'Mason', 'Robber', 'Drunk']
+Player prediction: ['Villager', 'Wolf', 'Robber', 'Troublemaker', 'Mason', 'Tanner', 'Seer', 'Insomniac', 'Villager', 'Villager', 'Minion', 'Wolf', 'Mason', 'Drunk']
+Player prediction: ['Villager', 'Wolf', 'Robber', 'Troublemaker', 'Mason', 'Wolf', 'Minion', 'Insomniac', 'Villager', 'Villager', 'Seer', 'Mason', 'Tanner', 'Drunk']
+Player prediction: ['Villager', 'Wolf', 'Robber', 'Troublemaker', 'Mason', 'Minion', 'Wolf', 'Insomniac', 'Villager', 'Villager', 'Seer', 'Mason', 'Tanner', 'Drunk']
+Player prediction: ['Villager', 'Wolf', 'Robber', 'Troublemaker', 'Mason', 'Wolf', 'Seer', 'Insomniac', 'Villager', 'Villager', 'Tanner', 'Mason', 'Minion', 'Drunk']
+Player prediction: ['Villager', 'Wolf', 'Robber', 'Troublemaker', 'Mason', 'Tanner', 'Minion', 'Insomniac', 'Villager', 'Villager', 'Mason', 'Seer', 'Wolf', 'Drunk']
+Vote Array: [0, 6, 0, 1, 0, 2, 2, 0, 0, 0, 0]
+
+[Wolfbot] Role guesses: ['Troublemaker', 'Villager', 'Wolf', 'Wolf', 'Mason', 'Tanner', 'Mason', 'Insomniac', 'Villager', 'Villager', 'Minion']
+	  Center cards: ['Seer', 'Robber', 'Drunk']
+
+Confidence level: [0.82, 0.64, 0.82, 0.82, 0.91, 0.45, 0.36, 1.0, 1.0, 1.0, 0.36, 0.45, 0.18, 1.0]
+Player 1 was chosen as a Wolf.
+Player 1 was a Villager!
+
+Werewolf Team wins!
+
+ -- NIGHT FALLS -- 
+
+[Hidden] Current roles: ['Insomniac', 'Minion', 'Drunk', 'Wolf', 'Tanner', 'Robber', 'Villager', 'Seer', 'Mason', 'Villager', 'Wolf']
+	  Center cards: ['Mason', 'Villager', 'Troublemaker']
+
+Wolf, wake up.
+[Hidden] Wolves are at indices: {10, 3}
+[Hidden] Wolves are at indices: {10, 3}
+Wolf, go to sleep.
+
+Minion, wake up.
+[Hidden] Wolves are at indices: {10, 3}
+Minion, go to sleep.
+
+Mason, wake up.
+[Hidden] Masons are at indices: [8]
+Mason, go to sleep.
+
+Seer, wake up.
+[Hidden] Seer sees that Center 1 is a Villager and Center 2 is a Troublemaker.
+Seer, go to sleep.
+
+Robber, wake up.
+[Hidden] Robber switches with Player 9 and becomes a Villager.
+Robber, go to sleep.
+
+Troublemaker, wake up.
+Troublemaker, go to sleep.
+
+Drunk, wake up.
+[Hidden] Drunk switches with Center Card 2 and unknowingly becomes a Troublemaker.
+Drunk, go to sleep.
+
+Insomniac, wake up.
+[Hidden] Insomniac wakes up as a Insomniac.
+Insomniac, go to sleep.
+
+
+ -- GAME BEGINS -- 
+
+Player 0: I am a Insomniac and when I woke up I was a Insomniac.
+Player 1: I am a Robber and I swapped with Player 0. I am now a Insomniac.
+Player 2: I am a Drunk and I swapped with Center 2.
+Player 3: I am a Villager.
+Player 4: I am a Seer and I saw that Player 3 was a Robber.
+Player 5: I am a Robber and I swapped with Player 9. I am now a Villager.
+Player 6: I am a Villager.
+Player 7: I am a Seer and I saw that Center 1 was a Villager and that Center 2 was a Troublemaker.
+Player 8: I am a Mason. The other Mason is not present.
+Player 9: I am a Villager.
+Player 10: I am a Seer and I saw that Player 9 was a Villager.
+[Hidden] Current roles: ['Insomniac', 'Minion', 'Troublemaker', 'Wolf', 'Tanner', 'Villager', 'Villager', 'Seer', 'Mason', 'Robber', 'Wolf']
+	  Center cards: ['Mason', 'Villager', 'Drunk']
+
+Player prediction: ['Robber', 'Insomniac', 'Mason', 'Villager', 'Wolf', 'Tanner', 'Villager', 'Minion', 'Mason', 'Villager', 'Seer', 'Troublemaker', 'Wolf', 'Drunk']
+Player prediction: ['Robber', 'Insomniac', 'Wolf', 'Villager', 'Minion', 'Wolf', 'Villager', 'Tanner', 'Mason', 'Villager', 'Seer', 'Troublemaker', 'Mason', 'Drunk']
+Player prediction: ['Robber', 'Insomniac', 'Mason', 'Villager', 'Minion', 'Tanner', 'Villager', 'Wolf', 'Mason', 'Villager', 'Seer', 'Wolf', 'Troublemaker', 'Drunk']
+Player prediction: ['Insomniac', 'Tanner', 'Mason', 'Villager', 'Wolf', 'Villager', 'Villager', 'Minion', 'Mason', 'Robber', 'Seer', 'Troublemaker', 'Wolf', 'Drunk']
+Player prediction: ['Insomniac', 'Minion', 'Troublemaker', 'Wolf', 'Seer', 'Wolf', 'Villager', 'Tanner', 'Mason', 'Villager', 'Robber', 'Mason', 'Villager', 'Drunk']
+Player prediction: ['Insomniac', 'Tanner', 'Wolf', 'Villager', 'Minion', 'Villager', 'Villager', 'Wolf', 'Mason', 'Robber', 'Seer', 'Troublemaker', 'Mason', 'Drunk']
+Player prediction: ['Robber', 'Insomniac', 'Troublemaker', 'Villager', 'Minion', 'Tanner', 'Villager', 'Wolf', 'Mason', 'Villager', 'Seer', 'Mason', 'Wolf', 'Drunk']
+Player prediction: ['Robber', 'Insomniac', 'Troublemaker', 'Villager', 'Minion', 'Tanner', 'Villager', 'Seer', 'Mason', 'Wolf', 'Wolf', 'Mason', 'Villager', 'Drunk']
+Player prediction: ['Insomniac', 'Minion', 'Troublemaker', 'Villager', 'Wolf', 'Villager', 'Villager', 'Wolf', 'Mason', 'Robber', 'Seer', 'Mason', 'Tanner', 'Drunk']
+Player prediction: ['Insomniac', 'Tanner', 'Troublemaker', 'Villager', 'Minion', 'Villager', 'Villager', 'Wolf', 'Mason', 'Robber', 'Seer', 'Wolf', 'Mason', 'Drunk']
+Player prediction: ['Robber', 'Insomniac', 'Troublemaker', 'Villager', 'Wolf', 'Wolf', 'Villager', 'Tanner', 'Mason', 'Villager', 'Seer', 'Minion', 'Mason', 'Drunk']
+Vote Array: [0, 0, 2, 1, 3, 0, 0, 4, 0, 0, 1]
+
+[Wolfbot] Role guesses: ['Robber', 'Insomniac', 'Mason', 'Villager', 'Wolf', 'Tanner', 'Villager', 'Minion', 'Mason', 'Villager', 'Seer']
+	  Center cards: ['Troublemaker', 'Wolf', 'Drunk']
+
+Confidence level: [0.55, 0.55, 0.55, 0.91, 0.55, 0.36, 1.0, 0.45, 1.0, 0.55, 0.82, 0.36, 0.36, 1.0]
+Player 7 was chosen as a Wolf.
+Player 7 was a Seer!
+
+Werewolf Team wins!
+
+ -- NIGHT FALLS -- 
+
+[Hidden] Current roles: ['Mason', 'Mason', 'Villager', 'Seer', 'Wolf', 'Robber', 'Tanner', 'Troublemaker', 'Wolf', 'Minion', 'Drunk']
+	  Center cards: ['Villager', 'Insomniac', 'Villager']
+
+Wolf, wake up.
+[Hidden] Wolves are at indices: {8, 4}
+[Hidden] Wolves are at indices: {8, 4}
+Wolf, go to sleep.
+
+Minion, wake up.
+[Hidden] Wolves are at indices: {8, 4}
+Minion, go to sleep.
+
+Mason, wake up.
+[Hidden] Masons are at indices: [0, 1]
+[Hidden] Masons are at indices: [0, 1]
+Mason, go to sleep.
+
+Seer, wake up.
+[Hidden] Seer sees that Center 2 is a Villager and Center 1 is a Insomniac.
+Seer, go to sleep.
+
+Robber, wake up.
+[Hidden] Robber switches with Player 2 and becomes a Villager.
+Robber, go to sleep.
+
+Troublemaker, wake up.
+[Hidden] Troublemaker switches Player 0 with Player 8.
+Troublemaker, go to sleep.
+
+Drunk, wake up.
+[Hidden] Drunk switches with Center Card 0 and unknowingly becomes a Villager.
+Drunk, go to sleep.
+
+Insomniac, wake up.
+Insomniac, go to sleep.
+
+
+ -- GAME BEGINS -- 
+
+Player 0: I am a Mason. The other Mason is Player 1.
+Player 1: I am a Mason. The other Mason is Player 0.
+Player 2: I am a Villager.
+Player 3: I am a Seer and I saw that Center 2 was a Villager and that Center 1 was a Insomniac.
+Player 4: I am a Villager.
+Player 5: I am a Robber and I swapped with Player 2. I am now a Villager.
+Player 6: I am a Troublemaker and I swapped Player 5 and Player 8.
+Player 7: I am a Troublemaker and I swapped Player 0 and Player 8.
+Player 8: I am a Troublemaker and I swapped Player 5 and Player 7.
+Player 9: I am a Troublemaker and I swapped Player 3 and Player 6.
+Player 10: I am a Drunk and I swapped with Center 0.
+[Hidden] Current roles: ['Wolf', 'Mason', 'Robber', 'Seer', 'Wolf', 'Villager', 'Tanner', 'Troublemaker', 'Mason', 'Minion', 'Villager']
+	  Center cards: ['Drunk', 'Insomniac', 'Villager']
+
+Player prediction: ['Tanner', 'Mason', 'Robber', 'Seer', 'Villager', 'Villager', 'Minion', 'Troublemaker', 'Mason', 'Wolf', 'Wolf', 'Drunk', 'Insomniac', 'Villager']
+Player prediction: ['Mason', 'Mason', 'Robber', 'Seer', 'Villager', 'Wolf', 'Troublemaker', 'Wolf', 'Villager', 'Minion', 'Tanner', 'Drunk', 'Insomniac', 'Villager']
+Player prediction: ['Mason', 'Mason', 'Robber', 'Seer', 'Villager', 'Minion', 'Tanner', 'Villager', 'Troublemaker', 'Wolf', 'Wolf', 'Drunk', 'Insomniac', 'Villager']
+Player prediction: ['Mason', 'Mason', 'Robber', 'Seer', 'Villager', 'Minion', 'Troublemaker', 'Tanner', 'Villager', 'Wolf', 'Wolf', 'Drunk', 'Insomniac', 'Villager']
+Player prediction: ['Mason', 'Mason', 'Robber', 'Seer', 'Villager', 'Tanner', 'Minion', 'Villager', 'Troublemaker', 'Wolf', 'Wolf', 'Drunk', 'Insomniac', 'Villager']
+Player prediction: ['Minion', 'Mason', 'Robber', 'Seer', 'Villager', 'Villager', 'Tanner', 'Troublemaker', 'Mason', 'Wolf', 'Wolf', 'Drunk', 'Insomniac', 'Villager']
+Player prediction: ['Mason', 'Mason', 'Robber', 'Seer', 'Villager', 'Wolf', 'Troublemaker', 'Tanner', 'Villager', 'Wolf', 'Minion', 'Drunk', 'Insomniac', 'Villager']
+Player prediction: ['Minion', 'Mason', 'Robber', 'Seer', 'Villager', 'Villager', 'Tanner', 'Troublemaker', 'Mason', 'Wolf', 'Wolf', 'Drunk', 'Insomniac', 'Villager']
+Player prediction: ['Mason', 'Mason', 'Robber', 'Seer', 'Villager', 'Minion', 'Tanner', 'Villager', 'Troublemaker', 'Wolf', 'Wolf', 'Drunk', 'Insomniac', 'Villager']
+Player prediction: ['Mason', 'Mason', 'Robber', 'Tanner', 'Villager', 'Villager', 'Seer', 'Minion', 'Wolf', 'Troublemaker', 'Wolf', 'Drunk', 'Insomniac', 'Villager']
+Player prediction: ['Tanner', 'Mason', 'Robber', 'Seer', 'Villager', 'Villager', 'Minion', 'Troublemaker', 'Mason', 'Wolf', 'Wolf', 'Drunk', 'Insomniac', 'Villager']
+Vote Array: [0, 0, 0, 0, 0, 1, 0, 1, 0, 3, 6]
+
+[Wolfbot] Role guesses: ['Tanner', 'Mason', 'Robber', 'Seer', 'Villager', 'Villager', 'Minion', 'Troublemaker', 'Mason', 'Wolf', 'Wolf']
+	  Center cards: ['Drunk', 'Insomniac', 'Villager']
+
+Confidence level: [0.64, 1.0, 1.0, 0.91, 1.0, 0.45, 0.36, 0.36, 0.36, 0.82, 0.82, 1.0, 1.0, 1.0]
+Player 10 was chosen as a Wolf.
+Player 10 was a Villager!
+
+Werewolf Team wins!
+
+ -- NIGHT FALLS -- 
+
+[Hidden] Current roles: ['Wolf', 'Seer', 'Villager', 'Minion', 'Insomniac', 'Villager', 'Wolf', 'Villager', 'Mason', 'Robber', 'Tanner']
+	  Center cards: ['Mason', 'Drunk', 'Troublemaker']
+
+Wolf, wake up.
+[Hidden] Wolves are at indices: {0, 6}
+[Hidden] Wolves are at indices: {0, 6}
+Wolf, go to sleep.
+
+Minion, wake up.
+[Hidden] Wolves are at indices: {0, 6}
+Minion, go to sleep.
+
+Mason, wake up.
+[Hidden] Masons are at indices: [8]
+Mason, go to sleep.
+
+Seer, wake up.
+[Hidden] Seer sees that Center 0 is a Mason and Center 1 is a Drunk.
+Seer, go to sleep.
+
+Robber, wake up.
+[Hidden] Robber switches with Player 3 and becomes a Minion.
+Robber, go to sleep.
+
+Troublemaker, wake up.
+Troublemaker, go to sleep.
+
+Drunk, wake up.
+Drunk, go to sleep.
+
+Insomniac, wake up.
+[Hidden] Insomniac wakes up as a Insomniac.
+Insomniac, go to sleep.
+
+
+ -- GAME BEGINS -- 
+
+Player 0: I am a Drunk and I swapped with Center 1.
+Player 1: I am a Seer and I saw that Center 0 was a Mason and that Center 1 was a Drunk.
+Player 2: I am a Villager.
+Player 3: I am a Troublemaker and I swapped Player 0 and Player 2.
+Player 4: I am a Insomniac and when I woke up I was a Insomniac.
+Player 5: I am a Villager.
+Player 6: I am a Robber and I swapped with Player 1. I am now a Seer.
+Player 7: I am a Villager.
+Player 8: I am a Mason. The other Mason is not present.
+Robber is a Minion now!
+Player 9: I am a Troublemaker and I swapped Player 0 and Player 3.
+Player 10: I am a Troublemaker and I swapped Player 0 and Player 2.
+[Hidden] Current roles: ['Wolf', 'Seer', 'Villager', 'Robber', 'Insomniac', 'Villager', 'Wolf', 'Villager', 'Mason', 'Minion', 'Tanner']
+	  Center cards: ['Mason', 'Drunk', 'Troublemaker']
+
+Player prediction: ['Mason', 'Minion', 'Villager', 'Drunk', 'Insomniac', 'Villager', 'Wolf', 'Villager', 'Mason', 'Troublemaker', 'Tanner', 'Robber', 'Wolf', 'Seer']
+Player prediction: ['Villager', 'Robber', 'Minion', 'Troublemaker', 'Insomniac', 'Villager', 'Seer', 'Villager', 'Mason', 'Wolf', 'Tanner', 'Mason', 'Drunk', 'Wolf']
+Player prediction: ['Minion', 'Robber', 'Villager', 'Tanner', 'Insomniac', 'Villager', 'Seer', 'Villager', 'Mason', 'Troublemaker', 'Wolf', 'Mason', 'Drunk', 'Wolf']
+Player prediction: ['Villager', 'Robber', 'Tanner', 'Troublemaker', 'Insomniac', 'Villager', 'Seer', 'Villager', 'Mason', 'Wolf', 'Minion', 'Mason', 'Drunk', 'Wolf']
+Player prediction: ['Villager', 'Robber', 'Tanner', 'Troublemaker', 'Insomniac', 'Villager', 'Seer', 'Villager', 'Mason', 'Wolf', 'Wolf', 'Mason', 'Drunk', 'Minion']
+Player prediction: ['Tanner', 'Robber', 'Villager', 'Minion', 'Insomniac', 'Villager', 'Seer', 'Villager', 'Mason', 'Troublemaker', 'Wolf', 'Mason', 'Drunk', 'Wolf']
+Player prediction: ['Tanner', 'Robber', 'Villager', 'Wolf', 'Insomniac', 'Villager', 'Seer', 'Villager', 'Mason', 'Troublemaker', 'Wolf', 'Mason', 'Drunk', 'Minion']
+Player prediction: ['Villager', 'Robber', 'Wolf', 'Troublemaker', 'Insomniac', 'Villager', 'Seer', 'Villager', 'Mason', 'Wolf', 'Minion', 'Mason', 'Drunk', 'Tanner']
+Player prediction: ['Villager', 'Robber', 'Wolf', 'Troublemaker', 'Insomniac', 'Villager', 'Seer', 'Villager', 'Mason', 'Wolf', 'Tanner', 'Mason', 'Drunk', 'Minion']
+Player prediction: ['Wolf', 'Robber', 'Villager', 'Minion', 'Insomniac', 'Villager', 'Seer', 'Villager', 'Mason', 'Troublemaker', 'Wolf', 'Mason', 'Drunk', 'Tanner']
+Player prediction: ['Villager', 'Robber', 'Tanner', 'Minion', 'Insomniac', 'Villager', 'Seer', 'Villager', 'Mason', 'Wolf', 'Troublemaker', 'Mason', 'Drunk', 'Wolf']
+Vote Array: [0, 0, 1, 1, 0, 0, 1, 0, 0, 4, 4]
+
+[Wolfbot] Role guesses: ['Mason', 'Minion', 'Villager', 'Drunk', 'Insomniac', 'Villager', 'Wolf', 'Villager', 'Mason', 'Troublemaker', 'Tanner']
+	  Center cards: ['Robber', 'Wolf', 'Seer']
+
+Confidence level: [0.55, 0.91, 0.45, 0.45, 1.0, 1.0, 0.91, 1.0, 1.0, 0.55, 0.45, 0.91, 0.91, 0.45]
+Player 9 was chosen as a Wolf.
+Player 9 was a Minion!
+
+Player 10 was chosen as a Wolf.
+Player 10 was a Tanner!
+
+Tanner wins!
+
+ -- NIGHT FALLS -- 
+
+[Hidden] Current roles: ['Insomniac', 'Wolf', 'Villager', 'Troublemaker', 'Wolf', 'Villager', 'Mason', 'Mason', 'Villager', 'Seer', 'Drunk']
+	  Center cards: ['Robber', 'Minion', 'Tanner']
+
+Wolf, wake up.
+[Hidden] Wolves are at indices: {1, 4}
+[Hidden] Wolves are at indices: {1, 4}
+Wolf, go to sleep.
+
+Minion, wake up.
+Minion, go to sleep.
+
+Mason, wake up.
+[Hidden] Masons are at indices: [6, 7]
+[Hidden] Masons are at indices: [6, 7]
+Mason, go to sleep.
+
+Seer, wake up.
+[Hidden] Seer sees that Center 2 is a Tanner and Center 0 is a Robber.
+Seer, go to sleep.
+
+Robber, wake up.
+Robber, go to sleep.
+
+Troublemaker, wake up.
+[Hidden] Troublemaker switches Player 1 with Player 6.
+Troublemaker, go to sleep.
+
+Drunk, wake up.
+[Hidden] Drunk switches with Center Card 2 and unknowingly becomes a Tanner.
+Drunk, go to sleep.
+
+Insomniac, wake up.
+[Hidden] Insomniac wakes up as a Insomniac.
+Insomniac, go to sleep.
+
+
+ -- GAME BEGINS -- 
+
+Player 0: I am a Insomniac and when I woke up I was a Insomniac.
+Player 1: I am a Villager.
+Player 2: I am a Villager.
+Player 3: I am a Troublemaker and I swapped Player 1 and Player 6.
+Player 4: I am a Troublemaker and I swapped Player 0 and Player 2.
+Player 5: I am a Villager.
+Player 6: I am a Mason. The other Mason is Player 7.
+Player 7: I am a Mason. The other Mason is Player 6.
+Player 8: I am a Villager.
+Player 9: I am a Seer and I saw that Center 2 was a Tanner and that Center 0 was a Robber.
+Player 10: I am a Drunk and I swapped with Center 2.
+[Hidden] Current roles: ['Insomniac', 'Mason', 'Villager', 'Troublemaker', 'Wolf', 'Villager', 'Wolf', 'Mason', 'Villager', 'Seer', 'Tanner']
+	  Center cards: ['Robber', 'Minion', 'Drunk']
+
+Player prediction: ['Wolf', 'Villager', 'Insomniac', 'Minion', 'Troublemaker', 'Villager', 'Mason', 'Mason', 'Villager', 'Seer', 'Tanner', 'Robber', 'Wolf', 'Drunk']
+Player prediction: ['Insomniac', 'Mason', 'Minion', 'Troublemaker', 'Wolf', 'Villager', 'Villager', 'Mason', 'Villager', 'Seer', 'Tanner', 'Robber', 'Wolf', 'Drunk']
+Player prediction: ['Insomniac', 'Mason', 'Villager', 'Troublemaker', 'Wolf', 'Wolf', 'Villager', 'Mason', 'Villager', 'Seer', 'Tanner', 'Robber', 'Minion', 'Drunk']
+Player prediction: ['Insomniac', 'Mason', 'Villager', 'Troublemaker', 'Minion', 'Wolf', 'Villager', 'Mason', 'Villager', 'Seer', 'Tanner', 'Robber', 'Wolf', 'Drunk']
+Player prediction: ['Villager', 'Villager', 'Insomniac', 'Minion', 'Troublemaker', 'Villager', 'Mason', 'Mason', 'Wolf', 'Seer', 'Tanner', 'Robber', 'Wolf', 'Drunk']
+Player prediction: ['Villager', 'Villager', 'Insomniac', 'Wolf', 'Troublemaker', 'Villager', 'Mason', 'Mason', 'Minion', 'Seer', 'Tanner', 'Robber', 'Wolf', 'Drunk']
+Player prediction: ['Insomniac', 'Mason', 'Villager', 'Troublemaker', 'Minion', 'Wolf', 'Villager', 'Mason', 'Villager', 'Seer', 'Tanner', 'Robber', 'Wolf', 'Drunk']
+Player prediction: ['Insomniac', 'Mason', 'Villager', 'Troublemaker', 'Minion', 'Villager', 'Wolf', 'Mason', 'Villager', 'Seer', 'Tanner', 'Robber', 'Wolf', 'Drunk']
+Player prediction: ['Wolf', 'Villager', 'Insomniac', 'Minion', 'Troublemaker', 'Villager', 'Mason', 'Mason', 'Villager', 'Seer', 'Tanner', 'Robber', 'Wolf', 'Drunk']
+Player prediction: ['Insomniac', 'Mason', 'Wolf', 'Troublemaker', 'Wolf', 'Villager', 'Villager', 'Mason', 'Villager', 'Seer', 'Tanner', 'Robber', 'Minion', 'Drunk']
+Player prediction: ['Villager', 'Wolf', 'Insomniac', 'Wolf', 'Troublemaker', 'Villager', 'Mason', 'Mason', 'Villager', 'Seer', 'Tanner', 'Robber', 'Minion', 'Drunk']
+Vote Array: [2, 0, 1, 2, 2, 2, 1, 0, 1, 0, 0]
+
+[Wolfbot] Role guesses: ['Wolf', 'Villager', 'Insomniac', 'Minion', 'Troublemaker', 'Villager', 'Mason', 'Mason', 'Villager', 'Seer', 'Tanner']
+	  Center cards: ['Robber', 'Wolf', 'Drunk']
+
+Confidence level: [0.55, 0.55, 0.45, 0.55, 0.45, 0.73, 0.45, 1.0, 0.82, 1.0, 1.0, 1.0, 0.73, 1.0]
+Player 0 was chosen as a Wolf.
+Player 0 was a Insomniac!
+
+Player 3 was chosen as a Wolf.
+Player 3 was a Troublemaker!
+
+Player 4 was chosen as a Wolf.
+Player 4 was a Wolf!
+
+Player 5 was chosen as a Wolf.
+Player 5 was a Villager!
+
+Village Team wins!
+
+ -- NIGHT FALLS -- 
+
+[Hidden] Current roles: ['Villager', 'Wolf', 'Mason', 'Insomniac', 'Seer', 'Villager', 'Tanner', 'Wolf', 'Minion', 'Troublemaker', 'Robber']
+	  Center cards: ['Mason', 'Villager', 'Drunk']
+
+Wolf, wake up.
+[Hidden] Wolves are at indices: {1, 7}
+[Hidden] Wolves are at indices: {1, 7}
+Wolf, go to sleep.
+
+Minion, wake up.
+[Hidden] Wolves are at indices: {1, 7}
+Minion, go to sleep.
+
+Mason, wake up.
+[Hidden] Masons are at indices: [2]
+Mason, go to sleep.
+
+Seer, wake up.
+[Hidden] Seer sees that Center 1 is a Villager and Center 2 is a Drunk.
+Seer, go to sleep.
+
+Robber, wake up.
+[Hidden] Robber switches with Player 4 and becomes a Seer.
+Robber, go to sleep.
+
+Troublemaker, wake up.
+[Hidden] Troublemaker switches Player 2 with Player 1.
+Troublemaker, go to sleep.
+
+Drunk, wake up.
+Drunk, go to sleep.
+
+Insomniac, wake up.
+[Hidden] Insomniac wakes up as a Insomniac.
+Insomniac, go to sleep.
+
+
+ -- GAME BEGINS -- 
+
+Player 0: I am a Villager.
+Player 1: I am a Drunk and I swapped with Center 0.
+Player 2: I am a Mason. The other Mason is not present.
+Player 3: I am a Insomniac and when I woke up I was a Insomniac.
+Player 4: I am a Seer and I saw that Center 1 was a Villager and that Center 2 was a Drunk.
+Player 5: I am a Villager.
+Player 6: I am a Seer and I saw that Center 0 was a Mason and that Center 2 was a Robber.
+Player 7: I am a Drunk and I swapped with Center 1.
+Player 8: I am a Troublemaker and I swapped Player 0 and Player 4.
+Player 9: I am a Troublemaker and I swapped Player 2 and Player 1.
+Player 10: I am a Robber and I swapped with Player 4. I am now a Seer.
+[Hidden] Current roles: ['Villager', 'Mason', 'Wolf', 'Insomniac', 'Robber', 'Villager', 'Tanner', 'Wolf', 'Minion', 'Troublemaker', 'Seer']
+	  Center cards: ['Mason', 'Villager', 'Drunk']
+
+Player prediction: ['Minion', 'Wolf', 'Mason', 'Insomniac', 'Villager', 'Villager', 'Seer', 'Villager', 'Troublemaker', 'Wolf', 'Tanner', 'Mason', 'Drunk', 'Robber']
+Player prediction: ['Villager', 'Mason', 'Drunk', 'Insomniac', 'Wolf', 'Villager', 'Seer', 'Minion', 'Wolf', 'Troublemaker', 'Tanner', 'Mason', 'Villager', 'Robber']
+Player prediction: ['Villager', 'Mason', 'Drunk', 'Insomniac', 'Wolf', 'Villager', 'Seer', 'Tanner', 'Minion', 'Troublemaker', 'Wolf', 'Mason', 'Villager', 'Robber']
+Player prediction: ['Robber', 'Wolf', 'Mason', 'Insomniac', 'Villager', 'Villager', 'Wolf', 'Minion', 'Troublemaker', 'Tanner', 'Seer', 'Mason', 'Villager', 'Drunk']
+Player prediction: ['Villager', 'Mason', 'Tanner', 'Insomniac', 'Robber', 'Villager', 'Wolf', 'Wolf', 'Minion', 'Troublemaker', 'Seer', 'Mason', 'Villager', 'Drunk']
+Player prediction: ['Robber', 'Wolf', 'Mason', 'Insomniac', 'Villager', 'Villager', 'Tanner', 'Minion', 'Troublemaker', 'Wolf', 'Seer', 'Mason', 'Villager', 'Drunk']
+Player prediction: ['Minion', 'Mason', 'Mason', 'Insomniac', 'Villager', 'Villager', 'Seer', 'Tanner', 'Troublemaker', 'Wolf', 'Wolf', 'Drunk', 'Villager', 'Robber']
+Player prediction: ['Villager', 'Mason', 'Wolf', 'Insomniac', 'Minion', 'Villager', 'Seer', 'Villager', 'Tanner', 'Troublemaker', 'Wolf', 'Mason', 'Drunk', 'Robber']
+Player prediction: ['Minion', 'Mason', 'Mason', 'Insomniac', 'Villager', 'Villager', 'Seer', 'Tanner', 'Troublemaker', 'Wolf', 'Wolf', 'Drunk', 'Villager', 'Robber']
+Player prediction: ['Villager', 'Mason', 'Tanner', 'Insomniac', 'Robber', 'Villager', 'Minion', 'Wolf', 'Wolf', 'Troublemaker', 'Seer', 'Mason', 'Villager', 'Drunk']
+Player prediction: ['Robber', 'Minion', 'Mason', 'Insomniac', 'Villager', 'Villager', 'Wolf', 'Tanner', 'Troublemaker', 'Wolf', 'Seer', 'Mason', 'Villager', 'Drunk']
+Vote Array: [0, 1, 0, 0, 0, 0, 1, 1, 2, 2, 4]
+
+[Wolfbot] Role guesses: ['Minion', 'Mason', 'Mason', 'Insomniac', 'Villager', 'Villager', 'Seer', 'Tanner', 'Troublemaker', 'Wolf', 'Wolf']
+	  Center cards: ['Drunk', 'Villager', 'Robber']
+
+Confidence level: [0.45, 0.64, 0.55, 1.0, 0.55, 1.0, 0.55, 0.36, 0.55, 0.45, 0.45, 0.82, 0.82, 0.55]
+Player 10 was chosen as a Wolf.
+Player 10 was a Seer!
+
+Werewolf Team wins!
+
+Number of Games: 10
+Accuracy for all predictions: 0.5357142857142857
+Accuracy with lenient center scores: 0.55
+S1: Found at least 1 Wolf player: 0.4
+S2: Found all Wolf players: 0.1
+Percentage of correct Wolf guesses (including center Wolves): 0.25
+Percentage of Villager Team wins: 0.2
+Percentage of Tanner Team wins: 0.3
+Percentage of Werewolf Team wins: 0.5
+
+Time taken: 13.679015874862671
