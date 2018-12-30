@@ -27,8 +27,8 @@ class Robber(Player):
     @staticmethod
     def get_robber_statements(player_index, choice_ind, choice_char):
         ''' Gets Robber Statement. '''
-        sentence = 'I am a Robber and I swapped with Player ' + str(choice_ind) \
-                    + '. I am now a ' + choice_char + '.'
+        sentence = 'I am a Robber and I swapped with Player {}. I am now a {}.' \
+                    .format(choice_ind, choice_char)
         knowledge = [(player_index, {'Robber'}), (choice_ind, {choice_char})]
         switches = [(const.ROBBER_PRIORITY, choice_ind, player_index)]
         return [Statement(sentence, knowledge, switches)]

@@ -40,13 +40,12 @@ class Seer(Player):
     @staticmethod
     def get_seer_statements(player_index, seen_index, seen_role, seen_index2=None, seen_role2=None):
         ''' Gets Seer Statement. '''
-        sentence = 'I am a Seer and I saw that Player ' + str(seen_index) \
-                    + ' was a ' + str(seen_role) + '.'
+        sentence = 'I am a Seer and I saw that Player {} was a {}.'.format(seen_index, seen_role)
         knowledge = [(player_index, {'Seer'}), (seen_index, {seen_role})]
         if seen_index2 is not None:
-            sentence = 'I am a Seer and I saw that Center ' + str(seen_index - const.NUM_PLAYERS) \
-                        + ' was a ' + str(seen_role) + ' and that Center ' \
-                        + str(seen_index2 - const.NUM_PLAYERS) + ' was a ' + str(seen_role2) + '.'
+            sentence = 'I am a Seer and I saw that Center {} was a {} and that Center {} was a {}.'\
+                        .format(seen_index - const.NUM_PLAYERS, seen_role,
+                                seen_index2 - const.NUM_PLAYERS, seen_role2)
             knowledge.append((seen_index2, {seen_role2}))
         return [Statement(sentence, knowledge)]
 

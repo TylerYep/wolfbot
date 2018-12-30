@@ -33,7 +33,7 @@ class Mason(Player):
                     knowledge.append((ind, set(const.ROLE_SET) - {'Mason'}))
         else:
             other_mason = mason_indices[0] if mason_indices[0] != player_index else mason_indices[1]
-            sentence = 'I am a Mason. The other Mason is Player ' + str(other_mason) + '.'
+            sentence = 'I am a Mason. The other Mason is Player {}.'.format(other_mason)
             knowledge = [(player_index, {'Mason'}), (other_mason, {'Mason'})]
         return [Statement(sentence, knowledge)]
 

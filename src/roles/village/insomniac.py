@@ -25,12 +25,12 @@ class Insomniac(Player):
     def get_insomniac_statements(player_index, insomniac_new_role, new_insomniac_index=None):
         ''' Gets Insomniac Statement. '''
         knowledge = [(player_index, {'Insomniac'})]
-        sentence = 'I am a Insomniac and when I woke up I was a ' + str(insomniac_new_role) + '.'
+        sentence = 'I am a Insomniac and when I woke up I was a {}.'.format(insomniac_new_role)
         if new_insomniac_index is None:
             if insomniac_new_role != 'Insomniac':
                 sentence += ' I don\'t know who I switched with.'
         else:
-            sentence += ' I switched with Player ' + str(new_insomniac_index) + '.'
+            sentence += ' I switched with Player {}.'.format(new_insomniac_index)
         # switches = [(player_index, new_insomniac_index)]  # TODO
         return [Statement(sentence, knowledge)]
 
