@@ -23,8 +23,8 @@ class Minion(Player):
         wolf_indices = []
         if original_roles is not None:
             wolf_indices = set(util.find_all_player_indices(original_roles, 'Wolf'))
-            logger.debug('[Hidden] Wolves are at indices: %s', str(wolf_indices))
-            if self.is_user: logger.info('Wolves are at indices: %s', str(wolf_indices))
+            logger.debug(f'[Hidden] Wolves are at indices: {wolf_indices}')
+            if self.is_user: logger.info(f'Wolves are at indices: {wolf_indices}')
 
         return wolf_indices
 

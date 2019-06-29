@@ -12,11 +12,11 @@ def main(save_replay=True):
     stats = Statistics()
     for num in range(const.NUM_GAMES):
         if const.SHOW_PROGRESS and num % 10 == 0:
-            logger.warning('Currently on Game: %d', num)
+            logger.warning(f'Currently on Game: {num}')
         game_result = play_one_night_werewolf(save_replay and const.SAVE_REPLAY)
         stats.add_result(game_result)
     stats.print_statistics()
-    logger.warning('\nTime taken: %s', str(time.time() - start_time))
+    logger.warning(f'\nTime taken: {time.time() - start_time}')
 
 
 if __name__ == '__main__':

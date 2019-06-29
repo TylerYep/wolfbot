@@ -19,16 +19,16 @@ class Robber(Player):
         ''' Initializes Robber - switches roles with another player. '''
         choice_ind = util.get_player(self, [self.player_index])
         choice_char = game_roles[choice_ind]
-        logger.debug('[Hidden] Robber switches with Player %d and becomes a %s.',
-                     choice_ind, str(choice_char))
+        logger.debug(f'[Hidden] Robber switches with Player {choice_ind}'
+                     f' and becomes a {choice_char}.')
         util.swap_characters(game_roles, self.player_index, choice_ind)
         return choice_ind, choice_char
 
     @staticmethod
     def get_robber_statements(player_index, choice_ind, choice_char):
         ''' Gets Robber Statement. '''
-        sentence = 'I am a Robber and I swapped with Player {}. I am now a {}.' \
-                    .format(choice_ind, choice_char)
+        sentence = f'I am a Robber and I swapped with Player {choice_ind}. ' + \
+                   f'I am now a {choice_char}.'
         knowledge = [(player_index, {'Robber'}), (choice_ind, {choice_char})]
         switches = [(const.ROBBER_PRIORITY, choice_ind, player_index)]
         return [Statement(sentence, knowledge, switches)]

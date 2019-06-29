@@ -26,26 +26,24 @@ class Seer(Player):
             peek_ind2 = util.get_center(self, [peek_ind])
             peek_char = game_roles[peek_ind]
             peek_char2 = game_roles[peek_ind2]
-            logger.debug('[Hidden] Seer sees that Center %d is a %s and Center %d is a %s.',
-                         peek_ind - const.NUM_PLAYERS, str(peek_char),
-                         peek_ind2 - const.NUM_PLAYERS, str(peek_char2))
+            logger.debug(f'[Hidden] Seer sees that Center {peek_ind - const.NUM_PLAYERS} is a '
+                         f'{peek_char}, Center {peek_ind2 - const.NUM_PLAYERS} is a {peek_char2}.')
             return peek_ind, peek_char, peek_ind2, peek_char2
 
         peek_ind = util.get_player(self, [self.player_index])
         peek_char = game_roles[peek_ind]
-        logger.debug('[Hidden] Seer sees that Player %d is a %s.',
-                     peek_ind, str(peek_char))
+        logger.debug(f'[Hidden] Seer sees that Player {peek_ind} is a {peek_char}.')
         return peek_ind, peek_char, None, None
 
     @staticmethod
     def get_seer_statements(player_index, seen_index, seen_role, seen_index2=None, seen_role2=None):
         ''' Gets Seer Statement. '''
-        sentence = 'I am a Seer and I saw that Player {} was a {}.'.format(seen_index, seen_role)
+        sentence = f'I am a Seer and I saw that Player {seen_index} was a {seen_role}.'
         knowledge = [(player_index, {'Seer'}), (seen_index, {seen_role})]
         if seen_index2 is not None:
-            sentence = 'I am a Seer and I saw that Center {} was a {} and that Center {} was a {}.'\
-                        .format(seen_index - const.NUM_PLAYERS, seen_role,
-                                seen_index2 - const.NUM_PLAYERS, seen_role2)
+            sentence = f'I am a Seer and I saw that Center {seen_index - const.NUM_PLAYERS} was a' \
+                       + f' {seen_role} and that Center {seen_index2 - const.NUM_PLAYERS}' \
+                       + f' was a {seen_role2}.'
             knowledge.append((seen_index2, {seen_role2}))
         return [Statement(sentence, knowledge)]
 

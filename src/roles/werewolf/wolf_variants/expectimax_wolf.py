@@ -72,5 +72,5 @@ def get_statement_expectimax(player_obj, prev_statements):
                 start_state = check_state
 
     best_val, best_move = expectimax(prev_statements, start_state, player_obj.player_index)
-    logger.debug('Evaluation Function Score: %f', best_val)
+    logger.debug(f'Evaluation Function Score: {best_val}')
     return best_move

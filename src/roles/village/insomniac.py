@@ -17,20 +17,20 @@ class Insomniac(Player):
     def insomniac_init(self, game_roles):
         ''' Initializes Insomniac - learns new role. '''
         insomniac_new_role = game_roles[self.player_index]
-        logger.debug('[Hidden] Insomniac wakes up as a %s.', insomniac_new_role)
-        if self.is_user: logger.info('You woke up as a %s!', insomniac_new_role)
+        logger.debug(f'[Hidden] Insomniac wakes up as a {insomniac_new_role}.')
+        if self.is_user: logger.info(f'You woke up as a {insomniac_new_role}!')
         return insomniac_new_role
 
     @staticmethod
     def get_insomniac_statements(player_index, insomniac_new_role, new_insomniac_index=None):
         ''' Gets Insomniac Statement. '''
         knowledge = [(player_index, {'Insomniac'})]
-        sentence = 'I am a Insomniac and when I woke up I was a {}.'.format(insomniac_new_role)
+        sentence = f'I am a Insomniac and when I woke up I was a {insomniac_new_role}.'
         if new_insomniac_index is None:
             if insomniac_new_role != 'Insomniac':
                 sentence += ' I don\'t know who I switched with.'
         else:
-            sentence += ' I switched with Player {}.'.format(new_insomniac_index)
+            sentence += f' I switched with Player {new_insomniac_index}.'
         # switches = [(player_index, new_insomniac_index)]  # TODO
         return [Statement(sentence, knowledge)]
 

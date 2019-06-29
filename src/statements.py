@@ -38,8 +38,7 @@ class Statement:
                 'knowledge': self.knowledge, 'switches': self.switches}
 
     def __repr__(self):
-        return 'Statement(\'{}\', {}, {}, {})'.format(self.sentence, self.knowledge,
-                                                      self.switches, self.speaker)
+        return f'Statement("{self.sentence}", {self.knowledge}, {self.switches}, {self.speaker})'
 
 if __name__ == '__main__':
     pass

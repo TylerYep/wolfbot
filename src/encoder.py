@@ -46,6 +46,6 @@ class WolfBotDecoder(json.JSONDecoder):
 
 def convert_dict_to_json(file_path):
     ''' Backwards compatibility with pkl. '''
-    with open(file_path, 'rb') as fpkl, open('%s.json' % file_path[0:-4], 'w') as fjson:
+    with open(file_path, 'rb') as fpkl, open(f'{file_path[0:-4]}.json', 'w') as fjson:
         data = pickle.load(fpkl)
         json.dump(data, fjson, cls=WolfBotEncoder)

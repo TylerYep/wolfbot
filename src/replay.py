@@ -20,10 +20,10 @@ def replay_game():
     for sentence in all_statements:
         logger.warning(sentence)
 
-    logger.warning('\n[Hidden] Current roles: %s\n\t Center cards: %s\n',
-                   str(original_roles[:const.NUM_PLAYERS]), str(original_roles[const.NUM_PLAYERS:]))
-    logger.warning('[SOLUTION] Role guesses: %s\n\t  Center cards: %s\n',
-                   str(game_roles[:const.NUM_PLAYERS]), str(game_roles[const.NUM_PLAYERS:]))
+    logger.warning(f'\n[Hidden] Current roles: {original_roles[:const.NUM_PLAYERS]} \
+                    \n\t Center cards: {original_roles[const.NUM_PLAYERS:]}\n')
+    logger.warning(f'[SOLUTION] Role guesses: {game_roles[:const.NUM_PLAYERS]} \
+                    \n\t  Center cards: {game_roles[const.NUM_PLAYERS:]}\n')
 
     game_result = []
     if const.USE_VOTING:

@@ -17,13 +17,13 @@ def consolidate_results(save_game):
         indiv_preds = get_individual_preds(player_objs, all_statements, orig_wolf_inds)
         all_guesses, confidence, guessed_wolf_inds, vote_inds = get_voting_result(indiv_preds)
         print_guesses(all_guesses)
-        logger.debug('Confidence level: %s', str([float('{0:0.2f}'.format(n)) for n in confidence]))
+        logger.debug(f'Confidence level: {[float(f"{n:.2f}") for n in confidence]}')
         winning_team = eval_final_guesses(game_roles, guessed_wolf_inds, vote_inds)
         return GameResult(game_roles, all_guesses, all_statements, orig_wolf_inds, winning_team)
 
     all_solutions = switching_solver(all_statements)
     for solution in all_solutions:
-        logger.log(const.logging.TRACE, 'Solver interpretation: %s', str(solution.path))
+        logger.log(const.logging.TRACE, f'Solver interpretation: {solution.path}')
     all_role_guesses = make_prediction(all_solutions)
     print_guesses(all_role_guesses)
     return GameResult(game_roles, all_role_guesses, all_statements, orig_wolf_inds)
@@ -48,7 +48,7 @@ def get_individual_preds(player_objs, all_statements, orig_wolf_inds):
         all_role_guesses_arr.append(prediction)
 
     for pred in all_role_guesses_arr:
-        logger.log(const.logging.TRACE, 'Player prediction: %s', str(pred))
+        logger.log(const.logging.TRACE, f'Player prediction: {pred}'.replace('\'', ''))
     return all_role_guesses_arr
 
 
@@ -59,7 +59,7 @@ def eval_final_guesses(game_roles, guessed_wolf_inds, vote_inds):
         logger.info('No wolves were found.')
         final_wolf_inds = find_all_player_indices(game_roles[:const.NUM_PLAYERS], 'Wolf')
         if final_wolf_inds:
-            logger.info('But Player(s) %s was a Wolf!\n', str(final_wolf_inds))
+            logger.info(f'But Player(s) {final_wolf_inds} was a Wolf!\n')
         else:
             logger.info('That was correct!\n')
             villager_win = True
@@ -68,7 +68,7 @@ def eval_final_guesses(game_roles, guessed_wolf_inds, vote_inds):
         for i in guessed_wolf_inds:
             if game_roles[i] == 'Hunter':
                 guessed_wolf_inds.append(vote_inds[i])
-                logger.info('(Player %d) Hunter died and killed Player %d too!\n', i, vote_inds[i])
+                logger.info(f'(Player {i}) Hunter died and killed Player {vote_inds[i]} too!\n')
 
         for chosen_wolf in guessed_wolf_inds:
             if game_roles[chosen_wolf] == 'Wolf':
@@ -76,8 +76,8 @@ def eval_final_guesses(game_roles, guessed_wolf_inds, vote_inds):
             elif game_roles[chosen_wolf] == 'Tanner':
                 killed_tanner = True
 
-            logger.info('Player %d was chosen as a Wolf.\nPlayer %d was a %s!\n',
-                        chosen_wolf, chosen_wolf, game_roles[chosen_wolf])
+            logger.info(f'Player {chosen_wolf} was chosen as a Wolf. \
+                        \nPlayer {chosen_wolf} was a {game_roles[chosen_wolf]}!\n')
 
     if villager_win or killed_wolf:
         logger.info('Village Team wins!')
@@ -107,7 +107,7 @@ def get_voting_result(all_role_guesses_arr):
         wolf_votes[vote_ind] += 1
         vote_inds.append(vote_ind)
 
-    logger.debug('Vote Array: %s', str(wolf_votes))
+    logger.debug(f'Vote Array: {wolf_votes}')
     assert sum(wolf_votes) == const.NUM_PLAYERS
 
     all_role_guesses, _ = max(guess_histogram.items(), key=lambda x: x[1])

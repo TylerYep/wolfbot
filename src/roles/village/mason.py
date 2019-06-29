@@ -17,9 +17,9 @@ class Mason(Player):
     def mason_init(self, original_roles):
         ''' Initializes Mason - sees all other Masons. '''
         mason_indices = util.find_all_player_indices(original_roles, 'Mason')
-        logger.debug('[Hidden] Masons are at indices: %s', str(mason_indices))
-        if self.is_user: logger.info('Masons are players: %s (You are player %s)',
-                                     str(mason_indices), self.player_index)
+        logger.debug(f'[Hidden] Masons are at indices: {mason_indices}')
+        if self.is_user:
+            logger.info(f'Masons are players: {mason_indices} (You are player {self.player_index})')
         return mason_indices
 
     @staticmethod
@@ -33,7 +33,7 @@ class Mason(Player):
                     knowledge.append((ind, set(const.ROLE_SET) - {'Mason'}))
         else:
             other_mason = mason_indices[0] if mason_indices[0] != player_index else mason_indices[1]
-            sentence = 'I am a Mason. The other Mason is Player {}.'.format(other_mason)
+            sentence = f'I am a Mason. The other Mason is Player {other_mason}.'
             knowledge = [(player_index, {'Mason'}), (other_mason, {'Mason'})]
         return [Statement(sentence, knowledge)]
 

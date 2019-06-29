@@ -21,7 +21,7 @@ class Player:
             sample_statements = random.sample(self.statements, 10) if len(self.statements) > 10 \
                                 else self.statements
             for i, statement in enumerate(sample_statements):
-                logger.info('%i. %s', i, statement.sentence)
+                logger.info(f'{i}. {statement.sentence}')
             choice = util.get_numeric_input(len(sample_statements))
             return sample_statements[choice]
 

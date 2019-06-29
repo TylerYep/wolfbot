@@ -39,18 +39,18 @@ def get_player_statements(player_objs):
         statement = player_objs[j].get_statement(stated_roles, given_statements)
         stated_roles.append(statement.speaker)
         given_statements.append(statement)
-        logger.info('Player %d: %s', j, statement.sentence)
+        logger.info(f'Player {j}: {statement.sentence}')
     return given_statements
 
 
 def awaken_role(game_roles, player_objs, role_str):
     ''' Interates through each player in player_objs and initializes the Player object. '''
-    logger.info('%s, wake up.', role_str)
+    logger.info(f'{role_str}, wake up.')
     role_obj = get_role_obj(role_str)
     for i in range(const.NUM_PLAYERS):
         if ORIGINAL_ROLES[i] == role_str:
             player_objs[i] = role_obj(i, game_roles, ORIGINAL_ROLES)
-    logger.info('%s, go to sleep.\n', role_str)
+    logger.info(f'{role_str}, go to sleep.\n')
 
 
 def night_falls(game_roles):

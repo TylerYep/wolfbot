@@ -19,8 +19,7 @@ class SolverState:
         self.path = path_init if path_init is not None else []
 
     def __repr__(self):
-        return '\n' + str(self.possible_roles) + '\n' + str(self.path) \
-                + '\n' + str(self.switches) + '\n'
+        return f'\n{self.possible_roles}\n{self.path}\n{self.switches}\n'
 
 
 def is_consistent(statement, state):

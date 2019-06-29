@@ -153,5 +153,5 @@ def get_switch_dict(solution):
 
 def print_guesses(role_guesses):
     ''' Formats guesses to console. '''
-    logger.info('\n[Wolfbot] Role guesses: %s\n\t  Center cards: %s\n',
-                str(role_guesses[:const.NUM_PLAYERS]), str(role_guesses[const.NUM_PLAYERS:]))
+    logger.info(f'\n[Wolfbot] Role guesses: {role_guesses[:const.NUM_PLAYERS]} \
+                \n\t  Center cards: {role_guesses[const.NUM_PLAYERS:]}\n'.replace('\'', ''))

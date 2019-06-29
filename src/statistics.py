@@ -50,7 +50,7 @@ class Statistics:
 
     def print_statistics(self):
         ''' Outputs overall statistics of inputed game results. '''
-        logger.warning('\nNumber of Games: %d', self.num_games)
+        logger.warning(f'\nNumber of Games: {self.num_games}')
         sentences = [
             'Accuracy for all predictions: ',
             'Accuracy with lenient center scores: ',
@@ -64,7 +64,7 @@ class Statistics:
         assert len(sentences) >= len(self.metrics)
         for i in range(len(self.metrics)):
             if self.total[i] == 0: self.total[i] += 1
-            logger.warning('%s%s', sentences[i], str(self.correct[i] / self.total[i]))
+            logger.warning(f'{sentences[i]}{self.correct[i] / self.total[i]}')
 
     @staticmethod
     def correctness_strict(game_result):
