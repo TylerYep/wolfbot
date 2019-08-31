@@ -2,10 +2,10 @@
 import json
 import pickle
 
-from stats import GameResult
-from statements import Statement
-from roles import Player #, get_role_obj
-import const
+from src.stats import GameResult
+from src.statements import Statement
+from src.roles import Player #, get_role_obj
+from src import const
 
 class WolfBotEncoder(json.JSONEncoder):
     ''' Encoder for all WolfBot objects '''

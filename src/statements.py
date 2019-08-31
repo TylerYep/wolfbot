@@ -1,5 +1,5 @@
 ''' statements.py '''
-import const
+from src import const
 
 class Statement:
     ''' Model for all statements in the game. '''

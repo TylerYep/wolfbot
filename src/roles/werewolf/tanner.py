@@ -1,9 +1,9 @@
 ''' tanner.py '''
 import random
 
-from algorithms import switching_solver
-from predictions import make_prediction_fast
-import const
+from src.algorithms import switching_solver
+from src.predictions import make_prediction_fast
+from src import const
 
 from ..village import Player
 from .wolf_variants import get_wolf_statements_random, get_statement_expectimax

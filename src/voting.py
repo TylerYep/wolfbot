@@ -1,23 +1,22 @@
 ''' voting.py '''
 import random
-
-from stats import GameResult
 from collections import defaultdict
-from util import find_all_player_indices
-from algorithms import switching_solver
-from predictions import make_prediction, print_guesses
-from const import logger
-import const
+
+from src.stats import GameResult
+from src.algorithms import switching_solver
+from src.predictions import make_prediction, print_guesses
+from src.const import logger
+from src import const, util
 
 def consolidate_results(save_game):
     ''' Consolidates results and returns final GameResult. '''
     original_roles, game_roles, all_statements, player_objs = save_game
-    orig_wolf_inds = find_all_player_indices(original_roles, 'Wolf')
+    orig_wolf_inds = util.find_all_player_indices(original_roles, 'Wolf')
     if const.USE_VOTING:
         indiv_preds = get_individual_preds(player_objs, all_statements, orig_wolf_inds)
         all_guesses, confidence, guessed_wolf_inds, vote_inds = get_voting_result(indiv_preds)
         print_guesses(all_guesses)
-        logger.debug(f'Confidence level: {[float(f"{n:.2f}") for n in confidence]}')
+        logger.debug(f'Confidence level: {[float(f"{conf:.2f}") for conf in confidence]}')
         winning_team = eval_final_guesses(game_roles, guessed_wolf_inds, vote_inds)
         return GameResult(game_roles, all_guesses, all_statements, orig_wolf_inds, winning_team)
 
@@ -57,7 +56,7 @@ def eval_final_guesses(game_roles, guessed_wolf_inds, vote_inds):
     killed_wolf, killed_tanner, villager_win = False, False, False
     if len(guessed_wolf_inds) == const.NUM_PLAYERS:
         logger.info('No wolves were found.')
-        final_wolf_inds = find_all_player_indices(game_roles[:const.NUM_PLAYERS], 'Wolf')
+        final_wolf_inds = util.find_all_player_indices(game_roles[:const.NUM_PLAYERS], 'Wolf')
         if final_wolf_inds:
             logger.info(f'But Player(s) {final_wolf_inds} was a Wolf!\n')
         else:
@@ -127,7 +126,7 @@ def get_voting_result(all_role_guesses_arr):
 def get_player_vote(ind, prediction):
     ''' Updates Wolf votes for a given prediction. '''
     # TODO find the most likely Wolf and only vote for that one
-    wolf_inds = find_all_player_indices(prediction[:const.NUM_PLAYERS], 'Wolf')
+    wolf_inds = util.find_all_player_indices(prediction[:const.NUM_PLAYERS], 'Wolf')
     if wolf_inds:
         return random.choice(wolf_inds)
     # There are some really complicated game mechanics for the Minion.

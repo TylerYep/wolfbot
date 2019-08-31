@@ -1,8 +1,8 @@
 ''' predictions.py '''
 import random
 from copy import deepcopy
-from const import logger
-import const
+from src.const import logger
+from src import const
 
 def make_random_prediction():
     ''' Makes a random prediction. '''

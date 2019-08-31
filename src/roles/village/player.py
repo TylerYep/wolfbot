@@ -1,8 +1,7 @@
 ''' player.py '''
 import random
-from const import logger
-import const
-import util
+from src.const import logger
+from src import const, util
 
 class Player:
     ''' Player class. '''

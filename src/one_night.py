@@ -2,12 +2,11 @@
 import random
 import json
 
-from encoder import WolfBotEncoder
-from roles import get_role_obj
-from voting import consolidate_results
-from const import logger
-import const
-import util
+from src.encoder import WolfBotEncoder
+from src.roles import get_role_obj
+from src.voting import consolidate_results
+from src.const import logger
+from src import const, util
 
 def play_one_night_werewolf(save_replay=True):
     ''' Plays one round of One Night Ultimate Werewolf. '''

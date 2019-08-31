@@ -1,5 +1,5 @@
 ''' center_wolf.py '''
-import const
+from src import const
 from ...village import Villager, Seer, Robber, Troublemaker, Drunk, Insomniac, Hunter
 
 def get_center_wolf_statements(player_obj, stated_roles):

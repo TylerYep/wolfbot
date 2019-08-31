@@ -1,7 +1,7 @@
 ''' insomniac.py '''
-from statements import Statement
-from const import logger
-import const
+from src.statements import Statement
+from src.const import logger
+from src import const
 
 from .player import Player
 

@@ -1,5 +1,5 @@
 ''' villager.py '''
-from statements import Statement
+from src.statements import Statement
 from .player import Player
 
 class Villager(Player):

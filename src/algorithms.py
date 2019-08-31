@@ -2,9 +2,9 @@
 import sys
 
 from copy import deepcopy
-from statements import Statement
-from const import logger
-import const
+from src.statements import Statement
+from src.const import logger
+from src import const
 
 if sys.version_info < (3, 0):
     sys.stdout.write('Requires Python 3, not Python 2!\n')

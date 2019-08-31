@@ -1,7 +1,7 @@
 ''' stats.py '''
 from collections import Counter
-from const import logger
-import const
+from src.const import logger
+from src import const
 
 class GameResult:
     ''' Each round of one_night returns a GameResult. '''

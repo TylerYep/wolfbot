@@ -1,7 +1,7 @@
 ''' util.py '''
 import random
-import const
-from const import logger
+from src import const
+from src.const import logger
 
 def swap_characters(game_roles, i, j):
     ''' Util function to swap two characters, updating game_roles. '''

@@ -1,10 +1,9 @@
 ''' seer.py '''
 import random
 
-from statements import Statement
-from const import logger
-import const
-import util
+from src.statements import Statement
+from src.const import logger
+from src import const, util
 
 from .player import Player
 

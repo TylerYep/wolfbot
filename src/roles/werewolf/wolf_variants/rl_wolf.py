@@ -1,8 +1,8 @@
 ''' rl_wolf.py '''
 import json
 from collections import defaultdict
-from const import logger
-import const
+from src.const import logger
+from src import const
 
 from .reg_wolf import get_wolf_statements
 
@@ -11,7 +11,7 @@ def get_statement_rl(player_obj, stated_roles, previous_statements, default_answ
     statements = get_wolf_statements(player_obj, stated_roles, previous_statements)
 
     # Necessary to put this here to avoid circular import
-    from encoder import WolfBotDecoder
+    from src.encoder import WolfBotDecoder
 
     exp_dict = dict()
     with open(const.EXPERIENCE_PATH, 'r') as exp_file:

@@ -7,9 +7,9 @@ import time
 import json
 
 from collections import defaultdict
-from encoder import WolfBotEncoder, WolfBotDecoder
-from main import main
-import const
+from src.encoder import WolfBotEncoder, WolfBotDecoder
+from src.main import main
+from src import const
 
 def evaluate(game):
     ''' Evaluation function. '''
@@ -59,7 +59,7 @@ def train(folder, eta=0.01):
                     counter += 1
 
     exp_dict = remap_keys(experience_dict)
-    with open('learning/simulations/wolf_{time.strftime('%Y%m%d_%H%M%S'}.json', 'w') as wolf_file:
+    with open(f'learning/simulations/wolf_{time.strftime('%Y%m%d_%H%M%S'}.json', 'w') as wolf_file:
         json.dump(exp_dict, wolf_file, cls=WolfBotEncoder)
 
 

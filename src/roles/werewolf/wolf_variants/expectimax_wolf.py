@@ -1,10 +1,10 @@
 ''' expectimax_wolf.py '''
 import random
 from copy import deepcopy
-from algorithms import SolverState, is_consistent
-from const import logger
-import const
-import roles
+from src.algorithms import SolverState, is_consistent
+from src.const import logger
+from src import const
+from src import roles
 
 def get_expected_statements():
     '''
