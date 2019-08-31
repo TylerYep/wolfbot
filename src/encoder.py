@@ -2,7 +2,7 @@
 import json
 import pickle
 
-from statistics import GameResult
+from stats import GameResult
 from statements import Statement
 from roles import Player #, get_role_obj
 import const

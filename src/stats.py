@@ -1,4 +1,4 @@
-''' statistics.py '''
+''' stats.py '''
 from collections import Counter
 from const import logger
 import const

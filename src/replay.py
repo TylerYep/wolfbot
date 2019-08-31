@@ -1,7 +1,7 @@
 ''' replay.py '''
 import json
 
-from statistics import Statistics, GameResult
+from stats import Statistics, GameResult
 from algorithms import switching_solver
 from predictions import make_prediction, print_guesses
 from encoder import WolfBotDecoder

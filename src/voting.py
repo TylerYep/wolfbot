@@ -1,7 +1,7 @@
 ''' voting.py '''
 import random
 
-from statistics import GameResult
+from stats import GameResult
 from collections import defaultdict
 from util import find_all_player_indices
 from algorithms import switching_solver
