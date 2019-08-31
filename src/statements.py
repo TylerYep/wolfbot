@@ -39,6 +39,3 @@ class Statement:
 
     def __repr__(self):
         return f'Statement("{self.sentence}", {self.knowledge}, {self.switches}, {self.speaker})'
-
-if __name__ == '__main__':
-    pass

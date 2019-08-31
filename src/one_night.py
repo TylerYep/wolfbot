@@ -26,8 +26,8 @@ def play_one_night_werewolf(save_replay=True):
 
     save_game = (ORIGINAL_ROLES, game_roles, all_statements, player_objs)
     if save_replay:
-        with open('data/replay.json', 'w') as f_replay:
-            json.dump(save_game, f_replay, cls=WolfBotEncoder)
+        with open('data/replay.json', 'w') as replay_file:
+            json.dump(save_game, replay_file, cls=WolfBotEncoder)
 
     return consolidate_results(save_game)
 
