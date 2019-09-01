@@ -1,5 +1,5 @@
 ''' rl_wolf.py '''
-from typing import List, Type
+from typing import Any, List
 from collections import defaultdict
 import json
 
@@ -8,9 +8,8 @@ from src.const import logger
 from src import const
 
 from .reg_wolf import get_wolf_statements
-from ...village import Player
 
-def get_statement_rl(player_obj: Type[Player],
+def get_statement_rl(player_obj: Any,
                      stated_roles: List[str],
                      previous_statements: List[Statement],
                      default_answer: Statement):

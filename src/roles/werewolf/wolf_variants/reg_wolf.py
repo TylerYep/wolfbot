@@ -1,12 +1,12 @@
 ''' reg_wolf.py '''
-from typing import List, Type
+from typing import Any, List
 
 from src.statements import Statement
 from src import const
 
-from ...village import Player, Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac, Hunter
+from ...village import Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac, Hunter
 
-def get_wolf_statements(player_obj: Type[Player],
+def get_wolf_statements(player_obj: Any,
                         stated_roles: List[str],
                         previous_statements: List[Statement]) -> List[Statement]:
     ''' Gets Regular Wolf statement. '''

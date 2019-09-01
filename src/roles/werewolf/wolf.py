@@ -1,5 +1,5 @@
 ''' wolf.py '''
-from typing import List, Tuple
+from typing import List, Optional, Tuple
 import random
 
 from src.statements import Statement
@@ -28,14 +28,14 @@ class Wolf(Player):
 
     def wolf_init(self,
                   game_roles: List[str],
-                  original_roles: List[str]) -> Tuple[List[int], int, str]:
+                  original_roles: List[str]) -> Tuple[List[int], Optional[int], Optional[str]]:
         ''' Initializes Wolf - gets Wolf indices and a random center card, if applicable. '''
-        wolf_indices = []
+        wolf_indices: List[int] = []
         wolf_center_index, wolf_center_role = None, None
 
         # Only get center roles and wolf indices if not a Robber/Insomniac Wolf
         if original_roles is not None:
-            wolf_indices = set(util.find_all_player_indices(original_roles, 'Wolf'))
+            wolf_indices = util.find_all_player_indices(original_roles, 'Wolf')
             if len(wolf_indices) == 1 and const.NUM_CENTER > 0:
                 wolf_center_index = util.get_center(self)
                 wolf_center_role = game_roles[wolf_center_index]

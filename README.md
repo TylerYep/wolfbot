@@ -8,10 +8,12 @@ Constants, along with their use cases, are listed in src/const.py.
 # Development
 
 ## August 2019
-player can accept 0 parameters? just multiply to make the list.
-wolf_inds isn't used in stats....
+Started working on this project again. The main blocker for adding more functionality is the lack of testing I currently have. Without solid unit/integration tests, it's really easy to break or change existing functionality silently. So, I have decided to begin using Pytest as a framework for writing unit tests for the existing code. The test/ folder is intended to follow the folder structure of src/, and will import accordingly. To accomplish this change, I had to change many of the imports to explicitly start from src/. Additionally, to aid this effort, I have also decided to introduce type annotations for all function declarations, which will make the test writing process a lot easier. I use Facebook's Pyre as a fast type checker, which together with Pylint has helped me find and fix a lot of poor design decisions in my code.
+
 
 ## July 2019
+Changed all interpolated strings in this project to use f-strings, which are intended to be much more performant and readable, even in logging scenarios.
+
 
 ## January 2019
 Interactive mode and Hunter added!
@@ -110,11 +112,12 @@ Tanner Team: (Wildcard player)
 Wolf Theory: Choose statements that do a good job, not necessarily the absolute best ones.  
 
 # Future Development Todos
-TODO:
 * Host on AWS
 * UI and secure move API
 * Multiple Statements
 * Unit testing
+* Player can accept 0 parameters? just multiply to make list.
+* Wolf_inds isn't used in stats
 
 # File Dependency Tree
 Simplified version (some cycles exist)  

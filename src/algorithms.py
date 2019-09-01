@@ -1,5 +1,5 @@
 ''' algorithms.py '''
-from typing import Dict, List, Optional, Set, Tuple, Union
+from typing import Dict, List, Optional, Set, Tuple
 from copy import deepcopy
 import sys
 
@@ -21,11 +21,15 @@ class SolverState:
         self.switches = switches if switches is not None else []
         self.path = path_init if path_init is not None else []
 
+    def is_valid_state(self) -> bool:
+        ''' Checks for invalid state, denoted as SolverState([]). '''
+        return len(self.possible_roles) != 0
+
     def __repr__(self) -> str:
         return f'\n{self.possible_roles}\n{self.path}\n{self.switches}\n'
 
 
-def is_consistent(statement: Statement, state: SolverState) -> Union[SolverState, bool]:
+def is_consistent(statement: Statement, state: SolverState) -> SolverState:
     '''
     Returns the new state if the statement is consistent with state,
     otherwise returns False.
@@ -36,12 +40,12 @@ def is_consistent(statement: Statement, state: SolverState) -> Union[SolverState
     for proposed_ind, proposed_roles in statement.knowledge:
         intersection = proposed_roles & new_possible_roles[proposed_ind]
         if not intersection:
-            return False
+            return SolverState([])
         new_possible_roles[proposed_ind] = intersection
         count = count_roles(new_possible_roles)
         for proposed_role in proposed_roles:
             if count[proposed_role] > const.ROLE_COUNTS[proposed_role]:
-                return False
+                return SolverState([])
     return SolverState(new_possible_roles, new_switches, list(state.path))
 
 
@@ -72,11 +76,11 @@ def switching_solver(statements: List[Statement],
         truth_state = is_consistent(statements[ind], state)
         false_state = is_consistent(statements[ind].negate(), state)
 
-        if truth_state:
+        if truth_state.is_valid_state():
             truth_state.path = list(state.path) + [True]
             _switch_recurse(ind + 1, truth_state)
 
-        if false_state and ind != known_true:
+        if false_state.is_valid_state() and ind != known_true:
             false_state.path = list(state.path) + [False]
             _switch_recurse(ind + 1, false_state)
 

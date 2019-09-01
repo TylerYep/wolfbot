@@ -1,14 +1,11 @@
 ''' random_wolf.py '''
-from typing import List, Type
+from typing import Any, List
 
 from src.statements import Statement
 from src import const, roles
 
-from ...village import Player
-
-# Random Wolf Player
-def get_wolf_statements_random(player_obj: Type[Player]) -> List[Statement]:
-    ''' Gets Random Wolf statement '''
+def get_wolf_statements_random(player_obj: Any) -> List[Statement]:
+    ''' Gets Random Wolf Player statement. '''
     statements = []
     for role in const.VILLAGE_ROLES:
         role_obj = roles.get_role_obj(role)
