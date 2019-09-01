@@ -1,4 +1,5 @@
 ''' stats.py '''
+from typing import Dict, Tuple
 from collections import Counter
 
 from src.const import logger
@@ -6,14 +7,19 @@ from src import const
 
 class GameResult:
     ''' Each round of one_night returns a GameResult. '''
-    def __init__(self, actual, guessed, statements, wolf_inds, winning_team=''):
+    def __init__(self,
+                 actual,
+                 guessed,
+                 statements,
+                 wolf_inds,
+                 winning_team=''):
         self.actual = actual
         self.guessed = guessed
         self.statements = statements
         self.wolf_inds = wolf_inds
         self.winning_team = winning_team
 
-    def json_repr(self):
+    def json_repr(self) -> Dict:
         ''' Returns json representation of the GameResult. '''
         return {
             'type': 'GameResult',
@@ -40,7 +46,7 @@ class Statistics:
         self.match1, self.match2 = 0.0, 0.0
         self.num_games = 0
 
-    def add_result(self, game_result):
+    def add_result(self, game_result: GameResult) -> None:
         ''' Updates the Statistics object with a GameResult. '''
         self.num_games += 1
         for metric_index in range(len(self.metrics)):
@@ -49,7 +55,7 @@ class Statistics:
             self.correct[metric_index] += corr
             self.total[metric_index] += tot
 
-    def print_statistics(self):
+    def print_statistics(self) -> None:
         ''' Outputs overall statistics of inputed game results. '''
         logger.warning(f'\nNumber of Games: {self.num_games}')
         sentences = [
@@ -68,7 +74,7 @@ class Statistics:
             logger.warning(f'{sentences[i]}{self.correct[i] / self.total[i]}')
 
     @staticmethod
-    def correctness_strict(game_result):
+    def correctness_strict(game_result: GameResult) -> Tuple[int, int]:
         ''' Returns fraction of how many roles were guessed correctly out of all roles. '''
         correct = 0.0
         for i in range(const.NUM_ROLES):
@@ -77,7 +83,7 @@ class Statistics:
         return correct, const.NUM_ROLES
 
     @staticmethod
-    def correctness_lenient_center(game_result):
+    def correctness_lenient_center(game_result: GameResult) -> Tuple[int, int]:
         '''
         Returns fraction of how many player roles were guessed correctly.
         Optionally adds a bonus for a matching center set.
@@ -96,7 +102,7 @@ class Statistics:
         return correct, const.NUM_ROLES
 
     @staticmethod
-    def wolf_predictions_one(game_result):
+    def wolf_predictions_one(game_result: GameResult) -> Tuple[int, int]:
         ''' Returns 1/1 if at least one Wolf was correctly identified. '''
         correct_guesses, total_wolves = 0, 1
         for i in range(const.NUM_PLAYERS):
@@ -105,7 +111,7 @@ class Statistics:
         return int(correct_guesses > 0), total_wolves
 
     @staticmethod
-    def wolf_predictions_all(game_result):
+    def wolf_predictions_all(game_result: GameResult) -> Tuple[int, int]:
         ''' Returns 1/1 if all Wolves were correctly identified. '''
         correct_guesses, total_wolves = 0, 0
         for i in range(const.NUM_PLAYERS):
@@ -116,7 +122,7 @@ class Statistics:
         return int(correct_guesses == total_wolves), 1
 
     @staticmethod
-    def wolf_predictions_center(game_result):
+    def wolf_predictions_center(game_result: GameResult) -> Tuple[int, int]:
         ''' Returns fraction of how many Wolves were correctly identified. '''
         correct_guesses, total_wolves = 0, 0
         for i in range(const.NUM_ROLES):
@@ -127,16 +133,16 @@ class Statistics:
         return correct_guesses, total_wolves
 
     @staticmethod
-    def villager_wins(game_result):
+    def villager_wins(game_result: GameResult) -> Tuple[int, int]:
         ''' Returns 1/1 if the Villager team won. '''
         return int(game_result.winning_team == 'Villager'), 1
 
     @staticmethod
-    def tanner_wins(game_result):
+    def tanner_wins(game_result: GameResult) -> Tuple[int, int]:
         ''' Returns 1/1 if the Tanner won. '''
         return int(game_result.winning_team == 'Tanner'), 1
 
     @staticmethod
-    def werewolf_wins(game_result):
+    def werewolf_wins(game_result: GameResult) -> Tuple[int, int]:
         ''' Returns 1/1 if the Werewolf team won. '''
         return int(game_result.winning_team == 'Werewolf'), 1

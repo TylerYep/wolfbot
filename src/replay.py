@@ -9,7 +9,7 @@ from src.voting import consolidate_results
 from src.const import logger
 from src import const
 
-def replay_game():
+def replay_game() -> None:
     ''' Runs last game stored in replay.json '''
     with open('data/replay.json', 'r') as f_replay:
         original_roles, game_roles, all_statements, player_objs \

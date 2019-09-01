@@ -1,9 +1,9 @@
 ''' algorithms.py '''
-import sys
+from typing import Dict, List, Optional, Union
 from copy import deepcopy
+import sys
 
 from src.statements import Statement
-from src.const import logger
 from src import const
 
 if sys.version_info < (3, 0):
@@ -18,11 +18,11 @@ class SolverState:
         self.switches = switches if switches is not None else []
         self.path = path_init if path_init is not None else []
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f'\n{self.possible_roles}\n{self.path}\n{self.switches}\n'
 
 
-def is_consistent(statement, state):
+def is_consistent(statement, state) -> Union[SolverState, bool]:
     '''
     Returns the new state if the statement is consistent with state,
     otherwise returns False.
@@ -42,7 +42,8 @@ def is_consistent(statement, state):
     return SolverState(new_possible_roles, new_switches, list(state.path))
 
 
-def switching_solver(statements, known_true=None):
+def switching_solver(statements: List[Statement],
+                     known_true: Optional[int] = None) -> List[SolverState]:
     '''
     Returns maximal list of statements that can be true from a list
     of Statements. Handles switching characters.
@@ -53,7 +54,7 @@ def switching_solver(statements, known_true=None):
     start_state = SolverState(possible_roles, [])
     solution = [SolverState([], [])]
 
-    def _switch_recurse(ind, state):
+    def _switch_recurse(ind, state) -> None:
         '''
         ind = index of statement being considered
         state.path = list of [True, False, True ...] values.
@@ -80,7 +81,7 @@ def switching_solver(statements, known_true=None):
     return solution
 
 
-def count_roles(state):
+def count_roles(state) -> Dict[str, int]:
     '''
     Returns a dictionary of counts for each role in [proposed roles sets].
     Only counts players in which we are sure of their role,

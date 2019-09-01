@@ -6,7 +6,7 @@ from src.one_night import play_one_night_werewolf
 from src.const import logger
 from src import const
 
-def main(save_replay=True):
+def main(save_replay: bool = True) -> None:
     ''' Simulate play_one_night_werewolf and create a Statistics instance for the runs. '''
     start_time = time.time()
     stats = Statistics()

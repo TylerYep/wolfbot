@@ -1,6 +1,8 @@
+''' util_test.py '''
 from src import util
 
 def test_print_roles(caplog):
+    ''' util_test.py '''
     expected = '[Hidden] Current roles: [hi, bye]                 \n\t  Center cards: []\n'
     util.print_roles(["hi", "bye"])
     captured = caplog.records[0].getMessage()
@@ -8,9 +10,10 @@ def test_print_roles(caplog):
 
 
 def debug_issues(captured, expected):
+    ''' util_test.py '''
     print(len(captured), len(expected))
-    for char in range(len(captured)):
-        if captured[char] != expected[char]:
-            print("INCORRECT: ", char, captured[char] + " vs " + expected[char])
+    for i, captured_char in enumerate(captured):
+        if captured_char != expected[i]:
+            print("INCORRECT: ", i, captured_char + " vs " + expected[i])
         else:
-            print(" " * 10, char, captured[char] + " vs " + expected[char])
+            print(" " * 10, i, captured_char + " vs " + expected[i])

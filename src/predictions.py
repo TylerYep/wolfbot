@@ -1,18 +1,20 @@
 ''' predictions.py '''
-import random
+from typing import List, Dict, Tuple, Union
 from copy import deepcopy
+import random
 
+from src.algorithms import SolverState
 from src.const import logger
 from src import const
 
-def make_random_prediction():
+def make_random_prediction() -> List[str]:
     ''' Makes a random prediction. '''
     random_guesses = list(const.ROLES)
     random.shuffle(random_guesses)
     return random_guesses
 
 
-def make_evil_prediction(solution_arr):
+def make_evil_prediction(solution_arr: List[SolverState]) -> List[str]:
     '''
     Makes the Wolf character's prediction for the game.
     '''
@@ -24,14 +26,14 @@ def make_evil_prediction(solution_arr):
     return make_prediction_fast(solution)
 
 
-def make_prediction_fast(solution):
+def make_prediction_fast(solution: SolverState) -> List[str]:
     '''
     Uses a list of true/false statements and possible role sets
     to return a rushed list of predictions for all roles.
     Does not restrict guesses to the possible sets.
     '''
     if len(solution.possible_roles) != const.NUM_ROLES:
-        return False
+        return []
     all_role_guesses, curr_role_counts = get_basic_guesses(solution)
     solved = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts), False)
     switch_dict = get_switch_dict(solution)
@@ -39,7 +41,7 @@ def make_prediction_fast(solution):
     return final_guesses
 
 
-def make_prediction(solution_arr, is_evil=False):
+def make_prediction(solution_arr: List[SolverState], is_evil: bool = False) -> List[str]:
     '''
     Uses a list of true/false statements and possible role sets
     to return a list of predictions for all roles
@@ -47,7 +49,7 @@ def make_prediction(solution_arr, is_evil=False):
     if is_evil:
         return make_evil_prediction(solution_arr)
 
-    solved = None
+    solved = []
     random.shuffle(solution_arr)
     for solution in solution_arr:
         # This case only occurs when Wolves tell a perfect lie.
@@ -73,7 +75,7 @@ def make_prediction(solution_arr, is_evil=False):
     return final_guesses
 
 
-def get_basic_guesses(solution):
+def get_basic_guesses(solution: SolverState) -> Tuple[List[str], Dict[str, int]]:
     '''
     Populates the basic set of predictions, or adds the empty string if the
     possible roles set is not of size 1. For each statement, take the
@@ -111,7 +113,10 @@ def get_basic_guesses(solution):
     return all_role_guesses, curr_role_counts
 
 
-def recurse_assign(solution, all_role_guesses, curr_role_counts, restrict_possible=True):
+def recurse_assign(solution: SolverState,
+                   all_role_guesses: List[str],
+                   curr_role_counts: Dict[str, int],
+                   restrict_possible: bool = True):
     '''
     Assign the remaining unknown cards by recursing and finding a consistent placement.
     If restrict_possible is enabled, then uses the possible_roles sets to assign.
@@ -135,10 +140,10 @@ def recurse_assign(solution, all_role_guesses, curr_role_counts, restrict_possib
                     curr_role_counts[rol] += 1
                     all_role_guesses[i] = ''
     # Unable to assign all roles
-    return False
+    return []
 
 
-def get_switch_dict(solution):
+def get_switch_dict(solution: SolverState) -> Dict[int, int]:
     '''
     Converts array of switches into a dictionary to index with.
     Sorts by priority before iterating.
@@ -152,7 +157,7 @@ def get_switch_dict(solution):
     return switch_dict
 
 
-def print_guesses(role_guesses):
+def print_guesses(role_guesses: List[Union['Player', str]]) -> None:
     ''' Formats guesses to console. '''
     logger.info(f'\n[Wolfbot] Role guesses: {role_guesses[:const.NUM_PLAYERS]} \
                 \n\t  Center cards: {role_guesses[const.NUM_PLAYERS:]}\n'.replace('\'', ''))

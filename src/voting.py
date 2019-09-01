@@ -1,14 +1,18 @@
 ''' voting.py '''
+from typing import Tuple, List
 import random
 from collections import defaultdict
 
 from src.stats import GameResult
 from src.algorithms import switching_solver
 from src.predictions import make_prediction, print_guesses
+from src.statements import Statement
+from src.roles import Player
 from src.const import logger
 from src import const, util
 
-def consolidate_results(save_game):
+def consolidate_results(save_game: Tuple[List[str], List[str], List[Statement], List[Player]]) \
+                        -> GameResult:
     ''' Consolidates results and returns final GameResult. '''
     original_roles, game_roles, all_statements, player_objs = save_game
     orig_wolf_inds = util.find_all_player_indices(original_roles, 'Wolf')
@@ -22,13 +26,13 @@ def consolidate_results(save_game):
 
     all_solutions = switching_solver(all_statements)
     for solution in all_solutions:
-        logger.log(const.logging.TRACE, f'Solver interpretation: {solution.path}')
+        logger.log(const.TRACE, f'Solver interpretation: {solution.path}')
     all_role_guesses = make_prediction(all_solutions)
     print_guesses(all_role_guesses)
     return GameResult(game_roles, all_role_guesses, all_statements, orig_wolf_inds)
 
 
-def is_player_evil(player_objs, i, orig_wolf_inds):
+def is_player_evil(player_objs: List[Player], i: int, orig_wolf_inds: List[int]) -> bool:
     ''' Decide whether a character is about to make an evil prediction. '''
     # TODO When a wolf becomes good? Do I need to check for Wolf twice?
     return (i in orig_wolf_inds and player_objs[i].new_role == '') \
@@ -36,7 +40,9 @@ def is_player_evil(player_objs, i, orig_wolf_inds):
         or player_objs[i].new_role in const.EVIL_ROLES
 
 
-def get_individual_preds(player_objs, all_statements, orig_wolf_inds):
+def get_individual_preds(player_objs: List[Player],
+                         all_statements: List[Statement],
+                         orig_wolf_inds: List[int]) -> List[List[str]]:
     ''' Let each player make a prediction of every player's true role. '''
     all_role_guesses_arr = []
     # Good player vs Bad player guesses
@@ -47,11 +53,13 @@ def get_individual_preds(player_objs, all_statements, orig_wolf_inds):
         all_role_guesses_arr.append(prediction)
 
     for pred in all_role_guesses_arr:
-        logger.log(const.logging.TRACE, f'Player prediction: {pred}'.replace('\'', ''))
+        logger.log(const.TRACE, f'Player prediction: {pred}'.replace('\'', ''))
     return all_role_guesses_arr
 
 
-def eval_final_guesses(game_roles, guessed_wolf_inds, vote_inds):
+def eval_final_guesses(game_roles: List[str],
+                       guessed_wolf_inds: List[int],
+                       vote_inds: List[int]) -> str:
     ''' Decide which team won based on the final vote. '''
     killed_wolf, killed_tanner, villager_win = False, False, False
     if len(guessed_wolf_inds) == const.NUM_PLAYERS:
@@ -90,7 +98,8 @@ def eval_final_guesses(game_roles, guessed_wolf_inds, vote_inds):
     return 'Werewolf'
 
 
-def get_voting_result(all_role_guesses_arr):
+def get_voting_result(all_role_guesses_arr: List[List[str]]) \
+                      -> Tuple[List[str], List[int], List[int], List[int]]:
     '''
     Creates confidence levels for each prediction and takes most
     common role guess array as the final guess for that index.
@@ -123,7 +132,7 @@ def get_voting_result(all_role_guesses_arr):
     return list(all_role_guesses), confidence, guessed_wolf_inds, vote_inds
 
 
-def get_player_vote(ind, prediction):
+def get_player_vote(ind: int, prediction: List[str]) -> int:
     ''' Updates Wolf votes for a given prediction. '''
     # TODO find the most likely Wolf and only vote for that one
     wolf_inds = util.find_all_player_indices(prediction[:const.NUM_PLAYERS], 'Wolf')

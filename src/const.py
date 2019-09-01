@@ -1,6 +1,5 @@
 ''' const.py '''
 from collections import Counter
-import sys
 import random
 import logging
 
@@ -13,7 +12,7 @@ RANDOMIZE_ROLES = True
 
 ''' Simulation Constants '''
 NUM_GAMES = 1
-FIXED_WOLF_INDEX = None
+FIXED_WOLF_INDEX = -1
 SHOW_PROGRESS = False or NUM_GAMES >= 10
 SAVE_REPLAY = NUM_GAMES < 10
 UNIT_TEST = False
@@ -55,8 +54,8 @@ TRACE = Debugging mode for development
 DEBUG = Include all hidden messages
 INFO = Regular gameplay
 WARNING = Results only '''
-logging.TRACE = 5
-logging.basicConfig(format='%(message)s', level=logging.TRACE)#, filename='test1.txt', filemode='a')
+TRACE = 5
+logging.basicConfig(format='%(message)s', level=TRACE)#, filename='test1.txt', filemode='a')
 logger = logging.getLogger()
 
 if NUM_GAMES >= 10 and not UNIT_TEST: logger.setLevel(logging.WARNING)

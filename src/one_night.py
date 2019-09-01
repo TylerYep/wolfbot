@@ -1,14 +1,17 @@
 ''' one_night.py '''
+from typing import List, Union
 import random
 import json
 
+from src.stats import GameResult
 from src.encoder import WolfBotEncoder
-from src.roles import get_role_obj
+from src.roles import get_role_obj, Player
+from src.statements import Statement
 from src.voting import consolidate_results
 from src.const import logger
 from src import const, util
 
-def play_one_night_werewolf(save_replay=True):
+def play_one_night_werewolf(save_replay: bool = True) -> GameResult:
     ''' Plays one round of One Night Ultimate Werewolf. '''
     global ORIGINAL_ROLES
     game_roles = list(const.ROLES)
@@ -31,7 +34,7 @@ def play_one_night_werewolf(save_replay=True):
     return consolidate_results(save_game)
 
 
-def get_player_statements(player_objs):
+def get_player_statements(player_objs: List[Player]) -> List[Statement]:
     ''' Returns array of each player's statements. '''
     stated_roles, given_statements = [], []
     for j in range(const.NUM_PLAYERS):
@@ -42,7 +45,9 @@ def get_player_statements(player_objs):
     return given_statements
 
 
-def awaken_role(game_roles, player_objs, role_str):
+def awaken_role(game_roles: List[str],
+                player_objs: List[Union[str, Player]],
+                role_str: str) -> None:
     ''' Interates through each player in player_objs and initializes the Player object. '''
     logger.info(f'{role_str}, wake up.')
     role_obj = get_role_obj(role_str)
@@ -52,12 +57,12 @@ def awaken_role(game_roles, player_objs, role_str):
     logger.info(f'{role_str}, go to sleep.\n')
 
 
-def night_falls(game_roles):
+def night_falls(game_roles: List[str]) -> List[Player]:
     ''' Initialize role object list and perform all switching and peeking actions to begin. '''
     logger.info('\n -- NIGHT FALLS -- \n')
     util.print_roles(game_roles)
 
-    # Awaken each player in order (print command)
+    # Awaken each player in order (prints command)
     player_objs = list(game_roles)
     for role in const.AWAKE_ORDER:
         awaken_role(game_roles, player_objs, role)
@@ -71,9 +76,9 @@ def night_falls(game_roles):
     return player_objs[:const.NUM_PLAYERS]
 
 
-def override_wolf_index(game_roles):
+def override_wolf_index(game_roles: List[str]) -> None:
     ''' Swap a Wolf to the const.FIXED_WOLF_INDEX. '''
     wolf_inds = util.find_all_player_indices(game_roles, 'Wolf')
-    if wolf_inds:
+    if wolf_inds and const.FIXED_WOLF_INDEX >= 0:
         wolf_ind = random.choice(wolf_inds)
         util.swap_characters(game_roles, wolf_ind, const.FIXED_WOLF_INDEX)
