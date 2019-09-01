@@ -1,21 +1,48 @@
 ''' stats.py '''
-from typing import Dict, Tuple
+from typing import Dict, List, Tuple
 from collections import Counter
 
+from src.roles import Player
+from src.statements import Statement
 from src.const import logger
 from src import const
+
+class SavedGame:
+    ''' All of the necessary data needed to rerun a game. '''
+    def __init__(self, original_roles, game_roles, all_statements, player_objs):
+        self.original_roles = original_roles
+        self.game_roles = game_roles
+        self.all_statements = all_statements
+        self.player_objs = player_objs
+
+    def load_game(self) -> Tuple[Tuple[str, ...], List[str], List[Statement], List[Player]]:
+        ''' Returns game data. '''
+        return self.original_roles, self.game_roles, self.all_statements, self.player_objs
+
+    def json_repr(self) -> Dict:
+        ''' Returns json representation of the GameResult. '''
+        return {
+            'type': 'SavedGame',
+            'original_roles': self.original_roles,
+            'game_roles': self.game_roles,
+            'all_statements': self.all_statements,
+            'player_objs': self.player_objs
+        }
+
+    def __repr__(self) -> str:
+        ''' Returns string representation of the SavedGame. '''
+        return '' # TODO
+
 
 class GameResult:
     ''' Each round of one_night returns a GameResult. '''
     def __init__(self,
-                 actual,
-                 guessed,
-                 statements,
-                 wolf_inds,
-                 winning_team=''):
+                 actual: List[str],
+                 guessed: List[str],
+                 wolf_inds: List[int],
+                 winning_team: str = ''):
         self.actual = actual
         self.guessed = guessed
-        self.statements = statements
         self.wolf_inds = wolf_inds
         self.winning_team = winning_team
 
@@ -25,7 +52,6 @@ class GameResult:
             'type': 'GameResult',
             'actual': self.actual,
             'guessed': self.guessed,
-            'statements': self.statements,
             'wolf_inds': self.wolf_inds,
             'winning_team': self.winning_team
         }

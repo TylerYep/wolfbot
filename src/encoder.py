@@ -1,21 +1,23 @@
 ''' encoder.py '''
+from typing import Any, Dict
+import sys
 import json
 import pickle
 
-from src.stats import GameResult
+from src.stats import GameResult, SavedGame
 from src.statements import Statement
 from src.roles import Player #, get_role_obj
 from src import const
 
 class WolfBotEncoder(json.JSONEncoder):
     ''' Encoder for all WolfBot objects '''
-    def default(self, obj):
+    def default(self, o: Any) -> Dict:
         ''' Overrides encoding method. '''
-        if isinstance(obj, (Player, Statement, GameResult)):
-            return obj.json_repr()
-        if isinstance(obj, set):
-            return {'type': 'Set', 'data': tuple(obj)}
-        return json.JSONEncoder.default(self, obj)
+        if isinstance(o, (Player, Statement, GameResult, SavedGame)):
+            return o.json_repr()
+        if isinstance(o, set):
+            return {'type': 'Set', 'data': tuple(o)}
+        return json.JSONEncoder.default(self, o)
 
 
 class WolfBotDecoder(json.JSONDecoder):
@@ -24,7 +26,7 @@ class WolfBotDecoder(json.JSONDecoder):
         json.JSONDecoder.__init__(self, object_hook=self.json_to_objects)
 
     @staticmethod
-    def json_to_objects(obj):
+    def json_to_objects(obj) -> Any:
         ''' Implements decoding method. '''
         if 'type' not in obj:
             return obj
@@ -33,10 +35,8 @@ class WolfBotDecoder(json.JSONDecoder):
 
         if obj_type == 'Set':
             return set(obj['data'])
-        if obj_type == 'Statement':
-            return Statement(**obj)
-        if obj_type == 'GameResult':
-            return GameResult(**obj)
+        if obj_type in ('Statement', 'GameResult', 'SavedGame'):
+            return get_object_initializer(obj_type)(**obj)
         if obj_type in const.ROLE_SET:
             return Player(obj['player_index'], obj['new_role'])
             # For recreating the entire player object:
@@ -44,7 +44,12 @@ class WolfBotDecoder(json.JSONDecoder):
         return obj
 
 
-def convert_dict_to_json(file_path):
+def get_object_initializer(obj_name):
+    ''' Retrieves class initializer from its string name. '''
+    return getattr(sys.modules[__name__], obj_name)
+
+
+def convert_dict_to_json(file_path: str) -> None:
     ''' Backwards compatibility with pkl. '''
     with open(file_path, 'rb') as fpkl, open(f'{file_path[0:-4]}.json', 'w') as fjson:
         data = pickle.load(fpkl)

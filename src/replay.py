@@ -12,10 +12,11 @@ from src import const
 def replay_game() -> None:
     ''' Runs last game stored in replay.json '''
     with open('data/replay.json', 'r') as f_replay:
-        original_roles, game_roles, all_statements, player_objs \
-                     = json.load(f_replay, cls=WolfBotDecoder)
+        save_game = json.load(f_replay, cls=WolfBotDecoder)
+    original_roles, game_roles, all_statements, player_objs = save_game.load_game()
 
     logger.setLevel(0)
+    logger.warning(player_objs)
     logger.warning('\n\nSTATEMENTS:\n')
     for sentence in all_statements:
         logger.warning(sentence)
@@ -25,9 +26,7 @@ def replay_game() -> None:
     logger.warning(f'[SOLUTION] Role guesses: {game_roles[:const.NUM_PLAYERS]} \
                     \n\t  Center cards: {game_roles[const.NUM_PLAYERS:]}\n')
 
-    game_result = []
     if const.USE_VOTING:
-        save_game = (original_roles, game_roles, all_statements, player_objs)
         game_result = consolidate_results(save_game)
     else:
         solution = switching_solver(all_statements)
@@ -36,7 +35,7 @@ def replay_game() -> None:
             logger.warning(sol)
         all_role_guesses = make_prediction(solution)
         print_guesses(all_role_guesses)
-        game_result = GameResult(game_roles, all_role_guesses, all_statements, [])
+        game_result = GameResult(game_roles, all_role_guesses, [])
 
     stats = Statistics()
     stats.add_result(game_result)

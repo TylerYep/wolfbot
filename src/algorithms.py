@@ -1,5 +1,5 @@
 ''' algorithms.py '''
-from typing import Dict, List, Optional, Union
+from typing import Dict, List, Optional, Set, Tuple, Union
 from copy import deepcopy
 import sys
 
@@ -13,7 +13,10 @@ if sys.version_info < (3, 0):
 
 class SolverState:
     ''' Each solver returns a SolverState object with the result. '''
-    def __init__(self, possible_roles, switches=None, path_init=None):
+    def __init__(self,
+                 possible_roles: List[Set[str]],
+                 switches: Optional[List[Tuple[int, ...]]] = None,
+                 path_init: Optional[List[bool]] = None):
         self.possible_roles = possible_roles
         self.switches = switches if switches is not None else []
         self.path = path_init if path_init is not None else []
@@ -22,7 +25,7 @@ class SolverState:
         return f'\n{self.possible_roles}\n{self.path}\n{self.switches}\n'
 
 
-def is_consistent(statement, state) -> Union[SolverState, bool]:
+def is_consistent(statement: Statement, state: SolverState) -> Union[SolverState, bool]:
     '''
     Returns the new state if the statement is consistent with state,
     otherwise returns False.
@@ -81,14 +84,14 @@ def switching_solver(statements: List[Statement],
     return solution
 
 
-def count_roles(state) -> Dict[str, int]:
+def count_roles(possible_roles_list: List[Set[str]]) -> Dict[str, int]:
     '''
     Returns a dictionary of counts for each role in [proposed roles sets].
     Only counts players in which we are sure of their role,
     such as {'Villager': 3, 'Robber': 0, 'Seer': 0, 'Wolf': 1}
     '''
-    count = {role: 0 for role in const.ROLE_SET}
-    for possible_roles in state:
+    counts_dict = {role: 0 for role in const.ROLE_SET}
+    for possible_roles in possible_roles_list:
         if len(possible_roles) == 1:
-            count[next(iter(possible_roles))] += 1
-    return count
+            counts_dict[next(iter(possible_roles))] += 1
+    return counts_dict

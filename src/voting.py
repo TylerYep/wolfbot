@@ -1,9 +1,9 @@
 ''' voting.py '''
-from typing import Tuple, List
+from typing import List, Tuple
 import random
 from collections import defaultdict
 
-from src.stats import GameResult
+from src.stats import GameResult, SavedGame
 from src.algorithms import switching_solver
 from src.predictions import make_prediction, print_guesses
 from src.statements import Statement
@@ -11,10 +11,9 @@ from src.roles import Player
 from src.const import logger
 from src import const, util
 
-def consolidate_results(save_game: Tuple[List[str], List[str], List[Statement], List[Player]]) \
-                        -> GameResult:
+def consolidate_results(save_game: SavedGame) -> GameResult:
     ''' Consolidates results and returns final GameResult. '''
-    original_roles, game_roles, all_statements, player_objs = save_game
+    original_roles, game_roles, all_statements, player_objs = save_game.load_game()
     orig_wolf_inds = util.find_all_player_indices(original_roles, 'Wolf')
     if const.USE_VOTING:
         indiv_preds = get_individual_preds(player_objs, all_statements, orig_wolf_inds)
@@ -22,14 +21,14 @@ def consolidate_results(save_game: Tuple[List[str], List[str], List[Statement], 
         print_guesses(all_guesses)
         logger.debug(f'Confidence level: {[float(f"{conf:.2f}") for conf in confidence]}')
         winning_team = eval_final_guesses(game_roles, guessed_wolf_inds, vote_inds)
-        return GameResult(game_roles, all_guesses, all_statements, orig_wolf_inds, winning_team)
+        return GameResult(game_roles, all_guesses, orig_wolf_inds, winning_team)
 
     all_solutions = switching_solver(all_statements)
     for solution in all_solutions:
         logger.log(const.TRACE, f'Solver interpretation: {solution.path}')
     all_role_guesses = make_prediction(all_solutions)
     print_guesses(all_role_guesses)
-    return GameResult(game_roles, all_role_guesses, all_statements, orig_wolf_inds)
+    return GameResult(game_roles, all_role_guesses, orig_wolf_inds)
 
 
 def is_player_evil(player_objs: List[Player], i: int, orig_wolf_inds: List[int]) -> bool:

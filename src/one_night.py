@@ -1,11 +1,11 @@
 ''' one_night.py '''
-from typing import List, Union
+from typing import List, Tuple
 import random
 import json
 
-from src.stats import GameResult
+from src.stats import GameResult, SavedGame
 from src.encoder import WolfBotEncoder
-from src.roles import get_role_obj, Player
+from src.roles import Player, get_role_obj
 from src.statements import Statement
 from src.voting import consolidate_results
 from src.const import logger
@@ -13,20 +13,19 @@ from src import const, util
 
 def play_one_night_werewolf(save_replay: bool = True) -> GameResult:
     ''' Plays one round of One Night Ultimate Werewolf. '''
-    global ORIGINAL_ROLES
     game_roles = list(const.ROLES)
     if const.RANDOMIZE_ROLES:
         random.shuffle(game_roles)
-    ORIGINAL_ROLES = list(game_roles)
+    original_roles = tuple(game_roles)
     if const.FIXED_WOLF_INDEX is not None:
         override_wolf_index(game_roles)
 
-    player_objs = night_falls(game_roles)
+    player_objs = night_falls(game_roles, original_roles)
     logger.info('\n -- GAME BEGINS -- \n')
     all_statements = get_player_statements(player_objs)
     util.print_roles(game_roles)
 
-    save_game = (ORIGINAL_ROLES, game_roles, all_statements, player_objs)
+    save_game = SavedGame(original_roles, game_roles, all_statements, player_objs)
     if save_replay:
         with open('data/replay.json', 'w') as replay_file:
             json.dump(save_game, replay_file, cls=WolfBotEncoder)
@@ -45,33 +44,26 @@ def get_player_statements(player_objs: List[Player]) -> List[Statement]:
     return given_statements
 
 
-def awaken_role(game_roles: List[str],
-                player_objs: List[Union[str, Player]],
-                role_str: str) -> None:
-    ''' Interates through each player in player_objs and initializes the Player object. '''
-    logger.info(f'{role_str}, wake up.')
-    role_obj = get_role_obj(role_str)
-    for i in range(const.NUM_PLAYERS):
-        if ORIGINAL_ROLES[i] == role_str:
-            player_objs[i] = role_obj(i, game_roles, ORIGINAL_ROLES)
-    logger.info(f'{role_str}, go to sleep.\n')
-
-
-def night_falls(game_roles: List[str]) -> List[Player]:
+def night_falls(game_roles: List[str], original_roles: Tuple[str, ...]) -> List[Player]:
     ''' Initialize role object list and perform all switching and peeking actions to begin. '''
     logger.info('\n -- NIGHT FALLS -- \n')
     util.print_roles(game_roles)
 
-    # Awaken each player in order (prints command)
-    player_objs = list(game_roles)
-    for role in const.AWAKE_ORDER:
-        awaken_role(game_roles, player_objs, role)
+    # Awaken each player in order and initialize the Player object.
+    player_objs = [Player(i) for i in range(const.NUM_ROLES)]
+    for role_str in const.AWAKE_ORDER:
+        logger.info(f'{role_str}, wake up.')
+        role_obj = get_role_obj(role_str)
+        for i in range(const.NUM_PLAYERS):
+            if original_roles[i] == role_str:
+                player_objs[i] = role_obj(i, game_roles, original_roles)
+        logger.info(f'{role_str}, go to sleep.\n')
 
-    # All other players wake up at the same time
-    for i, role in enumerate(ORIGINAL_ROLES):
-        if role in const.ROLE_SET - set(const.AWAKE_ORDER):
-            role_obj = get_role_obj(role)
-            player_objs[i] = role_obj(i, game_roles, ORIGINAL_ROLES)
+    # All other players wake up at the same time.
+    for i, role_str in enumerate(original_roles):
+        if role_str in const.ROLE_SET - set(const.AWAKE_ORDER):
+            role_obj = get_role_obj(role_str)
+            player_objs[i] = role_obj(i, game_roles, original_roles)
 
     return player_objs[:const.NUM_PLAYERS]
 

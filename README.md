@@ -6,7 +6,14 @@ To try it out, run 'python src/main.py' in the terminal. (Python 3.7)
 Constants, along with their use cases, are listed in src/const.py.
 
 # Development
-## January 2018
+
+## August 2019
+player can accept 0 parameters? just multiply to make the list.
+wolf_inds isn't used in stats....
+
+## July 2019
+
+## January 2019
 Interactive mode and Hunter added!
 
 
@@ -108,7 +115,6 @@ TODO:
 * UI and secure move API
 * Multiple Statements
 * Unit testing
-* Type checking
 
 # File Dependency Tree
 Simplified version (some cycles exist)  

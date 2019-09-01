@@ -1,9 +1,10 @@
 ''' util.py '''
-from typing import List, Tuple, Union
+from typing import List, Sequence, Tuple, Union
 import random
 
-from src import const
 from src.const import logger
+from src import const
+
 
 def swap_characters(game_roles: List[str], i: int, j: int) -> None:
     ''' Util function to swap two characters, updating game_roles. '''
@@ -12,7 +13,7 @@ def swap_characters(game_roles: List[str], i: int, j: int) -> None:
     game_roles[j] = temp
 
 
-def find_all_player_indices(game_roles: List[str], role: str) -> List[int]:
+def find_all_player_indices(game_roles: Sequence[str], role: str) -> List[int]:
     ''' Util function to find all indices of a given role. '''
     return [i for i in range(const.NUM_PLAYERS) if game_roles[i] == role]
 

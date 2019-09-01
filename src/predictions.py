@@ -1,5 +1,5 @@
 ''' predictions.py '''
-from typing import List, Dict, Tuple, Union
+from typing import Dict, List, Tuple, Union
 from copy import deepcopy
 import random
 
@@ -50,27 +50,30 @@ def make_prediction(solution_arr: List[SolverState], is_evil: bool = False) -> L
         return make_evil_prediction(solution_arr)
 
     solved = []
+    solution_index = 0
     random.shuffle(solution_arr)
-    for solution in solution_arr:
+    for index, solution in enumerate(solution_arr):
         # This case only occurs when Wolves tell a perfect lie.
         if len(solution.possible_roles) != const.NUM_ROLES:
             return make_random_prediction()
+        solution_index = index
         all_role_guesses, curr_role_counts = get_basic_guesses(solution)
         solved = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts))
         if solved: break
 
     if not solved:
-        for solution in solution_arr:
+        for index, solution in enumerate(solution_arr):
+            solution_index = index
             all_role_guesses, curr_role_counts = get_basic_guesses(solution)
             for j in range(const.NUM_ROLES):
-                for role in ['Wolf', 'Minion', 'Robber', 'Insomniac', 'Tanner']:
+                for role in ('Wolf', 'Minion', 'Robber', 'Insomniac', 'Tanner'):
                     if all_role_guesses[j] == role:
                         all_role_guesses[j] = ''
                         curr_role_counts[role] += 1
             solved = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts))
             if solved: break
 
-    switch_dict = get_switch_dict(solution)
+    switch_dict = get_switch_dict(solution_arr[solution_index])
     final_guesses = [solved[switch_dict[i]] for i in range(len(solved))]
     return final_guesses
 
@@ -116,7 +119,7 @@ def get_basic_guesses(solution: SolverState) -> Tuple[List[str], Dict[str, int]]
 def recurse_assign(solution: SolverState,
                    all_role_guesses: List[str],
                    curr_role_counts: Dict[str, int],
-                   restrict_possible: bool = True):
+                   restrict_possible: bool = True) -> List[str]:
     '''
     Assign the remaining unknown cards by recursing and finding a consistent placement.
     If restrict_possible is enabled, then uses the possible_roles sets to assign.
