@@ -1,5 +1,6 @@
 ''' stats.py '''
 from collections import Counter
+
 from src.const import logger
 from src import const
 

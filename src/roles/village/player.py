@@ -1,5 +1,6 @@
 ''' player.py '''
 import random
+
 from src.const import logger
 from src import const, util
 

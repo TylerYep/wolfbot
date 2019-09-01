@@ -1,5 +1,6 @@
 ''' villager.py '''
 from src.statements import Statement
+
 from .player import Player
 
 class Hunter(Player):

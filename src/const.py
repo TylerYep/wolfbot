@@ -1,5 +1,6 @@
 ''' const.py '''
 from collections import Counter
+import sys
 import random
 import logging
 
@@ -54,10 +55,9 @@ TRACE = Debugging mode for development
 DEBUG = Include all hidden messages
 INFO = Regular gameplay
 WARNING = Results only '''
-logging.basicConfig(format='%(message)s', level=logging.INFO)#, filename='test1.txt', filemode='a')
 logging.TRACE = 5
+logging.basicConfig(format='%(message)s', level=logging.TRACE)#, filename='test1.txt', filemode='a')
 logger = logging.getLogger()
-logger.setLevel(logging.TRACE)
 
 if NUM_GAMES >= 10 and not UNIT_TEST: logger.setLevel(logging.WARNING)
 if INTERACTIVE_MODE_ON: logger.setLevel(logging.INFO)

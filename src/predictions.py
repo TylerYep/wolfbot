@@ -1,6 +1,7 @@
 ''' predictions.py '''
 import random
 from copy import deepcopy
+
 from src.const import logger
 from src import const
 

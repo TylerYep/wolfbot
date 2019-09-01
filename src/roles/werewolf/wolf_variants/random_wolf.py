@@ -1,6 +1,5 @@
 ''' random_wolf.py '''
-from src import const
-from src import roles
+from src import const, roles
 
 # Random Wolf Player
 def get_wolf_statements_random(player_obj):

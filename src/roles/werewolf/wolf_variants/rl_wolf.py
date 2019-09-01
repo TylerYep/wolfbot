@@ -1,6 +1,7 @@
 ''' rl_wolf.py '''
 import json
 from collections import defaultdict
+
 from src.const import logger
 from src import const
 

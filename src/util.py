@@ -1,31 +1,33 @@
 ''' util.py '''
+from typing import List, Tuple, Union
 import random
+
 from src import const
 from src.const import logger
 
-def swap_characters(game_roles, i, j):
+def swap_characters(game_roles: List[str], i: int, j: int):
     ''' Util function to swap two characters, updating game_roles. '''
     temp = game_roles[i]
     game_roles[i] = game_roles[j]
     game_roles[j] = temp
 
 
-def find_all_player_indices(game_roles, role):
+def find_all_player_indices(game_roles: List[str], role: str) -> List[int]:
     ''' Util function to find all indices of a given role. '''
     return [i for i in range(const.NUM_PLAYERS) if game_roles[i] == role]
 
 
-def get_player(self_obj, vals_to_exclude=()):
+def get_player(self_obj: 'Player', vals_to_exclude: Tuple[int] = ()) -> int:
     ''' Gets a random player index (not in the center). '''
     return input_player(vals_to_exclude) if self_obj.is_user else get_random_player(vals_to_exclude)
 
 
-def get_center(self_obj, vals_to_exclude=()):
+def get_center(self_obj, vals_to_exclude: Tuple[int] = ()) -> int:
     ''' Gets a random index of a center card. '''
     return input_center(vals_to_exclude) if self_obj.is_user else get_random_center(vals_to_exclude)
 
 
-def get_random_player(vals_to_exclude=()):
+def get_random_player(vals_to_exclude: Tuple[int] = ()) -> int:
     ''' Gets a random player index (not in the center). '''
     choice_ind = -1
     while choice_ind == -1 or choice_ind in vals_to_exclude:
@@ -33,7 +35,7 @@ def get_random_player(vals_to_exclude=()):
     return choice_ind
 
 
-def get_random_center(vals_to_exclude=()):
+def get_random_center(vals_to_exclude: Tuple[int] = ()) -> int:
     ''' Gets a random index of a center card. '''
     choice_ind = -1
     while choice_ind == -1 or choice_ind in vals_to_exclude:
@@ -41,7 +43,7 @@ def get_random_center(vals_to_exclude=()):
     return choice_ind
 
 
-def input_player(vals_to_exclude=()):
+def input_player(vals_to_exclude: Tuple[int] = ()) -> int:
     ''' Prompts the user for a player index (not in the center). '''
     choice_ind = -1
     while choice_ind < 0 or choice_ind >= const.NUM_PLAYERS:
@@ -56,7 +58,7 @@ def input_player(vals_to_exclude=()):
     return choice_ind
 
 
-def input_center(vals_to_exclude=()):
+def input_center(vals_to_exclude: Tuple[int] = ()) -> int:
     ''' Prompts the user for a center card index. '''
     choice_ind = -1
     while choice_ind < 0 or choice_ind >= const.NUM_CENTER:
@@ -71,7 +73,7 @@ def input_center(vals_to_exclude=()):
     return choice_ind + const.NUM_PLAYERS
 
 
-def get_numeric_input(size):
+def get_numeric_input(size: int) -> int:
     ''' Prompts the user for an index between 0 and size. '''
     choice_ind = -1
     while choice_ind < 0 or choice_ind >= size:
@@ -82,7 +84,7 @@ def get_numeric_input(size):
     return choice_ind
 
 
-def print_roles(game_roles):
+def print_roles(game_roles: List[Union['Player', str]]):
     ''' Formats hidden roles to console. '''
     logger.debug(f'[Hidden] Current roles: {game_roles[:const.NUM_PLAYERS]} \
                 \n\t  Center cards: {game_roles[const.NUM_PLAYERS:]}\n'.replace('\'', ''))

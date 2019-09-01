@@ -1,5 +1,6 @@
 ''' reg_wolf.py '''
 from src import const
+
 from ...village import Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac, Hunter
 
 def get_wolf_statements(player_obj, stated_roles, previous_statements):
