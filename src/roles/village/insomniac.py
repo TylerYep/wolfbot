@@ -1,4 +1,6 @@
 ''' insomniac.py '''
+from typing import List, Optional
+
 from src.statements import Statement
 from src.const import logger
 from src import const
@@ -8,13 +10,13 @@ from .player import Player
 class Insomniac(Player):
     ''' Insomniac Player class. '''
 
-    def __init__(self, player_index, game_roles, original_roles):
+    def __init__(self, player_index: int, game_roles: List[str], original_roles: List[str]):
         super().__init__(player_index)
         insomniac_new_role = self.insomniac_init(game_roles)
         self.new_role = insomniac_new_role
         self.statements = self.get_insomniac_statements(player_index, insomniac_new_role)
 
-    def insomniac_init(self, game_roles):
+    def insomniac_init(self, game_roles: List[str]) -> str:
         ''' Initializes Insomniac - learns new role. '''
         insomniac_new_role = game_roles[self.player_index]
         logger.debug(f'[Hidden] Insomniac wakes up as a {insomniac_new_role}.')
@@ -22,7 +24,9 @@ class Insomniac(Player):
         return insomniac_new_role
 
     @staticmethod
-    def get_insomniac_statements(player_index, insomniac_new_role, new_insomniac_index=None):
+    def get_insomniac_statements(player_index: int,
+                                 insomniac_new_role: str,
+                                 new_insomniac_index: Optional[int] = None) -> List[Statement]:
         ''' Gets Insomniac Statement. '''
         knowledge = [(player_index, {'Insomniac'})]
         sentence = f'I am a Insomniac and when I woke up I was a {insomniac_new_role}.'
@@ -35,14 +39,14 @@ class Insomniac(Player):
         return [Statement(sentence, knowledge)]
 
     @staticmethod
-    def get_all_statements(player_index):
+    def get_all_statements(player_index: int) -> List[Statement]:
         ''' Required for all player types. Returns all possible role statements. '''
         statements = []
         for role in const.ROLES:
             statements += Insomniac.get_insomniac_statements(player_index, role)
         return statements
 
-    def get_statement(self, stated_roles, previous):
+    def get_statement(self, stated_roles: List[str], previous: List[Statement]) -> Statement:
         ''' Overrides get_statement when the Insomniac becomes a Wolf. '''
         if self.new_role == 'Wolf':
             # Import Wolf here to avoid circular dependency

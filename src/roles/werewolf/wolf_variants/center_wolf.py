@@ -1,9 +1,12 @@
 ''' center_wolf.py '''
+from typing import List, Type
 from src import const
+from src.statements import Statement
 
-from ...village import Villager, Seer, Robber, Troublemaker, Drunk, Insomniac, Hunter
+from ...village import Player, Villager, Seer, Robber, Troublemaker, Drunk, Insomniac, Hunter
 
-def get_center_wolf_statements(player_obj, stated_roles):
+def get_center_wolf_statements(player_obj: Type[Player],
+                               stated_roles: List[str]) -> List[Statement]:
     ''' Center Wolf Player logic. '''
     statements = []
     player_index = player_obj.player_index

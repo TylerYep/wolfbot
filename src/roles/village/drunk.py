@@ -1,4 +1,6 @@
 ''' drunk.py '''
+from typing import List
+
 from src.statements import Statement
 from src.const import logger
 from src import const, util
@@ -8,12 +10,12 @@ from .player import Player
 class Drunk(Player):
     ''' Drunk Player class. '''
 
-    def __init__(self, player_index, game_roles, original_roles):
+    def __init__(self, player_index: int, game_roles: List[str], original_roles: List[str]):
         super().__init__(player_index)
         drunk_choice_index = self.drunk_init(game_roles)
         self.statements = self.get_drunk_statements(player_index, drunk_choice_index)
 
-    def drunk_init(self, game_roles):
+    def drunk_init(self, game_roles: List[str]) -> int:
         ''' Initializes Drunk - switches with a card in the center. '''
         assert const.NUM_CENTER != 0
         choice_index = util.get_center(self)
@@ -24,7 +26,7 @@ class Drunk(Player):
         return choice_index
 
     @staticmethod
-    def get_drunk_statements(player_index, choice_index):
+    def get_drunk_statements(player_index: int, choice_index: int) -> List[Statement]:
         ''' Gets Drunk Statement. '''
         sentence = f'I am a Drunk and I swapped with Center {choice_index - const.NUM_PLAYERS}.'
         knowledge = [(player_index, {'Drunk'})]
@@ -32,7 +34,7 @@ class Drunk(Player):
         return [Statement(sentence, knowledge, switches)]
 
     @staticmethod
-    def get_all_statements(player_index):
+    def get_all_statements(player_index: int) -> List[Statement]:
         ''' Required for all player types. Returns all possible role statements. '''
         statements = []
         for k in range(const.NUM_CENTER):

@@ -1,4 +1,6 @@
 ''' mason.py '''
+from typing import List
+
 from src.statements import Statement
 from src.const import logger
 from src import const, util
@@ -8,12 +10,12 @@ from .player import Player
 class Mason(Player):
     ''' Mason Player class. '''
 
-    def __init__(self, player_index, game_roles, original_roles):
+    def __init__(self, player_index: int, game_roles: List[str], original_roles: List[str]):
         super().__init__(player_index)
         self.mason_indices = self.mason_init(original_roles)
         self.statements = self.get_mason_statements(player_index, self.mason_indices)
 
-    def mason_init(self, original_roles):
+    def mason_init(self, original_roles: List[str]) -> List[int]:
         ''' Initializes Mason - sees all other Masons. '''
         mason_indices = util.find_all_player_indices(original_roles, 'Mason')
         logger.debug(f'[Hidden] Masons are at indices: {mason_indices}')
@@ -22,7 +24,7 @@ class Mason(Player):
         return mason_indices
 
     @staticmethod
-    def get_mason_statements(player_index, mason_indices):
+    def get_mason_statements(player_index: int, mason_indices: List[int]) -> List[Statement]:
         ''' Gets Mason Statement. '''
         if len(mason_indices) == 1:
             sentence = 'I am a Mason. The other Mason is not present.'
@@ -37,7 +39,7 @@ class Mason(Player):
         return [Statement(sentence, knowledge)]
 
     @staticmethod
-    def get_all_statements(player_index):
+    def get_all_statements(player_index: int) -> List[Statement]:
         ''' Required for all player types. Returns all possible role statements. '''
         statements = Mason.get_mason_statements(player_index, [player_index])
         for i in range(const.NUM_PLAYERS):

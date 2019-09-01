@@ -1,6 +1,8 @@
 ''' wolf.py '''
+from typing import List, Tuple
 import random
 
+from src.statements import Statement
 from src.algorithms import switching_solver
 from src.predictions import make_prediction_fast
 from src.const import logger
@@ -13,7 +15,10 @@ from .wolf_variants import get_wolf_statements_random, get_statement_expectimax,
 class Wolf(Player):
     ''' Wolf Player class. '''
 
-    def __init__(self, player_index, game_roles=None, original_roles=None):
+    def __init__(self,
+                 player_index: int,
+                 game_roles: List[str] = None,
+                 original_roles: List[str] = None):
         '''
         Constructor: original_roles defaults to None when a player becomes a Wolf and realizes it.
         '''
@@ -21,7 +26,9 @@ class Wolf(Player):
         self.wolf_indices, self.center_index, self.center_role \
                 = self.wolf_init(game_roles, original_roles)
 
-    def wolf_init(self, game_roles, original_roles):
+    def wolf_init(self,
+                  game_roles: List[str],
+                  original_roles: List[str]) -> Tuple[List[int], int, str]:
         ''' Initializes Wolf - gets Wolf indices and a random center card, if applicable. '''
         wolf_indices = []
         wolf_center_index, wolf_center_role = None, None
@@ -37,7 +44,7 @@ class Wolf(Player):
 
         return wolf_indices, wolf_center_index, wolf_center_role
 
-    def get_statement(self, stated_roles, previous):
+    def get_statement(self, stated_roles: List[str], previous: List[Statement]) -> Statement:
         ''' Get Wolf Statement. '''
         if const.USE_REG_WOLF:
             if self.center_role not in (None, 'Wolf', 'Mason'):
@@ -57,7 +64,7 @@ class Wolf(Player):
 
         return super().get_statement(stated_roles, previous)
 
-    def eval_fn(self, statement_list):
+    def eval_fn(self, statement_list: List[Statement]) -> int:
         '''
         Evaluates a complete or incomplete game.
         # wolves in a positions - # of ones that are actually wolves, size of set

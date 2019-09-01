@@ -1,12 +1,16 @@
 ''' expectimax_wolf.py '''
+from typing import Dict, List, Type
 import random
 from copy import deepcopy
 
+from src.statements import Statement
 from src.algorithms import SolverState, is_consistent
 from src.const import logger
 from src import const, roles
 
-def get_expected_statements():
+from ...village import Player
+
+def get_expected_statements() -> Dict:
     '''
     Gets all possible statements that can be made by a village player from any index.
     Used to find the 'expect' part of the Expectimax algorithm.
@@ -21,7 +25,8 @@ def get_expected_statements():
     return possible
 
 
-def get_statement_expectimax(player_obj, prev_statements):
+def get_statement_expectimax(player_obj: Type[Player],
+                             prev_statements: List[Statement]) -> Statement:
     ''' Gets Expectimax Wolf statement. '''
     expected_player_statements = get_expected_statements()
 

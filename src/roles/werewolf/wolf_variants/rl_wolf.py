@@ -1,13 +1,19 @@
 ''' rl_wolf.py '''
-import json
+from typing import List, Type
 from collections import defaultdict
+import json
 
+from src.statements import Statement
 from src.const import logger
 from src import const
 
 from .reg_wolf import get_wolf_statements
+from ...village import Player
 
-def get_statement_rl(player_obj, stated_roles, previous_statements, default_answer):
+def get_statement_rl(player_obj: Type[Player],
+                     stated_roles: List[str],
+                     previous_statements: List[Statement],
+                     default_answer: Statement):
     ''' Gets Reinforcement Learning Wolf statement. '''
     statements = get_wolf_statements(player_obj, stated_roles, previous_statements)
 

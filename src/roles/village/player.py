@@ -1,20 +1,22 @@
 ''' player.py '''
+from typing import Dict, List
 import random
 
+from src.statements import Statement
 from src.const import logger
 from src import const, util
 
 class Player:
     ''' Player class. '''
 
-    def __init__(self, player_index, new_role=''):
+    def __init__(self, player_index: int, new_role: str = ''):
         self.player_index = player_index
         self.role = self.__class__.__name__ # e.g. 'Wolf'
         self.new_role = new_role
         self.statements = []
         self.is_user = const.IS_USER[player_index]
 
-    def get_statement(self, stated_roles, previous):
+    def get_statement(self, stated_roles: List[str], previous: List[Statement]) -> Statement:
         ''' Gets Player Statement. '''
         if self.is_user:
             logger.info('Please choose from the following statements: ')
@@ -27,11 +29,11 @@ class Player:
 
         return random.choice(tuple(self.statements))
 
-    def json_repr(self):
+    def json_repr(self) -> Dict:
         ''' Gets JSON representation of a Player object. '''
         return {'type': self.role, 'player_index': self.player_index,
                 'statements': self.statements, 'new_role': self.new_role}
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         ''' Used to distiguish Player objects for logging. '''
         return '<' + self.role + '>'

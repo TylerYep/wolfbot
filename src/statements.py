@@ -8,7 +8,7 @@ class Statement:
     def __init__(self,
                  sentence: str,
                  knowledge: List[Tuple[int, Set[str]]],
-                 switches: List[Tuple[int, ...]] = None):
+                 switches: List[Tuple[int, int, int]] = None):
         '''
         sentence is a string representation of the statement
         knowledge is a list of (player_index, set(role)) tuples
