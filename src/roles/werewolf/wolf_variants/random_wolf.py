@@ -5,7 +5,7 @@ from src.statements import Statement
 from src import const, roles
 
 def get_wolf_statements_random(player_obj: Any) -> List[Statement]:
-    ''' Gets Random Wolf Player statement. '''
+    ''' Gets Random Wolf statements. '''
     statements = []
     for role in const.VILLAGE_ROLES:
         role_obj = roles.get_role_obj(role)

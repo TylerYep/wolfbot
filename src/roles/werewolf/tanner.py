@@ -19,7 +19,7 @@ class Tanner(Player):
 
     def get_statement(self, stated_roles: List[str], previous: List[Statement]) -> Statement:
         ''' Get Tanner Statement. '''
-        self.statements = get_wolf_statements_random(self)
+        self.statements += get_wolf_statements_random(self)
 
         if const.USE_EXPECTIMAX_WOLF:
             return get_statement_expectimax(self, previous)

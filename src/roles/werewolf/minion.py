@@ -32,9 +32,9 @@ class Minion(Player):
     def get_statement(self, stated_roles: List[str], previous: List[Statement]) -> Statement:
         ''' Get Minion Statement. '''
         if const.USE_REG_WOLF:
-            self.statements = get_wolf_statements(self, stated_roles, previous)
+            self.statements += get_wolf_statements(self, stated_roles, previous)
         else:
-            self.statements = get_wolf_statements_random(self)
+            self.statements += get_wolf_statements_random(self)
 
         if const.USE_EXPECTIMAX_WOLF:
             return get_statement_expectimax(self, previous)

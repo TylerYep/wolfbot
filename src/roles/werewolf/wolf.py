@@ -48,11 +48,13 @@ class Wolf(Player):
         ''' Get Wolf Statement. '''
         if const.USE_REG_WOLF:
             if self.center_role not in (None, 'Wolf', 'Mason'):
-                self.statements = get_center_wolf_statements(self, stated_roles)
-            if not self.statements:
-                self.statements = get_wolf_statements(self, stated_roles, previous)
+                center_statements = get_center_wolf_statements(self, stated_roles)
+                self.statements += center_statements if center_statements \
+                    else get_wolf_statements(self, stated_roles, previous)
+            else:
+                self.statements += get_wolf_statements(self, stated_roles, previous)
         else:
-            self.statements = get_wolf_statements_random(self)
+            self.statements += get_wolf_statements_random(self)
 
         # Choose one statement to return by default
         if const.USE_RL_WOLF:

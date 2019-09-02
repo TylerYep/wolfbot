@@ -44,7 +44,7 @@ def make_prediction_fast(solution: SolverState) -> List[str]:
 def make_prediction(solution_arr: List[SolverState], is_evil: bool = False) -> List[str]:
     '''
     Uses a list of true/false statements and possible role sets
-    to return a list of predictions for all roles
+    to return a list of predictions for all roles.
     '''
     if is_evil:
         return make_evil_prediction(solution_arr)

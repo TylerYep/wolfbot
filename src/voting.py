@@ -71,8 +71,9 @@ def eval_final_guesses(game_roles: List[str],
             villager_win = True
     else:
         # Hunter kills the player he voted for if he dies.
+        # Ensure player did not vote themselves in this case.
         for i in guessed_wolf_inds:
-            if game_roles[i] == 'Hunter':
+            if game_roles[i] == 'Hunter' and i != vote_inds[i]:
                 guessed_wolf_inds.append(vote_inds[i])
                 logger.info(f'(Player {i}) Hunter died and killed Player {vote_inds[i]} too!\n')
 

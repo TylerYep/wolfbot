@@ -7,6 +7,10 @@ Constants, along with their use cases, are listed in src/const.py.
 
 # Development
 
+## September 2019
+
+
+
 ## August 2019
 Started working on this project again. The main blocker for adding more functionality is the lack of testing I currently have. Without solid unit/integration tests, it's really easy to break or change existing functionality silently. So, I have decided to begin using Pytest as a framework for writing unit tests for the existing code. The test/ folder is intended to follow the folder structure of src/, and will import accordingly. To accomplish this change, I had to change many of the imports to explicitly start from src/. Additionally, to aid this effort, I have also decided to introduce type annotations for all function declarations, which will make the test writing process a lot easier. I use Facebook's Pyre as a fast type checker, which together with Pylint has helped me find and fix a lot of poor design decisions in my code.
 
@@ -67,6 +71,10 @@ and make sure const.py sets the random seed.
 * Pylint entire directory using:
 ```
 find . -iname "*.py" | xargs pylint
+```
+* Type-check the directory using Pyre:
+```
+pyre check
 ```
 
 # Files
