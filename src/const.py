@@ -1,7 +1,8 @@
 ''' const.py '''
-from collections import Counter
+import sys
 import random
 import logging
+from collections import Counter
 
 ''' Game Constants '''
 ROLES = ('Insomniac', 'Villager', 'Villager', 'Villager', 'Wolf', 'Wolf', 'Seer', 'Tanner',
@@ -15,7 +16,7 @@ NUM_GAMES = 1
 FIXED_WOLF_INDEX = -1
 SHOW_PROGRESS = False or NUM_GAMES >= 10
 SAVE_REPLAY = NUM_GAMES < 10
-UNIT_TEST = False
+UNIT_TEST = 'pytest' in sys.modules
 if UNIT_TEST: random.seed(0)
 
 ''' Util Constants '''

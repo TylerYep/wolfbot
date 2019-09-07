@@ -40,11 +40,45 @@ class TestGetCenter:
 
 
 class TestGetRandomPlayer:
-    pass
+    def test_generates_different_indices(self):
+        const.ROLES = large_game_roles()
+        const.NUM_PLAYERS = 12
+
+        result = [util.get_random_player() for _ in range(10)]
+
+        assert result == [6, 6, 0, 4, 8, 7, 6, 4, 7, 5]
+
+    def test_excludes_specified_values(self):
+        const.ROLES = large_game_roles()
+        const.NUM_PLAYERS = 12
+        exclude = (6, 7, 8)
+
+        result = [util.get_random_player(exclude) for _ in range(10)]
+
+        assert len(set(result).intersection(exclude)) == 0
+        assert result == [9, 3, 2, 4, 2, 1, 9, 4, 11, 9]
 
 
 class TestGetRandomCenter:
-    pass
+    def test_generates_different_indices(self):
+        const.ROLES = large_game_roles()
+        const.NUM_PLAYERS = 12
+        const.NUM_CENTER = 3
+
+        result = [util.get_random_center() for _ in range(10)]
+
+        assert result == [12, 13, 12, 14, 12, 14, 13, 13, 14, 12]
+
+    def test_excludes_specified_values(self):
+        const.ROLES = large_game_roles()
+        const.NUM_PLAYERS = 12
+        const.NUM_CENTER = 3
+        exclude = (12, 13)
+
+        result = [util.get_random_center(exclude) for _ in range(10)]
+
+        assert len(set(result).intersection(exclude)) == 0
+        assert result == [14]*10
 
 
 class TestInputPlayer:
@@ -62,14 +96,14 @@ class TestGetNumericInput:
 class TestPrintRoles:
     def test_print_roles(self, caplog):
         '''Correctly print and format roles.'''
-        const.ROLES = ('Robber', 'Villager', 'Wolf')
+        const.ROLES = example_game_roles()
         const.NUM_PLAYERS = 2
-        shuffled_roles = ['Villager', 'Wolf', 'Robber']
+        shuffled_roles = ['Seer', 'Villager', 'Robber']
 
         util.print_roles(shuffled_roles)
         captured = caplog.records[0].getMessage()
 
-        expected = '[Hidden] Current roles: [Villager, Wolf]' \
+        expected = '[Hidden] Current roles: [Seer, Villager]' \
                     + ' '*17 \
                     + '\n\t  Center cards: [Robber]\n'
         assert captured == expected
