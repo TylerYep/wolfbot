@@ -5,10 +5,9 @@ from src import util, const
 from fixtures import example_game_roles, large_game_roles
 
 class TestSwapCharacters:
-    def test_same_index_error(self, caplog):
+    def test_same_index_error(self):
         '''Don't attempt to swap the same index.'''
         roles = example_game_roles()
-
         with pytest.raises(AssertionError):
             util.swap_characters(roles, 2, 2)
 
