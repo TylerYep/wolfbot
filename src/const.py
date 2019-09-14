@@ -64,3 +64,7 @@ if INTERACTIVE_MODE_ON: logger.setLevel(logging.INFO)
 
 ''' Ensure only one Wolf version is active '''
 assert sum([USE_EXPECTIMAX_WOLF, USE_RL_WOLF]) <= 1
+
+if sys.version_info < (3, 0):
+    sys.stdout.write('Requires Python 3, not Python 2!\n')
+    sys.exit()

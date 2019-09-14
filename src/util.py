@@ -5,7 +5,6 @@ import random
 from src.const import logger
 from src import const
 
-
 def swap_characters(game_roles: List[str], ind1: int, ind2: int) -> None:
     ''' Util function to swap two characters, updating game_roles. '''
     assert ind1 != ind2

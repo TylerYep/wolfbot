@@ -1,15 +1,9 @@
 ''' algorithms.py '''
 from typing import Dict, List, Optional, Set, Tuple
 from copy import deepcopy
-import sys
 
 from src.statements import Statement
 from src import const
-
-if sys.version_info < (3, 0):
-    sys.stdout.write('Requires Python 3, not Python 2!\n')
-    sys.exit()
-
 
 class SolverState:
     ''' Each solver returns a SolverState object with the result. '''

@@ -62,20 +62,32 @@ First steps were to recreate a simplified version of game in Python. We initiall
 Next, we made a solver for a set of statements from each player. Majority of the work here goes to Harry for introducing a Consistency verifier for Statements, and creating the Baseline Solver.
 
 # Developer Commands
-* For truly deterministic results during testing, run
+* For truly deterministic results during testing, run:
 ```
 PYTHONHASHSEED=0 python src/main.py
 ```
-and make sure const.py sets the random seed.
+Make sure const.py sets the random seed.
 
 * Pylint entire directory using:
 ```
-pylint
+pylinta
 find . -iname "*.py" | xargs pylint
+find . -iname "*.py" ! -iname "*_test.py" | xargs pylint
 ```
+
+* Pylint all test files using:
+```
+pylinta test
+find . -iname "*_test.py" | xargs pylint
+```
+
 * Type-check the directory using Pyre:
 ```
 pyre check
+```
+* Run all tests:
+```
+pytest -v
 ```
 
 # Files
@@ -131,26 +143,23 @@ Wolf Theory: Choose statements that do a good job, not necessarily the absolute 
 # File Dependency Tree
 Simplified version (some cycles exist)  
 
-src/
-
+#### src/
 const.py  
-|-- predictions.py  
-|-- statistics.py  
-|-- statements.py  
-|-- util.py  
-|   |-- algorithms.py   (const, statements)  
-|   |-- roles/          (const, statements, util)  
-|   |   |-- main.py           (algorithms, const, one_night, statistics)  
-|   |   |-- generate.py       (algorithms, encoder, const, one_night)  
-|   |   |-- encoder.py        (const, roles, statements, statistics)  
-|   |   |   |-- one_night.py        (const, encoder, roles, voting, util)  
-|   |   |   |-- replay.py           (algorithms, const, encoder, prediction, statistics, voting)  
-|   |   |   |-- train.py            (encoder, main)  
-|   |   |   |-- voting.py           (const, roles, statements, statistics)  
+|-- statements.py   (const)  
+|-- util.py         (const)  
+|...|-- algorithms.py   (const, statements)  
+|...|-- roles/          (const, statements, util)  
+|...|...|-- stats.py          (const, roles, statements)  
+|...|...|...|-- predictions.py    (const, algorithms)  
+|...|...|...|-- main.py           (const, algorithms, one_night, stats)  
+|...|...|...|-- generate.py       (const, algorithms, one_night, encoder)  
+|...|...|...|-- encoder.py        (const, roles, statements, stats)  
+|...|...|...|...|-- one_night.py        (const, util, roles, encoder, voting)  
+|...|...|...|...|-- replay.py           (const, algorithms, encoder, prediction, stats, voting)  
+|...|...|...|...|-- train.py            (encoder, main)  
+|...|...|...|...|-- voting.py           (const, roles, statements, stats)  
 
-roles/        (imports const, statements, util)  
-
-villager/  
+#### roles/villager/  
 player.py  
 |-- drunk.py  
 |-- insmoniac.py (imports wolf in get_statements)  
@@ -160,11 +169,11 @@ player.py
 |-- troublemaker.py  
 |-- villager.py  
 
-werewolf/ (imports player, villager)  
+#### roles/werewolf/         (player, villager)  
 |-- minion.py  
 |-- wolf.py (imports wolf in get_statements)  
-|   |-- center_wolf.py  
-|   |-- expectimax_wolf.py  
-|   |-- random_wolf.py  
-|   |-- reg_wolf.py  
-|   |-- rl_wolf.py  
+|...|-- center_wolf.py  
+|...|-- expectimax_wolf.py  
+|...|-- random_wolf.py  
+|...|-- reg_wolf.py  
+|...|-- rl_wolf.py  

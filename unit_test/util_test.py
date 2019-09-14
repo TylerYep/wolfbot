@@ -54,7 +54,7 @@ class TestGetRandomPlayer:
 
         result = [util.get_random_player(exclude) for _ in range(10)]
 
-        assert len(set(result).intersection(exclude)) == 0
+        assert not set(result).intersection(exclude)
         assert result == [9, 3, 2, 4, 2, 1, 9, 4, 11, 9]
 
 
@@ -76,7 +76,7 @@ class TestGetRandomCenter:
 
         result = [util.get_random_center(exclude) for _ in range(10)]
 
-        assert len(set(result).intersection(exclude)) == 0
+        assert not set(result).intersection(exclude)
         assert result == [14]*10
 
 
