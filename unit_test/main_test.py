@@ -1,5 +1,5 @@
 ''' main_test.py '''
-from src import main
+# from src import main
 
 class TestMain:
     pass

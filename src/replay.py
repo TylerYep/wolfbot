@@ -10,7 +10,7 @@ from src.const import logger
 from src import const
 
 def replay_game() -> None:
-    ''' Runs last game stored in replay.json '''
+    ''' Runs last game stored in replay.json. '''
     with open('data/replay.json', 'r') as f_replay:
         save_game = json.load(f_replay, cls=WolfBotDecoder)
     original_roles, game_roles, all_statements, player_objs = save_game.load_game()
