@@ -1,4 +1,4 @@
-''' villager.py '''
+''' hunter.py '''
 from typing import List
 
 from src.statements import Statement

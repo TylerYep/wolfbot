@@ -1,4 +1,6 @@
 ''' statements_test.py '''
+import pytest
+
 from src import statements, const
 from fixtures import large_game_roles
 
@@ -48,3 +50,23 @@ class TestStatement:
         expected = 'Statement("test", [(2, {\'Robber\'}), (0, {\'Seer\'})], [(0, 2, 1)], Robber)'
 
         assert result == expected
+
+    def test_eq(self):
+        not_a_statement = 'hello'
+        identical_statement = statements.Statement('test',
+                                                   [(2, {'Robber'}), (0, {'Seer'})],
+                                                   [(0, 2, const.ROBBER_PRIORITY)])
+        with pytest.raises(AssertionError):
+            should_fail = STATEMENT == not_a_statement
+        assert STATEMENT == identical_statement
+
+    # def test_hash(self):
+    #     identical_statement = statements.Statement('test',
+    #                                                [(2, {'Robber'}), (0, {'Seer'})],
+    #                                                [(0, 2, const.ROBBER_PRIORITY)])
+    #
+    #     statement_set = set([identical_statement, STATEMENT])
+    #
+    #     assert statement_set == set([STATEMENT])
+
+

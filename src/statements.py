@@ -5,7 +5,7 @@ from typing import Any, Dict, List, Set, Tuple
 from src import const
 
 class Statement:
-    ''' Model for all statements in the game. '''
+    ''' Model for all statements in the game. Statements are intended to be immutable. '''
     def __init__(self,
                  sentence: str,
                  knowledge: List[Tuple[int, Set[str]]],
@@ -51,3 +51,14 @@ class Statement:
 
     def __repr__(self) -> str:
         return f'Statement("{self.sentence}", {self.knowledge}, {self.switches}, {self.speaker})'
+
+    def __eq__(self, other) -> bool:
+        assert isinstance(other, Statement)
+
+        return self.sentence == other.sentence \
+            and self.knowledge == other.knowledge \
+            and self.switches == other.switches \
+            and self.speaker == other.speaker
+
+    # def __hash__(self) -> int:
+    #     return hash((self.sentence, self.knowledge, self.switches, self.speaker))

@@ -20,37 +20,28 @@ STATEMENT_LIST = [
               [(7, {'Robber'}), (5, {'Seer'})], [(0, 5, 7)])
 ]
 
-POSSIBLE_ROLES = [
-
-]
-
-SWITCHES = [
-
-]
-
-PATH = [True, False, True, True, True, True, True, False]
-
 class TestSolverState:
     def test_constructor(self):
-        state = algorithms.SolverState([{'Villager'}])
+        state = algorithms.SolverState([{'Villager'}], [], [True])
 
         assert isinstance(state, algorithms.SolverState)
 
     def test_is_valid_state(self):
-        valid_state = algorithms.SolverState([{'Villager'}])
-        invalid_state = algorithms.SolverState([])
+        valid_state = algorithms.SolverState([{'Villager'}], [], [True])
+        invalid_state = algorithms.SolverState()
 
         assert valid_state.is_valid_state()
         assert not invalid_state.is_valid_state()
 
     def test_repr(self):
-        state = algorithms.SolverState([{'Villager'}])
+        state = algorithms.SolverState([{'Villager'}], [], [True])
 
-        assert str(state) == "\n[{'Villager'}]\n[]\n[]\n" # TODO
+        assert str(state) == "\n[{'Villager'}]\n[True]\n[]\n"
 
 
 class TestIsConsistent:
-    pass
+    def test_is_consistent(self):
+        pass
 
 
 class TestSolver:
@@ -69,13 +60,13 @@ class TestSolver:
         ] + [const.ROLE_SET]*7
         expected_path = [True, False, True, True, True, True, True, False]
 
-        result = algorithms.switching_solver(STATEMENT_LIST)
+        result_list = algorithms.switching_solver(STATEMENT_LIST)
 
-        assert result[0].possible_roles == expected_possible_roles
-        assert result[0].path == expected_path
+        assert result_list[0].possible_roles == expected_possible_roles
+        assert result_list[0].path == expected_path
 
     def test_count_roles(self):
-        const.ROLE_SET = set(['Wolf', 'Seer', 'Villager'])
+        const.ROLE_SET = set(['Wolf', 'Seer', 'Villager', 'Robber'])
         possible_roles_list = [
             {'Villager'},
             {'Seer'},
@@ -84,6 +75,4 @@ class TestSolver:
 
         result = algorithms.count_roles(possible_roles_list)
 
-        assert result == {'Seer': 1, 'Villager': 2, 'Wolf': 0}
-
-
+        assert result == {'Seer': 1, 'Villager': 2, 'Wolf': 0, 'Robber': 0}

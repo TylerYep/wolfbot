@@ -8,10 +8,10 @@ from src import const
 class SolverState:
     ''' Each solver returns a SolverState object with the result. '''
     def __init__(self,
-                 possible_roles: List[Set[str]],
+                 possible_roles: Optional[List[Set[str]]] = None,
                  switches: Optional[List[Tuple[int, ...]]] = None,
                  path_init: Optional[List[bool]] = None):
-        self.possible_roles = possible_roles
+        self.possible_roles = possible_roles if possible_roles is not None else []
         self.switches = switches if switches is not None else []
         self.path = path_init if path_init is not None else []
 
@@ -34,12 +34,12 @@ def is_consistent(statement: Statement, state: SolverState) -> SolverState:
     for proposed_ind, proposed_roles in statement.knowledge:
         intersection = proposed_roles & new_possible_roles[proposed_ind]
         if not intersection:
-            return SolverState([])
+            return SolverState()
         new_possible_roles[proposed_ind] = intersection
         count = count_roles(new_possible_roles)
         for proposed_role in proposed_roles:
             if count[proposed_role] > const.ROLE_COUNTS[proposed_role]:
-                return SolverState([])
+                return SolverState()
     return SolverState(new_possible_roles, new_switches, list(state.path))
 
 
@@ -52,8 +52,8 @@ def switching_solver(statements: List[Statement],
     the possible role sets for each player.
     '''
     possible_roles = [deepcopy(const.ROLE_SET) for i in range(const.NUM_ROLES)]
-    start_state = SolverState(possible_roles, [])
-    solution = [SolverState([], [])]
+    start_state = SolverState(possible_roles)
+    solution = [SolverState()]
 
     def _switch_recurse(ind, state) -> None:
         '''

@@ -1,5 +1,5 @@
 ''' expectimax_wolf.py '''
-from typing import Any, Dict, List, Type
+from typing import Any, Dict, List
 import random
 from copy import deepcopy
 
