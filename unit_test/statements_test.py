@@ -2,7 +2,6 @@
 import pytest
 
 from src import statements, const
-from fixtures import large_game_roles
 
 STATEMENT = statements.Statement('test',
                                  [(2, {'Robber'}), (0, {'Seer'})],
@@ -13,8 +12,8 @@ class TestStatement:
         statement = statements.Statement('test', [(1, {'Villager'})])
         assert isinstance(statement, statements.Statement)
 
-    def test_negate(self):
-        const.ROLES = large_game_roles()
+    def test_negate(self, large_game_roles):
+        const.ROLES = large_game_roles
         expected = statements.Statement('NOT - test',
                                         [(2, set(const.ROLES) - {'Robber'})],
                                         speaker='Robber')
@@ -24,8 +23,8 @@ class TestStatement:
         assert isinstance(result, statements.Statement)
         assert str(result) == str(expected)
 
-    def test_negate_all(self):
-        const.ROLES = large_game_roles()
+    def test_negate_all(self, large_game_roles):
+        const.ROLES = large_game_roles
         expected = statements.Statement('NOT - test',
                                         [(2, set(const.ROLES) - {'Robber'}),
                                          (0, set(const.ROLES) - {'Seer'})],
@@ -46,8 +45,9 @@ class TestStatement:
                           'speaker': 'Robber'}
 
     def test_repr(self):
-        result = str(STATEMENT)
         expected = 'Statement("test", [(2, {\'Robber\'}), (0, {\'Seer\'})], [(0, 2, 1)], Robber)'
+
+        result = str(STATEMENT)
 
         assert result == expected
 
@@ -56,8 +56,9 @@ class TestStatement:
         identical_statement = statements.Statement('test',
                                                    [(2, {'Robber'}), (0, {'Seer'})],
                                                    [(0, 2, const.ROBBER_PRIORITY)])
+
         with pytest.raises(AssertionError):
-            should_fail = STATEMENT == not_a_statement
+            assert STATEMENT == not_a_statement
         assert STATEMENT == identical_statement
 
     # def test_hash(self):
@@ -68,5 +69,3 @@ class TestStatement:
     #     statement_set = set([identical_statement, STATEMENT])
     #
     #     assert statement_set == set([STATEMENT])
-
-

@@ -2,30 +2,24 @@
 import pytest
 
 from src import util, const
-from fixtures import example_game_roles, large_game_roles
 
 class TestSwapCharacters:
-    def test_same_index_error(self):
+    def test_same_index_error(self, example_game_roles):
         '''Don't attempt to swap the same index.'''
-        roles = example_game_roles()
         with pytest.raises(AssertionError):
-            util.swap_characters(roles, 2, 2)
+            util.swap_characters(example_game_roles, 2, 2)
 
-    def test_swap(self):
+    def test_swap(self, example_game_roles):
         '''Correctly swap two players.'''
-        roles = example_game_roles()
+        util.swap_characters(example_game_roles, 0, 2)
 
-        util.swap_characters(roles, 0, 2)
-
-        assert roles == ['Robber', 'Seer', 'Villager']
+        assert example_game_roles == ['Robber', 'Seer', 'Villager']
 
 
 class TestFindAllPlayerIndices:
-    def test_returns_correct_indices(self):
+    def test_returns_correct_indices(self, large_game_roles):
         '''Don't attempt to swap the same index.'''
-        roles = large_game_roles()
-
-        result = util.find_all_player_indices(roles, 'Villager')
+        result = util.find_all_player_indices(large_game_roles, 'Villager')
 
         assert result == [1, 4, 11]
 
@@ -39,16 +33,16 @@ class TestGetCenter:
 
 
 class TestGetRandomPlayer:
-    def test_generates_different_indices(self):
-        const.ROLES = large_game_roles()
+    def test_generates_different_indices(self, large_game_roles):
+        const.ROLES = large_game_roles
         const.NUM_PLAYERS = 12
 
         result = [util.get_random_player() for _ in range(10)]
 
         assert result == [6, 6, 0, 4, 8, 7, 6, 4, 7, 5]
 
-    def test_excludes_specified_values(self):
-        const.ROLES = large_game_roles()
+    def test_excludes_specified_values(self, large_game_roles):
+        const.ROLES = large_game_roles
         const.NUM_PLAYERS = 12
         exclude = (6, 7, 8)
 
@@ -59,8 +53,8 @@ class TestGetRandomPlayer:
 
 
 class TestGetRandomCenter:
-    def test_generates_different_indices(self):
-        const.ROLES = large_game_roles()
+    def test_generates_different_indices(self, large_game_roles):
+        const.ROLES = large_game_roles
         const.NUM_PLAYERS = 12
         const.NUM_CENTER = 3
 
@@ -68,8 +62,8 @@ class TestGetRandomCenter:
 
         assert result == [12, 13, 12, 14, 12, 14, 13, 13, 14, 12]
 
-    def test_excludes_specified_values(self):
-        const.ROLES = large_game_roles()
+    def test_excludes_specified_values(self, large_game_roles):
+        const.ROLES = large_game_roles
         const.NUM_PLAYERS = 12
         const.NUM_CENTER = 3
         exclude = (12, 13)
@@ -93,9 +87,10 @@ class TestGetNumericInput:
 
 
 class TestPrintRoles:
-    def test_print_roles(self, caplog):
+    def test_print_roles(self, caplog, example_game_roles):
         '''Correctly print and format roles.'''
-        const.ROLES = example_game_roles()
+        const.logger.setLevel(const.TRACE)
+        const.ROLES = example_game_roles
         const.NUM_PLAYERS = 2
         shuffled_roles = ['Seer', 'Villager', 'Robber']
 

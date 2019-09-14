@@ -1,5 +1,4 @@
 ''' hunter_test.py '''
-from src import const
 from src.statements import Statement
 from src.roles.village import Hunter
 
@@ -14,13 +13,13 @@ class TestHunter:
     def test_get_hunter_statements(self):
         player_index = 0
 
-        result = Hunter.get_hunter_statements(0)
+        result = Hunter.get_hunter_statements(player_index)
 
         assert result == [Statement('I am a Hunter.', [(0, {'Hunter'})])]
 
     def test_get_all_statements(self):
         player_index = 2
 
-        result = Hunter.get_all_statements(2)
+        result = Hunter.get_all_statements(player_index)
 
         assert result == [Statement('I am a Hunter.', [(2, {'Hunter'})])]

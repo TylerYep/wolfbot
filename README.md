@@ -87,7 +87,7 @@ pyre check
 ```
 * Run all tests:
 ```
-pytest -v
+pytest -v [-s to see print/logging output]
 ```
 
 # Files

@@ -2,9 +2,9 @@
 from typing import Dict, List
 import random
 
-from src.statements import Statement
-from src.const import logger
 from src import const, util
+from src.const import logger
+from src.statements import Statement
 
 class Player:
     ''' Player class. '''
