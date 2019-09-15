@@ -9,8 +9,8 @@ from src.statements import Statement
 @pytest.fixture(autouse=True)
 def reset_const():
     const.logger.setLevel(const.TRACE)
-    const.ROLES = ('Insomniac', 'Villager', 'Villager', 'Villager', 'Drunk', 'Wolf', 'Wolf', 'Seer',
-                   'Tanner', 'Mason', 'Mason', 'Troublemaker', 'Robber', 'Minion', 'Hunter')
+    const.ROLES = ('Insomniac', 'Villager', 'Robber', 'Villager', 'Drunk', 'Wolf', 'Wolf', 'Seer',
+                   'Tanner', 'Mason', 'Minion', 'Troublemaker', 'Villager', 'Mason', 'Hunter')
     const.ROLE_SET = set(const.ROLES)
     const.ROLE_COUNTS = dict(Counter(const.ROLES))
     const.NUM_ROLES = len(const.ROLES)
