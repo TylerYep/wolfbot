@@ -104,7 +104,7 @@ class TestPrintRoles:
         shuffled_roles = ['Seer', 'Villager', 'Wolf', 'Robber']
 
         util.print_roles(shuffled_roles)
-        
+
         captured = caplog.records[0].getMessage()
         expected = '[Hidden] Current roles: [Seer, Villager, Wolf]' \
                     + ' '*17 \

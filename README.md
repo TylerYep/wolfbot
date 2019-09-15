@@ -2,7 +2,7 @@
 ### One Night Ultimate Werewolf: AI Edition
 By Tyler Yep & Harry Sha
 
-To try it out, run 'python src/main.py' in the terminal. (Python 3.7)  
+To try it out, run `python src/main.py` in the terminal. (Python 3.7)  
 Constants, along with their use cases, are listed in src/const.py.
 
 # Development
@@ -12,7 +12,9 @@ Constants, along with their use cases, are listed in src/const.py.
 
 
 ## August 2019
-Started working on this project again. The main blocker for adding more functionality is the lack of testing I currently have. Without solid unit/integration tests, it's really easy to break or change existing functionality silently. So, I have decided to begin using Pytest as a framework for writing unit tests for the existing code. The test/ folder is intended to follow the folder structure of src/, and will import accordingly. To accomplish this change, I had to change many of the imports to explicitly start from src/. Additionally, to aid this effort, I have also decided to introduce type annotations for all function declarations, which will make the test writing process a lot easier. I use Facebook's Pyre as a fast type checker, which together with Pylint has helped me find and fix a lot of poor design decisions in my code.
+Started working on this project again. The main blocker for adding more functionality is the lack of testing I currently have. Without solid unit/integration tests, it's really easy to break or change existing functionality silently. So, I have decided to begin using Pytest as a framework for writing unit tests for the existing code. The test/ folder is intended to follow the folder structure of src/, and will import accordingly. To accomplish this change, I had to change many of the imports to explicitly start from src/.
+
+Additionally, to aid this effort, I have also decided to introduce type annotations for all function declarations (return-type and parameter-type annotations), which I believe will make the test writing process a lot easier. I decided to use Facebook's Pyre as a fast type checker, which together with Pylint has helped me find and fix a lot of poor design decisions in my code.
 
 
 ## July 2019
@@ -40,10 +42,7 @@ Major refactoring update and Single-Wolf Voting added! The next primary focus wi
 
 
 ## June 2018
-Presented the final iteration of the project at the CS 221 Project Fair. Good feedback
-overall, main points moving forward may be looking into using the minimum expectation
-for the Wolf players, adding new statements from each player (more than one round of speaking),
-and adding wildcard characters like Minions and Tanners. More to come!
+Presented the final iteration of the project with Harry at the CS 221 Project Fair. Good feedback overall, main points moving forward may be looking into using the minimum expectation for the Wolf players, adding new statements from each player (more than one round of speaking), and adding wildcard characters like Minions and Tanners. More to come!
 
 
 ## May 2018
@@ -148,17 +147,17 @@ Simplified version (some cycles exist)
 const.py  
 |-- statements.py   (const)
 |-- util.py         (const)
-|...|-- algorithms.py   (const, statements)
-|...|-- roles/          (const, statements, util)
-|...|...|-- stats.py          (const, roles, statements)
-|...|...|...|-- predictions.py    (const, algorithms)
-|...|...|...|-- main.py           (const, algorithms, one_night, stats)
-|...|...|...|-- generate.py       (const, algorithms, one_night, encoder)
-|...|...|...|-- encoder.py        (const, roles, statements, stats)
-|...|...|...|...|-- one_night.py        (const, util, roles, encoder, voting)
-|...|...|...|...|-- replay.py           (const, algorithms, encoder, prediction, stats, voting)
-|...|...|...|...|-- train.py            (encoder, main)
-|...|...|...|...|-- voting.py           (const, roles, statements, stats)
+|   |-- algorithms.py   (const, statements)
+|   |-- roles/          (const, statements, util)
+|   |   |-- stats.py          (const, roles, statements)
+|   |   |   |-- predictions.py    (const, algorithms)
+|   |   |   |-- main.py           (const, algorithms, one_night, stats)
+|   |   |   |-- generate.py       (const, algorithms, one_night, encoder)
+|   |   |   |-- encoder.py        (const, roles, statements, stats)
+|   |   |   |   |-- one_night.py        (const, util, roles, encoder, voting)
+|   |   |   |   |-- replay.py           (const, algorithms, encoder, prediction, stats, voting)
+|   |   |   |   |-- train.py            (encoder, main)
+|   |   |   |   |-- voting.py           (const, roles, statements, stats)
 ```
 #### roles/villager/
 ```
@@ -175,9 +174,9 @@ player.py
 ```
 |-- minion.py
 |-- wolf.py (imports wolf in get_statements)
-|...|-- center_wolf.py
-|...|-- expectimax_wolf.py
-|...|-- random_wolf.py
-|...|-- reg_wolf.py
-|...|-- rl_wolf.py
+|   |-- center_wolf.py
+|   |-- expectimax_wolf.py
+|   |-- random_wolf.py
+|   |-- reg_wolf.py
+|   |-- rl_wolf.py
 ```

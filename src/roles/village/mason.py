@@ -18,6 +18,7 @@ class Mason(Player):
     def mason_init(self, original_roles: List[str]) -> List[int]:
         ''' Initializes Mason - sees all other Masons. '''
         mason_indices = util.find_all_player_indices(original_roles, 'Mason')
+        assert self.player_index in mason_indices
         logger.debug(f'[Hidden] Masons are at indices: {mason_indices}')
         if self.is_user:
             logger.info(f'Masons are players: {mason_indices} (You are player {self.player_index})')
@@ -26,6 +27,7 @@ class Mason(Player):
     @staticmethod
     def get_mason_statements(player_index: int, mason_indices: List[int]) -> List[Statement]:
         ''' Gets Mason Statement. '''
+        assert player_index in mason_indices
         if len(mason_indices) == 1:
             sentence = 'I am a Mason. The other Mason is not present.'
             knowledge = [(player_index, {'Mason'})]

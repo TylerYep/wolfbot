@@ -1,5 +1,6 @@
 ''' conftest.py '''
 from typing import List, Tuple
+from collections import Counter
 import pytest
 
 from src import const
@@ -7,21 +8,23 @@ from src.statements import Statement
 
 @pytest.fixture(autouse=True)
 def reset_const():
-    # const.ROLES = ('Insomniac', 'Villager', 'Villager', 'Villager', 'Drunk', 'Wolf', 'Wolf', 'Seer',
-    #                'Tanner', 'Mason', 'Mason', 'Troublemaker', 'Robber', 'Minion', 'Hunter')
     const.logger.setLevel(const.TRACE)
-    const.NUM_CENTER = 3
+    const.ROLES = ('Insomniac', 'Villager', 'Villager', 'Villager', 'Drunk', 'Wolf', 'Wolf', 'Seer',
+                   'Tanner', 'Mason', 'Mason', 'Troublemaker', 'Robber', 'Minion', 'Hunter')
+    const.ROLE_SET = set(const.ROLES)
+    const.ROLE_COUNTS = dict(Counter(const.ROLES))
+    const.NUM_ROLES = len(const.ROLES)
     const.NUM_PLAYERS = 12
-
+    const.NUM_CENTER = 3
 
 
 @pytest.fixture
-def small_game_roles() -> Tuple[str]:
+def small_game_roles() -> Tuple[str, ...]:
     return ('Villager', 'Seer', 'Robber')
 
 
 @pytest.fixture
-def large_game_roles() -> Tuple[str]:
+def large_game_roles() -> Tuple[str, ...]:
     return ('Wolf', 'Villager', 'Robber', 'Seer', 'Villager', 'Tanner', 'Mason', 'Wolf',
             'Minion', 'Mason', 'Drunk', 'Villager', 'Troublemaker', 'Insomniac', 'Hunter')
 
@@ -52,7 +55,7 @@ def example_statement_list() -> List[Statement]:
     ]
 
 
-def debug_spacing_issues(captured, expected):
+def debug_spacing_issues(captured: str, expected: str):
     ''' Helper method for debugging print differences. '''
     print(len(captured), len(expected))
     for i, captured_char in enumerate(captured):
