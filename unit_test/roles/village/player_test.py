@@ -19,6 +19,7 @@ class TestPlayer:
         ''' Classes extending Player should be able to access Player fields. '''
         const.logger.setLevel(logging.WARNING)
         const.ROLES = ('Wolf', 'Villager', 'Robber', 'Villager', 'Wolf')
+        const.NUM_PLAYERS = 3
         roles = list(const.ROLES)
 
         robber = Robber(2, roles, roles)

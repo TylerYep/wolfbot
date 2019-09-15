@@ -5,8 +5,18 @@ import pytest
 from src import const
 from src.statements import Statement
 
+@pytest.fixture(autouse=True)
+def reset_const():
+    # const.ROLES = ('Insomniac', 'Villager', 'Villager', 'Villager', 'Drunk', 'Wolf', 'Wolf', 'Seer',
+    #                'Tanner', 'Mason', 'Mason', 'Troublemaker', 'Robber', 'Minion', 'Hunter')
+    const.logger.setLevel(const.TRACE)
+    const.NUM_CENTER = 3
+    const.NUM_PLAYERS = 12
+
+
+
 @pytest.fixture
-def example_game_roles() -> Tuple[str]:
+def small_game_roles() -> Tuple[str]:
     return ('Villager', 'Seer', 'Robber')
 
 

@@ -31,7 +31,7 @@ class SavedGame:
 
     def __repr__(self) -> str:
         ''' Returns string representation of the SavedGame. '''
-        return '' # TODO
+        return str(self.json_repr()) # TODO
 
 
 class GameResult:

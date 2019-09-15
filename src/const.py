@@ -7,6 +7,8 @@ from collections import Counter
 ''' Game Constants '''
 ROLES = ('Insomniac', 'Villager', 'Villager', 'Villager', 'Wolf', 'Wolf', 'Seer', 'Tanner',
          'Mason', 'Mason', 'Drunk', 'Troublemaker', 'Robber', 'Minion', 'Hunter')
+# ROLES = ('Drunk', 'Insomniac', 'Hunter', 'Mason', 'Mason', 'Minion', 'Robber', 'Seer', 'Tanner',
+#          'Troublemaker', 'Wolf', 'Wolf', 'Villager', 'Villager', 'Villager')
 NUM_CENTER = 3
 USE_VOTING = True
 RANDOMIZE_ROLES = True

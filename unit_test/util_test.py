@@ -4,16 +4,16 @@ import pytest
 from src import util, const
 
 class TestSwapCharacters:
-    def test_same_index_error(self, example_game_roles):
+    def test_same_index_error(self, small_game_roles):
         ''' Don't attempt to swap the same index. '''
-        roles = list(example_game_roles)
+        roles = list(small_game_roles)
 
         with pytest.raises(AssertionError):
             util.swap_characters(roles, 2, 2)
 
-    def test_swap(self, example_game_roles):
+    def test_swap(self, small_game_roles):
         ''' Correctly swap two players. '''
-        roles = list(example_game_roles)
+        roles = list(small_game_roles)
 
         util.swap_characters(roles, 0, 2)
 
@@ -97,17 +97,16 @@ class TestGetNumericInput:
 
 
 class TestPrintRoles:
-    def test_print_roles(self, caplog, example_game_roles):
+    def test_print_roles(self, caplog, small_game_roles):
         ''' Correctly print and format roles. '''
-        const.logger.setLevel(const.TRACE)
-        const.ROLES = example_game_roles
-        const.NUM_PLAYERS = 2
-        shuffled_roles = ['Seer', 'Villager', 'Robber']
+        const.ROLES = small_game_roles
+        const.NUM_PLAYERS = 3
+        shuffled_roles = ['Seer', 'Villager', 'Wolf', 'Robber']
 
         util.print_roles(shuffled_roles)
+        
         captured = caplog.records[0].getMessage()
-
-        expected = '[Hidden] Current roles: [Seer, Villager]' \
+        expected = '[Hidden] Current roles: [Seer, Villager, Wolf]' \
                     + ' '*17 \
                     + '\n\t  Center cards: [Robber]\n'
         assert captured == expected

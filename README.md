@@ -92,29 +92,29 @@ pytest -v [-s to see print/logging output]
 
 # Files
 ## Game Simulation
-* const.py (Stores all constants, along with their use cases)  
-* main.py (Driver for game simulations)  
-* one_night.py (Plays one game of One Night Ultimate Werewolf)  
-* statistics.py (Used to aggregate many GameResults into fixed statistics)  
-* replay.py (python src/replay.py will run the last game that was played again)  
-* encoder.py (Used to encode all custom WolfBot class objects)  
+* const.py (Stores all constants, along with their use cases)
+* main.py (Driver for game simulations)
+* one_night.py (Plays one game of One Night Ultimate Werewolf)
+* stats.py (Used to aggregate many GameResults into fixed statistics)
+* replay.py (`python src/replay.py` will play the most recently run game again)
+* encoder.py (Used to encode all custom WolfBot class objects)
 
 ## Algorithms and Solvers
-* algorithms.py (Includes all solvers and consistency checks for groups of statements)  
-* generate.py (Used to generate data for many game iterations)  
-* predictions.py (Makes predictions given a SolverSolution)  
-* train.py (Used for Reinforcement Learning Wolf)  
-* voting.py (Used to aggregate prediction results)  
+* algorithms.py (Includes all solvers and consistency checks for groups of statements)
+* generate.py (Used to generate data for many game iterations)
+* predictions.py (Makes predictions given a SolverSolution)
+* train.py (Used for Reinforcement Learning Wolf)
+* voting.py (Used to aggregate prediction results)
 
 ## Game Components
-* roles.py (Stores all Good player roles and their associated methods)  
-  (May separate into individual files in the future)  
-* wolf.py (Stores all Evil player roles and their associated methods)  
-* statements.py (Statement class with associated methods)  
-* util.py (Some basic util functions)  
+* roles/
+  * village (Stores all good player roles and their associated methods)
+  * werewolf (Stores all evil player roles and their associated methods)
+* statements.py (Statement class with associated methods)
+* util.py (Some basic util functions)
 
 ## Roles
-Village Team: (Stores all Good player roles and their associated methods)  
+Village Team: (Stores all Good player roles and their associated methods)
 * Villager
 * Mason
 * Seer
@@ -123,14 +123,14 @@ Village Team: (Stores all Good player roles and their associated methods)
 * Drunk
 * Insomniac
 
-Werewolf Team: (Stores all Evil player roles and their associated methods)  
+Werewolf Team: (Stores all Evil player roles and their associated methods)
 * Wolf
 * Minion
 
 Tanner Team: (Wildcard player)
 * Tanner
 
-Wolf Theory: Choose statements that do a good job, not necessarily the absolute best ones.  
+Wolf Theory: Choose statements that do a good job, not necessarily the absolute best ones.
 
 # Future Development Todos
 * Host on AWS
@@ -141,39 +141,43 @@ Wolf Theory: Choose statements that do a good job, not necessarily the absolute 
 * Wolf_inds isn't used in stats
 
 # File Dependency Tree
-Simplified version (some cycles exist)  
+Simplified version (some cycles exist)
 
 #### src/
+```
 const.py  
-|-- statements.py   (const)  
-|-- util.py         (const)  
-|...|-- algorithms.py   (const, statements)  
-|...|-- roles/          (const, statements, util)  
-|...|...|-- stats.py          (const, roles, statements)  
-|...|...|...|-- predictions.py    (const, algorithms)  
-|...|...|...|-- main.py           (const, algorithms, one_night, stats)  
-|...|...|...|-- generate.py       (const, algorithms, one_night, encoder)  
-|...|...|...|-- encoder.py        (const, roles, statements, stats)  
-|...|...|...|...|-- one_night.py        (const, util, roles, encoder, voting)  
-|...|...|...|...|-- replay.py           (const, algorithms, encoder, prediction, stats, voting)  
-|...|...|...|...|-- train.py            (encoder, main)  
-|...|...|...|...|-- voting.py           (const, roles, statements, stats)  
-
-#### roles/villager/  
-player.py  
-|-- drunk.py  
-|-- insmoniac.py (imports wolf in get_statements)  
-|-- mason.py  
-|-- robber.py (imports wolf in get_statements)  
-|-- seer.py  
-|-- troublemaker.py  
-|-- villager.py  
-
-#### roles/werewolf/         (player, villager)  
-|-- minion.py  
-|-- wolf.py (imports wolf in get_statements)  
-|...|-- center_wolf.py  
-|...|-- expectimax_wolf.py  
-|...|-- random_wolf.py  
-|...|-- reg_wolf.py  
-|...|-- rl_wolf.py  
+|-- statements.py   (const)
+|-- util.py         (const)
+|...|-- algorithms.py   (const, statements)
+|...|-- roles/          (const, statements, util)
+|...|...|-- stats.py          (const, roles, statements)
+|...|...|...|-- predictions.py    (const, algorithms)
+|...|...|...|-- main.py           (const, algorithms, one_night, stats)
+|...|...|...|-- generate.py       (const, algorithms, one_night, encoder)
+|...|...|...|-- encoder.py        (const, roles, statements, stats)
+|...|...|...|...|-- one_night.py        (const, util, roles, encoder, voting)
+|...|...|...|...|-- replay.py           (const, algorithms, encoder, prediction, stats, voting)
+|...|...|...|...|-- train.py            (encoder, main)
+|...|...|...|...|-- voting.py           (const, roles, statements, stats)
+```
+#### roles/villager/
+```
+player.py
+|-- drunk.py
+|-- insmoniac.py (imports wolf in get_statements)
+|-- mason.py
+|-- robber.py (imports wolf in get_statements)
+|-- seer.py
+|-- troublemaker.py
+|-- villager.py
+```
+#### roles/werewolf/         (player, villager)
+```
+|-- minion.py
+|-- wolf.py (imports wolf in get_statements)
+|...|-- center_wolf.py
+|...|-- expectimax_wolf.py
+|...|-- random_wolf.py
+|...|-- reg_wolf.py
+|...|-- rl_wolf.py
+```
