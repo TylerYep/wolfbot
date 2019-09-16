@@ -8,7 +8,9 @@ Constants, along with their use cases, are listed in src/const.py.
 # Development
 
 ## September 2019
+Spent a bunch of time setting up test stubs and preliminary tests for all files in the project. Getting ever so slightly closer to the goal of knowing when parts of this project is broken and being able to better notate the requirements and design decisions behind some of this code.
 
+In writing so many tests, I've already found a bunch of important improvements and bugs; for example, making the Statement and SolverState classes immutable, since when operating with them, I never want to modify an existing state, but rather always return a new one. However, I made their constructors take lists and sets as input and automatically convert them to tuples or frozen sets, echoing some of the enhanced Redux state design patterns I've seen, and making constructing a new state easy.
 
 
 ## August 2019

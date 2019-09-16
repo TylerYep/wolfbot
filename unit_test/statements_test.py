@@ -42,13 +42,13 @@ class TestStatement:
 
         assert result == {'type': 'Statement',
                           'sentence': 'test',
-                          'knowledge': [(2, {'Robber'}), (0, {'Seer'})],
-                          'switches': [(0, 2, const.ROBBER_PRIORITY)],
+                          'knowledge': ((2, {'Robber'}), (0, {'Seer'})),
+                          'switches': ((0, 2, const.ROBBER_PRIORITY),),
                           'speaker': 'Robber'}
 
     def test_repr(self, example_statement):
         ''' Should convert a Statement into a string with all useful fields. '''
-        expected = 'Statement("test", [(2, {\'Robber\'}), (0, {\'Seer\'})], [(0, 2, 1)], Robber)'
+        expected = "Statement(\"test\", [(2, {'Robber'}), (0, {'Seer'})], [(0, 2, 1)], 'Robber')"
 
         result = str(example_statement)
 
@@ -65,11 +65,11 @@ class TestStatement:
         with pytest.raises(AssertionError):
             assert example_statement == not_a_statement
 
-    # def test_hash(self):
-    #     identical_statement = statements.Statement('test',
-    #                                                [(2, {'Robber'}), (0, {'Seer'})],
-    #                                                [(0, 2, const.ROBBER_PRIORITY)])
-    #
-    #     statement_set = set([identical_statement, STATEMENT])
-    #
-    #     assert statement_set == set([STATEMENT])
+    def test_hash(self, example_statement):
+        identical_statement = statements.Statement('test',
+                                                   [(2, {'Robber'}), (0, {'Seer'})],
+                                                   [(0, 2, const.ROBBER_PRIORITY)])
+
+        statement_set = set([identical_statement, example_statement])
+
+        assert statement_set == set([example_statement])

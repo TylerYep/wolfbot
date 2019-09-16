@@ -1,6 +1,5 @@
 * feasibility of cached solver - look at max path sum, and other 161 problems
 * game_roles and original_roles in the classes for each role -> should default to None?
-* statements should be immutable, and use tuples instead of lists so that they can be hashed easily. But List notation makes them a lot more readable and easy to modify... Leaning towards immutability though.
 
 * Add style guidelines for this repo:
 - Tests use the arrange-act-assert paradigm with one line break in between each.

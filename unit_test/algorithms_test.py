@@ -32,7 +32,7 @@ class TestIsConsistent:
 class TestSolver:
     def test_switching_solver(self, example_statement_list):
         ''' Should return a SolverState with the most likely solution. '''
-        expected_possible_roles = [
+        expected_roles = [
             {'Robber'},
             {'Seer', 'Hunter', 'Drunk', 'Tanner', 'Wolf', 'Insomniac',
              'Mason', 'Minion', 'Villager', 'Troublemaker'},
@@ -44,7 +44,8 @@ class TestSolver:
             {'Seer', 'Hunter', 'Drunk', 'Tanner', 'Wolf', 'Insomniac', 'Mason',
              'Minion', 'Villager', 'Troublemaker'}
         ] + [const.ROLE_SET]*7
-        expected_path = [True, False, True, True, True, True, True, False]
+        expected_possible_roles = tuple([frozenset(role_set) for role_set in expected_roles])
+        expected_path = (True, False, True, True, True, True, True, False)
 
         result_list = algorithms.switching_solver(example_statement_list)
 

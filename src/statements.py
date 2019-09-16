@@ -18,11 +18,9 @@ class Statement:
         speaker is the role string that supposedly gave the statement.
         '''
         self.sentence = sentence
-        self.knowledge = knowledge
-        self.switches = switches if switches is not None else []
-        self.speaker = speaker
-        if speaker is None and self.knowledge is not None:
-            self.speaker = next(iter(knowledge[0][1]))
+        self.knowledge = tuple([(i, frozenset(role_set)) for i, role_set in knowledge])
+        self.switches = tuple(switches) if switches is not None else ()
+        self.speaker = speaker if speaker is not None else next(iter(knowledge[0][1]))
 
     def negate(self) -> Statement:
         ''' Returns a negated version of the first clause in a statement. '''
@@ -50,7 +48,9 @@ class Statement:
                 'speaker': self.speaker}
 
     def __repr__(self) -> str:
-        return f'Statement("{self.sentence}", {self.knowledge}, {self.switches}, {self.speaker})'
+        knowledge = [(i, set(role_set)) for i, role_set in self.knowledge]
+        switches = list(self.switches)
+        return f"Statement(\"{self.sentence}\", {knowledge}, {switches}, '{self.speaker}')"
 
     def __eq__(self, other) -> bool:
         assert isinstance(other, Statement)
@@ -60,5 +60,5 @@ class Statement:
             and self.switches == other.switches \
             and self.speaker == other.speaker
 
-    # def __hash__(self) -> int:
-    #     return hash((self.sentence, self.knowledge, self.switches, self.speaker))
+    def __hash__(self) -> int:
+        return hash((self.sentence, self.knowledge, self.switches, self.speaker))

@@ -17,6 +17,8 @@ class WolfBotEncoder(json.JSONEncoder):
             return o.json_repr()
         if isinstance(o, set):
             return {'type': 'Set', 'data': tuple(o)}
+        if isinstance(o, frozenset):
+            return {'type': 'Frozenset', 'data': tuple(o)}
         return json.JSONEncoder.default(self, o)
 
 
@@ -35,6 +37,8 @@ class WolfBotDecoder(json.JSONDecoder):
 
         if obj_type == 'Set':
             return set(obj['data'])
+        if obj_type == 'Frozenset':
+            return frozenset(obj['data'])
         if obj_type in ('Statement', 'GameResult', 'SavedGame'):
             return get_object_initializer(obj_type)(**obj)
         if obj_type in const.ROLE_SET:
