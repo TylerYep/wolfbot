@@ -14,15 +14,15 @@ from .wolf_variants import get_wolf_statements_random, get_statement_expectimax,
 class Minion(Player):
     ''' Minion Player class. '''
 
-    def __init__(self, player_index: int, game_roles: List[str], original_roles: List[str] = None):
-        # Roles default to None when another player becomes a Minion and realizes it
+    def __init__(self, player_index: int, game_roles: List[str], original_roles: List[str]):
+        # Roles default to [] when another player becomes a Minion and realizes it
         super().__init__(player_index)
         self.wolf_indices = self.minion_init(original_roles)
 
     def minion_init(self, original_roles: List[str]) -> List[int]:
         ''' Initializes Minion - gets Wolf indices. '''
         wolf_indices = []
-        if original_roles is not None:
+        if original_roles:
             wolf_indices = util.find_all_player_indices(original_roles, 'Wolf')
             logger.debug(f'[Hidden] Wolves are at indices: {wolf_indices}')
             if self.is_user: logger.info(f'Wolves are at indices: {wolf_indices}')

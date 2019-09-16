@@ -36,8 +36,8 @@ class TestInsomniac:
                               "who I switched with.", [(2, {'Insomniac'})], [], 'Insomniac'),
                     Statement("I am a Insomniac and when I woke up I was a Insomniac.",
                               [(2, {'Insomniac'})], [], 'Insomniac'),
-                  Statement("I am a Insomniac and when I woke up I was a Seer. I don't know " + \
-                            "who I switched with.", [(2, {'Insomniac'})], [], 'Insomniac')]
+                    Statement("I am a Insomniac and when I woke up I was a Seer. I don't know " + \
+                              "who I switched with.", [(2, {'Insomniac'})], [], 'Insomniac')]
 
         result = Insomniac.get_all_statements(player_index)
 

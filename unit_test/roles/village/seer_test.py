@@ -1,6 +1,4 @@
 ''' seer_test.py '''
-from collections import Counter
-
 from src import const
 from src.statements import Statement
 from src.roles.village import Seer

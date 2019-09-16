@@ -51,21 +51,21 @@ class Insomniac(Player):
             # Import Wolf here to avoid circular dependency
             from ..werewolf import Wolf
             logger.debug('Insomniac is a Wolf now!')
-            insomniac_wolf = Wolf(self.player_index)
+            insomniac_wolf = Wolf(self.player_index, [], [])
             return insomniac_wolf.get_statement(stated_roles, previous)
 
         if self.new_role == 'Minion':
             # Import Minion here to avoid circular dependency
             from ..werewolf import Minion
             logger.debug('Insomniac is a Minion now!')
-            insomniac_minion = Minion(self.player_index, None)
+            insomniac_minion = Minion(self.player_index, [], [])
             return insomniac_minion.get_statement(stated_roles, previous)
 
         if self.new_role == 'Tanner':
             # Import Tanner here to avoid circular dependency
             from ..werewolf import Tanner
             logger.debug('Insomniac is a Minion now!')
-            insomniac_tanner = Tanner(self.player_index, None)
+            insomniac_tanner = Tanner(self.player_index, [], [])
             return insomniac_tanner.get_statement(stated_roles, previous)
 
         possible_switches = []

@@ -15,12 +15,9 @@ from .wolf_variants import get_wolf_statements_random, get_statement_expectimax,
 class Wolf(Player):
     ''' Wolf Player class. '''
 
-    def __init__(self,
-                 player_index: int,
-                 game_roles: List[str] = None,
-                 original_roles: List[str] = None):
+    def __init__(self, player_index: int, game_roles: List[str], original_roles: List[str]):
         '''
-        Constructor: original_roles defaults to None when a player becomes a Wolf and realizes it.
+        Constructor: original_roles defaults to [] when a player becomes a Wolf and realizes it.
         '''
         super().__init__(player_index)
         self.wolf_indices, self.center_index, self.center_role \
@@ -34,7 +31,7 @@ class Wolf(Player):
         wolf_center_index, wolf_center_role = None, None
 
         # Only get center roles and wolf indices if not a Robber/Insomniac Wolf
-        if original_roles is not None:
+        if original_roles:
             wolf_indices = util.find_all_player_indices(original_roles, 'Wolf')
             if len(wolf_indices) == 1 and const.NUM_CENTER > 0:
                 wolf_center_index = util.get_center(self)

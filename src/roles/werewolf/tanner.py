@@ -13,8 +13,8 @@ from .wolf_variants import get_wolf_statements_random, get_statement_expectimax
 class Tanner(Player):
     ''' Tanner Player class. '''
 
-    def __init__(self, player_index: int, game_roles: List[str], original_roles: List[str] = None):
-        # Roles default to None when another player becomes a Tanner and realizes it
+    def __init__(self, player_index: int, game_roles: List[str], original_roles: List[str]):
+        # Roles default to [] when another player becomes a Tanner and realizes it
         super().__init__(player_index)
 
     def get_statement(self, stated_roles: List[str], previous: List[Statement]) -> Statement:

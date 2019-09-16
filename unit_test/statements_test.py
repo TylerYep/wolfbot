@@ -63,9 +63,11 @@ class TestStatement:
 
         assert example_statement == identical_statement
         with pytest.raises(AssertionError):
-            assert example_statement == not_a_statement
+            if example_statement != not_a_statement:
+                print("Should throw an exception when trying to compare Statement to another type.")
 
     def test_hash(self, example_statement):
+        ''' Should give two Statements with identical fields the same hash. '''
         identical_statement = statements.Statement('test',
                                                    [(2, {'Robber'}), (0, {'Seer'})],
                                                    [(0, 2, const.ROBBER_PRIORITY)])

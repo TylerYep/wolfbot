@@ -52,21 +52,21 @@ class Robber(Player):
             # Import Wolf here to avoid circular dependency
             from ..werewolf import Wolf
             logger.debug('Robber is a Wolf now!')
-            robber_wolf = Wolf(self.player_index)
+            robber_wolf = Wolf(self.player_index, [], [])
             return robber_wolf.get_statement(stated_roles, previous)
 
         if self.new_role == 'Minion':
             # Import Minion here to avoid circular dependency
             from ..werewolf import Minion
             logger.debug('Robber is a Minion now!')
-            robber_minion = Minion(self.player_index, None)
+            robber_minion = Minion(self.player_index, [], [])
             return robber_minion.get_statement(stated_roles, previous)
 
         if self.new_role == 'Tanner':
             # Import Tanner here to avoid circular dependency
             from ..werewolf import Tanner
             logger.debug('Robber is a Minion now!')
-            robber_tanner = Tanner(self.player_index, None)
+            robber_tanner = Tanner(self.player_index, [], [])
             return robber_tanner.get_statement(stated_roles, previous)
 
         return super().get_statement(stated_roles, previous)
