@@ -41,7 +41,7 @@ class Insomniac(Player):
     def get_all_statements(player_index: int) -> List[Statement]:
         ''' Required for all player types. Returns all possible role statements. '''
         statements = []
-        for role in const.ROLES:
+        for role in const.ROLE_SET:
             statements += Insomniac.get_insomniac_statements(player_index, role)
         return statements
 
