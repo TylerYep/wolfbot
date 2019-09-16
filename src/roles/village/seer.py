@@ -13,23 +13,24 @@ class Seer(Player):
 
     def __init__(self, player_index: int, game_roles: List[str], original_roles: List[str]):
         super().__init__(player_index)
-        peek_ind, peek_char, peek_ind2, peek_char2 = self.seer_init(game_roles)
-        self.statements = self.get_seer_statements(player_index, peek_ind, peek_char,
-                                                   peek_ind2, peek_char2)
+        self.peek_ind1, peek_char1, self.peek_ind2, peek_char2 = self.seer_init(game_roles)
+        self.statements = self.get_seer_statements(player_index, self.peek_ind1, peek_char1,
+                                                   self.peek_ind2, peek_char2)
 
     def seer_init(self, game_roles: List[Statement]) \
                   -> Tuple[int, Statement, Optional[int], Optional[Statement]]:
         ''' Initializes Seer - either sees 2 center cards or 1 player card. '''
         # Pick two center cards more often, because that generally yields higher win rates.
-        choose_center = random.choices([True, False], [0.9, 0.1])
+        prob = const.CENTER_SEER_PROB
+        choose_center = random.choices([True, False], [prob, 1-prob])[0]
         if choose_center and const.NUM_CENTER > 1:
-            peek_ind = util.get_center(self)
-            peek_ind2 = util.get_center(self, (peek_ind,))
-            peek_char = game_roles[peek_ind]
+            peek_ind1 = util.get_center(self)
+            peek_ind2 = util.get_center(self, (peek_ind1,))
+            peek_char1 = game_roles[peek_ind1]
             peek_char2 = game_roles[peek_ind2]
-            logger.debug(f'[Hidden] Seer sees that Center {peek_ind - const.NUM_PLAYERS} is a '
-                         f'{peek_char}, Center {peek_ind2 - const.NUM_PLAYERS} is a {peek_char2}.')
-            return peek_ind, peek_char, peek_ind2, peek_char2
+            logger.debug(f'[Hidden] Seer sees that Center {peek_ind1 - const.NUM_PLAYERS} is a '
+                         f'{peek_char1}, Center {peek_ind2 - const.NUM_PLAYERS} is a {peek_char2}.')
+            return peek_ind1, peek_char1, peek_ind2, peek_char2
 
         peek_ind = util.get_player(self, (self.player_index,))
         peek_char = game_roles[peek_ind]
@@ -56,7 +57,7 @@ class Seer(Player):
     def get_all_statements(player_index: int) -> List[Statement]:
         ''' Required for all player types. Returns all possible role statements. '''
         statements = []
-        for role in const.ROLES:
+        for role in const.ROLE_SET:
             for i in range(const.NUM_PLAYERS):   # OK: 'Hey, I'm a Seer and I saw another Seer...'
                 statements += Seer.get_seer_statements(player_index, i, role)
         # Wolf using these usually gives himself away

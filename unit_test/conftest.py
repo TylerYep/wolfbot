@@ -1,6 +1,7 @@
 ''' conftest.py '''
 from typing import List, Tuple
 from collections import Counter
+import random
 import pytest
 
 from src import const
@@ -16,6 +17,8 @@ def reset_const():
     const.NUM_ROLES = len(const.ROLES)
     const.NUM_PLAYERS = 12
     const.NUM_CENTER = 3
+    const.CENTER_SEER_PROB = 0.9
+    random.seed(0)
 
 
 @pytest.fixture

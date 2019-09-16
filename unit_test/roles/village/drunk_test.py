@@ -4,13 +4,21 @@ from src.statements import Statement
 from src.roles.village import Drunk
 
 class TestDrunk:
-    def test_constructor(self, large_game_roles):
-        ''' Should initialize a Drunk. '''
+    def test_constructor_init(self, large_game_roles):
+        '''
+        Should initialize a Drunk. Note that the player_index of the Drunk is not necessarily
+        the index where the true Drunk is located.
+        '''
         player_index = 6
         orig_roles, game_roles = list(large_game_roles), list(large_game_roles)
+        new_roles = ['Wolf', 'Villager', 'Robber', 'Seer', 'Villager', 'Tanner', 'Insomniac',
+                     'Wolf', 'Minion', 'Mason', 'Drunk', 'Villager', 'Troublemaker', 'Mason',
+                     'Hunter']
 
         drunk = Drunk(player_index, game_roles, orig_roles)
 
+        assert game_roles == new_roles
+        assert drunk.choice_ind == 13
         assert drunk.statements == [Statement("I am a Drunk and I swapped with Center 1.",
                                               [(6, {'Drunk'})], [(3, 13, 6)], 'Drunk')]
 

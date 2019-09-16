@@ -12,9 +12,8 @@ class Insomniac(Player):
 
     def __init__(self, player_index: int, game_roles: List[str], original_roles: List[str]):
         super().__init__(player_index)
-        insomniac_new_role = self.insomniac_init(game_roles)
-        self.new_role = insomniac_new_role
-        self.statements = self.get_insomniac_statements(player_index, insomniac_new_role)
+        self.new_role = self.insomniac_init(game_roles)
+        self.statements = self.get_insomniac_statements(player_index, self.new_role)
 
     def insomniac_init(self, game_roles: List[str]) -> str:
         ''' Initializes Insomniac - learns new role. '''

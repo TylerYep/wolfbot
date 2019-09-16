@@ -12,8 +12,8 @@ class Drunk(Player):
 
     def __init__(self, player_index: int, game_roles: List[str], original_roles: List[str]):
         super().__init__(player_index)
-        drunk_choice_index = self.drunk_init(game_roles)
-        self.statements = self.get_drunk_statements(player_index, drunk_choice_index)
+        self.choice_ind = self.drunk_init(game_roles)
+        self.statements = self.get_drunk_statements(player_index, self.choice_ind)
 
     def drunk_init(self, game_roles: List[str]) -> int:
         ''' Initializes Drunk - switches with a card in the center. '''

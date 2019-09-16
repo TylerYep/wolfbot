@@ -4,7 +4,7 @@ from src.statements import Statement
 from src.roles.village import Mason
 
 class TestMason:
-    def test_constructor(self, large_game_roles):
+    def test_constructor_init(self, large_game_roles):
         ''' Should initialize a Mason. '''
         player_index = 6
         orig_roles, game_roles = list(large_game_roles), []

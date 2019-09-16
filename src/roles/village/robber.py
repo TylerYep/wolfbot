@@ -12,9 +12,9 @@ class Robber(Player):
 
     def __init__(self, player_index: int, game_roles: List[str], original_roles: List[str]):
         super().__init__(player_index)
-        choice_ind, choice_char = self.robber_init(game_roles)
+        self.choice_ind, choice_char = self.robber_init(game_roles)
         self.new_role = choice_char
-        self.statements = self.get_robber_statements(player_index, choice_ind, choice_char)
+        self.statements = self.get_robber_statements(player_index, self.choice_ind, choice_char)
 
     def robber_init(self, game_roles: List[str]) -> Tuple[int, str]:
         ''' Initializes Robber - switches roles with another player. '''

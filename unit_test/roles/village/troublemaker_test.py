@@ -4,15 +4,23 @@ from src.statements import Statement
 from src.roles.village import Troublemaker
 
 class TestTroublemaker:
-    def test_constructor(self, large_game_roles):
-        ''' Should initialize a Troublemaker. '''
+    def test_constructor_init(self, large_game_roles):
+        '''
+        Should initialize a Troublemaker. Note that the player_index of the Troublemaker is
+        not necessarily the index where the true Troublemaker is located.
+        '''
         player_index = 11
         orig_roles, game_roles = [], list(large_game_roles)
-        expected = [Statement("I am a Troublemaker and I swapped Player 5 and Player 1.",
-                              [(11, {'Troublemaker'})], [(2, 5, 1)], 'Troublemaker')]
+        expected = [Statement("I am a Troublemaker and I swapped Player 6 and Player 0.",
+                              [(11, {'Troublemaker'})], [(2, 6, 0)], 'Troublemaker')]
+        new_roles = ['Mason', 'Villager', 'Robber', 'Seer', 'Villager', 'Tanner', 'Wolf', 'Wolf',
+                     'Minion', 'Mason', 'Drunk', 'Villager', 'Troublemaker', 'Insomniac', 'Hunter']
 
         tmkr = Troublemaker(player_index, game_roles, orig_roles)
 
+        assert game_roles == new_roles
+        assert tmkr.choice_ind1 == 6
+        assert tmkr.choice_ind2 == 0
         assert tmkr.statements == expected
 
     def test_get_troublemaker_statements(self):

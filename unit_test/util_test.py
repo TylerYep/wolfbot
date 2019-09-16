@@ -57,7 +57,7 @@ class TestGetRandomPlayer:
         result = [util.get_random_player(exclude) for _ in range(10)]
 
         assert not set(result).intersection(exclude)
-        assert result == [9, 3, 2, 4, 2, 1, 9, 4, 11, 9]
+        assert result == [0, 4, 4, 5, 9, 3, 2, 4, 2, 1]
 
 
 class TestGetRandomCenter:
@@ -69,7 +69,7 @@ class TestGetRandomCenter:
 
         result = [util.get_random_center() for _ in range(10)]
 
-        assert result == [12, 13, 12, 14, 12, 14, 13, 13, 14, 12]
+        assert result == [13, 13, 12, 13, 14, 13, 13, 13, 13, 13]
 
     def test_excludes_specified_values(self, large_game_roles):
         ''' Generated indices should exclude specified values. '''
