@@ -1,4 +1,6 @@
 ''' algorithms_test.py '''
+from collections import Counter
+
 from src import algorithms, const
 
 class TestSolverState:
@@ -11,7 +13,7 @@ class TestSolverState:
     def test_is_valid_state(self):
         ''' Should return False for empty SolverStates. '''
         valid_state = algorithms.SolverState([{'Villager'}], [], [True])
-        invalid_state = algorithms.SolverState()
+        invalid_state = algorithms.SolverState([])
 
         assert valid_state.is_valid_state()
         assert not invalid_state.is_valid_state()
@@ -24,9 +26,21 @@ class TestSolverState:
 
 
 class TestIsConsistent:
-    def test_is_consistent(self):
+    def test_is_consistent_on_empty_state(self, small_game_roles, example_statement):
         ''' Should check a new statement against the accumulated statements for consistency. '''
-        pass
+        const.NUM_ROLES = 3
+        const.NUM_PLAYERS = 3
+        const.ROLES = small_game_roles
+        const.ROLE_SET = set(const.ROLES)
+        const.ROLE_COUNTS = dict(Counter(const.ROLES))
+        start_state = algorithms.SolverState()
+
+        result = algorithms.is_consistent(example_statement, start_state)
+
+        assert result.switches == ((0, 2, 1),)
+        assert result.possible_roles == (frozenset({'Seer'}),
+                                         frozenset({'Robber', 'Villager', 'Seer'}),
+                                         frozenset({'Robber'}))
 
 
 class TestSolver:

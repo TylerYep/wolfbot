@@ -73,8 +73,7 @@ def get_statement_expectimax(player_obj: Any, prev_statements: List[Statement]) 
         return values
 
     # Initialize start_state to use all previous statements
-    possible_roles = [deepcopy(const.ROLE_SET) for i in range(const.NUM_ROLES)]
-    start_state = SolverState(possible_roles, [])
+    start_state = SolverState()
     for i in range(player_obj.player_index):
         if player_obj.role in ['Wolf', 'Minion'] and i not in player_obj.wolf_indices:
             check_state = is_consistent(prev_statements[i], start_state)
