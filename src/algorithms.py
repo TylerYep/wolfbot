@@ -55,9 +55,8 @@ def switching_solver(statements: List[Statement],
     Returns a list of [True, False, True ...] values and
     the possible role sets for each player.
     '''
-    # possible_roles = [deepcopy(const.ROLE_SET) for i in range(const.NUM_ROLES)]
     start_state = SolverState()
-    solution = [SolverState()]
+    solution = [start_state]
 
     def _switch_recurse(ind, state) -> None:
         ''' ind = index of statement being considered '''

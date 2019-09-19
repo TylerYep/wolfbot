@@ -6,10 +6,10 @@ from src import statements, const
 class TestStatement:
     def test_constructor(self):
         ''' Should initialize using the given sentence and knowledge. '''
-        statement = statements.Statement('test', [(1, {'Villager'})])
+        result = statements.Statement('test', [(1, {'Villager'})])
 
-        assert isinstance(statement, statements.Statement)
-        assert statement.sentence == 'test'
+        assert isinstance(result, statements.Statement)
+        assert result.sentence == 'test'
 
     def test_negate(self, large_game_roles, example_statement):
         ''' Negated statements only contain the speaker and the opposite of the first clause. '''
@@ -57,11 +57,12 @@ class TestStatement:
     def test_eq(self, example_statement):
         ''' Should declare two Statements with identical fields to be equal. '''
         not_a_statement = 'hello'
-        identical_statement = statements.Statement('test',
-                                                   [(2, {'Robber'}), (0, {'Seer'})],
-                                                   [(0, 2, const.ROBBER_PRIORITY)])
 
-        assert example_statement == identical_statement
+        result = statements.Statement('test',
+                                      [(2, {'Robber'}), (0, {'Seer'})],
+                                      [(0, 2, const.ROBBER_PRIORITY)])
+
+        assert result == example_statement
         with pytest.raises(AssertionError):
             if example_statement != not_a_statement:
                 print("Should throw an exception when trying to compare Statement to another type.")
@@ -72,6 +73,6 @@ class TestStatement:
                                                    [(2, {'Robber'}), (0, {'Seer'})],
                                                    [(0, 2, const.ROBBER_PRIORITY)])
 
-        statement_set = set([identical_statement, example_statement])
+        result = set([identical_statement, example_statement])
 
-        assert statement_set == set([example_statement])
+        assert result == set([example_statement])

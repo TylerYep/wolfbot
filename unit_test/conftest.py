@@ -27,6 +27,11 @@ def small_game_roles() -> Tuple[str, ...]:
 
 
 @pytest.fixture
+def medium_game_roles() -> Tuple[str, ...]:
+    return ('Robber', 'Drunk', 'Wolf', 'Troublemaker', 'Seer', 'Minion')
+
+
+@pytest.fixture
 def large_game_roles() -> Tuple[str, ...]:
     return ('Wolf', 'Villager', 'Robber', 'Seer', 'Villager', 'Tanner', 'Mason', 'Wolf',
             'Minion', 'Mason', 'Drunk', 'Villager', 'Troublemaker', 'Insomniac', 'Hunter')

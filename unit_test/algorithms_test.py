@@ -1,14 +1,16 @@
 ''' algorithms_test.py '''
 from collections import Counter
+from copy import deepcopy
 
 from src import algorithms, const
+from src.statements import Statement
 
 class TestSolverState:
     def test_constructor(self):
         ''' Should initialize a SolverState. '''
-        state = algorithms.SolverState([{'Villager'}], [], [True])
+        result = algorithms.SolverState([{'Villager'}], [], [True])
 
-        assert isinstance(state, algorithms.SolverState)
+        assert isinstance(result, algorithms.SolverState)
 
     def test_is_valid_state(self):
         ''' Should return False for empty SolverStates. '''
@@ -20,14 +22,14 @@ class TestSolverState:
 
     def test_repr(self):
         ''' Should convert a SolverState into a representative string. '''
-        state = algorithms.SolverState([{'Villager'}], [], [True])
+        result = algorithms.SolverState([{'Villager'}], [], [True])
 
-        assert str(state) == "\n[{'Villager'}]\n[True]\n[]\n"
+        assert str(result) == "\n[{'Villager'}]\n[True]\n[]\n"
 
 
 class TestIsConsistent:
     def test_is_consistent_on_empty_state(self, small_game_roles, example_statement):
-        ''' Should check a new statement against the accumulated statements for consistency. '''
+        ''' Should check a new statement against an empty SolverState for consistency. '''
         const.NUM_ROLES = 3
         const.NUM_PLAYERS = 3
         const.ROLES = small_game_roles
@@ -41,6 +43,33 @@ class TestIsConsistent:
         assert result.possible_roles == (frozenset({'Seer'}),
                                          frozenset({'Robber', 'Villager', 'Seer'}),
                                          frozenset({'Robber'}))
+
+    def test_is_consistent_on_existing_state(self, medium_game_roles):
+        '''
+        Should check a new statement against accumulated statements for consistency.
+        Should not change result.path - that is done in the switching_solver function.
+        '''
+        const.NUM_ROLES = 5
+        const.NUM_PLAYERS = 4
+        const.NUM_CENTER = 1
+        const.ROLES = medium_game_roles
+        const.ROLE_SET = set(const.ROLES)
+        const.ROLE_COUNTS = dict(Counter(const.ROLES))
+        possible_roles = [frozenset(deepcopy(const.ROLE_SET)) for i in range(const.NUM_ROLES)]
+        possible_roles[0] = frozenset(['Seer'])
+        example_solverstate = algorithms.SolverState(possible_roles, (), (True,))
+        new_statement = Statement('next', [(2, {'Drunk'})], [(const.DRUNK_PRIORITY, 2, 5)])
+        expected_roles = (frozenset({'Seer'}),
+                          frozenset({'Minion', 'Seer', 'Wolf', 'Drunk', 'Troublemaker', 'Robber'}),
+                          frozenset({'Drunk'}),
+                          frozenset({'Minion', 'Seer', 'Wolf', 'Drunk', 'Troublemaker', 'Robber'}),
+                          frozenset({'Minion', 'Seer', 'Wolf', 'Drunk', 'Troublemaker', 'Robber'}))
+
+        result = algorithms.is_consistent(new_statement, example_solverstate)
+
+        assert result.switches == ((3, 2, 5),)
+        assert result.path == (True,)
+        assert result.possible_roles == expected_roles
 
 
 class TestSolver:
@@ -61,10 +90,10 @@ class TestSolver:
         expected_possible_roles = tuple([frozenset(role_set) for role_set in expected_roles])
         expected_path = (True, False, True, True, True, True, True, False)
 
-        result_list = algorithms.switching_solver(example_statement_list)
+        result = algorithms.switching_solver(example_statement_list)
 
-        assert result_list[0].possible_roles == expected_possible_roles
-        assert result_list[0].path == expected_path
+        assert result[0].possible_roles == expected_possible_roles
+        assert result[0].path == expected_path
 
     def test_count_roles(self):
         ''' Should return a dict with counts of all certain roles. '''
