@@ -106,7 +106,7 @@ def get_basic_guesses(solution: SolverState) -> Tuple[List[str], Dict[str, int]]
                 all_role_guesses.append('')
 
         elif not consistent_statements[j]:          # Player is lying
-            choices = [r for r in const.EVIL_ROLES if curr_role_counts[r] > 0]
+            choices = [r for r in const.EVIL_ROLES & const.ROLE_SET if curr_role_counts[r] > 0]
             if choices:
                 choice = random.choice(choices)
                 all_role_guesses.append(choice)

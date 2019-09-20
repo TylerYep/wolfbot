@@ -23,23 +23,41 @@ def reset_const():
 
 @pytest.fixture
 def small_game_roles() -> Tuple[str, ...]:
-    return ('Villager', 'Seer', 'Robber')
+    const.ROLES = ('Villager', 'Seer', 'Robber')
+    const.ROLE_SET = set(const.ROLES)
+    const.ROLE_COUNTS = dict(Counter(const.ROLES))
+    const.NUM_ROLES = len(const.ROLES)
+    const.NUM_PLAYERS = 3
+    const.NUM_CENTER = 0
+    return const.ROLES
 
 
 @pytest.fixture
 def medium_game_roles() -> Tuple[str, ...]:
-    return ('Robber', 'Drunk', 'Wolf', 'Troublemaker', 'Seer', 'Minion')
+    const.ROLES = ('Robber', 'Drunk', 'Wolf', 'Troublemaker', 'Seer', 'Minion')
+    const.ROLE_SET = set(const.ROLES)
+    const.ROLE_COUNTS = dict(Counter(const.ROLES))
+    const.NUM_ROLES = len(const.ROLES)
+    const.NUM_PLAYERS = 5
+    const.NUM_CENTER = 1
+    return const.ROLES
 
 
 @pytest.fixture
 def large_game_roles() -> Tuple[str, ...]:
-    return ('Wolf', 'Villager', 'Robber', 'Seer', 'Villager', 'Tanner', 'Mason', 'Wolf',
-            'Minion', 'Mason', 'Drunk', 'Villager', 'Troublemaker', 'Insomniac', 'Hunter')
+    const.ROLES = ('Wolf', 'Villager', 'Robber', 'Seer', 'Villager', 'Tanner', 'Mason', 'Wolf',
+                   'Minion', 'Mason', 'Drunk', 'Villager', 'Troublemaker', 'Insomniac', 'Hunter')
+    const.ROLE_SET = set(const.ROLES)
+    const.ROLE_COUNTS = dict(Counter(const.ROLES))
+    const.NUM_ROLES = len(const.ROLES)
+    const.NUM_PLAYERS = 12
+    const.NUM_CENTER = 3
+    return const.ROLES
 
 
 @pytest.fixture
 def example_statement() -> Statement:
-    return Statement('test', [(2, {'Robber'}), (0, {'Seer'})], [(0, 2, const.ROBBER_PRIORITY)])
+    return Statement('test', [(2, {'Robber'}), (0, {'Seer'})], [(const.ROBBER_PRIORITY, 2, 0)])
 
 
 @pytest.fixture

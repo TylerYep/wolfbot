@@ -42,7 +42,6 @@ class TestGetRandomPlayer:
     def test_generates_different_indices(self, large_game_roles):
         ''' Generated indices should be random. '''
         const.ROLES = large_game_roles
-        const.NUM_PLAYERS = 12
 
         result = [util.get_random_player() for _ in range(10)]
 
@@ -51,7 +50,6 @@ class TestGetRandomPlayer:
     def test_excludes_specified_values(self, large_game_roles):
         ''' Generated indices should exclude specified values. '''
         const.ROLES = large_game_roles
-        const.NUM_PLAYERS = 12
         exclude = (6, 7, 8)
 
         result = [util.get_random_player(exclude) for _ in range(10)]
@@ -64,8 +62,6 @@ class TestGetRandomCenter:
     def test_generates_different_indices(self, large_game_roles):
         ''' Generated indices should be random. '''
         const.ROLES = large_game_roles
-        const.NUM_PLAYERS = 12
-        const.NUM_CENTER = 3
 
         result = [util.get_random_center() for _ in range(10)]
 
@@ -74,8 +70,6 @@ class TestGetRandomCenter:
     def test_excludes_specified_values(self, large_game_roles):
         ''' Generated indices should exclude specified values. '''
         const.ROLES = large_game_roles
-        const.NUM_PLAYERS = 12
-        const.NUM_CENTER = 3
         exclude = (12, 13)
 
         result = [util.get_random_center(exclude) for _ in range(10)]
@@ -100,7 +94,6 @@ class TestPrintRoles:
     def test_print_roles(self, caplog, small_game_roles):
         ''' Correctly print and format roles. '''
         const.ROLES = small_game_roles
-        const.NUM_PLAYERS = 3
         shuffled_roles = ['Seer', 'Villager', 'Wolf', 'Robber']
 
         util.print_roles(shuffled_roles)

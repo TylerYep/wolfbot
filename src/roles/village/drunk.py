@@ -30,7 +30,7 @@ class Drunk(Player):
         ''' Gets Drunk Statement. '''
         sentence = f'I am a Drunk and I swapped with Center {choice_index - const.NUM_PLAYERS}.'
         knowledge = [(player_index, {'Drunk'})]
-        switches = [(const.DRUNK_PRIORITY, choice_index, player_index)]
+        switches = [(const.DRUNK_PRIORITY, player_index, choice_index)]
         return [Statement(sentence, knowledge, switches)]
 
     @staticmethod

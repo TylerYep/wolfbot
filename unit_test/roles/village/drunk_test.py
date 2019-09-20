@@ -20,7 +20,7 @@ class TestDrunk:
         assert game_roles == new_roles
         assert drunk.choice_ind == 13
         assert drunk.statements == [Statement("I am a Drunk and I swapped with Center 1.",
-                                              [(6, {'Drunk'})], [(3, 13, 6)], 'Drunk')]
+                                              [(6, {'Drunk'})], [(3, 6, 13)], 'Drunk')]
 
     def test_get_drunk_statements(self):
         ''' Should execute initialization actions and return the possible statements. '''
@@ -29,7 +29,7 @@ class TestDrunk:
         result = Drunk.get_drunk_statements(player_index, 12)
 
         assert result == [Statement("I am a Drunk and I swapped with Center 0.",
-                                    [(4, {'Drunk'})], [(3, 12, 4)], 'Drunk')]
+                                    [(4, {'Drunk'})], [(3, 4, 12)], 'Drunk')]
 
     def test_get_all_statements(self):
         ''' Should return the possible statements from all possible initialization actions. '''
@@ -39,11 +39,11 @@ class TestDrunk:
         const.NUM_PLAYERS = 3
         const.NUM_CENTER = 3
         expected_statements = [Statement("I am a Drunk and I swapped with Center 0.",
-                                         [(2, {'Drunk'})], [(3, 3, 2)], 'Drunk'),
+                                         [(2, {'Drunk'})], [(3, 2, 3)], 'Drunk'),
                                Statement("I am a Drunk and I swapped with Center 1.",
-                                         [(2, {'Drunk'})], [(3, 4, 2)], 'Drunk'),
+                                         [(2, {'Drunk'})], [(3, 2, 4)], 'Drunk'),
                                Statement("I am a Drunk and I swapped with Center 2.",
-                                         [(2, {'Drunk'})], [(3, 5, 2)], 'Drunk')]
+                                         [(2, {'Drunk'})], [(3, 2, 5)], 'Drunk')]
 
         result = Drunk.get_all_statements(player_index)
 

@@ -33,7 +33,7 @@ class Robber(Player):
         sentence = f'I am a Robber and I swapped with Player {choice_ind}. ' + \
                    f'I am now a {choice_char}.'
         knowledge = [(player_index, {'Robber'}), (choice_ind, {choice_char})]
-        switches = [(const.ROBBER_PRIORITY, choice_ind, player_index)]
+        switches = [(const.ROBBER_PRIORITY, player_index, choice_ind)]
         return [Statement(sentence, knowledge, switches)]
 
     @staticmethod

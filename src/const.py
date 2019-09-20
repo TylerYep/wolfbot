@@ -20,6 +20,7 @@ SHOW_PROGRESS = False or NUM_GAMES >= 10
 SAVE_REPLAY = NUM_GAMES < 10
 UNIT_TEST = 'pytest' in sys.modules
 if UNIT_TEST: random.seed(0)
+REPLAY_FILE = 'data/replay.json'
 
 ''' Util Constants '''
 ROLE_SET = set(ROLES)

@@ -31,7 +31,8 @@ class SavedGame:
 
     def __repr__(self) -> str:
         ''' Returns string representation of the SavedGame. '''
-        return str(self.json_repr()) # TODO
+        return f'SavedGame({self.original_roles}, {self.game_roles}, ' \
+             + f'{self.all_statements}, {self.player_objs})'
 
 
 class GameResult:
@@ -56,6 +57,9 @@ class GameResult:
             'winning_team': self.winning_team
         }
 
+    def __repr__(self) -> str:
+        ''' Returns string representation of the GameResult. '''
+        return f'GameResult({self.actual}, {self.guessed}, {self.wolf_inds}, {self.winning_team})'
 
 class Statistics:
     ''' Initialize a Statistics object. '''

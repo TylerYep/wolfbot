@@ -1,5 +1,4 @@
 ''' algorithms_test.py '''
-from collections import Counter
 from copy import deepcopy
 
 from src import algorithms, const
@@ -30,16 +29,12 @@ class TestSolverState:
 class TestIsConsistent:
     def test_is_consistent_on_empty_state(self, small_game_roles, example_statement):
         ''' Should check a new statement against an empty SolverState for consistency. '''
-        const.NUM_ROLES = 3
-        const.NUM_PLAYERS = 3
         const.ROLES = small_game_roles
-        const.ROLE_SET = set(const.ROLES)
-        const.ROLE_COUNTS = dict(Counter(const.ROLES))
         start_state = algorithms.SolverState()
 
         result = algorithms.is_consistent(example_statement, start_state)
 
-        assert result.switches == ((0, 2, 1),)
+        assert result.switches == ((1, 2, 0),)
         assert result.possible_roles == (frozenset({'Seer'}),
                                          frozenset({'Robber', 'Villager', 'Seer'}),
                                          frozenset({'Robber'}))
@@ -49,21 +44,17 @@ class TestIsConsistent:
         Should check a new statement against accumulated statements for consistency.
         Should not change result.path - that is done in the switching_solver function.
         '''
-        const.NUM_ROLES = 5
-        const.NUM_PLAYERS = 4
-        const.NUM_CENTER = 1
         const.ROLES = medium_game_roles
-        const.ROLE_SET = set(const.ROLES)
-        const.ROLE_COUNTS = dict(Counter(const.ROLES))
         possible_roles = [frozenset(deepcopy(const.ROLE_SET)) for i in range(const.NUM_ROLES)]
         possible_roles[0] = frozenset(['Seer'])
         example_solverstate = algorithms.SolverState(possible_roles, (), (True,))
         new_statement = Statement('next', [(2, {'Drunk'})], [(const.DRUNK_PRIORITY, 2, 5)])
         expected_roles = (frozenset({'Seer'}),
-                          frozenset({'Minion', 'Seer', 'Wolf', 'Drunk', 'Troublemaker', 'Robber'}),
+                          frozenset({'Troublemaker', 'Wolf', 'Drunk', 'Robber', 'Seer', 'Minion'}),
                           frozenset({'Drunk'}),
-                          frozenset({'Minion', 'Seer', 'Wolf', 'Drunk', 'Troublemaker', 'Robber'}),
-                          frozenset({'Minion', 'Seer', 'Wolf', 'Drunk', 'Troublemaker', 'Robber'}))
+                          frozenset({'Troublemaker', 'Wolf', 'Drunk', 'Robber', 'Seer', 'Minion'}),
+                          frozenset({'Troublemaker', 'Wolf', 'Drunk', 'Robber', 'Seer', 'Minion'}),
+                          frozenset({'Troublemaker', 'Wolf', 'Drunk', 'Robber', 'Seer', 'Minion'}))
 
         result = algorithms.is_consistent(new_statement, example_solverstate)
 
