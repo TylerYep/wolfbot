@@ -1,4 +1,6 @@
 ''' seer_test.py '''
+from collections import Counter
+
 from src import const
 from src.statements import Statement
 from src.roles.village import Seer
@@ -84,4 +86,4 @@ class TestSeer:
     #
     #     result = Seer.get_all_statements(player_index)
     #
-    #     assert result == expected
+    #     assert set(result) == set(expected)

@@ -1,0 +1,61 @@
+
+-- NIGHT FALLS --
+
+[Hidden] Current roles: [Seer, Wolf, Drunk, Robber, Minion]
+          Center cards: [Troublemaker]
+
+Wolf, wake up.
+[Hidden] Wolves are at indices: [1]
+Wolf, go to sleep.
+
+Minion, wake up.
+[Hidden] Wolves are at indices: [1]
+Minion, go to sleep.
+
+Mason, wake up.
+Mason, go to sleep.
+
+Seer, wake up.
+[Hidden] Seer sees that Player 2 is a Drunk.
+Seer, go to sleep.
+
+Robber, wake up.
+[Hidden] Robber switches with Player 2 and becomes a Drunk.
+Robber, go to sleep.
+
+Troublemaker, wake up.
+Troublemaker, go to sleep.
+
+Drunk, wake up.
+[Hidden] Drunk switches with Center Card 0 and unknowingly becomes a Troublemaker.
+Drunk, go to sleep.
+
+Insomniac, wake up.
+Insomniac, go to sleep.
+
+
+-- GAME BEGINS --
+
+Player 0: I am a Seer and I saw that Player 2 was a Drunk.
+Player 1: I am a Robber and I swapped with Player 0. I am now a Seer.
+Player 2: I am a Drunk and I swapped with Center 0.
+Player 3: I am a Robber and I swapped with Player 2. I am now a Drunk.
+Player 4: I am a Seer and I saw that Player 3 was a Robber.
+[Hidden] Current roles: [Seer, Wolf, Troublemaker, Drunk, Minion]
+          Center cards: [Robber]
+
+Player prediction: [Robber, Seer, Troublemaker, Minion, Wolf, Drunk]
+Player prediction: [Robber, Seer, Troublemaker, Minion, Wolf, Drunk]
+Player prediction: [Wolf, Minion, Troublemaker, Drunk, Seer, Robber]
+Player prediction: [Seer, Minion, Troublemaker, Drunk, Wolf, Robber]
+Player prediction: [Wolf, Minion, Troublemaker, Drunk, Seer, Robber]
+Vote Array: [2, 0, 0, 0, 3]
+
+[Wolfbot] Role guesses: [Robber, Seer, Troublemaker, Minion, Wolf]
+          Center cards: [Drunk]
+
+Confidence level: [0.4, 0.6, 1.0, 0.6, 0.6, 0.6]
+Player 4 was chosen as a Wolf.
+Player 4 was a Minion!
+
+Werewolf Team wins!

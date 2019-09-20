@@ -88,5 +88,5 @@ def get_numeric_input(size: int) -> int:
 
 def print_roles(game_roles: List[Union['Player', str]]) -> None:
     ''' Formats hidden roles to console. '''
-    logger.debug(f'[Hidden] Current roles: {game_roles[:const.NUM_PLAYERS]} \
-                \n\t  Center cards: {game_roles[const.NUM_PLAYERS:]}\n'.replace('\'', ''))
+    logger.debug((f'[Hidden] Current roles: {game_roles[:const.NUM_PLAYERS]}\n' + ' '*10 +
+                  f'Center cards: {game_roles[const.NUM_PLAYERS:]}\n').replace('\'', ''))

@@ -91,6 +91,11 @@ pyre check
 pytest -v [-s to see print/logging output]
 ```
 
+# Style Guidelines
+- Tests use the arrange-act-assert paradigm with one line break in between each.
+- Tests do not need docstrings or return types, but every other py file should annotate return types and parameter types. Can use inline code types wherever useful, but those are optional.
+- Imports go builtins, empty space, other imports, then relative imports. Typing imports are arranged in alphabetical order.
+
 # Files
 ## Game Simulation
 * const.py (Stores all constants, along with their use cases)

@@ -21,7 +21,7 @@ def play_one_night_werewolf(save_replay: bool = True) -> GameResult:
         override_wolf_index(game_roles)
 
     player_objs = night_falls(game_roles, original_roles)
-    logger.info('\n -- GAME BEGINS -- \n')
+    logger.info('\n-- GAME BEGINS --\n')
     all_statements = get_player_statements(player_objs)
     util.print_roles(game_roles)
 
@@ -46,7 +46,7 @@ def get_player_statements(player_objs: List[Player]) -> List[Statement]:
 
 def night_falls(game_roles: List[str], original_roles: Tuple[str, ...]) -> List[Player]:
     ''' Initialize role object list and perform all switching and peeking actions to begin. '''
-    logger.info('\n -- NIGHT FALLS -- \n')
+    logger.info('\n-- NIGHT FALLS --\n')
     util.print_roles(game_roles)
 
     # Awaken each player in order and initialize the Player object.

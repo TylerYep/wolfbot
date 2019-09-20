@@ -162,5 +162,5 @@ def get_switch_dict(solution: SolverState) -> Dict[int, int]:
 
 def print_guesses(role_guesses: List[Union['Player', str]]) -> None:
     ''' Formats guesses to console. '''
-    logger.info(f'\n[Wolfbot] Role guesses: {role_guesses[:const.NUM_PLAYERS]} \
-                \n\t  Center cards: {role_guesses[const.NUM_PLAYERS:]}\n'.replace('\'', ''))
+    logger.info((f'\n[Wolfbot] Role guesses: {role_guesses[:const.NUM_PLAYERS]}\n' + ' '*10 +
+                 f'Center cards: {role_guesses[const.NUM_PLAYERS:]}\n').replace('\'', ''))

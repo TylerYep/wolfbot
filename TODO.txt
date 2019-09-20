@@ -1,9 +1,6 @@
 * feasibility of cached solver - look at max path sum, and other 161 problems
 * game_roles and original_roles in the classes for each role -> should default to None?
 
-* Add style guidelines for this repo:
-- Tests use the arrange-act-assert paradigm with one line break in between each.
-- Tests do not need docstrings or return types, but every other py file should annotate return types and parameter types. Can use inline code types wherever useful, but those are optional.
-- Imports go builtins, empty space, other imports, then relative imports. Typing imports are arranged in alphabetical order.
-
 * Insomniac testing is very confusing to me.
+* Seer all statements is still broken
+* One night output doesn't work 100% of the time - finish voting and predictions first.
