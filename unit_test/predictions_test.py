@@ -2,9 +2,13 @@
 from src import predictions, const
 
 class TestMakeRandomPrediction:
-    def test_random_prediction(self):
-        ''' Should initialize a SolverState. '''
-        pass
+    def test_random_prediction(self, medium_game_roles):
+        ''' Should return a random shuffled list as the predicted roles. '''
+        const.ROLES = medium_game_roles
+
+        result = predictions.make_random_prediction()
+
+        assert result == ['Seer', 'Wolf', 'Drunk', 'Robber', 'Minion', 'Troublemaker']
 
 
 class TestMakeEvilPrediction:

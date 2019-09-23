@@ -6,6 +6,7 @@ import pytest
 
 from src import const
 from src.statements import Statement
+from src.algorithms import SolverState
 
 @pytest.fixture(autouse=True)
 def reset_const():
@@ -79,6 +80,45 @@ def example_statement_list() -> List[Statement]:
         Statement('I am a Robber and I swapped with Player 5. I am now a Seer.',
                   [(7, {'Robber'}), (5, {'Seer'})], [(0, 5, 7)])
     ]
+
+
+@pytest.fixture
+def example_small_solverstate(small_game_roles) -> SolverState:
+    possible_roles = (frozenset({'Seer'}),
+                      frozenset({'Robber', 'Villager', 'Seer'}),
+                      frozenset({'Robber'}))
+    return SolverState(possible_roles, ((1, 2, 0),))
+
+
+@pytest.fixture
+def example_medium_solverstate(medium_game_roles) -> SolverState:
+    possible_roles = (frozenset({'Seer'}),
+                      frozenset({'Troublemaker', 'Wolf', 'Drunk', 'Robber', 'Seer', 'Minion'}),
+                      frozenset({'Drunk'}),
+                      frozenset({'Troublemaker', 'Wolf', 'Drunk', 'Robber', 'Seer', 'Minion'}),
+                      frozenset({'Troublemaker', 'Wolf', 'Drunk', 'Robber', 'Seer', 'Minion'}),
+                      frozenset({'Troublemaker', 'Wolf', 'Drunk', 'Robber', 'Seer', 'Minion'}))
+    return SolverState(possible_roles, ((3, 2, 5),), (True,))
+
+
+@pytest.fixture
+def example_large_solverstate(large_game_roles) -> SolverState:
+    roles = [
+        {'Robber'},
+        {'Seer', 'Hunter', 'Drunk', 'Tanner', 'Wolf', 'Insomniac',
+         'Mason', 'Minion', 'Villager', 'Troublemaker'},
+        {'Seer'},
+        {'Villager'},
+        {'Mason'},
+        {'Mason'},
+        {'Drunk'},
+        {'Seer', 'Hunter', 'Drunk', 'Tanner', 'Wolf', 'Insomniac', 'Mason',
+         'Minion', 'Villager', 'Troublemaker'}
+    ] + [const.ROLE_SET]*7
+    possible_roles = tuple([frozenset(role_set) for role_set in roles])
+    switches = ((0, 6, 0), (1, 9, 6))
+    path = (True, False, True, True, True, True, True, False)
+    return SolverState(possible_roles, switches, path)
 
 
 def debug_spacing_issues(captured: str, expected: str):
