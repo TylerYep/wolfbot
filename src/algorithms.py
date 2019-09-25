@@ -24,12 +24,14 @@ class SolverState:
         return len(self.possible_roles) != 0
 
     def __eq__(self, other) -> bool:
+        ''' Checks for equality between SolverStates. '''
         return self.possible_roles == other.possible_roles \
            and self.switches == other.switches \
            and self.path == other.path
 
     def __repr__(self) -> str:
-        return f'\n{list(self.possible_roles)}\n{self.path}\n{self.switches}\n'
+        ''' Returns a String representation of a SolverState. '''
+        return f'\n{list(self.possible_roles)}\n{self.switches}\n{self.path}\n'
 
 
 def is_consistent(statement: Statement, state: SolverState) -> SolverState:

@@ -84,19 +84,20 @@ def get_basic_guesses(solution: SolverState) -> Tuple[List[str], Dict[str, int]]
     possible roles set is not of size 1. For each statement, take the
     intersection and update the role counts for each character.
     '''
+    assert len(solution.possible_roles) == const.NUM_ROLES
+
     all_role_guesses = []
     consistent_statements = list(solution.path)
     consistent_roles = deepcopy(solution.possible_roles)
     curr_role_counts = dict(const.ROLE_COUNTS)
+    print(consistent_roles)
+    print(curr_role_counts)
     for j in range(const.NUM_ROLES):
-        if j >= len(consistent_roles): # Remove when all problems are fixed
-            print(solution, consistent_statements, consistent_roles)
-            print(all_role_guesses, curr_role_counts)
         guess_set = consistent_roles[j]
         if j >= len(consistent_statements) or consistent_statements[j]:  # Center card or is truth
             for rol in const.ROLE_SET:                                # Remove already chosen cards
                 if curr_role_counts[rol] == 0:
-                    guess_set -= set([rol])
+                    guess_set -= frozenset([rol])
 
             if len(guess_set) == 1:                 # Player is telling the truth
                 role = next(iter(guess_set))
@@ -107,6 +108,7 @@ def get_basic_guesses(solution: SolverState) -> Tuple[List[str], Dict[str, int]]
 
         elif not consistent_statements[j]:          # Player is lying
             choices = [r for r in const.EVIL_ROLES & const.ROLE_SET if curr_role_counts[r] > 0]
+            print(choices)
             if choices:
                 choice = random.choice(choices)
                 all_role_guesses.append(choice)

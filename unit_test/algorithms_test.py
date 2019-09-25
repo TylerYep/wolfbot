@@ -35,7 +35,7 @@ class TestSolverState:
         ''' Should convert a SolverState into a representative string. '''
         result = algorithms.SolverState([{'Villager'}], [], [True])
 
-        assert str(result) == "\n[{'Villager'}]\n[True]\n[]\n"
+        assert str(result) == "\n[{'Villager'}]\n[]\n[True]\n"
 
 
 class TestIsConsistent:
