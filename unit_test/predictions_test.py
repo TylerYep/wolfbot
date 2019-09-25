@@ -45,9 +45,10 @@ class TestGetBasicGuesses:
         Should correctly interpret a solution as a list of current predictions
         as well as a dictionary of counts.
         '''
-        result = predictions.get_basic_guesses(example_medium_solverstate)
         expected = (['Seer', '', 'Drunk', '', '', ''],
                     {'Drunk': 0, 'Minion': 1, 'Robber': 1, 'Seer': 0, 'Troublemaker': 1, 'Wolf': 1})
+
+        result = predictions.get_basic_guesses(example_medium_solverstate)
 
         assert result == expected
 
@@ -56,11 +57,12 @@ class TestGetBasicGuesses:
         Should correctly interpret a solution as a list of current predictions
         as well as a dictionary of counts.
         '''
+        expected = (['Robber', '', 'Seer', 'Villager', 'Mason', 'Mason', 'Drunk',
+                     '', '', '', '', '', '', '', ''],
+                    {'Drunk': 0, 'Hunter': 1, 'Insomniac': 1, 'Mason': 0, 'Minion': 1, 'Robber': 0,
+                     'Seer': 0, 'Tanner': 1, 'Troublemaker': 1, 'Villager': 2, 'Wolf': 2})
+
         result = predictions.get_basic_guesses(example_large_solverstate)
-        expected = (['Robber', 'Minion', 'Seer', 'Villager', 'Mason', 'Mason', 'Drunk', 'Wolf',
-                     '', '', '', '', '', '', ''],
-                    {'Wolf': 1, 'Villager': 2, 'Robber': 0, 'Seer': 0, 'Tanner': 1, 'Mason': 0,
-                     'Minion': 0, 'Drunk': 0, 'Troublemaker': 1, 'Insomniac': 1, 'Hunter': 1})
 
         assert result == expected
 
@@ -96,6 +98,7 @@ class TestPrintGuesses:
     def test_print_guesses(self, caplog, medium_game_roles):
         ''' Correctly print and format roles. '''
         const.ROLES = medium_game_roles
+        
         predictions.print_guesses(list(medium_game_roles))
 
         captured = caplog.records[0].getMessage()
