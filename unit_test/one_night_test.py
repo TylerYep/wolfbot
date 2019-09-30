@@ -3,16 +3,16 @@ from src import one_night, const
 
 class TestPlayOneNightWerewolf:
     def test_play_one_night_werewolf_result(self, medium_game_roles):
-        ''' Correctly swap two players. '''
+        ''' Correctly play one round of one night werewolf. '''
         const.ROLES = medium_game_roles
         const.REPLAY_FILE = 'unit_test/test_data/replay.json'
 
         result = one_night.play_one_night_werewolf()
 
-        # assert result.actual == ['Seer', 'Wolf', 'Troublemaker', 'Drunk', 'Minion', 'Robber']
-        # # TODO make this deterministic (must choose same solution each time)
-        # assert result.guessed == ['Robber', 'Seer', 'Troublemaker', 'Minion', 'Wolf', 'Drunk']
-        # assert result.wolf_inds
+        assert result.actual == ['Seer', 'Wolf', 'Troublemaker', 'Drunk', 'Minion', 'Robber']
+        assert result.guessed == ['Robber', 'Seer', 'Minion', 'Troublemaker', 'Wolf', 'Drunk']
+        assert result.wolf_inds == [1]
+        # TODO compare the entire object instead?
 
     # def test_play_one_night_werewolf_output(self, caplog, medium_game_roles):
     #     ''' Correctly swap two players. '''

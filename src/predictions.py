@@ -129,8 +129,8 @@ def recurse_assign(solution: SolverState,
 
     for i in range(const.NUM_ROLES):
         if all_role_guesses[i] == '':
-            leftover_roles = list(solution.possible_roles[i]) if restrict_possible \
-                                else [k for k, v in curr_role_counts.items() if v > 0]
+            leftover_roles = sorted(solution.possible_roles[i] if restrict_possible \
+                                else [k for k, v in curr_role_counts.items() if v > 0])
             random.shuffle(leftover_roles)
             for rol in leftover_roles:
                 if curr_role_counts[rol] > 0:

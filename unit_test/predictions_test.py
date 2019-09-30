@@ -14,19 +14,19 @@ class TestMakeRandomPrediction:
 
 class TestMakeEvilPrediction:
     def test_evil_prediction(self):
-        ''' Should initialize a SolverState. '''
+        ''' Should '''
         pass
 
 
 class TestMakeFastPrediction:
     def test_fast_prediction(self):
-        ''' Should initialize a SolverState. '''
+        ''' Should '''
         pass
 
 
 class TestMakePrediction:
     def test_make_prediction(self):
-        ''' Should initialize a SolverState. '''
+        ''' Should '''
         pass
 
 
@@ -68,14 +68,72 @@ class TestGetBasicGuesses:
 
 
 class TestRecurseAssign:
-    def test_recurse_assign(self):
-        ''' Should initialize a SolverState. '''
-        pass
+    def test_no_action(self, example_small_solverstate, small_game_roles):
+        ''' Should not make any assignments if all assignments are made. '''
+        counts = {'Robber': 0, 'Seer': 0, 'Villager': 0}
+
+        result = predictions.recurse_assign(example_small_solverstate,
+                                            small_game_roles,
+                                            counts)
+
+        assert result == small_game_roles
+
+    def test_no_solution_medium(self, example_medium_solverstate):
+        ''' Should return empty list if no arrangement of assignments is valid. '''
+        # TODO start writing this test
+        role_guesses = ['Robber', '', 'Seer', 'Villager', 'Mason', 'Mason', 'Drunk',
+                        '', '', '', '', '', '', '', '']
+        counts = {'Drunk': 0, 'Hunter': 1, 'Insomniac': 1, 'Mason': 0, 'Minion': 1, 'Robber': 0,
+                  'Seer': 0, 'Tanner': 1, 'Troublemaker': 1, 'Villager': 2, 'Wolf': 2}
+
+        result = predictions.recurse_assign(example_medium_solverstate,
+                                            role_guesses,
+                                            counts)
+
+        assert result == []
+
+    def test_small_predict_solution(self, example_small_solverstate):
+        ''' Should return empty list if no arrangement of assignments is valid. '''
+        role_guesses = ['Seer', '', 'Robber']
+        counts = {'Robber': 0, 'Seer': 0, 'Villager': 1}
+
+        result = predictions.recurse_assign(example_small_solverstate,
+                                            role_guesses,
+                                            counts)
+
+        assert result == ['Seer', 'Villager', 'Robber']
+
+    def test_medium_predict_solution(self, example_medium_solverstate):
+        ''' Should return empty list if no arrangement of assignments is valid. '''
+        role_guesses = ['Seer', '', 'Drunk', '', '', '']
+        counts = {'Drunk': 0, 'Minion': 1, 'Robber': 1, 'Seer': 0, 'Troublemaker': 1, 'Wolf': 1}
+
+        result = predictions.recurse_assign(example_medium_solverstate,
+                                            role_guesses,
+                                            counts)
+
+        assert result == ['Seer', 'Troublemaker', 'Drunk', 'Minion', 'Wolf', 'Robber']
+
+    def test_large_predict_solution(self, example_large_solverstate):
+        ''' Should return empty list if no arrangement of assignments is valid. '''
+        role_guesses = ['Robber', '', 'Seer', 'Villager', 'Mason', 'Mason', 'Drunk',
+                        '', '', '', '', '', '', '', '']
+        counts = {'Drunk': 0, 'Hunter': 1, 'Insomniac': 1, 'Mason': 0, 'Minion': 1, 'Robber': 0,
+                  'Seer': 0, 'Tanner': 1, 'Troublemaker': 1, 'Villager': 2, 'Wolf': 2}
+
+        result = predictions.recurse_assign(example_large_solverstate,
+                                            role_guesses,
+                                            counts)
+
+        assert result == ['Robber', 'Troublemaker', 'Seer', 'Villager', 'Mason', 'Mason',
+                          'Drunk', 'Wolf', 'Tanner', 'Hunter', 'Minion', 'Insomniac', 'Villager',
+                          'Villager', 'Wolf']
 
 
 class TestGetSwitchDict:
     def test_get_empty_switch_dict(self, small_game_roles):
         ''' Should return the identity switch dict. '''
+        const.ROLES = small_game_roles
         possible_roles = (frozenset({'Robber', 'Villager', 'Seer'}),) * 3
         state = SolverState(possible_roles)
 
@@ -98,7 +156,7 @@ class TestPrintGuesses:
     def test_print_guesses(self, caplog, medium_game_roles):
         ''' Correctly print and format roles. '''
         const.ROLES = medium_game_roles
-        
+
         predictions.print_guesses(list(medium_game_roles))
 
         captured = caplog.records[0].getMessage()
