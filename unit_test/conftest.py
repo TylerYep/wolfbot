@@ -7,6 +7,7 @@ import pytest
 from src import const
 from src.statements import Statement
 from src.algorithms import SolverState
+from src.stats import GameResult, SavedGame
 
 @pytest.fixture(autouse=True)
 def reset_const():
@@ -127,6 +128,11 @@ def example_large_solverstate(large_game_roles) -> SolverState:
     switches = ((0, 6, 0), (1, 9, 6))
     path = (True, False, True, True, True, True, True, False)
     return SolverState(possible_roles, switches, path)
+
+
+@pytest.fixture
+def example_game_result() -> GameResult:
+    return GameResult()
 
 
 def debug_spacing_issues(captured: str, expected: str):

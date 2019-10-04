@@ -29,6 +29,15 @@ class Player:
 
         return random.choice(tuple(self.statements))
 
+    def __eq__(self, other) -> bool:
+        ''' Checks for equality between Players. '''
+        assert isinstance(other, Player)
+        return self.player_index == other.player_index \
+           and self.role == other.role \
+           and self.new_role == other.new_role \
+           and self.statements == other.statements \
+           and self.is_user == other.is_user
+
     def json_repr(self) -> Dict:
         ''' Gets JSON representation of a Player object. '''
         return {'type': self.role, 'player_index': self.player_index,

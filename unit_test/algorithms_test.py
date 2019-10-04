@@ -1,6 +1,4 @@
 ''' algorithms_test.py '''
-from copy import deepcopy
-
 from src import algorithms, const
 from src.statements import Statement
 
@@ -52,7 +50,7 @@ class TestIsConsistent:
         Should check a new statement against accumulated statements for consistency.
         Should not change result.path - that is done in the switching_solver function.
         '''
-        possible_roles = [frozenset(deepcopy(const.ROLE_SET)) for i in range(const.NUM_ROLES)]
+        possible_roles = [frozenset(const.ROLE_SET) for i in range(const.NUM_ROLES)]
         possible_roles[0] = frozenset(['Seer'])
         example_solverstate = algorithms.SolverState(possible_roles, (), (True,))
         new_statement = Statement('next', [(2, {'Drunk'})], [(const.DRUNK_PRIORITY, 2, 5)])

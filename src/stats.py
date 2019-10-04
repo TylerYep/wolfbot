@@ -19,6 +19,14 @@ class SavedGame:
         ''' Returns game data. '''
         return self.original_roles, self.game_roles, self.all_statements, self.player_objs
 
+    def __eq__(self, other) -> bool:
+        ''' Checks for equality between SavedGames. '''
+        assert isinstance(other, SavedGame)
+        return self.original_roles == other.original_roles \
+           and self.game_roles == other.game_roles \
+           and self.all_statements == other.all_statements \
+           and self.player_objs == other.player_objs
+
     def json_repr(self) -> Dict:
         ''' Returns json representation of the GameResult. '''
         return {
@@ -46,6 +54,14 @@ class GameResult:
         self.guessed = guessed
         self.wolf_inds = wolf_inds
         self.winning_team = winning_team
+
+    def __eq__(self, other) -> bool:
+        ''' Checks for equality between GameResults. '''
+        assert isinstance(other, GameResult)
+        return self.actual == other.actual \
+           and self.guessed == other.guessed \
+           and self.wolf_inds == other.wolf_inds \
+           and self.winning_team == other.winning_team
 
     def json_repr(self) -> Dict:
         ''' Returns json representation of the GameResult. '''

@@ -10,6 +10,9 @@ class TestStatement:
 
         assert isinstance(result, statements.Statement)
         assert result.sentence == 'test'
+        assert result.knowledge == ((1, frozenset({'Villager'})),)
+        assert result.switches == ()
+        assert result.speaker == 'Villager'
 
     def test_negate(self, large_game_roles, example_statement):
         ''' Negated statements only contain the speaker and the opposite of the first clause. '''

@@ -1,18 +1,20 @@
 ''' one_night_test.py '''
 from src import one_night, const
+from src.stats import GameResult
 
 class TestPlayOneNightWerewolf:
     def test_play_one_night_werewolf_result(self, medium_game_roles):
         ''' Correctly play one round of one night werewolf. '''
         const.ROLES = medium_game_roles
         const.REPLAY_FILE = 'unit_test/test_data/replay.json'
+        expected = GameResult(['Seer', 'Wolf', 'Troublemaker', 'Drunk', 'Minion', 'Robber'],
+                              ['Robber', 'Seer', 'Minion', 'Troublemaker', 'Wolf', 'Drunk'],
+                              [1],
+                              'Werewolf')
 
         result = one_night.play_one_night_werewolf()
 
-        assert result.actual == ['Seer', 'Wolf', 'Troublemaker', 'Drunk', 'Minion', 'Robber']
-        assert result.guessed == ['Robber', 'Seer', 'Minion', 'Troublemaker', 'Wolf', 'Drunk']
-        assert result.wolf_inds == [1]
-        # TODO compare the entire object instead?
+        assert result == expected
 
     # def test_play_one_night_werewolf_output(self, caplog, medium_game_roles):
     #     ''' Correctly swap two players. '''

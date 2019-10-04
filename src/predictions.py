@@ -95,7 +95,7 @@ def get_basic_guesses(solution: SolverState) -> Tuple[List[str], Dict[str, int]]
         if j >= len(consistent_statements) or consistent_statements[j]:  # Center card or is truth
             for rol in const.ROLE_SET:              # Remove already chosen cards
                 if curr_role_counts[rol] == 0:
-                    guess_set -= frozenset([rol])
+                    guess_set -= set([rol])
 
             if len(guess_set) == 1:                 # Player is telling the truth
                 role = next(iter(guess_set))

@@ -20,7 +20,8 @@ class Statement:
         self.sentence = sentence
         self.knowledge = tuple([(i, frozenset(role_set)) for i, role_set in knowledge])
         self.switches = tuple(switches) if switches is not None else ()
-        self.speaker = speaker if speaker is not None else next(iter(knowledge[0][1]))
+        if knowledge:
+            self.speaker = speaker if speaker is not None else next(iter(knowledge[0][1]))
 
     def negate(self) -> Statement:
         ''' Returns a negated version of the first clause in a statement. '''
@@ -54,7 +55,6 @@ class Statement:
 
     def __eq__(self, other) -> bool:
         assert isinstance(other, Statement)
-
         return self.sentence == other.sentence \
             and self.knowledge == other.knowledge \
             and self.switches == other.switches \

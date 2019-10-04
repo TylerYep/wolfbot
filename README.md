@@ -7,6 +7,10 @@ Constants, along with their use cases, are listed in src/const.py.
 
 # Development
 
+## October 2019
+Still testing.
+
+
 ## September 2019
 Spent a bunch of time setting up test stubs and preliminary tests for all files in the project. Getting ever so slightly closer to the goal of knowing when parts of this project is broken and being able to better notate the requirements and design decisions behind some of this code.
 

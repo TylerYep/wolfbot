@@ -15,7 +15,7 @@ class SolverState:
                  switches: Tuple[Tuple[int, int, int], ...] = (),
                  path_init: Tuple[bool] = ()):
         self.possible_roles = tuple(possible_roles) if possible_roles is not None \
-                else tuple([frozenset(deepcopy(const.ROLE_SET)) for i in range(const.NUM_ROLES)])
+                else tuple([frozenset(const.ROLE_SET) for i in range(const.NUM_ROLES)])
         self.switches = switches
         self.path = path_init
 

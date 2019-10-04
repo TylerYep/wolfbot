@@ -4,3 +4,4 @@
 * Insomniac testing is very confusing to me.
 * Seer all statements is still broken
 * One night output doesn't work 100% of the time - finish voting and predictions first.
+* Test constructors more thoroughly.
