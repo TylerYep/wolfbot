@@ -131,8 +131,31 @@ def example_large_solverstate(large_game_roles) -> SolverState:
 
 
 @pytest.fixture
-def example_game_result() -> GameResult:
-    return GameResult()
+def example_small_game_result(small_game_roles) -> GameResult:
+    return GameResult(['Villager', 'Seer', 'Robber'],
+                      ['Villager', 'Seer', 'Robber'],
+                      [],
+                      'Villager')
+
+
+@pytest.fixture
+def example_medium_game_result(medium_game_roles) -> GameResult:
+    return GameResult(['Seer', 'Wolf', 'Troublemaker', 'Drunk', 'Minion', 'Robber'],
+                      ['Robber', 'Seer', 'Minion', 'Troublemaker', 'Wolf', 'Drunk'],
+                      [1],
+                      'Werewolf')
+
+
+@pytest.fixture
+def example_large_game_result(large_game_roles) -> GameResult:
+    return GameResult(['Villager', 'Insomniac', 'Mason', 'Tanner', 'Villager',
+                       'Drunk', 'Seer', 'Wolf', 'Minion', 'Villager', 'Wolf',
+                       'Hunter', 'Troublemaker', 'Mason', 'Robber'],
+                       ['Drunk', 'Wolf', 'Mason', 'Insomniac', 'Villager', 'Minion',
+                        'Tanner', 'Seer', 'Troublemaker', 'Villager', 'Robber',
+                        'Hunter', 'Mason', 'Wolf', 'Villager'],
+                       [7, 10],
+                       'Werewolf')
 
 
 def debug_spacing_issues(captured: str, expected: str):

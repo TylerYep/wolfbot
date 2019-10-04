@@ -8,7 +8,7 @@ Constants, along with their use cases, are listed in src/const.py.
 # Development
 
 ## October 2019
-Still testing.
+Still testing, working on the tail end parts of the game (predictions and voting).
 
 
 ## September 2019

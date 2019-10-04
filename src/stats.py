@@ -77,6 +77,7 @@ class GameResult:
         ''' Returns string representation of the GameResult. '''
         return f'GameResult({self.actual}, {self.guessed}, {self.wolf_inds}, {self.winning_team})'
 
+
 class Statistics:
     ''' Initialize a Statistics object. '''
     def __init__(self):
