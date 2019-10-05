@@ -8,7 +8,7 @@ Constants, along with their use cases, are listed in src/const.py.
 # Development
 
 ## October 2019
-Still testing, working on the tail end parts of the game (predictions and voting).
+Still testing, working on the tail end parts of the game (predictions, encoder, and voting).
 
 
 ## September 2019
@@ -27,8 +27,16 @@ Additionally, to aid this effort, I have also decided to introduce type annotati
 Changed all interpolated strings in this project to use f-strings, which are intended to be much more performant and readable, even in logging scenarios.
 
 
+## March 2019
+Tried using a Dynamic Programming or Greedy Algorithm for switching solver, but it wasn't too successful. I'm not 100% sure that the greedy approach to consistent statement selection works all of the time.
+
+
+## February 2019
+New features! Made Multi-Statement semi-stable, but right now all roles just ignore the extra information given before the final statement. Ideas for big integration testing - I could have a fixed accuracy threshold needed to pass each test when certain features like Expectimax Wolf or Multi-Statement are enabled. I would also love to have different confidence levels for each character, like a probability distribution or something.
+
+
 ## January 2019
-Interactive mode and Hunter added!
+Interactive Mode and Hunter added! Working on multiple statements next, but I need to plan it out a bit more before I try to implement it. I plan to branch off of master to get a proof-of-concept working first.
 
 
 ## December 2018
@@ -36,7 +44,7 @@ Added the Minion and Tanner characters and fully integrated them into the game! 
 
 
 ## November 2018
-Started the basic framework for the Minion. Currently working on other projects, so I will return to this project later.
+Started the basic framework for the Minion character. Currently working on other projects, so I will return to this project later.
 
 
 ## October 2018
@@ -142,14 +150,6 @@ Tanner Team: (Wildcard player)
 
 Wolf Theory: Choose statements that do a good job, not necessarily the absolute best ones.
 
-# Future Development Todos
-* Host on AWS
-* UI and secure move API
-* Multiple Statements
-* Unit testing
-* Player can accept 0 parameters? just multiply to make list.
-* Wolf_inds isn't used in stats
-
 # File Dependency Tree
 Simplified version (some cycles exist)
 
@@ -191,3 +191,20 @@ player.py
 |   |-- reg_wolf.py
 |   |-- rl_wolf.py
 ```
+
+# Future Development Todos
+* Host on AWS
+* UI and secure move API
+* Multiple Statements
+* Unit testing
+* Player can accept 0 parameters? just multiply to make list.
+* Wolf_inds isn't used in stats
+
+* Feasibility of cached solver - look at max path sum, and other CS161 problems
+* game_roles and original_roles in the classes for each role -> should default to None? to follow Minion and Tanner API. Causes a lot of pylint issues.
+
+* Insomniac testing is very confusing to me.
+* One night output doesn't work 100% of the time - finish voting and predictions first.
+* Test constructors more thoroughly.
+
+* Predictions with constraint satisfaction heuristics https://simpleai.readthedocs.io/en/latest/constraint_satisfaction_problems.html

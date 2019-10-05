@@ -1,9 +1,0 @@
-* feasibility of cached solver - look at max path sum, and other CS161 problems
-* game_roles and original_roles in the classes for each role -> should default to None? to follow Minion and Tanner API. Causes a lot of pylint issues.
-
-* Insomniac testing is very confusing to me.
-* One night output doesn't work 100% of the time - finish voting and predictions first.
-* Test constructors more thoroughly.
-
-* Predictions with constraint satisfaction heuristics https://simpleai.readthedocs.io/en/latest/constraint_satisfaction_problems.html
-
