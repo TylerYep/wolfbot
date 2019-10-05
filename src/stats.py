@@ -39,8 +39,8 @@ class SavedGame:
 
     def __repr__(self) -> str:
         ''' Returns string representation of the SavedGame. '''
-        return f'SavedGame({self.original_roles}, {self.game_roles}, ' \
-             + f'{self.all_statements}, {self.player_objs})'
+        return (f'SavedGame({self.original_roles}, {self.game_roles}, '
+                f'{self.all_statements}, {self.player_objs})')
 
 
 class GameResult:

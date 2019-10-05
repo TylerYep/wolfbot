@@ -5,12 +5,15 @@ import logging
 from collections import Counter
 import argparse
 
- ''' Command Line Arguments '''
+UNIT_TEST = 'pytest' in sys.modules
+if UNIT_TEST: random.seed(0)
+
+''' Command Line Arguments '''
 parser = argparse.ArgumentParser(description='config constants for src/main.py')
 parser.add_argument('--interactive', '-u', help='enable interactive mode', action='store_true')
 parser.add_argument('--num_games', '-n', help='specify number of games')
 parser.add_argument('--info', '-i', help='enable logging.INFO', action='store_true')
-ARGS = parser.parse_args()
+ARGS = parser.parse_args('' if UNIT_TEST else sys.argv[1:])
 
 ''' Game Constants '''
 ROLES = ('Insomniac', 'Villager', 'Villager', 'Villager', 'Wolf', 'Wolf', 'Seer', 'Tanner',
@@ -26,8 +29,6 @@ NUM_GAMES = 1 if ARGS.num_games is None else int(ARGS.num_games)
 FIXED_WOLF_INDEX = -1
 SHOW_PROGRESS = False or NUM_GAMES >= 10
 SAVE_REPLAY = NUM_GAMES < 10
-UNIT_TEST = 'pytest' in sys.modules
-if UNIT_TEST: random.seed(0)
 REPLAY_FILE = 'data/replay.json'
 
 ''' Util Constants '''

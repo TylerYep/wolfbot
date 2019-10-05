@@ -47,9 +47,9 @@ class Seer(Player):
         sentence = f'I am a Seer and I saw that Player {seen_index} was a {seen_role}.'
         knowledge = [(player_index, {'Seer'}), (seen_index, {seen_role})]
         if seen_index2 is not None and seen_role2 is not None:
-            sentence = f'I am a Seer and I saw that Center {seen_index - const.NUM_PLAYERS} was a' \
-                       + f' {seen_role} and that Center {seen_index2 - const.NUM_PLAYERS}' \
-                       + f' was a {seen_role2}.'
+            sentence = (f'I am a Seer and I saw that Center {seen_index - const.NUM_PLAYERS} was a'
+                        f' {seen_role} and that Center {seen_index2 - const.NUM_PLAYERS}'
+                        f' was a {seen_role2}.')
             knowledge.append((seen_index2, {seen_role2}))
         return [Statement(sentence, knowledge)]
 

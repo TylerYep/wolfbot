@@ -8,7 +8,7 @@ class Statement:
     ''' Model for all statements in the game. Statements are intended to be immutable. '''
     def __init__(self,
                  sentence: str,
-                 knowledge: List[Tuple[int, Set[str]]],
+                 knowledge: List[Tuple[int, Set[str]]] = None,
                  switches: List[Tuple[int, int, int]] = None,
                  speaker: str = None):
         '''
@@ -19,25 +19,21 @@ class Statement:
         '''
         self.sentence = sentence
         self.knowledge = tuple([(i, frozenset(role_set)) for i, role_set in knowledge])
-        self.switches = tuple(switches) if switches is not None else ()
-        if knowledge:
-            self.speaker = speaker if speaker is not None else next(iter(knowledge[0][1]))
+        self.switches = tuple(map(tuple, switches)) if switches is not None else ()
+        self.speaker = speaker if speaker is not None or not knowledge \
+                       else next(iter(knowledge[0][1]))
 
     def negate(self) -> Statement:
         ''' Returns a negated version of the first clause in a statement. '''
         neg = []
         if self.knowledge:
-            player_clause = self.knowledge[0]
-            new_set = set(const.ROLES) - player_clause[1]
-            neg = [(player_clause[0], new_set)]
+            index, player_clause = self.knowledge[0]
+            neg = [(index, const.ROLE_SET - player_clause)]
         return Statement('NOT - ' + self.sentence, neg, [], self.speaker)
 
     def negate_all(self) -> Statement:
         ''' Returns a negated version of every clause in the statement. '''
-        neg = []
-        for tupl in self.knowledge:
-            new_set = set(const.ROLES) - tupl[1]
-            neg.append((tupl[0], new_set))
+        neg = [(i, const.ROLE_SET - role_set) for i, role_set in self.knowledge]
         return Statement('NOT - ' + self.sentence, neg, [], self.speaker)
 
     def json_repr(self) -> Dict[str, Any]:

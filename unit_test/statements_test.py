@@ -18,7 +18,7 @@ class TestStatement:
         ''' Negated statements only contain the speaker and the opposite of the first clause. '''
         const.ROLES = large_game_roles
         expected = statements.Statement('NOT - test',
-                                        [(2, set(const.ROLES) - {'Robber'})],
+                                        [(2, const.ROLE_SET - {'Robber'})],
                                         speaker='Robber')
 
         result = example_statement.negate()
@@ -30,8 +30,8 @@ class TestStatement:
         ''' Negate-all statements contain the opposite of all clauses. '''
         const.ROLES = large_game_roles
         expected = statements.Statement('NOT - test',
-                                        [(2, set(const.ROLES) - {'Robber'}),
-                                         (0, set(const.ROLES) - {'Seer'})],
+                                        [(2, const.ROLE_SET - {'Robber'}),
+                                         (0, const.ROLE_SET - {'Seer'})],
                                         speaker='Robber')
 
         result = example_statement.negate_all()
