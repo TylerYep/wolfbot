@@ -122,7 +122,7 @@ def recurse_assign(solution: SolverState,
     '''
     Assign the remaining unknown cards by recursing and finding a consistent placement.
     If restrict_possible is enabled, then uses the possible_roles sets to assign.
-    else simply fills in slots with curr_role_counts.
+    Else simply fills in slots with curr_role_counts.
     '''
     if '' not in all_role_guesses:
         return all_role_guesses

@@ -3,6 +3,14 @@ import sys
 import random
 import logging
 from collections import Counter
+import argparse
+
+ ''' Command Line Arguments '''
+parser = argparse.ArgumentParser(description='config constants for src/main.py')
+parser.add_argument('--interactive', '-u', help='enable interactive mode', action='store_true')
+parser.add_argument('--num_games', '-n', help='specify number of games')
+parser.add_argument('--info', '-i', help='enable logging.INFO', action='store_true')
+ARGS = parser.parse_args()
 
 ''' Game Constants '''
 ROLES = ('Insomniac', 'Villager', 'Villager', 'Villager', 'Wolf', 'Wolf', 'Seer', 'Tanner',
@@ -14,7 +22,7 @@ USE_VOTING = True
 RANDOMIZE_ROLES = True
 
 ''' Simulation Constants '''
-NUM_GAMES = 1
+NUM_GAMES = 1 if ARGS.num_games is None else int(ARGS.num_games)
 FIXED_WOLF_INDEX = -1
 SHOW_PROGRESS = False or NUM_GAMES >= 10
 SAVE_REPLAY = NUM_GAMES < 10
@@ -49,7 +57,7 @@ USE_RL_WOLF = False
 EXPERIENCE_PATH = 'src/learning/simulations/wolf_player.json'
 
 ''' Interactive Game Constants '''
-INTERACTIVE_MODE_ON = False
+INTERACTIVE_MODE_ON = ARGS.interactive
 IS_USER = [False for _ in range(NUM_ROLES)]
 if INTERACTIVE_MODE_ON:
     IS_USER[random.randint(0, NUM_PLAYERS - 1)] = True
@@ -63,6 +71,7 @@ TRACE = 5
 logging.basicConfig(format='%(message)s', level=TRACE)#, filename='test1.txt', filemode='a')
 logger = logging.getLogger()
 
+if ARGS.info: logger.setLevel(logging.INFO)
 if NUM_GAMES >= 10 and not UNIT_TEST: logger.setLevel(logging.WARNING)
 if INTERACTIVE_MODE_ON: logger.setLevel(logging.INFO)
 

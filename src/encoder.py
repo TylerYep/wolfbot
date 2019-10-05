@@ -10,7 +10,7 @@ from src.roles import Player #, get_role_obj
 from src import const
 
 class WolfBotEncoder(json.JSONEncoder):
-    ''' Encoder for all WolfBot objects '''
+    ''' Encoder for all WolfBot objects. '''
     def default(self, o: Any) -> Dict:
         ''' Overrides encoding method. '''
         if isinstance(o, (Player, Statement, GameResult, SavedGame)):
@@ -23,7 +23,7 @@ class WolfBotEncoder(json.JSONEncoder):
 
 
 class WolfBotDecoder(json.JSONDecoder):
-    ''' Decoder for all WolfBot objects '''
+    ''' Decoder for all WolfBot objects. '''
     def __init__(self):
         json.JSONDecoder.__init__(self, object_hook=self.json_to_objects)
 
@@ -48,12 +48,12 @@ class WolfBotDecoder(json.JSONDecoder):
         return obj
 
 
-def get_object_initializer(obj_name):
+def get_object_initializer(obj_name: str) -> Any:
     ''' Retrieves class initializer from its string name. '''
     return getattr(sys.modules[__name__], obj_name)
 
 
-def convert_dict_to_json(file_path: str) -> None:
+def convert_pkl_to_json(file_path: str) -> None:
     ''' Backwards compatibility with pkl. '''
     with open(file_path, 'rb') as fpkl, open(f'{file_path[0:-4]}.json', 'w') as fjson:
         data = pickle.load(fpkl)

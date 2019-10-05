@@ -152,6 +152,7 @@ class TestGetSwitchDict:
 
         assert result == expected
 
+
 class TestPrintGuesses:
     def test_print_guesses(self, caplog, medium_game_roles):
         ''' Correctly print and format roles. '''

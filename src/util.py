@@ -19,7 +19,7 @@ def find_all_player_indices(game_roles: Sequence[str], role: str) -> List[int]:
     return [i for i in range(const.NUM_PLAYERS) if game_roles[i] == role]
 
 
-def get_player(self_obj: 'Player', vals_to_exclude: Tuple = ()) -> int:
+def get_player(self_obj, vals_to_exclude: Tuple = ()) -> int:
     ''' Gets a random player index (not in the center). '''
     return input_player(vals_to_exclude) if self_obj.is_user else get_random_player(vals_to_exclude)
 

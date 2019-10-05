@@ -44,17 +44,17 @@ Player 4: I am a Seer and I saw that Player 3 was a Robber.
 [Hidden] Current roles: [Seer, Wolf, Troublemaker, Drunk, Minion]
           Center cards: [Robber]
 
+Player prediction: [Robber, Seer, Minion, Troublemaker, Wolf, Drunk]
 Player prediction: [Robber, Seer, Troublemaker, Minion, Wolf, Drunk]
-Player prediction: [Robber, Seer, Troublemaker, Minion, Wolf, Drunk]
+Player prediction: [Seer, Minion, Wolf, Drunk, Troublemaker, Robber]
 Player prediction: [Wolf, Minion, Troublemaker, Drunk, Seer, Robber]
-Player prediction: [Seer, Minion, Troublemaker, Drunk, Wolf, Robber]
-Player prediction: [Wolf, Minion, Troublemaker, Drunk, Seer, Robber]
-Vote Array: [2, 0, 0, 0, 3]
+Player prediction: [Troublemaker, Wolf, Minion, Drunk, Seer, Robber]
+Vote Array: [1, 1, 1, 0, 2]
 
-[Wolfbot] Role guesses: [Robber, Seer, Troublemaker, Minion, Wolf]
+[Wolfbot] Role guesses: [Robber, Seer, Minion, Troublemaker, Wolf]
           Center cards: [Drunk]
 
-Confidence level: [0.4, 0.6, 1.0, 0.6, 0.6, 0.6]
+Confidence level: [0.4, 0.4, 0.4, 0.6, 0.4, 0.6]
 Player 4 was chosen as a Wolf.
 Player 4 was a Minion!
 

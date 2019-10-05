@@ -51,39 +51,36 @@ class TestSeer:
         assert result == [Statement("I am a Seer and I saw that Player 6 was a Robber.",
                                     [(1, {'Seer'}), (6, {'Robber'})], [], 'Seer')]
 
-    # def test_get_all_statements(self):
-    #     ''' Should return the possible statements from all possible initialization actions. '''
-    #     player_index = 1
-    #     const.ROLES = ['Wolf', 'Seer', 'Villager', 'Wolf']
-    #     const.ROLE_SET = set(const.ROLES)
-    #     const.ROLE_COUNTS = dict(Counter(const.ROLES))
-    #     const.NUM_PLAYERS = 2
-    #     const.NUM_CENTER = 2
-    #     expected = [Statement("I am a Seer and I saw that Player 0 was a Villager.",
-    #                           [(1, {'Seer'}), (0, {'Villager'})], [], 'Seer'),
-    #                 Statement("I am a Seer and I saw that Player 1 was a Villager.",
-    #                           [(1, {'Seer'}), (1, {'Villager'})], [], 'Seer'),
-    #                 Statement("I am a Seer and I saw that Player 0 was a Wolf.",
-    #                           [(1, {'Seer'}), (0, {'Wolf'})], [], 'Seer'),
-    #                 Statement("I am a Seer and I saw that Player 1 was a Wolf.",
-    #                           [(1, {'Seer'}), (1, {'Wolf'})], [], 'Seer'),
-    #                 Statement("I am a Seer and I saw that Player 0 was a Seer.",
-    #                           [(1, {'Seer'}), (0, {'Seer'})], [], 'Seer'),
-    #                 Statement("I am a Seer and I saw that Player 1 was a Seer.",
-    #                           [(1, {'Seer'}), (1, {'Seer'})], [], 'Seer'),
-    #                 Statement("I am a Seer and I saw that Center 0 was a Villager and " +
-    #                           "that Center 1 was a Villager.",
-    #                           [(1, {'Seer'}), (2, {'Villager'}), (3, {'Villager'})], [], 'Seer'),
-    #                 Statement("I am a Seer and I saw that Center 0 was a Villager and " +
-    #                           "that Center 1 was a Wolf.",
-    #                           [(1, {'Seer'}), (2, {'Villager'}), (3, {'Wolf'})], [], 'Seer'),
-    #                 Statement("I am a Seer and I saw that Center 0 was a Wolf and " +
-    #                           "that Center 1 was a Villager.",
-    #                           [(1, {'Seer'}), (2, {'Wolf'}), (3, {'Villager'})], [], 'Seer'),
-    #                 Statement("I am a Seer and I saw that Center 0 was a Wolf and " +
-    #                           "that Center 1 was a Wolf.",
-    #                           [(1, {'Seer'}), (2, {'Wolf'}), (3, {'Wolf'})], [], 'Seer')]
-    #
-    #     result = Seer.get_all_statements(player_index)
-    #
-    #     assert set(result) == set(expected)
+    def test_get_all_statements(self):
+        ''' Should return the possible statements from all possible initialization actions. '''
+        player_index = 1
+        const.ROLES = ['Wolf', 'Seer', 'Villager', 'Wolf']
+        const.ROLE_SET = set(const.ROLES)
+        const.ROLE_COUNTS = dict(Counter(const.ROLES))
+        const.NUM_PLAYERS = 2
+        const.NUM_CENTER = 2
+        expected = [Statement("I am a Seer and I saw that Player 0 was a Villager.",
+                              [(1, {'Seer'}), (0, {'Villager'})], [], 'Seer'),
+                    Statement("I am a Seer and I saw that Player 1 was a Villager.",
+                              [(1, {'Seer'}), (1, {'Villager'})], [], 'Seer'),
+                    Statement("I am a Seer and I saw that Player 0 was a Wolf.",
+                              [(1, {'Seer'}), (0, {'Wolf'})], [], 'Seer'),
+                    Statement("I am a Seer and I saw that Player 1 was a Wolf.",
+                              [(1, {'Seer'}), (1, {'Wolf'})], [], 'Seer'),
+                    Statement("I am a Seer and I saw that Player 0 was a Seer.",
+                              [(1, {'Seer'}), (0, {'Seer'})], [], 'Seer'),
+                    Statement("I am a Seer and I saw that Player 1 was a Seer.",
+                              [(1, {'Seer'}), (1, {'Seer'})], [], 'Seer'),
+                    Statement("I am a Seer and I saw that Center 0 was a Villager and " +
+                              "that Center 1 was a Wolf.",
+                              [(1, {'Seer'}), (2, {'Villager'}), (3, {'Wolf'})], [], 'Seer'),
+                    Statement("I am a Seer and I saw that Center 0 was a Wolf and " +
+                              "that Center 1 was a Villager.",
+                              [(1, {'Seer'}), (2, {'Wolf'}), (3, {'Villager'})], [], 'Seer'),
+                    Statement("I am a Seer and I saw that Center 0 was a Wolf and " +
+                              "that Center 1 was a Wolf.",
+                              [(1, {'Seer'}), (2, {'Wolf'}), (3, {'Wolf'})], [], 'Seer')]
+
+        result = Seer.get_all_statements(player_index)
+
+        assert set(result) == set(expected)
