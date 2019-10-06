@@ -4,12 +4,12 @@ from src.statements import Statement
 from src.roles.village import Mason
 
 class TestMason:
-    def test_constructor_init(self, large_game_roles):
+    def test_awake_init(self, large_game_roles):
         ''' Should initialize a Mason. '''
         player_index = 6
         orig_roles, game_roles = list(large_game_roles), []
 
-        mason = Mason(player_index, game_roles, orig_roles)
+        mason = Mason.awake_init(player_index, game_roles, orig_roles)
 
         assert mason.mason_indices == [6, 9]
         assert mason.statements == [Statement("I am a Mason. The other Mason is Player 9.",

@@ -4,7 +4,7 @@ from src.statements import Statement
 from src.roles.village import Insomniac
 
 class TestInsomniac:
-    def test_constructor(self):
+    def test_awake_init(self):
         ''' Should initialize a Insomniac. '''
         player_index = 1
         game_roles = ['Insomniac', 'Robber', 'Villager']
@@ -12,7 +12,7 @@ class TestInsomniac:
                               "I don't know who I switched with.", [(1, {'Insomniac'})],
                               [], 'Insomniac')]
 
-        insomniac = Insomniac(player_index, game_roles, [])
+        insomniac = Insomniac.awake_init(player_index, game_roles, [])
 
         assert insomniac.new_role == 'Robber'
         assert insomniac.statements == expected

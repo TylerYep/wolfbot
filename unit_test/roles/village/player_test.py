@@ -1,7 +1,4 @@
 ''' player_test.py '''
-import logging
-
-from src import const
 from src.statements import Statement
 from src.roles.village import Player, Robber, Villager
 
@@ -17,19 +14,15 @@ class TestPlayer:
 
     def test_inheritance(self):
         ''' Classes extending Player should be able to access Player fields. '''
-        const.logger.setLevel(logging.WARNING)
-        const.ROLES = ('Wolf', 'Villager', 'Robber', 'Villager', 'Wolf')
-        const.NUM_PLAYERS = 3
-        roles = list(const.ROLES)
+        robber = Robber(2, 3, 'Villager')
 
-        robber = Robber(2, roles, roles)
-
+        assert robber.choice_ind == 3
         assert robber.new_role == 'Villager'
         assert not robber.is_user
 
     def test_get_statement_inheritance(self):
         ''' Classes extending Player should contain a get_statement method. '''
-        villager = Villager(0, [], [])
+        villager = Villager(0)
 
         statement = villager.get_statement([], [])
 

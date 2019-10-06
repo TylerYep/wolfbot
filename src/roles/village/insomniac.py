@@ -10,17 +10,19 @@ from .player import Player
 class Insomniac(Player):
     ''' Insomniac Player class. '''
 
-    def __init__(self, player_index: int, game_roles: List[str], original_roles: List[str]):
+    def __init__(self, player_index: int, new_role: str):
         super().__init__(player_index)
-        self.new_role = self.insomniac_init(game_roles)
-        self.statements = self.get_insomniac_statements(player_index, self.new_role)
+        self.new_role = new_role
+        self.statements = self.get_insomniac_statements(player_index, new_role)
 
-    def insomniac_init(self, game_roles: List[str]) -> str:
+    @classmethod
+    def awake_init(cls, player_index: int, game_roles: List[str], original_roles: List[str]):
         ''' Initializes Insomniac - learns new role. '''
-        insomniac_new_role = game_roles[self.player_index]
+        is_user = const.IS_USER[player_index]
+        insomniac_new_role = game_roles[player_index]
         logger.debug(f'[Hidden] Insomniac wakes up as a {insomniac_new_role}.')
-        if self.is_user: logger.info(f'You woke up as a {insomniac_new_role}!')
-        return insomniac_new_role
+        if is_user: logger.info(f'You woke up as a {insomniac_new_role}!')
+        return cls(player_index, insomniac_new_role)
 
     @staticmethod
     def get_insomniac_statements(player_index: int,
@@ -51,21 +53,21 @@ class Insomniac(Player):
             # Import Wolf here to avoid circular dependency
             from ..werewolf import Wolf
             logger.debug('Insomniac is a Wolf now!')
-            insomniac_wolf = Wolf(self.player_index, [], [])
+            insomniac_wolf = Wolf(self.player_index, [])
             return insomniac_wolf.get_statement(stated_roles, previous)
 
         if self.new_role == 'Minion':
             # Import Minion here to avoid circular dependency
             from ..werewolf import Minion
             logger.debug('Insomniac is a Minion now!')
-            insomniac_minion = Minion(self.player_index, [], [])
+            insomniac_minion = Minion(self.player_index, [])
             return insomniac_minion.get_statement(stated_roles, previous)
 
         if self.new_role == 'Tanner':
             # Import Tanner here to avoid circular dependency
             from ..werewolf import Tanner
             logger.debug('Insomniac is a Minion now!')
-            insomniac_tanner = Tanner(self.player_index, [], [])
+            insomniac_tanner = Tanner(self.player_index)
             return insomniac_tanner.get_statement(stated_roles, previous)
 
         possible_switches = []

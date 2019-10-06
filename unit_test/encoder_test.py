@@ -44,7 +44,7 @@ class TestWolfBotEncoder:
 
     def test_default_player(self):
         ''' Should convert objects of different types to JSON. '''
-        input_obj = Villager(0, [], [])
+        input_obj = Villager(0)
 
         result = json.dumps(input_obj, cls=WolfBotEncoder)
 

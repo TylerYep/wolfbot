@@ -4,7 +4,7 @@ from src.statements import Statement
 from src.roles.village import Troublemaker
 
 class TestTroublemaker:
-    def test_constructor_init(self, large_game_roles):
+    def test_awake_init(self, large_game_roles):
         '''
         Should initialize a Troublemaker. Note that the player_index of the Troublemaker is
         not necessarily the index where the true Troublemaker is located.
@@ -16,7 +16,7 @@ class TestTroublemaker:
         new_roles = ['Mason', 'Villager', 'Robber', 'Seer', 'Villager', 'Tanner', 'Wolf', 'Wolf',
                      'Minion', 'Mason', 'Drunk', 'Villager', 'Troublemaker', 'Insomniac', 'Hunter']
 
-        tmkr = Troublemaker(player_index, game_roles, orig_roles)
+        tmkr = Troublemaker.awake_init(player_index, game_roles, orig_roles)
 
         assert game_roles == new_roles
         assert tmkr.choice_ind1 == 6

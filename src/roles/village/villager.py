@@ -8,9 +8,14 @@ from .player import Player
 class Villager(Player):
     ''' Villager Player class. '''
 
-    def __init__(self, player_index: int, game_roles: List[str], original_roles: List[str]):
+    def __init__(self, player_index: int):
         super().__init__(player_index)
         self.statements = self.get_villager_statements(player_index)
+
+    @classmethod
+    def awake_init(cls, player_index: int, game_roles: List[str], original_roles: List[str]):
+        ''' Initializes Villager when night falls. '''
+        return cls(player_index)
 
     @staticmethod
     def get_villager_statements(player_index: int) -> List[Statement]:

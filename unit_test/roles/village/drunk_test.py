@@ -4,7 +4,7 @@ from src.statements import Statement
 from src.roles.village import Drunk
 
 class TestDrunk:
-    def test_constructor_init(self, large_game_roles):
+    def test_awake_init(self, large_game_roles):
         '''
         Should initialize a Drunk. Note that the player_index of the Drunk is not necessarily
         the index where the true Drunk is located.
@@ -15,7 +15,7 @@ class TestDrunk:
                      'Wolf', 'Minion', 'Mason', 'Drunk', 'Villager', 'Troublemaker', 'Mason',
                      'Hunter']
 
-        drunk = Drunk(player_index, game_roles, orig_roles)
+        drunk = Drunk.awake_init(player_index, game_roles, orig_roles)
 
         assert game_roles == new_roles
         assert drunk.choice_ind == 13

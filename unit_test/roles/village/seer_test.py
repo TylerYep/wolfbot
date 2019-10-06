@@ -6,7 +6,7 @@ from src.statements import Statement
 from src.roles.village import Seer
 
 class TestSeer:
-    def test_constructor_init_center_choice(self, large_game_roles):
+    def test_awake_init_center_choice(self, large_game_roles):
         '''
         Should initialize a Seer. Note that the player_index of the Seer is
         not necessarily the index where the true Seer is located.
@@ -19,13 +19,13 @@ class TestSeer:
                               [(11, {'Seer'}), (13, {'Insomniac'}), (12, {'Troublemaker'})],
                               [], 'Seer')]
 
-        seer = Seer(player_index, game_roles, orig_roles)
+        seer = Seer.awake_init(player_index, game_roles, orig_roles)
 
         assert seer.peek_ind1 == 13
         assert seer.peek_ind2 == 12
         assert seer.statements == expected
 
-    def test_constructor_init_player_choice(self, large_game_roles):
+    def test_awake_init_player_choice(self, large_game_roles):
         '''
         Should initialize a Seer. Note that the player_index of the Seer is
         not necessarily the index where the true Seer is located.
@@ -36,7 +36,7 @@ class TestSeer:
         expected = [Statement("I am a Seer and I saw that Player 6 was a Mason.",
                               [(11, {'Seer'}), (6, {'Mason'})], [], 'Seer')]
 
-        seer = Seer(player_index, game_roles, orig_roles)
+        seer = Seer.awake_init(player_index, game_roles, orig_roles)
 
         assert seer.peek_ind1 == 6
         assert seer.peek_ind2 is None
@@ -46,7 +46,7 @@ class TestSeer:
         ''' Should execute initialization actions and return the possible statements. '''
         player_index = 1
 
-        result = Seer.get_seer_statements(player_index, 6, 'Robber')
+        result = Seer.get_seer_statements(player_index, (6, 'Robber'))
 
         assert result == [Statement("I am a Seer and I saw that Player 6 was a Robber.",
                                     [(1, {'Seer'}), (6, {'Robber'})], [], 'Seer')]

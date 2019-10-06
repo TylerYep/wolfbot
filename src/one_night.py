@@ -26,7 +26,6 @@ def play_one_night_werewolf(save_replay: bool = True) -> GameResult:
     util.print_roles(game_roles)
 
     save_game = SavedGame(original_roles, game_roles, all_statements, player_objs)
-    print(save_game)
     if save_replay:
         with open(const.REPLAY_FILE, 'w') as replay_file:
             json.dump(save_game, replay_file, cls=WolfBotEncoder)
@@ -57,14 +56,14 @@ def night_falls(game_roles: List[str], original_roles: Tuple[str, ...]) -> List[
         role_obj = get_role_obj(role_str)
         for i in range(const.NUM_PLAYERS):
             if original_roles[i] == role_str:
-                player_objs[i] = role_obj(i, game_roles, original_roles)
+                player_objs[i] = role_obj.awake_init(i, game_roles, original_roles)
         logger.info(f'{role_str}, go to sleep.\n')
 
     # All other players wake up at the same time.
     for i, role_str in enumerate(original_roles):
         if role_str in const.ROLE_SET - set(const.AWAKE_ORDER):
             role_obj = get_role_obj(role_str)
-            player_objs[i] = role_obj(i, game_roles, original_roles)
+            player_objs[i] = role_obj.awake_init(i, game_roles, original_roles)
 
     return player_objs[:const.NUM_PLAYERS]
 

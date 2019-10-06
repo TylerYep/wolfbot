@@ -1,5 +1,5 @@
 ''' troublemaker.py '''
-from typing import List, Tuple
+from typing import List
 
 from src.statements import Statement
 from src.const import logger
@@ -10,21 +10,21 @@ from .player import Player
 class Troublemaker(Player):
     ''' Troublemaker Player class. '''
 
-    def __init__(self, player_index: int, game_roles: List[str], original_roles: List[str]):
+    def __init__(self, player_index: int, choice_ind1: int, choice_ind2: int):
         super().__init__(player_index)
-        self.choice_ind1, self.choice_ind2 = self.troublemaker_init(game_roles)
-        self.statements = self.get_troublemaker_statements(player_index,
-                                                           self.choice_ind1,
-                                                           self.choice_ind2)
+        self.choice_ind1, self.choice_ind2 = choice_ind1, choice_ind2
+        self.statements = self.get_troublemaker_statements(player_index, choice_ind1, choice_ind2)
 
-    def troublemaker_init(self, game_roles: List[str]) -> Tuple[int, int]:
+    @classmethod
+    def awake_init(cls, player_index: int, game_roles: List[str], original_roles: List[str]):
         ''' Initializes Troublemaker - switches one player with another player. '''
-        choice_1 = util.get_player(self.is_user, (self.player_index,))
-        choice_2 = util.get_player(self.is_user, (self.player_index, choice_1))
+        is_user = const.IS_USER[player_index]
+        choice_1 = util.get_player(is_user, (player_index,))
+        choice_2 = util.get_player(is_user, (player_index, choice_1))
 
         util.swap_characters(game_roles, choice_1, choice_2)
         logger.debug(f'[Hidden] Troublemaker switches Player {choice_1} and Player {choice_2}.')
-        return choice_1, choice_2
+        return cls(player_index, choice_1, choice_2)
 
     @staticmethod
     def get_troublemaker_statements(player_index: int,

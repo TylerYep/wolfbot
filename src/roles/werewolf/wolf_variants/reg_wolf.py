@@ -52,5 +52,5 @@ def get_wolf_statements(player_obj: Any,
         for i, stated_role in enumerate(stated_roles):
             # 'Hey, I'm a Seer and I saw another Seer...'
             if i not in wolf_indices and stated_role != 'Seer':
-                statements += Seer.get_seer_statements(player_index, i, stated_role)
+                statements += Seer.get_seer_statements(player_index, (i, stated_role))
     return statements

@@ -4,7 +4,7 @@ from src.statements import Statement
 from src.roles.village import Robber
 
 class TestRobber:
-    def test_constructor_init(self, large_game_roles):
+    def test_awake_init(self, large_game_roles):
         '''
         Should initialize a Robber. Note that the player_index of the Robber is not necessarily
         the index where the true Robber is located.
@@ -16,7 +16,7 @@ class TestRobber:
         expected = [Statement("I am a Robber and I swapped with Player 6. I am now a Mason.",
                               [(2, {'Robber'}), (6, {'Mason'})], [(1, 2, 6)], 'Robber')]
 
-        robber = Robber(player_index, game_roles, orig_roles)
+        robber = Robber.awake_init(player_index, game_roles, orig_roles)
 
         assert game_roles == new_roles
         assert robber.choice_ind == 6

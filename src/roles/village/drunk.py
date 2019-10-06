@@ -10,27 +10,29 @@ from .player import Player
 class Drunk(Player):
     ''' Drunk Player class. '''
 
-    def __init__(self, player_index: int, game_roles: List[str], original_roles: List[str]):
+    def __init__(self, player_index: int, choice_ind: int):
         super().__init__(player_index)
-        self.choice_ind = self.drunk_init(game_roles)
-        self.statements = self.get_drunk_statements(player_index, self.choice_ind)
+        self.choice_ind = choice_ind
+        self.statements = self.get_drunk_statements(player_index, choice_ind)
 
-    def drunk_init(self, game_roles: List[str]) -> int:
+    @classmethod
+    def awake_init(cls, player_index: int, game_roles: List[str], original_roles: List[str]):
         ''' Initializes Drunk - switches with a card in the center. '''
         assert const.NUM_CENTER != 0
-        choice_index = util.get_center(self.is_user)
-        logger.debug(f'[Hidden] Drunk switches with Center Card {choice_index - const.NUM_PLAYERS}'
-                     f' and unknowingly becomes a {game_roles[choice_index]}.')
-        if self.is_user: logger.info('You do not know your new role.')
-        util.swap_characters(game_roles, self.player_index, choice_index)
-        return choice_index
+        is_user = const.IS_USER[player_index]
+        choice_ind = util.get_center(is_user)
+        logger.debug(f'[Hidden] Drunk switches with Center Card {choice_ind - const.NUM_PLAYERS}'
+                     f' and unknowingly becomes a {game_roles[choice_ind]}.')
+        if is_user: logger.info('You do not know your new role.')
+        util.swap_characters(game_roles, player_index, choice_ind)
+        return cls(player_index, choice_ind)
 
     @staticmethod
-    def get_drunk_statements(player_index: int, choice_index: int) -> List[Statement]:
+    def get_drunk_statements(player_index: int, choice_ind: int) -> List[Statement]:
         ''' Gets Drunk Statement. '''
-        sentence = f'I am a Drunk and I swapped with Center {choice_index - const.NUM_PLAYERS}.'
+        sentence = f'I am a Drunk and I swapped with Center {choice_ind - const.NUM_PLAYERS}.'
         knowledge = [(player_index, {'Drunk'})]
-        switches = [(const.DRUNK_PRIORITY, player_index, choice_index)]
+        switches = [(const.DRUNK_PRIORITY, player_index, choice_ind)]
         return [Statement(sentence, knowledge, switches)]
 
     @staticmethod

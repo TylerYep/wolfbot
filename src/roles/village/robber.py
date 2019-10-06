@@ -1,5 +1,5 @@
 ''' robber.py '''
-from typing import List, Tuple
+from typing import List
 
 from src.statements import Statement
 from src.const import logger
@@ -10,20 +10,22 @@ from .player import Player
 class Robber(Player):
     ''' Robber Player class. '''
 
-    def __init__(self, player_index: int, game_roles: List[str], original_roles: List[str]):
+    def __init__(self, player_index: int, choice_ind: int, choice_char: str):
         super().__init__(player_index)
-        self.choice_ind, choice_char = self.robber_init(game_roles)
+        self.choice_ind = choice_ind
         self.new_role = choice_char
-        self.statements = self.get_robber_statements(player_index, self.choice_ind, choice_char)
+        self.statements = self.get_robber_statements(player_index, choice_ind, choice_char)
 
-    def robber_init(self, game_roles: List[str]) -> Tuple[int, str]:
+    @classmethod
+    def awake_init(cls, player_index: int, game_roles: List[str], original_roles: List[str]):
         ''' Initializes Robber - switches roles with another player. '''
-        choice_ind = util.get_player(self.is_user, (self.player_index,))
+        is_user = const.IS_USER[player_index]
+        choice_ind = util.get_player(is_user, (player_index,))
         choice_char = game_roles[choice_ind]
         logger.debug(f'[Hidden] Robber switches with Player {choice_ind}'
                      f' and becomes a {choice_char}.')
-        util.swap_characters(game_roles, self.player_index, choice_ind)
-        return choice_ind, choice_char
+        util.swap_characters(game_roles, player_index, choice_ind)
+        return cls(player_index, choice_ind, choice_char)
 
     @staticmethod
     def get_robber_statements(player_index: int,
@@ -52,21 +54,21 @@ class Robber(Player):
             # Import Wolf here to avoid circular dependency
             from ..werewolf import Wolf
             logger.debug('Robber is a Wolf now!')
-            robber_wolf = Wolf(self.player_index, [], [])
+            robber_wolf = Wolf(self.player_index, [])
             return robber_wolf.get_statement(stated_roles, previous)
 
         if self.new_role == 'Minion':
             # Import Minion here to avoid circular dependency
             from ..werewolf import Minion
             logger.debug('Robber is a Minion now!')
-            robber_minion = Minion(self.player_index, [], [])
+            robber_minion = Minion(self.player_index, [])
             return robber_minion.get_statement(stated_roles, previous)
 
         if self.new_role == 'Tanner':
             # Import Tanner here to avoid circular dependency
             from ..werewolf import Tanner
             logger.debug('Robber is a Minion now!')
-            robber_tanner = Tanner(self.player_index, [], [])
+            robber_tanner = Tanner(self.player_index)
             return robber_tanner.get_statement(stated_roles, previous)
 
         return super().get_statement(stated_roles, previous)

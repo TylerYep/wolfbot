@@ -1,5 +1,5 @@
 ''' wolf.py '''
-from typing import List, Optional, Tuple
+from typing import List, Optional
 import random
 
 from src.statements import Statement
@@ -15,31 +15,36 @@ from .wolf_variants import get_wolf_statements_random, get_statement_expectimax,
 class Wolf(Player):
     ''' Wolf Player class. '''
 
-    def __init__(self, player_index: int, game_roles: List[str], original_roles: List[str]):
+    def __init__(self,
+                 player_index: int,
+                 wolf_indices: List[int],
+                 center_index: Optional[int] = None,
+                 center_role: Optional[str] = None):
         '''
         Constructor: original_roles defaults to [] when a player becomes a Wolf and realizes it.
         '''
         super().__init__(player_index)
-        self.wolf_indices, self.center_index, self.center_role \
-                = self.wolf_init(game_roles, original_roles)
+        self.wolf_indices = wolf_indices
+        self.center_index = center_index
+        self.center_role = center_role
 
-    def wolf_init(self,
-                  game_roles: List[str],
-                  original_roles: List[str]) -> Tuple[List[int], Optional[int], Optional[str]]:
+    @classmethod
+    def awake_init(cls, player_index: int, game_roles: List[str], original_roles: List[str]):
         ''' Initializes Wolf - gets Wolf indices and a random center card, if applicable. '''
+        is_user = const.IS_USER[player_index]
         wolf_indices: List[int] = []
-        wolf_center_index, wolf_center_role = None, None
+        center_index, center_role = None, None
 
         # Only get center roles and wolf indices if not a Robber/Insomniac Wolf
         if original_roles:
             wolf_indices = util.find_all_player_indices(original_roles, 'Wolf')
             if len(wolf_indices) == 1 and const.NUM_CENTER > 0:
-                wolf_center_index = util.get_center(self.is_user)
-                wolf_center_role = game_roles[wolf_center_index]
+                center_index = util.get_center(is_user)
+                center_role = game_roles[center_index]
             logger.debug(f'[Hidden] Wolves are at indices: {wolf_indices}')
-            if self.is_user: logger.info(f'Wolves are at indices: {wolf_indices}')
+            if is_user: logger.info(f'Wolves are at indices: {wolf_indices}')
 
-        return wolf_indices, wolf_center_index, wolf_center_role
+        return cls(player_index, wolf_indices, center_index, center_role)
 
     def get_statement(self, stated_roles: List[str], previous: List[Statement]) -> Statement:
         ''' Get Wolf Statement. '''

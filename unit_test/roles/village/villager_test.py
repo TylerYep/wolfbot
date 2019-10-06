@@ -3,11 +3,11 @@ from src.statements import Statement
 from src.roles.village import Villager
 
 class TestVillager:
-    def test_constructor(self):
+    def test_awake_init(self):
         ''' Should initialize a Villager. '''
         player_index = 5
 
-        villager = Villager(player_index, [], [])  # Other params are unused.
+        villager = Villager.awake_init(player_index, [], [])  # Other params are unused.
 
         assert villager.statements == [Statement('I am a Villager.', [(5, {'Villager'})])]
 
