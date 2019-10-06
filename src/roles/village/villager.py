@@ -1,5 +1,5 @@
 ''' villager.py '''
-from typing import List
+from typing import Dict, List
 
 from src.statements import Statement
 
@@ -26,3 +26,7 @@ class Villager(Player):
     def get_all_statements(player_index: int) -> List[Statement]:
         ''' Required for all player types. Returns all possible role statements. '''
         return Villager.get_villager_statements(player_index)
+
+    def json_repr(self) -> Dict:
+        ''' Gets JSON representation of a Villager player. '''
+        return {'type': self.role, 'player_index': self.player_index}

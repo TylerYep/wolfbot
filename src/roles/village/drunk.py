@@ -1,5 +1,5 @@
 ''' drunk.py '''
-from typing import List
+from typing import Dict, List
 
 from src.statements import Statement
 from src.const import logger
@@ -42,3 +42,7 @@ class Drunk(Player):
         for k in range(const.NUM_CENTER):
             statements += Drunk.get_drunk_statements(player_index, const.NUM_PLAYERS + k)
         return statements
+
+    def json_repr(self) -> Dict:
+        ''' Gets JSON representation of a Drunk player. '''
+        return {'type': self.role, 'player_index': self.player_index, 'choice_ind': self.choice_ind}

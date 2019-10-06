@@ -1,5 +1,5 @@
 ''' insomniac.py '''
-from typing import List, Optional
+from typing import Dict, List, Optional
 
 from src.statements import Statement
 from src.const import logger
@@ -52,21 +52,21 @@ class Insomniac(Player):
         if self.new_role == 'Wolf':
             # Import Wolf here to avoid circular dependency
             from ..werewolf import Wolf
-            logger.debug('Insomniac is a Wolf now!')
+            logger.debug('[Hidden] Insomniac is a Wolf now!')
             insomniac_wolf = Wolf(self.player_index, [])
             return insomniac_wolf.get_statement(stated_roles, previous)
 
         if self.new_role == 'Minion':
             # Import Minion here to avoid circular dependency
             from ..werewolf import Minion
-            logger.debug('Insomniac is a Minion now!')
+            logger.debug('[Hidden] Insomniac is a Minion now!')
             insomniac_minion = Minion(self.player_index, [])
             return insomniac_minion.get_statement(stated_roles, previous)
 
         if self.new_role == 'Tanner':
             # Import Tanner here to avoid circular dependency
             from ..werewolf import Tanner
-            logger.debug('Insomniac is a Minion now!')
+            logger.debug('[Hidden] Insomniac is a Minion now!')
             insomniac_tanner = Tanner(self.player_index)
             return insomniac_tanner.get_statement(stated_roles, previous)
 
@@ -78,3 +78,7 @@ class Insomniac(Player):
             self.statements = self.get_insomniac_statements(self.player_index, self.new_role,
                                                             possible_switches[0])
         return super().get_statement(stated_roles, previous)
+
+    def json_repr(self) -> Dict:
+        ''' Gets JSON representation of an Insomniac player. '''
+        return {'type': self.role, 'player_index': self.player_index, 'new_role': self.new_role}

@@ -1,5 +1,5 @@
 ''' robber.py '''
-from typing import List
+from typing import Dict, List
 
 from src.statements import Statement
 from src.const import logger
@@ -10,11 +10,11 @@ from .player import Player
 class Robber(Player):
     ''' Robber Player class. '''
 
-    def __init__(self, player_index: int, choice_ind: int, choice_char: str):
+    def __init__(self, player_index: int, choice_ind: int, new_role: str):
         super().__init__(player_index)
         self.choice_ind = choice_ind
-        self.new_role = choice_char
-        self.statements = self.get_robber_statements(player_index, choice_ind, choice_char)
+        self.new_role = new_role
+        self.statements = self.get_robber_statements(player_index, choice_ind, new_role)
 
     @classmethod
     def awake_init(cls, player_index: int, game_roles: List[str], original_roles: List[str]):
@@ -53,22 +53,29 @@ class Robber(Player):
         if self.new_role == 'Wolf':
             # Import Wolf here to avoid circular dependency
             from ..werewolf import Wolf
-            logger.debug('Robber is a Wolf now!')
+            logger.debug('[Hidden] Robber is a Wolf now!')
             robber_wolf = Wolf(self.player_index, [])
             return robber_wolf.get_statement(stated_roles, previous)
 
         if self.new_role == 'Minion':
             # Import Minion here to avoid circular dependency
             from ..werewolf import Minion
-            logger.debug('Robber is a Minion now!')
+            logger.debug('[Hidden] Robber is a Minion now!')
             robber_minion = Minion(self.player_index, [])
             return robber_minion.get_statement(stated_roles, previous)
 
         if self.new_role == 'Tanner':
             # Import Tanner here to avoid circular dependency
             from ..werewolf import Tanner
-            logger.debug('Robber is a Minion now!')
+            logger.debug('[Hidden] Robber is a Minion now!')
             robber_tanner = Tanner(self.player_index)
             return robber_tanner.get_statement(stated_roles, previous)
 
         return super().get_statement(stated_roles, previous)
+
+    def json_repr(self) -> Dict:
+        ''' Gets JSON representation of a Robber player. '''
+        return {'type': self.role,
+                'player_index': self.player_index,
+                'choice_ind': self.choice_ind,
+                'new_role': self.new_role}

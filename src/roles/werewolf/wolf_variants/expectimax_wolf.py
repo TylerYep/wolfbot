@@ -75,7 +75,7 @@ def get_statement_expectimax(player_obj: Any, prev_statements: List[Statement]) 
     # Initialize start_state to use all previous statements
     start_state = SolverState()
     for i in range(player_obj.player_index):
-        if player_obj.role in ['Wolf', 'Minion'] and i not in player_obj.wolf_indices:
+        if player_obj.role in ('Wolf', 'Minion') and i not in player_obj.wolf_indices:
             check_state = is_consistent(prev_statements[i], start_state)
             if check_state.is_valid_state():
                 start_state = check_state

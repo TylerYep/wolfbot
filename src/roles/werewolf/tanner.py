@@ -1,5 +1,5 @@
 ''' tanner.py '''
-from typing import List
+from typing import Dict, List
 import random
 
 from src.statements import Statement
@@ -43,3 +43,7 @@ class Tanner(Player):
         if predictions[self.player_index] == 'Wolf':
             val += 10
         return val
+
+    def json_repr(self) -> Dict:
+        ''' Gets JSON representation of a Tanner player. '''
+        return {'type': self.role, 'player_index': self.player_index}

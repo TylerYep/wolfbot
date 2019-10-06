@@ -1,5 +1,5 @@
 ''' troublemaker.py '''
-from typing import List
+from typing import Dict, List
 
 from src.statements import Statement
 from src.const import logger
@@ -47,3 +47,10 @@ class Troublemaker(Player):
                 if len({i, j, player_index}) == 3:
                     statements += Troublemaker.get_troublemaker_statements(player_index, i, j)
         return statements
+
+    def json_repr(self) -> Dict:
+        ''' Gets JSON representation of a Troublemaker player. '''
+        return {'type': self.role,
+                'player_index': self.player_index,
+                'choice_ind1': self.choice_ind1,
+                'choice_ind2': self.choice_ind2}

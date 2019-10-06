@@ -25,9 +25,7 @@ class SolverState:
 
     def __eq__(self, other) -> bool:
         ''' Checks for equality between SolverStates. '''
-        return self.possible_roles == other.possible_roles \
-           and self.switches == other.switches \
-           and self.path == other.path
+        return self.__dict__ == other.__dict__
 
     def __repr__(self) -> str:
         ''' Returns a String representation of a SolverState. '''

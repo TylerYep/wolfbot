@@ -21,10 +21,10 @@ def replay_game() -> None:
     for sentence in all_statements:
         logger.warning(sentence)
 
-    logger.warning(f'\n[Hidden] Current roles: {original_roles[:const.NUM_PLAYERS]} \
-                    \n\t Center cards: {original_roles[const.NUM_PLAYERS:]}\n')
-    logger.warning(f'[SOLUTION] Role guesses: {game_roles[:const.NUM_PLAYERS]} \
-                    \n\t  Center cards: {game_roles[const.NUM_PLAYERS:]}\n')
+    logger.warning((f'[Hidden] Current roles: {original_roles[:const.NUM_PLAYERS]}\n' + ' '*10 +
+                    f'Center cards: {original_roles[const.NUM_PLAYERS:]}\n').replace('\'', ''))
+    logger.warning((f'[SOLUTION] Role guesses: {game_roles[:const.NUM_PLAYERS]}\n' + ' '*11 +
+                    f'Center cards: {game_roles[const.NUM_PLAYERS:]}\n').replace('\'', ''))
 
     if const.USE_VOTING:
         game_result = consolidate_results(save_game)

@@ -32,17 +32,18 @@ class Player:
     def __eq__(self, other) -> bool:
         ''' Checks for equality between Players. '''
         assert isinstance(other, Player)
-        return self.player_index == other.player_index \
-           and self.role == other.role \
-           and self.new_role == other.new_role \
-           and self.statements == other.statements \
-           and self.is_user == other.is_user
+        self_json, other_json = self.json_repr(), other.json_repr()
+        is_equal = all([self_json[key] == other_json[key] for key in self_json])
+        return self.__dict__ == other.__dict__ and is_equal
 
     def json_repr(self) -> Dict:
         ''' Gets JSON representation of a Player object. '''
-        return {'type': self.role, 'player_index': self.player_index,
-                'statements': self.statements, 'new_role': self.new_role}
+        return {'type': self.role, 'player_index': self.player_index}
 
     def __repr__(self) -> str:
-        ''' Used to distiguish Player objects for logging. '''
-        return '<' + self.role + '>'
+        ''' Gets string representation of a Player object. '''
+        attrs = ''
+        for key, item in self.json_repr().items():
+            if key != 'type':
+                attrs += f'{item}, '
+        return f'{self.role}({attrs[:-2]})'

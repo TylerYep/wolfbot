@@ -1,5 +1,5 @@
 ''' seer.py '''
-from typing import List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple
 import random
 
 from src.statements import Statement
@@ -14,10 +14,12 @@ class Seer(Player):
     def __init__(self,
                  player_index: int,
                  choice_1: Tuple[int, str],
-                 choice_2: Optional[Tuple[int, str]] = (None, None)):
+                 choice_2: Tuple[Optional[int], Optional[str]] = (None, None)):
         super().__init__(player_index)
-        self.peek_ind1, self.peek_char1 = choice_1
-        self.peek_ind2, self.peek_char2 = choice_2
+        # self.peek_ind1, self.peek_char1 = choice_1
+        # self.peek_ind2, self.peek_char2 = choice_2
+        self.choice_1 = choice_1
+        self.choice_2 = choice_2
         self.statements = self.get_seer_statements(player_index, choice_1, choice_2)
 
     @classmethod
@@ -44,7 +46,8 @@ class Seer(Player):
     @staticmethod
     def get_seer_statements(player_index: int,
                             choice_1: Tuple[int, str],
-                            choice_2: Optional[Tuple[int, str]] = (None, None)) -> List[Statement]:
+                            choice_2: Tuple[Optional[int], Optional[str]] = (None, None)) \
+                            -> List[Statement]:
         ''' Gets Seer Statement. '''
         seen_index, seen_role = choice_1
         seen_index2, seen_role2 = choice_2
@@ -74,3 +77,10 @@ class Seer(Player):
                             choice_2 = (cent2 + const.NUM_PLAYERS, role2)
                             statements += Seer.get_seer_statements(player_index, choice_1, choice_2)
         return statements
+
+    def json_repr(self) -> Dict:
+        ''' Gets JSON representation of a Seer player. '''
+        return {'type': self.role,
+                'player_index': self.player_index,
+                'choice_1': self.choice_1,
+                'choice_2': self.choice_2}

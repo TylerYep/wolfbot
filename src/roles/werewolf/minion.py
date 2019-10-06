@@ -1,5 +1,5 @@
 ''' minion.py '''
-from typing import List
+from typing import Dict, List
 import random
 
 from src.statements import Statement
@@ -60,3 +60,9 @@ class Minion(Player):
             if 'Wolf' in solver_result.possible_roles[wolfi]:
                 val -= 5
         return val
+
+    def json_repr(self) -> Dict:
+        ''' Gets JSON representation of a Minion player. '''
+        return {'type': self.role,
+                'player_index': self.player_index,
+                'wolf_indices': self.wolf_indices}

@@ -48,12 +48,7 @@ class TestWolfBotEncoder:
 
         result = json.dumps(input_obj, cls=WolfBotEncoder)
 
-        assert result == ('{"type": "Villager",'
-                          ' "player_index": 0,'
-                          ' "statements": [{"type": "Statement", "sentence": "I am a Villager.",'
-                          ' "knowledge": [[0, {"type": "FrozenSet", "data": ["Villager"]}]],'
-                          ' "switches": [], "speaker": "Villager"}],'
-                          ' "new_role": ""}')
+        assert result == '{"type": "Villager", "player_index": 0}'
 
     def test_default_game_result(self, example_small_game_result):
         ''' Should convert objects of different types to JSON. '''
@@ -111,16 +106,11 @@ class TestWolfBotDecoder:
 
     def test_json_to_player(self):
         ''' Should convert JSON to the correct objects. '''
-        input_json = ('{"type": "Villager",'
-                      ' "player_index": 0,'
-                      ' "statements": [{"type": "Statement", "sentence": "I am a Villager.",'
-                      ' "knowledge": [[0, {"type": "FrozenSet", "data": ["Villager"]}]],'
-                      ' "switches": [], "speaker": "Villager"}],'
-                      ' "new_role": ""}')
+        input_json = '{"type": "Villager", "player_index": 0}'
 
         result = json.loads(input_json, cls=WolfBotDecoder)
 
-        assert result == Player(0)
+        assert result == Villager(0)
 
     def test_json_to_game_result(self, example_small_game_result):
         ''' Should convert JSON to the correct objects. '''

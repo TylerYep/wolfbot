@@ -16,10 +16,8 @@ parser.add_argument('--info', '-i', help='enable logging.INFO', action='store_tr
 ARGS = parser.parse_args('' if UNIT_TEST else sys.argv[1:])
 
 ''' Game Constants '''
-ROLES = ('Insomniac', 'Villager', 'Villager', 'Villager', 'Wolf', 'Wolf', 'Seer', 'Tanner',
-         'Mason', 'Mason', 'Drunk', 'Troublemaker', 'Robber', 'Minion', 'Hunter')
-# ROLES = ('Drunk', 'Insomniac', 'Hunter', 'Mason', 'Mason', 'Minion', 'Robber', 'Seer', 'Tanner',
-#          'Troublemaker', 'Wolf', 'Wolf', 'Villager', 'Villager', 'Villager')
+ROLES = ('Drunk', 'Insomniac', 'Hunter', 'Mason', 'Mason', 'Minion', 'Robber', 'Seer', 'Tanner',
+         'Troublemaker', 'Wolf', 'Wolf', 'Villager', 'Villager', 'Villager')
 NUM_CENTER = 3
 USE_VOTING = True
 RANDOMIZE_ROLES = True

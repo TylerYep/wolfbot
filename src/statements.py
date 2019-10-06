@@ -1,6 +1,6 @@
 ''' statements.py '''
 from __future__ import annotations
-from typing import Any, Dict, List, Set, Tuple
+from typing import Dict, List, Set, Tuple
 
 from src import const
 
@@ -36,7 +36,14 @@ class Statement:
         neg = [(i, const.ROLE_SET - role_set) for i, role_set in self.knowledge]
         return Statement('NOT - ' + self.sentence, neg, [], self.speaker)
 
-    def json_repr(self) -> Dict[str, Any]:
+    def __eq__(self, other) -> bool:
+        assert isinstance(other, Statement)
+        return self.__dict__ == other.__dict__
+
+    def __hash__(self) -> int:
+        return hash((self.sentence, self.knowledge, self.switches, self.speaker))
+
+    def json_repr(self) -> Dict:
         ''' Returns json representation of the Statement. '''
         return {'type': 'Statement',
                 'sentence': self.sentence,
@@ -48,13 +55,3 @@ class Statement:
         knowledge = [(i, set(role_set)) for i, role_set in self.knowledge]
         switches = list(self.switches)
         return f"Statement(\"{self.sentence}\", {knowledge}, {switches}, '{self.speaker}')"
-
-    def __eq__(self, other) -> bool:
-        assert isinstance(other, Statement)
-        return self.sentence == other.sentence \
-            and self.knowledge == other.knowledge \
-            and self.switches == other.switches \
-            and self.speaker == other.speaker
-
-    def __hash__(self) -> int:
-        return hash((self.sentence, self.knowledge, self.switches, self.speaker))

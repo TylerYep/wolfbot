@@ -6,7 +6,7 @@ import pickle
 
 from src.stats import GameResult, SavedGame
 from src.statements import Statement
-from src.roles import Player #, get_role_obj
+from src.roles import Player, get_role_obj
 from src import const
 
 class WolfBotEncoder(json.JSONEncoder):
@@ -42,9 +42,7 @@ class WolfBotDecoder(json.JSONDecoder):
         if obj_type in ('Statement', 'GameResult', 'SavedGame'):
             return get_object_initializer(obj_type)(**obj)
         if obj_type in const.ROLE_SET:
-            return Player(obj['player_index'], obj['new_role'])
-            # For recreating the entire player object:
-            # return get_role_obj(obj_type)(player_index, game_roles, original_roles)
+            return get_role_obj(obj_type)(**obj)
         return obj
 
 

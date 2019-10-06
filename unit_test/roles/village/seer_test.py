@@ -21,8 +21,8 @@ class TestSeer:
 
         seer = Seer.awake_init(player_index, game_roles, orig_roles)
 
-        assert seer.peek_ind1 == 13
-        assert seer.peek_ind2 == 12
+        assert seer.choice_1 == (13, 'Insomniac')
+        assert seer.choice_2 == (12, 'Troublemaker')
         assert seer.statements == expected
 
     def test_awake_init_player_choice(self, large_game_roles):
@@ -38,8 +38,8 @@ class TestSeer:
 
         seer = Seer.awake_init(player_index, game_roles, orig_roles)
 
-        assert seer.peek_ind1 == 6
-        assert seer.peek_ind2 is None
+        assert seer.choice_1 == (6, 'Mason')
+        assert seer.choice_2 == (None, None)
         assert seer.statements == expected
 
     def test_get_seer_statements(self):

@@ -1,5 +1,5 @@
 ''' mason.py '''
-from typing import List
+from typing import Dict, List
 
 from src.statements import Statement
 from src.const import logger
@@ -51,3 +51,9 @@ class Mason(Player):
                 mason_indices = [player_index, i]
                 statements += Mason.get_mason_statements(player_index, mason_indices)
         return statements
+
+    def json_repr(self) -> Dict:
+        ''' Gets JSON representation of a Mason player. '''
+        return {'type': self.role,
+                'player_index': self.player_index,
+                'mason_indices': self.mason_indices}

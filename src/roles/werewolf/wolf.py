@@ -1,5 +1,5 @@
 ''' wolf.py '''
-from typing import List, Optional
+from typing import Dict, List, Optional
 import random
 
 from src.statements import Statement
@@ -84,3 +84,11 @@ class Wolf(Player):
             if 'Wolf' in solver_result.possible_roles[wolfi]:
                 val -= 5
         return val
+
+    def json_repr(self) -> Dict:
+        ''' Gets JSON representation of a Wolf player. '''
+        return {'type': self.role,
+                'player_index': self.player_index,
+                'wolf_indices': self.wolf_indices,
+                'center_index': self.center_index,
+                'center_role': self.center_role}

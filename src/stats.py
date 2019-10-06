@@ -9,7 +9,11 @@ from src import const
 
 class SavedGame:
     ''' All of the necessary data needed to rerun a game. '''
-    def __init__(self, original_roles, game_roles, all_statements, player_objs):
+    def __init__(self,
+                 original_roles: Tuple[str, ...],
+                 game_roles: List[str],
+                 all_statements: List[Statement],
+                 player_objs: List[Player]):
         self.original_roles = original_roles
         self.game_roles = game_roles
         self.all_statements = all_statements
@@ -22,10 +26,7 @@ class SavedGame:
     def __eq__(self, other) -> bool:
         ''' Checks for equality between SavedGames. '''
         assert isinstance(other, SavedGame)
-        return self.original_roles == other.original_roles \
-           and self.game_roles == other.game_roles \
-           and self.all_statements == other.all_statements \
-           and self.player_objs == other.player_objs
+        return self.__dict__ == other.__dict__
 
     def json_repr(self) -> Dict:
         ''' Returns json representation of the GameResult. '''
@@ -58,10 +59,7 @@ class GameResult:
     def __eq__(self, other) -> bool:
         ''' Checks for equality between GameResults. '''
         assert isinstance(other, GameResult)
-        return self.actual == other.actual \
-           and self.guessed == other.guessed \
-           and self.wolf_inds == other.wolf_inds \
-           and self.winning_team == other.winning_team
+        return self.__dict__ == other.__dict__
 
     def json_repr(self) -> Dict:
         ''' Returns json representation of the GameResult. '''
@@ -193,3 +191,8 @@ class Statistics:
     def werewolf_wins(game_result: GameResult) -> Tuple[int, int]:
         ''' Returns 1/1 if the Werewolf team won. '''
         return int(game_result.winning_team == 'Werewolf'), 1
+
+    def __eq__(self, other) -> bool:
+        ''' Checks for equality between Statistics objects. '''
+        assert isinstance(other, Statistics)
+        return self.__dict__ == other.__dict__
