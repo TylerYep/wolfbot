@@ -134,7 +134,7 @@ class TestGetSwitchDict:
     def test_get_empty_switch_dict(self, small_game_roles):
         ''' Should return the identity switch dict. '''
         const.ROLES = small_game_roles
-        possible_roles = (frozenset({'Robber', 'Villager', 'Seer'}),) * 3
+        possible_roles = [{'Robber', 'Villager', 'Seer'}] * 3
         state = SolverState(possible_roles)
 
         result = predictions.get_switch_dict(state)

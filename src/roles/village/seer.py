@@ -24,15 +24,15 @@ class Seer(Player):
         prob = const.CENTER_SEER_PROB
         choose_center = random.choices([True, False], [prob, 1-prob])[0]
         if choose_center and const.NUM_CENTER > 1:
-            peek_ind1 = util.get_center(self)
-            peek_ind2 = util.get_center(self, (peek_ind1,))
+            peek_ind1 = util.get_center(self.is_user)
+            peek_ind2 = util.get_center(self.is_user, (peek_ind1,))
             peek_char1 = game_roles[peek_ind1]
             peek_char2 = game_roles[peek_ind2]
             logger.debug(f'[Hidden] Seer sees that Center {peek_ind1 - const.NUM_PLAYERS} is a '
                          f'{peek_char1}, Center {peek_ind2 - const.NUM_PLAYERS} is a {peek_char2}.')
             return peek_ind1, peek_char1, peek_ind2, peek_char2
 
-        peek_ind = util.get_player(self, (self.player_index,))
+        peek_ind = util.get_player(self.is_user, (self.player_index,))
         peek_char = game_roles[peek_ind]
         logger.debug(f'[Hidden] Seer sees that Player {peek_ind} is a {peek_char}.')
         return peek_ind, peek_char, None, None

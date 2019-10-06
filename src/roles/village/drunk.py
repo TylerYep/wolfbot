@@ -18,7 +18,7 @@ class Drunk(Player):
     def drunk_init(self, game_roles: List[str]) -> int:
         ''' Initializes Drunk - switches with a card in the center. '''
         assert const.NUM_CENTER != 0
-        choice_index = util.get_center(self)
+        choice_index = util.get_center(self.is_user)
         logger.debug(f'[Hidden] Drunk switches with Center Card {choice_index - const.NUM_PLAYERS}'
                      f' and unknowingly becomes a {game_roles[choice_index]}.')
         if self.is_user: logger.info('You do not know your new role.')

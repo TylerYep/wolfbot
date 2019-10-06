@@ -19,14 +19,14 @@ def find_all_player_indices(game_roles: Sequence[str], role: str) -> List[int]:
     return [i for i in range(const.NUM_PLAYERS) if game_roles[i] == role]
 
 
-def get_player(self_obj, vals_to_exclude: Tuple = ()) -> int:
+def get_player(is_user: bool, vals_to_exclude: Tuple = ()) -> int:
     ''' Gets a random player index (not in the center). '''
-    return input_player(vals_to_exclude) if self_obj.is_user else get_random_player(vals_to_exclude)
+    return input_player(vals_to_exclude) if is_user else get_random_player(vals_to_exclude)
 
 
-def get_center(self_obj, vals_to_exclude: Tuple = ()) -> int:
+def get_center(is_user: bool, vals_to_exclude: Tuple = ()) -> int:
     ''' Gets a random index of a center card. '''
-    return input_center(vals_to_exclude) if self_obj.is_user else get_random_center(vals_to_exclude)
+    return input_center(vals_to_exclude) if is_user else get_random_center(vals_to_exclude)
 
 
 def get_random_player(vals_to_exclude: Tuple = ()) -> int:

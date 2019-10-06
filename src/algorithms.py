@@ -1,5 +1,5 @@
 ''' algorithms.py '''
-from typing import Dict, FrozenSet, List, Optional, Set, Tuple
+from typing import Dict, List, Optional, Set, Tuple
 from copy import deepcopy
 
 from src.statements import Statement
@@ -11,11 +11,11 @@ class SolverState:
     @param path: tuple of (True, False, True ...) values.
     '''
     def __init__(self,
-                 possible_roles: List[FrozenSet[str]] = None,
+                 possible_roles: List[Set[str]] = None,
                  switches: Tuple[Tuple[int, int, int], ...] = (),
                  path_init: Tuple[bool] = ()):
-        self.possible_roles = tuple(possible_roles) if possible_roles is not None \
-                else tuple([frozenset(const.ROLE_SET) for i in range(const.NUM_ROLES)])
+        possible = [const.ROLE_SET]*const.NUM_ROLES if possible_roles is None else possible_roles
+        self.possible_roles = tuple([frozenset(role_set) for role_set in possible])
         self.switches = switches
         self.path = path_init
 
@@ -31,7 +31,8 @@ class SolverState:
 
     def __repr__(self) -> str:
         ''' Returns a String representation of a SolverState. '''
-        return f'\n{list(self.possible_roles)}\n{self.switches}\n{self.path}\n'
+        possible = [set(roles) for roles in self.possible_roles]
+        return f'SolverState({possible}, {self.switches}, {self.path})'
 
 
 def is_consistent(statement: Statement, state: SolverState) -> SolverState:

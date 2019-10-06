@@ -19,9 +19,7 @@ class TestSolverState:
 
     def test_eq(self, example_small_solverstate):
         ''' Should be able to compare two identical SolverStates. '''
-        possible_roles = (frozenset({'Seer'}),
-                          frozenset({'Robber', 'Villager', 'Seer'}),
-                          frozenset({'Robber'}))
+        possible_roles = [{'Seer'}, {'Robber', 'Villager', 'Seer'}, {'Robber'}]
         switches = ((1, 2, 0),)
         path = ()
 
@@ -33,7 +31,7 @@ class TestSolverState:
         ''' Should convert a SolverState into a representative string. '''
         result = algorithms.SolverState([{'Villager'}], [], [True])
 
-        assert str(result) == "\n[{'Villager'}]\n[]\n[True]\n"
+        assert str(result) == "SolverState([{'Villager'}], [], [True])"
 
 
 class TestIsConsistent:
@@ -50,8 +48,8 @@ class TestIsConsistent:
         Should check a new statement against accumulated statements for consistency.
         Should not change result.path - that is done in the switching_solver function.
         '''
-        possible_roles = [frozenset(const.ROLE_SET) for i in range(const.NUM_ROLES)]
-        possible_roles[0] = frozenset(['Seer'])
+        possible_roles = [const.ROLE_SET]*const.NUM_ROLES
+        possible_roles[0] = {'Seer'}
         example_solverstate = algorithms.SolverState(possible_roles, (), (True,))
         new_statement = Statement('next', [(2, {'Drunk'})], [(const.DRUNK_PRIORITY, 2, 5)])
 
@@ -69,12 +67,8 @@ class TestSolver:
 
     def test_count_roles(self):
         ''' Should return a dict with counts of all certain roles. '''
-        const.ROLE_SET = set(['Wolf', 'Seer', 'Villager', 'Robber'])
-        possible_roles_list = [
-            {'Villager'},
-            {'Seer'},
-            {'Villager'}
-        ] + [const.ROLE_SET]*2
+        const.ROLE_SET = {'Wolf', 'Seer', 'Villager', 'Robber'}
+        possible_roles_list = [{'Villager'}, {'Seer'}, {'Villager'}] + [const.ROLE_SET]*2
 
         result = algorithms.count_roles(possible_roles_list)
 

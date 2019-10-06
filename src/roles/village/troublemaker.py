@@ -19,8 +19,8 @@ class Troublemaker(Player):
 
     def troublemaker_init(self, game_roles: List[str]) -> Tuple[int, int]:
         ''' Initializes Troublemaker - switches one player with another player. '''
-        choice_1 = util.get_player(self, (self.player_index,))
-        choice_2 = util.get_player(self, (self.player_index, choice_1))
+        choice_1 = util.get_player(self.is_user, (self.player_index,))
+        choice_2 = util.get_player(self.is_user, (self.player_index, choice_1))
 
         util.swap_characters(game_roles, choice_1, choice_2)
         logger.debug(f'[Hidden] Troublemaker switches Player {choice_1} and Player {choice_2}.')

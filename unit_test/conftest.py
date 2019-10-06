@@ -93,26 +93,50 @@ def example_statement_list() -> List[Statement]:
 
 @pytest.fixture
 def example_small_solverstate(small_game_roles) -> SolverState:
-    possible_roles = (frozenset({'Seer'}),
-                      frozenset({'Robber', 'Villager', 'Seer'}),
-                      frozenset({'Robber'}))
+    possible_roles = [{'Seer'}, {'Robber', 'Villager', 'Seer'}, {'Robber'}]
     return SolverState(possible_roles, ((1, 2, 0),))
 
 
 @pytest.fixture
 def example_medium_solverstate(medium_game_roles) -> SolverState:
-    possible_roles = (frozenset({'Seer'}),
-                      frozenset({'Troublemaker', 'Wolf', 'Drunk', 'Robber', 'Seer', 'Minion'}),
-                      frozenset({'Drunk'}),
-                      frozenset({'Troublemaker', 'Wolf', 'Drunk', 'Robber', 'Seer', 'Minion'}),
-                      frozenset({'Troublemaker', 'Wolf', 'Drunk', 'Robber', 'Seer', 'Minion'}),
-                      frozenset({'Troublemaker', 'Wolf', 'Drunk', 'Robber', 'Seer', 'Minion'}))
+    possible_roles = [{'Seer'},
+                      {'Troublemaker', 'Wolf', 'Drunk', 'Robber', 'Seer', 'Minion'},
+                      {'Drunk'},
+                      {'Troublemaker', 'Wolf', 'Drunk', 'Robber', 'Seer', 'Minion'},
+                      {'Troublemaker', 'Wolf', 'Drunk', 'Robber', 'Seer', 'Minion'},
+                      {'Troublemaker', 'Wolf', 'Drunk', 'Robber', 'Seer', 'Minion'}]
     return SolverState(possible_roles, ((3, 2, 5),), (True,))
 
+@pytest.fixture
+def example_medium_solverstate_list(medium_game_roles) -> SolverState:
+    return [SolverState([{'Seer'},
+                         {'Robber'},
+                         {'Drunk'},
+                         {'Minion', 'Wolf', 'Seer', 'Drunk', 'Troublemaker'},
+                         {'Minion', 'Wolf', 'Drunk', 'Troublemaker', 'Robber'},
+                         {'Minion', 'Wolf', 'Seer', 'Drunk', 'Troublemaker', 'Robber'}],
+                        ((1, 1, 0), (3, 2, 5)),
+                        (True, True, True, False, False)),
+            SolverState([{'Seer'},
+                         {'Minion', 'Wolf', 'Seer', 'Drunk', 'Troublemaker'},
+                         {'Drunk'},
+                         {'Robber'},
+                         {'Minion', 'Wolf', 'Drunk', 'Troublemaker', 'Robber'},
+                         {'Minion', 'Wolf', 'Seer', 'Drunk', 'Troublemaker', 'Robber'}],
+                        ((3, 2, 5), (1, 3, 2)),
+                        (True, False, True, True, False)),
+            SolverState([{'Minion', 'Wolf', 'Drunk', 'Troublemaker', 'Robber'},
+                         {'Minion', 'Wolf', 'Seer', 'Drunk', 'Troublemaker'},
+                         {'Drunk'},
+                         {'Robber'},
+                         {'Seer'},
+                         {'Minion', 'Wolf', 'Seer', 'Drunk', 'Troublemaker', 'Robber'}],
+                        ((3, 2, 5), (1, 3, 2)),
+                        (False, False, True, True, True))]
 
 @pytest.fixture
 def example_large_solverstate(large_game_roles) -> SolverState:
-    roles = [
+    possible_roles = [
         {'Robber'},
         {'Seer', 'Hunter', 'Drunk', 'Tanner', 'Wolf', 'Insomniac',
          'Mason', 'Minion', 'Villager', 'Troublemaker'},
@@ -123,8 +147,7 @@ def example_large_solverstate(large_game_roles) -> SolverState:
         {'Drunk'},
         {'Seer', 'Hunter', 'Drunk', 'Tanner', 'Wolf', 'Insomniac', 'Mason',
          'Minion', 'Villager', 'Troublemaker'}
-    ] + [const.ROLE_SET]*7
-    possible_roles = tuple([frozenset(role_set) for role_set in roles])
+    ] + [const.ROLE_SET] * 7
     switches = ((0, 6, 0), (1, 9, 6))
     path = (True, False, True, True, True, True, True, False)
     return SolverState(possible_roles, switches, path)
@@ -156,6 +179,26 @@ def example_large_game_result(large_game_roles) -> GameResult:
                         'Hunter', 'Mason', 'Wolf', 'Villager'],
                        [7, 10],
                        'Werewolf')
+
+
+# @pytest.fixture
+# def example_small_saved_game(small_game_roles) -> SavedGame:
+#     return SavedGame(('Villager', 'Robber', 'Seer'),
+#                      ['Villager', 'Seer', 'Robber'],
+#                      [Statement("I am a Villager.", [(0, {'Villager'})], [], 'Villager'),
+#                       Statement("I am a Robber and I swapped with Player 2. I am now a Seer.",
+#                                 [(1, {'Robber'}), (2, {'Seer'})], [(1, 1, 2)], 'Robber'),
+#                       Statement("I am a Seer and I saw that Player 1 was a Robber.",
+#                                 [(2, {'Seer'}), (1, {'Robber'})], [], 'Seer')],
+#                      [<Villager>, <Robber>, <Seer>])
+
+
+# @pytest.fixture
+# def example_medium_saved_game(medium_game_roles) -> SavedGame:
+#     return
+# @pytest.fixture
+# def example_large_saved_game(large_game_roles) -> SavedGame:
+#     return
 
 
 def debug_spacing_issues(captured: str, expected: str):

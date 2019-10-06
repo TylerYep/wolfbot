@@ -18,7 +18,7 @@ class Robber(Player):
 
     def robber_init(self, game_roles: List[str]) -> Tuple[int, str]:
         ''' Initializes Robber - switches roles with another player. '''
-        choice_ind = util.get_player(self, (self.player_index,))
+        choice_ind = util.get_player(self.is_user, (self.player_index,))
         choice_char = game_roles[choice_ind]
         logger.debug(f'[Hidden] Robber switches with Player {choice_ind}'
                      f' and becomes a {choice_char}.')

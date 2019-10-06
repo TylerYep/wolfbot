@@ -34,7 +34,7 @@ class Wolf(Player):
         if original_roles:
             wolf_indices = util.find_all_player_indices(original_roles, 'Wolf')
             if len(wolf_indices) == 1 and const.NUM_CENTER > 0:
-                wolf_center_index = util.get_center(self)
+                wolf_center_index = util.get_center(self.is_user)
                 wolf_center_role = game_roles[wolf_center_index]
             logger.debug(f'[Hidden] Wolves are at indices: {wolf_indices}')
             if self.is_user: logger.info(f'Wolves are at indices: {wolf_indices}')

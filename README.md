@@ -193,18 +193,23 @@ player.py
 ```
 
 # Future Development Todos
-* Host on AWS
-* UI and secure move API
-* Multiple Statements
-* Unit testing
-* Player can accept 0 parameters? just multiply to make list.
-* Wolf_inds isn't used in stats
+* Big Directional Goals:
+  * Host on AWS
+  * UI and secure move API
+  * Multiple Statements
+  * Feasibility of cached solver - look at max path sum, and other CS161 problems
+  * Predictions with constraint satisfaction heuristics https://simpleai.readthedocs.io/en/latest/constraint_satisfaction_problems.html
 
-* Feasibility of cached solver - look at max path sum, and other CS161 problems
-* game_roles and original_roles in the classes for each role -> should default to None? to follow Minion and Tanner API. Causes a lot of pylint issues.
+* Unit Testing:
+  * Player can accept 0 parameters? just multiply to make list.
+  * Wolf_inds isn't used in stats.py
+  * Insomniac testing is very confusing to me.
+  * One night output doesn't work 100% of the time - finish voting and predictions first.
+  * Test constructors more thoroughly.
 
-* Insomniac testing is very confusing to me.
-* One night output doesn't work 100% of the time - finish voting and predictions first.
-* Test constructors more thoroughly.
+* Design Considerations:
+  * Multiple constructors for each role?
+  * game_roles and original_roles in the classes for each role -> should default to None? to follow Minion and Tanner API. Causes a lot of pylint issues.
 
-* Predictions with constraint satisfaction heuristics https://simpleai.readthedocs.io/en/latest/constraint_satisfaction_problems.html
+* Small Stories:
+  * Add List of SolverStates and Example SavedGames to conftest.py
