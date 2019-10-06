@@ -8,6 +8,8 @@ from src.statements import Statement
 from src.stats import GameResult, SavedGame
 
 class TestWolfBotEncoder:
+    ''' Tests for the WolfBotEncoder class. '''
+
     @staticmethod
     def test_default_list():
         ''' Should convert objects of different types to JSON. '''
@@ -75,6 +77,8 @@ class TestWolfBotEncoder:
 
 
 class TestWolfBotDecoder:
+    ''' Tests for the WolfBotDecoder class. '''
+
     @staticmethod
     def test_json_to_list():
         ''' Should convert JSON to the correct objects. '''
@@ -146,6 +150,8 @@ class TestWolfBotDecoder:
 
 
 class TestGetObjectInitializer:
+    ''' Tests for the get_object_initializer function. '''
+
     @staticmethod
     def test_get_object_initializers():
         ''' Should return the correct object initializer. '''
@@ -158,6 +164,8 @@ class TestGetObjectInitializer:
 
 
 class TestConvertPklToJson:
+    ''' Tests for the convert_pkl_to_json function. '''
+
     @staticmethod
     def test_convert_pkl_to_json():
         ''' Should convert pkl to JSON. '''

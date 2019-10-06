@@ -9,6 +9,7 @@ from src import const
 
 class SavedGame:
     ''' All of the necessary data needed to rerun a game. '''
+
     def __init__(self,
                  original_roles: Tuple[str, ...],
                  game_roles: List[str],
@@ -46,6 +47,7 @@ class SavedGame:
 
 class GameResult:
     ''' Each round of one_night returns a GameResult. '''
+
     def __init__(self,
                  actual: List[str],
                  guessed: List[str],
@@ -78,6 +80,7 @@ class GameResult:
 
 class Statistics:
     ''' Initialize a Statistics object. '''
+
     def __init__(self):
         self.metrics = [self.correctness_strict, self.correctness_lenient_center,
                         self.wolf_predictions_one, self.wolf_predictions_all,

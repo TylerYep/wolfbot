@@ -11,6 +11,7 @@ from src import const
 
 class WolfBotEncoder(json.JSONEncoder):
     ''' Encoder for all WolfBot objects. '''
+
     def default(self, o: Any) -> Dict:
         ''' Overrides encoding method. '''
         if isinstance(o, (Player, Statement, GameResult, SavedGame)):
@@ -24,6 +25,7 @@ class WolfBotEncoder(json.JSONEncoder):
 
 class WolfBotDecoder(json.JSONDecoder):
     ''' Decoder for all WolfBot objects. '''
+
     def __init__(self):
         json.JSONDecoder.__init__(self, object_hook=self.json_to_objects)
 

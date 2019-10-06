@@ -4,6 +4,8 @@ from src.statements import Statement
 from src.roles.village import Robber
 
 class TestRobber:
+    ''' Tests for the Robber player class. '''
+
     @staticmethod
     def test_awake_init(large_game_roles):
         '''

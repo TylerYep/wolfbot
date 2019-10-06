@@ -4,6 +4,8 @@ import pytest
 from src import statements, const
 
 class TestStatement:
+    ''' Tests for the Statement class. '''
+
     @staticmethod
     def test_constructor():
         ''' Should initialize using the given sentence and knowledge. '''

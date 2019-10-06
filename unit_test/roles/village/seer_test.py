@@ -6,6 +6,8 @@ from src.statements import Statement
 from src.roles.village import Seer
 
 class TestSeer:
+    ''' Tests for the Seer player class. '''
+
     @staticmethod
     def test_awake_init_center_choice(large_game_roles):
         '''

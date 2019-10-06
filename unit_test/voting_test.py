@@ -4,6 +4,8 @@ from src.stats import GameResult
 from src.roles import Drunk, Minion, Seer, Robber, Villager, Wolf
 
 class TestConsolidateResults:
+    ''' Tests for the consolidate_results function. '''
+
     @staticmethod
     def test_consolidate_without_voting_small(caplog, example_small_saved_game):
         ''' Should return a final GameResult without voting. '''
@@ -66,6 +68,8 @@ class TestConsolidateResults:
 
 
 class TestIsPlayerEvil:
+    ''' Tests for the is_player_evil function. '''
+
     @staticmethod
     def test_no_evil_player(small_game_roles):
         ''' Should determine if a player has turned evil after night falls. '''
@@ -100,6 +104,8 @@ class TestIsPlayerEvil:
 
 
 class TestGetIndividualPreds:
+    ''' Tests for the get_individual_preds function. '''
+
     @staticmethod
     def test_get_individual_preds():
         ''' Should initialize a SolverState. '''
@@ -107,6 +113,8 @@ class TestGetIndividualPreds:
 
 
 class TestEvalFinalGuesses:
+    ''' Tests for the eval_final_guesses function. '''
+
     @staticmethod
     def test_eval_final_guesses():
         ''' Should initialize a SolverState. '''
@@ -114,6 +122,8 @@ class TestEvalFinalGuesses:
 
 
 class TestGetVotingResult:
+    ''' Tests for the get_voting_result function. '''
+
     @staticmethod
     def test_get_voting_result():
         ''' Should initialize a SolverState. '''
@@ -121,6 +131,8 @@ class TestGetVotingResult:
 
 
 class TestGetPlayerVote:
+    ''' Tests for the get_player_vote function. '''
+
     @staticmethod
     def test_get_player_vote():
         ''' Should initialize a SolverState. '''

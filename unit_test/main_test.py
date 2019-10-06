@@ -2,4 +2,6 @@
 # from src import main
 
 class TestMain:
+    ''' Tests for the main function. '''
+
     pass

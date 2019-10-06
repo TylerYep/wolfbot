@@ -2,6 +2,8 @@
 from src import one_night, const
 
 class TestPlayOneNightWerewolf:
+    ''' Tests for the play_one_night_werewolf function. '''
+
     @staticmethod
     def test_one_night_small(caplog, example_small_game_result):
         ''' Correctly play one round of one night werewolf. '''

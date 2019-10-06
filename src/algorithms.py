@@ -10,6 +10,7 @@ class SolverState:
     Each solver returns a SolverState object with the result.
     @param path: tuple of (True, False, True ...) values.
     '''
+
     def __init__(self,
                  possible_roles: List[Set[str]] = None,
                  switches: Tuple[Tuple[int, int, int], ...] = (),

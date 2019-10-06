@@ -3,6 +3,7 @@ from src import algorithms, const
 from src.statements import Statement
 
 class TestSolverState:
+    ''' Tests for the SolverState class. '''
     @staticmethod
     def test_constructor():
         ''' Should initialize a SolverState. '''
@@ -39,6 +40,7 @@ class TestSolverState:
 
 
 class TestIsConsistent:
+    ''' Tests for the is_consistent function. '''
     @staticmethod
     def test_is_consistent_on_empty_state(example_small_solverstate, example_statement):
         ''' Should check a new statement against an empty SolverState for consistency. '''
@@ -64,7 +66,9 @@ class TestIsConsistent:
         assert result == example_medium_solverstate
 
 
-class TestSolver:
+class TestSwitchingSolver:
+    ''' Tests for the switching_solver and count_roles function. '''
+
     @staticmethod
     def test_switching_solver(example_statement_list, example_large_solverstate):
         ''' Should return a SolverState with the most likely solution. '''

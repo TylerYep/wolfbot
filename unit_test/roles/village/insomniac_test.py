@@ -4,6 +4,8 @@ from src.statements import Statement
 from src.roles.village import Insomniac
 
 class TestInsomniac:
+    ''' Tests for the Insomniac player class. '''
+
     @staticmethod
     def test_awake_init():
         ''' Should initialize a Insomniac. '''

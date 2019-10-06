@@ -4,6 +4,8 @@ from src.statements import Statement
 from src.roles.village import Mason
 
 class TestMason:
+    ''' Tests for the Mason player class. '''
+
     @staticmethod
     def test_awake_init(large_game_roles):
         ''' Should initialize a Mason. '''

@@ -1,11 +1,13 @@
 ''' stats_test.py '''
 import pytest
 
-from src import stats, const
+from src import stats#, const
 from src.statements import Statement
 from src.roles import Villager, Robber, Seer
 
 class TestSavedGame:
+    ''' Tests for the SavedGame class. '''
+
     @staticmethod
     def test_constructor():
         ''' Should initialize correctly. '''
@@ -69,6 +71,8 @@ class TestSavedGame:
 
 
 class TestGameResult:
+    ''' Tests for the GameResult class. '''
+
     @staticmethod
     def test_constructor():
         ''' Should initialize correctly. '''
@@ -114,6 +118,8 @@ class TestGameResult:
 
 
 class Statistics:
+    ''' Tests for the Statistics class. '''
+
     @staticmethod
     def test_constructor():
         ''' Should initialize correctly. '''

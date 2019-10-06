@@ -3,6 +3,8 @@ from src.statements import Statement
 from src.roles.village import Player, Robber, Villager
 
 class TestPlayer:
+    ''' Tests for the Player class. '''
+
     @staticmethod
     def test_constructor():
         ''' Should initialize a Player. '''

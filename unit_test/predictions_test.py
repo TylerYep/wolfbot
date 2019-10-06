@@ -3,6 +3,8 @@ from src import predictions, const
 from src.algorithms import SolverState
 
 class TestMakeRandomPrediction:
+    ''' Tests for the random_prediction function. '''
+
     @staticmethod
     def test_random_prediction(medium_game_roles):
         ''' Should return a random shuffled list as the predicted roles. '''
@@ -14,6 +16,8 @@ class TestMakeRandomPrediction:
 
 
 class TestMakeEvilPrediction:
+    ''' Tests for the make_evil_prediction function. '''
+
     @staticmethod
     def test_evil_prediction():
         ''' Should '''
@@ -21,6 +25,8 @@ class TestMakeEvilPrediction:
 
 
 class TestMakeFastPrediction:
+    ''' Tests for the make_fast_prediction function. '''
+
     @staticmethod
     def test_fast_prediction():
         ''' Should '''
@@ -28,6 +34,8 @@ class TestMakeFastPrediction:
 
 
 class TestMakePrediction:
+    ''' Tests for the play_one_night_werewolf function. '''
+
     @staticmethod
     def test_make_prediction():
         ''' Should '''
@@ -35,6 +43,8 @@ class TestMakePrediction:
 
 
 class TestGetBasicGuesses:
+    ''' Tests for the get_basic_guesses function. '''
+
     @staticmethod
     def test_basic_guesses_small(example_small_solverstate):
         '''
@@ -75,6 +85,8 @@ class TestGetBasicGuesses:
 
 
 class TestRecurseAssign:
+    ''' Tests for the recurse_assign function. '''
+
     @staticmethod
     def test_no_action(example_small_solverstate, small_game_roles):
         ''' Should not make any assignments if all assignments are made. '''
@@ -143,6 +155,8 @@ class TestRecurseAssign:
 
 
 class TestGetSwitchDict:
+    ''' Tests for the get_switch_dict function. '''
+
     @staticmethod
     def test_get_empty_switch_dict(small_game_roles):
         ''' Should return the identity switch dict. '''
@@ -168,6 +182,8 @@ class TestGetSwitchDict:
 
 
 class TestPrintGuesses:
+    ''' Tests for the print_guesses function. '''
+
     @staticmethod
     def test_print_guesses(caplog, medium_game_roles):
         ''' Correctly print and format roles. '''

@@ -4,6 +4,8 @@ import pytest
 from src import util, const
 
 class TestSwapCharacters:
+    ''' Tests for the swap_characters function. '''
+
     @staticmethod
     def test_same_index_error(small_game_roles):
         ''' Don't attempt to swap the same index. '''
@@ -23,6 +25,8 @@ class TestSwapCharacters:
 
 
 class TestFindAllPlayerIndices:
+    ''' Tests for the find_all_player_indices function. '''
+
     @staticmethod
     def test_returns_correct_indices(large_game_roles):
         ''' Don't attempt to swap the same index. '''
@@ -34,14 +38,20 @@ class TestFindAllPlayerIndices:
 
 
 class TestGetPlayer:
+    ''' Tests for the get_player function. '''
+
     pass
 
 
 class TestGetCenter:
+    ''' Tests for the get_center function. '''
+
     pass
 
 
 class TestGetRandomPlayer:
+    ''' Tests for the get_random_player function. '''
+
     @staticmethod
     def test_generates_different_indices(large_game_roles):
         ''' Generated indices should be random. '''
@@ -64,6 +74,8 @@ class TestGetRandomPlayer:
 
 
 class TestGetRandomCenter:
+    ''' Tests for the get_random_center function. '''
+
     @staticmethod
     def test_generates_different_indices(large_game_roles):
         ''' Generated indices should be random. '''
@@ -86,18 +98,26 @@ class TestGetRandomCenter:
 
 
 class TestInputPlayer:
+    ''' Tests for the input_player function. '''
+
     pass
 
 
 class TestInputCenter:
+    ''' Tests for the input_center function. '''
+
     pass
 
 
 class TestGetNumericInput:
+    ''' Tests for the get_numeric_input function. '''
+
     pass
 
 
 class TestPrintRoles:
+    ''' Tests for the print_roles function. '''
+
     @staticmethod
     def test_print_roles(caplog, small_game_roles):
         ''' Correctly print and format roles. '''

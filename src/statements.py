@@ -6,6 +6,7 @@ from src import const
 
 class Statement:
     ''' Model for all statements in the game. Statements are intended to be immutable. '''
+
     def __init__(self,
                  sentence: str,
                  knowledge: List[Tuple[int, Set[str]]] = None,

@@ -3,6 +3,8 @@ from src.statements import Statement
 from src.roles.village import Hunter
 
 class TestHunter:
+    ''' Tests for the Hunter player class. '''
+
     @staticmethod
     def test_awake_init():
         ''' Should initialize a Hunter. '''
