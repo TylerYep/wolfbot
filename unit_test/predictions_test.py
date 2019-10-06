@@ -57,10 +57,10 @@ class TestGetBasicGuesses:
         Should correctly interpret a solution as a list of current predictions
         as well as a dictionary of counts.
         '''
-        expected = (['Robber', '', 'Seer', 'Villager', 'Mason', 'Mason', 'Drunk',
-                     '', '', '', '', '', '', '', ''],
-                    {'Drunk': 0, 'Hunter': 1, 'Insomniac': 1, 'Mason': 0, 'Minion': 1, 'Robber': 0,
-                     'Seer': 0, 'Tanner': 1, 'Troublemaker': 1, 'Villager': 2, 'Wolf': 2})
+        expected = (['Robber', 'Minion', 'Seer', 'Villager', 'Mason', 'Mason', 'Drunk',
+                     'Tanner', '', '', '', '', '', '', ''],
+                    {'Drunk': 0, 'Hunter': 1, 'Insomniac': 1, 'Mason': 0, 'Minion': 0, 'Robber': 0,
+                     'Seer': 0, 'Tanner': 0, 'Troublemaker': 1, 'Villager': 2, 'Wolf': 2})
 
         result = predictions.get_basic_guesses(example_large_solverstate)
 

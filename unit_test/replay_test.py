@@ -8,7 +8,7 @@ class TestReplay:
 
         replay.replay_game()
 
-        assert True # TODO
+        assert example_small_game_result # TODO
 
     def test_replay_game_medium(self, example_medium_game_result):
         const.REPLAY_FILE = 'unit_test/test_data/replay.json'
@@ -16,7 +16,7 @@ class TestReplay:
 
         replay.replay_game()
 
-        assert True # TODO
+        assert example_medium_game_result # TODO
 
     # def test_replay_game_large(self, example_large_game_result):
     #     const.REPLAY_FILE = 'unit_test/test_data/replay.json'
@@ -24,4 +24,4 @@ class TestReplay:
     #
     #     replay.replay_game()
     #
-    #     assert True # TODO
+    #     assert example_large_game_result # TODO

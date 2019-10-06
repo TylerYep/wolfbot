@@ -99,6 +99,6 @@ class TestPrintRoles:
         util.print_roles(shuffled_roles)
 
         captured = caplog.records[0].getMessage()
-        expected = '[Hidden] Current roles: [Seer, Villager, Wolf]\n' + \
-                   '          Center cards: [Robber]\n'
+        expected = ('[Hidden] Current roles: [Seer, Villager, Wolf]\n'
+                    '          Center cards: [Robber]\n')
         assert captured == expected

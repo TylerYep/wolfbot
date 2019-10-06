@@ -22,8 +22,10 @@ def reset_const():
     const.NUM_PLAYERS = 12
     const.NUM_CENTER = 3
     const.CENTER_SEER_PROB = 0.9
-    const.VILLAGE_ROLES &= const.ROLE_SET
-    const.EVIL_ROLES &= const.ROLE_SET
+    const.VILLAGE_ROLES = {'Villager', 'Mason', 'Seer', 'Robber', 'Troublemaker',
+                           'Drunk', 'Insomniac', 'Hunter'}
+    const.EVIL_ROLES = {'Tanner', 'Wolf', 'Minion'}
+    const.USE_VOTING = True
     random.seed(0)
 
 
@@ -166,9 +168,9 @@ def example_small_game_result(small_game_roles) -> GameResult:
 @pytest.fixture
 def example_medium_game_result(medium_game_roles) -> GameResult:
     return GameResult(['Seer', 'Wolf', 'Troublemaker', 'Drunk', 'Minion', 'Robber'],
-                      ['Robber', 'Seer', 'Minion', 'Troublemaker', 'Wolf', 'Drunk'],
+                      ['Robber', 'Seer', 'Troublemaker', 'Minion', 'Wolf', 'Drunk'],
                       [1],
-                      'Werewolf')
+                      'Villager')
 
 
 @pytest.fixture
