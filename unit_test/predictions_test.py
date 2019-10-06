@@ -3,7 +3,8 @@ from src import predictions, const
 from src.algorithms import SolverState
 
 class TestMakeRandomPrediction:
-    def test_random_prediction(self, medium_game_roles):
+    @staticmethod
+    def test_random_prediction(medium_game_roles):
         ''' Should return a random shuffled list as the predicted roles. '''
         const.ROLES = medium_game_roles
 
@@ -13,25 +14,29 @@ class TestMakeRandomPrediction:
 
 
 class TestMakeEvilPrediction:
-    def test_evil_prediction(self):
+    @staticmethod
+    def test_evil_prediction():
         ''' Should '''
         pass
 
 
 class TestMakeFastPrediction:
-    def test_fast_prediction(self):
+    @staticmethod
+    def test_fast_prediction():
         ''' Should '''
         pass
 
 
 class TestMakePrediction:
-    def test_make_prediction(self):
+    @staticmethod
+    def test_make_prediction():
         ''' Should '''
         pass
 
 
 class TestGetBasicGuesses:
-    def test_basic_guesses_small(self, example_small_solverstate):
+    @staticmethod
+    def test_basic_guesses_small(example_small_solverstate):
         '''
         Should correctly interpret a solution as a list of current predictions
         as well as a dictionary of counts.
@@ -40,7 +45,8 @@ class TestGetBasicGuesses:
 
         assert result == (['Seer', '', 'Robber'], {'Robber': 0, 'Seer': 0, 'Villager': 1})
 
-    def test_basic_guesses_medium(self, example_medium_solverstate):
+    @staticmethod
+    def test_basic_guesses_medium(example_medium_solverstate):
         '''
         Should correctly interpret a solution as a list of current predictions
         as well as a dictionary of counts.
@@ -52,7 +58,8 @@ class TestGetBasicGuesses:
 
         assert result == expected
 
-    def test_basic_guesses_large(self, example_large_solverstate):
+    @staticmethod
+    def test_basic_guesses_large(example_large_solverstate):
         '''
         Should correctly interpret a solution as a list of current predictions
         as well as a dictionary of counts.
@@ -68,7 +75,8 @@ class TestGetBasicGuesses:
 
 
 class TestRecurseAssign:
-    def test_no_action(self, example_small_solverstate, small_game_roles):
+    @staticmethod
+    def test_no_action(example_small_solverstate, small_game_roles):
         ''' Should not make any assignments if all assignments are made. '''
         counts = {'Robber': 0, 'Seer': 0, 'Villager': 0}
 
@@ -78,7 +86,8 @@ class TestRecurseAssign:
 
         assert result == small_game_roles
 
-    def test_no_solution_medium(self, example_medium_solverstate):
+    @staticmethod
+    def test_no_solution_medium(example_medium_solverstate):
         ''' Should return empty list if no arrangement of assignments is valid. '''
         # TODO start writing this test
         role_guesses = ['Robber', '', 'Seer', 'Villager', 'Mason', 'Mason', 'Drunk',
@@ -92,7 +101,8 @@ class TestRecurseAssign:
 
         assert result == []
 
-    def test_small_predict_solution(self, example_small_solverstate):
+    @staticmethod
+    def test_small_predict_solution(example_small_solverstate):
         ''' Should return empty list if no arrangement of assignments is valid. '''
         role_guesses = ['Seer', '', 'Robber']
         counts = {'Robber': 0, 'Seer': 0, 'Villager': 1}
@@ -103,7 +113,8 @@ class TestRecurseAssign:
 
         assert result == ['Seer', 'Villager', 'Robber']
 
-    def test_medium_predict_solution(self, example_medium_solverstate):
+    @staticmethod
+    def test_medium_predict_solution(example_medium_solverstate):
         ''' Should return empty list if no arrangement of assignments is valid. '''
         role_guesses = ['Seer', '', 'Drunk', '', '', '']
         counts = {'Drunk': 0, 'Minion': 1, 'Robber': 1, 'Seer': 0, 'Troublemaker': 1, 'Wolf': 1}
@@ -114,7 +125,8 @@ class TestRecurseAssign:
 
         assert result == ['Seer', 'Troublemaker', 'Drunk', 'Minion', 'Wolf', 'Robber']
 
-    def test_large_predict_solution(self, example_large_solverstate):
+    @staticmethod
+    def test_large_predict_solution(example_large_solverstate):
         ''' Should return empty list if no arrangement of assignments is valid. '''
         role_guesses = ['Robber', '', 'Seer', 'Villager', 'Mason', 'Mason', 'Drunk',
                         '', '', '', '', '', '', '', '']
@@ -131,7 +143,8 @@ class TestRecurseAssign:
 
 
 class TestGetSwitchDict:
-    def test_get_empty_switch_dict(self, small_game_roles):
+    @staticmethod
+    def test_get_empty_switch_dict(small_game_roles):
         ''' Should return the identity switch dict. '''
         const.ROLES = small_game_roles
         possible_roles = [{'Robber', 'Villager', 'Seer'}] * 3
@@ -141,7 +154,8 @@ class TestGetSwitchDict:
 
         assert result == {i: i for i in range(const.NUM_ROLES)}
 
-    def test_get_switch_dict(self, example_large_solverstate):
+    @staticmethod
+    def test_get_switch_dict(example_large_solverstate):
         ''' Should return the correct switch dict for a SolverState result. '''
         expected = {i: i for i in range(const.NUM_ROLES)}
         expected[6] = 9
@@ -154,7 +168,8 @@ class TestGetSwitchDict:
 
 
 class TestPrintGuesses:
-    def test_print_guesses(self, caplog, medium_game_roles):
+    @staticmethod
+    def test_print_guesses(caplog, medium_game_roles):
         ''' Correctly print and format roles. '''
         const.ROLES = medium_game_roles
 

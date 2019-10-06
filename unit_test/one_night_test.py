@@ -2,7 +2,8 @@
 from src import one_night, const
 
 class TestPlayOneNightWerewolf:
-    def test_one_night_small(self, caplog, example_small_game_result):
+    @staticmethod
+    def test_one_night_small(caplog, example_small_game_result):
         ''' Correctly play one round of one night werewolf. '''
         const.REPLAY_FILE = 'unit_test/test_data/replay.json'
 
@@ -14,7 +15,8 @@ class TestPlayOneNightWerewolf:
             expected = output_file.read().split('\n')
             assert '\n'.join(captured) == '\n'.join(expected)
 
-    def test_one_night_medium(self, caplog, example_medium_game_result):
+    @staticmethod
+    def test_one_night_medium(caplog, example_medium_game_result):
         ''' Correctly play one round of one night werewolf. '''
         const.REPLAY_FILE = 'unit_test/test_data/replay.json'
 
@@ -26,7 +28,8 @@ class TestPlayOneNightWerewolf:
             expected = output_file.read().split('\n')
             assert '\n'.join(captured) == '\n'.join(expected)
 
-    # def test_one_night_large(self, caplog, example_large_game_result):
+    # @staticmethod
+    # def test_one_night_large(caplog, example_large_game_result):
     #     ''' Correctly play one round of one night werewolf. '''
     #     const.REPLAY_FILE = 'unit_test/test_data/replay.json'
     #

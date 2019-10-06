@@ -3,7 +3,8 @@ from src.statements import Statement
 from src.roles.village import Hunter
 
 class TestHunter:
-    def test_awake_init(self):
+    @staticmethod
+    def test_awake_init():
         ''' Should initialize a Hunter. '''
         player_index = 5
 
@@ -11,7 +12,8 @@ class TestHunter:
 
         assert hunter.statements == [Statement('I am a Hunter.', [(5, {'Hunter'})])]
 
-    def test_get_hunter_statements(self):
+    @staticmethod
+    def test_get_hunter_statements():
         ''' Should execute initialization actions and return the possible statements. '''
         player_index = 0
 
@@ -19,7 +21,8 @@ class TestHunter:
 
         assert result == [Statement('I am a Hunter.', [(0, {'Hunter'})])]
 
-    def test_get_all_statements(self):
+    @staticmethod
+    def test_get_all_statements():
         ''' Should return the possible statements from all possible initialization actions. '''
         player_index = 2
 

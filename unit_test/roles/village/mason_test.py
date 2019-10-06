@@ -4,7 +4,8 @@ from src.statements import Statement
 from src.roles.village import Mason
 
 class TestMason:
-    def test_awake_init(self, large_game_roles):
+    @staticmethod
+    def test_awake_init(large_game_roles):
         ''' Should initialize a Mason. '''
         player_index = 6
         orig_roles, game_roles = list(large_game_roles), []
@@ -15,7 +16,8 @@ class TestMason:
         assert mason.statements == [Statement("I am a Mason. The other Mason is Player 9.",
                                               [(6, {'Mason'}), (9, {'Mason'})], [], 'Mason')]
 
-    def test_get_mason_statements(self):
+    @staticmethod
+    def test_get_mason_statements():
         ''' Should execute initialization actions and return the possible statements. '''
         player_index = 9
 
@@ -24,7 +26,8 @@ class TestMason:
         assert result == [Statement("I am a Mason. The other Mason is Player 6.",
                                     [(9, {'Mason'}), (6, {'Mason'})], [], 'Mason')]
 
-    def test_get_single_mason_statement(self):
+    @staticmethod
+    def test_get_single_mason_statement():
         ''' Should give the proper statement when only one Mason is present. '''
         player_index = 2
         const.ROLES = ('Wolf', 'Seer', 'Mason', 'Villager')
@@ -38,7 +41,8 @@ class TestMason:
                                      (1, {'Wolf', 'Seer', 'Villager'})],
                                     [], 'Mason')]
 
-    def test_get_all_statements(self):
+    @staticmethod
+    def test_get_all_statements():
         ''' Should return the possible statements from all possible initialization actions. '''
         player_index = 2
         const.ROLES = ['Wolf', 'Seer', 'Mason', 'Villager']

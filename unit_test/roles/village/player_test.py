@@ -3,7 +3,8 @@ from src.statements import Statement
 from src.roles.village import Player, Robber, Villager
 
 class TestPlayer:
-    def test_constructor(self):
+    @staticmethod
+    def test_constructor():
         ''' Should initialize a Player. '''
         player_index = 5
 
@@ -12,7 +13,8 @@ class TestPlayer:
         assert empty_player.role == 'Player'
         assert empty_player.statements == []
 
-    def test_inheritance(self):
+    @staticmethod
+    def test_inheritance():
         ''' Classes extending Player should be able to access Player fields. '''
         robber = Robber(2, 3, 'Villager')
 
@@ -20,7 +22,8 @@ class TestPlayer:
         assert robber.new_role == 'Villager'
         assert not robber.is_user
 
-    def test_get_statement_inheritance(self):
+    @staticmethod
+    def test_get_statement_inheritance():
         ''' Classes extending Player should contain a get_statement method. '''
         villager = Villager(0)
 
@@ -28,10 +31,12 @@ class TestPlayer:
 
         assert statement == Statement('I am a Villager.', [(0, {'Villager'})])
 
-    def test_json_repr(self):
+    @staticmethod
+    def test_json_repr():
         ''' Should convert a Player into a dict with all of its fields. '''
         pass
 
-    def test_repr(self):
+    @staticmethod
+    def test_repr():
         ''' Should convert a Player into a representative string. '''
         pass

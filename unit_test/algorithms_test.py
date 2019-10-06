@@ -3,13 +3,15 @@ from src import algorithms, const
 from src.statements import Statement
 
 class TestSolverState:
-    def test_constructor(self):
+    @staticmethod
+    def test_constructor():
         ''' Should initialize a SolverState. '''
         result = algorithms.SolverState([{'Villager'}], [], [True])
 
         assert isinstance(result, algorithms.SolverState)
 
-    def test_is_valid_state(self):
+    @staticmethod
+    def test_is_valid_state():
         ''' Should return False for empty SolverStates. '''
         valid_state = algorithms.SolverState([{'Villager'}], [], [True])
         invalid_state = algorithms.SolverState([])
@@ -17,7 +19,8 @@ class TestSolverState:
         assert valid_state.is_valid_state()
         assert not invalid_state.is_valid_state()
 
-    def test_eq(self, example_small_solverstate):
+    @staticmethod
+    def test_eq(example_small_solverstate):
         ''' Should be able to compare two identical SolverStates. '''
         possible_roles = [{'Seer'}, {'Robber', 'Villager', 'Seer'}, {'Robber'}]
         switches = ((1, 2, 0),)
@@ -27,7 +30,8 @@ class TestSolverState:
 
         assert result == example_small_solverstate
 
-    def test_repr(self):
+    @staticmethod
+    def test_repr():
         ''' Should convert a SolverState into a representative string. '''
         result = algorithms.SolverState([{'Villager'}], [], [True])
 
@@ -35,7 +39,8 @@ class TestSolverState:
 
 
 class TestIsConsistent:
-    def test_is_consistent_on_empty_state(self, example_small_solverstate, example_statement):
+    @staticmethod
+    def test_is_consistent_on_empty_state(example_small_solverstate, example_statement):
         ''' Should check a new statement against an empty SolverState for consistency. '''
         start_state = algorithms.SolverState()
 
@@ -43,7 +48,8 @@ class TestIsConsistent:
 
         assert result == example_small_solverstate
 
-    def test_is_consistent_on_existing_state(self, example_medium_solverstate):
+    @staticmethod
+    def test_is_consistent_on_existing_state(example_medium_solverstate):
         '''
         Should check a new statement against accumulated statements for consistency.
         Should not change result.path - that is done in the switching_solver function.
@@ -59,13 +65,15 @@ class TestIsConsistent:
 
 
 class TestSolver:
-    def test_switching_solver(self, example_statement_list, example_large_solverstate):
+    @staticmethod
+    def test_switching_solver(example_statement_list, example_large_solverstate):
         ''' Should return a SolverState with the most likely solution. '''
         result = algorithms.switching_solver(example_statement_list)
 
         assert result[0] == example_large_solverstate
 
-    def test_count_roles(self):
+    @staticmethod
+    def test_count_roles():
         ''' Should return a dict with counts of all certain roles. '''
         const.ROLE_SET = {'Wolf', 'Seer', 'Villager', 'Robber'}
         possible_roles_list = [{'Villager'}, {'Seer'}, {'Villager'}] + [const.ROLE_SET]*2

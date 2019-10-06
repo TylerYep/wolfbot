@@ -4,7 +4,8 @@ from src.stats import GameResult
 from src.roles import Drunk, Minion, Seer, Robber, Villager, Wolf
 
 class TestConsolidateResults:
-    def test_consolidate_without_voting_small(self, caplog, example_small_saved_game):
+    @staticmethod
+    def test_consolidate_without_voting_small(caplog, example_small_saved_game):
         ''' Should return a final GameResult without voting. '''
         const.USE_VOTING = False
 
@@ -19,7 +20,8 @@ class TestConsolidateResults:
                     '          Center cards: []\n')
         assert '\n'.join(captured) == '\n'.join(expected)
 
-    def test_consolidate_without_voting_medium(self, caplog, example_medium_saved_game):
+    @staticmethod
+    def test_consolidate_without_voting_medium(caplog, example_medium_saved_game):
         ''' Should return a final GameResult without voting. '''
         const.USE_VOTING = False
 
@@ -36,7 +38,8 @@ class TestConsolidateResults:
                     '          Center cards: [Drunk]\n')
         assert '\n'.join(captured) == '\n'.join(expected)
 
-    def test_consolidate_with_voting_medium(self, caplog, example_medium_saved_game):
+    @staticmethod
+    def test_consolidate_with_voting_medium(caplog, example_medium_saved_game):
         ''' Should return a final GameResult with voting. '''
         result = voting.consolidate_results(example_medium_saved_game)
 
@@ -63,16 +66,18 @@ class TestConsolidateResults:
 
 
 class TestIsPlayerEvil:
-    def test_no_evil_player(self, small_game_roles):
+    @staticmethod
+    def test_no_evil_player(small_game_roles):
         ''' Should determine if a player has turned evil after night falls. '''
         const.ROLES = small_game_roles
         player_list = [Villager(0), Robber(1, 2, 'Seer'), Seer(2, (1, 'Robber'), (None, None))]
 
         result = voting.is_player_evil(player_list, 0, [])
 
-        assert result == False
+        assert result is False
 
-    def test_find_evil_players(self, medium_game_roles):
+    @staticmethod
+    def test_find_evil_players(medium_game_roles):
         ''' Should determine if a player has turned evil after night falls. '''
         const.ROLES = medium_game_roles
         player_list = [Seer(0, (2, 'Drunk'), (None, None)), Wolf(1, [1], 5, 'Troublemaker'),
@@ -82,7 +87,8 @@ class TestIsPlayerEvil:
 
         assert result == [False, True, False, False, True]
 
-    def test_turned_evil_player(self, medium_game_roles):
+    @staticmethod
+    def test_turned_evil_player(medium_game_roles):
         ''' Should determine if a player has turned evil after night falls. '''
         const.ROLES = medium_game_roles
         player_list = [Seer(0, (2, 'Drunk'), (None, None)), Wolf(1, [1], 5, 'Troublemaker'),
@@ -90,28 +96,32 @@ class TestIsPlayerEvil:
 
         result = voting.is_player_evil(player_list, 3, [1])
 
-        assert result == True
+        assert result is True
 
 
 class TestGetIndividualPreds:
-    def test_get_individual_preds(self):
+    @staticmethod
+    def test_get_individual_preds():
         ''' Should initialize a SolverState. '''
         pass
 
 
 class TestEvalFinalGuesses:
-    def test_eval_final_guesses(self):
+    @staticmethod
+    def test_eval_final_guesses():
         ''' Should initialize a SolverState. '''
         pass
 
 
 class TestGetVotingResult:
-    def test_get_voting_result(self):
+    @staticmethod
+    def test_get_voting_result():
         ''' Should initialize a SolverState. '''
         pass
 
 
 class TestGetPlayerVote:
-    def test_get_player_vote(self):
+    @staticmethod
+    def test_get_player_vote():
         ''' Should initialize a SolverState. '''
         pass

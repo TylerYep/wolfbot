@@ -4,7 +4,8 @@ from src.statements import Statement
 from src.roles.village import Troublemaker
 
 class TestTroublemaker:
-    def test_awake_init(self, large_game_roles):
+    @staticmethod
+    def test_awake_init(large_game_roles):
         '''
         Should initialize a Troublemaker. Note that the player_index of the Troublemaker is
         not necessarily the index where the true Troublemaker is located.
@@ -23,7 +24,8 @@ class TestTroublemaker:
         assert tmkr.choice_ind2 == 0
         assert tmkr.statements == expected
 
-    def test_get_troublemaker_statements(self):
+    @staticmethod
+    def test_get_troublemaker_statements():
         ''' Should execute initialization actions and return the possible statements. '''
         player_index = 1
 
@@ -32,7 +34,8 @@ class TestTroublemaker:
         assert result == [Statement("I am a Troublemaker and I swapped Player 6 and Player 3.",
                                     [(1, {'Troublemaker'})], [(2, 6, 3)], 'Troublemaker')]
 
-    def test_get_all_statements(self):
+    @staticmethod
+    def test_get_all_statements():
         ''' Should return the possible statements from all possible initialization actions. '''
         player_index = 2
         const.ROLES = ['Wolf', 'Seer', 'Troublemaker', 'Villager', 'Robber', 'Wolf']

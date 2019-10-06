@@ -6,7 +6,8 @@ from src.statements import Statement
 from src.roles import Villager, Robber, Seer
 
 class TestSavedGame:
-    def test_constructor(self):
+    @staticmethod
+    def test_constructor():
         ''' Should initialize correctly. '''
         villager_statement = Statement("I am a Villager.", [(0, {'Villager'})], [], 'Villager')
 
@@ -14,7 +15,8 @@ class TestSavedGame:
 
         assert isinstance(result, stats.SavedGame)
 
-    def test_json_repr(self, example_small_saved_game):
+    @staticmethod
+    def test_json_repr(example_small_saved_game):
         ''' Should convert a SavedGame into a dict with all of its fields. '''
         result = example_small_saved_game.json_repr()
 
@@ -30,7 +32,8 @@ class TestSavedGame:
                                           Seer(2, (1, 'Robber'), (None, None))],
                           'type': 'SavedGame'}
 
-    def test_repr(self, example_small_saved_game):
+    @staticmethod
+    def test_repr(example_small_saved_game):
         ''' Should convert a SavedGame into a string with all useful fields. '''
         expected = ("SavedGame(('Villager', 'Robber', 'Seer'), ['Villager', 'Seer', 'Robber'], "
                     "[Statement(\"I am a Villager.\", [(0, {'Villager'})], [], 'Villager'), "
@@ -44,7 +47,8 @@ class TestSavedGame:
 
         assert result == expected
 
-    def test_eq(self, example_small_saved_game):
+    @staticmethod
+    def test_eq(example_small_saved_game):
         ''' Should declare two SavedGames with identical fields to be equal. '''
         not_a_saved_game = 'hello'
 
@@ -65,13 +69,15 @@ class TestSavedGame:
 
 
 class TestGameResult:
-    def test_constructor(self):
+    @staticmethod
+    def test_constructor():
         ''' Should initialize correctly. '''
         result = stats.GameResult(['Wolf'], ['Wolf'], [0], 'Werewolf')
 
         assert isinstance(result, stats.GameResult)
 
-    def test_json_repr(self, example_small_game_result):
+    @staticmethod
+    def test_json_repr(example_small_game_result):
         ''' Should convert a GameResult into a dict with all of its fields. '''
         result = example_small_game_result.json_repr()
 
@@ -81,7 +87,8 @@ class TestGameResult:
                           'winning_team': 'Villager',
                           'wolf_inds': []}
 
-    def test_repr(self, example_small_game_result):
+    @staticmethod
+    def test_repr(example_small_game_result):
         ''' Should convert a GameResult into a string with all useful fields. '''
         expected = "GameResult(['Villager', 'Seer', 'Robber'], " \
                  + "['Villager', 'Seer', 'Robber'], [], Villager)"
@@ -90,7 +97,8 @@ class TestGameResult:
 
         assert result == expected
 
-    def test_eq(self, example_small_game_result):
+    @staticmethod
+    def test_eq(example_small_game_result):
         ''' Should declare two GameResults with identical fields to be equal. '''
         not_a_game_result = 'hello'
 
@@ -106,14 +114,17 @@ class TestGameResult:
 
 
 class Statistics:
-    def test_constructor(self):
+    @staticmethod
+    def test_constructor():
         ''' Should initialize correctly. '''
         pass
 
-    def test_add_result(self):
+    @staticmethod
+    def test_add_result():
         ''' Should initialize correctly. '''
         pass
 
-    def test_print_statistics(self):
+    @staticmethod
+    def test_print_statistics():
         ''' Should initialize correctly. '''
         pass

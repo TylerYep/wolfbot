@@ -6,7 +6,8 @@ from src.statements import Statement
 from src.roles.village import Seer
 
 class TestSeer:
-    def test_awake_init_center_choice(self, large_game_roles):
+    @staticmethod
+    def test_awake_init_center_choice(large_game_roles):
         '''
         Should initialize a Seer. Note that the player_index of the Seer is
         not necessarily the index where the true Seer is located.
@@ -25,7 +26,8 @@ class TestSeer:
         assert seer.choice_2 == (12, 'Troublemaker')
         assert seer.statements == expected
 
-    def test_awake_init_player_choice(self, large_game_roles):
+    @staticmethod
+    def test_awake_init_player_choice(large_game_roles):
         '''
         Should initialize a Seer. Note that the player_index of the Seer is
         not necessarily the index where the true Seer is located.
@@ -42,7 +44,8 @@ class TestSeer:
         assert seer.choice_2 == (None, None)
         assert seer.statements == expected
 
-    def test_get_seer_statements(self):
+    @staticmethod
+    def test_get_seer_statements():
         ''' Should execute initialization actions and return the possible statements. '''
         player_index = 1
 
@@ -51,7 +54,8 @@ class TestSeer:
         assert result == [Statement("I am a Seer and I saw that Player 6 was a Robber.",
                                     [(1, {'Seer'}), (6, {'Robber'})], [], 'Seer')]
 
-    def test_get_all_statements(self):
+    @staticmethod
+    def test_get_all_statements():
         ''' Should return the possible statements from all possible initialization actions. '''
         player_index = 1
         const.ROLES = ['Wolf', 'Seer', 'Villager', 'Wolf']

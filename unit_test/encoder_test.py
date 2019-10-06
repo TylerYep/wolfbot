@@ -8,7 +8,8 @@ from src.statements import Statement
 from src.stats import GameResult, SavedGame
 
 class TestWolfBotEncoder:
-    def test_default_list(self):
+    @staticmethod
+    def test_default_list():
         ''' Should convert objects of different types to JSON. '''
         input_obj = ['Wolf', 'Villager']
 
@@ -16,7 +17,8 @@ class TestWolfBotEncoder:
 
         assert result == '["Wolf", "Villager"]'
 
-    def test_default_set(self):
+    @staticmethod
+    def test_default_set():
         ''' Should convert objects of different types to JSON. '''
         input_obj = set(['Wolf', 'Villager'])
 
@@ -24,7 +26,8 @@ class TestWolfBotEncoder:
 
         assert result == '{"type": "Set", "data": ["Villager", "Wolf"]}'
 
-    def test_default_frozenset(self):
+    @staticmethod
+    def test_default_frozenset():
         ''' Should convert objects of different types to JSON. '''
         input_obj = frozenset(['Wolf', 'Villager'])
 
@@ -32,7 +35,8 @@ class TestWolfBotEncoder:
 
         assert result == '{"type": "FrozenSet", "data": ["Villager", "Wolf"]}'
 
-    def test_default_statement(self, example_statement):
+    @staticmethod
+    def test_default_statement(example_statement):
         ''' Should convert objects of different types to JSON. '''
         result = json.dumps(example_statement, cls=WolfBotEncoder)
 
@@ -42,7 +46,8 @@ class TestWolfBotEncoder:
                           ' [0, {"type": "FrozenSet", "data": ["Seer"]}]],'
                           ' "switches": [[1, 2, 0]], "speaker": "Robber"}')
 
-    def test_default_player(self):
+    @staticmethod
+    def test_default_player():
         ''' Should convert objects of different types to JSON. '''
         input_obj = Villager(0)
 
@@ -50,7 +55,8 @@ class TestWolfBotEncoder:
 
         assert result == '{"type": "Villager", "player_index": 0}'
 
-    def test_default_game_result(self, example_small_game_result):
+    @staticmethod
+    def test_default_game_result(example_small_game_result):
         ''' Should convert objects of different types to JSON. '''
         result = json.dumps(example_small_game_result, cls=WolfBotEncoder)
 
@@ -60,7 +66,8 @@ class TestWolfBotEncoder:
                           ' "wolf_inds": [],'
                           ' "winning_team": "Villager"}')
 
-    # def test_default_saved_game(self, example_saved_game):
+    # @staticmethod
+    # def test_default_saved_game(example_saved_game):
     #     ''' Should convert objects of different types to JSON. '''
     #     result = json.dumps(example_saved_game, cls=WolfBotEncoder)
     #
@@ -68,7 +75,8 @@ class TestWolfBotEncoder:
 
 
 class TestWolfBotDecoder:
-    def test_json_to_list(self):
+    @staticmethod
+    def test_json_to_list():
         ''' Should convert JSON to the correct objects. '''
         input_json = '["Wolf", "Villager"]'
 
@@ -76,7 +84,8 @@ class TestWolfBotDecoder:
 
         assert result == ['Wolf', 'Villager']
 
-    def test_json_to_set(self):
+    @staticmethod
+    def test_json_to_set():
         ''' Should convert JSON to the correct objects. '''
         input_json = '{"type": "Set", "data": ["Villager", "Wolf"]}'
 
@@ -84,7 +93,8 @@ class TestWolfBotDecoder:
 
         assert result == set(['Wolf', 'Villager'])
 
-    def test_json_to_frozenset(self):
+    @staticmethod
+    def test_json_to_frozenset():
         ''' Should convert JSON to the correct objects. '''
         input_json = '{"type": "FrozenSet", "data": ["Villager", "Wolf"]}'
 
@@ -92,7 +102,8 @@ class TestWolfBotDecoder:
 
         assert result == frozenset(['Wolf', 'Villager'])
 
-    def test_json_to_statement(self, example_statement):
+    @staticmethod
+    def test_json_to_statement(example_statement):
         ''' Should convert JSON to the correct objects. '''
         input_json = ('{"type": "Statement",'
                       ' "sentence": "test",'
@@ -104,7 +115,8 @@ class TestWolfBotDecoder:
 
         assert result == example_statement
 
-    def test_json_to_player(self):
+    @staticmethod
+    def test_json_to_player():
         ''' Should convert JSON to the correct objects. '''
         input_json = '{"type": "Villager", "player_index": 0}'
 
@@ -112,7 +124,8 @@ class TestWolfBotDecoder:
 
         assert result == Villager(0)
 
-    def test_json_to_game_result(self, example_small_game_result):
+    @staticmethod
+    def test_json_to_game_result(example_small_game_result):
         ''' Should convert JSON to the correct objects. '''
         input_json = ('{"type": "GameResult",'
                       ' "actual": ["Villager", "Seer", "Robber"],'
@@ -124,7 +137,8 @@ class TestWolfBotDecoder:
 
         assert result == example_small_game_result
 
-    # def test_json_to_saved_game(self):
+    # @staticmethod
+    # def test_json_to_saved_game():
     #     ''' Should convert JSON to the correct objects. '''
     #     result = json.loads(input_json, cls=WolfBotDecoder)
     #
@@ -132,7 +146,8 @@ class TestWolfBotDecoder:
 
 
 class TestGetObjectInitializer:
-    def test_get_object_initializers(self):
+    @staticmethod
+    def test_get_object_initializers():
         ''' Should return the correct object initializer. '''
         result = (encoder.get_object_initializer('Player'),
                   encoder.get_object_initializer('Statement'),
@@ -143,6 +158,7 @@ class TestGetObjectInitializer:
 
 
 class TestConvertPklToJson:
-    def test_convert_pkl_to_json(self):
+    @staticmethod
+    def test_convert_pkl_to_json():
         ''' Should convert pkl to JSON. '''
         pass

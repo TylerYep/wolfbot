@@ -4,7 +4,8 @@ from src.statements import Statement
 from src.roles.village import Robber
 
 class TestRobber:
-    def test_awake_init(self, large_game_roles):
+    @staticmethod
+    def test_awake_init(large_game_roles):
         '''
         Should initialize a Robber. Note that the player_index of the Robber is not necessarily
         the index where the true Robber is located.
@@ -23,7 +24,8 @@ class TestRobber:
         assert robber.new_role == 'Mason'
         assert robber.statements == expected
 
-    def test_get_robber_statements(self):
+    @staticmethod
+    def test_get_robber_statements():
         ''' Should execute initialization actions and return the possible statements. '''
         player_index = 4
 
@@ -32,7 +34,8 @@ class TestRobber:
         assert result == [Statement("I am a Robber and I swapped with Player 3. I am now a Seer.",
                                     [(4, {'Robber'}), (3, {'Seer'})], [(1, 4, 3)], 'Robber')]
 
-    def test_get_all_statements(self):
+    @staticmethod
+    def test_get_all_statements():
         ''' Should return the possible statements from all possible initialization actions. '''
         player_index = 1
         const.ROLE_SET = set(['Wolf', 'Robber', 'Villager'])

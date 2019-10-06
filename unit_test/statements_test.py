@@ -4,7 +4,8 @@ import pytest
 from src import statements, const
 
 class TestStatement:
-    def test_constructor(self):
+    @staticmethod
+    def test_constructor():
         ''' Should initialize using the given sentence and knowledge. '''
         result = statements.Statement('test', [(1, {'Villager'})])
 
@@ -14,7 +15,8 @@ class TestStatement:
         assert result.switches == ()
         assert result.speaker == 'Villager'
 
-    def test_negate(self, large_game_roles, example_statement):
+    @staticmethod
+    def test_negate(large_game_roles, example_statement):
         ''' Negated statements only contain the speaker and the opposite of the first clause. '''
         const.ROLES = large_game_roles
         expected = statements.Statement('NOT - test',
@@ -26,7 +28,8 @@ class TestStatement:
         assert isinstance(result, statements.Statement)
         assert str(result) == str(expected)
 
-    def test_negate_all(self, large_game_roles, example_statement):
+    @staticmethod
+    def test_negate_all(large_game_roles, example_statement):
         ''' Negate-all statements contain the opposite of all clauses. '''
         const.ROLES = large_game_roles
         expected = statements.Statement('NOT - test',
@@ -39,7 +42,8 @@ class TestStatement:
         assert isinstance(result, statements.Statement)
         assert str(result) == str(expected)
 
-    def test_json_repr(self, example_statement):
+    @staticmethod
+    def test_json_repr(example_statement):
         ''' Should convert a Statement into a dict with all of its fields. '''
         result = example_statement.json_repr()
 
@@ -49,7 +53,8 @@ class TestStatement:
                           'switches': ((const.ROBBER_PRIORITY, 2, 0),),
                           'speaker': 'Robber'}
 
-    def test_repr(self, example_statement):
+    @staticmethod
+    def test_repr(example_statement):
         ''' Should convert a Statement into a string with all useful fields. '''
         expected = "Statement(\"test\", [(2, {'Robber'}), (0, {'Seer'})], [(1, 2, 0)], 'Robber')"
 
@@ -57,7 +62,8 @@ class TestStatement:
 
         assert result == expected
 
-    def test_eq(self, example_statement):
+    @staticmethod
+    def test_eq(example_statement):
         ''' Should declare two Statements with identical fields to be equal. '''
         not_a_statement = 'hello'
 
@@ -70,7 +76,8 @@ class TestStatement:
             if example_statement != not_a_statement:
                 print("Should throw an exception when trying to compare Statement to another type.")
 
-    def test_hash(self, example_statement):
+    @staticmethod
+    def test_hash(example_statement):
         ''' Should give two Statements with identical fields the same hash. '''
         identical_statement = statements.Statement('test',
                                                    [(2, {'Robber'}), (0, {'Seer'})],

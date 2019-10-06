@@ -4,7 +4,8 @@ from src.statements import Statement
 from src.roles.village import Drunk
 
 class TestDrunk:
-    def test_awake_init(self, large_game_roles):
+    @staticmethod
+    def test_awake_init(large_game_roles):
         '''
         Should initialize a Drunk. Note that the player_index of the Drunk is not necessarily
         the index where the true Drunk is located.
@@ -22,7 +23,8 @@ class TestDrunk:
         assert drunk.statements == [Statement("I am a Drunk and I swapped with Center 1.",
                                               [(6, {'Drunk'})], [(3, 6, 13)], 'Drunk')]
 
-    def test_get_drunk_statements(self):
+    @staticmethod
+    def test_get_drunk_statements():
         ''' Should execute initialization actions and return the possible statements. '''
         player_index = 4
 
@@ -31,7 +33,8 @@ class TestDrunk:
         assert result == [Statement("I am a Drunk and I swapped with Center 0.",
                                     [(4, {'Drunk'})], [(3, 4, 12)], 'Drunk')]
 
-    def test_get_all_statements(self):
+    @staticmethod
+    def test_get_all_statements():
         ''' Should return the possible statements from all possible initialization actions. '''
         player_index = 2
         const.ROLES = ['Wolf', 'Seer', 'Drunk', 'Villager', 'Robber', 'Wolf']

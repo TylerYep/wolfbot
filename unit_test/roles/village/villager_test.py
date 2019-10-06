@@ -3,7 +3,8 @@ from src.statements import Statement
 from src.roles.village import Villager
 
 class TestVillager:
-    def test_awake_init(self):
+    @staticmethod
+    def test_awake_init():
         ''' Should initialize a Villager. '''
         player_index = 5
 
@@ -11,7 +12,8 @@ class TestVillager:
 
         assert villager.statements == [Statement('I am a Villager.', [(5, {'Villager'})])]
 
-    def test_get_villager_statements(self):
+    @staticmethod
+    def test_get_villager_statements():
         ''' Should execute initialization actions and return the possible statements. '''
         player_index = 0
 
@@ -19,7 +21,8 @@ class TestVillager:
 
         assert result == [Statement('I am a Villager.', [(0, {'Villager'})])]
 
-    def test_get_all_statements(self):
+    @staticmethod
+    def test_get_all_statements():
         ''' Should return the possible statements from all possible initialization actions. '''
         player_index = 2
 

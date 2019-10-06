@@ -4,14 +4,16 @@ import pytest
 from src import util, const
 
 class TestSwapCharacters:
-    def test_same_index_error(self, small_game_roles):
+    @staticmethod
+    def test_same_index_error(small_game_roles):
         ''' Don't attempt to swap the same index. '''
         roles = list(small_game_roles)
 
         with pytest.raises(AssertionError):
             util.swap_characters(roles, 2, 2)
 
-    def test_swap(self, small_game_roles):
+    @staticmethod
+    def test_swap(small_game_roles):
         ''' Correctly swap two players. '''
         roles = list(small_game_roles)
 
@@ -21,7 +23,8 @@ class TestSwapCharacters:
 
 
 class TestFindAllPlayerIndices:
-    def test_returns_correct_indices(self, large_game_roles):
+    @staticmethod
+    def test_returns_correct_indices(large_game_roles):
         ''' Don't attempt to swap the same index. '''
         roles = list(large_game_roles)
 
@@ -39,7 +42,8 @@ class TestGetCenter:
 
 
 class TestGetRandomPlayer:
-    def test_generates_different_indices(self, large_game_roles):
+    @staticmethod
+    def test_generates_different_indices(large_game_roles):
         ''' Generated indices should be random. '''
         const.ROLES = large_game_roles
 
@@ -47,7 +51,8 @@ class TestGetRandomPlayer:
 
         assert result == [6, 6, 0, 4, 8, 7, 6, 4, 7, 5]
 
-    def test_excludes_specified_values(self, large_game_roles):
+    @staticmethod
+    def test_excludes_specified_values(large_game_roles):
         ''' Generated indices should exclude specified values. '''
         const.ROLES = large_game_roles
         exclude = (6, 7, 8)
@@ -59,7 +64,8 @@ class TestGetRandomPlayer:
 
 
 class TestGetRandomCenter:
-    def test_generates_different_indices(self, large_game_roles):
+    @staticmethod
+    def test_generates_different_indices(large_game_roles):
         ''' Generated indices should be random. '''
         const.ROLES = large_game_roles
 
@@ -67,7 +73,8 @@ class TestGetRandomCenter:
 
         assert result == [13, 13, 12, 13, 14, 13, 13, 13, 13, 13]
 
-    def test_excludes_specified_values(self, large_game_roles):
+    @staticmethod
+    def test_excludes_specified_values(large_game_roles):
         ''' Generated indices should exclude specified values. '''
         const.ROLES = large_game_roles
         exclude = (12, 13)
@@ -91,7 +98,8 @@ class TestGetNumericInput:
 
 
 class TestPrintRoles:
-    def test_print_roles(self, caplog, small_game_roles):
+    @staticmethod
+    def test_print_roles(caplog, small_game_roles):
         ''' Correctly print and format roles. '''
         const.ROLES = small_game_roles
         shuffled_roles = ['Seer', 'Villager', 'Wolf', 'Robber']
