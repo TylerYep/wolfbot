@@ -41,31 +41,14 @@ class TestConsolidateResults:
         assert '\n'.join(captured) == '\n'.join(expected)
 
     @staticmethod
-    def test_consolidate_with_voting_medium(caplog, example_medium_saved_game):
+    def test_consolidate_with_voting_medium(example_medium_saved_game):
         ''' Should return a final GameResult with voting. '''
         result = voting.consolidate_results(example_medium_saved_game)
 
-        captured = tuple(map(lambda x: x.getMessage(), caplog.records))
         assert result == GameResult(['Seer', 'Wolf', 'Troublemaker', 'Drunk', 'Minion', 'Robber'],
                                     ['Minion', 'Wolf', 'Troublemaker', 'Drunk', 'Seer', 'Robber'],
                                     [1],
                                     'Villager')
-        expected = ('Player prediction: [Robber, Seer, Troublemaker, Minion, Wolf, Drunk]',
-                    'Player prediction: [Robber, Seer, Troublemaker, Wolf, Minion, Drunk]',
-                    'Player prediction: [Seer, Minion, Troublemaker, Drunk, Wolf, Robber]',
-                    'Player prediction: [Minion, Wolf, Troublemaker, Drunk, Seer, Robber]',
-                    'Player prediction: [Minion, Wolf, Troublemaker, Drunk, Seer, Robber]',
-                    'Vote Array: [0, 2, 0, 1, 2]\n',
-                    '[Wolfbot] Role guesses: [Minion, Wolf, Troublemaker, Drunk, Seer]',
-                    '          Center cards: [Robber]\n',
-                    'Confidence level: [0.4, 0.4, 1.0, 0.6, 0.4, 0.6]',
-                    'Player 1 was chosen as a Wolf.',
-                    'Player 1 was a Wolf!\n',
-                    'Player 4 was chosen as a Wolf.',
-                    'Player 4 was a Minion!\n\n'
-                    'Village Team wins!')
-        assert '\n'.join(captured) == '\n'.join(expected)
-
 
 class TestIsPlayerEvil:
     ''' Tests for the is_player_evil function. '''
@@ -107,10 +90,12 @@ class TestGetIndividualPreds:
     ''' Tests for the get_individual_preds function. '''
 
     @staticmethod
-    def test_get_individual_preds():
-        ''' Should initialize a SolverState. '''
-        pass
-
+    def test_get_individual_preds(medium_game_roles):
+        ''' Should .... '''
+        const.ROLES = medium_game_roles
+        # player_list = [Seer(0, (2, 'Drunk'), (None, None)), Wolf(1, [1], 5, 'Troublemaker'),
+        #                Drunk(2, 5), Robber(3, 1, 'Wolf'), Minion(4, [1])]
+        # statement_list = None       # TODO
 
 class TestEvalFinalGuesses:
     ''' Tests for the eval_final_guesses function. '''
@@ -134,6 +119,31 @@ class TestGetPlayerVote:
     ''' Tests for the get_player_vote function. '''
 
     @staticmethod
-    def test_get_player_vote():
-        ''' Should initialize a SolverState. '''
-        pass
+    def test_vote_for_wolf(medium_game_roles):
+        ''' If a player suspects a Wolf, they should vote for that player. '''
+        const.ROLES = medium_game_roles
+        prediction = ['Seer', 'Wolf', 'Troublemaker', 'Drunk', 'Minion', 'Robber']
+
+        result = voting.get_player_vote(2, prediction)
+
+        assert result == 1
+
+    @staticmethod
+    def test_no_vote_for_center_wolf(medium_game_roles):
+        ''' If a player suspects a Wolf in the center, they should not vote for that player. '''
+        const.ROLES = medium_game_roles
+        prediction = ['Seer', 'Troublemaker', 'Drunk', 'Minion', 'Robber', 'Wolf']
+
+        result = voting.get_player_vote(2, prediction)
+
+        assert result == 3
+
+    @staticmethod
+    def test_vote_right(small_game_roles):
+        ''' If no Wolves are found, players should vote for the person to their right. '''
+        const.ROLES = small_game_roles
+        prediction = ['Villager', 'Seer', 'Robber']
+
+        result = [voting.get_player_vote(i, prediction) for i in range(const.NUM_PLAYERS)]
+
+        assert result == [1, 2, 0]

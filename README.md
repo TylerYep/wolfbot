@@ -8,7 +8,7 @@ Constants, along with their use cases, are listed in src/const.py.
 # Development
 
 ## October 2019
-Still testing, working on the tail end parts of the game (predictions, encoder, and voting).
+Still testing, working on the tail end parts of the game (predictions, encoder, and voting). Redid the role initialization yet again using the class method decorator to follow more Pythonic conventions. I also added docstrings and the static method decorator to all test file methods to finally silence all of those Pylint warnings.
 
 
 ## September 2019
@@ -201,15 +201,14 @@ player.py
   * Predictions with constraint satisfaction heuristics https://simpleai.readthedocs.io/en/latest/constraint_satisfaction_problems.html
 
 * Unit Testing:
-  * Player can accept 0 parameters? just multiply to make list.
   * Wolf_inds isn't used in stats.py
   * Insomniac testing is very confusing to me.
-  * One night output doesn't work 100% of the time - finish voting and predictions first.
+  * One night output doesn't work 100% of the time.
   * Test constructors more thoroughly.
 
 * Design Considerations:
-  * Multiple constructors for each role?
-  * game_roles and original_roles in the classes for each role -> should default to None? to follow Minion and Tanner API. Causes a lot of pylint issues.
+  * game_roles and original_roles in the classes for each role: different for each awake_init function? Causes a lot of pylint issues. I could find how many to pass in one_night.
+  * Rethink Wolf characters and how the class mechanics work before writing their tests. This may be the next big step in the project, or I might go back to multi-statement.
 
 * Small Stories:
-  * Add List of SolverStates and Example SavedGames to conftest.py
+  * Add List of SolverStates to conftest.py

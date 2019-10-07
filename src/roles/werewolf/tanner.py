@@ -16,6 +16,7 @@ class Tanner(Player):
     def __init__(self, player_index: int):
         # Roles default to [] when another player becomes a Tanner and realizes it
         super().__init__(player_index)
+        self.statements = get_wolf_statements_random(self)
 
     @classmethod
     def awake_init(cls, player_index: int, game_roles: List[str], original_roles: List[str]):
@@ -24,8 +25,6 @@ class Tanner(Player):
 
     def get_statement(self, stated_roles: List[str], previous: List[Statement]) -> Statement:
         ''' Get Tanner Statement. '''
-        self.statements += get_wolf_statements_random(self)
-
         if const.USE_EXPECTIMAX_WOLF:
             return get_statement_expectimax(self, previous)
         return super().get_statement(stated_roles, previous)
