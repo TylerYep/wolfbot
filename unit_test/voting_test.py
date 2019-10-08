@@ -13,13 +13,13 @@ class TestConsolidateResults:
 
         result = voting.consolidate_results(example_small_saved_game)
 
-        assert result == GameResult(['Villager', 'Seer', 'Robber'],
-                                    ['Villager', 'Seer', 'Robber'],
-                                    [])
         captured = tuple(map(lambda x: x.getMessage(), caplog.records))
         expected = ('Solver interpretation: (True, True, True)\n',
                     '[Wolfbot] Role guesses: [Villager, Seer, Robber]',
                     '          Center cards: []\n')
+        assert result == GameResult(['Villager', 'Seer', 'Robber'],
+                                    ['Villager', 'Seer', 'Robber'],
+                                    [])
         assert '\n'.join(captured) == '\n'.join(expected)
 
     @staticmethod
@@ -30,14 +30,14 @@ class TestConsolidateResults:
         result = voting.consolidate_results(example_medium_saved_game)
 
         captured = tuple(map(lambda x: x.getMessage(), caplog.records))
-        assert result == GameResult(['Seer', 'Wolf', 'Troublemaker', 'Drunk', 'Minion', 'Robber'],
-                                    ['Robber', 'Seer', 'Troublemaker', 'Minion', 'Wolf', 'Drunk'],
-                                    [1])
         expected = ('Solver interpretation: (True, True, True, False, False)',
                     'Solver interpretation: (True, False, True, True, False)',
                     'Solver interpretation: (False, False, True, True, True)\n',
                     '[Wolfbot] Role guesses: [Robber, Seer, Troublemaker, Minion, Wolf]',
                     '          Center cards: [Drunk]\n')
+        assert result == GameResult(['Seer', 'Wolf', 'Troublemaker', 'Drunk', 'Minion', 'Robber'],
+                                    ['Robber', 'Seer', 'Troublemaker', 'Minion', 'Wolf', 'Drunk'],
+                                    [1])
         assert '\n'.join(captured) == '\n'.join(expected)
 
     @staticmethod

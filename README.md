@@ -198,7 +198,7 @@ player.py
   * UI and secure move API
   * Multiple Statements
   * Feasibility of cached solver - look at max path sum, and other CS161 problems
-  * Predictions with constraint satisfaction heuristics https://simpleai.readthedocs.io/en/latest/constraint_satisfaction_problems.html
+  * Predictions with constraint satisfaction heuristics: https://simpleai.readthedocs.io/en/latest/constraint_satisfaction_problems.html
 
 * Unit Testing:
   * Wolf_inds isn't used in stats.py
@@ -209,6 +209,10 @@ player.py
 * Design Considerations:
   * game_roles and original_roles in the classes for each role: different for each awake_init function? Causes a lot of pylint issues. I could find how many to pass in one_night.
   * Rethink Wolf characters and how the class mechanics work before writing their tests. This may be the next big step in the project, or I might go back to multi-statement.
+  * Should have statements on init like all of the other characters. The reason I didn't originally was to trim the set using previous statements.
+  * new_role should be a learnable vector or a dict that gets updated as the probability of change increases.
+  * Creating a directed statement index dependency graph to use in conjunction with the solver. Find the hubs and find statements that don't connect very much with the graph.
+  * Find a consistent way of testing performance. This might be 1000 runs to get an average or something. I can run it on Google Cloud with the $300 in credits.
 
 * Small Stories:
   * Add List of SolverStates to conftest.py
