@@ -63,7 +63,7 @@ def eval_final_guesses(game_roles: List[str],
     killed_wolf, killed_tanner, villager_win = False, False, False
     if len(guessed_wolf_inds) == const.NUM_PLAYERS:
         logger.info('No wolves were found.')
-        final_wolf_inds = util.find_all_player_indices(game_roles[:const.NUM_PLAYERS], 'Wolf')
+        final_wolf_inds = util.find_all_player_indices(game_roles, 'Wolf')
         if final_wolf_inds:
             logger.info(f'But Player(s) {final_wolf_inds} was a Wolf!\n')
         else:
@@ -135,7 +135,7 @@ def get_voting_result(all_role_guesses_arr: List[List[str]]) \
 def get_player_vote(ind: int, prediction: List[str]) -> int:
     ''' Updates Wolf votes for a given prediction. '''
     # TODO find the most likely Wolf and only vote for that one
-    wolf_inds = util.find_all_player_indices(prediction[:const.NUM_PLAYERS], 'Wolf')
+    wolf_inds = util.find_all_player_indices(prediction, 'Wolf')
     if wolf_inds:
         return random.choice(wolf_inds)
     # There are some really complicated game mechanics for the Minion.

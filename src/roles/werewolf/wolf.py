@@ -4,7 +4,7 @@ import random
 
 from src.statements import Statement
 from src.algorithms import switching_solver
-from src.predictions import make_prediction_fast
+from src.predictions import make_unrestricted_prediction
 from src.const import logger
 from src import const, util
 
@@ -74,7 +74,7 @@ class Wolf(Player):
         # wolves in a positions - # of ones that are actually wolves, size of set
         '''
         solver_result = random.choice(switching_solver(statement_list))
-        predictions = make_prediction_fast(solver_result)
+        predictions = make_unrestricted_prediction(solver_result)
         val = 10
         if not predictions:
             return -10

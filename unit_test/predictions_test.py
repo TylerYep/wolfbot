@@ -19,27 +19,60 @@ class TestMakeEvilPrediction:
     ''' Tests for the make_evil_prediction function. '''
 
     @staticmethod
-    def test_evil_prediction():
-        ''' Should '''
-        pass
+    def test_random_evil_prediction(medium_game_roles):
+        ''' Should give a random prediction when an empty SolverState is passed in. '''
+        const.ROLES = medium_game_roles
+        solution_arr = [SolverState([])]
 
+        result = predictions.make_evil_prediction(solution_arr)
 
-class TestMakeFastPrediction:
-    ''' Tests for the make_fast_prediction function. '''
+        assert result == ['Seer', 'Wolf', 'Drunk', 'Robber', 'Minion', 'Troublemaker']
 
     @staticmethod
-    def test_fast_prediction():
-        ''' Should '''
-        pass
+    def test_evil_prediction(example_medium_solverstate_list):
+        ''' Should give a random prediction when an empty SolverState is passed in. '''
+        result = predictions.make_evil_prediction(example_medium_solverstate_list)
+
+        assert result == ['Seer', 'Minion', 'Troublemaker', 'Drunk', 'Wolf', 'Robber']
+
+
+class TestMakeUnrestrictedPrediction:
+    ''' Tests for the make_unrestricted_prediction function. '''
+
+    @staticmethod
+    def test_empty_unrestricted_prediction(medium_game_roles):
+        ''' Should return an empty list to denote that no prediction could be made. '''
+        const.ROLES = medium_game_roles
+        solution = SolverState([])
+
+        result = predictions.make_unrestricted_prediction(solution)
+
+        assert result == []
+
+    @staticmethod
+    def test_unrestricted_prediction(example_medium_solverstate):
+        ''' Should return a list of predictions without requiring adherence to possible sets. '''
+        result = predictions.make_unrestricted_prediction(example_medium_solverstate)
+
+        assert result == ['Seer', 'Troublemaker', 'Wolf', 'Minion', 'Robber', 'Drunk']
 
 
 class TestMakePrediction:
-    ''' Tests for the play_one_night_werewolf function. '''
+    ''' Tests for the make_prediction function. '''
 
     @staticmethod
-    def test_make_prediction():
-        ''' Should '''
-        pass
+    def test_make_evil_prediction(example_medium_solverstate_list):
+        ''' Should return evil prediction when is_evil=True. '''
+        result = predictions.make_prediction(example_medium_solverstate_list, True)
+
+        assert result == ['Seer', 'Minion', 'Troublemaker', 'Drunk', 'Wolf', 'Robber']
+
+    @staticmethod
+    def test_make_prediction(example_medium_solverstate_list):
+        ''' Should return valid prediction for villager players. '''
+        result = predictions.make_prediction(example_medium_solverstate_list, False)
+
+        assert result == ['Robber', 'Seer', 'Troublemaker', 'Minion', 'Wolf', 'Drunk']
 
 
 class TestGetBasicGuesses:

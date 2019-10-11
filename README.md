@@ -74,6 +74,17 @@ First steps were to recreate a simplified version of game in Python. We initiall
 
 Next, we made a solver for a set of statements from each player. Majority of the work here goes to Harry for introducing a Consistency verifier for Statements, and creating the Baseline Solver.
 
+
+# Results (October 2019):
+ROLES = ('Robber', 'Drunk', 'Wolf', 'Troublemaker', 'Seer', 'Minion')
+NUM_CENTER = 2
+|                 | Sample Size | Accuracy | Any Center | Villager Win Rate | Werewolf Win Rate |
+|-----------------|------------:|---------:|-----------:|------------------:|------------------:|
+| Random Wolf     |       10000 |    0.644 |      0.674 |             0.505 |             0.494 |
+| Regular Wolf    |       10000 |    0.542 |      0.575 |             0.471 |             0.529 |
+| Expectimax Wolf |        1000 |    0.615 |      0.648 |             0.467 |             0.533 |
+
+
 # Developer Commands
 * For truly deterministic results during testing, run:
 ```
@@ -205,6 +216,7 @@ player.py
   * Insomniac testing is very confusing to me.
   * One night output doesn't work 100% of the time.
   * Test constructors more thoroughly.
+  * Make prediction needs more thorough testing.
 
 * Design Considerations:
   * game_roles and original_roles in the classes for each role: different for each awake_init function? Causes a lot of pylint issues. I could find how many to pass in one_night.

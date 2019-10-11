@@ -23,10 +23,10 @@ def make_evil_prediction(solution_arr: List[SolverState]) -> List[str]:
         return make_random_prediction()
 
     solution = random.choice(solution_arr)
-    return make_prediction_fast(solution)
+    return make_unrestricted_prediction(solution)
 
 
-def make_prediction_fast(solution: SolverState) -> List[str]:
+def make_unrestricted_prediction(solution: SolverState) -> List[str]:
     '''
     Uses a list of true/false statements and possible role sets
     to return a rushed list of predictions for all roles.
@@ -73,8 +73,15 @@ def make_prediction(solution_arr: List[SolverState], is_evil: bool = False) -> L
             solved = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts))
             if solved: break
 
+    if not solved:
+        for index, solution in enumerate(solution_arr):
+            solution_index = index
+            solved = make_unrestricted_prediction(solution)
+            if solved: break
+
     switch_dict = get_switch_dict(solution_arr[solution_index])
     final_guesses = [solved[switch_dict[i]] for i in range(len(solved))]
+    assert len(final_guesses) == const.NUM_ROLES
     return final_guesses
 
 
