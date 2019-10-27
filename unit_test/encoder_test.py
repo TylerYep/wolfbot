@@ -3,7 +3,7 @@ import json
 
 from src import encoder
 from src.encoder import WolfBotEncoder, WolfBotDecoder
-from src.roles import Villager, Player
+from src.roles import Villager, Player, Robber, Seer
 from src.statements import Statement
 from src.stats import GameResult, SavedGame
 
@@ -68,12 +68,27 @@ class TestWolfBotEncoder:
                           ' "wolf_inds": [],'
                           ' "winning_team": "Villager"}')
 
-    # @staticmethod
-    # def test_default_saved_game(example_saved_game):
-    #     ''' Should convert objects of different types to JSON. '''
-    #     result = json.dumps(example_saved_game, cls=WolfBotEncoder)
-    #
-    #     assert result == ''
+    @staticmethod
+    def test_default_saved_game(example_small_saved_game):
+        ''' Should convert objects of different types to JSON. '''
+        player_objs = [Villager(0), Robber(1, 2, 'Seer'), Seer(2, (1, "Robber"), (None, None))]
+        player_strs = ', '.join([json.dumps(player, cls=WolfBotEncoder) for player in player_objs])
+
+        statement_objs = [Statement("I am a Villager.", [(0, {'Villager'})], [], 'Villager'),
+                          Statement("I am a Robber and I swapped with Player 2. I am now a Seer.",
+                                    [(1, {'Robber'}), (2, {'Seer'})], [(1, 1, 2)], 'Robber'),
+                          Statement("I am a Seer and I saw that Player 1 was a Robber.",
+                                    [(2, {'Seer'}), (1, {'Robber'})], [], 'Seer')]
+        statement_strs = ', '.join([json.dumps(statement, cls=WolfBotEncoder) \
+                                   for statement in statement_objs])
+
+        result = json.dumps(example_small_saved_game, cls=WolfBotEncoder)
+
+        assert result == ('{"type": "SavedGame",'
+                          ' "original_roles": ["Villager", "Robber", "Seer"],'
+                          ' "game_roles": ["Villager", "Seer", "Robber"],'
+                          f' "all_statements": [{statement_strs}],'
+                          f' "player_objs": [{player_strs}]}}')
 
 
 class TestWolfBotDecoder:
@@ -141,12 +156,29 @@ class TestWolfBotDecoder:
 
         assert result == example_small_game_result
 
-    # @staticmethod
-    # def test_json_to_saved_game():
-    #     ''' Should convert JSON to the correct objects. '''
-    #     result = json.loads(input_json, cls=WolfBotDecoder)
-    #
-    #     assert result == ''
+    @staticmethod
+    def test_json_to_saved_game(example_small_saved_game):
+        ''' Should convert JSON to the correct objects. '''
+        player_objs = [Villager(0), Robber(1, 2, 'Seer'), Seer(2, (1, "Robber"), (None, None))]
+        player_strs = ', '.join([json.dumps(player, cls=WolfBotEncoder) for player in player_objs])
+
+        statement_objs = [Statement("I am a Villager.", [(0, {'Villager'})], [], 'Villager'),
+                          Statement("I am a Robber and I swapped with Player 2. I am now a Seer.",
+                                    [(1, {'Robber'}), (2, {'Seer'})], [(1, 1, 2)], 'Robber'),
+                          Statement("I am a Seer and I saw that Player 1 was a Robber.",
+                                    [(2, {'Seer'}), (1, {'Robber'})], [], 'Seer')]
+        statement_strs = ', '.join([json.dumps(statement, cls=WolfBotEncoder) \
+                                   for statement in statement_objs])
+
+        input_json = ('{"type": "SavedGame",'
+                      ' "original_roles": ["Villager", "Robber", "Seer"],'
+                      ' "game_roles": ["Villager", "Seer", "Robber"],'
+                     f' "all_statements": [{statement_strs}],'
+                     f' "player_objs": [{player_strs}]}}')
+
+        result = json.loads(input_json, cls=WolfBotDecoder)
+
+        assert result == example_small_saved_game
 
 
 class TestGetObjectInitializer:

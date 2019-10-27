@@ -217,6 +217,7 @@ player.py
   * One night output doesn't work 100% of the time.
   * Test constructors more thoroughly.
   * Make prediction needs more thorough testing.
+  * Should all object constructors take in a list and convert it to a tuple manually, for easy JSONing?
 
 * Design Considerations:
   * game_roles and original_roles in the classes for each role: different for each awake_init function? Causes a lot of pylint issues. I could find how many to pass in one_night.

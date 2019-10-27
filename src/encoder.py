@@ -30,7 +30,7 @@ class WolfBotDecoder(json.JSONDecoder):
         json.JSONDecoder.__init__(self, object_hook=self.json_to_objects)
 
     @staticmethod
-    def json_to_objects(obj) -> Any:
+    def json_to_objects(obj: Dict) -> Any:
         ''' Implements decoding method. '''
         if 'type' not in obj:
             return obj

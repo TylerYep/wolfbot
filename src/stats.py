@@ -15,7 +15,7 @@ class SavedGame:
                  game_roles: List[str],
                  all_statements: List[Statement],
                  player_objs: List[Player]):
-        self.original_roles = original_roles
+        self.original_roles = tuple(original_roles)
         self.game_roles = game_roles
         self.all_statements = all_statements
         self.player_objs = player_objs

@@ -97,12 +97,28 @@ class TestGetIndividualPreds:
         #                Drunk(2, 5), Robber(3, 1, 'Wolf'), Minion(4, [1])]
         # statement_list = None       # TODO
 
+
 class TestEvalFinalGuesses:
     ''' Tests for the eval_final_guesses function. '''
 
     @staticmethod
-    def test_eval_final_guesses():
-        ''' Should initialize a SolverState. '''
+    def test_werewolf_wins():
+        ''' Should '''
+        pass
+
+    @staticmethod
+    def test_village_wins():
+        ''' Should '''
+        pass
+
+    @staticmethod
+    def test_hunter_wins():
+        ''' Should '''
+        pass
+
+    @staticmethod
+    def test_tanner_wins():
+        ''' Should '''
         pass
 
 
@@ -111,7 +127,7 @@ class TestGetVotingResult:
 
     @staticmethod
     def test_get_voting_result():
-        ''' Should initialize a SolverState. '''
+        ''' Should  '''
         pass
 
 
