@@ -228,4 +228,5 @@ player.py
   * Find a consistent way of testing performance. This might be 1000 runs to get an average or something. I can run it on Google Cloud with the $300 in credits.
 
 * Small Stories:
+  * Can't run code because src/ does not exist?
   * Add List of SolverStates to conftest.py
