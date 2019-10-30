@@ -2,7 +2,7 @@
 ### One Night Ultimate Werewolf: AI Edition
 By Tyler Yep & Harry Sha
 
-To try it out, run `python src/main.py` in the terminal. (Python 3.7)  
+To try it out, run `python main.py` in the terminal. (Python 3.7)  
 Constants, along with their use cases, are listed in src/const.py.
 
 # Development
@@ -125,7 +125,7 @@ pytest -v [-s to see print/logging output]
 * main.py (Driver for game simulations)
 * one_night.py (Plays one game of One Night Ultimate Werewolf)
 * stats.py (Used to aggregate many GameResults into fixed statistics)
-* replay.py (`python src/replay.py` will play the most recently run game again)
+* replay.py (`python main.py -r` will replay the most recently run game)
 * encoder.py (Used to encode all custom WolfBot class objects)
 
 ## Algorithms and Solvers
@@ -166,6 +166,7 @@ Simplified version (some cycles exist)
 
 #### src/
 ```
+main.py           (const, algorithms, one_night, stats)
 const.py  
 |-- statements.py   (const)
 |-- util.py         (const)
@@ -173,7 +174,6 @@ const.py
 |   |-- roles/          (const, statements, util)
 |   |   |-- stats.py          (const, roles, statements)
 |   |   |   |-- predictions.py    (const, algorithms)
-|   |   |   |-- main.py           (const, algorithms, one_night, stats)
 |   |   |   |-- generate.py       (const, algorithms, one_night, encoder)
 |   |   |   |-- encoder.py        (const, roles, statements, stats)
 |   |   |   |   |-- one_night.py        (const, util, roles, encoder, voting)
@@ -225,8 +225,8 @@ player.py
   * Should have statements on init like all of the other characters. The reason I didn't originally was to trim the set using previous statements.
   * new_role should be a learnable vector or a dict that gets updated as the probability of change increases.
   * Creating a directed statement index dependency graph to use in conjunction with the solver. Find the hubs and find statements that don't connect very much with the graph.
-  * Find a consistent way of testing performance. This might be 1000 runs to get an average or something. I can run it on Google Cloud with the $300 in credits.
+  * Find a consistent way of testing performance. This might be 1000 runs to get an average or something.
 
 * Small Stories:
-  * Can't run code because src/ does not exist?
+  * Fix train.py to not use main.py
   * Add List of SolverStates to conftest.py

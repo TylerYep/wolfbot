@@ -1,7 +1,7 @@
 {
   "binary": "/Users/tyleryep/miniconda3/bin/pyre.bin",
   "source_directories": ["."],
-  "ignore_all_errors": ["unit_test/conftest.py"],
+  "ignore_all_errors": ["conftest.py"],
   "search_path": ["/Users/tyleryep/miniconda3/lib/python3.7/site-packages/pytest-5.1.2.dist-info"],
   "typeshed": "/Users/tyleryep/miniconda3/lib/pyre_check/typeshed/"
 }

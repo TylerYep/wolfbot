@@ -173,8 +173,8 @@ class TestWolfBotDecoder:
         input_json = ('{"type": "SavedGame",'
                       ' "original_roles": ["Villager", "Robber", "Seer"],'
                       ' "game_roles": ["Villager", "Seer", "Robber"],'
-                     f' "all_statements": [{statement_strs}],'
-                     f' "player_objs": [{player_strs}]}}')
+                      f' "all_statements": [{statement_strs}],'
+                      f' "player_objs": [{player_strs}]}}')
 
         result = json.loads(input_json, cls=WolfBotDecoder)
 

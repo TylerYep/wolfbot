@@ -1,7 +1,7 @@
 ''' main.py '''
 import time
 
-from src import Statistics, play_one_night_werewolf, logger, const
+from src import Statistics, play_one_night_werewolf, logger, const, replay_game
 
 def main(save_replay: bool) -> None:
     ''' Simulate play_one_night_werewolf and create a Statistics instance for the runs. '''
@@ -17,4 +17,7 @@ def main(save_replay: bool) -> None:
 
 
 if __name__ == '__main__':
-    main(const.SAVE_REPLAY)
+    if const.REPLAY:
+        replay_game()
+    else:
+        main(const.SAVE_REPLAY)

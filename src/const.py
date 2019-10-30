@@ -13,6 +13,7 @@ parser = argparse.ArgumentParser(description='config constants for src/main.py')
 parser.add_argument('--interactive', '-u', help='enable interactive mode', action='store_true')
 parser.add_argument('--num_games', '-n', help='specify number of games')
 parser.add_argument('--info', '-i', help='enable logging.INFO', action='store_true')
+parser.add_argument('--replay', '-r', help='replay previous game', action='store_true')
 ARGS = parser.parse_args('' if UNIT_TEST else sys.argv[1:])
 
 ''' Game Constants '''
@@ -28,6 +29,7 @@ FIXED_WOLF_INDEX = -1
 SHOW_PROGRESS = False or NUM_GAMES >= 10
 SAVE_REPLAY = NUM_GAMES < 10
 REPLAY_FILE = 'data/replay.json'
+REPLAY = ARGS.replay
 
 ''' Util Constants '''
 ROLE_SET = set(ROLES)

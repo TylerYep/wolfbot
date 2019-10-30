@@ -40,6 +40,3 @@ def replay_game() -> None:
     stats = Statistics()
     stats.add_result(game_result)
     stats.print_statistics()
-
-if __name__ == '__main__':
-    replay_game()
