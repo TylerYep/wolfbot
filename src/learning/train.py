@@ -5,10 +5,12 @@ To run, cd to src/ and run python -m learning.train
 import os
 import time
 import json
-
 from collections import defaultdict
+
 from src.encoder import WolfBotEncoder, WolfBotDecoder
-from src.main import main
+from src.stats import Statistics
+from src.one_night import play_one_night_werewolf
+from src.const import logger
 from src import const
 
 def evaluate(game):
@@ -64,9 +66,17 @@ def train(folder, eta=0.01):
 
 
 def test(): # experience_dict as param
-    ''' Run main with a specific experience_dict. '''
+    ''' Run play_one_night_werewolf with a specific experience_dict. '''
     assert not const.USE_RL_WOLF
-    main(save_replay=False)
+    start_time = time.time()
+    stats = Statistics()
+    for num in range(const.NUM_GAMES):
+        if const.SHOW_PROGRESS and num % 10 == 0:
+            logger.warning(f'Currently on Game: {num}')
+        game_result = play_one_night_werewolf(False)
+        stats.add_result(game_result)
+    stats.print_statistics()
+    logger.warning(f'\nTime taken: {time.time() - start_time}')
 
 
 if __name__ == '__main__':

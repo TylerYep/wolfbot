@@ -54,6 +54,38 @@ def is_consistent(statement: Statement, state: SolverState) -> SolverState:
     return SolverState(new_possible_roles, new_switches, state.path)
 
 
+def cached_solver(statements: List[Statement], known_true: Optional[int] = None) -> List[SolverState]:
+    def _switch_recurse(ind, state) -> int:
+        if ind == len(statements) or not state.is_valid_state():
+            return 0
+
+        new_state = is_consistent(statements[ind], state)
+        if not new_state.is_valid_state():
+            return _switch_recurse(ind + 1, state)
+
+        return max(1 + _switch_recurse(ind + 1, new_state), _switch_recurse(ind + 1, state))
+
+    return _switch_recurse(0, SolverState())
+
+
+# def switching_solver(statements: List[Statement], known_true: Optional[int] = None) -> List[SolverState]:
+#     start_state = SolverState()
+#     solution = [start_state]
+#     W = set() # all_possible_states
+#     K = [[0] for _ in range(len(statements))]
+#     for j in range(1, len(statements)):
+#         for x, x_state in enumerate(W):
+#             if x == 0: continue
+#
+#             K[j][x] = K[j-1][x]
+#             new_state = is_consistent(statements[j], x_state)
+#             if new_state.is_valid_state():
+#                 K[j][x] = max(K[j][x], K[j-1][new_state] + 1)
+#
+#     print(K)
+#     return return K[W, n]
+
+
 def switching_solver(statements: List[Statement],
                      known_true: Optional[int] = None) -> List[SolverState]:
     '''

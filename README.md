@@ -6,6 +6,9 @@ To try it out, run `python main.py` in the terminal. (Python 3.7)
 Constants, along with their use cases, are listed in src/const.py.
 
 # Development
+## November 2019
+Moving some directories around, with the goal of making it simple to run WolfBot configs and commands from a single client-facing Python script, and being more intentional about client-facing exports. Added a pre-commit git hook to run unit and integration tests before every commit.
+
 
 ## October 2019
 Still testing, working on the tail end parts of the game (predictions, encoder, and voting). Redid the role initialization yet again using the class method decorator to follow more Pythonic conventions. I also added docstrings and the static method decorator to all test file methods to finally silence all of those Pylint warnings.
@@ -88,7 +91,7 @@ NUM_CENTER = 2
 # Developer Commands
 * For truly deterministic results during testing, run:
 ```
-PYTHONHASHSEED=0 python src/main.py
+PYTHONHASHSEED=0 python main.py
 ```
 Make sure const.py sets the random seed.
 
@@ -111,12 +114,12 @@ pyre check
 ```
 * Run all tests:
 ```
-pytest -v [-s to see print/logging output]
+pytest -vv [-s to see print/logging output]
 ```
 
 # Style Guidelines
 - Tests use the arrange-act-assert paradigm with one line break in between each.
-- Tests do not need docstrings or return types, but every other py file should annotate return types and parameter types. Can use inline code types wherever useful, but those are optional.
+- Tests do not need docstrings or return types, but every other .py file should annotate return types and parameter types. Can use inline code types wherever useful, but those are optional.
 - Imports go builtins, empty space, other imports, then relative imports. Typing imports are arranged in alphabetical order.
 
 # Files
@@ -166,8 +169,8 @@ Simplified version (some cycles exist)
 
 #### src/
 ```
-main.py           (const, algorithms, one_night, stats)
-const.py  
+main.py         (const, algorithms, one_night, stats)
+const.py        ()
 |-- statements.py   (const)
 |-- util.py         (const)
 |   |-- algorithms.py   (const, statements)
@@ -216,7 +219,7 @@ player.py
   * Insomniac testing is very confusing to me.
   * One night output doesn't work 100% of the time.
   * Test constructors more thoroughly.
-  * Make prediction needs more thorough testing.
+  * Make_prediction needs more thorough testing.
   * Should all object constructors take in a list and convert it to a tuple manually, for easy JSONing?
 
 * Design Considerations:
@@ -230,3 +233,4 @@ player.py
 * Small Stories:
   * Fix train.py to not use main.py
   * Add List of SolverStates to conftest.py
+  * better eval function for minion / tanner / wolf

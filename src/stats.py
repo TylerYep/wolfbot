@@ -86,12 +86,9 @@ class Statistics:
                         self.wolf_predictions_one, self.wolf_predictions_all,
                         self.wolf_predictions_center]
         if const.USE_VOTING:
-            self.metrics.append(self.villager_wins)
-            self.metrics.append(self.tanner_wins)
-            self.metrics.append(self.werewolf_wins)
+            self.metrics += [self.villager_wins, self.tanner_wins, self.werewolf_wins]
         self.correct = [0.0 for _ in range(len(self.metrics))]
         self.total = [0.0 for _ in range(len(self.metrics))]
-        self.match1, self.match2 = 0.0, 0.0
         self.num_games = 0
 
     def add_result(self, game_result: GameResult) -> None:
@@ -102,6 +99,18 @@ class Statistics:
             corr, tot = func(game_result)
             self.correct[metric_index] += corr
             self.total[metric_index] += tot
+
+    def get_metric_results(self) -> Dict[str, float]:
+        output = self.compute_statistics()
+        return {metric.__name__: output[i] for i, metric in enumerate(self.metrics)}
+
+    def compute_statistics(self) -> List[float]:
+        ''' Computes overall statistics of inputed game results. '''
+        output = []
+        for i in range(len(self.metrics)):
+            total = self.total[i] if self.total[i] != 0 else 1
+            output.append(self.correct[i] / total)
+        return output
 
     def print_statistics(self) -> None:
         ''' Outputs overall statistics of inputed game results. '''
@@ -117,9 +126,9 @@ class Statistics:
             'Percentage of Werewolf Team wins: '
         ]
         assert len(sentences) >= len(self.metrics)
+        results = self.compute_statistics()
         for i in range(len(self.metrics)):
-            if self.total[i] == 0: self.total[i] += 1
-            logger.warning(f'{sentences[i]}{self.correct[i] / self.total[i]}')
+            logger.warning(f'{sentences[i]}{results[i]}')
 
     @staticmethod
     def correctness_strict(game_result: GameResult) -> Tuple[int, int]:

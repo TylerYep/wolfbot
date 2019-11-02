@@ -26,6 +26,8 @@ def reset_const():
                            'Drunk', 'Insomniac', 'Hunter'}
     const.EVIL_ROLES = {'Tanner', 'Wolf', 'Minion'}
     const.USE_VOTING = True
+    const.USE_REG_WOLF = False
+    const.USE_EXPECTIMAX_WOLF = False
     random.seed(0)
 
 
@@ -63,6 +65,20 @@ def large_game_roles() -> Tuple[str, ...]:
     const.ROLE_COUNTS = dict(Counter(const.ROLES))
     const.NUM_ROLES = len(const.ROLES)
     const.NUM_PLAYERS = 12
+    const.NUM_CENTER = 3
+    const.VILLAGE_ROLES &= const.ROLE_SET
+    const.EVIL_ROLES &= const.ROLE_SET
+    return const.ROLES
+
+
+@pytest.fixture
+def standard_game_roles() -> Tuple[str, ...]:
+    const.ROLES = ('Villager', 'Villager', 'Villager', 'Seer', 'Wolf', 'Wolf', 'Troublemaker',
+                   'Mason', 'Mason', 'Drunk')
+    const.ROLE_SET = set(const.ROLES)
+    const.ROLE_COUNTS = dict(Counter(const.ROLES))
+    const.NUM_ROLES = len(const.ROLES)
+    const.NUM_PLAYERS = 7
     const.NUM_CENTER = 3
     const.VILLAGE_ROLES &= const.ROLE_SET
     const.EVIL_ROLES &= const.ROLE_SET

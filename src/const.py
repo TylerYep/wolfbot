@@ -45,7 +45,7 @@ VILLAGE_ROLES = {'Villager', 'Mason', 'Seer', 'Robber', 'Troublemaker', 'Drunk',
 EVIL_ROLES = {'Tanner', 'Wolf', 'Minion'} & ROLE_SET
 
 ''' Basic Wolf Player (Pruned statement set) '''
-USE_REG_WOLF = True
+USE_REG_WOLF = False
 CENTER_SEER_PROB = 0.9
 
 ''' Expectimax Wolf Player '''
