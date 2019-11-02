@@ -1,6 +1,7 @@
 ''' algorithms_test.py '''
 from src import algorithms, const
 from src.statements import Statement
+from src.algorithms import SolverState
 
 class TestSolverState:
     ''' Tests for the SolverState class. '''
@@ -70,9 +71,30 @@ class TestSwitchingSolver:
     ''' Tests for the switching_solver and count_roles function. '''
 
     @staticmethod
-    def test_switching_solver(example_statement_list, example_large_solverstate):
+    def test_solver_small(small_statement_list, example_small_solverstate_solved):
         ''' Should return a SolverState with the most likely solution. '''
-        result = algorithms.switching_solver(example_statement_list)
+        result = algorithms.switching_solver(small_statement_list)
+
+        assert result[0] == example_small_solverstate_solved
+
+    @staticmethod
+    def test_solver_medium(medium_statement_list, example_medium_solverstate_solved):
+        ''' Should return a SolverState with the most likely solution. '''
+        result = algorithms.switching_solver(medium_statement_list)
+
+        assert result[0] == example_medium_solverstate_solved
+
+    # @staticmethod
+    # def test_solver_medium_multiple_solns(medium_statement_list, example_medium_solverstate_list):
+    #     ''' Should return a SolverState with the most likely solution. '''
+    #     result = algorithms.switching_solver(medium_statement_list)
+    #
+    #     assert result == example_medium_solverstate_list
+
+    @staticmethod
+    def test_solver_large(large_statement_list, example_large_solverstate):
+        ''' Should return a SolverState with the most likely solution. '''
+        result = algorithms.switching_solver(large_statement_list)
 
         assert result[0] == example_large_solverstate
 

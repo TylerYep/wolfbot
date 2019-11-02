@@ -91,7 +91,33 @@ def example_statement() -> Statement:
 
 
 @pytest.fixture
-def example_statement_list() -> List[Statement]:
+def small_statement_list() -> List[Statement]:
+    return [
+        Statement("I am a Villager.", [(0, {'Villager'})], [], 'Villager'),
+        Statement("I am a Robber and I swapped with Player 2. I am now a Seer.",
+                  [(1, {'Robber'}), (2, {'Seer'})], [(1, 1, 2)], 'Robber'),
+        Statement("I am a Seer and I saw that Player 1 was a Robber.",
+                  [(2, {'Seer'}), (1, {'Robber'})], [], 'Seer')
+    ]
+
+
+@pytest.fixture
+def medium_statement_list() -> List[Statement]:
+    return [
+        Statement("I am a Seer and I saw that Player 2 was a Drunk.",
+                  [(0, {'Seer'}), (2, {'Drunk'})], [], 'Seer'),
+        Statement("I am a Seer and I saw that Player 3 was a Minion.",
+                  [(1, {'Seer'}), (3, {'Minion'})], [], 'Seer'),
+        Statement("I am a Drunk and I swapped with Center 0.",
+                  [(2, {'Drunk'})], [(3, 2, 5)], 'Drunk'),
+        Statement("I am a Robber and I swapped with Player 2. I am now a Drunk.",
+                  [(3, {'Robber'}), (2, {'Drunk'})], [(1, 3, 2)], 'Robber'),
+        Statement("I am a Seer and I saw that Player 1 was a Wolf.",
+                  [(4, {'Seer'}), (1, {'Wolf'})], [], 'Seer')
+    ]
+
+@pytest.fixture
+def large_statement_list() -> List[Statement]:
     return [
         Statement('I am a Robber and I swapped with Player 6. I am now a Drunk.',
                   [(0, {'Robber'}), (6, {'Drunk'})], [(0, 6, 0)]),
@@ -118,6 +144,12 @@ def example_small_solverstate(small_game_roles) -> SolverState:
 
 
 @pytest.fixture
+def example_small_solverstate_solved(small_game_roles) -> SolverState:
+    possible_roles = [{'Villager'}, {'Robber'}, {'Seer'}]
+    return SolverState(possible_roles, ((1, 1, 2),), (True, True, True))
+
+
+@pytest.fixture
 def example_medium_solverstate(medium_game_roles) -> SolverState:
     possible_roles = [{'Seer'},
                       {'Troublemaker', 'Wolf', 'Drunk', 'Robber', 'Seer', 'Minion'},
@@ -126,6 +158,20 @@ def example_medium_solverstate(medium_game_roles) -> SolverState:
                       {'Troublemaker', 'Wolf', 'Drunk', 'Robber', 'Seer', 'Minion'},
                       {'Troublemaker', 'Wolf', 'Drunk', 'Robber', 'Seer', 'Minion'}]
     return SolverState(possible_roles, ((3, 2, 5),), (True,))
+
+
+@pytest.fixture
+def example_medium_solverstate_solved(medium_game_roles) -> SolverState:
+        possible_roles = [{'Seer'},
+                          {'Robber', 'Drunk', 'Wolf', 'Troublemaker', 'Minion'},
+                          {'Drunk'},
+                          {'Robber'},
+                          {'Robber', 'Drunk', 'Wolf', 'Troublemaker', 'Minion'},
+                          {'Drunk', 'Robber', 'Seer', 'Wolf', 'Troublemaker', 'Minion'}]
+        switches = ((3, 2, 5), (1, 3, 2))
+        path = (True, False, True, True, False)
+        return SolverState(possible_roles, switches, path)
+
 
 @pytest.fixture
 def example_medium_solverstate_list(medium_game_roles) -> SolverState:
@@ -153,6 +199,7 @@ def example_medium_solverstate_list(medium_game_roles) -> SolverState:
                          {'Minion', 'Wolf', 'Seer', 'Drunk', 'Troublemaker', 'Robber'}],
                         ((3, 2, 5), (1, 3, 2)),
                         (False, False, True, True, True))]
+
 
 @pytest.fixture
 def example_large_solverstate(large_game_roles) -> SolverState:

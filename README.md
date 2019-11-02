@@ -7,7 +7,7 @@ Constants, along with their use cases, are listed in src/const.py.
 
 # Development
 ## November 2019
-Moving some directories around, with the goal of making it simple to run WolfBot configs and commands from a single client-facing Python script, and being more intentional about client-facing exports. Added a pre-commit git hook to run unit and integration tests before every commit.
+Moving some directories around, with the goal of making it simple to run WolfBot configs and commands from a single client-facing Python script, and being more intentional about client-facing exports. Added a pre-commit git hook to run unit and integration tests before every commit. Tried the cached solver again, framed as the 0-1 knapsack problem, but ran into two difficulties: I must use a top-down approach because I cannot enumerate all possible states (I don't have weights), and I have to explore separate cases for when a statement is added vs negated and added. More thoughts to come.
 
 
 ## October 2019
@@ -211,7 +211,6 @@ player.py
   * Host on AWS
   * UI and secure move API
   * Multiple Statements
-  * Feasibility of cached solver - look at max path sum, and other CS161 problems
   * Predictions with constraint satisfaction heuristics: https://simpleai.readthedocs.io/en/latest/constraint_satisfaction_problems.html
 
 * Unit Testing:
@@ -228,9 +227,7 @@ player.py
   * Should have statements on init like all of the other characters. The reason I didn't originally was to trim the set using previous statements.
   * new_role should be a learnable vector or a dict that gets updated as the probability of change increases.
   * Creating a directed statement index dependency graph to use in conjunction with the solver. Find the hubs and find statements that don't connect very much with the graph.
-  * Find a consistent way of testing performance. This might be 1000 runs to get an average or something.
 
 * Small Stories:
-  * Fix train.py to not use main.py
-  * Add List of SolverStates to conftest.py
+  * Make train.py run from main.py
   * better eval function for minion / tanner / wolf
