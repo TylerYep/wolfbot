@@ -64,14 +64,15 @@ class Seer(Player):
     def get_all_statements(player_index: int) -> List[Statement]:
         ''' Required for all player types. Returns all possible role statements. '''
         statements = []
-        for role in const.ROLE_SET:
+        for role in sorted(tuple(const.ROLE_SET)):
             for i in range(const.NUM_PLAYERS):   # OK: 'Hey, I'm a Seer and I saw another Seer...'
                 statements += Seer.get_seer_statements(player_index, (i, role))
         # Wolf using these usually gives himself away
+        role_set = sorted(tuple(const.ROLE_SET - {'Seer'}))
         for cent1 in range(const.NUM_CENTER):
             for cent2 in range(cent1 + 1, const.NUM_CENTER):
-                for role1 in const.ROLE_SET - {'Seer'}:
-                    for role2 in const.ROLE_SET - {'Seer'}:
+                for role1 in role_set:
+                    for role2 in role_set:
                         if role1 != role2 or const.ROLE_COUNTS[role1] >= 2:
                             choice_1 = (cent1 + const.NUM_PLAYERS, role1)
                             choice_2 = (cent2 + const.NUM_PLAYERS, role2)

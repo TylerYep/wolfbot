@@ -174,6 +174,25 @@ def example_medium_solverstate_solved(medium_game_roles) -> SolverState:
 
 
 @pytest.fixture
+def example_medium_solved_list(medium_game_roles) -> SolverState:
+    return [SolverState([{'Seer'},
+                         {'Robber', 'Troublemaker', 'Wolf', 'Drunk', 'Minion'},
+                         {'Drunk'},
+                         {'Robber'},
+                         {'Robber', 'Troublemaker', 'Wolf', 'Drunk', 'Minion'},
+                         {'Robber', 'Troublemaker', 'Wolf', 'Drunk', 'Seer', 'Minion'}],
+                         ((3, 2, 5), (1, 3, 2)),
+                         (True, False, True, True, False)),
+            SolverState([{'Robber', 'Troublemaker', 'Wolf', 'Drunk', 'Minion'},
+                         {'Wolf'},
+                         {'Drunk'},
+                         {'Robber'},
+                         {'Seer'},
+                         {'Robber', 'Troublemaker', 'Wolf', 'Drunk', 'Seer', 'Minion'}],
+                         ((3, 2, 5), (1, 3, 2)),
+                         (False, False, True, True, True))]
+
+@pytest.fixture
 def example_medium_solverstate_list(medium_game_roles) -> SolverState:
     return [SolverState([{'Seer'},
                          {'Robber'},
@@ -231,21 +250,22 @@ def example_small_game_result(small_game_roles) -> GameResult:
 @pytest.fixture
 def example_medium_game_result(medium_game_roles) -> GameResult:
     return GameResult(['Seer', 'Wolf', 'Troublemaker', 'Drunk', 'Minion', 'Robber'],
-                      ['Robber', 'Seer', 'Troublemaker', 'Minion', 'Wolf', 'Drunk'],
+                      ['Seer', 'Wolf', 'Troublemaker', 'Drunk', 'Minion', 'Robber'],
                       [1],
                       'Villager')
 
 
 @pytest.fixture
 def example_large_game_result(large_game_roles) -> GameResult:
-    return GameResult(['Villager', 'Insomniac', 'Mason', 'Tanner', 'Villager',
-                       'Drunk', 'Seer', 'Wolf', 'Minion', 'Villager', 'Wolf',
-                       'Hunter', 'Troublemaker', 'Mason', 'Robber'],
-                       ['Drunk', 'Wolf', 'Mason', 'Insomniac', 'Villager', 'Minion',
-                        'Tanner', 'Seer', 'Troublemaker', 'Villager', 'Robber',
-                        'Hunter', 'Mason', 'Wolf', 'Villager'],
-                       [7, 10],
-                       'Werewolf')
+    return GameResult(['Villager', 'Insomniac', 'Mason', 'Tanner', 'Villager', 'Drunk', 'Seer',
+                       'Wolf', 'Minion', 'Villager', 'Wolf', 'Hunter', 'Troublemaker',
+                       'Mason', 'Robber'],
+                      ['Villager', 'Mason', 'Mason', 'Minion', 'Villager', 'Drunk', 'Tanner',
+                       'Troublemaker', 'Villager', 'Wolf', 'Wolf', 'Hunter', 'Insomniac',
+                       'Seer', 'Robber'],
+                      [7, 10],
+                      'Villager')
+
 
 
 @pytest.fixture

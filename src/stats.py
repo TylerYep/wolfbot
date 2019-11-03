@@ -101,6 +101,7 @@ class Statistics:
             self.total[metric_index] += tot
 
     def get_metric_results(self) -> Dict[str, float]:
+        ''' Returns the dictionary of metric name to numeric result. '''
         output = self.compute_statistics()
         return {metric.__name__: output[i] for i, metric in enumerate(self.metrics)}
 

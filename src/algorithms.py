@@ -77,12 +77,12 @@ def switching_solver(statements: List[Statement],
     '''
     start_state = SolverState()
     solution = [start_state]
-    prev_max = 0
 
     def _switch_recurse(ind, state) -> None:
         ''' ind = index of statement being considered. '''
-        nonlocal solution, prev_max
+        nonlocal solution
         curr_path_count = state.path.count(True)
+        prev_max = solution[0].path.count(True)
         if ind == len(statements):
             if curr_path_count > prev_max:
                 solution = [state]
@@ -90,7 +90,8 @@ def switching_solver(statements: List[Statement],
             elif curr_path_count == prev_max:
                 solution.append(state)
             return
-        elif curr_path_count + (len(statements) - ind) < prev_max:
+
+        if curr_path_count + (len(statements) - ind) < prev_max:
             return
 
         truth_state = is_consistent(statements[ind], state)

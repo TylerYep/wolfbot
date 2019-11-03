@@ -37,28 +37,25 @@ Insomniac, go to sleep.
 -- GAME BEGINS --
 
 Player 0: I am a Seer and I saw that Player 2 was a Drunk.
-Player 1: I am a Robber and I swapped with Player 0. I am now a Seer.
+Player 1: I am a Seer and I saw that Player 3 was a Minion.
 Player 2: I am a Drunk and I swapped with Center 0.
 Player 3: I am a Robber and I swapped with Player 2. I am now a Drunk.
-Player 4: I am a Seer and I saw that Player 3 was a Robber.
+Player 4: I am a Seer and I saw that Player 1 was a Wolf.
 [Hidden] Current roles: [Seer, Wolf, Troublemaker, Drunk, Minion]
           Center cards: [Robber]
 
-Player prediction: [Robber, Seer, Troublemaker, Minion, Wolf, Drunk]
-Player prediction: [Robber, Seer, Troublemaker, Minion, Wolf, Drunk]
+Player prediction: [Seer, Wolf, Troublemaker, Drunk, Minion, Robber]
+Player prediction: [Minion, Seer, Robber, Wolf, Troublemaker, Drunk]
+Player prediction: [Minion, Wolf, Troublemaker, Drunk, Seer, Robber]
+Player prediction: [Seer, Minion, Troublemaker, Drunk, Wolf, Robber]
 Player prediction: [Wolf, Minion, Troublemaker, Drunk, Seer, Robber]
-Player prediction: [Minion, Wolf, Troublemaker, Drunk, Seer, Robber]
-Player prediction: [Minion, Wolf, Troublemaker, Drunk, Seer, Robber]
-Vote Array: [1, 2, 0, 0, 2]
+Vote Array: [1, 2, 0, 1, 1]
 
-[Wolfbot] Role guesses: [Robber, Seer, Troublemaker, Minion, Wolf]
-          Center cards: [Drunk]
+[Wolfbot] Role guesses: [Seer, Wolf, Troublemaker, Drunk, Minion]
+          Center cards: [Robber]
 
-Confidence level: [0.4, 0.4, 1.0, 0.6, 0.6, 0.6]
+Confidence level: [0.4, 0.4, 0.8, 0.8, 0.4, 0.8]
 Player 1 was chosen as a Wolf.
 Player 1 was a Wolf!
-
-Player 4 was chosen as a Wolf.
-Player 4 was a Minion!
 
 Village Team wins!

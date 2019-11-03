@@ -114,7 +114,7 @@ pyre check
 ```
 * Run all tests:
 ```
-pytest -vv [-s to see print/logging output]
+pytest -vv [-s to see print/logging output] [unit_test/ or integration_test/]
 ```
 
 # Style Guidelines
@@ -216,7 +216,6 @@ player.py
 * Unit Testing:
   * Wolf_inds isn't used in stats.py
   * Insomniac testing is very confusing to me.
-  * One night output doesn't work 100% of the time.
   * Test constructors more thoroughly.
   * Make_prediction needs more thorough testing.
   * Should all object constructors take in a list and convert it to a tuple manually, for easy JSONing?
