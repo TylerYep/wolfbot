@@ -2,7 +2,7 @@
 from typing import Dict, List
 
 from src.statements import Statement
-from src.const import logger
+from src.const import logger, Priority
 from src import const, util
 
 from .player import Player
@@ -35,7 +35,7 @@ class Robber(Player):
         sentence = (f'I am a Robber and I swapped with Player {choice_ind}. '
                     f'I am now a {choice_char}.')
         knowledge = [(player_index, {'Robber'}), (choice_ind, {choice_char})]
-        switches = [(const.ROBBER_PRIORITY, player_index, choice_ind)]
+        switches = [(Priority.ROBBER, player_index, choice_ind)]
         return [Statement(sentence, knowledge, switches)]
 
     @staticmethod

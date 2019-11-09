@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import Dict, List, Set, Tuple
 
 from src import const
+from src.const import Priority
 
 class Statement:
     ''' Model for all statements in the game. Statements are intended to be immutable. '''
@@ -10,7 +11,7 @@ class Statement:
     def __init__(self,
                  sentence: str,
                  knowledge: List[Tuple[int, Set[str]]] = None,
-                 switches: List[Tuple[int, int, int]] = None,
+                 switches: List[Tuple[Priority, int, int]] = None,
                  speaker: str = None):
         '''
         sentence is a string representation of the statement

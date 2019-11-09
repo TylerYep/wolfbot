@@ -2,6 +2,7 @@
 import pytest
 
 from src import statements, const
+from src.const import Priority
 
 class TestStatement:
     ''' Tests for the Statement class. '''
@@ -52,13 +53,14 @@ class TestStatement:
         assert result == {'type': 'Statement',
                           'sentence': 'test',
                           'knowledge': ((2, {'Robber'}), (0, {'Seer'})),
-                          'switches': ((const.ROBBER_PRIORITY, 2, 0),),
+                          'switches': ((Priority.ROBBER, 2, 0),),
                           'speaker': 'Robber'}
 
     @staticmethod
     def test_repr(example_statement):
         ''' Should convert a Statement into a string with all useful fields. '''
-        expected = "Statement(\"test\", [(2, {'Robber'}), (0, {'Seer'})], [(1, 2, 0)], 'Robber')"
+        expected = ("Statement(\"test\", [(2, {'Robber'}), (0, {'Seer'})], "
+                    "[(<Priority.ROBBER: 1>, 2, 0)], 'Robber')")
 
         result = str(example_statement)
 
@@ -71,7 +73,7 @@ class TestStatement:
 
         result = statements.Statement('test',
                                       [(2, {'Robber'}), (0, {'Seer'})],
-                                      [(const.ROBBER_PRIORITY, 2, 0)])
+                                      [(Priority.ROBBER, 2, 0)])
 
         assert result == example_statement
         with pytest.raises(AssertionError):
@@ -83,7 +85,7 @@ class TestStatement:
         ''' Should give two Statements with identical fields the same hash. '''
         identical_statement = statements.Statement('test',
                                                    [(2, {'Robber'}), (0, {'Seer'})],
-                                                   [(const.ROBBER_PRIORITY, 2, 0)])
+                                                   [(Priority.ROBBER, 2, 0)])
 
         result = set([identical_statement, example_statement])
 

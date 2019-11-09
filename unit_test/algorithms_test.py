@@ -1,6 +1,7 @@
 ''' algorithms_test.py '''
 from src import const
 from src import algorithms
+from src.const import Priority
 from src.statements import Statement
 
 class TestSolverState:
@@ -25,7 +26,7 @@ class TestSolverState:
     def test_eq(example_small_solverstate):
         ''' Should be able to compare two identical SolverStates. '''
         possible_roles = [{'Seer'}, {'Robber', 'Villager', 'Seer'}, {'Robber'}]
-        switches = ((const.ROBBER_PRIORITY, 2, 0),)
+        switches = ((Priority.ROBBER, 2, 0),)
         path = ()
 
         result = algorithms.SolverState(possible_roles, switches, path)
@@ -60,7 +61,7 @@ class TestIsConsistent:
         possible_roles = [const.ROLE_SET]*const.NUM_ROLES
         possible_roles[0] = {'Seer'}
         example_solverstate = algorithms.SolverState(possible_roles, (), (True,))
-        new_statement = Statement('next', [(2, {'Drunk'})], [(const.DRUNK_PRIORITY, 2, 5)])
+        new_statement = Statement('next', [(2, {'Drunk'})], [(Priority.DRUNK, 2, 5)])
 
         result = algorithms.is_consistent(new_statement, example_solverstate)
 

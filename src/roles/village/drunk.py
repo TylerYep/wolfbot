@@ -2,7 +2,7 @@
 from typing import Dict, List
 
 from src.statements import Statement
-from src.const import logger
+from src.const import logger, Priority
 from src import const, util
 
 from .player import Player
@@ -32,7 +32,7 @@ class Drunk(Player):
         ''' Gets Drunk Statement. '''
         sentence = f'I am a Drunk and I swapped with Center {choice_ind - const.NUM_PLAYERS}.'
         knowledge = [(player_index, {'Drunk'})]
-        switches = [(const.DRUNK_PRIORITY, player_index, choice_ind)]
+        switches = [(Priority.DRUNK, player_index, choice_ind)]
         return [Statement(sentence, knowledge, switches)]
 
     @staticmethod

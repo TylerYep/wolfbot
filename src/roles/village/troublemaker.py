@@ -2,7 +2,7 @@
 from typing import Dict, List
 
 from src.statements import Statement
-from src.const import logger
+from src.const import logger, Priority
 from src import const, util
 
 from .player import Player
@@ -33,7 +33,7 @@ class Troublemaker(Player):
         ''' Gets Troublemaker Statement. '''
         sentence = f'I am a Troublemaker and I swapped Player {tmkr_ind1} and Player {tmkr_ind2}.'
         knowledge = [(player_index, {'Troublemaker'})]
-        switches = [(const.TROUBLEMAKER_PRIORITY, tmkr_ind1, tmkr_ind2)]
+        switches = [(Priority.TROUBLEMAKER, tmkr_ind1, tmkr_ind2)]
         return [Statement(sentence, knowledge, switches)]
 
     @staticmethod

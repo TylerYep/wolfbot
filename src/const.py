@@ -2,6 +2,7 @@
 import sys
 import random
 import logging
+from enum import IntEnum, unique
 from collections import Counter
 import argparse
 
@@ -37,8 +38,12 @@ NUM_ROLES = len(ROLES)
 ROLE_COUNTS = dict(Counter(ROLES))  # Dict of {'Villager': 3, 'Wolf': 2, ... }
 NUM_PLAYERS = NUM_ROLES - NUM_CENTER
 
+@unique
+class Priority(IntEnum):
+    ''' Priorities for Statement order. '''
+    ROBBER = 1; TROUBLEMAKER = 2; DRUNK = 3
+
 ''' Game Rules '''
-ROBBER_PRIORITY, TROUBLEMAKER_PRIORITY, DRUNK_PRIORITY = 1, 2, 3
 AWAKE_ORDER = ('Wolf', 'Minion', 'Mason', 'Seer', 'Robber', 'Troublemaker', 'Drunk', 'Insomniac')
 VILLAGE_ROLES = {'Villager', 'Mason', 'Seer', 'Robber', 'Troublemaker', 'Drunk',
                  'Insomniac', 'Hunter'} & ROLE_SET
