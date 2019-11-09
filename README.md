@@ -9,7 +9,7 @@ Constants, along with their use cases, are listed in src/const.py.
 ## November 2019
 Moving some directories around, with the goal of making it simple to run WolfBot configs and commands from a single client-facing Python script, and being more intentional about client-facing exports. Added a pre-commit git hook to run unit and integration tests before every commit. Tried the cached solver again, framed as the 0-1 knapsack problem, but ran into two difficulties: I have to use a top-down approach because I cannot enumerate all possible states (I don't have weights), and I have to explore separate cases for when a statement is added vs negated and added. Ultimately a dead end, but I still think there's some optimizations to be done.
 
-
+Experimented with fixtures in other files and randomizing integration tests.
 
 
 ## October 2019

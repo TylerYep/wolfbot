@@ -1,5 +1,6 @@
 ''' algorithms_test.py '''
-from src import algorithms, const
+from src import const
+from src import algorithms
 from src.statements import Statement
 
 class TestSolverState:
@@ -24,7 +25,7 @@ class TestSolverState:
     def test_eq(example_small_solverstate):
         ''' Should be able to compare two identical SolverStates. '''
         possible_roles = [{'Seer'}, {'Robber', 'Villager', 'Seer'}, {'Robber'}]
-        switches = ((1, 2, 0),)
+        switches = ((const.ROBBER_PRIORITY, 2, 0),)
         path = ()
 
         result = algorithms.SolverState(possible_roles, switches, path)
