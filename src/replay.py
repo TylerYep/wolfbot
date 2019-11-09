@@ -9,7 +9,7 @@ from src.voting import consolidate_results
 from src.const import logger
 from src import const
 
-def replay_game() -> None:
+def replay_game() -> GameResult:
     ''' Runs last game stored in replay.json. '''
     with open(const.REPLAY_FILE, 'r') as f_replay:
         save_game = json.load(f_replay, cls=WolfBotDecoder)
@@ -37,6 +37,8 @@ def replay_game() -> None:
         print_guesses(all_role_guesses)
         game_result = GameResult(game_roles, all_role_guesses, [])
 
-    stats = Statistics()
-    stats.add_result(game_result)
-    stats.print_statistics()
+    stat_tracker = Statistics()
+    stat_tracker.add_result(game_result)
+    stat_tracker.print_statistics()
+
+    return game_result

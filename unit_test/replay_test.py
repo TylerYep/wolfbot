@@ -10,27 +10,36 @@ class TestReplay:
         const.REPLAY_FILE = 'unit_test/test_data/replay.json'
         one_night.play_one_night_werewolf()
 
-        replay.replay_game()
+        result = replay.replay_game()
 
-        assert example_small_game_result # TODO
+        assert result == example_small_game_result
 
     @staticmethod
     def test_replay_game_medium(example_medium_game_result):
-        ''' Correctly replay last round of one night werewolf. '''
-
+        '''
+        Correctly replay last round of one night werewolf.
+        Note that the result is currently not the same as the first run, since
+        the second predictions receive different random numbers.
+        '''
         const.REPLAY_FILE = 'unit_test/test_data/replay.json'
         one_night.play_one_night_werewolf()
+        expected = example_medium_game_result
+        expected.guessed = ['Seer', 'Minion', 'Troublemaker', 'Drunk', 'Wolf', 'Robber']
 
-        replay.replay_game()
+        result = replay.replay_game()
 
-        assert example_medium_game_result # TODO
+        assert result == expected
 
-    # @staticmethod
-    # def test_replay_game_large(example_large_game_result):
-    #     ''' Correctly replay last round of one night werewolf. '''
-    #     const.REPLAY_FILE = 'unit_test/test_data/replay.json'
-    #     one_night.play_one_night_werewolf()
-    #
-    #     replay.replay_game()
-    #
-    #     assert example_large_game_result # TODO
+    @staticmethod
+    def test_replay_game_large(example_large_game_result):
+        ''' Correctly replay last round of one night werewolf. '''
+        const.REPLAY_FILE = 'unit_test/test_data/replay.json'
+        one_night.play_one_night_werewolf()
+        expected = example_large_game_result
+        expected.guessed = ['Villager', 'Insomniac', 'Mason', 'Wolf', 'Villager',
+                            'Tanner', 'Seer', 'Minion', 'Robber', 'Villager', 'Wolf',
+                            'Hunter', 'Troublemaker', 'Mason', 'Drunk']
+
+        result = replay.replay_game()
+
+        assert result == expected

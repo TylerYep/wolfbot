@@ -78,7 +78,7 @@ def switching_solver(statements: List[Statement],
     start_state = SolverState()
     solution = [start_state]
 
-    def _switch_recurse(ind, state) -> None:
+    def _switch_recurse(ind: int, state: SolverState) -> None:
         ''' ind = index of statement being considered. '''
         nonlocal solution
         curr_path_count = state.path.count(True)

@@ -1,0 +1,10 @@
+{
+  "correctness_strict": 0.739,
+  "correctness_lenient_center": 0.775,
+  "wolf_predictions_one": 0.54,
+  "wolf_predictions_all": 0.35,
+  "wolf_predictions_center": 0.515,
+  "villager_wins": 0.52,
+  "tanner_wins": 0.0,
+  "werewolf_wins": 0.48
+}
