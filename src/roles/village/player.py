@@ -18,6 +18,7 @@ class Player:
 
     def get_statement(self, stated_roles: List[str], previous: List[Statement]) -> Statement:
         ''' Gets Player Statement. '''
+        del stated_roles, previous
         if self.is_user:
             logger.info('Please choose from the following statements: ')
             sample_statements = random.sample(self.statements, 10) if len(self.statements) > 10 \

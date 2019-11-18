@@ -21,6 +21,7 @@ class Tanner(Player):
     @classmethod
     def awake_init(cls, player_index: int, game_roles: List[str], original_roles: List[str]):
         ''' Initializes Tanner when night falls. '''
+        del game_roles, original_roles
         return cls(player_index)
 
     def get_statement(self, stated_roles: List[str], previous: List[Statement]) -> Statement:

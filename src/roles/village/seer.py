@@ -25,6 +25,8 @@ class Seer(Player):
     @classmethod
     def awake_init(cls, player_index: int, game_roles: List[str], original_roles: List[str]):
         ''' Initializes Seer - either sees 2 center cards or 1 player card. '''
+        del original_roles
+
         # Pick two center cards more often, because that generally yields higher win rates.
         prob = const.CENTER_SEER_PROB
         is_user = const.IS_USER[player_index]

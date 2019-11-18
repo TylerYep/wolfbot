@@ -18,6 +18,7 @@ class Troublemaker(Player):
     @classmethod
     def awake_init(cls, player_index: int, game_roles: List[str], original_roles: List[str]):
         ''' Initializes Troublemaker - switches one player with another player. '''
+        del original_roles
         is_user = const.IS_USER[player_index]
         choice_1 = util.get_player(is_user, (player_index,))
         choice_2 = util.get_player(is_user, (player_index, choice_1))

@@ -18,6 +18,7 @@ class Drunk(Player):
     @classmethod
     def awake_init(cls, player_index: int, game_roles: List[str], original_roles: List[str]):
         ''' Initializes Drunk - switches with a card in the center. '''
+        del original_roles
         assert const.NUM_CENTER != 0
         is_user = const.IS_USER[player_index]
         choice_ind = util.get_center(is_user)

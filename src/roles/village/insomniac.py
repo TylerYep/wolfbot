@@ -18,6 +18,7 @@ class Insomniac(Player):
     @classmethod
     def awake_init(cls, player_index: int, game_roles: List[str], original_roles: List[str]):
         ''' Initializes Insomniac - learns new role. '''
+        del original_roles
         is_user = const.IS_USER[player_index]
         insomniac_new_role = game_roles[player_index]
         logger.debug(f'[Hidden] Insomniac wakes up as a {insomniac_new_role}.')
