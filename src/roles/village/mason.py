@@ -5,7 +5,7 @@ from src.statements import Statement
 from src.const import logger
 from src import const, util
 
-from .player import Player
+from ..player import Player
 
 class Mason(Player):
     ''' Mason Player class. '''

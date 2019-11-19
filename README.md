@@ -188,9 +188,12 @@ const.py        ()
 |   |   |   |   |-- train.py            (encoder, main)
 |   |   |   |   |-- voting.py           (const, roles, statements, stats)
 ```
-#### roles/villager/
+### roles/
 ```
 player.py
+```
+#### roles/villager/        (player)
+```
 |-- drunk.py
 |-- insmoniac.py (imports wolf in get_statements)
 |-- mason.py

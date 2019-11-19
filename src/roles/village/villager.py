@@ -3,7 +3,7 @@ from typing import Dict, List
 
 from src.statements import Statement
 
-from .player import Player
+from ..player import Player
 
 class Villager(Player):
     ''' Villager Player class. '''

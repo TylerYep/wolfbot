@@ -5,7 +5,7 @@ from src.statements import Statement
 from src.const import logger, Priority
 from src import const, util
 
-from .player import Player
+from ..player import Player
 
 class Troublemaker(Player):
     ''' Troublemaker Player class. '''

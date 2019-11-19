@@ -8,7 +8,7 @@ from src.predictions import make_unrestricted_prediction
 from src.const import logger
 from src import const, util
 
-from ..village import Player
+from ..player import Player
 from .wolf_variants import get_wolf_statements_random, get_statement_expectimax, \
                            get_statement_rl, get_wolf_statements, get_center_wolf_statements
 

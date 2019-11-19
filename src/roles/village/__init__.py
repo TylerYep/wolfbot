@@ -1,5 +1,5 @@
 ''' Imports all Village team objects. '''
-from .player import Player
+# from .player import Player
 from .villager import Villager
 from .mason import Mason
 from .seer import Seer

@@ -1,6 +1,6 @@
 ''' random_wolf.py '''
-import random
 from typing import Any, List
+import random
 
 from src.statements import Statement
 from src import const, roles

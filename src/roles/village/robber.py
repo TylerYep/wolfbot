@@ -5,7 +5,7 @@ from src.statements import Statement
 from src.const import logger, Priority
 from src import const, util
 
-from .player import Player
+from ..player import Player
 
 class Robber(Player):
     ''' Robber Player class. '''
@@ -50,27 +50,9 @@ class Robber(Player):
         return statements
 
     def get_statement(self, stated_roles: List[str], previous: List[Statement]) -> Statement:
-        ''' Overrides get_statement when the Insomniac becomes a Wolf. '''
-        if self.new_role == 'Wolf':
-            # Import Wolf here to avoid circular dependency
-            from ..werewolf import Wolf
-            logger.debug('[Hidden] Robber is a Wolf now!')
-            robber_wolf = Wolf(self.player_index, [])
-            return robber_wolf.get_statement(stated_roles, previous)
-
-        if self.new_role == 'Minion':
-            # Import Minion here to avoid circular dependency
-            from ..werewolf import Minion
-            logger.debug('[Hidden] Robber is a Minion now!')
-            robber_minion = Minion(self.player_index, [])
-            return robber_minion.get_statement(stated_roles, previous)
-
-        if self.new_role == 'Tanner':
-            # Import Tanner here to avoid circular dependency
-            from ..werewolf import Tanner
-            logger.debug('[Hidden] Robber is a Minion now!')
-            robber_tanner = Tanner(self.player_index)
-            return robber_tanner.get_statement(stated_roles, previous)
+        ''' Overrides get_statement when the Robber becomes a Wolf. '''
+        if self.new_role != '' and self.new_role in const.EVIL_ROLES:
+            return self.transform(self.new_role).get_statement(stated_roles, previous)
 
         return super().get_statement(stated_roles, previous)
 

@@ -1,5 +1,5 @@
 ''' player.py '''
-from typing import Dict, List
+from typing import Any, Dict, List
 import random
 
 from src import const, util
@@ -11,10 +11,41 @@ class Player:
 
     def __init__(self, player_index: int, new_role: str = ''):
         self.player_index = player_index
-        self.role = self.__class__.__name__ # e.g. 'Wolf'
+        self.role = type(self).__name__ # e.g. 'Wolf'
         self.new_role = new_role
         self.statements = []
         self.is_user = const.IS_USER[player_index]
+
+    def transform(self, role_type: str) -> Any:
+        ''' Returns new Player identity. '''
+        from .werewolf import Wolf, Minion, Tanner
+        from .village import Villager, Seer, Robber, Troublemaker, Drunk, Insomniac, Hunter, Mason
+        logger.debug(f'[Hidden] {self.role} is a {role_type} now!')
+
+        if role_type == 'Wolf':
+            return Wolf(self.player_index, [])
+        if role_type == 'Minion':
+            return Minion(self.player_index, [])
+        if role_type == 'Tanner':
+            return Tanner(self.player_index)
+        if role_type == 'Villager':
+            return Villager(self.player_index)
+        if role_type == 'Hunter':
+            return Hunter(self.player_index)
+        # Made-up parameters
+        if role_type == 'Seer':
+            return Seer(self.player_index, (0, 'Villager'))
+        if role_type == 'Robber':
+            return Robber(self.player_index, 0, 'Villager')
+        if role_type == 'Troublemaker':
+            return Troublemaker(self.player_index, 0, 1)
+        if role_type == 'Drunk':
+            return Drunk(self.player_index, const.NUM_PLAYERS + 1)
+        if role_type == 'Insomniac':
+            return Insomniac(self.player_index, 'Insomniac')
+        if role_type == 'Mason':
+            return Mason(self.player_index, [0, 1])
+        return None
 
     def get_statement(self, stated_roles: List[str], previous: List[Statement]) -> Statement:
         ''' Gets Player Statement. '''

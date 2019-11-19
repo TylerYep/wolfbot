@@ -1,6 +1,7 @@
 ''' Imports all Player objects. '''
+from typing import Any
 import sys
-from .village.player import Player
+from .player import Player
 from .village.villager import Villager
 from .village.mason import Mason
 from .village.seer import Seer
@@ -13,6 +14,6 @@ from .werewolf.wolf import Wolf
 from .werewolf.minion import Minion
 from .werewolf.tanner import Tanner
 
-def get_role_obj(role_str):
+def get_role_obj(role_str: str) -> Any:
     ''' Retrieves class initializer from its string name. '''
     return getattr(sys.modules[__name__], role_str)

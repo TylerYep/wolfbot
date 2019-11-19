@@ -7,7 +7,7 @@ from src.algorithms import switching_solver
 from src.predictions import make_unrestricted_prediction
 from src import const
 
-from ..village import Player
+from ..player import Player
 from .wolf_variants import get_wolf_statements_random, get_statement_expectimax
 
 class Tanner(Player):
