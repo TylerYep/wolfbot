@@ -42,3 +42,20 @@ class TestPlayOneNightWerewolf:
         with open('unit_test/test_data/one_night_large.out') as output_file:
             expected = output_file.read().split('\n')
             assert '\n'.join(captured) == '\n'.join(expected)
+
+
+class TestPrintRoles:
+    ''' Tests for the print_roles function. '''
+
+    @staticmethod
+    def test_print_roles(caplog, small_game_roles):
+        ''' Correctly print and format roles. '''
+        const.ROLES = small_game_roles
+        shuffled_roles = ['Seer', 'Villager', 'Wolf', 'Robber']
+
+        one_night.print_roles(shuffled_roles)
+
+        captured = caplog.records[0].getMessage()
+        expected = ('[Hidden] Current roles: [Seer, Villager, Wolf]\n'
+                    '          Center cards: [Robber]\n')
+        assert captured == expected

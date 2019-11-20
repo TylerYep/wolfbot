@@ -10,9 +10,9 @@ class Statement:
 
     def __init__(self,
                  sentence: str,
-                 knowledge: List[Tuple[int, Set[str]]] = None,
-                 switches: List[Tuple[Priority, int, int]] = None,
-                 speaker: str = None):
+                 knowledge: List[Tuple[int, Set[str]]] = [],
+                 switches: List[Tuple[Priority, int, int]] = [],
+                 speaker: str = ''):
         '''
         sentence is a string representation of the statement
         knowledge is a list of (player_index, set(role)) tuples
@@ -21,8 +21,8 @@ class Statement:
         '''
         self.sentence = sentence
         self.knowledge = tuple([(i, frozenset(role_set)) for i, role_set in knowledge])
-        self.switches = tuple(map(tuple, switches)) if switches is not None else ()
-        self.speaker = speaker if speaker is not None or not knowledge \
+        self.switches = tuple(switches)
+        self.speaker = speaker if speaker or not knowledge \
                        else next(iter(knowledge[0][1]))
 
     def negate(self) -> Statement:

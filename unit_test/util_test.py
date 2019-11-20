@@ -113,20 +113,3 @@ class TestGetNumericInput:
     ''' Tests for the get_numeric_input function. '''
 
     pass
-
-
-class TestPrintRoles:
-    ''' Tests for the print_roles function. '''
-
-    @staticmethod
-    def test_print_roles(caplog, small_game_roles):
-        ''' Correctly print and format roles. '''
-        const.ROLES = small_game_roles
-        shuffled_roles = ['Seer', 'Villager', 'Wolf', 'Robber']
-
-        util.print_roles(shuffled_roles)
-
-        captured = caplog.records[0].getMessage()
-        expected = ('[Hidden] Current roles: [Seer, Villager, Wolf]\n'
-                    '          Center cards: [Robber]\n')
-        assert captured == expected

@@ -1,7 +1,8 @@
 ''' util.py '''
-from typing import List, Sequence, Tuple, Union
+from typing import List, Sequence, Tuple
 import random
 
+# from src.roles.player import Player
 from src.const import logger
 from src import const
 
@@ -84,9 +85,3 @@ def get_numeric_input(size: int) -> int:
             user_input = input(f'Enter a number from 0-{size - 1}: ')
         choice_ind = int(user_input)
     return choice_ind
-
-
-def print_roles(game_roles: List[Union['Player', str]]) -> None:
-    ''' Formats hidden roles to console. '''
-    logger.debug((f'[Hidden] Current roles: {game_roles[:const.NUM_PLAYERS]}\n' + ' '*10 +
-                  f'Center cards: {game_roles[const.NUM_PLAYERS:]}\n').replace('\'', ''))

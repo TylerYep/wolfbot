@@ -3,6 +3,7 @@ from typing import Dict, List, Tuple, Union
 import random
 
 from src.algorithms import SolverState
+from src.roles.player import Player
 from src.const import logger
 from src import const
 
@@ -48,7 +49,7 @@ def make_prediction(solution_arr: List[SolverState], is_evil: bool = False) -> L
     if is_evil:
         return make_evil_prediction(solution_arr)
 
-    solved = []
+    solved: List[str] = []
     solution_index = 0
     random.shuffle(solution_arr)
     for index, solution in enumerate(solution_arr):
@@ -166,7 +167,7 @@ def get_switch_dict(solution: SolverState) -> Dict[int, int]:
     return switch_dict
 
 
-def print_guesses(role_guesses: List[Union['Player', str]]) -> None:
+def print_guesses(role_guesses: Union[List[Player], List[str]]) -> None:
     ''' Formats guesses to console. '''
     logger.info((f'\n[Wolfbot] Role guesses: {role_guesses[:const.NUM_PLAYERS]}\n' + ' '*10 +
                  f'Center cards: {role_guesses[const.NUM_PLAYERS:]}\n').replace('\'', ''))

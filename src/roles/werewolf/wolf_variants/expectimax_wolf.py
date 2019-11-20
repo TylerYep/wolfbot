@@ -7,13 +7,13 @@ from src.algorithms import SolverState, is_consistent
 from src.const import logger
 from src import const, roles
 
-def get_expected_statements() -> Dict:
+def get_expected_statements() -> Dict[int, List[Statement]]:
     '''
     Gets all possible statements that can be made by a village player from any index.
     Used to find the 'expect' part of the Expectimax algorithm.
     Returns set of statement objects.
     '''
-    possible = {}
+    possible: Dict[int, List[Statement]] = {}
     for player_index in range(const.NUM_PLAYERS):
         possible[player_index] = []
         village_roles = sorted(tuple(const.VILLAGE_ROLES))

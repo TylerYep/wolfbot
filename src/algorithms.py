@@ -1,5 +1,5 @@
 ''' algorithms.py '''
-from typing import Dict, List, Optional, Set, Tuple
+from typing import Dict, FrozenSet, List, Optional, Set, Tuple, Union
 
 from src.statements import Statement
 from src.const import Priority
@@ -12,7 +12,7 @@ class SolverState:
     '''
 
     def __init__(self,
-                 possible_roles: List[Set[str]] = None,
+                 possible_roles: Union[List, List[Set[str]], List[FrozenSet[str]]] = None,
                  switches: Tuple[Tuple[Priority, int, int], ...] = (),
                  path_init: Tuple[bool, ...] = ()):
         possible = [const.ROLE_SET]*const.NUM_ROLES if possible_roles is None else possible_roles
@@ -109,7 +109,7 @@ def switching_solver(statements: Tuple[Statement, ...],
     return solution
 
 
-def count_roles(possible_roles_list: List[Set[str]]) -> Dict[str, int]:
+def count_roles(possible_roles_list: List[FrozenSet[str]]) -> Dict[str, int]:
     '''
     Returns a dictionary of counts for each role in [proposed roles sets].
     Only counts players in which we are sure of their role, such as:

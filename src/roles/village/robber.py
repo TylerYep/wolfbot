@@ -42,7 +42,7 @@ class Robber(Player):
     @staticmethod
     def get_all_statements(player_index: int) -> List[Statement]:
         ''' Required for all player types. Returns all possible role statements. '''
-        statements = []
+        statements: List[Statement] = []
         for i in range(const.NUM_PLAYERS):
             for role in sorted(tuple(const.ROLE_SET)):
                 if player_index != i:      # OK: 'I robbed Player 0 and now I'm a Wolf... ;)'

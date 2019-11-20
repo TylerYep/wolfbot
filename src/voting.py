@@ -1,5 +1,5 @@
 ''' voting.py '''
-from typing import List, Tuple
+from typing import Dict, List, Tuple
 import random
 from collections import defaultdict
 
@@ -104,7 +104,7 @@ def get_voting_result(all_role_guesses_arr: List[List[str]]) \
     guess_histogram stores counts of prediction arrays.
     wolf_votes stores individual votes for Wolves.
     '''
-    guess_histogram = defaultdict(int)
+    guess_histogram: Dict[Tuple[str, ...], int] = defaultdict(int)
     wolf_votes = [0 for _ in range(const.NUM_PLAYERS)]
     vote_inds = []
     for i, prediction in enumerate(all_role_guesses_arr):
@@ -121,7 +121,7 @@ def get_voting_result(all_role_guesses_arr: List[List[str]]) \
 
     confidence = []
     for i in range(const.NUM_ROLES):
-        role_dict = defaultdict(int)
+        role_dict: Dict[str, int] = defaultdict(int)
         for prediction in all_role_guesses_arr:
             role_dict[prediction[i]] += 1
         count = max(role_dict.values())

@@ -10,7 +10,7 @@ def get_wolf_statements(player_obj: Any,
                         stated_roles: List[str],
                         previous_statements: List[Statement]) -> List[Statement]:
     ''' Gets Regular Wolf statement. '''
-    statements = []
+    statements: List[Statement] = []
     player_index = player_obj.player_index
     wolf_indices = player_obj.wolf_indices
     if 'Villager' in const.ROLE_SET:

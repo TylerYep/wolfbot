@@ -134,7 +134,7 @@ class Statistics:
     @staticmethod
     def correctness_strict(game_result: GameResult) -> Tuple[int, int]:
         ''' Returns fraction of how many roles were guessed correctly out of all roles. '''
-        correct = 0.0
+        correct = 0
         for i in range(const.NUM_ROLES):
             if game_result.actual[i] == game_result.guessed[i]:
                 correct += 1

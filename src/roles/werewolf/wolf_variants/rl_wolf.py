@@ -1,5 +1,5 @@
 ''' rl_wolf.py '''
-from typing import Any, List
+from typing import Any, Dict, List
 from collections import defaultdict
 import json
 
@@ -12,14 +12,14 @@ from .reg_wolf import get_wolf_statements
 def get_statement_rl(player_obj: Any,
                      stated_roles: List[str],
                      previous_statements: List[Statement],
-                     default_answer: Statement):
+                     default_answer: Statement) -> Statement:
     ''' Gets Reinforcement Learning Wolf statement. '''
     statements = get_wolf_statements(player_obj, stated_roles, previous_statements)
 
     # Necessary to put this here to avoid circular import
     from src.encoder import WolfBotDecoder
 
-    exp_dict = dict()
+    exp_dict: Dict[str, Dict[Statement, int]] = {}
     with open(const.EXPERIENCE_PATH, 'r') as exp_file:
         exp_dict = json.load(exp_file, cls=WolfBotDecoder)
     experience = defaultdict(lambda: defaultdict(int), exp_dict)
@@ -41,4 +41,4 @@ def get_statement_rl(player_obj: Any,
         if choice == statement.sentence:
             return statement
 
-    return None # TODO
+    return Statement("") # TODO

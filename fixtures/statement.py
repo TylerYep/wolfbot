@@ -2,7 +2,6 @@
 from typing import List
 import pytest
 
-from src import const
 from src.const import Priority
 from src.statements import Statement
 

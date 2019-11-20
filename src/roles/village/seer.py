@@ -65,7 +65,7 @@ class Seer(Player):
     @staticmethod
     def get_all_statements(player_index: int) -> List[Statement]:
         ''' Required for all player types. Returns all possible role statements. '''
-        statements = []
+        statements: List[Statement] = []
         for role in sorted(tuple(const.ROLE_SET)):
             for i in range(const.NUM_PLAYERS):   # OK: 'Hey, I'm a Seer and I saw another Seer...'
                 statements += Seer.get_seer_statements(player_index, (i, role))

@@ -42,7 +42,7 @@ def example_medium_saved_game(medium_game_roles) -> SavedGame:
 
 @pytest.fixture
 def example_large_saved_game(large_game_roles) -> SavedGame:
-    mason_roles = [const.ROLE_SET - {'Mason'} for i in range(len(const.NUM_PLAYERS)) if i != 2]
+    mason_roles = [(i, const.ROLE_SET - {'Mason'}) for i in range(const.NUM_PLAYERS) if i != 2]
     return SavedGame(('Villager', 'Drunk', 'Mason', 'Tanner', 'Villager', 'Robber', 'Seer',
                       'Wolf', 'Minion', 'Villager', 'Wolf', 'Hunter',
                       'Troublemaker', 'Mason', 'Insomniac'),

@@ -39,7 +39,7 @@ class Drunk(Player):
     @staticmethod
     def get_all_statements(player_index: int) -> List[Statement]:
         ''' Required for all player types. Returns all possible role statements. '''
-        statements = []
+        statements: List[Statement] = []
         for k in range(const.NUM_CENTER):
             statements += Drunk.get_drunk_statements(player_index, const.NUM_PLAYERS + k)
         return statements

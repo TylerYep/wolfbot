@@ -13,7 +13,7 @@ class Player:
         self.player_index = player_index
         self.role = type(self).__name__ # e.g. 'Wolf'
         self.new_role = new_role
-        self.statements = []
+        self.statements: List[Statement] = []
         self.is_user = const.IS_USER[player_index]
 
     def transform(self, role_type: str) -> Any:

@@ -43,7 +43,7 @@ class Insomniac(Player):
     @staticmethod
     def get_all_statements(player_index: int) -> List[Statement]:
         ''' Required for all player types. Returns all possible role statements. '''
-        statements = []
+        statements: List[Statement] = []
         for role in sorted(tuple(const.ROLE_SET)):
             statements += Insomniac.get_insomniac_statements(player_index, role)
         return statements
@@ -53,7 +53,7 @@ class Insomniac(Player):
         if self.new_role != 'Insomniac' and self.new_role in const.EVIL_ROLES:
             return self.transform(self.new_role).get_statement(stated_roles, previous)
 
-        possible_switches = []
+        possible_switches: List[int] = []
         for i, stated_role in enumerate(stated_roles):
             if stated_role == self.new_role:
                 possible_switches.append(i)

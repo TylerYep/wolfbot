@@ -7,7 +7,7 @@ from src import const, roles
 
 def get_wolf_statements_random(player_obj: Any) -> List[Statement]:
     ''' Gets Random Wolf statements. '''
-    statements = []
+    statements: List[Statement] = []
     village_roles = sorted(tuple(const.VILLAGE_ROLES))
     random.shuffle(village_roles)
     for role in village_roles:

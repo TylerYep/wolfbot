@@ -40,7 +40,7 @@ class Troublemaker(Player):
     @staticmethod
     def get_all_statements(player_index: int) -> List[Statement]:
         ''' Required for all player types. Returns all possible role statements. '''
-        statements = []
+        statements: List[Statement] = []
         for i in range(const.NUM_PLAYERS):
             for j in range(i + 1, const.NUM_PLAYERS):
                 # Troublemaker should not refer to other wolves or themselves

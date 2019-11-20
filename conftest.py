@@ -57,7 +57,7 @@ def medium_game_roles() -> Tuple[str, ...]:
 def large_game_roles() -> Tuple[str, ...]:
     const.ROLES = ('Wolf', 'Villager', 'Robber', 'Seer', 'Villager', 'Tanner', 'Mason', 'Wolf',
                    'Minion', 'Mason', 'Drunk', 'Villager', 'Troublemaker', 'Insomniac', 'Hunter')
-    const.ROLE_SET = frozenset(const.ROLES)
+    const.ROLE_SET = set(const.ROLES)
     const.ROLE_COUNTS = dict(Counter(const.ROLES))
     const.NUM_ROLES = len(const.ROLES)
     const.NUM_PLAYERS = 12

@@ -24,7 +24,7 @@ class Minion(Player):
         ''' Initializes Minion - gets Wolf indices. '''
         del game_roles
         is_user = const.IS_USER[player_index]
-        wolf_indices = []
+        wolf_indices: List[int] = []
         if original_roles:
             wolf_indices = util.find_all_player_indices(original_roles, 'Wolf')
             logger.debug(f'[Hidden] Wolves are at indices: {wolf_indices}')
