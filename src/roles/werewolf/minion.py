@@ -46,7 +46,6 @@ class Minion(Player):
     def eval_fn(self, statement_list: List[Statement]) -> int:
         '''
         Evaluates a complete or incomplete game.
-        # wolves in a positions - # of ones that are actually wolves, size of set
         '''
         solver_result = random.choice(switching_solver(statement_list))
         predictions = make_unrestricted_prediction(solver_result)

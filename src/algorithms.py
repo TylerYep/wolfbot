@@ -1,6 +1,5 @@
 ''' algorithms.py '''
 from typing import Dict, List, Optional, Set, Tuple
-from copy import deepcopy
 
 from src.statements import Statement
 from src import const
@@ -40,8 +39,8 @@ def is_consistent(statement: Statement, state: SolverState) -> SolverState:
     otherwise returns an empty state.
     @param state: list that contains a set of possible roles for each player.
     '''
-    new_switches = deepcopy(state.switches) + statement.switches
-    new_possible_roles = list(deepcopy(state.possible_roles))
+    new_switches = state.switches + statement.switches
+    new_possible_roles = list(state.possible_roles)
     for proposed_ind, proposed_roles in statement.knowledge:
         intersection = proposed_roles & new_possible_roles[proposed_ind]
         if not intersection:

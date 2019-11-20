@@ -79,7 +79,7 @@ class TestGetBasicGuesses:
     ''' Tests for the get_basic_guesses function. '''
 
     @staticmethod
-    def test_basic_guesses_small(example_small_solverstate):
+    def test_guesses_small(example_small_solverstate):
         '''
         Should correctly interpret a solution as a list of current predictions
         as well as a dictionary of counts.
@@ -89,7 +89,7 @@ class TestGetBasicGuesses:
         assert result == (['Seer', '', 'Robber'], {'Robber': 0, 'Seer': 0, 'Villager': 1})
 
     @staticmethod
-    def test_basic_guesses_medium(example_medium_solverstate):
+    def test_guesses_medium(example_medium_solverstate):
         '''
         Should correctly interpret a solution as a list of current predictions
         as well as a dictionary of counts.
@@ -102,7 +102,7 @@ class TestGetBasicGuesses:
         assert result == expected
 
     @staticmethod
-    def test_basic_guesses_large(example_large_solverstate):
+    def test_guesses_large(example_large_solverstate):
         '''
         Should correctly interpret a solution as a list of current predictions
         as well as a dictionary of counts.

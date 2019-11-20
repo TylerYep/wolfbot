@@ -1,6 +1,5 @@
 ''' predictions.py '''
 from typing import Dict, List, Tuple, Union
-from copy import deepcopy
 import random
 
 from src.algorithms import SolverState
@@ -95,11 +94,10 @@ def get_basic_guesses(solution: SolverState) -> Tuple[List[str], Dict[str, int]]
 
     all_role_guesses = []
     consistent_statements = list(solution.path)
-    consistent_roles = deepcopy(solution.possible_roles)
     curr_role_counts = dict(const.ROLE_COUNTS)
     for j in range(const.NUM_ROLES):
-        guess_set = consistent_roles[j]
         if j >= len(consistent_statements) or consistent_statements[j]:  # Center card or is truth
+            guess_set = solution.possible_roles[j]
             for rol in const.ROLE_SET:              # Remove already chosen cards
                 if curr_role_counts[rol] == 0:
                     guess_set -= set([rol])

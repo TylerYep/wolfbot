@@ -67,6 +67,23 @@ class TestIsConsistent:
 
         assert result == example_medium_solverstate
 
+    @staticmethod
+    def test_is_consistent_deepcopy_mechanics(example_medium_solverstate):
+        '''
+        Modifying one SolverState should not affect other SolverStates created by is_consistent.
+        '''
+        possible_roles = [const.ROLE_SET]*const.NUM_ROLES
+        possible_roles[0] = {'Seer'}
+        example = algorithms.SolverState(possible_roles, (), (True,))
+        new_statement = Statement('next', [(2, {'Drunk'})], [(Priority.DRUNK, 2, 5)])
+
+        result = algorithms.is_consistent(new_statement, example)
+        example.possible_roles += ('junk-data',)
+        example.switches += ('junk-data',)
+        example.possible_roles = list(example.possible_roles)[0] & set(['junk'])
+
+        assert result == example_medium_solverstate
+
 
 class TestSwitchingSolver:
     ''' Tests for the switching_solver and count_roles function. '''
