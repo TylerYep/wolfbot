@@ -1,5 +1,5 @@
 ''' algorithms.py '''
-from typing import Dict, FrozenSet, List, Optional, Set, Tuple, Union
+from typing import FrozenSet, List, Optional, Set, Tuple, Union
 
 from src.statements import Statement
 from src.const import Priority
@@ -47,10 +47,8 @@ def is_consistent(statement: Statement, state: SolverState) -> SolverState:
         if not intersection:
             return SolverState([])
         new_possible_roles[proposed_ind] = intersection
-        count = count_roles(new_possible_roles)
-        for proposed_role in proposed_roles:
-            if count[proposed_role] > const.ROLE_COUNTS[proposed_role]:
-                return SolverState([])
+        if not check_role_counts(new_possible_roles, proposed_roles):
+            return SolverState([])
     return SolverState(new_possible_roles, new_switches, state.path)
 
 
@@ -109,14 +107,21 @@ def switching_solver(statements: Tuple[Statement, ...],
     return solution
 
 
-def count_roles(possible_roles_list: List[FrozenSet[str]]) -> Dict[str, int]:
+def check_role_counts(possible_roles_list: List[FrozenSet[str]],
+                      proposed_roles: FrozenSet[str]) -> bool:
     '''
     Returns a dictionary of counts for each role in [proposed roles sets].
     Only counts players in which we are sure of their role, such as:
     {'Villager': 3, 'Robber': 0, 'Seer': 0, 'Wolf': 1}
     '''
-    counts_dict = {role: 0 for role in const.ROLE_SET}
+    counts_dict = {role: 0 for role in proposed_roles}
     for possible_roles in possible_roles_list:
         if len(possible_roles) == 1:
-            counts_dict[next(iter(possible_roles))] += 1
-    return counts_dict
+            [single_role] = possible_roles
+            if single_role in proposed_roles:
+                counts_dict[single_role] += 1
+
+    for proposed_role in proposed_roles:
+        if counts_dict[proposed_role] > const.ROLE_COUNTS[proposed_role]:
+            return False
+    return True

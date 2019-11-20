@@ -117,11 +117,23 @@ class TestSwitchingSolver:
         assert result[0] == example_large_solverstate
 
     @staticmethod
-    def test_count_roles():
+    def test_check_role_counts_true():
         ''' Should return a dict with counts of all certain roles. '''
         const.ROLE_SET = {'Wolf', 'Seer', 'Villager', 'Robber'}
+        const.ROLE_COUNTS = {'Seer': 1, 'Villager': 2, 'Wolf': 0, 'Robber': 0}
         possible_roles_list = [{'Villager'}, {'Seer'}, {'Villager'}] + [const.ROLE_SET]*2
 
-        result = algorithms.count_roles(possible_roles_list)
+        result = algorithms.check_role_counts(possible_roles_list, const.ROLE_SET)
 
-        assert result == {'Seer': 1, 'Villager': 2, 'Wolf': 0, 'Robber': 0}
+        assert result
+
+    @staticmethod
+    def test_check_role_counts_false():
+        ''' Should return a dict with counts of all certain roles. '''
+        const.ROLE_SET = {'Wolf', 'Seer', 'Villager', 'Robber'}
+        const.ROLE_COUNTS = {'Seer': 1, 'Villager': 1, 'Wolf': 0, 'Robber': 0}
+        possible_roles_list = [{'Villager'}, {'Seer'}, {'Villager'}] + [const.ROLE_SET]*2
+
+        result = algorithms.check_role_counts(possible_roles_list, const.ROLE_SET)
+
+        assert not result

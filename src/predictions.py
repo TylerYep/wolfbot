@@ -104,7 +104,7 @@ def get_basic_guesses(solution: SolverState) -> Tuple[List[str], Dict[str, int]]
                     guess_set -= set([rol])
 
             if len(guess_set) == 1:                 # Player is telling the truth
-                role = next(iter(guess_set))
+                [role] = guess_set
                 curr_role_counts[role] -= 1
                 all_role_guesses.append(role)
             else:
