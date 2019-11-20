@@ -30,7 +30,7 @@ class Statement:
         neg = []
         if self.knowledge:
             index, player_clause = self.knowledge[0]
-            neg = [(index, const.ROLE_SET - player_clause)]
+            neg.append((index, const.ROLE_SET - player_clause))
         return Statement('NOT - ' + self.sentence, neg, [], self.speaker)
 
     def negate_all(self) -> Statement:

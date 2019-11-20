@@ -1,5 +1,5 @@
 ''' tanner.py '''
-from typing import Dict, List
+from typing import Dict, List, Tuple
 import random
 
 from src.statements import Statement
@@ -30,7 +30,7 @@ class Tanner(Player):
             return get_statement_expectimax(self, previous)
         return super().get_statement(stated_roles, previous)
 
-    def eval_fn(self, statement_list: List[Statement]) -> int:
+    def eval_fn(self, statement_list: Tuple[Statement]) -> int:
         '''
         Evaluates a complete or incomplete game.
         '''

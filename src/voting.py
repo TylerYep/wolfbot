@@ -23,7 +23,7 @@ def consolidate_results(save_game: SavedGame) -> GameResult:
         winning_team = eval_final_guesses(game_roles, guessed_wolf_inds, vote_inds)
         return GameResult(game_roles, all_guesses, orig_wolf_inds, winning_team)
 
-    all_solutions = switching_solver(all_statements)
+    all_solutions = switching_solver(tuple(all_statements))
     for solution in all_solutions:
         logger.log(const.TRACE, f'Solver interpretation: {solution.path}')
     all_role_guesses = make_prediction(all_solutions)
@@ -46,7 +46,7 @@ def get_individual_preds(player_objs: List[Player],
     all_role_guesses_arr = []
     # Good player vs Bad player guesses
     for i in range(const.NUM_PLAYERS):
-        all_solutions = switching_solver(all_statements, i)
+        all_solutions = switching_solver(tuple(all_statements), i)
         is_evil = is_player_evil(player_objs, i, orig_wolf_inds)
         prediction = make_prediction(all_solutions, is_evil)
         all_role_guesses_arr.append(prediction)
@@ -97,7 +97,7 @@ def eval_final_guesses(game_roles: List[str],
 
 
 def get_voting_result(all_role_guesses_arr: List[List[str]]) \
-                      -> Tuple[List[str], List[int], List[int], List[int]]:
+                      -> Tuple[List[str], List[float], List[int], List[int]]:
     '''
     Creates confidence levels for each prediction and takes most
     common role guess array as the final guess for that index.

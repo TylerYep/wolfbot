@@ -1,5 +1,5 @@
 ''' wolf.py '''
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 import random
 
 from src.statements import Statement
@@ -68,7 +68,7 @@ class Wolf(Player):
 
         return super().get_statement(stated_roles, previous)
 
-    def eval_fn(self, statement_list: List[Statement]) -> int:
+    def eval_fn(self, statement_list: Tuple[Statement]) -> int:
         '''
         Evaluates a complete or incomplete game.
         # wolves in a positions - # of ones that are actually wolves, size of set

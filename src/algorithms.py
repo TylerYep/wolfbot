@@ -2,6 +2,7 @@
 from typing import Dict, List, Optional, Set, Tuple
 
 from src.statements import Statement
+from src.const import Priority
 from src import const
 
 class SolverState:
@@ -12,7 +13,7 @@ class SolverState:
 
     def __init__(self,
                  possible_roles: List[Set[str]] = None,
-                 switches: Tuple[Tuple[int, int, int], ...] = (),
+                 switches: Tuple[Tuple[Priority, int, int], ...] = (),
                  path_init: Tuple[bool, ...] = ()):
         possible = [const.ROLE_SET]*const.NUM_ROLES if possible_roles is None else possible_roles
         self.possible_roles = tuple([frozenset(role_set) for role_set in possible])
@@ -53,7 +54,7 @@ def is_consistent(statement: Statement, state: SolverState) -> SolverState:
     return SolverState(new_possible_roles, new_switches, state.path)
 
 
-def cached_solver(statements: List[Statement]) -> int:
+def cached_solver(statements: Tuple[Statement, ...]) -> int:
     ''' Returns maximal number of statements that can be true from a list of Statements. '''
     def _cache_recurse(ind, state) -> int:
         if ind == len(statements) or not state.is_valid_state():
@@ -66,7 +67,7 @@ def cached_solver(statements: List[Statement]) -> int:
     return _cache_recurse(0, SolverState())
 
 
-def switching_solver(statements: List[Statement],
+def switching_solver(statements: Tuple[Statement, ...],
                      known_true: Optional[int] = None) -> List[SolverState]:
     '''
     Returns maximal list of statements that can be true from a list

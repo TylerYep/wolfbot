@@ -28,7 +28,7 @@ class TestAggregate:
         ''' Correctly play one round of one night werewolf. '''
         const.ROLES = standard_game_roles
         random.seed()
-        num_games = 100
+        num_games = 1000
         stat_tracker = stats.Statistics()
 
         for _ in range(num_games):
@@ -39,9 +39,9 @@ class TestAggregate:
         with open('integration_test/results/standard_results.json', 'w') as out_file:
             json.dump(metric_map, out_file, indent=2)
 
-        assert metric_map['villager_wins'] >= 0.70
+        assert metric_map['villager_wins'] >= 0.75
         assert metric_map['tanner_wins'] == 0
-        assert metric_map['werewolf_wins'] <= 0.30
+        assert metric_map['werewolf_wins'] <= 0.25
 
     @staticmethod
     def test_standard_aggregate_game_smart_wolf(standard_game_roles):
@@ -50,7 +50,7 @@ class TestAggregate:
         const.USE_REG_WOLF = True
         const.USE_EXPECTIMAX_WOLF = True
         random.seed()
-        num_games = 100
+        num_games = 500
         stat_tracker = stats.Statistics()
 
         for _ in range(num_games):
@@ -61,6 +61,6 @@ class TestAggregate:
         with open('integration_test/results/smart_wolf_results.json', 'w') as out_file:
             json.dump(metric_map, out_file, indent=2)
 
-        assert metric_map['villager_wins'] <= 0.6
+        assert metric_map['villager_wins'] < 0.6
         assert metric_map['tanner_wins'] == 0
-        assert metric_map['werewolf_wins'] >= 0.4
+        assert metric_map['werewolf_wins'] > 0.4

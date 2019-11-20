@@ -1,7 +1,6 @@
 ''' expectimax_wolf.py '''
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Tuple
 import random
-from copy import deepcopy
 
 from src.statements import Statement
 from src.algorithms import SolverState, is_consistent
@@ -29,7 +28,7 @@ def get_statement_expectimax(player_obj: Any, prev_statements: List[Statement]) 
     ''' Gets Expectimax Wolf statement. '''
     expected_player_statements = get_expected_statements()
 
-    def expectimax(statement_list: List[Statement],
+    def expectimax(statement_list: Tuple[Statement, ...],
                    state: SolverState,
                    ind: int,
                    depth: int = const.EXPECTIMAX_DEPTH):
@@ -57,7 +56,7 @@ def get_statement_expectimax(player_obj: Any, prev_statements: List[Statement]) 
         if not vals: return 10, None
         return sum(vals) / len(vals), None
 
-    def _get_next_vals(statement_list: List[Statement],
+    def _get_next_vals(statement_list: Tuple[Statement, ...],
                        next_statements: List[Statement],
                        state: SolverState,
                        ind: int,
@@ -69,7 +68,7 @@ def get_statement_expectimax(player_obj: Any, prev_statements: List[Statement]) 
             # If you are a Wolf, let yourself be inconsistent (each state needs a value).
             new_state = state if is_evil else is_consistent(statement, state)
             if new_state.is_valid_state():
-                new_statements = deepcopy(statement_list) + [statement]
+                new_statements = statement_list + (statement,)
                 val, _ = expectimax(new_statements, new_state, ind + 1, depth - 1)
                 values.append(val)
         return values
@@ -82,6 +81,6 @@ def get_statement_expectimax(player_obj: Any, prev_statements: List[Statement]) 
             if check_state.is_valid_state():
                 start_state = check_state
 
-    best_val, best_move = expectimax(prev_statements, start_state, player_obj.player_index)
+    best_val, best_move = expectimax(tuple(prev_statements), start_state, player_obj.player_index)
     logger.debug(f'Evaluation Function Score: {best_val}')
     return best_move

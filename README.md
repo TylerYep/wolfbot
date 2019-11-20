@@ -11,7 +11,7 @@ Moving some directories around, with the goal of making it simple to run WolfBot
 
 Worked with Harry on the solver, and translated into a problem about finding cliques, which we know for sure is NP-hard. Unfortunately, I didn't solve P=NP on this project. But that does give us a lot of approximation algorithms to try!
 
-Experimented with fixtures in other files and randomizing integration tests.
+Experimented with fixtures in other files and randomizing integration tests. I also removed several uses of deepcopy in the project and sped up the runtime immensely.
 
 
 ## October 2019
