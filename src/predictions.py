@@ -52,19 +52,21 @@ def make_prediction(solution_arr: List[SolverState], is_evil: bool = False) -> L
     solved: List[str] = []
     solution_index = 0
     random.shuffle(solution_arr)
+    basic_guess_cache: Dict[int, Tuple[List[str], Dict[str, int]]] = {}
     for index, solution in enumerate(solution_arr):
         # This case only occurs when Wolves tell a perfect lie.
         if len(solution.possible_roles) != const.NUM_ROLES:
             return make_random_prediction()
         solution_index = index
         all_role_guesses, curr_role_counts = get_basic_guesses(solution)
+        basic_guess_cache[index] = (all_role_guesses, curr_role_counts)
         solved = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts))
         if solved: break
 
     if not solved:
         for index, solution in enumerate(solution_arr):
             solution_index = index
-            all_role_guesses, curr_role_counts = get_basic_guesses(solution)
+            all_role_guesses, curr_role_counts = basic_guess_cache[index]
             for j in range(const.NUM_ROLES):
                 for role in ('Wolf', 'Minion', 'Robber', 'Insomniac', 'Tanner'):
                     if all_role_guesses[j] == role:
@@ -76,7 +78,8 @@ def make_prediction(solution_arr: List[SolverState], is_evil: bool = False) -> L
     if not solved:
         for index, solution in enumerate(solution_arr):
             solution_index = index
-            solved = make_unrestricted_prediction(solution)
+            all_role_guesses, curr_role_counts = basic_guess_cache[index]
+            solved = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts), False)
             if solved: break
 
     switch_dict = get_switch_dict(solution_arr[solution_index])

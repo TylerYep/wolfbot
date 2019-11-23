@@ -7,7 +7,7 @@ from collections import Counter
 import argparse
 
 UNIT_TEST = 'pytest' in sys.modules
-if UNIT_TEST: random.seed(0)
+random.seed(0)
 
 ''' Command Line Arguments '''
 parser = argparse.ArgumentParser(description='config constants for src/main.py')

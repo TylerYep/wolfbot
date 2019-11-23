@@ -22,7 +22,7 @@ class SolverState:
 
     def is_valid_state(self) -> bool:
         ''' Checks for invalid state, denoted as SolverState([]). '''
-        return len(self.possible_roles) != 0
+        return bool(self.possible_roles)
 
     def __eq__(self, other) -> bool:
         ''' Checks for equality between SolverStates. '''
@@ -114,14 +114,12 @@ def check_role_counts(possible_roles_list: List[FrozenSet[str]],
     Only counts players in which we are sure of their role, such as:
     {'Villager': 3, 'Robber': 0, 'Seer': 0, 'Wolf': 1}
     '''
-    counts_dict = {role: 0 for role in proposed_roles}
+    counts_dict = dict(const.ROLE_COUNTS)
     for possible_roles in possible_roles_list:
         if len(possible_roles) == 1:
             [single_role] = possible_roles
             if single_role in proposed_roles:
-                counts_dict[single_role] += 1
-
-    for proposed_role in proposed_roles:
-        if counts_dict[proposed_role] > const.ROLE_COUNTS[proposed_role]:
-            return False
+                if counts_dict[single_role] == 0:
+                    return False
+                counts_dict[single_role] -= 1
     return True
