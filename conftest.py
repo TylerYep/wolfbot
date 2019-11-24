@@ -80,6 +80,33 @@ def standard_game_roles() -> Tuple[str, ...]:
     const.EVIL_ROLES &= const.ROLE_SET
     return const.ROLES
 
+@pytest.fixture
+def large_individual_preds():
+    return [['Villager', 'Mason', 'Mason', 'Minion', 'Villager', 'Drunk', 'Tanner', 'Troublemaker',
+             'Villager', 'Wolf', 'Wolf', 'Hunter', 'Insomniac', 'Seer', 'Robber'],
+            ['Villager', 'Insomniac', 'Mason', 'Tanner', 'Villager', 'Drunk', 'Seer', 'Minion',
+             'Wolf', 'Villager', 'Wolf', 'Hunter', 'Troublemaker', 'Mason', 'Robber'],
+            ['Villager', 'Insomniac', 'Mason', 'Tanner', 'Villager', 'Drunk', 'Seer', 'Wolf',
+             'Minion', 'Villager', 'Wolf', 'Hunter', 'Troublemaker', 'Mason', 'Robber'],
+            ['Villager', 'Insomniac', 'Mason', 'Wolf', 'Villager', 'Wolf', 'Seer', 'Minion',
+             'Robber', 'Villager', 'Tanner', 'Hunter', 'Troublemaker', 'Mason', 'Drunk'],
+            ['Villager', 'Insomniac', 'Mason', 'Wolf', 'Villager', 'Drunk', 'Seer', 'Wolf',
+             'Tanner', 'Villager', 'Minion', 'Hunter', 'Troublemaker', 'Mason', 'Robber'],
+            ['Villager', 'Insomniac', 'Mason', 'Tanner', 'Villager', 'Drunk', 'Minion',
+             'Troublemaker', 'Villager', 'Wolf', 'Wolf', 'Hunter', 'Seer', 'Mason', 'Robber'],
+            ['Villager', 'Insomniac', 'Mason', 'Wolf', 'Villager', 'Drunk', 'Seer', 'Wolf',
+             'Minion', 'Villager', 'Tanner', 'Hunter', 'Troublemaker', 'Mason', 'Robber'],
+            ['Villager', 'Mason', 'Mason', 'Wolf', 'Villager', 'Drunk', 'Tanner', 'Troublemaker',
+             'Villager', 'Minion', 'Wolf', 'Hunter', 'Insomniac', 'Seer', 'Robber'],
+            ['Villager', 'Wolf', 'Mason', 'Minion', 'Villager', 'Tanner', 'Wolf', 'Troublemaker',
+             'Villager', 'Seer', 'Mason', 'Robber', 'Hunter', 'Drunk', 'Insomniac'],
+            ['Villager', 'Insomniac', 'Mason', 'Tanner', 'Villager', 'Drunk', 'Minion',
+             'Troublemaker', 'Villager', 'Wolf', 'Wolf', 'Hunter', 'Mason', 'Seer', 'Robber'],
+            ['Villager', 'Troublemaker', 'Mason', 'Wolf', 'Villager', 'Wolf', 'Minion', 'Tanner',
+             'Robber', 'Villager', 'Seer', 'Hunter', 'Insomniac', 'Mason', 'Drunk'],
+            ['Villager', 'Insomniac', 'Mason', 'Minion', 'Villager', 'Drunk', 'Seer', 'Tanner',
+             'Wolf', 'Villager', 'Wolf', 'Hunter', 'Troublemaker', 'Mason', 'Robber']]
+
 
 def debug_spacing_issues(captured: str, expected: str):
     ''' Helper method for debugging print differences. '''

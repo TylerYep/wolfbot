@@ -44,7 +44,7 @@ class TestAggregate:
         assert metric_map['werewolf_wins'] <= 0.25
 
     @staticmethod
-    def test_standard_aggregate_game_smart_wolf(standard_game_roles):
+    def test_standard_aggregate_game_expectimax_wolf(standard_game_roles):
         ''' Correctly play one round of one night werewolf. '''
         const.ROLES = standard_game_roles
         const.USE_REG_WOLF = True
@@ -58,7 +58,7 @@ class TestAggregate:
             stat_tracker.add_result(game_result)
         stat_tracker.print_statistics()
         metric_map = stat_tracker.get_metric_results()
-        with open('integration_test/results/smart_wolf_results.json', 'w') as out_file:
+        with open('integration_test/results/expectimax_wolf_results.json', 'w') as out_file:
             json.dump(metric_map, out_file, indent=2)
 
         assert metric_map['villager_wins'] < 0.6

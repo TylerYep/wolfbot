@@ -134,7 +134,6 @@ class TestRecurseAssign:
     @staticmethod
     def test_no_solution_medium(example_medium_solverstate):
         ''' Should return empty list if no arrangement of assignments is valid. '''
-        # TODO start writing this test
         role_guesses = ['Robber', '', 'Seer', 'Villager', 'Mason', 'Mason', 'Drunk',
                         '', '', '', '', '', '', '', '']
         counts = {'Drunk': 0, 'Hunter': 1, 'Insomniac': 1, 'Mason': 0, 'Minion': 1, 'Robber': 0,
@@ -148,7 +147,7 @@ class TestRecurseAssign:
 
     @staticmethod
     def test_small_predict_solution(example_small_solverstate):
-        ''' Should return empty list if no arrangement of assignments is valid. '''
+        ''' Should return solved list if there is an arrangement of valid assignments. '''
         role_guesses = ['Seer', '', 'Robber']
         counts = {'Robber': 0, 'Seer': 0, 'Villager': 1}
 
@@ -160,7 +159,7 @@ class TestRecurseAssign:
 
     @staticmethod
     def test_medium_predict_solution(example_medium_solverstate):
-        ''' Should return empty list if no arrangement of assignments is valid. '''
+        ''' Should return solved list if there is an arrangement of valid assignments. '''
         role_guesses = ['Seer', '', 'Drunk', '', '', '']
         counts = {'Drunk': 0, 'Minion': 1, 'Robber': 1, 'Seer': 0, 'Troublemaker': 1, 'Wolf': 1}
 
@@ -172,7 +171,7 @@ class TestRecurseAssign:
 
     @staticmethod
     def test_large_predict_solution(example_large_solverstate):
-        ''' Should return empty list if no arrangement of assignments is valid. '''
+        ''' Should return solved list if there is an arrangement of valid assignments. '''
         role_guesses = ['Robber', '', 'Seer', 'Villager', 'Mason', 'Mason', 'Drunk',
                         '', '', '', '', '', '', '', '']
         counts = {'Drunk': 0, 'Hunter': 1, 'Insomniac': 1, 'Mason': 0, 'Minion': 1, 'Robber': 0,
