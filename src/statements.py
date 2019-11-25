@@ -25,6 +25,16 @@ class Statement:
         self.speaker = speaker if speaker or not knowledge \
                        else next(iter(knowledge[0][1]))
 
+    def references(self, player_index: int) -> bool:
+        ''' Returns True if a given player_index is referenced in a statement. '''
+        for i, role_set in self.knowledge[1:]:
+            if i == player_index:
+                return True
+        for _, i, j in self.switches:
+            if i == player_index or j == player_index:
+                return True
+        return False
+
     def negate(self) -> Statement:
         ''' Returns a negated version of the first clause in a statement. '''
         neg = []

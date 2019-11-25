@@ -67,7 +67,7 @@ def train(folder, eta=0.01):
 
 def test(): # experience_dict as param
     ''' Run play_one_night_werewolf with a specific experience_dict. '''
-    assert not const.USE_RL_WOLF
+    assert const.USE_RL_WOLF is False
     start_time = time.time()
     stats = Statistics()
     for num in range(const.NUM_GAMES):

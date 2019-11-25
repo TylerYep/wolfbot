@@ -19,6 +19,20 @@ class TestStatement:
         assert result.speaker == 'Villager'
 
     @staticmethod
+    def test_references_true(example_statement):
+        ''' Should return True if a given player_index is referenced in a statement. '''
+        result = example_statement.references(0)
+
+        assert result is True
+
+    @staticmethod
+    def test_references_false(example_statement):
+        ''' Should return True if a given player_index is referenced in a statement. '''
+        result = example_statement.references(1)
+
+        assert result is False
+
+    @staticmethod
     def test_negate(large_game_roles, example_statement):
         ''' Negated statements only contain the speaker and the opposite of the first clause. '''
         const.ROLES = large_game_roles

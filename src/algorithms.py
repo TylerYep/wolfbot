@@ -1,5 +1,5 @@
 ''' algorithms.py '''
-from typing import FrozenSet, List, Optional, Set, Tuple, Union
+from typing import FrozenSet, List, Set, Tuple, Union
 
 from src.statements import Statement
 from src.const import Priority
@@ -66,7 +66,7 @@ def cached_solver(statements: Tuple[Statement, ...]) -> int:
 
 
 def switching_solver(statements: Tuple[Statement, ...],
-                     known_true: Optional[int] = None) -> List[SolverState]:
+                     known_true: Tuple[int, ...] = ()) -> List[SolverState]:
     '''
     Returns maximal list of statements that can be true from a list
     of Statements. Handles switching characters.
@@ -99,7 +99,7 @@ def switching_solver(statements: Tuple[Statement, ...],
             truth_state.path = state.path + (True,)
             _switch_recurse(ind + 1, truth_state)
 
-        if false_state.is_valid_state() and ind != known_true:
+        if false_state.is_valid_state() and ind not in known_true:
             false_state.path = state.path + (False,)
             _switch_recurse(ind + 1, false_state)
 

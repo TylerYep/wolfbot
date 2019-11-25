@@ -46,7 +46,7 @@ def get_individual_preds(player_objs: List[Player],
     all_role_guesses_arr = []
     # Good player vs Bad player guesses
     for i in range(const.NUM_PLAYERS):
-        all_solutions = switching_solver(tuple(all_statements), i)
+        all_solutions = switching_solver(tuple(all_statements), (i,))
         is_evil = is_player_evil(player_objs, i, orig_wolf_inds)
         prediction = make_prediction(all_solutions, is_evil)
         all_role_guesses_arr.append(prediction)

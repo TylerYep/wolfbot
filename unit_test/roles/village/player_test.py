@@ -23,7 +23,7 @@ class TestPlayer:
 
         assert robber.choice_ind == 3
         assert robber.new_role == 'Villager'
-        assert not robber.is_user
+        assert robber.is_user is False
 
     @staticmethod
     def test_get_statement_inheritance():
@@ -37,9 +37,17 @@ class TestPlayer:
     @staticmethod
     def test_json_repr():
         ''' Should convert a Player into a dict with all of its fields. '''
-        pass
+        villager = Villager(0)
+
+        result = villager.json_repr()
+
+        assert result == {'type': 'Villager', 'player_index': 0}
 
     @staticmethod
     def test_repr():
         ''' Should convert a Player into a representative string. '''
-        pass
+        villager = Villager(3)
+
+        result = str(villager)
+
+        assert result == 'Villager(3)'

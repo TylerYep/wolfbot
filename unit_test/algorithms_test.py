@@ -19,8 +19,8 @@ class TestSolverState:
         valid_state = algorithms.SolverState([{'Villager'}], [], [True])
         invalid_state = algorithms.SolverState([])
 
-        assert valid_state.is_valid_state()
-        assert not invalid_state.is_valid_state()
+        assert valid_state.is_valid_state() is True
+        assert invalid_state.is_valid_state() is False
 
     @staticmethod
     def test_eq(example_small_solverstate):
@@ -103,6 +103,23 @@ class TestSwitchingSolver:
         assert result[0] == example_medium_solverstate_solved
 
     @staticmethod
+    def test_solver_medium_known_true(medium_statement_list, medium_game_roles):
+        ''' Should return a SolverState with the most likely solution. '''
+        const.ROLES = medium_game_roles
+        possible_roles = [{'Drunk', 'Minion', 'Troublemaker', 'Wolf', 'Robber'},
+                          {'Seer'},
+                          {'Drunk'},
+                          {'Minion'},
+                          {'Drunk', 'Minion', 'Troublemaker', 'Wolf', 'Robber'},
+                          {'Robber', 'Minion', 'Troublemaker', 'Seer', 'Wolf', 'Drunk'}]
+
+        result = algorithms.switching_solver(medium_statement_list, (1,))
+
+        assert result[0] == algorithms.SolverState(possible_roles,
+                                                   ((Priority.DRUNK, 2, 5),),
+                                                   (False, True, True, False, False))
+
+    @staticmethod
     def test_solver_medium_multiple_solns(medium_statement_list, example_medium_solved_list):
         ''' Should return a SolverState with the most likely solution. '''
         result = algorithms.switching_solver(medium_statement_list)
@@ -125,7 +142,7 @@ class TestSwitchingSolver:
 
         result = algorithms.check_role_counts(possible_roles_list, const.ROLE_SET)
 
-        assert result
+        assert result is True
 
     @staticmethod
     def test_check_role_counts_false():
@@ -136,4 +153,4 @@ class TestSwitchingSolver:
 
         result = algorithms.check_role_counts(possible_roles_list, const.ROLE_SET)
 
-        assert not result
+        assert result is False
