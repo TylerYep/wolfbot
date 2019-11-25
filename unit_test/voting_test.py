@@ -115,7 +115,7 @@ class TestGetVotingResult:
     def test_small_voting_result(caplog, small_game_roles):
         ''' Should get voting results from the individual predictions. '''
         const.ROLES = small_game_roles
-        indiv_preds = [['Villager', 'Seer', 'Robber']]*3
+        indiv_preds = [['Villager', 'Seer', 'Robber']] * 3
 
         result = voting.get_voting_result(indiv_preds)
 
@@ -171,8 +171,8 @@ class TestEvalFinalGuesses:
     def test_werewolf_wins(caplog, medium_game_roles):
         ''' Should declare Werewolf victory if no wolves are found, but one exists. '''
         const.ROLES = medium_game_roles
-        guessed_wolf_inds = [i for i in range(const.NUM_PLAYERS)]
-        vote_inds = [1 for _ in range(const.NUM_PLAYERS)]
+        guessed_wolf_inds = list(range(const.NUM_PLAYERS))
+        vote_inds = [1] * const.NUM_PLAYERS
 
         result = voting.eval_final_guesses(medium_game_roles, guessed_wolf_inds, vote_inds)
 
@@ -186,8 +186,8 @@ class TestEvalFinalGuesses:
     def test_village_wins_no_wolf(caplog, small_game_roles):
         ''' Should declare Villager victory if no wolves are found, and there are none. '''
         const.ROLES = small_game_roles
-        guessed_wolf_inds = [i for i in range(const.NUM_PLAYERS)]
-        vote_inds = [1 for _ in range(const.NUM_PLAYERS)]
+        guessed_wolf_inds = list(range(const.NUM_PLAYERS))
+        vote_inds = [1] * const.NUM_PLAYERS
 
         result = voting.eval_final_guesses(small_game_roles, guessed_wolf_inds, vote_inds)
 

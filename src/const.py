@@ -10,12 +10,12 @@ UNIT_TEST = 'pytest' in sys.modules
 if UNIT_TEST: random.seed(0)
 
 ''' Command Line Arguments '''
-parser = argparse.ArgumentParser(description='config constants for src/main.py')
-parser.add_argument('--interactive', '-u', help='enable interactive mode', action='store_true')
-parser.add_argument('--num_games', '-n', help='specify number of games')
-parser.add_argument('--info', '-i', help='enable logging.INFO', action='store_true')
-parser.add_argument('--replay', '-r', help='replay previous game', action='store_true')
-ARGS = parser.parse_args('' if UNIT_TEST else sys.argv[1:])
+PARSER = argparse.ArgumentParser(description='config constants for src/main.py')
+PARSER.add_argument('--interactive', '-u', help='enable interactive mode', action='store_true')
+PARSER.add_argument('--num_games', '-n', help='specify number of games')
+PARSER.add_argument('--info', '-i', help='enable logging.INFO', action='store_true')
+PARSER.add_argument('--replay', '-r', help='replay previous game', action='store_true')
+ARGS = PARSER.parse_args('' if UNIT_TEST else sys.argv[1:])
 
 ''' Game Constants '''
 ROLES = ('Drunk', 'Insomniac', 'Hunter', 'Mason', 'Mason', 'Minion', 'Robber', 'Seer', 'Tanner',
@@ -64,7 +64,7 @@ EXPERIENCE_PATH = 'src/learning/simulations/wolf_player.json'
 
 ''' Interactive Game Constants '''
 INTERACTIVE_MODE_ON = ARGS.interactive
-IS_USER = [False for _ in range(NUM_ROLES)]
+IS_USER = [False] * NUM_ROLES
 if INTERACTIVE_MODE_ON:
     IS_USER[random.randint(0, NUM_PLAYERS - 1)] = True
 
@@ -75,7 +75,7 @@ INFO = Regular gameplay
 WARNING = Results only '''
 TRACE = 5
 logging.basicConfig(format='%(message)s', level=TRACE)#, filename='test1.txt', filemode='a')
-logger = logging.getLogger()
+logger = logging.getLogger() # pylint: disable=invalid-name
 
 if ARGS.info: logger.setLevel(logging.INFO)
 if NUM_GAMES >= 10 and not UNIT_TEST: logger.setLevel(logging.WARNING)

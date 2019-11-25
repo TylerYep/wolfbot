@@ -105,7 +105,7 @@ def get_voting_result(all_role_guesses_arr: List[List[str]]) \
     wolf_votes stores individual votes for Wolves.
     '''
     guess_histogram: Dict[Tuple[str, ...], int] = defaultdict(int)
-    wolf_votes = [0 for _ in range(const.NUM_PLAYERS)]
+    wolf_votes = [0] * const.NUM_PLAYERS
     vote_inds = []
     for i, prediction in enumerate(all_role_guesses_arr):
         guess_histogram[tuple(prediction)] += 1

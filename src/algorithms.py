@@ -15,7 +15,7 @@ class SolverState:
                  possible_roles: Union[List, List[Set[str]], List[FrozenSet[str]]] = None,
                  switches: Tuple[Tuple[Priority, int, int], ...] = (),
                  path_init: Tuple[bool, ...] = ()):
-        possible = [const.ROLE_SET]*const.NUM_ROLES if possible_roles is None else possible_roles
+        possible = [const.ROLE_SET] * const.NUM_ROLES if possible_roles is None else possible_roles
         self.possible_roles = tuple([frozenset(role_set) for role_set in possible])
         self.switches = switches
         self.path = path_init

@@ -58,7 +58,7 @@ class TestIsConsistent:
         Should check a new statement against accumulated statements for consistency.
         Should not change result.path - that is done in the switching_solver function.
         '''
-        possible_roles = [const.ROLE_SET]*const.NUM_ROLES
+        possible_roles = [const.ROLE_SET] * const.NUM_ROLES
         possible_roles[0] = {'Seer'}
         example_solverstate = algorithms.SolverState(possible_roles, (), (True,))
         new_statement = Statement('next', [(2, {'Drunk'})], [(Priority.DRUNK, 2, 5)])
@@ -72,7 +72,7 @@ class TestIsConsistent:
         '''
         Modifying one SolverState should not affect other SolverStates created by is_consistent.
         '''
-        possible_roles = [const.ROLE_SET]*const.NUM_ROLES
+        possible_roles = [const.ROLE_SET] * const.NUM_ROLES
         possible_roles[0] = {'Seer'}
         example = algorithms.SolverState(possible_roles, (), (True,))
         new_statement = Statement('next', [(2, {'Drunk'})], [(Priority.DRUNK, 2, 5)])
@@ -121,7 +121,7 @@ class TestSwitchingSolver:
         ''' Should return a dict with counts of all certain roles. '''
         const.ROLE_SET = {'Wolf', 'Seer', 'Villager', 'Robber'}
         const.ROLE_COUNTS = {'Seer': 1, 'Villager': 2, 'Wolf': 0, 'Robber': 0}
-        possible_roles_list = [{'Villager'}, {'Seer'}, {'Villager'}] + [const.ROLE_SET]*2
+        possible_roles_list = [{'Villager'}, {'Seer'}, {'Villager'}] + [const.ROLE_SET] * 2
 
         result = algorithms.check_role_counts(possible_roles_list, const.ROLE_SET)
 
@@ -132,7 +132,7 @@ class TestSwitchingSolver:
         ''' Should return a dict with counts of all certain roles. '''
         const.ROLE_SET = {'Wolf', 'Seer', 'Villager', 'Robber'}
         const.ROLE_COUNTS = {'Seer': 1, 'Villager': 1, 'Wolf': 0, 'Robber': 0}
-        possible_roles_list = [{'Villager'}, {'Seer'}, {'Villager'}] + [const.ROLE_SET]*2
+        possible_roles_list = [{'Villager'}, {'Seer'}, {'Villager'}] + [const.ROLE_SET] * 2
 
         result = algorithms.check_role_counts(possible_roles_list, const.ROLE_SET)
 

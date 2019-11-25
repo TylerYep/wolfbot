@@ -94,7 +94,7 @@ class TestGetRandomCenter:
         result = [util.get_random_center(exclude) for _ in range(10)]
 
         assert not set(result).intersection(exclude)
-        assert result == [14]*10
+        assert result == [14] * 10
 
 
 class TestInputPlayer:

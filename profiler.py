@@ -7,7 +7,7 @@ import pstats
 def main():
     ''' Prints top N methods. '''
     stats = pstats.Stats('data/profile.txt')
-    stats.sort_stats('cumulative').print_stats(50)
+    stats.sort_stats('time').print_stats(50)
 
 if __name__ == '__main__':
     main()

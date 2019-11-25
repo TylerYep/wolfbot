@@ -87,8 +87,8 @@ class Statistics:
                         self.wolf_predictions_center]
         if const.USE_VOTING:
             self.metrics += [self.villager_wins, self.tanner_wins, self.werewolf_wins]
-        self.correct = [0.0 for _ in range(len(self.metrics))]
-        self.total = [0.0 for _ in range(len(self.metrics))]
+        self.correct = [0.0] * len(self.metrics)
+        self.total = [0.0] * len(self.metrics)
         self.num_games = 0
 
     def add_result(self, game_result: GameResult) -> None:

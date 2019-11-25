@@ -9,6 +9,7 @@ __pycache__/
 *.csv
 .pyre
 data/profile.txt
+.vscode
 
 # C extensions
 *.so
