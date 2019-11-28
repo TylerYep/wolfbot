@@ -6,7 +6,11 @@ class TestReplay:
 
     @staticmethod
     def test_replay_game_small(example_small_game_result):
-        ''' Correctly replay last round of one night werewolf. '''
+        '''
+        Correctly replay last round of one night werewolf.
+        Note that the result is currently not the same as the first run, since
+        the second predictions receive different random numbers.
+        '''
         const.REPLAY_FILE = 'unit_test/test_data/replay.json'
         one_night.play_one_night_werewolf()
 

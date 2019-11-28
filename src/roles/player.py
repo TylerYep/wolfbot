@@ -5,6 +5,7 @@ import random
 from src import const, util
 from src.const import logger
 from src.statements import Statement
+from src.algorithms import switching_solver
 
 class Player:
     ''' Player class. '''
@@ -49,7 +50,7 @@ class Player:
 
     def get_statement(self, stated_roles: List[str], previous: List[Statement]) -> Statement:
         ''' Gets Player Statement. '''
-        del stated_roles, previous
+        # del stated_roles, previous
         if self.is_user:
             logger.info('Please choose from the following statements: ')
             sample_statements = random.sample(self.statements, 10) if len(self.statements) > 10 \
@@ -58,6 +59,24 @@ class Player:
                 logger.info(f'{i}. {statement.sentence}')
             choice = util.get_numeric_input(len(sample_statements))
             return sample_statements[choice]
+
+        if self.role in const.VILLAGE_ROLES:
+            # TODO Want to use random solution but would break tests.
+            solver_result = switching_solver(tuple(previous))[0]
+            for i, truth in enumerate(solver_result.path):
+                if truth:
+                    statement = previous[i]
+                    ref = statement.get_references(self.player_index)
+                    if ref is not None:
+                        if isinstance(ref, frozenset) and len(ref) == 1:
+                            [self.new_role] = ref
+                        elif isinstance(ref, int):
+                            switched_index = ref
+                            if switched_index < len(stated_roles):
+                                self.new_role = stated_roles[switched_index]
+
+        if self.new_role != '' and self.new_role in const.EVIL_ROLES:
+            return self.transform(self.new_role).get_statement(stated_roles, previous)
 
         return random.choice(tuple(self.statements))
 

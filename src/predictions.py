@@ -67,18 +67,6 @@ def make_prediction(solution_arr: List[SolverState], is_evil: bool = False) -> L
         for index, solution in enumerate(solution_arr):
             solution_index = index
             all_role_guesses, curr_role_counts = basic_guess_cache[index]
-            for j in range(const.NUM_ROLES):
-                for role in ('Wolf', 'Minion', 'Robber', 'Insomniac', 'Tanner'):
-                    if all_role_guesses[j] == role:
-                        all_role_guesses[j] = ''
-                        curr_role_counts[role] += 1
-            solved = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts))
-            if solved: break
-
-    if not solved:
-        for index, solution in enumerate(solution_arr):
-            solution_index = index
-            all_role_guesses, curr_role_counts = basic_guess_cache[index]
             solved = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts), False)
             if solved: break
 

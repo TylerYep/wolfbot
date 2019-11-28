@@ -1,6 +1,6 @@
 ''' statements.py '''
 from __future__ import annotations
-from typing import Dict, List, Set, Tuple
+from typing import Dict, FrozenSet, List, Set, Tuple, Union
 
 from src import const
 from src.const import Priority
@@ -27,13 +27,25 @@ class Statement:
 
     def references(self, player_index: int) -> bool:
         ''' Returns True if a given player_index is referenced in a statement. '''
-        for i, role_set in self.knowledge[1:]:
+        for i, _ in self.knowledge[1:]:
             if i == player_index:
                 return True
         for _, i, j in self.switches:
             if i == player_index or j == player_index:
                 return True
         return False
+
+    def get_references(self, player_index: int) -> Union[FrozenSet[str], int, None]:
+        ''' Returns True if a given player_index is referenced in a statement. '''
+        for i, role_set in self.knowledge[1:]:
+            if i == player_index:
+                return role_set
+        for _, i, j in self.switches:
+            if i == player_index:
+                return j
+            if j == player_index:
+                return i
+        return None
 
     def negate(self) -> Statement:
         ''' Returns a negated version of the first clause in a statement. '''
