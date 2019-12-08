@@ -1,7 +1,7 @@
 ''' stats_test.py '''
 import pytest
 
-from src import stats#, const
+from src import stats  # , const
 from src.statements import Statement
 from src.roles import Villager, Robber, Seer
 
@@ -94,8 +94,8 @@ class TestGameResult:
     @staticmethod
     def test_repr(example_small_game_result):
         ''' Should convert a GameResult into a string with all useful fields. '''
-        expected = "GameResult(['Villager', 'Seer', 'Robber'], " \
-                 + "['Villager', 'Seer', 'Robber'], [], Villager)"
+        expected = ("GameResult(['Villager', 'Seer', 'Robber'], "
+                    "['Villager', 'Seer', 'Robber'], [], Villager)")
 
         result = str(example_small_game_result)
 

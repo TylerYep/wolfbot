@@ -2,7 +2,6 @@
 from typing import List, Sequence, Tuple
 import random
 
-# from src.roles.player import Player
 from src.const import logger
 from src import const
 

@@ -57,7 +57,7 @@ class Insomniac(Player):
         for i, stated_role in enumerate(stated_roles):
             if stated_role == self.new_role:
                 possible_switches.append(i)
-        if len(possible_switches) == 1: # TODO how to handle multiple possible switches
+        if len(possible_switches) == 1:  # TODO how to handle multiple possible switches
             self.statements = self.get_insomniac_statements(self.player_index, self.new_role,
                                                             possible_switches[0])
         return super().get_statement(stated_roles, previous)

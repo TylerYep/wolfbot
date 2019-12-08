@@ -12,7 +12,7 @@ class Player:
 
     def __init__(self, player_index: int, new_role: str = ''):
         self.player_index = player_index
-        self.role = type(self).__name__ # e.g. 'Wolf'
+        self.role = type(self).__name__  # e.g. 'Wolf'
         self.new_role = new_role
         self.statements: List[Statement] = []
         self.is_user = const.IS_USER[player_index]
@@ -50,7 +50,6 @@ class Player:
 
     def get_statement(self, stated_roles: List[str], previous: List[Statement]) -> Statement:
         ''' Gets Player Statement. '''
-        # del stated_roles, previous
         if self.is_user:
             logger.info('Please choose from the following statements: ')
             sample_statements = random.sample(self.statements, 10) if len(self.statements) > 10 \

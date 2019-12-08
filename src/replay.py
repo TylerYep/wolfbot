@@ -5,6 +5,7 @@ from src.stats import Statistics, GameResult
 from src.algorithms import switching_solver
 from src.predictions import make_prediction, print_guesses
 from src.encoder import WolfBotDecoder
+from src.one_night import print_roles
 from src.voting import consolidate_results
 from src.const import logger
 from src import const
@@ -21,10 +22,10 @@ def replay_game() -> GameResult:
     for sentence in all_statements:
         logger.warning(sentence)
 
-    logger.warning((f'[Hidden] Current roles: {original_roles[:const.NUM_PLAYERS]}\n' + ' '*10 +
-                    f'Center cards: {original_roles[const.NUM_PLAYERS:]}\n').replace('\'', ''))
-    logger.warning((f'[SOLUTION] Role guesses: {game_roles[:const.NUM_PLAYERS]}\n' + ' '*11 +
-                    f'Center cards: {game_roles[const.NUM_PLAYERS:]}\n').replace('\'', ''))
+    print_roles(original_roles, 'Hidden')
+    print_roles(game_roles, 'Solution')
+    # logger.warning((f'[SOLUTION] Role guesses: {game_roles[:const.NUM_PLAYERS]}\n' + ' '*11 +
+    #                 f'Center cards: {game_roles[const.NUM_PLAYERS:]}\n').replace('\'', ''))
 
     if const.USE_VOTING:
         game_result = consolidate_results(save_game)

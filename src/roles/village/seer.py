@@ -49,7 +49,7 @@ class Seer(Player):
     def get_seer_statements(player_index: int,
                             choice_1: Tuple[int, str],
                             choice_2: Tuple[Optional[int], Optional[str]] = (None, None)) \
-                            -> List[Statement]:
+            -> List[Statement]:
         ''' Gets Seer Statement. '''
         seen_index, seen_role = choice_1
         seen_index2, seen_role2 = choice_2

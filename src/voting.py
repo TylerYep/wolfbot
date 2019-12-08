@@ -81,8 +81,8 @@ def eval_final_guesses(game_roles: List[str],
             elif game_roles[i] == 'Tanner':
                 killed_tanner = True
 
-            logger.info(f'Player {i} was chosen as a Wolf.\n' +
-                        f'Player {i} was a {game_roles[i]}!\n')
+            logger.info((f'Player {i} was chosen as a Wolf.\n'
+                         f'Player {i} was a {game_roles[i]}!\n'))
 
     if villager_win or killed_wolf:
         logger.info('Village Team wins!')

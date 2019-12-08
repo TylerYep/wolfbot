@@ -53,7 +53,7 @@ class TestPrintRoles:
         const.ROLES = small_game_roles
         shuffled_roles = ['Seer', 'Villager', 'Wolf', 'Robber']
 
-        one_night.print_roles(shuffled_roles)
+        one_night.print_roles(shuffled_roles, 'Hidden')
 
         captured = caplog.records[0].getMessage()
         expected = ('[Hidden] Current roles: [Seer, Villager, Wolf]\n'

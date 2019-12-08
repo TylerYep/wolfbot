@@ -79,8 +79,8 @@ class TestWolfBotEncoder:
                                     [(1, {'Robber'}), (2, {'Seer'})], [(1, 1, 2)], 'Robber'),
                           Statement("I am a Seer and I saw that Player 1 was a Robber.",
                                     [(2, {'Seer'}), (1, {'Robber'})], [], 'Seer')]
-        statement_strs = ', '.join([json.dumps(statement, cls=WolfBotEncoder) \
-                                   for statement in statement_objs])
+        statement_strs = ', '.join([json.dumps(statement, cls=WolfBotEncoder)
+                                    for statement in statement_objs])
 
         result = json.dumps(example_small_saved_game, cls=WolfBotEncoder)
 
@@ -167,8 +167,8 @@ class TestWolfBotDecoder:
                                     [(1, {'Robber'}), (2, {'Seer'})], [(1, 1, 2)], 'Robber'),
                           Statement("I am a Seer and I saw that Player 1 was a Robber.",
                                     [(2, {'Seer'}), (1, {'Robber'})], [], 'Seer')]
-        statement_strs = ', '.join([json.dumps(statement, cls=WolfBotEncoder) \
-                                   for statement in statement_objs])
+        statement_strs = ', '.join([json.dumps(statement, cls=WolfBotEncoder)
+                                    for statement in statement_objs])
 
         input_json = ('{"type": "SavedGame",'
                       ' "original_roles": ["Villager", "Robber", "Seer"],'

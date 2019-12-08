@@ -17,8 +17,8 @@ class TestSeer:
         player_index = 11
         const.CENTER_SEER_PROB = 1
         orig_roles, game_roles = [], list(large_game_roles)
-        expected = [Statement("I am a Seer and I saw that Center 1 was a Insomniac " +
-                              "and that Center 0 was a Troublemaker.",
+        expected = [Statement(("I am a Seer and I saw that Center 1 was a Insomniac "
+                               "and that Center 0 was a Troublemaker."),
                               [(11, {'Seer'}), (13, {'Insomniac'}), (12, {'Troublemaker'})],
                               [], 'Seer')]
 
@@ -77,14 +77,14 @@ class TestSeer:
                               [(1, {'Seer'}), (0, {'Seer'})], [], 'Seer'),
                     Statement("I am a Seer and I saw that Player 1 was a Seer.",
                               [(1, {'Seer'}), (1, {'Seer'})], [], 'Seer'),
-                    Statement("I am a Seer and I saw that Center 0 was a Villager and " +
-                              "that Center 1 was a Wolf.",
+                    Statement(("I am a Seer and I saw that Center 0 was a Villager and "
+                               "that Center 1 was a Wolf."),
                               [(1, {'Seer'}), (2, {'Villager'}), (3, {'Wolf'})], [], 'Seer'),
-                    Statement("I am a Seer and I saw that Center 0 was a Wolf and " +
-                              "that Center 1 was a Villager.",
+                    Statement(("I am a Seer and I saw that Center 0 was a Wolf and "
+                               "that Center 1 was a Villager."),
                               [(1, {'Seer'}), (2, {'Wolf'}), (3, {'Villager'})], [], 'Seer'),
-                    Statement("I am a Seer and I saw that Center 0 was a Wolf and " +
-                              "that Center 1 was a Wolf.",
+                    Statement(("I am a Seer and I saw that Center 0 was a Wolf and "
+                               "that Center 1 was a Wolf."),
                               [(1, {'Seer'}), (2, {'Wolf'}), (3, {'Wolf'})], [], 'Seer')]
 
         result = Seer.get_all_statements(player_index)

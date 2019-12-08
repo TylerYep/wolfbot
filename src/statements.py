@@ -22,8 +22,7 @@ class Statement:
         self.sentence = sentence
         self.knowledge = tuple([(i, frozenset(role_set)) for i, role_set in knowledge])
         self.switches = tuple(switches)
-        self.speaker = speaker if speaker or not knowledge \
-                       else next(iter(knowledge[0][1]))
+        self.speaker = speaker if speaker or not knowledge else next(iter(knowledge[0][1]))
 
     def references(self, player_index: int) -> bool:
         ''' Returns True if a given player_index is referenced in a statement. '''

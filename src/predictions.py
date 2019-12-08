@@ -128,8 +128,8 @@ def recurse_assign(solution: SolverState,
 
     for i in range(const.NUM_ROLES):
         if all_role_guesses[i] == '':
-            leftover_roles = sorted(solution.possible_roles[i] if restrict_possible \
-                                else [k for k, v in curr_role_counts.items() if v > 0])
+            leftover_roles = sorted(solution.possible_roles[i] if restrict_possible
+                                    else [k for k, v in curr_role_counts.items() if v > 0])
             random.shuffle(leftover_roles)
             for rol in leftover_roles:
                 if curr_role_counts[rol] > 0:
@@ -160,5 +160,5 @@ def get_switch_dict(solution: SolverState) -> Dict[int, int]:
 
 def print_guesses(role_guesses: Union[List[Player], List[str]]) -> None:
     ''' Formats guesses to console. '''
-    logger.info((f'\n[Wolfbot] Role guesses: {role_guesses[:const.NUM_PLAYERS]}\n' + ' '*10 +
+    logger.info((f'\n[Wolfbot] Role guesses: {role_guesses[:const.NUM_PLAYERS]}\n{" "*10}'
                  f'Center cards: {role_guesses[const.NUM_PLAYERS:]}\n').replace('\'', ''))

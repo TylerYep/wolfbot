@@ -80,6 +80,7 @@ def standard_game_roles() -> Tuple[str, ...]:
     const.EVIL_ROLES &= const.ROLE_SET
     return const.ROLES
 
+
 @pytest.fixture
 def large_individual_preds():
     return [['Villager', 'Mason', 'Mason', 'Minion', 'Villager', 'Drunk', 'Tanner', 'Troublemaker',

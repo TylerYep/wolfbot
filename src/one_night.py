@@ -23,7 +23,7 @@ def play_one_night_werewolf(save_replay: bool = True) -> GameResult:
     player_objs = night_falls(game_roles, original_roles)
     logger.info('\n-- GAME BEGINS --\n')
     all_statements = get_player_statements(player_objs)
-    print_roles(game_roles)
+    print_roles(game_roles, 'Hidden')
 
     save_game = SavedGame(original_roles, game_roles, all_statements, player_objs)
     if save_replay:
@@ -48,7 +48,7 @@ def get_player_statements(player_objs: List[Player]) -> List[Statement]:
 def night_falls(game_roles: List[str], original_roles: Tuple[str, ...]) -> List[Player]:
     ''' Initialize role object list and perform all switching and peeking actions to begin. '''
     logger.info('\n-- NIGHT FALLS --\n')
-    print_roles(game_roles)
+    print_roles(game_roles, 'Hidden')
 
     # Awaken each player in order and initialize the Player object.
     player_objs = [Player(i) for i in range(const.NUM_ROLES)]
@@ -77,7 +77,7 @@ def override_wolf_index(game_roles: List[str]) -> None:
         util.swap_characters(game_roles, wolf_ind, const.FIXED_WOLF_INDEX)
 
 
-def print_roles(game_roles: Union[List[Player], List[str]]) -> None:
+def print_roles(game_roles: Union[List[Player], List[str]], tag: str) -> None:
     ''' Formats hidden roles to console. '''
-    logger.debug((f'[Hidden] Current roles: {game_roles[:const.NUM_PLAYERS]}\n' + ' '*10 +
+    logger.debug((f'[{tag}] Current roles: {game_roles[:const.NUM_PLAYERS]}\n{" "*10}'
                   f'Center cards: {game_roles[const.NUM_PLAYERS:]}\n').replace('\'', ''))

@@ -74,8 +74,8 @@ DEBUG = Include all hidden messages
 INFO = Regular gameplay
 WARNING = Results only '''
 TRACE = 5
-logging.basicConfig(format='%(message)s', level=TRACE)#, filename='test1.txt', filemode='a')
-logger = logging.getLogger() # pylint: disable=invalid-name
+logging.basicConfig(format='%(message)s', level=TRACE)  # , filename='test1.txt', filemode='a')
+logger = logging.getLogger()  # pylint: disable=invalid-name
 
 if ARGS.info: logger.setLevel(logging.INFO)
 if NUM_GAMES >= 10 and not UNIT_TEST: logger.setLevel(logging.WARNING)

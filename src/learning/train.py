@@ -44,7 +44,7 @@ def train(folder, eta=0.01):
     ''' Trains Wolf using games stored in simulations. '''
     counter = 0
     experience_dict = defaultdict(lambda: defaultdict(int))
-    count_dict = defaultdict(int) # NOTE: For testing purposes
+    count_dict = defaultdict(int)  # NOTE: For testing purposes
     for file in os.listdir(folder):
         file_path = os.path.join(folder, file)
         if file_path.lower().endswith('.json'):
@@ -65,7 +65,7 @@ def train(folder, eta=0.01):
         json.dump(exp_dict, wolf_file, cls=WolfBotEncoder)
 
 
-def test(): # experience_dict as param
+def test():  # experience_dict as param
     ''' Run play_one_night_werewolf with a specific experience_dict. '''
     assert const.USE_RL_WOLF is False
     start_time = time.time()

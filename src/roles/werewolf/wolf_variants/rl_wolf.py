@@ -41,4 +41,4 @@ def get_statement_rl(player_obj: Any,
         if choice == statement.sentence:
             return statement
 
-    return Statement("") # TODO
+    return Statement("")  # TODO

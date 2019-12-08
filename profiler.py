@@ -9,5 +9,6 @@ def main():
     stats = pstats.Stats('data/profile.txt')
     stats.sort_stats('time').print_stats(50)
 
+
 if __name__ == '__main__':
     main()
