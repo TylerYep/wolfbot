@@ -1,14 +1,25 @@
 ''' profile.py '''
 import pstats
-# from pstats import SortKey
+import cProfile
 
-# python -m cProfile -o data/profile.txt main.py -n 100
-# TIME, CUMULATIVE, LINE, NAME, NFL, calls
-def main():
-    ''' Prints top N methods. '''
-    stats = pstats.Stats('data/profile.txt')
-    stats.sort_stats('time').print_stats(50)
+from main import main  # pylint: disable=unused-import
+
+def profile():
+    '''
+    Prints top N methods, sorted by time.
+    Equivalent to:
+    python -m cProfile -o data/profile.txt main.py -n 100
+    Options:
+    time, cumulative, line, name, nfl, calls
+    '''
+    profile_file = 'data/profile.txt'
+    command = 'main(100)'
+    sort = 'time'
+
+    cProfile.run(command, filename=profile_file, sort=sort)
+    stats = pstats.Stats(profile_file)
+    stats.sort_stats(sort).print_stats(50)
 
 
 if __name__ == '__main__':
-    main()
+    profile()

@@ -16,4 +16,5 @@ cd "${0%/*}/.."
 # just put your usual test command here
 pycodestyle .
 mypy .
+find . -iname "*.py" | xargs pylint
 pytest

@@ -12,7 +12,7 @@ from src import const
 class WolfBotEncoder(json.JSONEncoder):
     ''' Encoder for all WolfBot objects. '''
 
-    def default(self, o: Any) -> Dict:
+    def default(self, o: Any) -> Dict:  # pylint: disable=method-hidden
         ''' Overrides encoding method. '''
         if isinstance(o, (Player, Statement, GameResult, SavedGame)):
             return o.json_repr()

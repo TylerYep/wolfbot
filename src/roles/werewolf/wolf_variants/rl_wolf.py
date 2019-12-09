@@ -29,16 +29,14 @@ def get_statement_rl(player_obj: Any,
 
     state = (tuple(player_obj.wolf_indices), tuple([s.sentence for s in previous_statements]))
     scores = experience[str(state)]
-    choice = None
-    best_score = -100
+    best_choice = (default_answer, -100)
     for potential_statement, score in scores.items():
-        if score > best_score:
-            best_score = score
-            choice = potential_statement
-    if choice is None:
+        if score > best_choice[1]:
+            best_choice = (potential_statement, score)
+    if best_choice[0] is None:
         return default_answer
     for statement in statements:
-        if choice == statement.sentence:
+        if best_choice[0] == statement.sentence:
             return statement
 
     return Statement("")  # TODO

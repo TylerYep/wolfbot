@@ -10,7 +10,7 @@ UNIT_TEST = 'pytest' in sys.modules
 if UNIT_TEST: random.seed(0)
 
 ''' Command Line Arguments '''
-PARSER = argparse.ArgumentParser(description='config constants for src/main.py')
+PARSER = argparse.ArgumentParser(description='config constants for main.py')
 PARSER.add_argument('--interactive', '-u', help='enable interactive mode', action='store_true')
 PARSER.add_argument('--num_games', '-n', help='specify number of games')
 PARSER.add_argument('--info', '-i', help='enable logging.INFO', action='store_true')
@@ -26,9 +26,10 @@ RANDOMIZE_ROLES = True
 
 ''' Simulation Constants '''
 NUM_GAMES = 1 if ARGS.num_games is None else int(ARGS.num_games)
+MAX_LOG_GAMES = 10
 FIXED_WOLF_INDEX = -1
-SHOW_PROGRESS = False or NUM_GAMES >= 10
-SAVE_REPLAY = NUM_GAMES < 10
+SHOW_PROGRESS = False or NUM_GAMES >= MAX_LOG_GAMES
+SAVE_REPLAY = NUM_GAMES < MAX_LOG_GAMES
 REPLAY_FILE = 'data/replay.json'
 REPLAY = ARGS.replay
 

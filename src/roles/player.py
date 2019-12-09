@@ -21,7 +21,7 @@ class Player:
         ''' Returns new Player identity. '''
         from .werewolf import Wolf, Minion, Tanner
         from .village import Villager, Seer, Robber, Troublemaker, Drunk, Insomniac, Hunter, Mason
-        logger.debug(f'[Hidden] {self.role} is a {role_type} now!')
+        logger.debug(f'[Hidden] Player {self.player_index} ({self.role}) is a {role_type} now!')
 
         if role_type == 'Wolf':
             return Wolf(self.player_index, [])
