@@ -14,7 +14,6 @@ class Tanner(Player):
     ''' Tanner Player class. '''
 
     def __init__(self, player_index: int):
-        # Roles default to [] when another player becomes a Tanner and realizes it
         super().__init__(player_index)
         self.statements = get_wolf_statements_random(self)
 

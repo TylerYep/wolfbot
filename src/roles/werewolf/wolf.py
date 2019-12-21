@@ -20,9 +20,6 @@ class Wolf(Player):
                  wolf_indices: List[int],
                  center_index: Optional[int] = None,
                  center_role: Optional[str] = None):
-        '''
-        Constructor: original_roles defaults to [] when a player becomes a Wolf and realizes it.
-        '''
         super().__init__(player_index)
         self.wolf_indices = wolf_indices
         self.center_index = center_index
@@ -30,7 +27,10 @@ class Wolf(Player):
 
     @classmethod
     def awake_init(cls, player_index: int, game_roles: List[str], original_roles: List[str]):
-        ''' Initializes Wolf - gets Wolf indices and a random center card, if applicable. '''
+        '''
+        Constructor: original_roles defaults to [] when a player becomes a Wolf and realizes it.
+        Initializes Wolf - gets Wolf indices and a random center card, if applicable.
+        '''
         is_user = const.IS_USER[player_index]
         wolf_indices: List[int] = []
         center_index, center_role = None, None

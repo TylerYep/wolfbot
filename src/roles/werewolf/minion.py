@@ -15,7 +15,6 @@ class Minion(Player):
     ''' Minion Player class. '''
 
     def __init__(self, player_index: int, wolf_indices: List[int]):
-        # Roles default to [] when another player becomes a Minion and realizes it
         super().__init__(player_index)
         self.wolf_indices = wolf_indices
 

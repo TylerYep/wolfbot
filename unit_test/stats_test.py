@@ -1,7 +1,7 @@
 ''' stats_test.py '''
 import pytest
 
-from src import stats  # , const
+from src import stats, const
 from src.statements import Statement
 from src.roles import Villager, Robber, Seer
 
@@ -117,20 +117,46 @@ class TestGameResult:
                 print("Should throw an exception if trying to compare GameResult to another type.")
 
 
-class Statistics:
+class TestStatistics:
     ''' Tests for the Statistics class. '''
 
     @staticmethod
     def test_constructor():
         ''' Should initialize correctly. '''
-        pass
+        const.USE_VOTING = True
+
+        result = stats.Statistics()
+
+        assert result.num_games == 0
 
     @staticmethod
-    def test_add_result():
-        ''' Should initialize correctly. '''
-        pass
+    def test_add_result(example_medium_game_result):
+        ''' Should correctly add a single game result to the aggregate. '''
+        stat_tracker = stats.Statistics()
+
+        stat_tracker.add_result(example_medium_game_result)
+
+        assert stat_tracker.num_games == 1
+        assert stat_tracker.correct == [6.0, 6.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0]
+        assert stat_tracker.total == [6.0, 6.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
 
     @staticmethod
-    def test_print_statistics():
-        ''' Should initialize correctly. '''
-        pass
+    def test_print_statistics(caplog, example_medium_game_result):
+        ''' Should correctly print out the current statistics for the games. '''
+        stat_tracker = stats.Statistics()
+        stat_tracker.add_result(example_medium_game_result)
+        expected = ''
+
+        stat_tracker.print_statistics()
+
+        captured = list(map(lambda x: x.getMessage(), caplog.records))
+        expected = ('\nNumber of Games: 1',
+                    'Accuracy for all predictions: 1.0',
+                    'Accuracy with lenient center scores: 1.0',
+                    'S1: Found at least 1 Wolf player: 1.0',
+                    'S2: Found all Wolf players: 1.0',
+                    'Percentage of correct Wolf guesses (including center Wolves): 1.0',
+                    'Percentage of Villager Team wins: 1.0',
+                    'Percentage of Tanner Team wins: 0.0',
+                    'Percentage of Werewolf Team wins: 0.0')
+        assert '\n'.join(captured) == '\n'.join(expected)
