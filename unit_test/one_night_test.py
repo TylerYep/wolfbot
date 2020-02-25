@@ -1,6 +1,7 @@
 ''' one_night_test.py '''
 from src import one_night, const
 
+
 class TestPlayOneNightWerewolf:
     ''' Tests for the play_one_night_werewolf function. '''
 

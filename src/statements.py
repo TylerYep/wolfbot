@@ -5,6 +5,7 @@ from typing import Dict, FrozenSet, List, Set, Tuple, Union
 from src import const
 from src.const import Priority
 
+
 class Statement:
     ''' Model for all statements in the game. Statements are intended to be immutable. '''
 

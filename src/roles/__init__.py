@@ -14,6 +14,7 @@ from .werewolf.wolf import Wolf
 from .werewolf.minion import Minion
 from .werewolf.tanner import Tanner
 
+
 def get_role_obj(role_str: str) -> Any:
     ''' Retrieves class initializer from its string name. '''
     return getattr(sys.modules[__name__], role_str)

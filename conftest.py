@@ -7,6 +7,7 @@ import pytest
 from src import const
 from fixtures import *
 
+
 @pytest.fixture(autouse=True)
 def reset_const():
     const.logger.setLevel(const.TRACE)

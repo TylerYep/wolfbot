@@ -1,6 +1,7 @@
 ''' replay_test.py '''
 from src import replay, const, one_night
 
+
 class TestReplay:
     ''' Tests for the replay_game function. '''
 

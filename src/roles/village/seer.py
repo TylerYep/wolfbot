@@ -8,6 +8,7 @@ from src import const, util
 
 from ..player import Player
 
+
 class Seer(Player):
     ''' Seer Player class. '''
 
@@ -30,7 +31,7 @@ class Seer(Player):
         # Pick two center cards more often, because that generally yields higher win rates.
         prob = const.CENTER_SEER_PROB
         is_user = const.IS_USER[player_index]
-        choose_center = random.choices([True, False], [prob, 1-prob])[0]
+        choose_center = random.choices([True, False], [prob, 1 - prob])[0]
         if choose_center and const.NUM_CENTER > 1:
             peek_ind1 = util.get_center(is_user)
             peek_ind2 = util.get_center(is_user, (peek_ind1,))

@@ -10,6 +10,7 @@ from src import const
 from ..player import Player
 from .wolf_variants import get_wolf_statements_random, get_statement_expectimax
 
+
 class Tanner(Player):
     ''' Tanner Player class. '''
 

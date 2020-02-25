@@ -3,6 +3,7 @@ from src import const
 from src.statements import Statement
 from src.roles.village import Drunk
 
+
 class TestDrunk:
     ''' Tests for the Drunk player class. '''
 

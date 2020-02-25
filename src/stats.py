@@ -7,6 +7,7 @@ from src.statements import Statement
 from src.const import logger
 from src import const
 
+
 class SavedGame:
     ''' All of the necessary data needed to rerun a game. '''
 

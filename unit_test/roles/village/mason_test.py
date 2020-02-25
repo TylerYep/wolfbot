@@ -3,6 +3,7 @@ from src import const
 from src.statements import Statement
 from src.roles.village import Mason
 
+
 class TestMason:
     ''' Tests for the Mason player class. '''
 

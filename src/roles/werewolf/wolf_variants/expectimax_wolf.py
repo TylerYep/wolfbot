@@ -7,6 +7,7 @@ from src.algorithms import SolverState, is_consistent
 from src.const import logger
 from src import const, roles
 
+
 def get_expected_statements() -> Dict[int, List[Statement]]:
     '''
     Gets all possible statements that can be made by a village player from any index.
@@ -53,7 +54,8 @@ def get_statement_expectimax(player_obj: Any, prev_statements: List[Statement]) 
         indices = random.sample(range(len(expected_player_statements[ind])), sample_size)
         trimmed_statements = [expected_player_statements[ind][i] for i in sorted(indices)]
         vals = _get_next_vals(statement_list, trimmed_statements, state, ind, depth)
-        if not vals: return 10, None
+        if not vals:
+            return 10, None
         return sum(vals) / len(vals), None
 
     def _get_next_vals(statement_list: Tuple[Statement, ...],

@@ -3,6 +3,7 @@ import pytest
 
 from src.stats import GameResult
 
+
 @pytest.fixture
 def example_small_game_result(small_game_roles) -> GameResult:
     return GameResult(['Villager', 'Seer', 'Robber'],

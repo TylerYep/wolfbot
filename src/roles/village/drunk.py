@@ -7,6 +7,7 @@ from src import const, util
 
 from ..player import Player
 
+
 class Drunk(Player):
     ''' Drunk Player class. '''
 
@@ -24,7 +25,8 @@ class Drunk(Player):
         choice_ind = util.get_center(is_user)
         logger.debug(f'[Hidden] Drunk switches with Center Card {choice_ind - const.NUM_PLAYERS}'
                      f' and unknowingly becomes a {game_roles[choice_ind]}.')
-        if is_user: logger.info('You do not know your new role.')
+        if is_user:
+            logger.info('You do not know your new role.')
         util.swap_characters(game_roles, player_index, choice_ind)
         return cls(player_index, choice_ind)
 

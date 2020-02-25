@@ -3,6 +3,7 @@ import pytest
 
 from src import util, const
 
+
 class TestSwapCharacters:
     ''' Tests for the swap_characters function. '''
 

@@ -7,6 +7,7 @@ from src.roles import Villager, Player, Robber, Seer
 from src.statements import Statement
 from src.stats import GameResult, SavedGame
 
+
 class TestWolfBotEncoder:
     ''' Tests for the WolfBotEncoder class. '''
 

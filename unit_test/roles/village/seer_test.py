@@ -5,6 +5,7 @@ from src import const
 from src.statements import Statement
 from src.roles.village import Seer
 
+
 class TestSeer:
     ''' Tests for the Seer player class. '''
 

@@ -5,6 +5,7 @@ from tqdm import tqdm
 
 from src import Statistics, play_one_night_werewolf, logger, const, replay_game
 
+
 def main(num_games: int = const.NUM_GAMES) -> None:
     ''' Simulate play_one_night_werewolf and create a Statistics instance for the runs. '''
     start_time = time.time()

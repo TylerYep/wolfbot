@@ -9,6 +9,7 @@ from src.statements import Statement
 from src.roles import Player, get_role_obj
 from src import const
 
+
 class WolfBotEncoder(json.JSONEncoder):
     ''' Encoder for all WolfBot objects. '''
 
@@ -32,11 +33,7 @@ class WolfBotDecoder(json.JSONDecoder):
     @staticmethod
     def json_to_objects(obj: Dict) -> Any:
         ''' Implements decoding method. '''
-        if 'type' not in obj:
-            return obj
-        obj_type = obj['type']
-        del obj['type']
-
+        obj_type = obj.pop('type', None)
         if obj_type == 'Set':
             return set(obj['data'])
         if obj_type == 'FrozenSet':

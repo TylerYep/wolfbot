@@ -9,6 +9,7 @@ from src import const
 
 from .reg_wolf import get_wolf_statements
 
+
 def get_statement_rl(player_obj: Any,
                      stated_roles: List[str],
                      previous_statements: List[Statement],

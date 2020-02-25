@@ -11,6 +11,7 @@ from src import const, util
 from ..player import Player
 from .wolf_variants import get_wolf_statements_random, get_statement_expectimax, get_wolf_statements
 
+
 class Minion(Player):
     ''' Minion Player class. '''
 
@@ -27,7 +28,8 @@ class Minion(Player):
         if original_roles:
             wolf_indices = util.find_all_player_indices(original_roles, 'Wolf')
             logger.debug(f'[Hidden] Wolves are at indices: {wolf_indices}')
-            if is_user: logger.info(f'Wolves are at indices: {wolf_indices}')
+            if is_user:
+                logger.info(f'Wolves are at indices: {wolf_indices}')
         return cls(player_index, wolf_indices)
 
     def get_statement(self, stated_roles: List[str], previous: List[Statement]) -> Statement:

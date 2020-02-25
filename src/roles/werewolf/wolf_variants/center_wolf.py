@@ -5,6 +5,7 @@ from src.statements import Statement
 
 from ...village import Villager, Seer, Robber, Troublemaker, Drunk, Insomniac, Hunter
 
+
 def get_center_wolf_statements(player_obj: Any,
                                stated_roles: List[str]) -> List[Statement]:
     ''' Center Wolf Player logic. '''
@@ -27,7 +28,7 @@ def get_center_wolf_statements(player_obj: Any,
                 statements += Robber.get_robber_statements(player_index, i, stated_role)
     elif center_role == 'Troublemaker':
         for i in range(len(stated_roles)):
-            for j in range(i+1, len(stated_roles)):
+            for j in range(i + 1, len(stated_roles)):
                 if j not in wolf_indices:
                     statements += Troublemaker.get_troublemaker_statements(player_index, i, j)
     elif center_role == 'Drunk':

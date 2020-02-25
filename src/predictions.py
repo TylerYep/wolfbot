@@ -7,6 +7,7 @@ from src.roles.player import Player
 from src.const import logger
 from src import const
 
+
 def make_random_prediction() -> List[str]:
     ''' Makes a random prediction. '''
     random_guesses = list(const.ROLES)
@@ -61,14 +62,16 @@ def make_prediction(solution_arr: List[SolverState], is_evil: bool = False) -> L
         all_role_guesses, curr_role_counts = get_basic_guesses(solution)
         basic_guess_cache[index] = (all_role_guesses, curr_role_counts)
         solved = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts))
-        if solved: break
+        if solved:
+            break
 
     if not solved:
         for index, solution in enumerate(solution_arr):
             solution_index = index
             all_role_guesses, curr_role_counts = basic_guess_cache[index]
             solved = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts), False)
-            if solved: break
+            if solved:
+                break
 
     switch_dict = get_switch_dict(solution_arr[solution_index])
     final_guesses = [solved[switch_dict[i]] for i in range(len(solved))]
@@ -137,7 +140,8 @@ def recurse_assign(solution: SolverState,
                     all_role_guesses[i] = rol
                     result = recurse_assign(solution, all_role_guesses,
                                             curr_role_counts, restrict_possible)
-                    if result: return result
+                    if result:
+                        return result
                     curr_role_counts[rol] += 1
                     all_role_guesses[i] = ''
     # Unable to assign all roles

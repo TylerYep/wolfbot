@@ -5,6 +5,7 @@ from src.statements import Statement
 
 from ..player import Player
 
+
 class Hunter(Player):
     ''' Hunter Player class. '''
 

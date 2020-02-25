@@ -5,6 +5,7 @@ import pytest
 from src.const import Priority
 from src.statements import Statement
 
+
 @pytest.fixture
 def example_statement() -> Statement:
     return Statement('test', [(2, {'Robber'}), (0, {'Seer'})], [(Priority.ROBBER, 2, 0)])
@@ -35,6 +36,7 @@ def medium_statement_list() -> List[Statement]:
         Statement("I am a Seer and I saw that Player 1 was a Wolf.",
                   [(4, {'Seer'}), (1, {'Wolf'})], [], 'Seer')
     ]
+
 
 @pytest.fixture
 def large_statement_list() -> List[Statement]:

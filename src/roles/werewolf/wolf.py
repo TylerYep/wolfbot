@@ -10,7 +10,8 @@ from src import const, util
 
 from ..player import Player
 from .wolf_variants import get_wolf_statements_random, get_statement_expectimax, \
-                           get_statement_rl, get_wolf_statements, get_center_wolf_statements
+    get_statement_rl, get_wolf_statements, get_center_wolf_statements
+
 
 class Wolf(Player):
     ''' Wolf Player class. '''
@@ -42,7 +43,8 @@ class Wolf(Player):
                 center_index = util.get_center(is_user)
                 center_role = game_roles[center_index]
             logger.debug(f'[Hidden] Wolves are at indices: {wolf_indices}')
-            if is_user: logger.info(f'Wolves are at indices: {wolf_indices}')
+            if is_user:
+                logger.info(f'Wolves are at indices: {wolf_indices}')
 
         return cls(player_index, wolf_indices, center_index, center_role)
 

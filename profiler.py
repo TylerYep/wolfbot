@@ -4,6 +4,7 @@ import cProfile
 
 from main import main  # pylint: disable=unused-import
 
+
 def profile():
     '''
     Prints top N methods, sorted by time.
@@ -12,8 +13,8 @@ def profile():
     Options:
     time, cumulative, line, name, nfl, calls
     '''
-    profile_file = 'data/profile.txt'
     command = 'main(100)'
+    profile_file = 'data/profile.txt'
     sort = 'time'
 
     cProfile.run(command, filename=profile_file, sort=sort)

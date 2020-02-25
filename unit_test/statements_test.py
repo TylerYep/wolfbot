@@ -4,6 +4,7 @@ import pytest
 from src import statements, const
 from src.const import Priority
 
+
 class TestStatement:
     ''' Tests for the Statement class. '''
 

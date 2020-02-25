@@ -7,6 +7,7 @@ from src.const import logger
 from src.statements import Statement
 from src.algorithms import switching_solver
 
+
 class Player:
     ''' Player class. '''
 
@@ -53,7 +54,7 @@ class Player:
         if self.is_user:
             logger.info('Please choose from the following statements: ')
             sample_statements = random.sample(self.statements, 10) if len(self.statements) > 10 \
-                                else self.statements
+                else self.statements
             for i, statement in enumerate(sample_statements):
                 logger.info(f'{i}. {statement.sentence}')
             choice = util.get_numeric_input(len(sample_statements))

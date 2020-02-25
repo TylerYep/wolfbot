@@ -4,6 +4,7 @@ from src import algorithms
 from src.const import Priority
 from src.statements import Statement
 
+
 class TestSolverState:
     ''' Tests for the SolverState class. '''
     @staticmethod

@@ -7,6 +7,7 @@ from src.statements import Statement
 from src.stats import SavedGame
 from src.roles import Villager, Mason, Seer, Robber, Drunk, Hunter, Wolf, Minion, Tanner
 
+
 @pytest.fixture
 def example_small_saved_game(small_game_roles) -> SavedGame:
     return SavedGame(('Villager', 'Robber', 'Seer'),

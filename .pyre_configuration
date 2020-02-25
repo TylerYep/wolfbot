@@ -3,6 +3,6 @@
   "source_directories": ["."],
   "ignore_all_errors": ["conftest.py", "fixtures/"],
   "search_path": "/Users/tyleryep/miniconda3/envs/wolf/lib/python3.7/site-packages",
-  "ignore_this": [{ "site-package": "tqdm" }, { "site-package": "pytest" }],
+  "ignore_this; when pytest works use this": [{ "site-package": "tqdm" }, { "site-package": "pytest" }],
   "typeshed": "/Users/tyleryep/miniconda3/lib/pyre_check/typeshed/"
 }

@@ -11,6 +11,7 @@ from src.voting import consolidate_results
 from src.const import logger
 from src import const, util
 
+
 def play_one_night_werewolf(save_replay: bool = True) -> GameResult:
     ''' Plays one round of One Night Ultimate Werewolf. '''
     game_roles = list(const.ROLES)

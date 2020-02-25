@@ -7,6 +7,7 @@ from src import const
 
 from ..player import Player
 
+
 class Insomniac(Player):
     ''' Insomniac Player class. '''
 
@@ -22,7 +23,8 @@ class Insomniac(Player):
         is_user = const.IS_USER[player_index]
         insomniac_new_role = game_roles[player_index]
         logger.debug(f'[Hidden] Insomniac wakes up as a {insomniac_new_role}.')
-        if is_user: logger.info(f'You woke up as a {insomniac_new_role}!')
+        if is_user:
+            logger.info(f'You woke up as a {insomniac_new_role}!')
         return cls(player_index, insomniac_new_role)
 
     @staticmethod

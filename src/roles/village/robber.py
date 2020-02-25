@@ -7,6 +7,7 @@ from src import const, util
 
 from ..player import Player
 
+
 class Robber(Player):
     ''' Robber Player class. '''
 

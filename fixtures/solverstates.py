@@ -6,6 +6,7 @@ from src import const
 from src.const import Priority
 from src.algorithms import SolverState
 
+
 @pytest.fixture
 def example_small_solverstate(small_game_roles) -> SolverState:
     possible_roles = [{'Seer'}, {'Robber', 'Villager', 'Seer'}, {'Robber'}]
@@ -60,6 +61,7 @@ def example_medium_solved_list(medium_game_roles) -> List[SolverState]:
                          {'Robber', 'Troublemaker', 'Wolf', 'Drunk', 'Seer', 'Minion'}],
                         ((Priority.DRUNK, 2, 5), (Priority.ROBBER, 3, 2)),
                         (False, False, True, True, True))]
+
 
 @pytest.fixture
 def example_medium_solverstate_list(medium_game_roles) -> List[SolverState]:

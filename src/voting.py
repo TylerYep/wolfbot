@@ -11,6 +11,7 @@ from src.roles import Player
 from src.const import logger
 from src import const, util
 
+
 def consolidate_results(save_game: SavedGame) -> GameResult:
     ''' Consolidates results and returns final GameResult. '''
     original_roles, game_roles, all_statements, player_objs = save_game.load_game()
@@ -97,7 +98,7 @@ def eval_final_guesses(game_roles: List[str],
 
 
 def get_voting_result(all_role_guesses_arr: List[List[str]]) \
-                      -> Tuple[List[str], List[float], List[int], List[int]]:
+        -> Tuple[List[str], List[float], List[int], List[int]]:
     '''
     Creates confidence levels for each prediction and takes most
     common role guess array as the final guess for that index.

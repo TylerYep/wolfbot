@@ -2,6 +2,7 @@
 from src.statements import Statement
 from src.roles.village import Hunter
 
+
 class TestHunter:
     ''' Tests for the Hunter player class. '''
 

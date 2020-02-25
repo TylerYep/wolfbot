@@ -3,6 +3,7 @@ from src import const
 from src.statements import Statement
 from src.roles.village import Troublemaker
 
+
 class TestTroublemaker:
     ''' Tests for the Troublemaker player class. '''
 

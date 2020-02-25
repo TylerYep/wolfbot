@@ -13,6 +13,7 @@ from src.one_night import play_one_night_werewolf
 from src.const import logger
 from src import const
 
+
 def evaluate(game):
     ''' Evaluation function. '''
     val = 5
@@ -56,7 +57,7 @@ def train(folder, eta=0.01):
                     states, statements = get_wolf_state(game)
                     for state, statement in zip(states, statements):
                         experience_dict[state][statement] \
-                            = (1-eta)*experience_dict[state][statement] + eta*evaluate(game)
+                            = (1 - eta) * experience_dict[state][statement] + eta * evaluate(game)
                         count_dict[(state)] += 1
                     counter += 1
 

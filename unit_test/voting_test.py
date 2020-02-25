@@ -5,6 +5,7 @@ from src import voting, const
 from src.stats import GameResult
 from src.roles import Drunk, Minion, Seer, Robber, Villager, Wolf
 
+
 class TestConsolidateResults:
     ''' Tests for the consolidate_results function. '''
 
@@ -157,8 +158,8 @@ class TestGetVotingResult:
         assert result == (['Villager', 'Insomniac', 'Mason', 'Tanner', 'Villager', 'Drunk',
                            'Seer', 'Minion', 'Wolf', 'Villager', 'Wolf', 'Hunter', 'Troublemaker',
                            'Mason', 'Robber'],
-                          [1.0, 2/3, 1.0, 5/12, 1.0, 0.75, 0.5, 5/12, 5/12, 7/12,
-                           7/12, 11/12, 0.5, 2/3, 0.75],
+                          [1.0, 2 / 3, 1.0, 5 / 12, 1.0, 0.75, 0.5, 5 / 12, 5 / 12, 7 / 12,
+                           7 / 12, 11 / 12, 0.5, 2 / 3, 0.75],
                           [3, 10],
                           [8, 10, 1, 9, 5, 7, 5, 3, 3, 10, 10, 3])
         assert captured == 'Vote Array: [0, 1, 0, 3, 0, 2, 0, 1, 1, 1, 3, 0]'

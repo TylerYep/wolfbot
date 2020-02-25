@@ -4,6 +4,7 @@ import random
 
 from src import one_night, const, stats
 
+
 class TestAggregate:
     ''' Tests for the play_one_night_werewolf function. '''
 

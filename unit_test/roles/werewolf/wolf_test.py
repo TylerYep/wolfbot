@@ -2,6 +2,7 @@
 from src import const
 from src.roles import Wolf
 
+
 class TestWolf:
     ''' Tests for the Wolf player class. '''
     @staticmethod

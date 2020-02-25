@@ -5,6 +5,7 @@ from src import stats, const
 from src.statements import Statement
 from src.roles import Villager, Robber, Seer
 
+
 class TestSavedGame:
     ''' Tests for the SavedGame class. '''
 

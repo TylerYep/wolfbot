@@ -10,6 +10,7 @@ from src.voting import consolidate_results
 from src.const import logger
 from src import const
 
+
 def replay_game() -> GameResult:
     ''' Runs last game stored in replay.json. '''
     with open(const.REPLAY_FILE, 'r') as f_replay:

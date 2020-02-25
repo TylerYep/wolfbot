@@ -6,8 +6,16 @@ from enum import IntEnum, unique
 from collections import Counter
 import argparse
 
+
+@unique
+class Priority(IntEnum):
+    ''' Priorities for Statement order. '''
+    ROBBER, TROUBLEMAKER, DRUNK = 1, 2, 3
+
+
 UNIT_TEST = 'pytest' in sys.modules
-if UNIT_TEST: random.seed(0)
+if UNIT_TEST:
+    random.seed(0)
 
 ''' Command Line Arguments '''
 PARSER = argparse.ArgumentParser(description='config constants for main.py')
@@ -38,11 +46,6 @@ ROLE_SET = set(ROLES)
 NUM_ROLES = len(ROLES)
 ROLE_COUNTS = dict(Counter(ROLES))  # Dict of {'Villager': 3, 'Wolf': 2, ... }
 NUM_PLAYERS = NUM_ROLES - NUM_CENTER
-
-@unique
-class Priority(IntEnum):
-    ''' Priorities for Statement order. '''
-    ROBBER = 1; TROUBLEMAKER = 2; DRUNK = 3
 
 ''' Game Rules '''
 AWAKE_ORDER = ('Wolf', 'Minion', 'Mason', 'Seer', 'Robber', 'Troublemaker', 'Drunk', 'Insomniac')
@@ -78,9 +81,12 @@ TRACE = 5
 logging.basicConfig(format='%(message)s', level=TRACE)  # , filename='test1.txt', filemode='a')
 logger = logging.getLogger()  # pylint: disable=invalid-name
 
-if ARGS.info: logger.setLevel(logging.INFO)
-if NUM_GAMES >= 10 and not UNIT_TEST: logger.setLevel(logging.WARNING)
-if INTERACTIVE_MODE_ON: logger.setLevel(logging.INFO)
+if ARGS.info:
+    logger.setLevel(logging.INFO)
+if NUM_GAMES >= 10 and not UNIT_TEST:
+    logger.setLevel(logging.WARNING)
+if INTERACTIVE_MODE_ON:
+    logger.setLevel(logging.INFO)
 
 ''' Ensure only one Wolf version is active '''
 assert sum([USE_EXPECTIMAX_WOLF, USE_RL_WOLF]) <= 1

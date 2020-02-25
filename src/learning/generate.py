@@ -10,6 +10,7 @@ from src.one_night import play_one_night_werewolf
 from src.const import logger
 from src import const
 
+
 def generate_data():
     ''' Simulate games and store data in simulations folder. '''
     weights = [3**i for i in range(1, const.NUM_PLAYERS + 1)]

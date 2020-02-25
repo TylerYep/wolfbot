@@ -5,6 +5,7 @@ from src.statements import Statement
 from src.const import Priority
 from src import const
 
+
 class SolverState:
     '''
     Each solver returns a SolverState object with the result.

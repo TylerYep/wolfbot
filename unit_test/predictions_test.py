@@ -2,6 +2,7 @@
 from src import predictions, const
 from src.algorithms import SolverState
 
+
 class TestMakeRandomPrediction:
     ''' Tests for the random_prediction function. '''
 

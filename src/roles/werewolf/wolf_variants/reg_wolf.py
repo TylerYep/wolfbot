@@ -6,6 +6,7 @@ from src import const
 
 from ...village import Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac, Hunter
 
+
 def get_wolf_statements(player_obj: Any,
                         stated_roles: List[str],
                         previous_statements: List[Statement]) -> List[Statement]:
@@ -34,7 +35,7 @@ def get_wolf_statements(player_obj: Any,
             statements += Drunk.get_drunk_statements(player_index, k + const.NUM_PLAYERS)
     if 'Troublemaker' in const.ROLE_SET:
         for i in range(len(stated_roles)):
-            for j in range(i+1, len(stated_roles)):
+            for j in range(i + 1, len(stated_roles)):
                 if j not in wolf_indices:
                     statements += Troublemaker.get_troublemaker_statements(player_index, i, j)
     if 'Robber' in const.ROLE_SET:
