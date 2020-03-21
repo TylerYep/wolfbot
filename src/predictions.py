@@ -156,9 +156,7 @@ def get_switch_dict(solution: SolverState) -> Dict[int, int]:
     switch_dict = {i: i for i in range(const.NUM_ROLES)}
     switches = sorted(solution.switches, key=lambda x: x[0])
     for _, i, j in switches:
-        temp = switch_dict[i]
-        switch_dict[i] = switch_dict[j]
-        switch_dict[j] = temp
+        switch_dict[i], switch_dict[j] = switch_dict[j], switch_dict[i]
     return switch_dict
 
 

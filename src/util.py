@@ -10,9 +10,7 @@ def swap_characters(game_roles: List[str], ind1: int, ind2: int) -> None:
     ''' Util function to swap two characters, updating game_roles. '''
     assert ind1 != ind2
     assert ind1 < len(game_roles) and ind2 < len(game_roles)
-    temp = game_roles[ind1]
-    game_roles[ind1] = game_roles[ind2]
-    game_roles[ind2] = temp
+    game_roles[ind1], game_roles[ind2] = game_roles[ind2], game_roles[ind1]
 
 
 def find_all_player_indices(game_roles: Sequence[str], role: str) -> List[int]:
