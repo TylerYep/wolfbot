@@ -3,9 +3,9 @@ import pytest
 
 from src import const
 from src.const import Priority
+from src.roles import Drunk, Hunter, Mason, Minion, Robber, Seer, Tanner, Villager, Wolf
 from src.statements import Statement
 from src.stats import SavedGame
-from src.roles import Villager, Mason, Seer, Robber, Drunk, Hunter, Wolf, Minion, Tanner
 
 
 @pytest.fixture

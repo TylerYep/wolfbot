@@ -1,11 +1,11 @@
 ''' rl_wolf.py '''
-from typing import Any, Dict, List
-from collections import defaultdict
 import json
+from collections import defaultdict
+from typing import Any, Dict, List
 
-from src.statements import Statement
-from src.const import logger
 from src import const
+from src.const import logger
+from src.statements import Statement
 
 from .reg_wolf import get_wolf_statements
 

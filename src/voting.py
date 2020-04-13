@@ -1,15 +1,15 @@
 ''' voting.py '''
-from typing import Dict, List, Tuple
 import random
 from collections import defaultdict
+from typing import Dict, List, Tuple
 
-from src.stats import GameResult, SavedGame
-from src.algorithms import switching_solver
-from src.predictions import make_prediction, print_guesses
-from src.statements import Statement
-from src.roles import Player
-from src.const import logger
 from src import const, util
+from src.algorithms import switching_solver
+from src.const import logger
+from src.predictions import make_prediction, print_guesses
+from src.roles import Player
+from src.statements import Statement
+from src.stats import GameResult, SavedGame
 
 
 def consolidate_results(save_game: SavedGame) -> GameResult:

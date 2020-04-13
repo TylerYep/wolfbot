@@ -1,9 +1,10 @@
 ''' center_wolf.py '''
 from typing import Any, List
+
 from src import const
 from src.statements import Statement
 
-from ...village import Villager, Seer, Robber, Troublemaker, Drunk, Insomniac, Hunter
+from ...village import Drunk, Hunter, Insomniac, Robber, Seer, Troublemaker, Villager
 
 
 def get_center_wolf_statements(player_obj: Any,

@@ -1,11 +1,11 @@
 ''' stats.py '''
-from typing import Dict, List, Tuple
 from collections import Counter
+from typing import Dict, List, Tuple
 
+from src import const
+from src.const import logger
 from src.roles import Player
 from src.statements import Statement
-from src.const import logger
-from src import const
 
 
 class SavedGame:

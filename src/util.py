@@ -1,9 +1,9 @@
 ''' util.py '''
-from typing import List, Sequence, Tuple
 import random
+from typing import List, Sequence, Tuple
 
-from src.const import logger
 from src import const
+from src.const import logger
 
 
 def swap_characters(game_roles: List[str], ind1: int, ind2: int) -> None:

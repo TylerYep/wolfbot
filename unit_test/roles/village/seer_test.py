@@ -2,8 +2,8 @@
 from collections import Counter
 
 from src import const
-from src.statements import Statement
 from src.roles.village import Seer
+from src.statements import Statement
 
 
 class TestSeer:

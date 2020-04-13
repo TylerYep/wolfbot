@@ -1,7 +1,7 @@
 ''' drunk_test.py '''
 from src import const
-from src.statements import Statement
 from src.roles.village import Drunk
+from src.statements import Statement
 
 
 class TestDrunk:

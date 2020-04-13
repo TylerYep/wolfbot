@@ -1,10 +1,11 @@
 ''' solverstates.py '''
 from typing import List
+
 import pytest
 
 from src import const
-from src.const import Priority
 from src.algorithms import SolverState
+from src.const import Priority
 
 
 @pytest.fixture

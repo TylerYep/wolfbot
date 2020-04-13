@@ -2,13 +2,13 @@
 generate.py
 To run, cd to src/ and run python -m learning.generate
 '''
-import time
 import json
+import time
 
+from src import const
+from src.const import logger
 from src.encoder import WolfBotEncoder
 from src.one_night import play_one_night_werewolf
-from src.const import logger
-from src import const
 
 
 def generate_data():

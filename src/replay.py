@@ -1,14 +1,14 @@
 ''' replay.py '''
 import json
 
-from src.stats import Statistics, GameResult
+from src import const
 from src.algorithms import switching_solver
-from src.predictions import make_prediction, print_guesses
+from src.const import logger
 from src.encoder import WolfBotDecoder
 from src.one_night import print_roles
+from src.predictions import make_prediction, print_guesses
+from src.stats import GameResult, Statistics
 from src.voting import consolidate_results
-from src.const import logger
-from src import const
 
 
 def replay_game() -> GameResult:

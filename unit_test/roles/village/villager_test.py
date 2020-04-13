@@ -1,6 +1,6 @@
 ''' villager_test.py '''
-from src.statements import Statement
 from src.roles.village import Villager
+from src.statements import Statement
 
 
 class TestVillager:

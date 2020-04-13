@@ -1,7 +1,7 @@
 ''' util_test.py '''
 import pytest
 
-from src import util, const
+from src import const, util
 
 
 class TestSwapCharacters:

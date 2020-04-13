@@ -1,9 +1,9 @@
 ''' insomniac.py '''
 from typing import Dict, List, Optional
 
-from src.statements import Statement
-from src.const import logger
 from src import const
+from src.const import logger
+from src.statements import Statement
 
 from ..player import Player
 

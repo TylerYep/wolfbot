@@ -1,11 +1,11 @@
 ''' predictions.py '''
-from typing import Dict, List, Tuple, Union
 import random
+from typing import Dict, List, Tuple, Union
 
-from src.algorithms import SolverState
-from src.roles.player import Player
-from src.const import logger
 from src import const
+from src.algorithms import SolverState
+from src.const import logger
+from src.roles.player import Player
 
 
 def make_random_prediction() -> List[str]:

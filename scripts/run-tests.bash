@@ -14,6 +14,7 @@ cd "${0%/*}/.."
 # flake8 .         # python code quality check
 # nosetests        # python nose
 # just put your usual test command here
+isort
 pycodestyle .
 mypy .
 find . -iname "*.py" | xargs pylint

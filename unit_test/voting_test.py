@@ -1,9 +1,9 @@
 ''' voting_test.py '''
 import random
 
-from src import voting, const
+from src import const, voting
+from src.roles import Drunk, Minion, Robber, Seer, Villager, Wolf
 from src.stats import GameResult
-from src.roles import Drunk, Minion, Seer, Robber, Villager, Wolf
 
 
 class TestConsolidateResults:

@@ -1,11 +1,12 @@
 ''' conftest.py '''
-from typing import Tuple
-from collections import Counter
 import random
+from collections import Counter
+from typing import Tuple
+
 import pytest
 
-from src import const
 from fixtures import *
+from src import const
 
 
 @pytest.fixture(autouse=True)

@@ -1,9 +1,10 @@
 ''' main.py '''
-import time
 import logging
+import time
+
 from tqdm import tqdm
 
-from src import Statistics, play_one_night_werewolf, logger, const, replay_game
+from src import Statistics, const, logger, play_one_night_werewolf, replay_game
 
 
 def main(num_games: int = const.NUM_GAMES) -> None:

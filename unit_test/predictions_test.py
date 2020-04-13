@@ -1,5 +1,5 @@
 ''' predictions_test.py '''
-from src import predictions, const
+from src import const, predictions
 from src.algorithms import SolverState
 
 

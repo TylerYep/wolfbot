@@ -1,7 +1,7 @@
 ''' robber_test.py '''
 from src import const
-from src.statements import Statement
 from src.roles.village import Robber
+from src.statements import Statement
 
 
 class TestRobber:

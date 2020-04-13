@@ -2,7 +2,7 @@
 import json
 import random
 
-from src import one_night, const, stats
+from src import const, one_night, stats
 
 
 class TestAggregate:

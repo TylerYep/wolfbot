@@ -1,6 +1,6 @@
 ''' profile.py '''
-import pstats
 import cProfile
+import pstats
 
 from main import main  # pylint: disable=unused-import
 

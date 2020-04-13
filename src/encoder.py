@@ -1,13 +1,13 @@
 ''' encoder.py '''
-from typing import Any, Dict
-import sys
 import json
 import pickle
+import sys
+from typing import Any, Dict
 
-from src.stats import GameResult, SavedGame
-from src.statements import Statement
-from src.roles import Player, get_role_obj
 from src import const
+from src.roles import Player, get_role_obj
+from src.statements import Statement
+from src.stats import GameResult, SavedGame
 
 
 class WolfBotEncoder(json.JSONEncoder):

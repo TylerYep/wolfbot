@@ -1,5 +1,5 @@
 ''' replay_test.py '''
-from src import replay, const, one_night
+from src import const, one_night, replay
 
 
 class TestReplay:

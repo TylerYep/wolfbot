@@ -1,7 +1,7 @@
 ''' player_test.py '''
-from src.statements import Statement
 from src.roles import Player
 from src.roles.village import Robber, Villager
+from src.statements import Statement
 
 
 class TestPlayer:

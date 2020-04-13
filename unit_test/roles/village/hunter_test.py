@@ -1,6 +1,6 @@
 ''' hunter_test.py '''
-from src.statements import Statement
 from src.roles.village import Hunter
+from src.statements import Statement
 
 
 class TestHunter:

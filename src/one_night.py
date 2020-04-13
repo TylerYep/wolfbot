@@ -1,15 +1,15 @@
 ''' one_night.py '''
-from typing import List, Tuple, Union
-import random
 import json
+import random
+from typing import List, Tuple, Union
 
-from src.stats import GameResult, SavedGame
+from src import const, util
+from src.const import logger
 from src.encoder import WolfBotEncoder
 from src.roles import Player, get_role_obj
 from src.statements import Statement
+from src.stats import GameResult, SavedGame
 from src.voting import consolidate_results
-from src.const import logger
-from src import const, util
 
 
 def play_one_night_werewolf(save_replay: bool = True) -> GameResult:

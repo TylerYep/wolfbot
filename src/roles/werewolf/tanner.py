@@ -1,14 +1,14 @@
 ''' tanner.py '''
-from typing import Dict, List, Tuple
 import random
+from typing import Dict, List, Tuple
 
-from src.statements import Statement
+from src import const
 from src.algorithms import switching_solver
 from src.predictions import make_unrestricted_prediction
-from src import const
+from src.statements import Statement
 
 from ..player import Player
-from .wolf_variants import get_wolf_statements_random, get_statement_expectimax
+from .wolf_variants import get_statement_expectimax, get_wolf_statements_random
 
 
 class Tanner(Player):

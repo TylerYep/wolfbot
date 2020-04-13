@@ -1,11 +1,11 @@
 ''' expectimax_wolf.py '''
-from typing import Any, Dict, List, Tuple
 import random
+from typing import Any, Dict, List, Tuple
 
-from src.statements import Statement
+from src import const, roles
 from src.algorithms import SolverState, is_consistent
 from src.const import logger
-from src import const, roles
+from src.statements import Statement
 
 
 def get_expected_statements() -> Dict[int, List[Statement]]:

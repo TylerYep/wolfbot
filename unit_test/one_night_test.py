@@ -1,5 +1,5 @@
 ''' one_night_test.py '''
-from src import one_night, const
+from src import const, one_night
 
 
 class TestPlayOneNightWerewolf:

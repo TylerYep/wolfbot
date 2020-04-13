@@ -1,7 +1,7 @@
 ''' statements_test.py '''
 import pytest
 
-from src import statements, const
+from src import const, statements
 from src.const import Priority
 
 

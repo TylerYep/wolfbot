@@ -1,9 +1,9 @@
 ''' random_wolf.py '''
-from typing import Any, List
 import random
+from typing import Any, List
 
-from src.statements import Statement
 from src import const, roles
+from src.statements import Statement
 
 
 def get_wolf_statements_random(player_obj: Any) -> List[Statement]:

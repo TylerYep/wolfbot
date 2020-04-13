@@ -1,9 +1,9 @@
 ''' stats_test.py '''
 import pytest
 
-from src import stats, const
+from src import const, stats
+from src.roles import Robber, Seer, Villager
 from src.statements import Statement
-from src.roles import Villager, Robber, Seer
 
 
 class TestSavedGame:

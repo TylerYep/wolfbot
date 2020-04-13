@@ -2,16 +2,16 @@
 train.py
 To run, cd to src/ and run python -m learning.train
 '''
+import json
 import os
 import time
-import json
 from collections import defaultdict
 
-from src.encoder import WolfBotEncoder, WolfBotDecoder
-from src.stats import Statistics
-from src.one_night import play_one_night_werewolf
-from src.const import logger
 from src import const
+from src.const import logger
+from src.encoder import WolfBotDecoder, WolfBotEncoder
+from src.one_night import play_one_night_werewolf
+from src.stats import Statistics
 
 
 def evaluate(game):

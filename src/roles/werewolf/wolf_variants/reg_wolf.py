@@ -1,10 +1,10 @@
 ''' reg_wolf.py '''
 from typing import Any, List
 
-from src.statements import Statement
 from src import const
+from src.statements import Statement
 
-from ...village import Villager, Mason, Seer, Robber, Troublemaker, Drunk, Insomniac, Hunter
+from ...village import Drunk, Hunter, Insomniac, Mason, Robber, Seer, Troublemaker, Villager
 
 
 def get_wolf_statements(player_obj: Any,

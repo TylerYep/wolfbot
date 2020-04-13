@@ -1,10 +1,10 @@
 ''' const.py '''
-import sys
-import random
-import logging
-from enum import IntEnum, unique
-from collections import Counter
 import argparse
+import logging
+import random
+import sys
+from collections import Counter
+from enum import IntEnum, unique
 
 
 @unique

@@ -1,11 +1,11 @@
 ''' player.py '''
-from typing import Any, Dict, List
 import random
+from typing import Any, Dict, List
 
 from src import const, util
+from src.algorithms import switching_solver
 from src.const import logger
 from src.statements import Statement
-from src.algorithms import switching_solver
 
 
 class Player:

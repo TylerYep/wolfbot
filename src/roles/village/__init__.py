@@ -1,10 +1,10 @@
 ''' Imports all Village team objects. '''
+from .drunk import Drunk
+from .hunter import Hunter
+from .insomniac import Insomniac
+from .mason import Mason
+from .robber import Robber
+from .seer import Seer
+from .troublemaker import Troublemaker
 # from .player import Player
 from .villager import Villager
-from .mason import Mason
-from .seer import Seer
-from .robber import Robber
-from .troublemaker import Troublemaker
-from .drunk import Drunk
-from .insomniac import Insomniac
-from .hunter import Hunter

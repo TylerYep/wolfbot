@@ -1,7 +1,7 @@
 ''' troublemaker_test.py '''
 from src import const
-from src.statements import Statement
 from src.roles.village import Troublemaker
+from src.statements import Statement
 
 
 class TestTroublemaker:

@@ -1,6 +1,5 @@
 ''' algorithms_test.py '''
-from src import const
-from src import algorithms
+from src import algorithms, const
 from src.const import Priority
 from src.statements import Statement
 

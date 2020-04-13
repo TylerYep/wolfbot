@@ -2,8 +2,8 @@
 import json
 
 from src import encoder
-from src.encoder import WolfBotEncoder, WolfBotDecoder
-from src.roles import Villager, Player, Robber, Seer
+from src.encoder import WolfBotDecoder, WolfBotEncoder
+from src.roles import Player, Robber, Seer, Villager
 from src.statements import Statement
 from src.stats import GameResult, SavedGame
 

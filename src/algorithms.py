@@ -1,9 +1,9 @@
 ''' algorithms.py '''
 from typing import FrozenSet, List, Set, Tuple, Union
 
-from src.statements import Statement
-from src.const import Priority
 from src import const
+from src.const import Priority
+from src.statements import Statement
 
 
 class SolverState:

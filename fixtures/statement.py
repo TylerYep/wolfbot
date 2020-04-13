@@ -1,5 +1,6 @@
 ''' statements.py '''
 from typing import List
+
 import pytest
 
 from src.const import Priority

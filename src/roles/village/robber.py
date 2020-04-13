@@ -1,9 +1,9 @@
 ''' robber.py '''
 from typing import Dict, List
 
-from src.statements import Statement
-from src.const import logger, Priority
 from src import const, util
+from src.const import Priority, logger
+from src.statements import Statement
 
 from ..player import Player
 
