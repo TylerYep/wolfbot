@@ -1,4 +1,4 @@
-''' Imports all Village team objects. '''
+""" Imports all Village team objects. """
 from .drunk import Drunk
 from .hunter import Hunter
 from .insomniac import Insomniac

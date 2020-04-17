@@ -1,4 +1,4 @@
-''' algorithms.py '''
+""" algorithms.py """
 from typing import FrozenSet, List, Set, Tuple, Union
 
 from src import const
@@ -7,40 +7,42 @@ from src.statements import Statement
 
 
 class SolverState:
-    '''
+    """
     Each solver returns a SolverState object with the result.
     @param path: tuple of (True, False, True ...) values.
-    '''
+    """
 
-    def __init__(self,
-                 possible_roles: Union[List, List[Set[str]], List[FrozenSet[str]]] = None,
-                 switches: Tuple[Tuple[Priority, int, int], ...] = (),
-                 path_init: Tuple[bool, ...] = ()):
+    def __init__(
+        self,
+        possible_roles: Union[List, List[Set[str]], List[FrozenSet[str]]] = None,
+        switches: Tuple[Tuple[Priority, int, int], ...] = (),
+        path_init: Tuple[bool, ...] = (),
+    ):
         possible = [const.ROLE_SET] * const.NUM_ROLES if possible_roles is None else possible_roles
         self.possible_roles = tuple([frozenset(role_set) for role_set in possible])
         self.switches = switches
         self.path = path_init
 
     def is_valid_state(self) -> bool:
-        ''' Checks for invalid state, denoted as SolverState([]). '''
+        """ Checks for invalid state, denoted as SolverState([]). """
         return bool(self.possible_roles)
 
     def __eq__(self, other) -> bool:
-        ''' Checks for equality between SolverStates. '''
+        """ Checks for equality between SolverStates. """
         return self.__dict__ == other.__dict__
 
     def __repr__(self) -> str:
-        ''' Returns a String representation of a SolverState. '''
+        """ Returns a String representation of a SolverState. """
         possible = [set(roles) for roles in self.possible_roles]
-        return f'SolverState({possible}, {self.switches}, {self.path})'
+        return f"SolverState({possible}, {self.switches}, {self.path})"
 
 
 def is_consistent(statement: Statement, state: SolverState) -> SolverState:
-    '''
+    """
     Returns the new state if the statement is consistent with state,
     otherwise returns an empty state.
     @param state: list that contains a set of possible roles for each player.
-    '''
+    """
     new_switches = state.switches + statement.switches
     new_possible_roles = list(state.possible_roles)
     for proposed_ind, proposed_roles in statement.knowledge:
@@ -54,7 +56,8 @@ def is_consistent(statement: Statement, state: SolverState) -> SolverState:
 
 
 def cached_solver(statements: Tuple[Statement, ...]) -> int:
-    ''' Returns maximal number of statements that can be true from a list of Statements. '''
+    """ Returns maximal number of statements that can be true from a list of Statements. """
+
     def _cache_recurse(ind, state) -> int:
         if ind == len(statements) or not state.is_valid_state():
             return 0
@@ -66,19 +69,20 @@ def cached_solver(statements: Tuple[Statement, ...]) -> int:
     return _cache_recurse(0, SolverState())
 
 
-def switching_solver(statements: Tuple[Statement, ...],
-                     known_true: Tuple[int, ...] = ()) -> List[SolverState]:
-    '''
+def switching_solver(
+    statements: Tuple[Statement, ...], known_true: Tuple[int, ...] = ()
+) -> List[SolverState]:
+    """
     Returns maximal list of statements that can be true from a list
     of Statements. Handles switching characters.
     Returns a list of [True, False, True ...] values and
     the possible role sets for each player.
-    '''
+    """
     start_state = SolverState()
     solution = [start_state]
 
     def _switch_recurse(ind: int, state: SolverState) -> None:
-        ''' ind = index of statement being considered. '''
+        """ ind = index of statement being considered. """
         nonlocal solution
         curr_path_count = state.path.count(True)
         prev_max = solution[0].path.count(True)
@@ -108,13 +112,14 @@ def switching_solver(statements: Tuple[Statement, ...],
     return solution
 
 
-def check_role_counts(possible_roles_list: List[FrozenSet[str]],
-                      proposed_roles: FrozenSet[str]) -> bool:
-    '''
+def check_role_counts(
+    possible_roles_list: List[FrozenSet[str]], proposed_roles: FrozenSet[str]
+) -> bool:
+    """
     Returns a dictionary of counts for each role in [proposed roles sets].
     Only counts players in which we are sure of their role, such as:
     {'Villager': 3, 'Robber': 0, 'Seer': 0, 'Wolf': 1}
-    '''
+    """
     counts_dict = dict(const.ROLE_COUNTS)
     for possible_roles in possible_roles_list:
         if len(possible_roles) == 1:

@@ -1,4 +1,4 @@
-''' Imports all Player objects. '''
+""" Imports all Player objects. """
 import sys
 from typing import Any
 
@@ -17,5 +17,5 @@ from .werewolf.wolf import Wolf
 
 
 def get_role_obj(role_str: str) -> Any:
-    ''' Retrieves class initializer from its string name. '''
+    """ Retrieves class initializer from its string name. """
     return getattr(sys.modules[__name__], role_str)
