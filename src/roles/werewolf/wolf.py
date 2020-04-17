@@ -9,8 +9,13 @@ from src.predictions import make_unrestricted_prediction
 from src.statements import Statement
 
 from ..player import Player
-from .wolf_variants import (get_center_wolf_statements, get_statement_expectimax,
-                            get_statement_rl, get_wolf_statements, get_wolf_statements_random)
+from .wolf_variants import (
+    get_center_wolf_statements,
+    get_statement_expectimax,
+    get_statement_rl,
+    get_wolf_statements,
+    get_wolf_statements_random,
+)
 
 
 class Wolf(Player):

@@ -12,7 +12,7 @@ mypy .
 
 # Auto-code formatters
 isort -y
-# black . -l 100
+black . -l 100
 
 # Style Checking
 flake8 .
