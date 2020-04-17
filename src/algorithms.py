@@ -1,4 +1,5 @@
 """ algorithms.py """
+from dataclasses import dataclass
 from typing import FrozenSet, List, Set, Tuple, Union
 
 from src import const
@@ -6,6 +7,7 @@ from src.const import Priority
 from src.statements import Statement
 
 
+@dataclass
 class SolverState:
     """
     Each solver returns a SolverState object with the result.
@@ -27,14 +29,10 @@ class SolverState:
         """ Checks for invalid state, denoted as SolverState([]). """
         return bool(self.possible_roles)
 
-    def __eq__(self, other) -> bool:
-        """ Checks for equality between SolverStates. """
-        return self.__dict__ == other.__dict__
-
     def __repr__(self) -> str:
         """ Returns a String representation of a SolverState. """
         possible = [set(roles) for roles in self.possible_roles]
-        return f"SolverState({possible}, {self.switches}, {self.path})"
+        return f"SolverState(possible_roles={possible}, switches={self.switches}, path={self.path})"
 
 
 def is_consistent(statement: Statement, state: SolverState) -> SolverState:

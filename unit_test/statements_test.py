@@ -78,8 +78,8 @@ class TestStatement:
     def test_repr(example_statement):
         """ Should convert a Statement into a string with all useful fields. """
         expected = (
-            "Statement(\"test\", [(2, {'Robber'}), (0, {'Seer'})], "
-            "[(<Priority.ROBBER: 1>, 2, 0)], 'Robber')"
+            "Statement(sentence=\"test\", knowledge=[(2, {'Robber'}), (0, {'Seer'})], "
+            "switches=[(<Priority.ROBBER: 1>, 2, 0)], speaker='Robber')"
         )
 
         result = str(example_statement)

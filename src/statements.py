@@ -83,4 +83,7 @@ class Statement:
     def __repr__(self) -> str:
         knowledge = [(i, set(role_set)) for i, role_set in self.knowledge]
         switches = list(self.switches)
-        return f"Statement(\"{self.sentence}\", {knowledge}, {switches}, '{self.speaker}')"
+        return (
+            f'Statement(sentence="{self.sentence}", knowledge={knowledge}, '
+            f"switches={switches}, speaker='{self.speaker}')"
+        )
