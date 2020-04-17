@@ -1,15 +1,15 @@
-''' util_test.py '''
+""" util_test.py """
 import pytest
 
 from src import const, util
 
 
 class TestSwapCharacters:
-    ''' Tests for the swap_characters function. '''
+    """ Tests for the swap_characters function. """
 
     @staticmethod
     def test_same_index_error(small_game_roles):
-        ''' Don't attempt to swap the same index. '''
+        """ Don't attempt to swap the same index. """
         roles = list(small_game_roles)
 
         with pytest.raises(AssertionError):
@@ -17,45 +17,45 @@ class TestSwapCharacters:
 
     @staticmethod
     def test_swap(small_game_roles):
-        ''' Correctly swap two players. '''
+        """ Correctly swap two players. """
         roles = list(small_game_roles)
 
         util.swap_characters(roles, 0, 2)
 
-        assert roles == ['Robber', 'Seer', 'Villager']
+        assert roles == ["Robber", "Seer", "Villager"]
 
 
 class TestFindAllPlayerIndices:
-    ''' Tests for the find_all_player_indices function. '''
+    """ Tests for the find_all_player_indices function. """
 
     @staticmethod
     def test_returns_correct_indices(large_game_roles):
-        ''' Don't attempt to swap the same index. '''
+        """ Don't attempt to swap the same index. """
         roles = list(large_game_roles)
 
-        result = util.find_all_player_indices(roles, 'Villager')
+        result = util.find_all_player_indices(roles, "Villager")
 
         assert result == [1, 4, 11]
 
 
 class TestGetPlayer:
-    ''' Tests for the get_player function. '''
+    """ Tests for the get_player function. """
 
     pass
 
 
 class TestGetCenter:
-    ''' Tests for the get_center function. '''
+    """ Tests for the get_center function. """
 
     pass
 
 
 class TestGetRandomPlayer:
-    ''' Tests for the get_random_player function. '''
+    """ Tests for the get_random_player function. """
 
     @staticmethod
     def test_generates_different_indices(large_game_roles):
-        ''' Generated indices should be random. '''
+        """ Generated indices should be random. """
         const.ROLES = large_game_roles
 
         result = [util.get_random_player() for _ in range(10)]
@@ -64,7 +64,7 @@ class TestGetRandomPlayer:
 
     @staticmethod
     def test_excludes_specified_values(large_game_roles):
-        ''' Generated indices should exclude specified values. '''
+        """ Generated indices should exclude specified values. """
         const.ROLES = large_game_roles
         exclude = (6, 7, 8)
 
@@ -75,11 +75,11 @@ class TestGetRandomPlayer:
 
 
 class TestGetRandomCenter:
-    ''' Tests for the get_random_center function. '''
+    """ Tests for the get_random_center function. """
 
     @staticmethod
     def test_generates_different_indices(large_game_roles):
-        ''' Generated indices should be random. '''
+        """ Generated indices should be random. """
         const.ROLES = large_game_roles
 
         result = [util.get_random_center() for _ in range(10)]
@@ -88,7 +88,7 @@ class TestGetRandomCenter:
 
     @staticmethod
     def test_excludes_specified_values(large_game_roles):
-        ''' Generated indices should exclude specified values. '''
+        """ Generated indices should exclude specified values. """
         const.ROLES = large_game_roles
         exclude = (12, 13)
 
@@ -99,18 +99,18 @@ class TestGetRandomCenter:
 
 
 class TestInputPlayer:
-    ''' Tests for the input_player function. '''
+    """ Tests for the input_player function. """
 
     pass
 
 
 class TestInputCenter:
-    ''' Tests for the input_center function. '''
+    """ Tests for the input_center function. """
 
     pass
 
 
 class TestGetNumericInput:
-    ''' Tests for the get_numeric_input function. '''
+    """ Tests for the get_numeric_input function. """
 
     pass

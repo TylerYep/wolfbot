@@ -1,5 +1,6 @@
 ''' stats.py '''
 from collections import Counter
+from dataclasses import dataclass
 from typing import Dict, List, Tuple
 
 from src import const
@@ -8,27 +9,17 @@ from src.roles import Player
 from src.statements import Statement
 
 
+@dataclass
 class SavedGame:
     ''' All of the necessary data needed to rerun a game. '''
-
-    def __init__(self,
-                 original_roles: Tuple[str, ...],
-                 game_roles: List[str],
-                 all_statements: List[Statement],
-                 player_objs: List[Player]):
-        self.original_roles = tuple(original_roles)
-        self.game_roles = game_roles
-        self.all_statements = all_statements
-        self.player_objs = player_objs
+    original_roles: Tuple[str, ...]
+    game_roles: List[str]
+    all_statements: List[Statement]
+    player_objs: List[Player]
 
     def load_game(self) -> Tuple[Tuple[str, ...], List[str], List[Statement], List[Player]]:
         ''' Returns game data. '''
         return self.original_roles, self.game_roles, self.all_statements, self.player_objs
-
-    def __eq__(self, other) -> bool:
-        ''' Checks for equality between SavedGames. '''
-        assert isinstance(other, SavedGame)
-        return self.__dict__ == other.__dict__
 
     def json_repr(self) -> Dict:
         ''' Returns json representation of the GameResult. '''
@@ -40,29 +31,14 @@ class SavedGame:
             'player_objs': self.player_objs
         }
 
-    def __repr__(self) -> str:
-        ''' Returns string representation of the SavedGame. '''
-        return (f'SavedGame({self.original_roles}, {self.game_roles}, '
-                f'{self.all_statements}, {self.player_objs})')
 
-
+@dataclass
 class GameResult:
     ''' Each round of one_night returns a GameResult. '''
-
-    def __init__(self,
-                 actual: List[str],
-                 guessed: List[str],
-                 wolf_inds: List[int],
-                 winning_team: str = ''):
-        self.actual = actual
-        self.guessed = guessed
-        self.wolf_inds = wolf_inds
-        self.winning_team = winning_team
-
-    def __eq__(self, other) -> bool:
-        ''' Checks for equality between GameResults. '''
-        assert isinstance(other, GameResult)
-        return self.__dict__ == other.__dict__
+    actual: List[str]
+    guessed: List[str]
+    wolf_inds: List[int]
+    winning_team: str = ''
 
     def json_repr(self) -> Dict:
         ''' Returns json representation of the GameResult. '''
@@ -73,10 +49,6 @@ class GameResult:
             'wolf_inds': self.wolf_inds,
             'winning_team': self.winning_team
         }
-
-    def __repr__(self) -> str:
-        ''' Returns string representation of the GameResult. '''
-        return f'GameResult({self.actual}, {self.guessed}, {self.wolf_inds}, {self.winning_team})'
 
 
 class Statistics:
