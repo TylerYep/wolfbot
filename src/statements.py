@@ -63,7 +63,7 @@ class Statement:
         neg = [(i, const.ROLE_SET - role_set) for i, role_set in self.knowledge]
         return Statement("NOT - " + self.sentence, neg, [], self.speaker)
 
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other: object) -> bool:
         assert isinstance(other, Statement)
         return self.__dict__ == other.__dict__
 

@@ -1,4 +1,6 @@
 """ villager.py """
+from __future__ import annotations
+
 from typing import Dict, List
 
 from src.statements import Statement
@@ -14,7 +16,9 @@ class Villager(Player):
         self.statements = self.get_villager_statements(player_index)
 
     @classmethod
-    def awake_init(cls, player_index: int, game_roles: List[str], original_roles: List[str]):
+    def awake_init(
+        cls, player_index: int, game_roles: List[str], original_roles: List[str]
+    ) -> Villager:
         """ Initializes Villager when night falls. """
         del game_roles, original_roles
         return cls(player_index)

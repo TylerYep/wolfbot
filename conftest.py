@@ -1,7 +1,7 @@
 """ conftest.py """
 import random
 from collections import Counter
-from typing import Tuple
+from typing import List, Tuple
 
 import pytest
 
@@ -132,7 +132,7 @@ def standard_game_roles() -> Tuple[str, ...]:
 
 
 @pytest.fixture
-def large_individual_preds():
+def large_individual_preds() -> List[List[str]]:
     # fmt: off
     return [['Villager', 'Mason', 'Mason', 'Minion', 'Villager', 'Drunk', 'Tanner', 'Troublemaker',
              'Villager', 'Wolf', 'Wolf', 'Hunter', 'Insomniac', 'Seer', 'Robber'],
@@ -161,7 +161,7 @@ def large_individual_preds():
     # fmt: on
 
 
-def debug_spacing_issues(captured: str, expected: str):
+def debug_spacing_issues(captured: str, expected: str) -> None:
     """ Helper method for debugging print differences. """
     print(len(captured), len(expected))
     for i, captured_char in enumerate(captured):

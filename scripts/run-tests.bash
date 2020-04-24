@@ -13,6 +13,7 @@ mypy .
 # Auto-code formatters
 isort -y
 black . -l 100
+git add .
 
 # Style Checking
 flake8 .
@@ -20,4 +21,4 @@ pycodestyle .
 find . -iname "*.py" | xargs pylint
 
 # Testing
-pytest
+pytest unit_test

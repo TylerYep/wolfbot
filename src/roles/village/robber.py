@@ -1,4 +1,6 @@
 """ robber.py """
+from __future__ import annotations
+
 from typing import Dict, List
 
 from src import const, util
@@ -18,7 +20,9 @@ class Robber(Player):
         self.statements = self.get_robber_statements(player_index, choice_ind, new_role)
 
     @classmethod
-    def awake_init(cls, player_index: int, game_roles: List[str], original_roles: List[str]):
+    def awake_init(
+        cls, player_index: int, game_roles: List[str], original_roles: List[str]
+    ) -> Robber:
         """ Initializes Robber - switches roles with another player. """
         del original_roles
         is_user = const.IS_USER[player_index]

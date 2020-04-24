@@ -1,4 +1,6 @@
 """ drunk.py """
+from __future__ import annotations
+
 from typing import Dict, List
 
 from src import const, util
@@ -17,7 +19,9 @@ class Drunk(Player):
         self.statements = self.get_drunk_statements(player_index, choice_ind)
 
     @classmethod
-    def awake_init(cls, player_index: int, game_roles: List[str], original_roles: List[str]):
+    def awake_init(
+        cls, player_index: int, game_roles: List[str], original_roles: List[str]
+    ) -> Drunk:
         """ Initializes Drunk - switches with a card in the center. """
         del original_roles
         assert const.NUM_CENTER != 0

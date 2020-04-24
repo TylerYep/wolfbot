@@ -9,9 +9,21 @@ def profile():
     """
     Prints top N methods, sorted by time.
     Equivalent to:
-    python -m cProfile -o data/profile.txt main.py -n 100
+        python -m cProfile -o data/profile.txt main.py -n 100
     Options:
-    time, cumulative, line, name, nfl, calls
+        time, cumulative, line, name, nfl, calls
+    -----------
+    ncalls - for the number of calls.
+
+    tottime - for the total time spent in the given function
+    (and excluding time made in calls to sub-functions)
+
+    percall - is the quotient of tottime divided by ncalls
+
+    cumtime - is the cumulative time spent in this and all subfunctions
+    (from invocation till exit). This figure is accurate even for recursive functions.
+
+    percall - is the quotient of cumtime divided by primitive calls
     """
     command = "main(100)"
     profile_file = "data/profile.txt"

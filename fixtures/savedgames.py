@@ -1,4 +1,6 @@
 """ savedgames.py """
+from typing import Tuple
+
 import pytest
 
 from src import const
@@ -9,7 +11,7 @@ from src.stats import SavedGame
 
 
 @pytest.fixture
-def example_small_saved_game(small_game_roles) -> SavedGame:
+def example_small_saved_game(small_game_roles: Tuple[str, ...]) -> SavedGame:
     return SavedGame(
         ("Villager", "Robber", "Seer"),
         ["Villager", "Seer", "Robber"],
@@ -33,7 +35,7 @@ def example_small_saved_game(small_game_roles) -> SavedGame:
 
 
 @pytest.fixture
-def example_medium_saved_game(medium_game_roles) -> SavedGame:
+def example_medium_saved_game(medium_game_roles: Tuple[str, ...]) -> SavedGame:
     return SavedGame(
         ("Seer", "Wolf", "Drunk", "Robber", "Minion", "Troublemaker"),
         ["Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"],
@@ -80,7 +82,7 @@ def example_medium_saved_game(medium_game_roles) -> SavedGame:
 
 
 @pytest.fixture
-def example_large_saved_game(large_game_roles) -> SavedGame:
+def example_large_saved_game(large_game_roles: Tuple[str, ...]) -> SavedGame:
     mason_roles = [(i, const.ROLE_SET - {"Mason"}) for i in range(const.NUM_PLAYERS) if i != 2]
     return SavedGame(
         (

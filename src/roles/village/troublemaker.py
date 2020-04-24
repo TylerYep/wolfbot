@@ -1,4 +1,6 @@
 """ troublemaker.py """
+from __future__ import annotations
+
 from typing import Dict, List
 
 from src import const, util
@@ -17,7 +19,9 @@ class Troublemaker(Player):
         self.statements = self.get_troublemaker_statements(player_index, choice_ind1, choice_ind2)
 
     @classmethod
-    def awake_init(cls, player_index: int, game_roles: List[str], original_roles: List[str]):
+    def awake_init(
+        cls, player_index: int, game_roles: List[str], original_roles: List[str]
+    ) -> Troublemaker:
         """ Initializes Troublemaker - switches one player with another player. """
         del original_roles
         is_user = const.IS_USER[player_index]

@@ -1,4 +1,6 @@
 """ tanner.py """
+from __future__ import annotations
+
 import random
 from typing import Dict, List, Tuple
 
@@ -19,7 +21,9 @@ class Tanner(Player):
         self.statements = get_wolf_statements_random(self)
 
     @classmethod
-    def awake_init(cls, player_index: int, game_roles: List[str], original_roles: List[str]):
+    def awake_init(
+        cls, player_index: int, game_roles: List[str], original_roles: List[str]
+    ) -> Tanner:
         """ Initializes Tanner when night falls. """
         del game_roles, original_roles
         return cls(player_index)

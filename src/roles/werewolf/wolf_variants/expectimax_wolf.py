@@ -1,6 +1,6 @@
 """ expectimax_wolf.py """
 import random
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 from src import const, roles
 from src.algorithms import SolverState, is_consistent
@@ -34,7 +34,7 @@ def get_statement_expectimax(player_obj: Any, prev_statements: List[Statement]) 
         state: SolverState,
         ind: int,
         depth: int = const.EXPECTIMAX_DEPTH,
-    ):
+    ) -> Tuple[float, Optional[Statement]]:
         """
         Runs expectimax on the list of statements and current state using the given depth.
         Depth: how many players to look into the future.
@@ -67,7 +67,7 @@ def get_statement_expectimax(player_obj: Any, prev_statements: List[Statement]) 
         ind: int,
         depth: int,
         is_evil: bool = False,
-    ):
+    ) -> List[float]:
         """ Evaluate current state (value of consistent statements) and return values. """
         values = []
         for statement in next_statements:
@@ -89,4 +89,5 @@ def get_statement_expectimax(player_obj: Any, prev_statements: List[Statement]) 
 
     best_val, best_move = expectimax(tuple(prev_statements), start_state, player_obj.player_index)
     logger.debug(f"Evaluation Function Score: {best_val}")
+    assert best_move is not None
     return best_move

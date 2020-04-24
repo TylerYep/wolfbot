@@ -1,4 +1,6 @@
 """ seer.py """
+from __future__ import annotations
+
 import random
 from typing import Dict, List, Optional, Tuple
 
@@ -26,7 +28,9 @@ class Seer(Player):
         self.statements = self.get_seer_statements(player_index, choice_1, choice_2)
 
     @classmethod
-    def awake_init(cls, player_index: int, game_roles: List[str], original_roles: List[str]):
+    def awake_init(
+        cls, player_index: int, game_roles: List[str], original_roles: List[str]
+    ) -> Seer:
         """ Initializes Seer - either sees 2 center cards or 1 player card. """
         del original_roles
 

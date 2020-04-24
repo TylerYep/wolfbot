@@ -1,4 +1,6 @@
 """ wolf.py """
+from __future__ import annotations
+
 import random
 from typing import Dict, List, Optional, Tuple
 
@@ -34,7 +36,9 @@ class Wolf(Player):
         self.center_role = center_role
 
     @classmethod
-    def awake_init(cls, player_index: int, game_roles: List[str], original_roles: List[str]):
+    def awake_init(
+        cls, player_index: int, game_roles: List[str], original_roles: List[str]
+    ) -> Wolf:
         """
         Constructor: original_roles defaults to [] when a player becomes a Wolf and realizes it.
         Initializes Wolf - gets Wolf indices and a random center card, if applicable.

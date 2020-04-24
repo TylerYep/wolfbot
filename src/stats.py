@@ -184,7 +184,7 @@ class Statistics:
         """ Returns 1/1 if the Werewolf team won. """
         return int(game_result.winning_team == "Werewolf"), 1
 
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other: object) -> bool:
         """ Checks for equality between Statistics objects. """
         assert isinstance(other, Statistics)
         return self.__dict__ == other.__dict__

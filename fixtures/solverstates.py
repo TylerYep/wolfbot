@@ -1,5 +1,5 @@
 """ solverstates.py """
-from typing import List
+from typing import List, Tuple
 
 import pytest
 
@@ -9,19 +9,19 @@ from src.const import Priority
 
 
 @pytest.fixture
-def example_small_solverstate(small_game_roles) -> SolverState:
+def example_small_solverstate(small_game_roles: Tuple[str, ...]) -> SolverState:
     possible_roles = [{"Seer"}, {"Robber", "Villager", "Seer"}, {"Robber"}]
     return SolverState(possible_roles, ((Priority.ROBBER, 2, 0),))
 
 
 @pytest.fixture
-def example_small_solverstate_solved(small_game_roles) -> SolverState:
+def example_small_solverstate_solved(small_game_roles: Tuple[str, ...]) -> SolverState:
     possible_roles = [{"Villager"}, {"Robber"}, {"Seer"}]
     return SolverState(possible_roles, ((Priority.ROBBER, 1, 2),), (True, True, True))
 
 
 @pytest.fixture
-def example_medium_solverstate(medium_game_roles) -> SolverState:
+def example_medium_solverstate(medium_game_roles: Tuple[str, ...]) -> SolverState:
     possible_roles = [
         {"Seer"},
         {"Troublemaker", "Wolf", "Drunk", "Robber", "Seer", "Minion"},
@@ -34,7 +34,7 @@ def example_medium_solverstate(medium_game_roles) -> SolverState:
 
 
 @pytest.fixture
-def example_medium_solverstate_solved(medium_game_roles) -> SolverState:
+def example_medium_solverstate_solved(medium_game_roles: Tuple[str, ...]) -> SolverState:
     possible_roles = [
         {"Seer"},
         {"Robber", "Drunk", "Wolf", "Troublemaker", "Minion"},
@@ -49,7 +49,7 @@ def example_medium_solverstate_solved(medium_game_roles) -> SolverState:
 
 
 @pytest.fixture
-def example_medium_solved_list(medium_game_roles) -> List[SolverState]:
+def example_medium_solved_list(medium_game_roles: Tuple[str, ...]) -> List[SolverState]:
     return [
         SolverState(
             [
@@ -79,7 +79,7 @@ def example_medium_solved_list(medium_game_roles) -> List[SolverState]:
 
 
 @pytest.fixture
-def example_medium_solverstate_list(medium_game_roles) -> List[SolverState]:
+def example_medium_solverstate_list(medium_game_roles: Tuple[str, ...]) -> List[SolverState]:
     return [
         SolverState(
             [
@@ -121,7 +121,7 @@ def example_medium_solverstate_list(medium_game_roles) -> List[SolverState]:
 
 
 @pytest.fixture
-def example_large_solverstate(large_game_roles) -> SolverState:
+def example_large_solverstate(large_game_roles: Tuple[str, ...]) -> SolverState:
     possible_roles = [
         {"Robber"},
         {

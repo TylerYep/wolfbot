@@ -1,4 +1,6 @@
 """ insomniac.py """
+from __future__ import annotations
+
 from typing import Dict, List, Optional
 
 from src import const
@@ -17,7 +19,9 @@ class Insomniac(Player):
         self.statements = self.get_insomniac_statements(player_index, new_role)
 
     @classmethod
-    def awake_init(cls, player_index: int, game_roles: List[str], original_roles: List[str]):
+    def awake_init(
+        cls, player_index: int, game_roles: List[str], original_roles: List[str]
+    ) -> Insomniac:
         """ Initializes Insomniac - learns new role. """
         del original_roles
         is_user = const.IS_USER[player_index]

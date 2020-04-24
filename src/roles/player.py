@@ -82,11 +82,11 @@ class Player:
 
         return random.choice(tuple(self.statements))
 
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other: object) -> bool:
         """ Checks for equality between Players. """
         assert isinstance(other, Player)
         self_json, other_json = self.json_repr(), other.json_repr()
-        is_equal = all([self_json[key] == other_json[key] for key in self_json])
+        is_equal = all(self_json[key] == other_json[key] for key in self_json)
         return self.__dict__ == other.__dict__ and is_equal
 
     def json_repr(self) -> Dict:
