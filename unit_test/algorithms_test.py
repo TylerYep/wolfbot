@@ -87,6 +87,31 @@ class TestIsConsistent:
         assert result == example_medium_solverstate
 
 
+class TestCachedSolver:
+    """ Tests for the cached_solver and count_roles function. """
+
+    @staticmethod
+    def test_solver_small(small_statement_list):
+        """ Should return a SolverState with the most likely solution. """
+        result = algorithms.cached_solver(small_statement_list)
+
+        assert result == 3
+
+    @staticmethod
+    def test_solver_medium(medium_statement_list):
+        """ Should return a SolverState with the most likely solution. """
+        result = algorithms.cached_solver(medium_statement_list)
+
+        assert result == 3
+
+    @staticmethod
+    def test_solver_large(large_statement_list):
+        """ Should return a SolverState with the most likely solution. """
+        result = algorithms.cached_solver(large_statement_list)
+
+        assert result == 6
+
+
 class TestSwitchingSolver:
     """ Tests for the switching_solver and count_roles function. """
 

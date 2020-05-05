@@ -102,8 +102,8 @@ DEBUG = Include all hidden messages
 INFO = Regular gameplay
 WARNING = Results only """
 TRACE = 5
-logging.basicConfig(format="%(message)s", level=TRACE)  # , filename='test1.txt', filemode='a')
-logger = logging.getLogger()  # pylint: disable=invalid-name
+logging.basicConfig(format="%(message)s", level=TRACE)  # filename='test1.txt', filemode='a')
+logger = logging.getLogger()
 
 if ARGS.info:
     logger.setLevel(logging.INFO)
@@ -113,7 +113,7 @@ if INTERACTIVE_MODE_ON:
     logger.setLevel(logging.INFO)
 
 """ Ensure only one Wolf version is active """
-assert sum([USE_EXPECTIMAX_WOLF, USE_RL_WOLF]) <= 1
+assert not (USE_EXPECTIMAX_WOLF and USE_RL_WOLF)
 
 if sys.version_info < (3, 0):
     sys.stdout.write("Requires Python 3, not Python 2!\n")

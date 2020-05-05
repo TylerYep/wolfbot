@@ -1,6 +1,6 @@
 """ algorithms.py """
 from dataclasses import dataclass
-from typing import FrozenSet, List, Set, Tuple, Union
+from typing import FrozenSet, List, Optional, Set, Tuple, Union
 
 from src import const
 from src.const import Priority
@@ -16,7 +16,7 @@ class SolverState:
 
     def __init__(
         self,
-        possible_roles: Union[List, List[Set[str]], List[FrozenSet[str]]] = None,
+        possible_roles: Optional[Union[List, List[Set[str]], List[FrozenSet[str]]]] = None,
         switches: Tuple[Tuple[Priority, int, int], ...] = (),
         path_init: Tuple[bool, ...] = (),
     ):

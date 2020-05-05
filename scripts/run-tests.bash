@@ -21,4 +21,4 @@ pycodestyle .
 find . -iname "*.py" | xargs pylint
 
 # Testing
-pytest unit_test
+pytest --cov=src --cov-report=html unit_test
