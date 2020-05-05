@@ -58,6 +58,6 @@ class TestPrintRoles:
 
         captured = caplog.records[0].getMessage()
         expected = (
-            "[Hidden] Current roles: [Seer, Villager, Wolf]\n" "          Center cards: [Robber]\n"
+            f"[Hidden] Current roles: [Seer, Villager, Wolf]\n{' ' * 10}Center cards: [Robber]\n"
         )
         assert captured == expected

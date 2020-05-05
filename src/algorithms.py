@@ -54,7 +54,7 @@ def is_consistent(statement: Statement, state: SolverState) -> SolverState:
 
 
 def cached_solver(statements: Tuple[Statement, ...]) -> int:
-    """ Returns maximal number of statements that can be true from a list of Statements. """
+    """ Returns maximium number of statements that can be true from a list of Statements. """
 
     def _cache_recurse(ind: int, state: SolverState) -> int:
         if ind == len(statements) or not state.is_valid_state():

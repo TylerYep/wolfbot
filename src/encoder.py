@@ -13,7 +13,7 @@ from src.stats import GameResult, SavedGame
 class WolfBotEncoder(json.JSONEncoder):
     """ Encoder for all WolfBot objects. """
 
-    def default(self, o: Any) -> Dict:  # pylint: disable=method-hidden
+    def default(self, o: Any) -> Dict:
         """ Overrides encoding method. """
         if isinstance(o, (Player, Statement, GameResult, SavedGame)):
             return o.json_repr()
