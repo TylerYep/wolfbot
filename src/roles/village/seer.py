@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import random
-from typing import Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 from src import const, util
 from src.const import logger
@@ -21,8 +21,6 @@ class Seer(Player):
         choice_2: Tuple[Optional[int], Optional[str]] = (None, None),
     ):
         super().__init__(player_index)
-        # self.peek_ind1, self.peek_char1 = choice_1
-        # self.peek_ind2, self.peek_char2 = choice_2
         self.choice_1 = tuple(choice_1)
         self.choice_2 = tuple(choice_2)
         self.statements = self.get_seer_statements(player_index, choice_1, choice_2)
@@ -93,7 +91,7 @@ class Seer(Player):
                             statements += Seer.get_seer_statements(player_index, choice_1, choice_2)
         return statements
 
-    def json_repr(self) -> Dict:
+    def json_repr(self) -> Dict[str, Any]:
         """ Gets JSON representation of a Seer player. """
         return {
             "type": self.role,

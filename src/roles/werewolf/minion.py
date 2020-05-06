@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import random
-from typing import Dict, List, Tuple
+from typing import Any, Dict, List, Tuple
 
 from src import const, util
 from src.algorithms import switching_solver
@@ -66,7 +66,7 @@ class Minion(Player):
                 val -= 5
         return val
 
-    def json_repr(self) -> Dict:
+    def json_repr(self) -> Dict[str, Any]:
         """ Gets JSON representation of a Minion player. """
         return {
             "type": self.role,

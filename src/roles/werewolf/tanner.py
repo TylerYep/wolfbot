@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import random
-from typing import Dict, List, Tuple
+from typing import Any, Dict, List, Tuple
 
 from src import const
 from src.algorithms import switching_solver
@@ -47,6 +47,6 @@ class Tanner(Player):
             val += 10
         return val
 
-    def json_repr(self) -> Dict:
+    def json_repr(self) -> Dict[str, Any]:
         """ Gets JSON representation of a Tanner player. """
         return {"type": self.role, "player_index": self.player_index}

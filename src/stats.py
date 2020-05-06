@@ -1,7 +1,7 @@
 """ stats.py """
 from collections import Counter
 from dataclasses import dataclass
-from typing import Dict, List, Tuple
+from typing import Any, Dict, List, Tuple
 
 from src import const
 from src.const import logger
@@ -22,7 +22,7 @@ class SavedGame:
         """ Returns game data. """
         return self.original_roles, self.game_roles, self.all_statements, self.player_objs
 
-    def json_repr(self) -> Dict:
+    def json_repr(self) -> Dict[str, Any]:
         """ Returns json representation of the GameResult. """
         return {
             "type": "SavedGame",
@@ -42,7 +42,7 @@ class GameResult:
     wolf_inds: List[int]
     winning_team: str = ""
 
-    def json_repr(self) -> Dict:
+    def json_repr(self) -> Dict[str, Any]:
         """ Returns json representation of the GameResult. """
         return {
             "type": "GameResult",
@@ -56,7 +56,7 @@ class GameResult:
 class Statistics:
     """ Initialize a Statistics object. """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.metrics = [
             self.correctness_strict,
             self.correctness_lenient_center,

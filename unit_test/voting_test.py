@@ -146,7 +146,7 @@ class TestGetVotingResult:
         result = voting.get_voting_result(indiv_preds)
 
         captured = caplog.records[0].getMessage()
-        assert result == (["Villager", "Seer", "Robber"], [1.0, 1.0, 1.0], [0, 1, 2], [1, 2, 0])
+        assert result == (["Villager", "Seer", "Robber"], [1.0] * 3, [0, 1, 2], [1, 2, 0])
         assert captured == "Vote Array: [1, 1, 1]"
 
     @staticmethod

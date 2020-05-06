@@ -1,7 +1,7 @@
 """ robber.py """
 from __future__ import annotations
 
-from typing import Dict, List
+from typing import Any, Dict, List
 
 from src import const, util
 from src.const import Priority, logger
@@ -63,7 +63,7 @@ class Robber(Player):
 
     #     return super().get_statement(stated_roles, previous)
 
-    def json_repr(self) -> Dict:
+    def json_repr(self) -> Dict[str, Any]:
         """ Gets JSON representation of a Robber player. """
         return {
             "type": self.role,

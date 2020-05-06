@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import random
-from typing import Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 from src import const, util
 from src.algorithms import switching_solver
@@ -101,7 +101,7 @@ class Wolf(Player):
                 val -= 5
         return val
 
-    def json_repr(self) -> Dict:
+    def json_repr(self) -> Dict[str, Any]:
         """ Gets JSON representation of a Wolf player. """
         return {
             "type": self.role,

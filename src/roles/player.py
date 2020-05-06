@@ -1,4 +1,6 @@
 """ player.py """
+from __future__ import annotations
+
 import random
 from typing import Any, Dict, List
 
@@ -18,7 +20,7 @@ class Player:
         self.statements: List[Statement] = []
         self.is_user = const.IS_USER[player_index]
 
-    def transform(self, role_type: str) -> Any:
+    def transform(self, role_type: str) -> Player:
         """ Returns new Player identity. """
         from .werewolf import Wolf, Minion, Tanner
         from .village import Villager, Seer, Robber, Troublemaker, Drunk, Insomniac, Hunter, Mason
@@ -48,7 +50,7 @@ class Player:
             return Insomniac(self.player_index, "Insomniac")
         if role_type == "Mason":
             return Mason(self.player_index, [0, 1])
-        return None
+        raise TypeError(f"Role Type: {role_type} is not a valid role.")
 
     def get_statement(self, stated_roles: List[str], previous: List[Statement]) -> Statement:
         """ Gets Player Statement. """
@@ -89,7 +91,7 @@ class Player:
         is_equal = all(self_json[key] == other_json[key] for key in self_json)
         return self.__dict__ == other.__dict__ and is_equal
 
-    def json_repr(self) -> Dict:
+    def json_repr(self) -> Dict[str, Any]:
         """ Gets JSON representation of a Player object. """
         return {"type": self.role, "player_index": self.player_index}
 

@@ -1,6 +1,6 @@
 """ algorithms.py """
 from dataclasses import dataclass
-from typing import FrozenSet, List, Optional, Set, Tuple, Union
+from typing import FrozenSet, List, Optional, Sequence, Set, Tuple, Union
 
 from src import const
 from src.const import Priority
@@ -16,7 +16,7 @@ class SolverState:
 
     def __init__(
         self,
-        possible_roles: Optional[Union[List, List[Set[str]], List[FrozenSet[str]]]] = None,
+        possible_roles: Optional[Union[Sequence[Set[str]], Sequence[FrozenSet[str]]]] = None,
         switches: Tuple[Tuple[Priority, int, int], ...] = (),
         path_init: Tuple[bool, ...] = (),
     ):
@@ -92,7 +92,7 @@ def switching_solver(
                 solution.append(state)
             return
 
-        if curr_path_count + (len(statements) - ind) < prev_max:
+        if curr_path_count + len(statements) - ind < prev_max:
             return
 
         truth_state = is_consistent(statements[ind], state)

@@ -1,7 +1,7 @@
 """ mason.py """
 from __future__ import annotations
 
-from typing import Dict, List
+from typing import Any, Dict, List
 
 from src import const, util
 from src.const import logger
@@ -58,7 +58,7 @@ class Mason(Player):
                 statements += Mason.get_mason_statements(player_index, mason_indices)
         return statements
 
-    def json_repr(self) -> Dict:
+    def json_repr(self) -> Dict[str, Any]:
         """ Gets JSON representation of a Mason player. """
         return {
             "type": self.role,

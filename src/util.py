@@ -18,17 +18,17 @@ def find_all_player_indices(game_roles: Sequence[str], role: str) -> List[int]:
     return [i for i in range(const.NUM_PLAYERS) if game_roles[i] == role]
 
 
-def get_player(is_user: bool, vals_to_exclude: Tuple = ()) -> int:
+def get_player(is_user: bool, vals_to_exclude: Tuple[int, ...] = ()) -> int:
     """ Gets a random player index (not in the center). """
     return input_player(vals_to_exclude) if is_user else get_random_player(vals_to_exclude)
 
 
-def get_center(is_user: bool, vals_to_exclude: Tuple = ()) -> int:
+def get_center(is_user: bool, vals_to_exclude: Tuple[int, ...] = ()) -> int:
     """ Gets a random index of a center card. """
     return input_center(vals_to_exclude) if is_user else get_random_center(vals_to_exclude)
 
 
-def get_random_player(vals_to_exclude: Tuple = ()) -> int:
+def get_random_player(vals_to_exclude: Tuple[int, ...] = ()) -> int:
     """ Gets a random player index (not in the center). """
     choice_ind = -1
     while choice_ind == -1 or choice_ind in vals_to_exclude:
@@ -36,7 +36,7 @@ def get_random_player(vals_to_exclude: Tuple = ()) -> int:
     return choice_ind
 
 
-def get_random_center(vals_to_exclude: Tuple = ()) -> int:
+def get_random_center(vals_to_exclude: Tuple[int, ...] = ()) -> int:
     """ Gets a random index of a center card. """
     choice_ind = -1
     while choice_ind == -1 or choice_ind in vals_to_exclude:
@@ -44,7 +44,7 @@ def get_random_center(vals_to_exclude: Tuple = ()) -> int:
     return choice_ind
 
 
-def input_player(vals_to_exclude: Tuple = ()) -> int:
+def input_player(vals_to_exclude: Tuple[int, ...] = ()) -> int:
     """ Prompts the user for a player index (not in the center). """
     choice_ind = -1
     while choice_ind < 0 or choice_ind >= const.NUM_PLAYERS:
@@ -59,7 +59,7 @@ def input_player(vals_to_exclude: Tuple = ()) -> int:
     return choice_ind
 
 
-def input_center(vals_to_exclude: Tuple = ()) -> int:
+def input_center(vals_to_exclude: Tuple[int, ...] = ()) -> int:
     """ Prompts the user for a center card index. """
     choice_ind = -1
     while choice_ind < 0 or choice_ind >= const.NUM_CENTER:

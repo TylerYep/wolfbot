@@ -10,7 +10,7 @@ from src import const
 
 
 @pytest.fixture(autouse=True)
-def reset_const():
+def reset_const() -> None:
     const.logger.setLevel(const.TRACE)
     const.ROLES = (
         "Insomniac",

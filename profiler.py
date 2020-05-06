@@ -5,7 +5,7 @@ import pstats
 from main import main  # pylint: disable=unused-import
 
 
-def profile():
+def profile() -> None:
     """
     Prints top N methods, sorted by time.
     Equivalent to:

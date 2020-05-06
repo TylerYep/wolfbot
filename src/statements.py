@@ -1,7 +1,7 @@
 """ statements.py """
 from __future__ import annotations
 
-from typing import Dict, FrozenSet, List, Set, Tuple, Union
+from typing import Any, Dict, FrozenSet, List, Set, Tuple, Union
 
 from src import const
 from src.const import Priority
@@ -70,7 +70,7 @@ class Statement:
     def __hash__(self) -> int:
         return hash((self.sentence, self.knowledge, self.switches, self.speaker))
 
-    def json_repr(self) -> Dict:
+    def json_repr(self) -> Dict[str, Any]:
         """ Returns json representation of the Statement. """
         return {
             "type": "Statement",

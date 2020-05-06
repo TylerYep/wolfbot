@@ -18,13 +18,18 @@ UNIT_TEST = "pytest" in sys.modules
 if UNIT_TEST:
     random.seed(0)
 
-""" Command Line Arguments """
-PARSER = argparse.ArgumentParser(description="config constants for main.py")
-PARSER.add_argument("--interactive", "-u", help="enable interactive mode", action="store_true")
-PARSER.add_argument("--num_games", "-n", help="specify number of games")
-PARSER.add_argument("--info", "-i", help="enable logging.INFO", action="store_true")
-PARSER.add_argument("--replay", "-r", help="replay previous game", action="store_true")
-ARGS = PARSER.parse_args("" if UNIT_TEST else sys.argv[1:])
+
+def init_program() -> argparse.Namespace:
+    """ Command Line Arguments """
+    parser = argparse.ArgumentParser(description="config constants for main.py")
+    parser.add_argument("--interactive", "-u", help="enable interactive mode", action="store_true")
+    parser.add_argument("--num_games", "-n", help="specify number of games")
+    parser.add_argument("--info", "-i", help="enable logging.INFO", action="store_true")
+    parser.add_argument("--replay", "-r", help="replay previous game", action="store_true")
+    return parser.parse_args("" if UNIT_TEST else sys.argv[1:])
+
+
+ARGS = init_program()
 
 """ Game Constants """
 ROLES = (
@@ -118,3 +123,9 @@ assert not (USE_EXPECTIMAX_WOLF and USE_RL_WOLF)
 if sys.version_info < (3, 0):
     sys.stdout.write("Requires Python 3, not Python 2!\n")
     sys.exit()
+
+""" Statement Priority Levels """
+NOT_YET_SPOKEN = -1
+NO_INFO = 0
+SOME_INFO = 5
+PRIMARY = 10

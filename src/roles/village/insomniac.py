@@ -1,7 +1,7 @@
 """ insomniac.py """
 from __future__ import annotations
 
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional
 
 from src import const
 from src.const import logger
@@ -69,6 +69,6 @@ class Insomniac(Player):
             )
         return super().get_statement(stated_roles, previous)
 
-    def json_repr(self) -> Dict:
+    def json_repr(self) -> Dict[str, Any]:
         """ Gets JSON representation of an Insomniac player. """
         return {"type": self.role, "player_index": self.player_index, "new_role": self.new_role}

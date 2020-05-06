@@ -65,6 +65,7 @@ def make_prediction(solution_arr: List[SolverState], is_evil: bool = False) -> L
         if solved:
             break
 
+    # Assume all players that could lie are lying.
     if not solved:
         for index, solution in enumerate(solution_arr):
             solution_index = index
@@ -91,20 +92,24 @@ def get_basic_guesses(solution: SolverState) -> Tuple[List[str], Dict[str, int]]
     consistent_statements = list(solution.path)
     curr_role_counts = dict(const.ROLE_COUNTS)
     for j in range(const.NUM_ROLES):
-        if j >= len(consistent_statements) or consistent_statements[j]:  # Center card or is truth
+        # Center card or is truth
+        if j >= len(consistent_statements) or consistent_statements[j]:
             guess_set = solution.possible_roles[j]
-            for rol in const.ROLE_SET:  # Remove already chosen cards
+            # Remove already chosen cards
+            for rol in const.ROLE_SET:
                 if curr_role_counts[rol] == 0:
                     guess_set -= set([rol])
 
-            if len(guess_set) == 1:  # Player is telling the truth
+            # Player is telling the truth
+            if len(guess_set) == 1:
                 [role] = guess_set
                 curr_role_counts[role] -= 1
                 all_role_guesses.append(role)
             else:
                 all_role_guesses.append("")
 
-        elif not consistent_statements[j]:  # Player is lying
+        # Player is lying
+        elif not consistent_statements[j]:
             evil_roles = sorted(tuple(const.EVIL_ROLES))
             random.shuffle(evil_roles)
             choices = [r for r in evil_roles if curr_role_counts[r] > 0]

@@ -13,7 +13,7 @@ from src.stats import GameResult, SavedGame
 class WolfBotEncoder(json.JSONEncoder):
     """ Encoder for all WolfBot objects. """
 
-    def default(self, o: Any) -> Dict:
+    def default(self, o: Any) -> Any:
         """ Overrides encoding method. """
         if isinstance(o, (Player, Statement, GameResult, SavedGame)):
             return o.json_repr()
@@ -27,11 +27,11 @@ class WolfBotEncoder(json.JSONEncoder):
 class WolfBotDecoder(json.JSONDecoder):
     """ Decoder for all WolfBot objects. """
 
-    def __init__(self):
-        json.JSONDecoder.__init__(self, object_hook=self.json_to_objects)
+    def __init__(self) -> None:
+        super().__init__(object_hook=self.json_to_objects)
 
     @staticmethod
-    def json_to_objects(obj: Dict) -> Any:
+    def json_to_objects(obj: Dict[str, Any]) -> Any:
         """ Implements decoding method. """
         obj_type = obj.pop("type", None)
         if obj_type == "Set":

@@ -1,7 +1,7 @@
 """ drunk.py """
 from __future__ import annotations
 
-from typing import Dict, List
+from typing import Any, Dict, List
 
 from src import const, util
 from src.const import Priority, logger
@@ -52,6 +52,6 @@ class Drunk(Player):
             statements += Drunk.get_drunk_statements(player_index, const.NUM_PLAYERS + k)
         return statements
 
-    def json_repr(self) -> Dict:
+    def json_repr(self) -> Dict[str, Any]:
         """ Gets JSON representation of a Drunk player. """
         return {"type": self.role, "player_index": self.player_index, "choice_ind": self.choice_ind}

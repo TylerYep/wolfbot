@@ -1,7 +1,7 @@
 """ troublemaker.py """
 from __future__ import annotations
 
-from typing import Dict, List
+from typing import Any, Dict, List
 
 from src import const, util
 from src.const import Priority, logger
@@ -54,7 +54,7 @@ class Troublemaker(Player):
                     statements += Troublemaker.get_troublemaker_statements(player_index, i, j)
         return statements
 
-    def json_repr(self) -> Dict:
+    def json_repr(self) -> Dict[str, Any]:
         """ Gets JSON representation of a Troublemaker player. """
         return {
             "type": self.role,
