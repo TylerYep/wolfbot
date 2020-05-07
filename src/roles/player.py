@@ -19,6 +19,21 @@ class Player:
         self.new_role = new_role
         self.statements: List[Statement] = []
         self.is_user = const.IS_USER[player_index]
+        if const.MULTI_STATEMENT:
+            self.prev_priority = const.NOT_YET_SPOKEN
+            self.statements += self.get_partial_statements()
+
+    def get_partial_statements(self) -> List[Statement]:
+        """ Gets generic partial statements for each player. """
+        partial_statements = []
+        knowledge = [(self.player_index, {self.role})]
+        zero_sent = "I don't want to say who I am just yet."
+        partial_statements.append(Statement(zero_sent, priority=const.NO_INFO))
+
+        if self.role not in const.EVIL_ROLES | {"Villager", "Hunter"}:
+            partial_sent = f"I am a {self.role}, but I'm not going to say what I did or saw yet!"
+            partial_statements.append(Statement(partial_sent, knowledge, priority=const.SOME_INFO))
+        return partial_statements
 
     def transform(self, role_type: str) -> Player:
         """ Returns new Player identity. """
@@ -81,6 +96,9 @@ class Player:
 
         if self.new_role != "" and self.new_role in const.EVIL_ROLES:
             return self.transform(self.new_role).get_statement(stated_roles, previous)
+
+        if const.MULTI_STATEMENT:
+            return random.choice([x for x in self.statements if x.priority > self.prev_priority])
 
         return random.choice(tuple(self.statements))
 

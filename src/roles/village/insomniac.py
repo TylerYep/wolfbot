@@ -16,7 +16,7 @@ class Insomniac(Player):
     def __init__(self, player_index: int, new_role: str):
         super().__init__(player_index)
         self.new_role = new_role
-        self.statements = self.get_insomniac_statements(player_index, new_role)
+        self.statements += self.get_insomniac_statements(player_index, new_role)
 
     @classmethod
     def awake_init(
@@ -64,7 +64,7 @@ class Insomniac(Player):
             if stated_role == self.new_role:
                 possible_switches.append(i)
         if len(possible_switches) == 1:  # TODO how to handle multiple possible switches
-            self.statements = self.get_insomniac_statements(
+            self.statements += self.get_insomniac_statements(
                 self.player_index, self.new_role, possible_switches[0]
             )
         return super().get_statement(stated_roles, previous)

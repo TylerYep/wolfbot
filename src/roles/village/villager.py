@@ -13,7 +13,7 @@ class Villager(Player):
 
     def __init__(self, player_index: int):
         super().__init__(player_index)
-        self.statements = self.get_villager_statements(player_index)
+        self.statements += self.get_villager_statements(player_index)
 
     @classmethod
     def awake_init(

@@ -36,14 +36,32 @@ def play_one_night_werewolf(save_replay: bool = True) -> GameResult:
 
 def get_player_statements(player_objs: List[Player]) -> List[Statement]:
     """ Returns array of each player's statements. """
-    stated_roles: List[str] = []
-    given_statements: List[Statement] = []
-    for j in range(const.NUM_PLAYERS):
-        statement = player_objs[j].get_statement(stated_roles, given_statements)
-        stated_roles.append(statement.speaker)
-        given_statements.append(statement)
-        logger.info(f"Player {j}: {statement.sentence}")
-    return given_statements
+    if not const.MULTI_STATEMENT:
+        stated_roles: List[str] = []
+        given_statements: List[Statement] = []
+        for j in range(const.NUM_PLAYERS):
+            statement = player_objs[j].get_statement(stated_roles, given_statements)
+            stated_roles.append(statement.speaker)
+            given_statements.append(statement)
+            logger.info(f"Player {j}: {statement.sentence}")
+        return given_statements
+
+    stated_roles = [""] * const.NUM_PLAYERS
+    finished_speaking = [
+        Statement("", priority=const.NOT_YET_SPOKEN) for _ in range(const.NUM_PLAYERS)
+    ]
+    curr_ind = 0
+    while not all(val.priority == const.PRIMARY for val in finished_speaking):
+        if finished_speaking[curr_ind].priority < const.PRIMARY:
+            statement = player_objs[curr_ind].get_statement(stated_roles, finished_speaking)  # TODO
+            player_objs[curr_ind].prev_priority = statement.priority
+            stated_roles[curr_ind] = statement.speaker
+            finished_speaking[curr_ind] = statement
+            logger.info(f"Player {curr_ind}: {statement.sentence}")
+            # if const.ENTER_TO_ADVANCE: input()
+        # TODO: allow random order
+        curr_ind = (curr_ind + 1) % const.NUM_PLAYERS
+    return finished_speaking
 
 
 def night_falls(game_roles: List[str], original_roles: Tuple[str, ...]) -> List[Player]:

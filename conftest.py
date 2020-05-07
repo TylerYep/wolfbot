@@ -49,6 +49,7 @@ def reset_const() -> None:
     const.USE_VOTING = True
     const.USE_REG_WOLF = False
     const.USE_EXPECTIMAX_WOLF = False
+    const.MULTI_STATEMENT = False
     random.seed(0)
 
 

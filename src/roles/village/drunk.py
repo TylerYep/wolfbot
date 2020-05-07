@@ -16,7 +16,7 @@ class Drunk(Player):
     def __init__(self, player_index: int, choice_ind: int):
         super().__init__(player_index)
         self.choice_ind = choice_ind
-        self.statements = self.get_drunk_statements(player_index, choice_ind)
+        self.statements += self.get_drunk_statements(player_index, choice_ind)
 
     @classmethod
     def awake_init(

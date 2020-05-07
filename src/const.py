@@ -22,10 +22,16 @@ if UNIT_TEST:
 def init_program() -> argparse.Namespace:
     """ Command Line Arguments """
     parser = argparse.ArgumentParser(description="config constants for main.py")
-    parser.add_argument("--interactive", "-u", help="enable interactive mode", action="store_true")
-    parser.add_argument("--num_games", "-n", help="specify number of games")
-    parser.add_argument("--info", "-i", help="enable logging.INFO", action="store_true")
-    parser.add_argument("--replay", "-r", help="replay previous game", action="store_true")
+    # fmt: off
+    parser.add_argument("--user", "-u", action="store_true", default=False,
+                        help="enable interactive mode")
+    parser.add_argument("--num_games", "-n", default=1,
+                        help="specify number of games")
+    parser.add_argument("--info", "-i", action="store_true", default=False,
+                        help="enable logging.INFO")
+    parser.add_argument("--replay", "-r", action="store_true", default=False,
+                        help="replay previous game")
+    # fmt: on
     return parser.parse_args("" if UNIT_TEST else sys.argv[1:])
 
 
@@ -51,6 +57,7 @@ ROLES = (
 )
 NUM_CENTER = 3
 USE_VOTING = True
+MULTI_STATEMENT = True
 RANDOMIZE_ROLES = True
 
 """ Simulation Constants """
@@ -96,7 +103,7 @@ USE_RL_WOLF = False
 EXPERIENCE_PATH = "src/learning/simulations/wolf_player.json"
 
 """ Interactive Game Constants """
-INTERACTIVE_MODE_ON = ARGS.interactive
+INTERACTIVE_MODE_ON = ARGS.user
 IS_USER = [False] * NUM_ROLES
 if INTERACTIVE_MODE_ON:
     IS_USER[random.randint(0, NUM_PLAYERS - 1)] = True

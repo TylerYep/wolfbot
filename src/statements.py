@@ -16,17 +16,20 @@ class Statement:
         knowledge: List[Tuple[int, Set[str]]] = [],
         switches: List[Tuple[Priority, int, int]] = [],
         speaker: str = "",
+        priority: int = const.PRIMARY,
     ):
         """
         sentence is a string representation of the statement
         knowledge is a list of (player_index, set(role)) tuples
         switches is a list of (player_priority, player_index, new_index) tuples
         speaker is the role string that supposedly gave the statement.
+        priority is what level of priority the statement was said.
         """
         self.sentence = sentence
         self.knowledge = tuple([(i, frozenset(role_set)) for i, role_set in knowledge])
         self.switches = tuple(switches)
         self.speaker = speaker if speaker or not knowledge else next(iter(knowledge[0][1]))
+        self.priority = priority
 
     def references(self, player_index: int) -> bool:
         """ Returns True if a given player_index is referenced in a statement. """
@@ -44,10 +47,8 @@ class Statement:
             if i == player_index:
                 return role_set
         for _, i, j in self.switches:
-            if i == player_index:
-                return j
-            if j == player_index:
-                return i
+            if i == player_index or j == player_index:
+                return player_index
         return None
 
     def negate(self) -> Statement:

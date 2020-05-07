@@ -16,7 +16,7 @@ class Mason(Player):
     def __init__(self, player_index: int, mason_indices: List[int]):
         super().__init__(player_index)
         self.mason_indices = mason_indices
-        self.statements = self.get_mason_statements(player_index, mason_indices)
+        self.statements += self.get_mason_statements(player_index, mason_indices)
 
     @classmethod
     def awake_init(

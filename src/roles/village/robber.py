@@ -17,7 +17,7 @@ class Robber(Player):
         super().__init__(player_index)
         self.choice_ind = choice_ind
         self.new_role = new_role
-        self.statements = self.get_robber_statements(player_index, choice_ind, new_role)
+        self.statements += self.get_robber_statements(player_index, choice_ind, new_role)
 
     @classmethod
     def awake_init(

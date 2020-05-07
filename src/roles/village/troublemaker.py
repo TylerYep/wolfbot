@@ -16,7 +16,7 @@ class Troublemaker(Player):
     def __init__(self, player_index: int, choice_ind1: int, choice_ind2: int):
         super().__init__(player_index)
         self.choice_ind1, self.choice_ind2 = choice_ind1, choice_ind2
-        self.statements = self.get_troublemaker_statements(player_index, choice_ind1, choice_ind2)
+        self.statements += self.get_troublemaker_statements(player_index, choice_ind1, choice_ind2)
 
     @classmethod
     def awake_init(
