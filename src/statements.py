@@ -1,7 +1,7 @@
 """ statements.py """
 from __future__ import annotations
 
-from typing import Any, Dict, FrozenSet, List, Set, Tuple, Union
+from typing import Any, Dict, FrozenSet, List, Optional, Set, Tuple, Union
 
 from src import const
 from src.const import Priority
@@ -41,7 +41,7 @@ class Statement:
                 return True
         return False
 
-    def get_references(self, player_index: int) -> Union[FrozenSet[str], int, None]:
+    def get_references(self, player_index: int) -> Optional[Union[FrozenSet[str], int]]:
         """ Returns True if a given player_index is referenced in a statement. """
         for i, role_set in self.knowledge[1:]:
             if i == player_index:
@@ -83,8 +83,7 @@ class Statement:
 
     def __repr__(self) -> str:
         knowledge = [(i, set(role_set)) for i, role_set in self.knowledge]
-        switches = list(self.switches)
         return (
             f'Statement(sentence="{self.sentence}", knowledge={knowledge}, '
-            f"switches={switches}, speaker='{self.speaker}')"
+            f"switches={list(self.switches)}, speaker='{self.speaker}')"
         )

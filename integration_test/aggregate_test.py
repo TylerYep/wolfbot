@@ -45,9 +45,9 @@ class TestAggregate:
             if os.path.getsize(results_filename) == 0:
                 writer.writeheader()
             writer.writerow(metric_map)
-        assert metric_map["villager_wins"] >= 0.75
+        assert metric_map["villager_wins"] > 0.78
         assert metric_map["tanner_wins"] == 0
-        assert metric_map["werewolf_wins"] <= 0.25
+        assert metric_map["werewolf_wins"] < 0.22
 
     @staticmethod
     def test_standard_aggregate_game_expectimax_wolf(standard_game_roles):

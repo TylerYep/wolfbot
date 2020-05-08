@@ -15,8 +15,8 @@ class Priority(IntEnum):
 
 
 UNIT_TEST = "pytest" in sys.modules
-if UNIT_TEST:
-    random.seed(0)
+# if UNIT_TEST:
+random.seed(0)
 
 
 def init_program() -> argparse.Namespace:
@@ -54,13 +54,22 @@ ROLES = (
     "Villager",
     "Villager",
     "Villager",
+    
+    "Seer",
+    "Tanner",
+    "Troublemaker",
+    "Wolf",
+    "Wolf",
+    "Villager",
+    "Villager",
+    "Villager",
 )
 NUM_CENTER = 3
 # Disabling this is good for testing solvers.
 USE_VOTING = True
 # Uses literally the order of the ROLES constant above.
 RANDOMIZE_ROLES = True
-
+# Enable multi-statement rounds.
 MULTI_STATEMENT = False
 
 """ Simulation Constants """

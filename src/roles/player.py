@@ -79,6 +79,7 @@ class Player:
             choice = util.get_numeric_input(len(sample_statements))
             return sample_statements[choice]
 
+        # If someone says a Statement that involves you, set your new_role to their theory.
         if self.role in const.VILLAGE_ROLES:
             # TODO Want to use random solution but would break tests.
             solver_result = solver(tuple(previous))[0]

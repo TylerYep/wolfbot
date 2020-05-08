@@ -39,6 +39,7 @@ def make_unrestricted_prediction(solution: SolverState) -> List[str]:
     solved = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts), False)
     switch_dict = get_switch_dict(solution)
     final_guesses = [solved[switch_dict[i]] for i in range(len(solved))]
+    assert len(final_guesses) == const.NUM_ROLES, "Could not find unrestricted assignment of roles."
     return final_guesses
 
 
@@ -76,7 +77,7 @@ def make_prediction(solution_arr: List[SolverState], is_evil: bool = False) -> L
 
     switch_dict = get_switch_dict(solution_arr[solution_index])
     final_guesses = [solved[switch_dict[i]] for i in range(len(solved))]
-    assert len(final_guesses) == const.NUM_ROLES
+    assert len(final_guesses) == const.NUM_ROLES, "Could not find consistent assignment of roles."
     return final_guesses
 
 
