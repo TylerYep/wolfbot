@@ -53,7 +53,7 @@ def get_player_statements(player_objs: List[Player]) -> List[Statement]:
     curr_ind = 0
     while not all(val.priority == const.PRIMARY for val in finished_speaking):
         if finished_speaking[curr_ind].priority < const.PRIMARY:
-            statement = player_objs[curr_ind].get_statement(stated_roles, finished_speaking)  # TODO
+            statement = player_objs[curr_ind].get_statement(stated_roles, finished_speaking)
             player_objs[curr_ind].prev_priority = statement.priority
             stated_roles[curr_ind] = statement.speaker
             finished_speaking[curr_ind] = statement

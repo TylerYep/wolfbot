@@ -5,7 +5,7 @@ import random
 from typing import Any, Dict, List
 
 from src import const, util
-from src.algorithms import switching_solver
+from src.algorithms import switching_solver as solver
 from src.const import logger
 from src.statements import Statement
 
@@ -81,7 +81,7 @@ class Player:
 
         if self.role in const.VILLAGE_ROLES:
             # TODO Want to use random solution but would break tests.
-            solver_result = switching_solver(tuple(previous))[0]
+            solver_result = solver(tuple(previous))[0]
             for i, truth in enumerate(solver_result.path):
                 if truth:
                     statement = previous[i]

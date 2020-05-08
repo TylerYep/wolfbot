@@ -5,7 +5,7 @@ import random
 from typing import Any, Dict, List, Tuple
 
 from src import const, util
-from src.algorithms import switching_solver
+from src.algorithms import switching_solver as solver
 from src.const import logger
 from src.predictions import make_unrestricted_prediction
 from src.statements import Statement
@@ -52,7 +52,7 @@ class Minion(Player):
         """
         Evaluates a complete or incomplete game.
         """
-        solver_result = random.choice(switching_solver(statement_list))
+        solver_result = random.choice(solver(statement_list))
         predictions = make_unrestricted_prediction(solver_result)
         val = 10
         if not predictions:

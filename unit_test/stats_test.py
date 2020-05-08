@@ -1,5 +1,5 @@
 """ stats_test.py """
-from src import const, stats
+from src import stats
 from src.roles import Robber, Seer, Villager
 from src.statements import Statement
 
@@ -153,11 +153,10 @@ class TestStatistics:
     @staticmethod
     def test_constructor():
         """ Should initialize correctly. """
-        const.USE_VOTING = True
-
         result = stats.Statistics()
 
         assert result.num_games == 0
+        assert len(result.metrics) == 8
 
     @staticmethod
     def test_add_result(example_medium_game_result):
@@ -166,9 +165,13 @@ class TestStatistics:
 
         stat_tracker.add_result(example_medium_game_result)
 
+        correct = [6.0, 6.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0]
+        total = [6.0, 6.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
         assert stat_tracker.num_games == 1
-        assert stat_tracker.correct == [6.0, 6.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0]
-        assert stat_tracker.total == [6.0, 6.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+        assert all(
+            metric.correct == correct[i] and metric.total == total[i]
+            for i, metric in enumerate(stat_tracker.metrics)
+        )
 
     @staticmethod
     def test_print_statistics(caplog, example_medium_game_result):

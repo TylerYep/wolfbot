@@ -4,7 +4,7 @@ from collections import defaultdict
 from typing import Dict, List, Tuple
 
 from src import const, util
-from src.algorithms import switching_solver
+from src.algorithms import switching_solver as solver
 from src.const import logger
 from src.predictions import make_prediction, print_guesses
 from src.roles import Player
@@ -24,7 +24,7 @@ def consolidate_results(save_game: SavedGame) -> GameResult:
         winning_team = eval_final_guesses(game_roles, guessed_wolf_inds, vote_inds)
         return GameResult(game_roles, all_guesses, orig_wolf_inds, winning_team)
 
-    all_solutions = switching_solver(tuple(all_statements))
+    all_solutions = solver(tuple(all_statements))
     for solution in all_solutions:
         logger.log(const.TRACE, f"Solver interpretation: {solution.path}")
     all_role_guesses = make_prediction(all_solutions)
@@ -49,7 +49,7 @@ def get_individual_preds(
     all_role_guesses_arr = []
     # Good player vs Bad player guesses
     for i in range(const.NUM_PLAYERS):
-        all_solutions = switching_solver(tuple(all_statements), (i,))
+        all_solutions = solver(tuple(all_statements), (i,))
         is_evil = is_player_evil(player_objs, i, orig_wolf_inds)
         prediction = make_prediction(all_solutions, is_evil)
         all_role_guesses_arr.append(prediction)

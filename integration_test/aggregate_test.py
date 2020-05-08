@@ -1,5 +1,6 @@
 """ aggregate_test.py """
-import json
+import csv
+import os
 import random
 
 from src import const, one_night, stats
@@ -17,7 +18,7 @@ class TestAggregate:
         stat_tracker = stats.Statistics()
 
         for _ in range(num_games):
-            game_result = one_night.play_one_night_werewolf(False)
+            game_result = one_night.play_one_night_werewolf(save_replay=False)
             stat_tracker.add_result(game_result)
         stat_tracker.print_statistics()
         metric_map = stat_tracker.get_metric_results()
@@ -30,16 +31,20 @@ class TestAggregate:
         const.ROLES = standard_game_roles
         random.seed()
         num_games = 1000
-        stat_tracker = stats.Statistics()
 
+        stat_tracker = stats.Statistics()
         for _ in range(num_games):
-            game_result = one_night.play_one_night_werewolf(False)
+            game_result = one_night.play_one_night_werewolf(save_replay=False)
             stat_tracker.add_result(game_result)
         stat_tracker.print_statistics()
         metric_map = stat_tracker.get_metric_results()
-        with open("integration_test/results/standard_results.json", "w") as out_file:
-            json.dump(metric_map, out_file, indent=2)
 
+        results_filename = "integration_test/results/standard_results.csv"
+        with open(results_filename, "a+") as out_file:
+            writer = csv.DictWriter(out_file, fieldnames=metric_map.keys())
+            if os.path.getsize(results_filename) == 0:
+                writer.writeheader()
+            writer.writerow(metric_map)
         assert metric_map["villager_wins"] >= 0.75
         assert metric_map["tanner_wins"] == 0
         assert metric_map["werewolf_wins"] <= 0.25
@@ -50,18 +55,23 @@ class TestAggregate:
         const.ROLES = standard_game_roles
         const.USE_REG_WOLF = True
         const.USE_EXPECTIMAX_WOLF = True
+        const.MULTI_STATEMENT = True
         random.seed()
         num_games = 500
-        stat_tracker = stats.Statistics()
 
+        stat_tracker = stats.Statistics()
         for _ in range(num_games):
-            game_result = one_night.play_one_night_werewolf(False)
+            game_result = one_night.play_one_night_werewolf(save_replay=False)
             stat_tracker.add_result(game_result)
         stat_tracker.print_statistics()
         metric_map = stat_tracker.get_metric_results()
-        with open("integration_test/results/expectimax_wolf_results.json", "w") as out_file:
-            json.dump(metric_map, out_file, indent=2)
 
+        results_filename = "integration_test/results/expectimax_wolf_results.csv"
+        with open(results_filename, "a+") as out_file:
+            writer = csv.DictWriter(out_file, fieldnames=metric_map.keys())
+            if os.path.getsize(results_filename) == 0:
+                writer.writeheader()
+            writer.writerow(metric_map)
         assert metric_map["villager_wins"] < 0.6
         assert metric_map["tanner_wins"] == 0
         assert metric_map["werewolf_wins"] > 0.4

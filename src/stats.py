@@ -1,7 +1,8 @@
 """ stats.py """
+import time
 from collections import Counter
 from dataclasses import dataclass
-from typing import Any, Dict, List, Tuple
+from typing import Any, Callable, Dict, List, Tuple
 
 from src import const
 from src.const import logger
@@ -53,11 +54,29 @@ class GameResult:
         }
 
 
+@dataclass
+class Metric:
+    """ One metric for a game. """
+
+    function: Callable[..., Tuple[int, int]]
+    sentence: str
+    correct: int = 0
+    total: int = 0
+    average: float = 0
+
+    def update(self, game_result: GameResult) -> None:
+        """ Update the Metric by aggregating a new result. """
+        correct, total = self.function(game_result)
+        self.correct += correct
+        self.total += total
+        self.average = self.correct / (self.total if self.total > 0 else 1)
+
+
 class Statistics:
     """ Initialize a Statistics object. """
 
     def __init__(self) -> None:
-        self.metrics = [
+        metric_fns = [
             self.correctness_strict,
             self.correctness_lenient_center,
             self.wolf_predictions_one,
@@ -65,36 +84,7 @@ class Statistics:
             self.wolf_predictions_center,
         ]
         if const.USE_VOTING:
-            self.metrics += [self.villager_wins, self.tanner_wins, self.werewolf_wins]
-        self.correct = [0.0] * len(self.metrics)
-        self.total = [0.0] * len(self.metrics)
-        self.num_games = 0
-
-    def add_result(self, game_result: GameResult) -> None:
-        """ Updates the Statistics object with a GameResult. """
-        self.num_games += 1
-        for metric_index in range(len(self.metrics)):
-            func = self.metrics[metric_index]
-            corr, tot = func(game_result)
-            self.correct[metric_index] += corr
-            self.total[metric_index] += tot
-
-    def get_metric_results(self) -> Dict[str, float]:
-        """ Returns the dictionary of metric name to numeric result. """
-        output = self.compute_statistics()
-        return {metric.__name__: output[i] for i, metric in enumerate(self.metrics)}
-
-    def compute_statistics(self) -> List[float]:
-        """ Computes overall statistics of inputed game results. """
-        output = []
-        for i in range(len(self.metrics)):
-            total = self.total[i] if self.total[i] != 0 else 1
-            output.append(self.correct[i] / total)
-        return output
-
-    def print_statistics(self) -> None:
-        """ Outputs overall statistics of inputed game results. """
-        logger.warning(f"\nNumber of Games: {self.num_games}")
+            metric_fns += [self.villager_wins, self.tanner_wins, self.werewolf_wins]
         sentences = [
             "Accuracy for all predictions: ",
             "Accuracy with lenient center scores: ",
@@ -105,10 +95,38 @@ class Statistics:
             "Percentage of Tanner Team wins: ",
             "Percentage of Werewolf Team wins: ",
         ]
-        assert len(sentences) >= len(self.metrics)
-        results = self.compute_statistics()
-        for i in range(len(self.metrics)):
-            logger.warning(f"{sentences[i]}{results[i]}")
+        self.num_games = 0
+        self.metrics = [Metric(metric_fns[i], sentences[i]) for i in range(len(metric_fns))]
+        self.start_time = time.perf_counter()
+        self.end_time = 0.0
+
+    def __eq__(self, other: object) -> bool:
+        """ Checks for equality between Statistics objects. """
+        assert isinstance(other, Statistics)
+        return self.__dict__ == other.__dict__
+
+    def add_result(self, game_result: GameResult) -> None:
+        """ Updates the Statistics object with a GameResult. """
+        self.num_games += 1
+        for metric in self.metrics:
+            metric.update(game_result)
+        self.end_time = time.perf_counter() - self.start_time
+
+    def get_metric_results(self) -> Dict[str, float]:
+        """
+        Returns the dictionary of metric name to metric name.
+        """
+        results = {metric.function.__name__: metric.average for metric in self.metrics}
+        results["num_games"] = self.num_games
+        results["time_elapsed"] = self.end_time
+        return results
+
+    def print_statistics(self) -> None:
+        """ Outputs overall statistics of inputed game results. """
+        logger.warning(f"\nNumber of Games: {self.num_games}")
+        for metric in self.metrics:
+            logger.warning(f"{metric.sentence}{metric.average}")
+        print(f"\nTime Elapsed: {self.end_time}")
 
     @staticmethod
     def correctness_strict(game_result: GameResult) -> Tuple[int, int]:
@@ -183,8 +201,3 @@ class Statistics:
     def werewolf_wins(game_result: GameResult) -> Tuple[int, int]:
         """ Returns 1/1 if the Werewolf team won. """
         return int(game_result.winning_team == "Werewolf"), 1
-
-    def __eq__(self, other: object) -> bool:
-        """ Checks for equality between Statistics objects. """
-        assert isinstance(other, Statistics)
-        return self.__dict__ == other.__dict__
