@@ -15,17 +15,17 @@ def profile() -> None:
     -----------
     ncalls - for the number of calls.
 
-    tottime - for the total time spent in the given function
+    time/tottime - for the total time spent in the given function
     (and excluding time made in calls to sub-functions)
 
     percall - is the quotient of tottime divided by ncalls
 
-    cumtime - is the cumulative time spent in this and all subfunctions
+    cumulative/cumtime - is the cumulative time spent in this and all subfunctions
     (from invocation till exit). This figure is accurate even for recursive functions.
 
     percall - is the quotient of cumtime divided by primitive calls
     """
-    command = "main(100)"
+    command = "main(200)"
     profile_file = "data/profile.txt"
     sort = "time"
 

@@ -139,6 +139,7 @@ def recurse_assign(
 
     for i in range(const.NUM_ROLES):
         if all_role_guesses[i] == "":
+            # Sorted() will convert possible_roles sets into a sorted list.
             leftover_roles = sorted(
                 solution.possible_roles[i]
                 if restrict_possible

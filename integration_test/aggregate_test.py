@@ -29,7 +29,6 @@ class TestAggregate:
     def test_standard_aggregate_game(standard_game_roles):
         """ Correctly play one round of one night werewolf. """
         const.ROLES = standard_game_roles
-        random.seed()
         num_games = 1000
 
         stat_tracker = stats.Statistics()
@@ -45,9 +44,9 @@ class TestAggregate:
             if os.path.getsize(results_filename) == 0:
                 writer.writeheader()
             writer.writerow(metric_map)
-        assert metric_map["villager_wins"] > 0.78
+        assert metric_map["villager_wins"] > 0.8
         assert metric_map["tanner_wins"] == 0
-        assert metric_map["werewolf_wins"] < 0.22
+        assert metric_map["werewolf_wins"] < 0.2
 
     @staticmethod
     def test_standard_aggregate_game_expectimax_wolf(standard_game_roles):
@@ -56,7 +55,6 @@ class TestAggregate:
         const.USE_REG_WOLF = True
         const.USE_EXPECTIMAX_WOLF = True
         const.MULTI_STATEMENT = True
-        random.seed()
         num_games = 500
 
         stat_tracker = stats.Statistics()

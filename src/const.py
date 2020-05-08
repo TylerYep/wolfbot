@@ -15,8 +15,8 @@ class Priority(IntEnum):
 
 
 UNIT_TEST = "pytest" in sys.modules
-# if UNIT_TEST:
-random.seed(0)
+if UNIT_TEST:
+    random.seed(0)
 
 
 def init_program() -> argparse.Namespace:
@@ -46,15 +46,6 @@ ROLES = (
     "Mason",
     "Minion",
     "Robber",
-    "Seer",
-    "Tanner",
-    "Troublemaker",
-    "Wolf",
-    "Wolf",
-    "Villager",
-    "Villager",
-    "Villager",
-    
     "Seer",
     "Tanner",
     "Troublemaker",

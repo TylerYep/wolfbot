@@ -24,6 +24,7 @@ class Statement:
         switches is a list of (player_priority, player_index, new_index) tuples
         speaker is the role string that supposedly gave the statement.
         priority is what level of priority the statement was said.
+        All member variables are converted into an immutable type to be used in hash()
         """
         self.sentence = sentence
         self.knowledge = tuple([(i, frozenset(role_set)) for i, role_set in knowledge])

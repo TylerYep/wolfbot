@@ -41,7 +41,7 @@ class Mason(Player):
             knowledge = [(player_index, {"Mason"})]
             for ind in range(const.NUM_PLAYERS):
                 if ind != player_index:
-                    knowledge.append((ind, set(const.ROLE_SET) - {"Mason"}))
+                    knowledge.append((ind, const.ROLE_SET - {"Mason"}))
         else:
             other_mason = mason_indices[0] if mason_indices[0] != player_index else mason_indices[1]
             sentence = f"I am a Mason. The other Mason is Player {other_mason}."

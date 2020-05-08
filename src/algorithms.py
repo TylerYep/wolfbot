@@ -20,8 +20,12 @@ class SolverState:
         switches: Tuple[Tuple[Priority, int, int], ...] = (),
         path_init: Tuple[bool, ...] = (),
     ):
-        possible = [const.ROLE_SET] * const.NUM_ROLES if possible_roles is None else possible_roles
-        self.possible_roles = tuple([frozenset(role_set) for role_set in possible])
+        # We share the same reference here because frozen sets are immutable.
+        self.possible_roles = tuple(
+            [frozenset(const.ROLE_SET)] * const.NUM_ROLES
+            if possible_roles is None
+            else [frozenset(role_set) for role_set in possible_roles]
+        )
         self.switches = switches
         self.path = path_init
 
@@ -55,16 +59,18 @@ def is_consistent(statement: Statement, state: SolverState) -> SolverState:
 
 def cached_solver(statements: Tuple[Statement, ...]) -> int:
     """ Returns maximium number of statements that can be true from a list of Statements. """
+    num_statements = len(statements)
 
-    def _cache_recurse(ind: int, state: SolverState) -> int:
-        if ind == len(statements) or not state.is_valid_state():
+    def _cache_recurse(state: SolverState, ind: int = 0) -> int:
+        if ind == num_statements or not state.is_valid_state():
             return 0
         new_state = is_consistent(statements[ind], state)
+        skip_statement = _cache_recurse(state, ind + 1)
         if not new_state.is_valid_state():
-            return _cache_recurse(ind + 1, state)
-        return max(1 + _cache_recurse(ind + 1, new_state), _cache_recurse(ind + 1, state))
+            return skip_statement
+        return max(1 + _cache_recurse(new_state, ind + 1), skip_statement)
 
-    return _cache_recurse(0, SolverState())
+    return _cache_recurse(SolverState())
 
 
 def switching_solver(
@@ -78,21 +84,22 @@ def switching_solver(
     """
     start_state = SolverState()
     solution = [start_state]
+    num_statements = len(statements)
+    curr_max = 0
 
     def _switch_recurse(ind: int, state: SolverState) -> None:
         """ ind = index of statement being considered. """
-        nonlocal solution
+        nonlocal solution, curr_max
         curr_path_count = state.path.count(True)
-        prev_max = solution[0].path.count(True)
-        if ind == len(statements):
-            if curr_path_count > prev_max:
+        if ind == num_statements:
+            if curr_path_count > curr_max:
                 solution = [state]
-                prev_max = curr_path_count
-            elif curr_path_count == prev_max:
+                curr_max = curr_path_count
+            elif curr_path_count == curr_max:
                 solution.append(state)
             return
 
-        if curr_path_count + len(statements) - ind < prev_max:
+        if curr_path_count + num_statements - ind < curr_max:
             return
 
         truth_state = is_consistent(statements[ind], state)
