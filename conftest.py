@@ -1,4 +1,6 @@
 """ conftest.py """
+import csv
+import os
 import random
 from collections import Counter
 from typing import List, Tuple
@@ -160,6 +162,16 @@ def large_individual_preds() -> List[List[str]]:
             ['Villager', 'Insomniac', 'Mason', 'Minion', 'Villager', 'Drunk', 'Seer', 'Tanner',
              'Wolf', 'Villager', 'Wolf', 'Hunter', 'Troublemaker', 'Mason', 'Robber']]
     # fmt: on
+
+
+def write_results(filename, stat_results):
+    """ Writes stat_results to corresponding csv file. """
+    results_filename = os.path.join("integration_test/results/", filename)
+    with open(results_filename, "a+") as out_file:
+        writer = csv.DictWriter(out_file, fieldnames=stat_results.keys())
+        if os.path.getsize(results_filename) == 0:
+            writer.writeheader()
+        writer.writerow(stat_results)
 
 
 def debug_spacing_issues(captured: str, expected: str) -> None:

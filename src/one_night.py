@@ -1,5 +1,6 @@
 """ one_night.py """
 import json
+import logging
 import random
 from typing import Dict, List, Tuple, Union
 
@@ -15,9 +16,15 @@ from src.voting import consolidate_results
 
 
 def simulate_game(
-    num_games: int = 1, save_replay: bool = False, disable_tqdm: bool = True
+    num_games: int = 1,
+    save_replay: bool = False,
+    disable_tqdm: bool = True,
+    disable_logging: bool = True,
 ) -> Dict[str, float]:
     """ Collects statistics about several simulations of play_one_night_werewolf. """
+    if disable_logging:
+        logger.setLevel(logging.WARNING)
+
     stat_tracker = Statistics()
     for _ in tqdm(range(num_games), disable=disable_tqdm):
         game_result = play_one_night_werewolf(save_replay)
