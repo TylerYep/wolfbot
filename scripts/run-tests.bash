@@ -22,3 +22,4 @@ find . -iname "*.py" | xargs pylint
 
 # Testing
 pytest --cov=src --cov-report=html unit_test
+codecov --token="310aba3a-4a04-49cb-a516-7444866cac1c"

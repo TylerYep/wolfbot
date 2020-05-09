@@ -71,8 +71,11 @@ class Player:
         """ Gets Player Statement. """
         if self.is_user:
             logger.info("Please choose from the following statements: ")
+            num_options = 5
             sample_statements = (
-                random.sample(self.statements, 10) if len(self.statements) > 10 else self.statements
+                random.sample(self.statements, num_options)
+                if len(self.statements) > num_options
+                else self.statements
             )
             for i, statement in enumerate(sample_statements):
                 logger.info(f"{i}. {statement.sentence}")
