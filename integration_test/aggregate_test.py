@@ -3,7 +3,7 @@ import csv
 import os
 import random
 
-from src import const, one_night, stats
+from src import const, one_night
 
 
 class TestAggregate:
@@ -14,39 +14,22 @@ class TestAggregate:
         """ Correctly play one round of one night werewolf. """
         const.ROLES = small_game_roles
         random.seed()
-        num_games = 10
-        stat_tracker = stats.Statistics()
 
-        for _ in range(num_games):
-            game_result = one_night.play_one_night_werewolf(save_replay=False)
-            stat_tracker.add_result(game_result)
-        stat_tracker.print_statistics()
-        metric_map = stat_tracker.get_metric_results()
+        stat_results = one_night.simulate_game(num_games=10)
 
-        assert metric_map["villager_wins"] == 1.0
+        assert stat_results["villager_wins"] == 1.0
 
     @staticmethod
     def test_standard_aggregate_game(standard_game_roles):
         """ Correctly play one round of one night werewolf. """
         const.ROLES = standard_game_roles
-        num_games = 1000
 
-        stat_tracker = stats.Statistics()
-        for _ in range(num_games):
-            game_result = one_night.play_one_night_werewolf(save_replay=False)
-            stat_tracker.add_result(game_result)
-        stat_tracker.print_statistics()
-        metric_map = stat_tracker.get_metric_results()
+        stat_results = one_night.simulate_game(num_games=1000)
 
-        results_filename = "integration_test/results/standard_results.csv"
-        with open(results_filename, "a+") as out_file:
-            writer = csv.DictWriter(out_file, fieldnames=metric_map.keys())
-            if os.path.getsize(results_filename) == 0:
-                writer.writeheader()
-            writer.writerow(metric_map)
-        assert metric_map["villager_wins"] > 0.8
-        assert metric_map["tanner_wins"] == 0
-        assert metric_map["werewolf_wins"] < 0.2
+        write_results("standard_results.csv", stat_results)
+        assert stat_results["villager_wins"] > 0.8
+        assert stat_results["tanner_wins"] == 0
+        assert stat_results["werewolf_wins"] < 0.2
 
     @staticmethod
     def test_standard_aggregate_game_expectimax_wolf(standard_game_roles):
@@ -54,22 +37,20 @@ class TestAggregate:
         const.ROLES = standard_game_roles
         const.USE_REG_WOLF = True
         const.USE_EXPECTIMAX_WOLF = True
-        const.MULTI_STATEMENT = True
-        num_games = 500
 
-        stat_tracker = stats.Statistics()
-        for _ in range(num_games):
-            game_result = one_night.play_one_night_werewolf(save_replay=False)
-            stat_tracker.add_result(game_result)
-        stat_tracker.print_statistics()
-        metric_map = stat_tracker.get_metric_results()
+        stat_results = one_night.simulate_game(num_games=500)
 
-        results_filename = "integration_test/results/expectimax_wolf_results.csv"
-        with open(results_filename, "a+") as out_file:
-            writer = csv.DictWriter(out_file, fieldnames=metric_map.keys())
-            if os.path.getsize(results_filename) == 0:
-                writer.writeheader()
-            writer.writerow(metric_map)
-        assert metric_map["villager_wins"] < 0.6
-        assert metric_map["tanner_wins"] == 0
-        assert metric_map["werewolf_wins"] > 0.4
+        write_results("expectimax_wolf_results.csv", stat_results)
+        assert stat_results["villager_wins"] < 0.6
+        assert stat_results["tanner_wins"] == 0
+        assert stat_results["werewolf_wins"] > 0.4
+
+
+def write_results(filename, stat_results):
+    """ Writes stat_results to corresponding csv file. """
+    results_filename = os.path.join("integration_test/results/", filename)
+    with open(results_filename, "a+") as out_file:
+        writer = csv.DictWriter(out_file, fieldnames=stat_results.keys())
+        if os.path.getsize(results_filename) == 0:
+            writer.writeheader()
+        writer.writerow(stat_results)

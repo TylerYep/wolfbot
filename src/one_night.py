@@ -1,15 +1,30 @@
 """ one_night.py """
 import json
 import random
-from typing import List, Tuple, Union
+from typing import Dict, List, Tuple, Union
+
+from tqdm import tqdm
 
 from src import const, util
 from src.const import logger
 from src.encoder import WolfBotEncoder
 from src.roles import Player, get_role_obj
 from src.statements import Statement
-from src.stats import GameResult, SavedGame
+from src.stats import GameResult, SavedGame, Statistics
 from src.voting import consolidate_results
+
+
+def simulate_game(
+    num_games: int = 1, save_replay: bool = False, disable_tqdm: bool = True
+) -> Dict[str, float]:
+    """ Collects statistics about several simulations of play_one_night_werewolf. """
+    stat_tracker = Statistics()
+    for _ in tqdm(range(num_games), disable=disable_tqdm):
+        game_result = play_one_night_werewolf(save_replay)
+        stat_tracker.add_result(game_result)
+    stat_tracker.print_statistics()
+    stat_results = stat_tracker.get_metric_results()
+    return stat_results
 
 
 def play_one_night_werewolf(save_replay: bool = True) -> GameResult:

@@ -61,7 +61,7 @@ USE_VOTING = True
 # Uses literally the order of the ROLES constant above.
 RANDOMIZE_ROLES = True
 # Enable multi-statement rounds.
-MULTI_STATEMENT = False
+MULTI_STATEMENT = True
 
 """ Simulation Constants """
 NUM_GAMES = 1 if ARGS.num_games is None else int(ARGS.num_games)

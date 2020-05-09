@@ -1,21 +1,16 @@
 """ main.py """
 import logging
 
-from tqdm import tqdm
-
-from src import Statistics, const, logger, play_one_night_werewolf, replay_game
+from src import const, logger, one_night, replay_game
 
 
 def main(num_games: int = const.NUM_GAMES) -> None:
     """ Simulate play_one_night_werewolf and create a Statistics instance for the runs. """
     if num_games > const.MAX_LOG_GAMES:
         logger.setLevel(logging.WARNING)
-
-    stat_tracker = Statistics()
-    for _ in tqdm(range(num_games), disable=num_games <= const.MAX_LOG_GAMES):
-        game_result = play_one_night_werewolf(const.SAVE_REPLAY)
-        stat_tracker.add_result(game_result)
-    stat_tracker.print_statistics()
+    one_night.simulate_game(
+        num_games, disable_tqdm=num_games <= const.MAX_LOG_GAMES, save_replay=const.SAVE_REPLAY
+    )
 
 
 if __name__ == "__main__":
