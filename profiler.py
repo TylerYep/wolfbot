@@ -1,6 +1,7 @@
 """ profile.py """
 import cProfile
 import pstats
+import random
 
 from src import one_night  # pylint: disable=unused-import
 
@@ -25,9 +26,10 @@ def profile() -> None:
 
     percall - is the quotient of cumtime divided by primitive calls
     """
+    random.seed(0)
     command = "one_night.simulate_game(200, disable_tqdm=False)"
     profile_file = "data/profile.txt"
-    sort = "time"
+    sort = "ncalls"
 
     cProfile.run(command, filename=profile_file, sort=sort)
     stats = pstats.Stats(profile_file)

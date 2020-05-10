@@ -19,6 +19,7 @@ class SolverState:
         possible_roles: Optional[Union[Sequence[Set[str]], Sequence[FrozenSet[str]]]] = None,
         switches: Tuple[Tuple[Priority, int, int], ...] = (),
         path_init: Tuple[bool, ...] = (),
+        count_true: int = 0,
     ):
         # We share the same reference here because frozen sets are immutable.
         self.possible_roles = tuple(
@@ -28,10 +29,17 @@ class SolverState:
         )
         self.switches = switches
         self.path = path_init
+        self.count_true = count_true
 
     def is_valid_state(self) -> bool:
         """ Checks for invalid state, denoted as SolverState([]). """
         return bool(self.possible_roles)
+
+    def add_to_path(self, statement_is_true: bool) -> None:
+        """ Adds a new statement truth value to the state's path. """
+        self.path += (statement_is_true,)
+        if statement_is_true:
+            self.count_true += 1
 
     def __repr__(self) -> str:
         """ Returns a String representation of a SolverState. """
@@ -54,23 +62,7 @@ def is_consistent(statement: Statement, state: SolverState) -> SolverState:
         new_possible_roles[proposed_ind] = intersection
         if not check_role_counts(new_possible_roles, proposed_roles):
             return SolverState([])
-    return SolverState(new_possible_roles, new_switches, state.path)
-
-
-def cached_solver(statements: Tuple[Statement, ...]) -> int:
-    """ Returns maximium number of statements that can be true from a list of Statements. """
-    num_statements = len(statements)
-
-    def _cache_recurse(state: SolverState, ind: int = 0) -> int:
-        if ind == num_statements or not state.is_valid_state():
-            return 0
-        new_state = is_consistent(statements[ind], state)
-        skip_statement = _cache_recurse(state, ind + 1)
-        if not new_state.is_valid_state():
-            return skip_statement
-        return max(1 + _cache_recurse(new_state, ind + 1), skip_statement)
-
-    return _cache_recurse(SolverState())
+    return SolverState(new_possible_roles, new_switches, state.path, state.count_true)
 
 
 def switching_solver(
@@ -84,36 +76,32 @@ def switching_solver(
     """
     num_statements = len(statements)
 
-    def _switch_recurse(solutions: List[SolverState], ind: int, state: SolverState) -> None:
+    def _switch_recurse(solutions: List[SolverState], state: SolverState, ind: int = 0) -> None:
         """ ind = index of statement being considered. """
-        curr_path_count = state.path.count(True)
-        curr_max = solutions[0].path.count(True) if solutions else 0
+        curr_max = solutions[0].count_true
         if ind == num_statements:
-            if curr_path_count > curr_max:
+            if state.count_true > curr_max:
                 solutions.clear()
-                solutions.append(state)
-                curr_max = curr_path_count
-            elif curr_path_count == curr_max:
+            if state.count_true >= curr_max:
                 solutions.append(state)
             return
 
-        if curr_path_count + num_statements - ind < curr_max:
+        if state.count_true + num_statements - ind < curr_max:
             return
 
         truth_state = is_consistent(statements[ind], state)
         false_state = is_consistent(statements[ind].negate(), state)
 
         if truth_state.is_valid_state():
-            truth_state.path = state.path + (True,)
-            _switch_recurse(solutions, ind + 1, truth_state)
+            truth_state.add_to_path(True)
+            _switch_recurse(solutions, truth_state, ind + 1)
 
         if false_state.is_valid_state() and ind not in known_true:
-            false_state.path = state.path + (False,)
-            _switch_recurse(solutions, ind + 1, false_state)
+            false_state.add_to_path(False)
+            _switch_recurse(solutions, false_state, ind + 1)
 
-    start_state = SolverState()
-    solutions = [start_state]
-    _switch_recurse(solutions, 0, start_state)
+    solutions = [SolverState()]
+    _switch_recurse(solutions, solutions[0])
     return solutions
 
 
@@ -134,3 +122,19 @@ def check_role_counts(
                     return False
                 counts_dict[single_role] -= 1
     return True
+
+
+def cached_solver(statements: Tuple[Statement, ...]) -> int:
+    """ Returns maximium number of statements that can be true from a list of Statements. """
+    num_statements = len(statements)
+
+    def _cache_recurse(state: SolverState, ind: int = 0) -> int:
+        if ind == num_statements or not state.is_valid_state():
+            return 0
+        new_state = is_consistent(statements[ind], state)
+        skip_statement = _cache_recurse(state, ind + 1)
+        if not new_state.is_valid_state():
+            return skip_statement
+        return max(1 + _cache_recurse(new_state, ind + 1), skip_statement)
+
+    return _cache_recurse(SolverState())
