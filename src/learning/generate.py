@@ -23,7 +23,7 @@ def generate_data():
             simulation = play_one_night_werewolf(save_replay=False)
             sim_list.append(simulation)
 
-    fname = f'learning/simulations/simulation_{time.strftime("%Y%m%d_%H%M%S")}.json'
+    fname = f"learning/simulations/simulation_{time.strftime('%Y%m%d_%H%M%S')}.json"
     with open(fname, "w") as f_sim:
         json.dump(sim_list, f_sim, cls=WolfBotEncoder)
 

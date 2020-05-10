@@ -70,7 +70,7 @@ Vote Array: [0, 1, 0, 2, 0, 0, 0, 3, 0, 0, 6, 0]
 [Wolfbot] Role guesses: [Villager, Mason, Mason, Minion, Villager, Drunk, Tanner, Troublemaker, Villager, Wolf, Wolf, Hunter]
           Center cards: [Insomniac, Seer, Robber]
 
-Confidence level: [1.0, 0.67, 1.0, 0.42, 1.0, 0.75, 0.5, 0.42, 0.42, 0.58, 0.58, 0.92, 0.5, 0.67, 0.75]
+Confidence levels: [1.0, 0.67, 1.0, 0.42, 1.0, 0.75, 0.5, 0.42, 0.42, 0.58, 0.58, 0.92, 0.5, 0.67, 0.75]
 Player 10 was chosen as a Wolf.
 Player 10 was a Wolf!
 

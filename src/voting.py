@@ -20,7 +20,7 @@ def consolidate_results(save_game: SavedGame) -> GameResult:
         indiv_preds = get_individual_preds(player_objs, all_statements, orig_wolf_inds)
         all_guesses, confidence, guessed_wolf_inds, vote_inds = get_voting_result(indiv_preds)
         print_guesses(all_guesses)
-        logger.debug(f'Confidence level: {[float(f"{conf:.2f}") for conf in confidence]}')
+        logger.debug(f"Confidence levels: {[float(f'{conf:.2f}') for conf in confidence]}")
         winning_team = eval_final_guesses(game_roles, guessed_wolf_inds, vote_inds)
         return GameResult(game_roles, all_guesses, orig_wolf_inds, winning_team)
 

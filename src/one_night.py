@@ -148,7 +148,7 @@ def override_wolf_index(game_roles: List[str]) -> None:
 def print_roles(game_roles: Union[List[Player], List[str]], tag: str) -> None:
     """ Formats hidden roles to console. """
     role_output = (
-        f'[{tag}] Current roles: {game_roles[:const.NUM_PLAYERS]}\n{" " * (len(tag) + 4)}'
+        f"[{tag}] Current roles: {game_roles[:const.NUM_PLAYERS]}\n{' ' * (len(tag) + 4)}"
         f"Center cards: {game_roles[const.NUM_PLAYERS:]}\n"
     )
     logger.debug(role_output.replace("'", ""))

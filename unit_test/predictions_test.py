@@ -313,6 +313,6 @@ class TestPrintGuesses:
         captured = caplog.records[0].getMessage()
         expected = (
             "\n[Wolfbot] Role guesses: [Robber, Drunk, Wolf, Troublemaker, Seer]\n"
-            + "          Center cards: [Minion]\n"
+            "          Center cards: [Minion]\n"
         )
         assert captured == expected

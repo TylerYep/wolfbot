@@ -3,7 +3,7 @@ import csv
 import os
 import random
 from collections import Counter
-from typing import List, Tuple
+from typing import Dict, List, Tuple
 
 import pytest
 
@@ -52,6 +52,9 @@ def reset_const() -> None:
     const.USE_REG_WOLF = False
     const.USE_EXPECTIMAX_WOLF = False
     const.MULTI_STATEMENT = False
+    const.INTERACTIVE_MODE_ON = False
+    const.IS_USER = [False] * const.NUM_ROLES
+    const.REPLAY_FILE = "unit_test/test_data/replay.json"
     random.seed(0)
 
 
@@ -164,7 +167,7 @@ def large_individual_preds() -> List[List[str]]:
     # fmt: on
 
 
-def write_results(filename, stat_results):
+def write_results(filename: str, stat_results: Dict[str, float]) -> None:
     """ Writes stat_results to corresponding csv file. """
     results_filename = os.path.join("integration_test/results/", filename)
     with open(results_filename, "a+") as out_file:
@@ -172,6 +175,14 @@ def write_results(filename, stat_results):
         if os.path.getsize(results_filename) == 0:
             writer.writeheader()
         writer.writerow(stat_results)
+
+
+def verify_output(caplog, filename: str) -> bool:
+    """ Helper method for debugging print differences. """
+    captured = list(map(lambda x: x.getMessage(), caplog.records))
+    with open(filename) as output_file:
+        expected = output_file.read().split("\n")
+    assert "\n".join(captured) == "\n".join(expected)
 
 
 def debug_spacing_issues(captured: str, expected: str) -> None:

@@ -63,7 +63,7 @@ def train(folder, eta=0.01):
                     counter += 1
 
     exp_dict = remap_keys(experience_dict)
-    with open(f'learning/simulations/wolf_{time.strftime("%Y%m%d_%H%M%S")}.json', "w") as wolf_file:
+    with open(f"learning/simulations/wolf_{time.strftime('%Y%m%d_%H%M%S')}.json", "w") as wolf_file:
         json.dump(exp_dict, wolf_file, cls=WolfBotEncoder)
 
 

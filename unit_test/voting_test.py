@@ -350,3 +350,16 @@ class TestGetPlayerVote:
         result = [voting.get_player_vote(i, prediction) for i in range(const.NUM_PLAYERS)]
 
         assert result == [1, 2, 0]
+
+    @staticmethod
+    def test_interactive_vote(monkeypatch, medium_game_roles):
+        """ Prompt the user for their vote. """
+        player_index = 2
+        const.ROLES = medium_game_roles
+        const.IS_USER[player_index] = True
+        prediction = ["Seer", "Troublemaker", "Drunk", "Minion", "Robber", "Wolf"]
+        monkeypatch.setattr("builtins.input", lambda x: "4")
+
+        result = voting.get_player_vote(player_index, prediction)
+
+        assert result == 4

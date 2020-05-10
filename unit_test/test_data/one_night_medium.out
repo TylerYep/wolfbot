@@ -48,7 +48,7 @@ Vote Array: [1, 2, 0, 1, 1]
 [Wolfbot] Role guesses: [Seer, Wolf, Troublemaker, Drunk, Minion]
           Center cards: [Robber]
 
-Confidence level: [0.4, 0.4, 0.8, 0.8, 0.4, 0.8]
+Confidence levels: [0.4, 0.4, 0.8, 0.8, 0.4, 0.8]
 Player 1 was chosen as a Wolf.
 Player 1 was a Wolf!
 
