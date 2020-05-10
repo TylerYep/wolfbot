@@ -53,7 +53,8 @@ class TestInsomniac:
     def test_get_all_statements():
         """ Should return the possible statements from all possible initialization actions. """
         player_index = 2
-        const.ROLE_SET = set(["Wolf", "Insomniac", "Seer"])
+        const.ROLE_SET = frozenset(["Wolf", "Insomniac", "Seer"])
+        const.SORTED_ROLE_SET = sorted(const.ROLE_SET)
         expected = [
             Statement(
                 (

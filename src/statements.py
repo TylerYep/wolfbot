@@ -1,7 +1,7 @@
 """ statements.py """
 from __future__ import annotations
 
-from typing import Any, Dict, FrozenSet, List, Optional, Set, Tuple, Union
+from typing import Any, Dict, FrozenSet, List, Optional, Sequence, Set, Tuple, Union
 
 from src import const
 from src.const import Priority
@@ -13,8 +13,8 @@ class Statement:
     def __init__(
         self,
         sentence: str,
-        knowledge: List[Tuple[int, Set[str]]] = [],
-        switches: List[Tuple[Priority, int, int]] = [],
+        knowledge: Sequence[Tuple[int, Union[Set[str], FrozenSet[str]]]] = (),
+        switches: Sequence[Tuple[Priority, int, int]] = (),
         speaker: str = "",
         priority: int = const.PRIMARY,
     ):

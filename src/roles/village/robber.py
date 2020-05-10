@@ -53,7 +53,7 @@ class Robber(Player):
         """ Required for all player types. Returns all possible role statements. """
         statements: List[Statement] = []
         for i in range(const.NUM_PLAYERS):
-            for role in sorted(tuple(const.ROLE_SET)):
+            for role in const.SORTED_ROLE_SET:
                 if player_index != i:  # OK: 'I robbed Player 0 and now I'm a Wolf... ;)'
                     statements += Robber.get_robber_statements(player_index, i, role)
         return statements

@@ -12,6 +12,17 @@ from fixtures import *
 from src import const
 
 
+def reset_misc_const_fields() -> None:
+    """ Changes to ROLES should propagate to all of its descendants. """
+    const.ROLE_SET = frozenset(const.ROLES)
+    const.SORTED_ROLE_SET = sorted(const.ROLE_SET)
+    const.ROLE_COUNTS = dict(Counter(const.ROLES))
+    const.NUM_ROLES = len(const.ROLES)
+    const.VILLAGE_ROLES &= const.ROLE_SET
+    const.EVIL_ROLES &= const.ROLE_SET
+    const.IS_USER = [False] * const.NUM_ROLES
+
+
 @pytest.fixture(autouse=True)
 def reset_const() -> None:
     const.logger.setLevel(const.TRACE)
@@ -32,9 +43,6 @@ def reset_const() -> None:
         "Mason",
         "Hunter",
     )
-    const.ROLE_SET = set(const.ROLES)
-    const.ROLE_COUNTS = dict(Counter(const.ROLES))
-    const.NUM_ROLES = len(const.ROLES)
     const.NUM_PLAYERS = 12
     const.NUM_CENTER = 3
     const.CENTER_SEER_PROB = 0.9
@@ -54,34 +62,26 @@ def reset_const() -> None:
     const.USE_EXPECTIMAX_WOLF = False
     const.MULTI_STATEMENT = False
     const.INTERACTIVE_MODE_ON = False
-    const.IS_USER = [False] * const.NUM_ROLES
     const.REPLAY_FILE = "unit_test/test_data/replay.json"
     random.seed(0)
+    reset_misc_const_fields()
 
 
 @pytest.fixture
 def small_game_roles() -> Tuple[str, ...]:
     const.ROLES = ("Villager", "Seer", "Robber")  # type: ignore
-    const.ROLE_SET = set(const.ROLES)
-    const.ROLE_COUNTS = dict(Counter(const.ROLES))
-    const.NUM_ROLES = len(const.ROLES)
     const.NUM_PLAYERS = 3
     const.NUM_CENTER = 0
-    const.VILLAGE_ROLES &= const.ROLE_SET
-    const.EVIL_ROLES &= const.ROLE_SET
+    reset_misc_const_fields()
     return const.ROLES
 
 
 @pytest.fixture
 def medium_game_roles() -> Tuple[str, ...]:
     const.ROLES = ("Robber", "Drunk", "Wolf", "Troublemaker", "Seer", "Minion")  # type: ignore
-    const.ROLE_SET = set(const.ROLES)
-    const.ROLE_COUNTS = dict(Counter(const.ROLES))
-    const.NUM_ROLES = len(const.ROLES)
     const.NUM_PLAYERS = 5
     const.NUM_CENTER = 1
-    const.VILLAGE_ROLES &= const.ROLE_SET
-    const.EVIL_ROLES &= const.ROLE_SET
+    reset_misc_const_fields()
     return const.ROLES
 
 
@@ -104,13 +104,9 @@ def large_game_roles() -> Tuple[str, ...]:
         "Insomniac",
         "Hunter",
     )
-    const.ROLE_SET = set(const.ROLES)
-    const.ROLE_COUNTS = dict(Counter(const.ROLES))
-    const.NUM_ROLES = len(const.ROLES)
     const.NUM_PLAYERS = 12
     const.NUM_CENTER = 3
-    const.VILLAGE_ROLES &= const.ROLE_SET
-    const.EVIL_ROLES &= const.ROLE_SET
+    reset_misc_const_fields()
     return const.ROLES
 
 
@@ -128,13 +124,9 @@ def standard_game_roles() -> Tuple[str, ...]:
         "Mason",
         "Drunk",
     )
-    const.ROLE_SET = set(const.ROLES)
-    const.ROLE_COUNTS = dict(Counter(const.ROLES))
-    const.NUM_ROLES = len(const.ROLES)
     const.NUM_PLAYERS = 7
     const.NUM_CENTER = 3
-    const.VILLAGE_ROLES &= const.ROLE_SET
-    const.EVIL_ROLES &= const.ROLE_SET
+    reset_misc_const_fields()
     return const.ROLES
 
 

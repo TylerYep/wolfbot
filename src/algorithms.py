@@ -23,7 +23,7 @@ class SolverState:
     ):
         # We share the same reference here because frozen sets are immutable.
         self.possible_roles = tuple(
-            [frozenset(const.ROLE_SET)] * const.NUM_ROLES
+            [const.ROLE_SET] * const.NUM_ROLES
             if possible_roles is None
             else [frozenset(role_set) for role_set in possible_roles]
         )
@@ -32,7 +32,7 @@ class SolverState:
         self.count_true = count_true
 
     def is_valid_state(self) -> bool:
-        """ Checks for invalid state, denoted as SolverState([]). """
+        """ Checks for invalid state, denoted as SolverState(). """
         return bool(self.possible_roles)
 
     def add_to_path(self, statement_is_true: bool) -> None:

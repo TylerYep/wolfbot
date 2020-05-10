@@ -81,7 +81,8 @@ class TestSeer:
         """ Should return the possible statements from all possible initialization actions. """
         player_index = 1
         const.ROLES = ["Wolf", "Seer", "Villager", "Wolf"]
-        const.ROLE_SET = set(const.ROLES)
+        const.ROLE_SET = frozenset(const.ROLES)
+        const.SORTED_ROLE_SET = sorted(const.ROLE_SET)
         const.ROLE_COUNTS = dict(Counter(const.ROLES))
         const.NUM_PLAYERS = 2
         const.NUM_CENTER = 2

@@ -46,7 +46,7 @@ class TestMason:
         """ Should give the proper statement when only one Mason is present. """
         player_index = 2
         const.ROLES = ("Wolf", "Seer", "Mason", "Villager")
-        const.ROLE_SET = set(const.ROLES)
+        const.ROLE_SET = frozenset(const.ROLES)
         const.NUM_PLAYERS = 3
         result = Mason.get_mason_statements(player_index, [2])
 
@@ -68,7 +68,8 @@ class TestMason:
         """ Should return the possible statements from all possible initialization actions. """
         player_index = 2
         const.ROLES = ["Wolf", "Seer", "Mason", "Villager"]
-        const.ROLE_SET = set(const.ROLES)
+        const.ROLE_SET = frozenset(const.ROLES)
+        const.SORTED_ROLE_SET = sorted(const.ROLE_SET)
         const.NUM_PLAYERS = 3
         expected_statements = [
             Statement(

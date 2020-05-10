@@ -153,7 +153,7 @@ def example_large_solverstate(large_game_roles: Tuple[str, ...]) -> SolverState:
             "Villager",
             "Troublemaker",
         },
-    ] + [const.ROLE_SET] * 7
+    ] + [set(const.ROLE_SET)] * 7
     switches = ((Priority.ROBBER, 6, 0), (Priority.ROBBER, 9, 6))
     path = (True, False, True, True, True, True, True, False)
     return SolverState(possible_roles, switches, path)

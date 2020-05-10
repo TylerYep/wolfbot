@@ -69,7 +69,7 @@ class TestTroublemaker:
         """ Should return the possible statements from all possible initialization actions. """
         player_index = 2
         const.ROLES = ["Wolf", "Seer", "Troublemaker", "Villager", "Robber", "Wolf"]
-        const.ROLE_SET = set(const.ROLES)
+        const.ROLE_SET = frozenset(const.ROLES)
         const.NUM_PLAYERS = 3
         const.NUM_CENTER = 3
         expected_statements = [

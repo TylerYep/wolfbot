@@ -58,7 +58,7 @@ ROLES = (
 NUM_CENTER = 3
 # Disabling this is good for testing solvers.
 USE_VOTING = True
-# Uses literally the order of the ROLES constant above.
+# Randomize or use literally the order of the ROLES constant above.
 RANDOMIZE_ROLES = True
 # Enable multi-statement rounds.
 MULTI_STATEMENT = False
@@ -74,7 +74,8 @@ REPLAY_STATE = "data/replay_state.json"
 REPLAY = ARGS.replay
 
 """ Util Constants """
-ROLE_SET = set(ROLES)
+ROLE_SET = frozenset(ROLES)
+SORTED_ROLE_SET = sorted(ROLE_SET)
 NUM_ROLES = len(ROLES)
 ROLE_COUNTS = dict(Counter(ROLES))  # Dict of {'Villager': 3, 'Wolf': 2, ... }
 NUM_PLAYERS = NUM_ROLES - NUM_CENTER
