@@ -2,7 +2,7 @@
 import cProfile
 import pstats
 
-from main import main  # pylint: disable=unused-import
+from src import one_night  # pylint: disable=unused-import
 
 
 def profile() -> None:
@@ -25,7 +25,7 @@ def profile() -> None:
 
     percall - is the quotient of cumtime divided by primitive calls
     """
-    command = "main(200)"
+    command = "one_night.simulate_game(200, disable_tqdm=False)"
     profile_file = "data/profile.txt"
     sort = "time"
 

@@ -36,6 +36,7 @@ def simulate_game(
 
 def play_one_night_werewolf(save_replay: bool = True) -> GameResult:
     """ Plays one round of One Night Ultimate Werewolf. """
+    random_state = {"rng_state": random.getstate()}
     game_roles = list(const.ROLES)
     if const.RANDOMIZE_ROLES:
         random.shuffle(game_roles)
@@ -50,6 +51,8 @@ def play_one_night_werewolf(save_replay: bool = True) -> GameResult:
 
     save_game = SavedGame(original_roles, game_roles, all_statements, player_objs)
     if save_replay:
+        with open(const.REPLAY_STATE, "w") as replay_file:
+            json.dump(random_state, replay_file)
         with open(const.REPLAY_FILE, "w") as replay_file:
             json.dump(save_game, replay_file, cls=WolfBotEncoder, indent=2)
 
@@ -76,7 +79,6 @@ def get_player_statements(player_objs: List[Player]) -> List[Statement]:
     while not all(val.priority == const.PRIMARY for val in finished_speaking):
         if finished_speaking[curr_ind].priority < const.PRIMARY:
             statement = player_objs[curr_ind].get_statement(stated_roles, finished_speaking)
-            player_objs[curr_ind].prev_priority = statement.priority
             stated_roles[curr_ind] = statement.speaker
             finished_speaking[curr_ind] = statement
             logger.info(f"Player {curr_ind}: {statement.sentence}")
@@ -88,6 +90,11 @@ def get_player_statements(player_objs: List[Player]) -> List[Statement]:
 
 def night_falls(game_roles: List[str], original_roles: Tuple[str, ...]) -> List[Player]:
     """ Initialize role object list and perform all switching and peeking actions to begin. """
+    if const.INTERACTIVE_MODE_ON:
+        user_index = random.randint(0, const.NUM_PLAYERS - 1)
+        const.IS_USER[user_index] = True
+        logger.info(f"You are a {game_roles[user_index]}!")
+
     logger.info("\n-- NIGHT FALLS --\n")
     print_roles(game_roles, "Hidden")
 
@@ -121,7 +128,7 @@ def override_wolf_index(game_roles: List[str]) -> None:
 def print_roles(game_roles: Union[List[Player], List[str]], tag: str) -> None:
     """ Formats hidden roles to console. """
     role_output = (
-        f'[{tag}] Current roles: {game_roles[:const.NUM_PLAYERS]}\n{" " * 10}'
+        f'[{tag}] Current roles: {game_roles[:const.NUM_PLAYERS]}\n{" " * (len(tag) + 4)}'
         f"Center cards: {game_roles[const.NUM_PLAYERS:]}\n"
     )
     logger.debug(role_output.replace("'", ""))

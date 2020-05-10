@@ -1,12 +1,24 @@
 """ replay.py """
 import json
+import random
 
 from src import const
 from src.const import logger
 from src.encoder import WolfBotDecoder
-from src.one_night import print_roles
+from src.one_night import print_roles, simulate_game
 from src.stats import GameResult, Statistics
 from src.voting import consolidate_results
+
+
+def replay_game_from_state() -> None:
+    """ Runs last game stored in replay_state.json. """
+    with open(const.REPLAY_STATE) as f_replay:
+        save_game = json.load(f_replay)
+    game_state = save_game["rng_state"]
+    rng_state = [tuple(item) if isinstance(item, list) else item for item in game_state]
+    random.setstate(tuple(rng_state))
+
+    simulate_game(disable_logging=False)
 
 
 def replay_game() -> GameResult:
@@ -23,8 +35,6 @@ def replay_game() -> GameResult:
 
     print_roles(original_roles, "Hidden")
     print_roles(game_roles, "Solution")
-    # logger.warning((f'[SOLUTION] Role guesses: {game_roles[:const.NUM_PLAYERS]}\n' + ' '*11 +
-    #                 f'Center cards: {game_roles[const.NUM_PLAYERS:]}\n').replace('\'', ''))
 
     game_result = consolidate_results(save_game)
     stat_tracker = Statistics()

@@ -69,19 +69,6 @@ class Player:
 
     def get_statement(self, stated_roles: List[str], previous: List[Statement]) -> Statement:
         """ Gets Player Statement. """
-        if self.is_user:
-            logger.info("Please choose from the following statements: ")
-            num_options = 5
-            sample_statements = (
-                random.sample(self.statements, num_options)
-                if len(self.statements) > num_options
-                else self.statements
-            )
-            for i, statement in enumerate(sample_statements):
-                logger.info(f"{i}. {statement.sentence}")
-            choice = util.get_numeric_input(len(sample_statements))
-            return sample_statements[choice]
-
         # If someone says a Statement that involves you, set your new_role to their theory.
         if self.role in const.VILLAGE_ROLES:
             # TODO Want to use random solution but would break tests.
@@ -102,7 +89,28 @@ class Player:
             return self.transform(self.new_role).get_statement(stated_roles, previous)
 
         if const.MULTI_STATEMENT:
-            return random.choice([x for x in self.statements if x.priority > self.prev_priority])
+            self.statements = [x for x in self.statements if x.priority > self.prev_priority]
+
+        if self.is_user:
+            logger.info("Please choose from the following statements: ")
+            num_options = 5
+            sample_statements = (
+                random.sample(self.statements, num_options)
+                if len(self.statements) > num_options
+                else self.statements
+            )
+            for i, statement in enumerate(sample_statements):
+                logger.info(f"{i}. {statement.sentence}")
+            choice = util.get_numeric_input(len(sample_statements))
+
+            if const.MULTI_STATEMENT:
+                self.prev_priority = sample_statements[choice].priority
+            return sample_statements[choice]
+
+        if const.MULTI_STATEMENT:
+            next_statement = random.choice(tuple(self.statements))
+            self.prev_priority = next_statement.priority
+            return next_statement
 
         return random.choice(tuple(self.statements))
 

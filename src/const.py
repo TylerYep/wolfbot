@@ -70,6 +70,7 @@ FIXED_WOLF_INDEX = -1
 SHOW_PROGRESS = False or NUM_GAMES >= MAX_LOG_GAMES
 SAVE_REPLAY = NUM_GAMES < MAX_LOG_GAMES
 REPLAY_FILE = "data/replay.json"
+REPLAY_STATE = "data/replay_state.json"
 REPLAY = ARGS.replay
 
 """ Util Constants """
@@ -108,8 +109,6 @@ EXPERIENCE_PATH = "src/learning/simulations/wolf_player.json"
 """ Interactive Game Constants """
 INTERACTIVE_MODE_ON = ARGS.user
 IS_USER = [False] * NUM_ROLES
-if INTERACTIVE_MODE_ON:
-    IS_USER[random.randint(0, NUM_PLAYERS - 1)] = True
 
 """ Logging Constants
 TRACE = Debugging mode for development

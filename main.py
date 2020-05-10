@@ -1,11 +1,11 @@
 """ main.py """
-from src import const, one_night, replay_game
+from src import const, one_night, replay_game_from_state
 
 
 def main() -> None:
-    """ Simulate play_one_night_werewolf and create a Statistics instance for the runs. """
+    """ Simulate play_one_night_werewolf. """
     if const.REPLAY:
-        replay_game()
+        replay_game_from_state()
     else:
         disable_logging = const.NUM_GAMES > const.MAX_LOG_GAMES
         one_night.simulate_game(
