@@ -39,25 +39,25 @@ ARGS = init_program()
 
 """ Game Constants """
 ROLES = (
-    "Drunk",
-    "Insomniac",
-    "Hunter",
-    "Mason",
-    "Mason",
-    "Minion",
-    "Robber",
-    "Seer",
-    "Tanner",
-    "Troublemaker",
+    # "Drunk",
+    # "Insomniac",
+    # "Hunter",
+    # "Mason",
+    # "Mason",
+    # "Minion",
+    # "Robber",
+    # "Seer",
+    # "Tanner",
+    # "Troublemaker",
+    # "Wolf",
     "Wolf",
-    "Wolf",
     "Villager",
     "Villager",
-    "Villager",
+    # "Villager",
 )
-NUM_CENTER = 3
+NUM_CENTER = 0
 # Disabling this is good for testing solvers.
-USE_VOTING = True
+USE_VOTING = False
 # Uses literally the order of the ROLES constant above.
 RANDOMIZE_ROLES = True
 # Enable multi-statement rounds.

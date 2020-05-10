@@ -2,6 +2,6 @@
   "binary": "/Users/tyleryep/miniconda3/bin/pyre.bin",
   "source_directories": ["."],
   "ignore_all_errors": ["conftest.py", "fixtures/"],
-  "search_path": [{ "site-package": "tqdm" }],
+  "search_path": [{ "site-package": "tqdm" }, { "site-package": "pytest" }],
   "typeshed": "/Users/tyleryep/miniconda3/lib/pyre_check/typeshed/"
 }

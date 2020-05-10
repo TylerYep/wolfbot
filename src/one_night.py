@@ -45,6 +45,7 @@ def play_one_night_werewolf(save_replay: bool = True) -> GameResult:
     if const.FIXED_WOLF_INDEX is not None:
         override_wolf_index(game_roles)
 
+    user_index = -1
     if const.INTERACTIVE_MODE_ON:
         user_index = random.randint(0, const.NUM_PLAYERS - 1)
         const.IS_USER[user_index] = True

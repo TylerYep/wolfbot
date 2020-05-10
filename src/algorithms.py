@@ -82,21 +82,19 @@ def switching_solver(
     Returns a list of [True, False, True ...] values and
     the possible role sets for each player.
     """
-    start_state = SolverState()
-    solution = [start_state]
     num_statements = len(statements)
-    curr_max = 0
 
-    def _switch_recurse(ind: int, state: SolverState) -> None:
+    def _switch_recurse(solutions: List[SolverState], ind: int, state: SolverState) -> None:
         """ ind = index of statement being considered. """
-        nonlocal solution, curr_max
         curr_path_count = state.path.count(True)
+        curr_max = solutions[0].path.count(True) if solutions else 0
         if ind == num_statements:
             if curr_path_count > curr_max:
-                solution = [state]
+                solutions.clear()
+                solutions.append(state)
                 curr_max = curr_path_count
             elif curr_path_count == curr_max:
-                solution.append(state)
+                solutions.append(state)
             return
 
         if curr_path_count + num_statements - ind < curr_max:
@@ -107,14 +105,16 @@ def switching_solver(
 
         if truth_state.is_valid_state():
             truth_state.path = state.path + (True,)
-            _switch_recurse(ind + 1, truth_state)
+            _switch_recurse(solutions, ind + 1, truth_state)
 
         if false_state.is_valid_state() and ind not in known_true:
             false_state.path = state.path + (False,)
-            _switch_recurse(ind + 1, false_state)
+            _switch_recurse(solutions, ind + 1, false_state)
 
-    _switch_recurse(0, start_state)
-    return solution
+    start_state = SolverState()
+    solutions = [start_state]
+    _switch_recurse(solutions, 0, start_state)
+    return solutions
 
 
 def check_role_counts(

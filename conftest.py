@@ -6,6 +6,7 @@ from collections import Counter
 from typing import Callable, Dict, List, Tuple
 
 import pytest
+from _pytest.logging import LogCaptureFixture
 
 from fixtures import *
 from src import const
@@ -60,7 +61,7 @@ def reset_const() -> None:
 
 @pytest.fixture
 def small_game_roles() -> Tuple[str, ...]:
-    const.ROLES = ("Villager", "Seer", "Robber")
+    const.ROLES = ("Villager", "Seer", "Robber")  # type: ignore
     const.ROLE_SET = set(const.ROLES)
     const.ROLE_COUNTS = dict(Counter(const.ROLES))
     const.NUM_ROLES = len(const.ROLES)
@@ -73,7 +74,7 @@ def small_game_roles() -> Tuple[str, ...]:
 
 @pytest.fixture
 def medium_game_roles() -> Tuple[str, ...]:
-    const.ROLES = ("Robber", "Drunk", "Wolf", "Troublemaker", "Seer", "Minion")
+    const.ROLES = ("Robber", "Drunk", "Wolf", "Troublemaker", "Seer", "Minion")  # type: ignore
     const.ROLE_SET = set(const.ROLES)
     const.ROLE_COUNTS = dict(Counter(const.ROLES))
     const.NUM_ROLES = len(const.ROLES)
@@ -116,7 +117,7 @@ def large_game_roles() -> Tuple[str, ...]:
 @pytest.fixture
 def standard_game_roles() -> Tuple[str, ...]:
     const.ROLES = (
-        "Villager",
+        "Villager",  # type: ignore
         "Villager",
         "Villager",
         "Seer",
@@ -174,7 +175,7 @@ def override_input(inputs: List[str]) -> Callable[[str], str]:
     """
     inputs = list(map(str, inputs))
 
-    def _input(prompt):
+    def _input(prompt: str) -> str:
         """ The new input() function. Prints a prompt and then modifies the provided list. """
         print(prompt)
         if not inputs:
@@ -194,9 +195,9 @@ def write_results(filename: str, stat_results: Dict[str, float]) -> None:
         writer.writerow(stat_results)
 
 
-def verify_output(caplog, filename: str) -> bool:
+def verify_output(caplog: LogCaptureFixture, filename: str) -> None:
     """ Helper method for debugging print differences. """
-    captured = list(map(lambda x: x.getMessage(), caplog.records))
+    captured = list(map(lambda x: x.getMessage(), caplog.records))  # type: ignore
     with open(filename) as output_file:
         expected = output_file.read().split("\n")
     assert "\n".join(captured) == "\n".join(expected)

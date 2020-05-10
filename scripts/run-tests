@@ -9,6 +9,7 @@ cd "${0%/*}/.."
 
 # Type Checking
 mypy .
+# pyre check
 
 # Auto-code formatters
 isort -y
