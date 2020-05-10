@@ -45,11 +45,18 @@ class Seer(Player):
                 f"[Hidden] Seer sees that Center {peek_ind1 - const.NUM_PLAYERS} is a "
                 f"{peek_char1}, Center {peek_ind2 - const.NUM_PLAYERS} is a {peek_char2}."
             )
+            if is_user:
+                logger.info(
+                    f"You see that Center {peek_ind1 - const.NUM_PLAYERS} is a {peek_char1}, "
+                    f"and Center {peek_ind2 - const.NUM_PLAYERS} is a {peek_char2}."
+                )
             return cls(player_index, (peek_ind1, peek_char1), (peek_ind2, peek_char2))
 
         peek_ind = util.get_player(is_user, (player_index,))
         peek_char = game_roles[peek_ind]
         logger.debug(f"[Hidden] Seer sees that Player {peek_ind} is a {peek_char}.")
+        if is_user:
+            logger.info(f"You see that Player {peek_ind} is a {peek_char}.")
         return cls(player_index, (peek_ind, peek_char))
 
     @staticmethod

@@ -177,7 +177,7 @@ def print_guesses(role_guesses: Union[List[Player], List[str]]) -> None:
     """ Formats guesses to console. """
     logger.info(
         (
-            f'\n[Wolfbot] Role guesses: {role_guesses[:const.NUM_PLAYERS]}\n{" "*10}'
+            f'\n[Wolfbot] Role guesses: {role_guesses[:const.NUM_PLAYERS]}\n{" " * 10}'
             f"Center cards: {role_guesses[const.NUM_PLAYERS:]}\n"
         ).replace("'", "")
     )

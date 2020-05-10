@@ -84,9 +84,7 @@ def eval_final_guesses(
             elif game_roles[i] == "Tanner":
                 killed_tanner = True
 
-            logger.info(
-                (f"Player {i} was chosen as a Wolf.\n" f"Player {i} was a {game_roles[i]}!\n")
-            )
+            logger.info(f"Player {i} was chosen as a Wolf.\nPlayer {i} was a {game_roles[i]}!\n")
 
     if villager_win or killed_wolf:
         logger.info("Village Team wins!")
@@ -118,7 +116,7 @@ def get_voting_result(
         wolf_votes[vote_ind] += 1
         vote_inds.append(vote_ind)
 
-    logger.debug(f"Vote Array: {wolf_votes}")
+    logger.info(f"Vote Array: {wolf_votes}")
     assert sum(wolf_votes) == const.NUM_PLAYERS
 
     all_role_guesses, _ = max(guess_histogram.items(), key=lambda x: x[1])
@@ -137,10 +135,16 @@ def get_voting_result(
 
 def get_player_vote(ind: int, prediction: List[str]) -> int:
     """ Updates Wolf votes for a given prediction. """
+    no_wolves_guess = (ind + 1) % const.NUM_PLAYERS
+    if const.IS_USER[ind]:
+        logger.info(f"\nWhich Player is a Wolf? (Type {no_wolves_guess} if there are no Wolves)")
+        return util.get_player(is_user=True)
+
     # TODO find the most likely Wolf and only vote for that one
     wolf_inds = util.find_all_player_indices(prediction, "Wolf")
     if wolf_inds:
         return random.choice(wolf_inds)
+
     # There are some really complicated game mechanics for the Minion.
     # https://boardgamegeek.com/thread/1422062/pointing-center-free-parking
-    return (ind + 1) % const.NUM_PLAYERS
+    return no_wolves_guess

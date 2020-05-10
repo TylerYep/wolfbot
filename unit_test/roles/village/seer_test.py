@@ -141,7 +141,7 @@ class TestSeer:
                 "Seer",
             ),
             Statement(
-                ("I am a Seer and I saw that Center 0 was a Wolf and " "that Center 1 was a Wolf."),
+                ("I am a Seer and I saw that Center 0 was a Wolf and that Center 1 was a Wolf."),
                 [(1, {"Seer"}), (2, {"Wolf"}), (3, {"Wolf"})],
                 [],
                 "Seer",

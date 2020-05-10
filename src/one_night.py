@@ -1,6 +1,7 @@
 """ one_night.py """
 import json
 import logging
+import os
 import random
 from typing import Dict, List, Tuple, Union
 
@@ -44,9 +45,28 @@ def play_one_night_werewolf(save_replay: bool = True) -> GameResult:
     if const.FIXED_WOLF_INDEX is not None:
         override_wolf_index(game_roles)
 
+    if const.INTERACTIVE_MODE_ON:
+        user_index = random.randint(0, const.NUM_PLAYERS - 1)
+        const.IS_USER[user_index] = True
+        logger.info(f"You are a {original_roles[user_index]}!")
+
     player_objs = night_falls(game_roles, original_roles)
+
+    if const.INTERACTIVE_MODE_ON:
+        input("Press any key to continue...")
+        os.system("clear")
+        logger.info(f"You are a {original_roles[user_index]}!")
+
     logger.info("\n-- GAME BEGINS --\n")
     all_statements = get_player_statements(player_objs)
+
+    if const.INTERACTIVE_MODE_ON:
+        os.system("clear")
+        logger.info(f"You are a {original_roles[user_index]}!")
+        logger.info("\n-- GAME BEGINS --\n")
+        for j, statement in enumerate(all_statements):
+            logger.info(f"Player {j}: {statement.sentence}")
+
     print_roles(game_roles, "Hidden")
 
     save_game = SavedGame(original_roles, game_roles, all_statements, player_objs)
@@ -61,9 +81,10 @@ def play_one_night_werewolf(save_replay: bool = True) -> GameResult:
 
 def get_player_statements(player_objs: List[Player]) -> List[Statement]:
     """ Returns array of each player's statements. """
+    stated_roles: List[str] = []
+    given_statements: List[Statement] = []
+
     if not const.MULTI_STATEMENT:
-        stated_roles: List[str] = []
-        given_statements: List[Statement] = []
         for j in range(const.NUM_PLAYERS):
             statement = player_objs[j].get_statement(stated_roles, given_statements)
             stated_roles.append(statement.speaker)
@@ -71,7 +92,6 @@ def get_player_statements(player_objs: List[Player]) -> List[Statement]:
             logger.info(f"Player {j}: {statement.sentence}")
         return given_statements
 
-    stated_roles = [""] * const.NUM_PLAYERS
     finished_speaking = [
         Statement("", priority=const.NOT_YET_SPOKEN) for _ in range(const.NUM_PLAYERS)
     ]
@@ -79,10 +99,13 @@ def get_player_statements(player_objs: List[Player]) -> List[Statement]:
     while not all(val.priority == const.PRIMARY for val in finished_speaking):
         if finished_speaking[curr_ind].priority < const.PRIMARY:
             statement = player_objs[curr_ind].get_statement(stated_roles, finished_speaking)
-            stated_roles[curr_ind] = statement.speaker
+            given_statements.append(statement)
+            if len(stated_roles) <= curr_ind:
+                stated_roles.append(statement.speaker)
+            else:
+                stated_roles[curr_ind] = statement.speaker
             finished_speaking[curr_ind] = statement
             logger.info(f"Player {curr_ind}: {statement.sentence}")
-            # if const.ENTER_TO_ADVANCE: input()
         # TODO: allow random order
         curr_ind = (curr_ind + 1) % const.NUM_PLAYERS
     return finished_speaking
@@ -90,23 +113,20 @@ def get_player_statements(player_objs: List[Player]) -> List[Statement]:
 
 def night_falls(game_roles: List[str], original_roles: Tuple[str, ...]) -> List[Player]:
     """ Initialize role object list and perform all switching and peeking actions to begin. """
-    if const.INTERACTIVE_MODE_ON:
-        user_index = random.randint(0, const.NUM_PLAYERS - 1)
-        const.IS_USER[user_index] = True
-        logger.info(f"You are a {game_roles[user_index]}!")
-
+    assert game_roles == list(original_roles)
     logger.info("\n-- NIGHT FALLS --\n")
     print_roles(game_roles, "Hidden")
 
     # Awaken each player in order and initialize the Player object.
     player_objs = [Player(i) for i in range(const.NUM_ROLES)]
     for role_str in const.AWAKE_ORDER:
-        logger.info(f"{role_str}, wake up.")
-        role_obj = get_role_obj(role_str)
-        for i in range(const.NUM_PLAYERS):
-            if original_roles[i] == role_str:
-                player_objs[i] = role_obj.awake_init(i, game_roles, original_roles)
-        logger.info(f"{role_str}, go to sleep.\n")
+        if role_str in const.ROLE_SET:
+            logger.info(f"{role_str}, wake up.")
+            role_obj = get_role_obj(role_str)
+            for i in range(const.NUM_PLAYERS):
+                if original_roles[i] == role_str:
+                    player_objs[i] = role_obj.awake_init(i, game_roles, original_roles)
+            logger.info(f"{role_str}, go to sleep.\n")
 
     # All other players wake up at the same time.
     for i, role_str in enumerate(original_roles):

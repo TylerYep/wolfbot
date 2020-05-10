@@ -50,7 +50,7 @@ def input_player(vals_to_exclude: Tuple[int, ...] = ()) -> int:
     while choice_ind < 0 or choice_ind >= const.NUM_PLAYERS:
         user_input = ""
         while not user_input.isdigit():
-            user_input = input(f"Which player index (0-{const.NUM_PLAYERS - 1})? ")
+            user_input = input(f"Which player index (0 - {const.NUM_PLAYERS - 1})? ")
         choice_ind = int(user_input)
 
         if choice_ind in vals_to_exclude:
@@ -65,7 +65,7 @@ def input_center(vals_to_exclude: Tuple[int, ...] = ()) -> int:
     while choice_ind < 0 or choice_ind >= const.NUM_CENTER:
         user_input = ""
         while not user_input.isdigit():
-            user_input = input(f"Which center card (0-{const.NUM_CENTER - 1})? ")
+            user_input = input(f"Which center card (0 - {const.NUM_CENTER - 1})? ")
         choice_ind = int(user_input)
 
         if choice_ind + const.NUM_PLAYERS in vals_to_exclude:
@@ -80,6 +80,6 @@ def get_numeric_input(size: int) -> int:
     while choice_ind < 0 or choice_ind >= size:
         user_input = ""
         while not user_input.isdigit():
-            user_input = input(f"Enter a number from 0-{size - 1}: ")
+            user_input = input(f"Enter a number from 0 - {size - 1}: ")
         choice_ind = int(user_input)
     return choice_ind

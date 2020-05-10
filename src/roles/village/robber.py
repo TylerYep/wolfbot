@@ -29,8 +29,10 @@ class Robber(Player):
         choice_ind = util.get_player(is_user, (player_index,))
         choice_char = game_roles[choice_ind]
         logger.debug(
-            f"[Hidden] Robber switches with Player {choice_ind}" f" and becomes a {choice_char}."
+            f"[Hidden] Robber switches with Player {choice_ind} and becomes a {choice_char}."
         )
+        if is_user:
+            logger.info(f"You switched with Player {choice_ind} and are now a {choice_char}!")
         util.swap_characters(game_roles, player_index, choice_ind)
         return cls(player_index, choice_ind, choice_char)
 
@@ -40,7 +42,7 @@ class Robber(Player):
     ) -> List[Statement]:
         """ Gets Robber Statement. """
         sentence = (
-            f"I am a Robber and I swapped with Player {choice_ind}. " f"I am now a {choice_char}."
+            f"I am a Robber and I swapped with Player {choice_ind}. I am now a {choice_char}."
         )
         knowledge = [(player_index, {"Robber"}), (choice_ind, {choice_char})]
         switches = [(Priority.ROBBER, player_index, choice_ind)]

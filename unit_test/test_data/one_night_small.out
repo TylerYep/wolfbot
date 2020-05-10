@@ -4,15 +4,6 @@
 [Hidden] Current roles: [Villager, Robber, Seer]
           Center cards: []
 
-Wolf, wake up.
-Wolf, go to sleep.
-
-Minion, wake up.
-Minion, go to sleep.
-
-Mason, wake up.
-Mason, go to sleep.
-
 Seer, wake up.
 [Hidden] Seer sees that Player 1 is a Robber.
 Seer, go to sleep.
@@ -20,15 +11,6 @@ Seer, go to sleep.
 Robber, wake up.
 [Hidden] Robber switches with Player 2 and becomes a Seer.
 Robber, go to sleep.
-
-Troublemaker, wake up.
-Troublemaker, go to sleep.
-
-Drunk, wake up.
-Drunk, go to sleep.
-
-Insomniac, wake up.
-Insomniac, go to sleep.
 
 
 -- GAME BEGINS --

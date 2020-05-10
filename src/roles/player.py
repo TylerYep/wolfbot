@@ -82,8 +82,7 @@ class Player:
                             [self.new_role] = ref
                         elif isinstance(ref, int):
                             switched_index = ref
-                            if switched_index < len(stated_roles):
-                                self.new_role = stated_roles[switched_index]
+                            self.new_role = stated_roles[switched_index]
 
         if self.new_role != "" and self.new_role in const.EVIL_ROLES:
             return self.transform(self.new_role).get_statement(stated_roles, previous)
@@ -92,7 +91,7 @@ class Player:
             self.statements = [x for x in self.statements if x.priority > self.prev_priority]
 
         if self.is_user:
-            logger.info("Please choose from the following statements: ")
+            logger.info("\nPlease choose from the following statements: ")
             num_options = 5
             sample_statements = (
                 random.sample(self.statements, num_options)

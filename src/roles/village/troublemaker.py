@@ -30,6 +30,9 @@ class Troublemaker(Player):
 
         util.swap_characters(game_roles, choice_1, choice_2)
         logger.debug(f"[Hidden] Troublemaker switches Player {choice_1} and Player {choice_2}.")
+        if is_user:
+            logger.info(f"You switch Player {choice_1} with Player {choice_2}.")
+
         return cls(player_index, choice_1, choice_2)
 
     @staticmethod
@@ -48,7 +51,7 @@ class Troublemaker(Player):
         statements: List[Statement] = []
         for i in range(const.NUM_PLAYERS):
             for j in range(i + 1, const.NUM_PLAYERS):
-                # Troublemaker should not refer to other wolves or themselves
+                # Troublemaker should not refer to themselves
                 # Ensure all three values are unique
                 if len({i, j, player_index}) == 3:
                     statements += Troublemaker.get_troublemaker_statements(player_index, i, j)
