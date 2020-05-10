@@ -35,15 +35,14 @@ class TestPlayOneNightWerewolf:
 #     """ Tests for the play_one_night_werewolf function. """
 
 #     @staticmethod
-#     def test_one_night_small(caplog, monkeypatch, example_small_game_result):
+#     def test_one_night_small(monkeypatch, example_small_game_result):
 #         """ Correctly play one round of one night werewolf. """
 #         const.INTERACTIVE_MODE_ON = True
-#         monkeypatch.setattr('builtins.input', lambda x: "1")
+#         monkeypatch.setattr('builtins.input', lambda x: "0")
 
 #         result = one_night.play_one_night_werewolf()
 
 #         assert result == example_small_game_result
-#         verify_output(caplog, "unit_test/test_data/one_night_small.out")
 
 
 class TestPrintRoles:

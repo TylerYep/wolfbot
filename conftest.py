@@ -3,7 +3,7 @@ import csv
 import os
 import random
 from collections import Counter
-from typing import Dict, List, Tuple
+from typing import Callable, Dict, List, Tuple
 
 import pytest
 
@@ -165,6 +165,23 @@ def large_individual_preds() -> List[List[str]]:
             ['Villager', 'Insomniac', 'Mason', 'Minion', 'Villager', 'Drunk', 'Seer', 'Tanner',
              'Wolf', 'Villager', 'Wolf', 'Hunter', 'Troublemaker', 'Mason', 'Robber']]
     # fmt: on
+
+
+def override_input(inputs: List[str]) -> Callable[[str], str]:
+    """
+    Returns a new input() function that accepts a string and repeatedly pops strings from
+    the front the provided list and returns them as calls to input().
+    """
+    inputs = list(map(str, inputs))
+
+    def _input(prompt):
+        """ The new input() function. Prints a prompt and then modifies the provided list. """
+        print(prompt)
+        if not inputs:
+            raise RuntimeError("Not enough inputs provided.")
+        return inputs.pop(0)
+
+    return _input
 
 
 def write_results(filename: str, stat_results: Dict[str, float]) -> None:
