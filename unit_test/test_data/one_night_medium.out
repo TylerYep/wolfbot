@@ -38,11 +38,12 @@ Player 4: I am a Seer and I saw that Player 1 was a Wolf.
 [Hidden] Current roles: [Seer, Wolf, Troublemaker, Drunk, Minion]
           Center cards: [Robber]
 
-Player prediction: [Seer, Wolf, Troublemaker, Drunk, Minion, Robber]
-Player prediction: [Minion, Seer, Robber, Wolf, Troublemaker, Drunk]
-Player prediction: [Minion, Wolf, Troublemaker, Drunk, Seer, Robber]
-Player prediction: [Seer, Minion, Troublemaker, Drunk, Wolf, Robber]
-Player prediction: [Wolf, Minion, Troublemaker, Drunk, Seer, Robber]
+Predictions:
+Player 0: [Seer, Wolf, Troublemaker, Drunk, Minion, Robber]
+Player 1: [Minion, Seer, Robber, Wolf, Troublemaker, Drunk]
+Player 2: [Minion, Wolf, Troublemaker, Drunk, Seer, Robber]
+Player 3: [Seer, Minion, Troublemaker, Drunk, Wolf, Robber]
+Player 4: [Wolf, Minion, Troublemaker, Drunk, Seer, Robber]
 Vote Array: [1, 2, 0, 1, 1]
 
 [Wolfbot] Role guesses: [Seer, Wolf, Troublemaker, Drunk, Minion]

@@ -6,7 +6,7 @@ from typing import Dict, List, Tuple
 from src import const, util
 from src.algorithms import switching_solver as solver
 from src.const import logger
-from src.predictions import make_prediction, print_guesses
+from src.predictions import make_prediction, make_random_prediction, print_guesses
 from src.roles import Player
 from src.statements import Statement
 from src.stats import GameResult, SavedGame
@@ -49,13 +49,18 @@ def get_individual_preds(
     all_role_guesses_arr = []
     # Good player vs Bad player guesses
     for i in range(const.NUM_PLAYERS):
-        all_solutions = solver(tuple(all_statements), (i,))
         is_evil = is_player_evil(player_objs, i, orig_wolf_inds)
-        prediction = make_prediction(all_solutions, is_evil)
+        if const.SMART_VILLAGERS or is_evil:
+            all_solutions = solver(tuple(all_statements), (i,))
+            prediction = make_prediction(all_solutions, is_evil)
+        else:
+            prediction = make_random_prediction()
         all_role_guesses_arr.append(prediction)
 
-    for pred in all_role_guesses_arr:
-        logger.log(const.TRACE, f"Player prediction: {pred}".replace("'", ""))
+    logger.log(const.TRACE, "Predictions:")
+    for i, pred in enumerate(all_role_guesses_arr):
+        logger.log(const.TRACE, f"Player {i:{len(str(const.NUM_ROLES))}}: {pred}".replace("'", ""))
+
     return all_role_guesses_arr
 
 

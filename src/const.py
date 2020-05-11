@@ -7,45 +7,28 @@ from collections import Counter
 from enum import IntEnum, unique
 
 
-@unique
-class Priority(IntEnum):
-    """ Priorities for Statement order. """
-
-    ROBBER, TROUBLEMAKER, DRUNK = 1, 2, 3
-
-
-@unique
-class StatementLevel(IntEnum):
-    """ Statement Priority Levels """
-
-    NOT_YET_SPOKEN = -1
-    NO_INFO = 0
-    SOME_INFO = 5
-    PRIMARY = 10
-
-
-UNIT_TEST = "pytest" in sys.modules
-if UNIT_TEST:
-    random.seed(0)
-
-
-def init_program() -> argparse.Namespace:
+def init_program(is_unit_test: bool) -> argparse.Namespace:
     """ Command Line Arguments """
     parser = argparse.ArgumentParser(description="config constants for main.py")
     # fmt: off
-    parser.add_argument("--user", "-u", action="store_true", default=False,
-                        help="enable interactive mode")
     parser.add_argument("--num_games", "-n", type=int, default=1,
                         help="specify number of games")
-    parser.add_argument("--info", "-i", action="store_true", default=False,
+    parser.add_argument("--log_level", "-l", type=str, choices=['trace', 'debug', 'info', 'warn'],
                         help="enable logging.INFO")
     parser.add_argument("--replay", "-r", action="store_true", default=False,
                         help="replay previous game")
+    parser.add_argument("--seed", "-s",
+                        help="specify game seed")
+    parser.add_argument("--user", "-u", action="store_true", default=False,
+                        help="enable interactive mode")
     # fmt: on
-    return parser.parse_args("" if UNIT_TEST else sys.argv[1:])
+    return parser.parse_args("" if is_unit_test else sys.argv[1:])
 
 
-ARGS = init_program()
+UNIT_TEST = "pytest" in sys.modules
+ARGS = init_program(UNIT_TEST)
+if ARGS.seed:
+    random.seed(ARGS.seed)
 
 """ Game Constants """
 ROLES = (
@@ -103,16 +86,20 @@ VILLAGE_ROLES = {
 } & ROLE_SET
 EVIL_ROLES = {"Tanner", "Wolf", "Minion"} & ROLE_SET
 
-""" Basic Wolf Player (Pruned statement set) """
-USE_REG_WOLF = True
+""" Village Players """
 CENTER_SEER_PROB = 0.9
+SMART_VILLAGERS = True
 
-""" Expectimax Wolf Player """
-USE_EXPECTIMAX_WOLF = False
+""" Werewolf Players """
+# Basic Wolf Player (Pruned statement set)
+USE_REG_WOLF = True
+
+# Expectimax Wolf, Minion, Tanner
+EXPECTIMAX_PLAYER = False
 EXPECTIMAX_DEPTH = 1
 BRANCH_FACTOR = 5
 
-""" Reinforcement Learning Wolf Player """
+# Reinforcement Learning Wolf
 USE_RL_WOLF = False
 EXPERIENCE_PATH = "src/learning/simulations/wolf_player.json"
 
@@ -130,14 +117,40 @@ TRACE = 5
 logging.basicConfig(format="%(message)s", level=TRACE)  # filename='test1.txt', filemode='a')
 logger = logging.getLogger()
 
-if NUM_GAMES >= 10 and not UNIT_TEST:
+if ARGS.log_level:
+    LOG_LEVELS = {
+        "trace": TRACE,
+        "debug": logging.DEBUG,
+        "info": logging.INFO,
+        "warn": logging.WARNING,
+    }
+    logger.setLevel(LOG_LEVELS[ARGS.log_level])
+elif NUM_GAMES >= 10:
     logger.setLevel(logging.WARNING)
-elif ARGS.info or INTERACTIVE_MODE_ON:
+elif INTERACTIVE_MODE_ON:
     logger.setLevel(logging.INFO)
 
 """ Ensure only one Wolf version is active """
-assert not (USE_EXPECTIMAX_WOLF and USE_RL_WOLF)
+assert not (EXPECTIMAX_PLAYER and USE_RL_WOLF)
 
-if sys.version_info < (3, 0):
-    sys.stdout.write("Requires Python 3, not Python 2!\n")
+if sys.version_info < (3, 7):
+    sys.stdout.write("Python " + sys.version)
+    sys.stdout.write("\n\nWolfBot requires Python 3.7+ to work!\n\n")
     sys.exit()
+
+
+@unique
+class Priority(IntEnum):
+    """ Priorities for Statement order. """
+
+    ROBBER, TROUBLEMAKER, DRUNK = 1, 2, 3
+
+
+@unique
+class StatementLevel(IntEnum):
+    """ Statement Priority Levels """
+
+    NOT_YET_SPOKEN = -1
+    NO_INFO = 0
+    SOME_INFO = 5
+    PRIMARY = 10

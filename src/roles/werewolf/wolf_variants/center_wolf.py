@@ -24,7 +24,7 @@ def get_center_wolf_statements(player_obj: Any, stated_roles: List[str]) -> List
         statements += Insomniac.get_insomniac_statements(player_index, "Insomniac")
     elif center_role == "Robber":
         for i, stated_role in enumerate(stated_roles):
-            if stated_role != "Robber":
+            if stated_role and stated_role != "Robber":
                 statements += Robber.get_robber_statements(player_index, i, stated_role)
     elif center_role == "Troublemaker":
         for i in range(len(stated_roles)):
@@ -36,7 +36,7 @@ def get_center_wolf_statements(player_obj: Any, stated_roles: List[str]) -> List
     elif center_role == "Seer":
         for i, stated_role in enumerate(stated_roles):
             # 'Hey, I'm a Seer and I saw another Seer...'
-            if i not in wolf_indices and stated_role != "Seer":
+            if i not in wolf_indices and stated_role and stated_role != "Seer":
                 statements += Seer.get_seer_statements(player_index, (i, stated_role))
         for role2 in const.ROLES:
             for cent1 in range(const.NUM_CENTER):

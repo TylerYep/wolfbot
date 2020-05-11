@@ -1,7 +1,6 @@
 """ one_night.py """
 import json
 import logging
-import os
 import random
 from typing import List, Tuple, Union
 
@@ -10,6 +9,7 @@ from tqdm import tqdm
 from src import const, util
 from src.const import StatementLevel, logger
 from src.encoder import WolfBotEncoder
+from src.gui import GUIState
 from src.roles import Player, get_role_obj
 from src.statements import Statement
 from src.stats import GameResult, SavedGame, Statistics
@@ -44,28 +44,13 @@ def play_one_night_werewolf(save_replay: bool = True) -> GameResult:
     if const.FIXED_WOLF_INDEX is not None:
         override_wolf_index(game_roles)
 
-    user_index = -1
-    if const.INTERACTIVE_MODE_ON:
-        user_index = random.randint(0, const.NUM_PLAYERS - 1)
-        const.IS_USER[user_index] = True
-        logger.info(f"Player {user_index}, you are a {original_roles[user_index]}!")
-
+    gui_state = GUIState()
+    gui_state.intro(original_roles)
     player_objs = night_falls(game_roles, original_roles)
-
-    if const.INTERACTIVE_MODE_ON:
-        input("Press any key to continue...")
-        os.system("clear")
-        logger.info(f"Player {user_index}, you are a {original_roles[user_index]}!")
-
+    gui_state.night_falls()
     logger.info("\n-- GAME BEGINS --\n")
     all_statements = get_player_statements(player_objs)
-
-    if const.INTERACTIVE_MODE_ON:
-        os.system("clear")
-        logger.info(f"Player {user_index}, you are a {original_roles[user_index]}!")
-        logger.info("\n-- GAME BEGINS --\n")
-        for j, statement in enumerate(all_statements):
-            logger.info(f"Player {j}: {statement.sentence}")
+    gui_state.print_statements(all_statements)
 
     print_roles(game_roles, "Hidden")
 

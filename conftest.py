@@ -46,6 +46,7 @@ def reset_const() -> None:
     const.NUM_PLAYERS = 12
     const.NUM_CENTER = 3
     const.CENTER_SEER_PROB = 0.9
+    const.SMART_VILLAGERS = True
     const.VILLAGE_ROLES = {
         "Villager",
         "Mason",
@@ -59,7 +60,7 @@ def reset_const() -> None:
     const.EVIL_ROLES = {"Tanner", "Wolf", "Minion"}
     const.USE_VOTING = True
     const.USE_REG_WOLF = False
-    const.USE_EXPECTIMAX_WOLF = False
+    const.EXPECTIMAX_PLAYER = False
     const.MULTI_STATEMENT = False
     const.INTERACTIVE_MODE_ON = False
     const.REPLAY_FILE = "unit_test/test_data/replay.json"

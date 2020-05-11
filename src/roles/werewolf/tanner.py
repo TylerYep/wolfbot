@@ -30,7 +30,7 @@ class Tanner(Player):
 
     def get_statement(self, stated_roles: List[str], previous: List[Statement]) -> Statement:
         """ Get Tanner Statement. """
-        if const.USE_EXPECTIMAX_WOLF:
+        if const.EXPECTIMAX_PLAYER:
             return get_statement_expectimax(self, previous)
         return super().get_statement(stated_roles, previous)
 

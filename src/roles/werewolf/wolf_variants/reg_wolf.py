@@ -40,7 +40,7 @@ def get_wolf_statements(
                     statements += Troublemaker.get_troublemaker_statements(player_index, i, j)
     if "Robber" in const.ROLE_SET:
         for i, stated_role in enumerate(stated_roles):
-            if stated_role != "Robber":
+            if stated_role and stated_role != "Robber":
                 if stated_role == "Seer":
                     use_index = True
                     for _, poss_set in previous_statements[i].knowledge:
@@ -52,6 +52,6 @@ def get_wolf_statements(
     if "Seer" in const.ROLE_SET:
         for i, stated_role in enumerate(stated_roles):
             # 'Hey, I'm a Seer and I saw another Seer...'
-            if i not in wolf_indices and stated_role != "Seer":
+            if i not in wolf_indices and stated_role and stated_role != "Seer":
                 statements += Seer.get_seer_statements(player_index, (i, stated_role))
     return statements

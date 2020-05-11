@@ -21,9 +21,10 @@ Player 2: I am a Seer and I saw that Player 0 was a Villager.
 [Hidden] Current roles: [Villager, Seer, Robber]
           Center cards: []
 
-Player prediction: [Villager, Seer, Robber]
-Player prediction: [Villager, Seer, Robber]
-Player prediction: [Villager, Seer, Robber]
+Predictions:
+Player 0: [Villager, Seer, Robber]
+Player 1: [Villager, Seer, Robber]
+Player 2: [Villager, Seer, Robber]
 Vote Array: [1, 1, 1]
 
 [Wolfbot] Role guesses: [Villager, Seer, Robber]
