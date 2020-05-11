@@ -6,7 +6,7 @@ from typing import Dict, List, Tuple
 from src import const, util
 from src.algorithms import switching_solver as solver
 from src.const import logger
-from src.predictions import make_prediction, make_random_prediction, print_guesses
+from src.predictions import make_prediction, make_random_prediction
 from src.roles import Player
 from src.statements import Statement
 from src.stats import GameResult, SavedGame
@@ -16,10 +16,12 @@ def consolidate_results(save_game: SavedGame) -> GameResult:
     """ Consolidates results and returns final GameResult. """
     original_roles, game_roles, all_statements, player_objs = save_game.load_game()
     orig_wolf_inds = util.find_all_player_indices(original_roles, "Wolf")
+
     if const.USE_VOTING:
         indiv_preds = get_individual_preds(player_objs, all_statements, orig_wolf_inds)
         all_guesses, confidence, guessed_wolf_inds, vote_inds = get_voting_result(indiv_preds)
-        print_guesses(all_guesses)
+        util.print_roles(game_roles, "Solution", const.INFO)
+        util.print_roles(all_guesses, "WolfBot")
         logger.debug(f"Confidence levels: {[float(f'{conf:.2f}') for conf in confidence]}")
         winning_team = eval_final_guesses(game_roles, guessed_wolf_inds, vote_inds)
         return GameResult(game_roles, all_guesses, orig_wolf_inds, winning_team)
@@ -28,7 +30,7 @@ def consolidate_results(save_game: SavedGame) -> GameResult:
     for solution in all_solutions:
         logger.log(const.TRACE, f"Solver interpretation: {solution.path}")
     all_role_guesses = make_prediction(all_solutions)
-    print_guesses(all_role_guesses)
+    util.print_roles(all_role_guesses, "WolfBot")
     return GameResult(game_roles, all_role_guesses, orig_wolf_inds)
 
 
@@ -57,9 +59,10 @@ def get_individual_preds(
             prediction = make_random_prediction()
         all_role_guesses_arr.append(prediction)
 
-    logger.log(const.TRACE, "Predictions:")
+    logger.log(const.TRACE, "\n[Trace] Predictions:")
+    number_length = len(str(const.NUM_ROLES))
     for i, pred in enumerate(all_role_guesses_arr):
-        logger.log(const.TRACE, f"Player {i:{len(str(const.NUM_ROLES))}}: {pred}".replace("'", ""))
+        logger.log(const.TRACE, f"Player {i:{number_length}}: {pred}".replace("'", ""))
 
     return all_role_guesses_arr
 
@@ -121,7 +124,7 @@ def get_voting_result(
         wolf_votes[vote_ind] += 1
         vote_inds.append(vote_ind)
 
-    logger.info(f"Vote Array: {wolf_votes}")
+    logger.info(f"\nVote Array: {wolf_votes}\n")
     assert sum(wolf_votes) == const.NUM_PLAYERS
 
     all_role_guesses, _ = max(guess_histogram.items(), key=lambda x: x[1])

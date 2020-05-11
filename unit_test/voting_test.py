@@ -18,8 +18,8 @@ class TestConsolidateResults:
 
         captured = tuple(map(lambda x: x.getMessage(), caplog.records))
         expected = (
-            "Solver interpretation: (True, True, True)\n",
-            "[Wolfbot] Role guesses: [Villager, Seer, Robber]",
+            "Solver interpretation: (True, True, True)",
+            "[WolfBot] Player roles: [Villager, Seer, Robber]",
             "          Center cards: []\n",
         )
         assert result == GameResult(
@@ -38,8 +38,8 @@ class TestConsolidateResults:
         expected = (
             "Solver interpretation: (True, True, True, False, False)",
             "Solver interpretation: (True, False, True, True, False)",
-            "Solver interpretation: (False, False, True, True, True)\n",
-            "[Wolfbot] Role guesses: [Robber, Seer, Troublemaker, Minion, Wolf]",
+            "Solver interpretation: (False, False, True, True, True)",
+            "[WolfBot] Player roles: [Robber, Seer, Troublemaker, Minion, Wolf]",
             "          Center cards: [Drunk]\n",
         )
         assert result == GameResult(
@@ -147,7 +147,7 @@ class TestGetVotingResult:
 
         captured = caplog.records[0].getMessage()
         assert result == (["Villager", "Seer", "Robber"], [1.0] * 3, [0, 1, 2], [1, 2, 0])
-        assert captured == "Vote Array: [1, 1, 1]"
+        assert captured == "\nVote Array: [1, 1, 1]\n"
 
     @staticmethod
     def test_medium_voting_result(caplog, medium_game_roles):
@@ -170,7 +170,7 @@ class TestGetVotingResult:
             [0],
             [1, 0, 1, 0, 0],
         )
-        assert captured == "Vote Array: [3, 2, 0, 0, 0]"
+        assert captured == "\nVote Array: [3, 2, 0, 0, 0]\n"
 
     @staticmethod
     def test_large_voting_result(caplog, large_game_roles, large_individual_preds):
@@ -219,7 +219,7 @@ class TestGetVotingResult:
             [3, 10],
             [8, 10, 1, 9, 5, 7, 5, 3, 3, 10, 10, 3],
         )
-        assert captured == "Vote Array: [0, 1, 0, 3, 0, 2, 0, 1, 1, 1, 3, 0]"
+        assert captured == "\nVote Array: [0, 1, 0, 3, 0, 2, 0, 1, 1, 1, 3, 0]\n"
 
 
 class TestEvalFinalGuesses:

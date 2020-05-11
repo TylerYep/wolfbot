@@ -2,7 +2,7 @@
 import json
 import logging
 import random
-from typing import List, Tuple, Union
+from typing import List, Tuple
 
 from tqdm import tqdm
 
@@ -52,8 +52,6 @@ def play_one_night_werewolf(save_replay: bool = True) -> GameResult:
     all_statements = get_player_statements(player_objs)
     gui_state.print_statements(all_statements)
 
-    print_roles(game_roles, "Hidden")
-
     save_game = SavedGame(original_roles, game_roles, all_statements, player_objs)
     if save_replay:
         with open(const.REPLAY_STATE, "w") as replay_file:
@@ -100,7 +98,7 @@ def night_falls(game_roles: List[str], original_roles: Tuple[str, ...]) -> List[
     """ Initialize role object list and perform all switching and peeking actions to begin. """
     assert game_roles == list(original_roles)
     logger.info("\n-- NIGHT FALLS --\n")
-    print_roles(game_roles, "Hidden")
+    util.print_roles(game_roles, "Hidden")
 
     # Awaken each player in order and initialize the Player object.
     player_objs = [Player(i) for i in range(const.NUM_ROLES)]
@@ -114,6 +112,7 @@ def night_falls(game_roles: List[str], original_roles: Tuple[str, ...]) -> List[
             logger.info(f"{role_str}, go to sleep.\n")
 
     # All other players wake up at the same time.
+    logger.info("Everyone, wake up!\n")
     for i, role_str in enumerate(original_roles):
         if role_str in const.ROLE_SET - set(const.AWAKE_ORDER):
             role_obj = get_role_obj(role_str)
@@ -128,12 +127,3 @@ def override_wolf_index(game_roles: List[str]) -> None:
     if wolf_inds and const.FIXED_WOLF_INDEX >= 0:
         wolf_ind = random.choice(wolf_inds)
         util.swap_characters(game_roles, wolf_ind, const.FIXED_WOLF_INDEX)
-
-
-def print_roles(game_roles: Union[List[Player], List[str]], tag: str) -> None:
-    """ Formats hidden roles to console. """
-    role_output = (
-        f"[{tag}] Current roles: {game_roles[:const.NUM_PLAYERS]}\n{' ' * (len(tag) + 4)}"
-        f"Center cards: {game_roles[const.NUM_PLAYERS:]}\n"
-    )
-    logger.debug(role_output.replace("'", ""))

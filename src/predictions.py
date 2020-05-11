@@ -1,11 +1,9 @@
 """ predictions.py """
 import random
-from typing import Dict, List, Tuple, Union
+from typing import Dict, List, Tuple
 
 from src import const
 from src.algorithms import SolverState
-from src.const import logger
-from src.roles.player import Player
 
 
 def make_random_prediction() -> List[str]:
@@ -171,13 +169,3 @@ def get_switch_dict(solution: SolverState) -> Dict[int, int]:
     for _, i, j in switches:
         switch_dict[i], switch_dict[j] = switch_dict[j], switch_dict[i]
     return switch_dict
-
-
-def print_guesses(role_guesses: Union[List[Player], List[str]]) -> None:
-    """ Formats guesses to console. """
-    logger.info(
-        (
-            f"\n[Wolfbot] Role guesses: {role_guesses[:const.NUM_PLAYERS]}\n{' ' * 10}"
-            f"Center cards: {role_guesses[const.NUM_PLAYERS:]}\n"
-        ).replace("'", "")
-    )

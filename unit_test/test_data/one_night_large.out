@@ -1,8 +1,8 @@
 
 -- NIGHT FALLS --
 
-[Hidden] Current roles: [Villager, Drunk, Mason, Tanner, Villager, Robber, Seer, Wolf, Minion, Villager, Wolf, Hunter]
-          Center cards: [Troublemaker, Mason, Insomniac]
+[Hidden] Player roles: [Villager, Drunk, Mason, Tanner, Villager, Robber, Seer, Wolf, Minion, Villager, Wolf, Hunter]
+         Center cards: [Troublemaker, Mason, Insomniac]
 
 Wolf, wake up.
 [Hidden] Wolves are at indices: [7, 10]
@@ -35,6 +35,8 @@ Drunk, go to sleep.
 Insomniac, wake up.
 Insomniac, go to sleep.
 
+Everyone, wake up!
+
 
 -- GAME BEGINS --
 
@@ -50,10 +52,8 @@ Player 8: I am a Seer and I saw that Center 0 was a Hunter and that Center 1 was
 Player 9: I am a Villager.
 Player 10: I am a Seer and I saw that Center 1 was a Mason and that Center 2 was a Troublemaker.
 Player 11: I am a Hunter.
-[Hidden] Current roles: [Villager, Insomniac, Mason, Tanner, Villager, Drunk, Seer, Wolf, Minion, Villager, Wolf, Hunter]
-          Center cards: [Troublemaker, Mason, Robber]
 
-Predictions:
+[Trace] Predictions:
 Player  0: [Villager, Mason, Mason, Minion, Villager, Drunk, Tanner, Troublemaker, Villager, Wolf, Wolf, Hunter, Insomniac, Seer, Robber]
 Player  1: [Villager, Insomniac, Mason, Tanner, Villager, Drunk, Seer, Minion, Wolf, Villager, Wolf, Hunter, Troublemaker, Mason, Robber]
 Player  2: [Villager, Insomniac, Mason, Tanner, Villager, Drunk, Seer, Wolf, Minion, Villager, Wolf, Hunter, Troublemaker, Mason, Robber]
@@ -66,9 +66,13 @@ Player  8: [Villager, Wolf, Mason, Minion, Villager, Tanner, Wolf, Troublemaker,
 Player  9: [Villager, Insomniac, Mason, Tanner, Villager, Drunk, Minion, Troublemaker, Villager, Wolf, Wolf, Hunter, Mason, Seer, Robber]
 Player 10: [Villager, Troublemaker, Mason, Wolf, Villager, Wolf, Minion, Tanner, Robber, Villager, Seer, Hunter, Insomniac, Mason, Drunk]
 Player 11: [Villager, Insomniac, Mason, Minion, Villager, Drunk, Seer, Tanner, Wolf, Villager, Wolf, Hunter, Troublemaker, Mason, Robber]
+
 Vote Array: [0, 1, 0, 2, 0, 0, 0, 3, 0, 0, 6, 0]
 
-[Wolfbot] Role guesses: [Villager, Mason, Mason, Minion, Villager, Drunk, Tanner, Troublemaker, Villager, Wolf, Wolf, Hunter]
+[Solution] Player roles: [Villager, Insomniac, Mason, Tanner, Villager, Drunk, Seer, Wolf, Minion, Villager, Wolf, Hunter]
+           Center cards: [Troublemaker, Mason, Robber]
+
+[WolfBot] Player roles: [Villager, Mason, Mason, Minion, Villager, Drunk, Tanner, Troublemaker, Villager, Wolf, Wolf, Hunter]
           Center cards: [Insomniac, Seer, Robber]
 
 Confidence levels: [1.0, 0.67, 1.0, 0.42, 1.0, 0.75, 0.5, 0.42, 0.42, 0.58, 0.58, 0.92, 0.5, 0.67, 0.75]

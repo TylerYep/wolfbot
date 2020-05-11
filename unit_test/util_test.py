@@ -5,6 +5,38 @@ from conftest import override_input
 from src import const, util
 
 
+class TestPrintRoles:
+    """ Tests for the print_roles function. """
+
+    @staticmethod
+    def test_print_roles(caplog, small_game_roles):
+        """ Correctly print and format roles. """
+        const.ROLES = small_game_roles
+        shuffled_roles = ["Seer", "Villager", "Wolf", "Robber"]
+
+        util.print_roles(shuffled_roles, "Hidden")
+
+        captured = caplog.records[0].getMessage()
+        expected = (
+            f"[Hidden] Player roles: [Seer, Villager, Wolf]\n{' ' * 9}Center cards: [Robber]\n"
+        )
+        assert captured == expected
+
+    @staticmethod
+    def test_print_wolfbot_guesses(caplog, medium_game_roles):
+        """ Correctly print and format roles. """
+        const.ROLES = medium_game_roles
+
+        util.print_roles(list(medium_game_roles), "WolfBot")
+
+        captured = caplog.records[0].getMessage()
+        expected = (
+            "[WolfBot] Player roles: [Robber, Drunk, Wolf, Troublemaker, Seer]\n"
+            "          Center cards: [Minion]\n"
+        )
+        assert captured == expected
+
+
 class TestSwapCharacters:
     """ Tests for the swap_characters function. """
 

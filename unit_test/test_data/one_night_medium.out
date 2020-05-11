@@ -1,8 +1,8 @@
 
 -- NIGHT FALLS --
 
-[Hidden] Current roles: [Seer, Wolf, Drunk, Robber, Minion]
-          Center cards: [Troublemaker]
+[Hidden] Player roles: [Seer, Wolf, Drunk, Robber, Minion]
+         Center cards: [Troublemaker]
 
 Wolf, wake up.
 [Hidden] Wolves are at indices: [1]
@@ -27,6 +27,8 @@ Drunk, wake up.
 [Hidden] Drunk switches with Center Card 0 and unknowingly becomes a Troublemaker.
 Drunk, go to sleep.
 
+Everyone, wake up!
+
 
 -- GAME BEGINS --
 
@@ -35,18 +37,20 @@ Player 1: I am a Seer and I saw that Player 3 was a Minion.
 Player 2: I am a Drunk and I swapped with Center 0.
 Player 3: I am a Robber and I swapped with Player 2. I am now a Drunk.
 Player 4: I am a Seer and I saw that Player 1 was a Wolf.
-[Hidden] Current roles: [Seer, Wolf, Troublemaker, Drunk, Minion]
-          Center cards: [Robber]
 
-Predictions:
+[Trace] Predictions:
 Player 0: [Seer, Wolf, Troublemaker, Drunk, Minion, Robber]
 Player 1: [Minion, Seer, Robber, Wolf, Troublemaker, Drunk]
 Player 2: [Minion, Wolf, Troublemaker, Drunk, Seer, Robber]
 Player 3: [Seer, Minion, Troublemaker, Drunk, Wolf, Robber]
 Player 4: [Wolf, Minion, Troublemaker, Drunk, Seer, Robber]
+
 Vote Array: [1, 2, 0, 1, 1]
 
-[Wolfbot] Role guesses: [Seer, Wolf, Troublemaker, Drunk, Minion]
+[Solution] Player roles: [Seer, Wolf, Troublemaker, Drunk, Minion]
+           Center cards: [Robber]
+
+[WolfBot] Player roles: [Seer, Wolf, Troublemaker, Drunk, Minion]
           Center cards: [Robber]
 
 Confidence levels: [0.4, 0.4, 0.8, 0.8, 0.4, 0.8]

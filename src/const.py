@@ -114,21 +114,24 @@ DEBUG = Include all hidden messages
 INFO = Regular gameplay
 WARNING = Results only """
 TRACE = 5
+DEBUG = logging.DEBUG
+INFO = logging.INFO
+WARN = logging.WARNING
 logging.basicConfig(format="%(message)s", level=TRACE)  # filename='test1.txt', filemode='a')
 logger = logging.getLogger()
 
 if ARGS.log_level:
     LOG_LEVELS = {
         "trace": TRACE,
-        "debug": logging.DEBUG,
-        "info": logging.INFO,
-        "warn": logging.WARNING,
+        "debug": DEBUG,
+        "info": INFO,
+        "warn": WARN,
     }
     logger.setLevel(LOG_LEVELS[ARGS.log_level])
 elif NUM_GAMES >= 10:
-    logger.setLevel(logging.WARNING)
+    logger.setLevel(WARN)
 elif INTERACTIVE_MODE_ON:
-    logger.setLevel(logging.INFO)
+    logger.setLevel(INFO)
 
 """ Ensure only one Wolf version is active """
 assert not (EXPECTIMAX_PLAYER and USE_RL_WOLF)

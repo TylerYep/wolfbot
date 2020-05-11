@@ -35,6 +35,7 @@ class GUIState:
         """ Clears the output except for the player's role. """
         if self.disable_gui:
             return
+        input("Press Enter to continue...")
         self.print_cache()
 
     def print_statements(self, all_statements: List[Statement]) -> None:

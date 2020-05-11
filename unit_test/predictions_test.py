@@ -298,21 +298,3 @@ class TestGetSwitchDict:
         result = predictions.get_switch_dict(example_large_solverstate)
 
         assert result == expected
-
-
-class TestPrintGuesses:
-    """ Tests for the print_guesses function. """
-
-    @staticmethod
-    def test_print_guesses(caplog, medium_game_roles):
-        """ Correctly print and format roles. """
-        const.ROLES = medium_game_roles
-
-        predictions.print_guesses(list(medium_game_roles))
-
-        captured = caplog.records[0].getMessage()
-        expected = (
-            "\n[Wolfbot] Role guesses: [Robber, Drunk, Wolf, Troublemaker, Seer]\n"
-            "          Center cards: [Minion]\n"
-        )
-        assert captured == expected

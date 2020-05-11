@@ -1,6 +1,6 @@
 """ one_night_test.py """
 from conftest import verify_output
-from src import const, one_night
+from src import one_night
 
 
 class TestPlayOneNightWerewolf:
@@ -43,21 +43,3 @@ class TestPlayOneNightWerewolf:
 #         result = one_night.play_one_night_werewolf()
 
 #         assert result == example_small_game_result
-
-
-class TestPrintRoles:
-    """ Tests for the print_roles function. """
-
-    @staticmethod
-    def test_print_roles(caplog, small_game_roles):
-        """ Correctly print and format roles. """
-        const.ROLES = small_game_roles
-        shuffled_roles = ["Seer", "Villager", "Wolf", "Robber"]
-
-        one_night.print_roles(shuffled_roles, "Hidden")
-
-        captured = caplog.records[0].getMessage()
-        expected = (
-            f"[Hidden] Current roles: [Seer, Villager, Wolf]\n{' ' * 10}Center cards: [Robber]\n"
-        )
-        assert captured == expected

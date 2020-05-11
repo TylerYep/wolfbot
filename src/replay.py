@@ -2,10 +2,10 @@
 import json
 import random
 
-from src import const
+from src import const, util
 from src.const import logger
 from src.encoder import WolfBotDecoder
-from src.one_night import print_roles, simulate_game
+from src.one_night import simulate_game
 from src.stats import GameResult, Statistics
 from src.voting import consolidate_results
 
@@ -33,8 +33,8 @@ def replay_game() -> GameResult:
     for sentence in all_statements:
         logger.warning(sentence)
 
-    print_roles(original_roles, "Hidden")
-    print_roles(game_roles, "Solution")
+    util.print_roles(original_roles, "Hidden")
+    util.print_roles(game_roles, "Solution")
 
     game_result = consolidate_results(save_game)
     stat_tracker = Statistics()
