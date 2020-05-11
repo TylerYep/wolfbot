@@ -24,6 +24,7 @@ class Troublemaker(Player):
     ) -> Troublemaker:
         """ Initializes Troublemaker - switches one player with another player. """
         del original_roles
+        assert const.NUM_PLAYERS > 2
         is_user = const.IS_USER[player_index]
         choice_1 = util.get_player(is_user, (player_index,))
         choice_2 = util.get_player(is_user, (player_index, choice_1))

@@ -1,6 +1,6 @@
 """ util.py """
 import random
-from typing import List, Sequence, Tuple
+from typing import List, Optional, Sequence, Tuple
 
 from src import const
 from src.const import logger
@@ -60,12 +60,20 @@ def get_center(is_user: bool, vals_to_exclude: Tuple[int, ...] = ()) -> int:
     return choice_ind
 
 
-def get_numeric_input(size: int) -> int:
-    """ Prompts the user for an index between 0 and size. """
+def get_numeric_input(end: int, start: Optional[int] = None) -> int:
+    """
+    Prompts the user for an index between [start, end). Note that if two parameters are supplied,
+    the order of the parameters flips in order to achieve a Pythonic range() function.
+    """
+    if start is None:
+        start = 0
+    else:
+        start, end = end, start
+
     choice_ind = -1
-    while choice_ind < 0 or choice_ind >= size:
+    while choice_ind < start or end <= choice_ind:
         user_input = ""
         while not user_input.isdigit():
-            user_input = input(f"Enter a number from 0 - {size - 1}: ")
+            user_input = input(f"Enter a number from {start} - {end - 1}: ")
         choice_ind = int(user_input)
     return choice_ind

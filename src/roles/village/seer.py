@@ -31,26 +31,32 @@ class Seer(Player):
     ) -> Seer:
         """ Initializes Seer - either sees 2 center cards or 1 player card. """
         del original_roles
-
-        # Pick two center cards more often, because that generally yields higher win rates.
-        prob = const.CENTER_SEER_PROB
+        assert const.NUM_PLAYERS > 1
         is_user = const.IS_USER[player_index]
-        choose_center = random.choices([True, False], [prob, 1 - prob])[0]
-        if choose_center and const.NUM_CENTER > 1:
-            peek_ind1 = util.get_center(is_user)
-            peek_ind2 = util.get_center(is_user, (peek_ind1,))
-            peek_char1 = game_roles[peek_ind1]
-            peek_char2 = game_roles[peek_ind2]
-            logger.debug(
-                f"[Hidden] Seer sees that Center {peek_ind1 - const.NUM_PLAYERS} is a "
-                f"{peek_char1}, Center {peek_ind2 - const.NUM_PLAYERS} is a {peek_char2}."
-            )
+        if const.NUM_CENTER > 1:
             if is_user:
-                logger.info(
-                    f"You see that Center {peek_ind1 - const.NUM_PLAYERS} is a {peek_char1}, "
-                    f"and Center {peek_ind2 - const.NUM_PLAYERS} is a {peek_char2}."
+                logger.info("Do you want to see 1 player card or 2 center cards?")
+                choose_center = bool(util.get_numeric_input(1, 3) - 1)
+            else:
+                # Pick two center cards more often, because that generally yields higher win rates.
+                prob = const.CENTER_SEER_PROB
+                choose_center = random.choices([True, False], [prob, 1 - prob])[0]
+
+            if choose_center:
+                peek_ind1 = util.get_center(is_user)
+                peek_ind2 = util.get_center(is_user, (peek_ind1,))
+                peek_char1 = game_roles[peek_ind1]
+                peek_char2 = game_roles[peek_ind2]
+                logger.debug(
+                    f"[Hidden] Seer sees that Center {peek_ind1 - const.NUM_PLAYERS} is a "
+                    f"{peek_char1}, Center {peek_ind2 - const.NUM_PLAYERS} is a {peek_char2}."
                 )
-            return cls(player_index, (peek_ind1, peek_char1), (peek_ind2, peek_char2))
+                if is_user:
+                    logger.info(
+                        f"You see that Center {peek_ind1 - const.NUM_PLAYERS} is a {peek_char1}, "
+                        f"and Center {peek_ind2 - const.NUM_PLAYERS} is a {peek_char2}."
+                    )
+                return cls(player_index, (peek_ind1, peek_char1), (peek_ind2, peek_char2))
 
         peek_ind = util.get_player(is_user, (player_index,))
         peek_char = game_roles[peek_ind]

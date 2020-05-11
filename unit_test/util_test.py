@@ -147,3 +147,13 @@ class TestGetNumericInput:
         result = [util.get_numeric_input(10) for _ in range(4)]
 
         assert result == [1, 7, 2, 0]
+
+    @staticmethod
+    def test_numeric_input_range(monkeypatch):
+        """ Generated indices should be random. """
+        inputs = [1, 37, 30, 34, 0, 33]
+        monkeypatch.setattr("builtins.input", override_input(inputs))
+
+        result = [util.get_numeric_input(30, 34) for _ in range(2)]
+
+        assert result == [30, 33]

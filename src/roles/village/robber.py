@@ -25,6 +25,7 @@ class Robber(Player):
     ) -> Robber:
         """ Initializes Robber - switches roles with another player. """
         del original_roles
+        assert const.NUM_PLAYERS > 1
         is_user = const.IS_USER[player_index]
         choice_ind = util.get_player(is_user, (player_index,))
         choice_char = game_roles[choice_ind]

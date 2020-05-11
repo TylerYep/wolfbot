@@ -5,7 +5,7 @@
           Center cards: []
 
 Seer, wake up.
-[Hidden] Seer sees that Player 1 is a Robber.
+[Hidden] Seer sees that Player 0 is a Villager.
 Seer, go to sleep.
 
 Robber, wake up.
@@ -17,7 +17,7 @@ Robber, go to sleep.
 
 Player 0: I am a Villager.
 Player 1: I am a Robber and I swapped with Player 2. I am now a Seer.
-Player 2: I am a Seer and I saw that Player 1 was a Robber.
+Player 2: I am a Seer and I saw that Player 0 was a Villager.
 [Hidden] Current roles: [Villager, Seer, Robber]
           Center cards: []
 

@@ -14,6 +14,16 @@ class Priority(IntEnum):
     ROBBER, TROUBLEMAKER, DRUNK = 1, 2, 3
 
 
+@unique
+class StatementLevel(IntEnum):
+    """ Statement Priority Levels """
+
+    NOT_YET_SPOKEN = -1
+    NO_INFO = 0
+    SOME_INFO = 5
+    PRIMARY = 10
+
+
 UNIT_TEST = "pytest" in sys.modules
 if UNIT_TEST:
     random.seed(0)
@@ -25,7 +35,7 @@ def init_program() -> argparse.Namespace:
     # fmt: off
     parser.add_argument("--user", "-u", action="store_true", default=False,
                         help="enable interactive mode")
-    parser.add_argument("--num_games", "-n", default=1,
+    parser.add_argument("--num_games", "-n", type=int, default=1,
                         help="specify number of games")
     parser.add_argument("--info", "-i", action="store_true", default=False,
                         help="enable logging.INFO")
@@ -61,13 +71,12 @@ USE_VOTING = True
 # Randomize or use literally the order of the ROLES constant above.
 RANDOMIZE_ROLES = True
 # Enable multi-statement rounds.
-MULTI_STATEMENT = False
+MULTI_STATEMENT = True
 
 """ Simulation Constants """
-NUM_GAMES = 1 if ARGS.num_games is None else int(ARGS.num_games)
+NUM_GAMES = ARGS.num_games
 MAX_LOG_GAMES = 10
 FIXED_WOLF_INDEX = -1
-SHOW_PROGRESS = False or NUM_GAMES >= MAX_LOG_GAMES
 SAVE_REPLAY = NUM_GAMES < MAX_LOG_GAMES
 REPLAY_FILE = "data/replay.json"
 REPLAY_STATE = "data/replay_state.json"
@@ -95,7 +104,7 @@ VILLAGE_ROLES = {
 EVIL_ROLES = {"Tanner", "Wolf", "Minion"} & ROLE_SET
 
 """ Basic Wolf Player (Pruned statement set) """
-USE_REG_WOLF = False
+USE_REG_WOLF = True
 CENTER_SEER_PROB = 0.9
 
 """ Expectimax Wolf Player """
@@ -110,6 +119,7 @@ EXPERIENCE_PATH = "src/learning/simulations/wolf_player.json"
 """ Interactive Game Constants """
 INTERACTIVE_MODE_ON = ARGS.user
 IS_USER = [False] * NUM_ROLES
+NUM_OPTIONS = 5
 
 """ Logging Constants
 TRACE = Debugging mode for development
@@ -120,11 +130,9 @@ TRACE = 5
 logging.basicConfig(format="%(message)s", level=TRACE)  # filename='test1.txt', filemode='a')
 logger = logging.getLogger()
 
-if ARGS.info:
-    logger.setLevel(logging.INFO)
 if NUM_GAMES >= 10 and not UNIT_TEST:
     logger.setLevel(logging.WARNING)
-if INTERACTIVE_MODE_ON:
+elif ARGS.info or INTERACTIVE_MODE_ON:
     logger.setLevel(logging.INFO)
 
 """ Ensure only one Wolf version is active """
@@ -133,9 +141,3 @@ assert not (USE_EXPECTIMAX_WOLF and USE_RL_WOLF)
 if sys.version_info < (3, 0):
     sys.stdout.write("Requires Python 3, not Python 2!\n")
     sys.exit()
-
-""" Statement Priority Levels """
-NOT_YET_SPOKEN = -1
-NO_INFO = 0
-SOME_INFO = 5
-PRIMARY = 10

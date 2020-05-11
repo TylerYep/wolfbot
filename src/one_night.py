@@ -8,7 +8,7 @@ from typing import List, Tuple, Union
 from tqdm import tqdm
 
 from src import const, util
-from src.const import logger
+from src.const import StatementLevel, logger
 from src.encoder import WolfBotEncoder
 from src.roles import Player, get_role_obj
 from src.statements import Statement
@@ -48,21 +48,21 @@ def play_one_night_werewolf(save_replay: bool = True) -> GameResult:
     if const.INTERACTIVE_MODE_ON:
         user_index = random.randint(0, const.NUM_PLAYERS - 1)
         const.IS_USER[user_index] = True
-        logger.info(f"You are a {original_roles[user_index]}!")
+        logger.info(f"Player {user_index}, you are a {original_roles[user_index]}!")
 
     player_objs = night_falls(game_roles, original_roles)
 
     if const.INTERACTIVE_MODE_ON:
         input("Press any key to continue...")
         os.system("clear")
-        logger.info(f"You are a {original_roles[user_index]}!")
+        logger.info(f"Player {user_index}, you are a {original_roles[user_index]}!")
 
     logger.info("\n-- GAME BEGINS --\n")
     all_statements = get_player_statements(player_objs)
 
     if const.INTERACTIVE_MODE_ON:
         os.system("clear")
-        logger.info(f"You are a {original_roles[user_index]}!")
+        logger.info(f"Player {user_index}, you are a {original_roles[user_index]}!")
         logger.info("\n-- GAME BEGINS --\n")
         for j, statement in enumerate(all_statements):
             logger.info(f"Player {j}: {statement.sentence}")
@@ -93,11 +93,11 @@ def get_player_statements(player_objs: List[Player]) -> List[Statement]:
         return given_statements
 
     finished_speaking = [
-        Statement("", priority=const.NOT_YET_SPOKEN) for _ in range(const.NUM_PLAYERS)
+        Statement("", priority=StatementLevel.NOT_YET_SPOKEN) for _ in range(const.NUM_PLAYERS)
     ]
     curr_ind = 0
-    while not all(val.priority == const.PRIMARY for val in finished_speaking):
-        if finished_speaking[curr_ind].priority < const.PRIMARY:
+    while not all(val.priority == StatementLevel.PRIMARY for val in finished_speaking):
+        if finished_speaking[curr_ind].priority < StatementLevel.PRIMARY:
             statement = player_objs[curr_ind].get_statement(stated_roles, finished_speaking)
             given_statements.append(statement)
             if len(stated_roles) <= curr_ind:

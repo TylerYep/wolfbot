@@ -6,7 +6,7 @@ from typing import Any, Dict, List
 
 from src import const, util
 from src.algorithms import switching_solver as solver
-from src.const import logger
+from src.const import StatementLevel, logger
 from src.statements import Statement
 
 
@@ -20,7 +20,7 @@ class Player:
         self.statements: List[Statement] = []
         self.is_user = const.IS_USER[player_index]
         if const.MULTI_STATEMENT:
-            self.prev_priority = const.NOT_YET_SPOKEN
+            self.prev_priority = StatementLevel.NOT_YET_SPOKEN
             self.statements += self.get_partial_statements()
 
     def get_partial_statements(self) -> List[Statement]:
@@ -28,11 +28,12 @@ class Player:
         partial_statements = []
         knowledge = [(self.player_index, {self.role})]
         zero_sent = "I don't want to say who I am just yet."
-        partial_statements.append(Statement(zero_sent, priority=const.NO_INFO))
+        partial_statements.append(Statement(zero_sent, priority=StatementLevel.NO_INFO))
 
         if self.role not in const.EVIL_ROLES | {"Villager", "Hunter"}:
             partial_sent = f"I am a {self.role}, but I'm not going to say what I did or saw yet!"
-            partial_statements.append(Statement(partial_sent, knowledge, priority=const.SOME_INFO))
+            statement = Statement(partial_sent, knowledge, priority=StatementLevel.SOME_INFO)
+            partial_statements.append(statement)
         return partial_statements
 
     def transform(self, role_type: str) -> Player:
@@ -93,10 +94,9 @@ class Player:
 
         if self.is_user:
             logger.info("\nPlease choose from the following statements: ")
-            num_options = 5
             sample_statements = (
-                random.sample(self.statements, num_options)
-                if len(self.statements) > num_options
+                random.sample(self.statements, const.NUM_OPTIONS)
+                if len(self.statements) > const.NUM_OPTIONS
                 else self.statements
             )
             for i, statement in enumerate(sample_statements):

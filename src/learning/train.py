@@ -7,6 +7,8 @@ import os
 import time
 from collections import defaultdict
 
+from tqdm import tqdm
+
 from src import const
 from src.const import logger
 from src.encoder import WolfBotDecoder, WolfBotEncoder
@@ -72,9 +74,7 @@ def test():  # experience_dict as param
     assert const.USE_RL_WOLF is False
     start_time = time.time()
     stats = Statistics()
-    for num in range(const.NUM_GAMES):
-        if const.SHOW_PROGRESS and num % 10 == 0:
-            logger.warning(f"Currently on Game: {num}")
+    for _ in tqdm(range(const.NUM_GAMES)):
         game_result = play_one_night_werewolf(False)
         stats.add_result(game_result)
     stats.print_statistics()
