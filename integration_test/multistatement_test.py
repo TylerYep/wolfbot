@@ -12,8 +12,9 @@ class TestMultistatement:
         const.ROLES = standard_game_roles
         const.MULTI_STATEMENT = True
 
-        stat_results = one_night.simulate_game(num_games=1000)
+        stat_tracker = one_night.simulate_game(num_games=1000)
 
+        stat_results = stat_tracker.get_metric_results()
         write_results("standard_multistatement_results.csv", stat_results)
         assert stat_results["villager_wins"] > 0.8
         assert stat_results["tanner_wins"] == 0
@@ -27,8 +28,9 @@ class TestMultistatement:
         const.USE_EXPECTIMAX_WOLF = True
         const.MULTI_STATEMENT = True
 
-        stat_results = one_night.simulate_game(num_games=500)
+        stat_tracker = one_night.simulate_game(num_games=500)
 
+        stat_results = stat_tracker.get_metric_results()
         write_results("expectimax_wolf_multistatement_results.csv", stat_results)
         assert stat_results["villager_wins"] > 0.5
         assert stat_results["tanner_wins"] == 0

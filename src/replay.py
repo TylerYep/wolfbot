@@ -10,7 +10,7 @@ from src.stats import GameResult, Statistics
 from src.voting import consolidate_results
 
 
-def replay_game_from_state() -> None:
+def replay_game_from_state() -> Statistics:
     """ Runs last game stored in replay_state.json. """
     with open(const.REPLAY_STATE) as f_replay:
         save_game = json.load(f_replay)
@@ -18,7 +18,7 @@ def replay_game_from_state() -> None:
     rng_state = [tuple(item) if isinstance(item, list) else item for item in game_state]
     random.setstate(tuple(rng_state))
 
-    simulate_game(disable_logging=False)
+    return simulate_game(disable_logging=False)
 
 
 def replay_game() -> GameResult:

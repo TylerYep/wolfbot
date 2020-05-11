@@ -103,7 +103,7 @@ class Statistics:
     def __eq__(self, other: object) -> bool:
         """ Checks for equality between Statistics objects. """
         assert isinstance(other, Statistics)
-        return self.__dict__ == other.__dict__
+        return self.get_metric_results(False) == other.get_metric_results(False)
 
     def add_result(self, game_result: GameResult) -> None:
         """ Updates the Statistics object with a GameResult. """
@@ -112,13 +112,14 @@ class Statistics:
             metric.update(game_result)
         self.end_time = time.perf_counter() - self.start_time
 
-    def get_metric_results(self) -> Dict[str, float]:
+    def get_metric_results(self, include_time: bool = True) -> Dict[str, float]:
         """
         Returns the dictionary of metric name to metric name.
         """
         results = {metric.function.__name__: metric.average for metric in self.metrics}
         results["num_games"] = self.num_games
-        results["time_elapsed"] = self.end_time
+        if include_time:
+            results["time_elapsed"] = self.end_time
         return results
 
     def print_statistics(self) -> None:

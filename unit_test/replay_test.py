@@ -1,5 +1,5 @@
 """ replay_test.py """
-from src import const, one_night, replay
+from src import Statistics, const, one_night, replay
 
 
 class TestReplay:
@@ -18,6 +18,22 @@ class TestReplay:
         result = replay.replay_game()
 
         assert result == example_small_game_result
+
+    @staticmethod
+    def test_replay_game_state_small(example_small_game_result):
+        """
+        Correctly replay last round of one night werewolf.
+        Note that the result is currently not the same as the first run, since
+        the second predictions receive different random numbers.
+        """
+        const.REPLAY_FILE = "unit_test/test_data/replay.json"
+        one_night.play_one_night_werewolf()
+
+        result_stats = replay.replay_game_from_state()
+
+        stat_tracker = Statistics()
+        stat_tracker.add_result(example_small_game_result)
+        assert result_stats == stat_tracker
 
     @staticmethod
     def test_replay_game_medium(example_medium_game_result):

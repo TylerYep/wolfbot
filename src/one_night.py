@@ -3,7 +3,7 @@ import json
 import logging
 import os
 import random
-from typing import Dict, List, Tuple, Union
+from typing import List, Tuple, Union
 
 from tqdm import tqdm
 
@@ -21,7 +21,7 @@ def simulate_game(
     save_replay: bool = False,
     disable_tqdm: bool = True,
     disable_logging: bool = True,
-) -> Dict[str, float]:
+) -> Statistics:
     """ Collects statistics about several simulations of play_one_night_werewolf. """
     if disable_logging:
         logger.setLevel(logging.WARNING)
@@ -31,8 +31,7 @@ def simulate_game(
         game_result = play_one_night_werewolf(save_replay)
         stat_tracker.add_result(game_result)
     stat_tracker.print_statistics()
-    stat_results = stat_tracker.get_metric_results()
-    return stat_results
+    return stat_tracker
 
 
 def play_one_night_werewolf(save_replay: bool = True) -> GameResult:
