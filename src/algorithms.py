@@ -1,7 +1,6 @@
 """ algorithms.py """
 from __future__ import annotations
 
-from dataclasses import dataclass
 from typing import FrozenSet, List, Optional, Sequence, Set, Tuple, Union
 
 from src import const
@@ -9,7 +8,6 @@ from src.const import Priority
 from src.statements import Statement
 
 
-@dataclass
 class SolverState:
     """
     Each solver returns a SolverState object with the result.
@@ -21,7 +19,6 @@ class SolverState:
         possible_roles: Optional[Union[Sequence[Set[str]], Sequence[FrozenSet[str]]]] = None,
         switches: Tuple[Tuple[Priority, int, int], ...] = (),
         path_init: Tuple[bool, ...] = (),
-        count_true: int = 0,
     ):
         # We share the same reference here because frozen sets are immutable.
         self.possible_roles = tuple(
@@ -31,17 +28,14 @@ class SolverState:
         )
         self.switches = switches
         self.path = path_init
-        self.count_true = count_true
 
     def is_valid_state(self) -> bool:
         """ Checks for invalid state, denoted as SolverState(). """
         return bool(self.possible_roles)
 
-    def add_to_path(self, statement_is_true: bool) -> None:
-        """ Adds a new statement truth value to the state's path. """
-        self.path += (statement_is_true,)
-        if statement_is_true:
-            self.count_true += 1
+    def __eq__(self, other: object) -> bool:
+        assert isinstance(other, SolverState)
+        return self.__dict__ == other.__dict__
 
     def __repr__(self) -> str:
         """ Returns a String representation of a SolverState. """
@@ -61,7 +55,7 @@ class SolverState:
         if not check_role_counts(new_possible_roles):
             return SolverState([])
         new_switches = self.switches + statement.switches
-        return SolverState(new_possible_roles, new_switches, self.path, self.count_true)
+        return SolverState(new_possible_roles, new_switches, self.path)
 
 
 def check_role_counts(possible_roles_list: List[FrozenSet[str]]) -> bool:
@@ -93,26 +87,27 @@ def switching_solver(
 
     def _switch_recurse(solutions: List[SolverState], state: SolverState, ind: int = 0) -> None:
         """ ind = index of statement being considered. """
-        curr_max = solutions[0].count_true
+        prev_max = solutions[0].path.count(True)
+        curr_path_count = state.path.count(True)
         if ind == num_statements:
-            if state.count_true > curr_max:
+            if curr_path_count > prev_max:
                 solutions.clear()
-            if state.count_true >= curr_max:
+            if curr_path_count >= prev_max:
                 solutions.append(state)
             return
 
-        if state.count_true + num_statements - ind < curr_max:
+        if curr_path_count + num_statements - ind < prev_max:
             return
 
         truth_state = state.is_consistent(statements[ind])
         false_state = state.is_consistent(statements[ind].negate())
 
         if truth_state.is_valid_state():
-            truth_state.add_to_path(True)
+            truth_state.path += (True,)
             _switch_recurse(solutions, truth_state, ind + 1)
 
         if false_state.is_valid_state() and ind not in known_true:
-            false_state.add_to_path(False)
+            false_state.path += (False,)
             _switch_recurse(solutions, false_state, ind + 1)
 
     solutions = [SolverState()]
