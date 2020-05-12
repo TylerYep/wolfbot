@@ -2,7 +2,7 @@
 import pytest
 
 from src import const, statements
-from src.const import Priority
+from src.const import SwitchPriority
 
 
 class TestStatement:
@@ -70,7 +70,7 @@ class TestStatement:
             "type": "Statement",
             "sentence": "test",
             "knowledge": ((2, {"Robber"}), (0, {"Seer"})),
-            "switches": ((Priority.ROBBER, 2, 0),),
+            "switches": ((SwitchPriority.ROBBER, 2, 0),),
             "speaker": "Robber",
         }
 
@@ -79,7 +79,7 @@ class TestStatement:
         """ Should convert a Statement into a string with all useful fields. """
         expected = (
             "Statement(sentence=\"test\", knowledge=[(2, {'Robber'}), (0, {'Seer'})], "
-            "switches=[(<Priority.ROBBER: 1>, 2, 0)], speaker='Robber')"
+            "switches=[(<SwitchPriority.ROBBER: 1>, 2, 0)], speaker='Robber')"
         )
 
         result = str(example_statement)
@@ -92,7 +92,7 @@ class TestStatement:
         not_a_statement = "hello"
 
         result = statements.Statement(
-            "test", [(2, {"Robber"}), (0, {"Seer"})], [(Priority.ROBBER, 2, 0)]
+            "test", [(2, {"Robber"}), (0, {"Seer"})], [(SwitchPriority.ROBBER, 2, 0)]
         )
 
         assert result == example_statement
@@ -104,7 +104,7 @@ class TestStatement:
     def test_hash(example_statement):
         """ Should give two Statements with identical fields the same hash. """
         identical_statement = statements.Statement(
-            "test", [(2, {"Robber"}), (0, {"Seer"})], [(Priority.ROBBER, 2, 0)]
+            "test", [(2, {"Robber"}), (0, {"Seer"})], [(SwitchPriority.ROBBER, 2, 0)]
         )
 
         result = set([identical_statement, example_statement])

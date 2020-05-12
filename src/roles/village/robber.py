@@ -4,7 +4,7 @@ from __future__ import annotations
 from typing import Any, Dict, List
 
 from src import const, util
-from src.const import Priority, logger
+from src.const import SwitchPriority, logger
 from src.statements import Statement
 
 from ..player import Player
@@ -46,7 +46,7 @@ class Robber(Player):
             f"I am a Robber and I swapped with Player {choice_ind}. I am now a {choice_char}."
         )
         knowledge = [(player_index, {"Robber"}), (choice_ind, {choice_char})]
-        switches = [(Priority.ROBBER, player_index, choice_ind)]
+        switches = [(SwitchPriority.ROBBER, player_index, choice_ind)]
         return [Statement(sentence, knowledge, switches)]
 
     @staticmethod

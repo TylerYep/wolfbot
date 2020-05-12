@@ -1,7 +1,7 @@
 """ algorithms_test.py """
 from conftest import create_frozen_sets
 from src import algorithms, const
-from src.const import Priority
+from src.const import SwitchPriority
 from src.statements import Statement
 
 
@@ -19,7 +19,7 @@ class TestSolverState:
     def test_eq(example_small_solverstate):
         """ Should be able to compare two identical SolverStates. """
         possible_roles = create_frozen_sets([{"Seer"}, {"Robber", "Villager", "Seer"}, {"Robber"}])
-        switches = ((Priority.ROBBER, 2, 0),)
+        switches = ((SwitchPriority.ROBBER, 2, 0),)
         path = (True,)
 
         result = algorithms.SolverState(possible_roles, switches, path)
@@ -32,9 +32,9 @@ class TestSolverState:
         result = algorithms.SolverState([{"Villager"}], [], [True])
 
         assert str(result) == (
-            "SolverState(possible_roles=[{'Villager'}], switches=[], path=[True], count_true=1, "
-            "role_counts={'Insomniac': 1, 'Villager': 2, 'Robber': 1, 'Drunk': 1, 'Wolf': 2, "
-            "'Seer': 1, 'Tanner': 1, 'Mason': 2, 'Minion': 1, 'Troublemaker': 1, 'Hunter': 1})"
+            "SolverState(possible_roles=[{'Villager'}], switches=[], path=[True], role_counts={"
+            "'Insomniac': 1, 'Villager': 2, 'Robber': 1, 'Drunk': 1, 'Wolf': 2, 'Seer': 1, "
+            "'Tanner': 1, 'Mason': 2, 'Minion': 1, 'Troublemaker': 1, 'Hunter': 1}, count_true=1)"
         )
 
 
@@ -68,7 +68,7 @@ class TestIsConsistent:
         possible_roles = [const.ROLE_SET] * const.NUM_ROLES
         possible_roles[0] = {"Seer"}
         example_solverstate = algorithms.SolverState(possible_roles, (), (True,))
-        new_statement = Statement("next", [(2, {"Drunk"})], [(Priority.DRUNK, 2, 5)])
+        new_statement = Statement("next", [(2, {"Drunk"})], [(SwitchPriority.DRUNK, 2, 5)])
 
         result = example_solverstate.is_consistent(new_statement)
 
@@ -82,7 +82,7 @@ class TestIsConsistent:
         possible_roles = [const.ROLE_SET] * const.NUM_ROLES
         possible_roles[0] = {"Seer"}
         example = algorithms.SolverState(possible_roles, (), (True,))
-        new_statement = Statement("next", [(2, {"Drunk"})], [(Priority.DRUNK, 2, 5)])
+        new_statement = Statement("next", [(2, {"Drunk"})], [(SwitchPriority.DRUNK, 2, 5)])
 
         result = example.is_consistent(new_statement)
         example.possible_roles += ("junk-data",)
@@ -152,7 +152,7 @@ class TestSwitchingSolver:
         result = algorithms.switching_solver(medium_statement_list, (1,))
 
         assert result[0] == algorithms.SolverState(
-            possible_roles, ((Priority.DRUNK, 2, 5),), (False, True, True, False, False)
+            possible_roles, ((SwitchPriority.DRUNK, 2, 5),), (False, True, True, False, False)
         )
 
     @staticmethod

@@ -31,8 +31,8 @@ def make_unrestricted_prediction(solution: SolverState) -> List[str]:
     to return a rushed list of predictions for all roles.
     Does not restrict guesses to the possible sets.
     """
-    if len(solution.possible_roles) != const.NUM_ROLES:
-        return []
+    # if len(solution.possible_roles) != const.NUM_ROLES:
+    #     return []
     all_role_guesses, curr_role_counts = get_basic_guesses(solution)
     solved = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts), False)
     switch_dict = get_switch_dict(solution)

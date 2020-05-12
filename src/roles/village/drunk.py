@@ -4,7 +4,7 @@ from __future__ import annotations
 from typing import Any, Dict, List
 
 from src import const, util
-from src.const import Priority, logger
+from src.const import SwitchPriority, logger
 from src.statements import Statement
 
 from ..player import Player
@@ -41,7 +41,7 @@ class Drunk(Player):
         """ Gets Drunk Statement. """
         sentence = f"I am a Drunk and I swapped with Center {choice_ind - const.NUM_PLAYERS}."
         knowledge = [(player_index, {"Drunk"})]
-        switches = [(Priority.DRUNK, player_index, choice_ind)]
+        switches = [(SwitchPriority.DRUNK, player_index, choice_ind)]
         return [Statement(sentence, knowledge, switches)]
 
     @staticmethod

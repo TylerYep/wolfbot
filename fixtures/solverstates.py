@@ -5,7 +5,7 @@ import pytest
 
 from src import const
 from src.algorithms import SolverState
-from src.const import Priority
+from src.const import SwitchPriority
 
 
 def create_frozen_sets(possible_roles: List[Set[str]]) -> Tuple[FrozenSet[str], ...]:
@@ -16,10 +16,9 @@ def create_frozen_sets(possible_roles: List[Set[str]]) -> Tuple[FrozenSet[str], 
 @pytest.fixture
 def example_small_solverstate(small_game_roles: Tuple[str, ...]) -> SolverState:
     possible_roles = [{"Seer"}, {"Robber", "Villager", "Seer"}, {"Robber"}]
-
     return SolverState(
         create_frozen_sets(possible_roles),
-        ((Priority.ROBBER, 2, 0),),
+        ((SwitchPriority.ROBBER, 2, 0),),
         (True,),
         role_counts={"Villager": 1, "Seer": 0, "Robber": 0},
     )
@@ -29,7 +28,7 @@ def example_small_solverstate(small_game_roles: Tuple[str, ...]) -> SolverState:
 def example_small_solverstate_solved(small_game_roles: Tuple[str, ...]) -> SolverState:
     possible_roles = [{"Villager"}, {"Robber"}, {"Seer"}]
     return SolverState(
-        create_frozen_sets(possible_roles), ((Priority.ROBBER, 1, 2),), (True, True, True)
+        create_frozen_sets(possible_roles), ((SwitchPriority.ROBBER, 1, 2),), (True, True, True)
     )
 
 
@@ -43,7 +42,9 @@ def example_medium_solverstate(medium_game_roles: Tuple[str, ...]) -> SolverStat
         {"Troublemaker", "Wolf", "Drunk", "Robber", "Seer", "Minion"},
         {"Troublemaker", "Wolf", "Drunk", "Robber", "Seer", "Minion"},
     ]
-    return SolverState(create_frozen_sets(possible_roles), ((Priority.DRUNK, 2, 5),), (True, True))
+    return SolverState(
+        create_frozen_sets(possible_roles), ((SwitchPriority.DRUNK, 2, 5),), (True, True)
+    )
 
 
 @pytest.fixture
@@ -56,7 +57,7 @@ def example_medium_solverstate_solved(medium_game_roles: Tuple[str, ...]) -> Sol
         {"Robber", "Drunk", "Wolf", "Troublemaker", "Minion"},
         {"Drunk", "Robber", "Seer", "Wolf", "Troublemaker", "Minion"},
     ]
-    switches = ((Priority.DRUNK, 2, 5), (Priority.ROBBER, 3, 2))
+    switches = ((SwitchPriority.DRUNK, 2, 5), (SwitchPriority.ROBBER, 3, 2))
     path = (True, False, True, True, False)
     return SolverState(create_frozen_sets(possible_roles), switches, path)
 
@@ -82,12 +83,12 @@ def example_medium_solved_list(medium_game_roles: Tuple[str, ...]) -> List[Solve
     return [
         SolverState(
             create_frozen_sets(possible_roles_1),
-            ((Priority.DRUNK, 2, 5), (Priority.ROBBER, 3, 2)),
+            ((SwitchPriority.DRUNK, 2, 5), (SwitchPriority.ROBBER, 3, 2)),
             (True, False, True, True, False),
         ),
         SolverState(
             create_frozen_sets(possible_roles_2),
-            ((Priority.DRUNK, 2, 5), (Priority.ROBBER, 3, 2)),
+            ((SwitchPriority.DRUNK, 2, 5), (SwitchPriority.ROBBER, 3, 2)),
             (False, False, True, True, True),
         ),
     ]
@@ -122,17 +123,17 @@ def example_medium_solverstate_list(medium_game_roles: Tuple[str, ...]) -> List[
     return [
         SolverState(
             create_frozen_sets(possible_roles_1),
-            ((Priority.ROBBER, 1, 0), (Priority.DRUNK, 2, 5)),
+            ((SwitchPriority.ROBBER, 1, 0), (SwitchPriority.DRUNK, 2, 5)),
             (True, True, True, False, False),
         ),
         SolverState(
             create_frozen_sets(possible_roles_2),
-            ((Priority.DRUNK, 2, 5), (Priority.ROBBER, 3, 2)),
+            ((SwitchPriority.DRUNK, 2, 5), (SwitchPriority.ROBBER, 3, 2)),
             (True, False, True, True, False),
         ),
         SolverState(
             create_frozen_sets(possible_roles_3),
-            ((Priority.DRUNK, 2, 5), (Priority.ROBBER, 3, 2)),
+            ((SwitchPriority.DRUNK, 2, 5), (SwitchPriority.ROBBER, 3, 2)),
             (False, False, True, True, True),
         ),
     ]
@@ -172,6 +173,6 @@ def example_large_solverstate(large_game_roles: Tuple[str, ...]) -> SolverState:
             "Troublemaker",
         },
     ] + [set(const.ROLE_SET)] * 7
-    switches = ((Priority.ROBBER, 6, 0), (Priority.ROBBER, 9, 6))
+    switches = ((SwitchPriority.ROBBER, 6, 0), (SwitchPriority.ROBBER, 9, 6))
     path = (True, False, True, True, True, True, True, False)
     return SolverState(create_frozen_sets(possible_roles), switches, path)

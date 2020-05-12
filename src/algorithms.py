@@ -1,52 +1,35 @@
 """ algorithms.py """
 from __future__ import annotations
 
+from dataclasses import dataclass, field
 from typing import Dict, FrozenSet, List, Optional, Tuple
 
 from src import const
-from src.const import Priority
+from src.const import SwitchPriority
 from src.statements import Statement
 
 
+@dataclass
 class SolverState:
     """
     Each solver returns a SolverState object with the result.
     @param path: tuple of (True, False, True ...) values.
     """
 
-    def __init__(
-        self,
-        possible_roles: Optional[Tuple[FrozenSet[str], ...]] = None,
-        switches: Tuple[Tuple[Priority, int, int], ...] = (),
-        path_init: Tuple[bool, ...] = (),
-        role_counts: Optional[Dict[str, int]] = None,
-        count_true: Optional[int] = None,
-    ):
+    possible_roles: Tuple[FrozenSet[str], ...] = ()
+    switches: Tuple[Tuple[SwitchPriority, int, int], ...] = ()
+    path: Tuple[bool, ...] = ()
+    role_counts: Dict[str, int] = field(default_factory=dict)
+    count_true: int = -1
+
+    def __post_init__(self) -> None:
         # We share the same reference here because frozen sets are immutable.
-        self.possible_roles = (
-            [const.ROLE_SET] * const.NUM_ROLES if possible_roles is None else possible_roles
-        )
-        self.switches = switches
-        self.path = path_init
-        self.count_true = count_true if count_true else self.path.count(True)
-        self.role_counts = role_counts if role_counts else self.get_role_counts()
-
-    def add_to_path(self, statement_is_true: bool) -> None:
-        """ Adds a new statement truth value to the state's path. """
-        self.path += (statement_is_true,)
-        if statement_is_true:
-            self.count_true += 1
-
-    def __eq__(self, other: object) -> bool:
-        assert isinstance(other, SolverState)
-        return self.__dict__ == other.__dict__
-
-    def __repr__(self) -> str:
-        """ Returns a string representation of a SolverState. """
-        return (
-            f"SolverState(possible_roles={self.possible_roles}, switches={self.switches}, "
-            f"path={self.path}, count_true={self.count_true}, role_counts={self.role_counts})"
-        )
+        if not self.possible_roles:
+            self.possible_roles = (const.ROLE_SET,) * const.NUM_ROLES
+        if self.count_true == -1:
+            self.count_true = self.path.count(True)
+        if not self.role_counts:
+            self.role_counts = self.get_role_counts()
 
     def is_consistent(self, statement: Statement, assumption: bool = True) -> Optional[SolverState]:
         """
@@ -81,7 +64,7 @@ class SolverState:
             new_switches,
             self.path + (assumption,),
             new_role_counts if new_role_counts else self.role_counts,
-            self.count_true + 1 if assumption else self.count_true,
+            self.count_true + int(assumption),
         )
 
     def get_role_counts(self) -> Dict[str, int]:

@@ -143,8 +143,8 @@ if sys.version_info < (3, 7):
 
 
 @unique
-class Priority(IntEnum):
-    """ Priorities for Statement order. """
+class SwitchPriority(IntEnum):
+    """ Priorities for switch actions. """
 
     ROBBER, TROUBLEMAKER, DRUNK = 1, 2, 3
 

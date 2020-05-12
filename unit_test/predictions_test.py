@@ -23,7 +23,7 @@ class TestMakeEvilPrediction:
     def test_random_evil_prediction(medium_game_roles):
         """ Should give a random prediction when an empty SolverState is passed in. """
         const.ROLES = medium_game_roles
-        solution_arr = [SolverState([])]
+        solution_arr = [SolverState()]
 
         result = predictions.make_evil_prediction(solution_arr)
 
@@ -44,11 +44,11 @@ class TestMakeUnrestrictedPrediction:
     def test_empty_unrestricted_prediction(medium_game_roles):
         """ Should return an empty list to denote that no prediction could be made. """
         const.ROLES = medium_game_roles
-        solution = SolverState([])
+        solution = SolverState()
 
         result = predictions.make_unrestricted_prediction(solution)
 
-        assert result == []
+        assert result == ["Troublemaker", "Drunk", "Wolf", "Seer", "Robber", "Minion"]
 
     @staticmethod
     def test_unrestricted_prediction(example_medium_solverstate):

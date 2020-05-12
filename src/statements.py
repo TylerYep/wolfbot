@@ -4,7 +4,7 @@ from __future__ import annotations
 from typing import Any, Dict, FrozenSet, List, Optional, Sequence, Set, Tuple, Union
 
 from src import const
-from src.const import Priority, StatementLevel
+from src.const import StatementLevel, SwitchPriority
 
 
 class Statement:
@@ -14,7 +14,7 @@ class Statement:
         self,
         sentence: str,
         knowledge: Sequence[Tuple[int, Union[Set[str], FrozenSet[str]]]] = (),
-        switches: Sequence[Tuple[Priority, int, int]] = (),
+        switches: Sequence[Tuple[SwitchPriority, int, int]] = (),
         speaker: str = "",
         priority: StatementLevel = StatementLevel.PRIMARY,
     ):

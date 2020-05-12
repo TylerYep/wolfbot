@@ -57,7 +57,7 @@ class TestSavedGame:
             "switches=[], speaker='Villager'), Statement("
             'sentence="I am a Robber and I swapped with Player 2. I am now a Seer.", '
             "knowledge=[(1, {'Robber'}), (2, {'Seer'})], "
-            "switches=[(<Priority.ROBBER: 1>, 1, 2)], speaker='Robber'), "
+            "switches=[(<SwitchPriority.ROBBER: 1>, 1, 2)], speaker='Robber'), "
             'Statement(sentence="I am a Seer and I saw that Player 1 was a Robber.", '
             "knowledge=[(2, {'Seer'}), (1, {'Robber'})], switches=[], speaker='Seer')], "
             "player_objs=[Villager(0), Robber(1, 2, Seer), "

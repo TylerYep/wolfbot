@@ -4,7 +4,7 @@ from __future__ import annotations
 from typing import Any, Dict, List
 
 from src import const, util
-from src.const import Priority, logger
+from src.const import SwitchPriority, logger
 from src.statements import Statement
 
 from ..player import Player
@@ -43,7 +43,7 @@ class Troublemaker(Player):
         """ Gets Troublemaker Statement. """
         sentence = f"I am a Troublemaker and I swapped Player {tmkr_ind1} and Player {tmkr_ind2}."
         knowledge = [(player_index, {"Troublemaker"})]
-        switches = [(Priority.TROUBLEMAKER, tmkr_ind1, tmkr_ind2)]
+        switches = [(SwitchPriority.TROUBLEMAKER, tmkr_ind1, tmkr_ind2)]
         return [Statement(sentence, knowledge, switches)]
 
     @staticmethod

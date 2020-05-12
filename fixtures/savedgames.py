@@ -4,7 +4,7 @@ from typing import Tuple
 import pytest
 
 from src import const
-from src.const import Priority
+from src.const import SwitchPriority
 from src.roles import Drunk, Hunter, Mason, Minion, Robber, Seer, Tanner, Villager, Wolf
 from src.statements import Statement
 from src.stats import SavedGame
@@ -20,7 +20,7 @@ def example_small_saved_game(small_game_roles: Tuple[str, ...]) -> SavedGame:
             Statement(
                 "I am a Robber and I swapped with Player 2. I am now a Seer.",
                 [(1, {"Robber"}), (2, {"Seer"})],
-                [(Priority.ROBBER, 1, 2)],
+                [(SwitchPriority.ROBBER, 1, 2)],
                 "Robber",
             ),
             Statement(
@@ -49,19 +49,19 @@ def example_medium_saved_game(medium_game_roles: Tuple[str, ...]) -> SavedGame:
             Statement(
                 "I am a Robber and I swapped with Player 0. I am now a Seer.",
                 [(1, {"Robber"}), (0, {"Seer"})],
-                [(Priority.ROBBER, 1, 0)],
+                [(SwitchPriority.ROBBER, 1, 0)],
                 "Robber",
             ),
             Statement(
                 "I am a Drunk and I swapped with Center 0.",
                 [(2, {"Drunk"})],
-                [(Priority.DRUNK, 2, 5)],
+                [(SwitchPriority.DRUNK, 2, 5)],
                 "Drunk",
             ),
             Statement(
                 "I am a Robber and I swapped with Player 2. I am now a Drunk.",
                 [(3, {"Robber"}), (2, {"Drunk"})],
-                [(Priority.ROBBER, 3, 2)],
+                [(SwitchPriority.ROBBER, 3, 2)],
                 "Robber",
             ),
             Statement(
@@ -124,7 +124,7 @@ def example_large_saved_game(large_game_roles: Tuple[str, ...]) -> SavedGame:
             Statement(
                 "I am a Drunk and I swapped with Center 2.",
                 [(1, {"Drunk"})],
-                [(Priority.DRUNK, 1, 14)],
+                [(SwitchPriority.DRUNK, 1, 14)],
                 "Drunk",
             ),
             Statement(
@@ -136,14 +136,14 @@ def example_large_saved_game(large_game_roles: Tuple[str, ...]) -> SavedGame:
             Statement(
                 "I am a Robber and I swapped with Player 10. I am now a Insomniac.",
                 [(3, {"Robber"}), (10, {"Insomniac"})],
-                [(Priority.ROBBER, 3, 10)],
+                [(SwitchPriority.ROBBER, 3, 10)],
                 "Robber",
             ),
             Statement("I am a Villager.", [(4, {"Villager"})], [], "Villager"),
             Statement(
                 "I am a Robber and I swapped with Player 1. I am now a Drunk.",
                 [(5, {"Robber"}), (1, {"Drunk"})],
-                [(Priority.ROBBER, 5, 1)],
+                [(SwitchPriority.ROBBER, 5, 1)],
                 "Robber",
             ),
             Statement(
@@ -164,14 +164,14 @@ def example_large_saved_game(large_game_roles: Tuple[str, ...]) -> SavedGame:
             Statement(
                 "I am a Troublemaker and I swapped Player 0 and Player 1.",
                 [(8, {"Troublemaker"})],
-                [(Priority.TROUBLEMAKER, 0, 1)],
+                [(SwitchPriority.TROUBLEMAKER, 0, 1)],
                 "Troublemaker",
             ),
             Statement("I am a Villager.", [(9, {"Villager"})], [], "Villager"),
             Statement(
                 "I am a Troublemaker and I swapped Player 3 and Player 4.",
                 [(10, {"Troublemaker"})],
-                [(Priority.TROUBLEMAKER, 3, 4)],
+                [(SwitchPriority.TROUBLEMAKER, 3, 4)],
                 "Troublemaker",
             ),
             Statement("I am a Hunter.", [(11, {"Hunter"})], [], "Hunter"),
