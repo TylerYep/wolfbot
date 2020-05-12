@@ -1,7 +1,7 @@
 """ algorithms.py """
 from __future__ import annotations
 
-from typing import FrozenSet, List, Optional, Sequence, Set, Tuple, Union
+from typing import Dict, FrozenSet, List, Optional, Sequence, Set, Tuple, Union
 
 from src import const
 from src.const import Priority
@@ -16,9 +16,10 @@ class SolverState:
 
     def __init__(
         self,
-        possible_roles: Optional[Union[Sequence[Set[str]], Sequence[FrozenSet[str]]]] = None,
+        possible_roles: Optional[Sequence[Union[Set[str], FrozenSet[str]]]] = None,
         switches: Tuple[Tuple[Priority, int, int], ...] = (),
         path_init: Tuple[bool, ...] = (),
+        role_counts: Optional[Dict[str, int]] = None,
         count_true: Optional[int] = None,
     ):
         # We share the same reference here because frozen sets are immutable.
@@ -30,6 +31,7 @@ class SolverState:
         self.switches = switches
         self.path = path_init
         self.count_true = count_true if count_true else self.path.count(True)
+        self.role_counts = role_counts if role_counts else self.get_role_counts()
 
     def is_valid_state(self) -> bool:
         """ Checks for invalid state, denoted as SolverState(). """
@@ -50,39 +52,56 @@ class SolverState:
         possible = [set(roles) for roles in self.possible_roles]
         return (
             f"SolverState(possible_roles={possible}, switches={self.switches}, "
-            f"path={self.path}, count_true={self.count_true})"
+            f"path={self.path}, count_true={self.count_true}, "
+            f"role_counts={self.role_counts})"
         )
 
-    def is_consistent(self, statement: Statement) -> SolverState:
+    def is_consistent(self, statement: Statement, assumption: bool = True) -> SolverState:
         """
         Returns the new state if the statement is consistent with state,
         otherwise returns an empty state.
+        @param assumption: whether we are assuming the statement is True or False
         """
         new_possible_roles = list(self.possible_roles)
+        new_role_counts = dict(self.role_counts)
         for proposed_ind, proposed_roles in statement.knowledge:
+            old_length = len(new_possible_roles[proposed_ind])
             new_possible_roles[proposed_ind] &= proposed_roles
-            if not new_possible_roles[proposed_ind]:
+            possible_roles = new_possible_roles[proposed_ind]
+            if not possible_roles:
                 return SolverState([])
-        if not check_role_counts(new_possible_roles):
-            return SolverState([])
+
+            new_length = len(possible_roles)
+            if new_length == 1 and new_length != old_length:
+                [single_role] = possible_roles
+                if new_role_counts[single_role] == 0:
+                    return SolverState([])
+                new_role_counts[single_role] -= 1
+
         new_switches = self.switches + statement.switches
-        return SolverState(new_possible_roles, new_switches, self.path, self.count_true)
+        return SolverState(
+            new_possible_roles,
+            new_switches,
+            self.path + (assumption,),
+            new_role_counts,
+            self.count_true + 1 if assumption else self.count_true,
+        )
 
-
-def check_role_counts(possible_roles_list: List[FrozenSet[str]]) -> bool:
-    """
-    Ensures that all current sets in possible_roles_list that contain only one element
-    are still within the bounds of the ROLE_COUNTS dict. E.g.
-    {'Villager': 3, 'Robber': 0, 'Seer': 0, 'Wolf': 1}
-    """
-    counts_dict = dict(const.ROLE_COUNTS)
-    for possible_roles in possible_roles_list:
-        if len(possible_roles) == 1:
-            [single_role] = possible_roles
-            if counts_dict[single_role] == 0:
-                return False
-            counts_dict[single_role] -= 1
-    return True
+    def get_role_counts(self) -> Dict[str, int]:
+        """
+        Ensures that all current sets in possible_roles_list that contain only one element
+        are still within the bounds of the ROLE_COUNTS dict. E.g.
+        {'Villager': 3, 'Robber': 0, 'Seer': 0, 'Wolf': 1}
+        """
+        if not self.possible_roles:
+            return {}
+        counts_dict = dict(const.ROLE_COUNTS)
+        for possible_roles in self.possible_roles:
+            if len(possible_roles) == 1:
+                [single_role] = possible_roles
+                assert counts_dict[single_role] > 0
+                counts_dict[single_role] -= 1
+        return counts_dict
 
 
 def switching_solver(
@@ -110,14 +129,12 @@ def switching_solver(
             return
 
         truth_state = state.is_consistent(statements[ind])
-        false_state = state.is_consistent(statements[ind].negate())
+        false_state = state.is_consistent(statements[ind].negate(), False)
 
         if truth_state.is_valid_state():
-            truth_state.add_to_path(True)
             _switch_recurse(solutions, truth_state, ind + 1)
 
         if false_state.is_valid_state() and ind not in known_true:
-            false_state.add_to_path(False)
             _switch_recurse(solutions, false_state, ind + 1)
 
     solutions = [SolverState()]

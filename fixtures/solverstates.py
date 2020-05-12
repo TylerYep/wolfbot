@@ -11,7 +11,12 @@ from src.const import Priority
 @pytest.fixture
 def example_small_solverstate(small_game_roles: Tuple[str, ...]) -> SolverState:
     possible_roles = [{"Seer"}, {"Robber", "Villager", "Seer"}, {"Robber"}]
-    return SolverState(possible_roles, ((Priority.ROBBER, 2, 0),))
+    return SolverState(
+        possible_roles,
+        ((Priority.ROBBER, 2, 0),),
+        (True,),
+        role_counts={"Villager": 1, "Seer": 0, "Robber": 0},
+    )
 
 
 @pytest.fixture
@@ -30,7 +35,7 @@ def example_medium_solverstate(medium_game_roles: Tuple[str, ...]) -> SolverStat
         {"Troublemaker", "Wolf", "Drunk", "Robber", "Seer", "Minion"},
         {"Troublemaker", "Wolf", "Drunk", "Robber", "Seer", "Minion"},
     ]
-    return SolverState(possible_roles, ((Priority.DRUNK, 2, 5),), (True,))
+    return SolverState(possible_roles, ((Priority.DRUNK, 2, 5),), (True, True))
 
 
 @pytest.fixture

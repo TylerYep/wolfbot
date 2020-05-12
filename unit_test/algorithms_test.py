@@ -28,7 +28,7 @@ class TestSolverState:
         """ Should be able to compare two identical SolverStates. """
         possible_roles = [{"Seer"}, {"Robber", "Villager", "Seer"}, {"Robber"}]
         switches = ((Priority.ROBBER, 2, 0),)
-        path = ()
+        path = (True,)
 
         result = algorithms.SolverState(possible_roles, switches, path)
 
@@ -40,7 +40,9 @@ class TestSolverState:
         result = algorithms.SolverState([{"Villager"}], [], [True])
 
         assert str(result) == (
-            "SolverState(possible_roles=[{'Villager'}], switches=[], path=[True], count_true=1)"
+            "SolverState(possible_roles=[{'Villager'}], switches=[], path=[True], count_true=1, "
+            "role_counts={'Insomniac': 1, 'Villager': 2, 'Robber': 1, 'Drunk': 1, 'Wolf': 2, "
+            "'Seer': 1, 'Tanner': 1, 'Mason': 2, 'Minion': 1, 'Troublemaker': 1, 'Hunter': 1})"
         )
 
 
@@ -165,23 +167,12 @@ class TestSwitchingSolver:
         assert result[0] == example_large_solverstate
 
     @staticmethod
-    def test_check_role_counts_true():
+    def test_get_role_counts():
         """ Should return True if there is a a dict with counts of all certain roles. """
         const.ROLE_SET = {"Wolf", "Seer", "Villager", "Robber"}
-        const.ROLE_COUNTS = {"Seer": 1, "Villager": 2, "Wolf": 0, "Robber": 0}
+        const.ROLE_COUNTS = {"Seer": 1, "Villager": 2, "Wolf": 1, "Robber": 1}
         possible_roles_list = [{"Villager"}, {"Seer"}, {"Villager"}] + [const.ROLE_SET] * 2
 
-        result = algorithms.check_role_counts(possible_roles_list)
+        result = algorithms.SolverState(possible_roles_list).get_role_counts()
 
-        assert result is True
-
-    @staticmethod
-    def test_check_role_counts_false():
-        """ Should return a dict with counts of all certain roles. """
-        const.ROLE_SET = {"Wolf", "Seer", "Villager", "Robber"}
-        const.ROLE_COUNTS = {"Seer": 1, "Villager": 1, "Wolf": 0, "Robber": 0}
-        possible_roles_list = [{"Villager"}, {"Seer"}, {"Villager"}] + [const.ROLE_SET] * 2
-
-        result = algorithms.check_role_counts(possible_roles_list)
-
-        assert result is False
+        assert result == {"Seer": 0, "Villager": 0, "Wolf": 1, "Robber": 1}
