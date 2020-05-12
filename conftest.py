@@ -61,6 +61,7 @@ def reset_const() -> None:
     const.USE_VOTING = True
     const.USE_REG_WOLF = False
     const.EXPECTIMAX_PLAYER = False
+    const.RANDOMIZE_ROLES = True
     const.MULTI_STATEMENT = False
     const.INTERACTIVE_MODE_ON = False
     const.REPLAY_FILE = "unit_test/test_data/replay.json"

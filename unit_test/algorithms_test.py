@@ -164,12 +164,12 @@ class TestSwitchingSolver:
 
     @staticmethod
     def test_check_role_counts_true():
-        """ Should return a dict with counts of all certain roles. """
+        """ Should return True if there is a a dict with counts of all certain roles. """
         const.ROLE_SET = {"Wolf", "Seer", "Villager", "Robber"}
         const.ROLE_COUNTS = {"Seer": 1, "Villager": 2, "Wolf": 0, "Robber": 0}
         possible_roles_list = [{"Villager"}, {"Seer"}, {"Villager"}] + [const.ROLE_SET] * 2
 
-        result = algorithms.check_role_counts(possible_roles_list, const.ROLE_SET)
+        result = algorithms.check_role_counts(possible_roles_list)
 
         assert result is True
 
@@ -180,6 +180,6 @@ class TestSwitchingSolver:
         const.ROLE_COUNTS = {"Seer": 1, "Villager": 1, "Wolf": 0, "Robber": 0}
         possible_roles_list = [{"Villager"}, {"Seer"}, {"Villager"}] + [const.ROLE_SET] * 2
 
-        result = algorithms.check_role_counts(possible_roles_list, const.ROLE_SET)
+        result = algorithms.check_role_counts(possible_roles_list)
 
         assert result is False

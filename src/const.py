@@ -38,15 +38,25 @@ ROLES = (
     "Mason",
     "Mason",
     "Minion",
+    # "Minion",
+    # "Minion",
     "Robber",
     "Seer",
     "Tanner",
     "Troublemaker",
     "Wolf",
     "Wolf",
+    # "Wolf",
+    # "Wolf",
     "Villager",
     "Villager",
     "Villager",
+    # "Villager",
+    # "Troublemaker",
+    # "Drunk",
+    # "Drunk",
+    # "Troublemaker",
+    # "Troublemaker",
 )
 NUM_CENTER = 3
 # Disabling this is good for testing solvers.
@@ -54,7 +64,7 @@ USE_VOTING = True
 # Randomize or use literally the order of the ROLES constant above.
 RANDOMIZE_ROLES = True
 # Enable multi-statement rounds.
-MULTI_STATEMENT = True
+MULTI_STATEMENT = False
 
 """ Simulation Constants """
 NUM_GAMES = ARGS.num_games

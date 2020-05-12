@@ -1,12 +1,44 @@
 """ standard_test.py """
 import random
 
-from conftest import write_results
+from conftest import reset_misc_const_fields, write_results
 from src import const, one_night
 
 
 class TestStandard:
     """ Tests for the play_one_night_werewolf function. """
+
+    @staticmethod
+    def test_perfect_villagers():
+        """ Correctly play one round of one night werewolf. """
+        const.ROLES = (
+            "Insomniac",
+            "Villager",
+            "Robber",
+            "Villager",
+            "Seer",
+            "Mason",
+            "Troublemaker",
+            "Villager",
+            "Mason",
+            "Hunter",
+            "Wolf",
+            "Wolf",
+            "Minion",
+        )
+        const.NUM_PLAYERS = 10
+        const.NUM_CENTER = 3
+        const.RANDOMIZE_ROLES = False
+        reset_misc_const_fields()
+        random.seed()
+
+        stat_tracker = one_night.simulate_game(num_games=10, disable_logging=False)
+
+        stat_results = stat_tracker.get_metric_results()
+        assert stat_results["villager_wins"] == 1.0
+        assert stat_results["correctness_lenient_center"] == 1.0
+        assert stat_results["wolf_predictions_one"] == 0.0
+        assert stat_results["wolf_predictions_all"] == 1.0
 
     @staticmethod
     def test_small_game(small_game_roles):

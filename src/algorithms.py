@@ -56,12 +56,11 @@ def is_consistent(statement: Statement, state: SolverState) -> SolverState:
     new_switches = state.switches + statement.switches
     new_possible_roles = list(state.possible_roles)
     for proposed_ind, proposed_roles in statement.knowledge:
-        intersection = proposed_roles & new_possible_roles[proposed_ind]
-        if not intersection:
+        new_possible_roles[proposed_ind] &= proposed_roles
+        if not new_possible_roles[proposed_ind]:
             return SolverState([])
-        new_possible_roles[proposed_ind] = intersection
-        if not check_role_counts(new_possible_roles, proposed_roles):
-            return SolverState([])
+    if not check_role_counts(new_possible_roles):
+        return SolverState([])
     return SolverState(new_possible_roles, new_switches, state.path, state.count_true)
 
 
@@ -105,9 +104,7 @@ def switching_solver(
     return solutions
 
 
-def check_role_counts(
-    possible_roles_list: List[FrozenSet[str]], proposed_roles: FrozenSet[str]
-) -> bool:
+def check_role_counts(possible_roles_list: List[FrozenSet[str]]) -> bool:
     """
     Returns a dictionary of counts for each role in [proposed roles sets].
     Only counts players in which we are sure of their role, such as:
@@ -117,10 +114,9 @@ def check_role_counts(
     for possible_roles in possible_roles_list:
         if len(possible_roles) == 1:
             [single_role] = possible_roles
-            if single_role in proposed_roles:
-                if counts_dict[single_role] == 0:
-                    return False
-                counts_dict[single_role] -= 1
+            if counts_dict[single_role] == 0:
+                return False
+            counts_dict[single_role] -= 1
     return True
 
 
