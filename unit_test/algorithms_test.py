@@ -1,4 +1,5 @@
 """ algorithms_test.py """
+from conftest import create_frozen_sets
 from src import algorithms, const
 from src.const import Priority
 from src.statements import Statement
@@ -10,23 +11,14 @@ class TestSolverState:
     @staticmethod
     def test_constructor():
         """ Should initialize a SolverState. """
-        result = algorithms.SolverState([{"Villager"}], [], [True])
+        result = algorithms.SolverState(create_frozen_sets([{"Villager"}]), [], [True])
 
         assert isinstance(result, algorithms.SolverState)
 
     @staticmethod
-    def test_is_valid_state():
-        """ Should return False for empty SolverStates. """
-        valid_state = algorithms.SolverState([{"Villager"}], [], [True])
-        invalid_state = algorithms.SolverState([])
-
-        assert valid_state.is_valid_state() is True
-        assert invalid_state.is_valid_state() is False
-
-    @staticmethod
     def test_eq(example_small_solverstate):
         """ Should be able to compare two identical SolverStates. """
-        possible_roles = [{"Seer"}, {"Robber", "Villager", "Seer"}, {"Robber"}]
+        possible_roles = create_frozen_sets([{"Seer"}, {"Robber", "Villager", "Seer"}, {"Robber"}])
         switches = ((Priority.ROBBER, 2, 0),)
         path = (True,)
 
@@ -57,6 +49,15 @@ class TestIsConsistent:
         result = start_state.is_consistent(example_statement)
 
         assert result == example_small_solverstate
+
+    @staticmethod
+    def test_invalid_state(example_statement):
+        """ Should return None for inconsistent states. """
+        start_state = algorithms.SolverState([{"Villager"}] * 3, [], [True])
+
+        invalid_state = start_state.is_consistent(example_statement)
+
+        assert invalid_state is None
 
     @staticmethod
     def test_is_consistent_on_existing_state(example_medium_solverstate):
@@ -137,14 +138,16 @@ class TestSwitchingSolver:
     def test_solver_medium_known_true(medium_statement_list, medium_game_roles):
         """ Should return a SolverState with the most likely solution. """
         const.ROLES = medium_game_roles
-        possible_roles = [
-            {"Drunk", "Minion", "Troublemaker", "Wolf", "Robber"},
-            {"Seer"},
-            {"Drunk"},
-            {"Minion"},
-            {"Drunk", "Minion", "Troublemaker", "Wolf", "Robber"},
-            {"Robber", "Minion", "Troublemaker", "Seer", "Wolf", "Drunk"},
-        ]
+        possible_roles = create_frozen_sets(
+            [
+                {"Drunk", "Minion", "Troublemaker", "Wolf", "Robber"},
+                {"Seer"},
+                {"Drunk"},
+                {"Minion"},
+                {"Drunk", "Minion", "Troublemaker", "Wolf", "Robber"},
+                {"Robber", "Minion", "Troublemaker", "Seer", "Wolf", "Drunk"},
+            ]
+        )
 
         result = algorithms.switching_solver(medium_statement_list, (1,))
 
@@ -171,7 +174,9 @@ class TestSwitchingSolver:
         """ Should return True if there is a a dict with counts of all certain roles. """
         const.ROLE_SET = {"Wolf", "Seer", "Villager", "Robber"}
         const.ROLE_COUNTS = {"Seer": 1, "Villager": 2, "Wolf": 1, "Robber": 1}
-        possible_roles_list = [{"Villager"}, {"Seer"}, {"Villager"}] + [const.ROLE_SET] * 2
+        possible_roles_list = create_frozen_sets(
+            [{"Villager"}, {"Seer"}, {"Villager"}] + [const.ROLE_SET] * 2
+        )
 
         result = algorithms.SolverState(possible_roles_list).get_role_counts()
 

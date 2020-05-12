@@ -1,7 +1,7 @@
 """ algorithms.py """
 from __future__ import annotations
 
-from typing import Dict, FrozenSet, List, Optional, Sequence, Set, Tuple, Union
+from typing import Dict, FrozenSet, List, Optional, Tuple
 
 from src import const
 from src.const import Priority
@@ -16,26 +16,20 @@ class SolverState:
 
     def __init__(
         self,
-        possible_roles: Optional[Sequence[Union[Set[str], FrozenSet[str]]]] = None,
+        possible_roles: Optional[Tuple[FrozenSet[str], ...]] = None,
         switches: Tuple[Tuple[Priority, int, int], ...] = (),
         path_init: Tuple[bool, ...] = (),
         role_counts: Optional[Dict[str, int]] = None,
         count_true: Optional[int] = None,
     ):
         # We share the same reference here because frozen sets are immutable.
-        self.possible_roles = tuple(
-            [const.ROLE_SET] * const.NUM_ROLES
-            if possible_roles is None
-            else [frozenset(role_set) for role_set in possible_roles]
+        self.possible_roles = (
+            [const.ROLE_SET] * const.NUM_ROLES if possible_roles is None else possible_roles
         )
         self.switches = switches
         self.path = path_init
         self.count_true = count_true if count_true else self.path.count(True)
         self.role_counts = role_counts if role_counts else self.get_role_counts()
-
-    def is_valid_state(self) -> bool:
-        """ Checks for invalid state, denoted as SolverState(). """
-        return bool(self.possible_roles)
 
     def add_to_path(self, statement_is_true: bool) -> None:
         """ Adds a new statement truth value to the state's path. """
@@ -49,41 +43,44 @@ class SolverState:
 
     def __repr__(self) -> str:
         """ Returns a string representation of a SolverState. """
-        possible = [set(roles) for roles in self.possible_roles]
         return (
-            f"SolverState(possible_roles={possible}, switches={self.switches}, "
-            f"path={self.path}, count_true={self.count_true}, "
-            f"role_counts={self.role_counts})"
+            f"SolverState(possible_roles={self.possible_roles}, switches={self.switches}, "
+            f"path={self.path}, count_true={self.count_true}, role_counts={self.role_counts})"
         )
 
-    def is_consistent(self, statement: Statement, assumption: bool = True) -> SolverState:
+    def is_consistent(self, statement: Statement, assumption: bool = True) -> Optional[SolverState]:
         """
         Returns the new state if the statement is consistent with state,
         otherwise returns an empty state.
         @param assumption: whether we are assuming the statement is True or False
+
+        Warning: only creates a new_role_counts dict if the role_counts dict changes.
+        Otherwise the new state will share the same role_counts dict as the previous state.
         """
         new_possible_roles = list(self.possible_roles)
-        new_role_counts = dict(self.role_counts)
+        new_role_counts = None
         for proposed_ind, proposed_roles in statement.knowledge:
             old_length = len(new_possible_roles[proposed_ind])
             new_possible_roles[proposed_ind] &= proposed_roles
             possible_roles = new_possible_roles[proposed_ind]
             if not possible_roles:
-                return SolverState([])
+                return None
 
             new_length = len(possible_roles)
             if new_length == 1 and new_length != old_length:
                 [single_role] = possible_roles
+                if new_role_counts is None:
+                    new_role_counts = dict(self.role_counts)
                 if new_role_counts[single_role] == 0:
-                    return SolverState([])
+                    return None
                 new_role_counts[single_role] -= 1
 
         new_switches = self.switches + statement.switches
         return SolverState(
-            new_possible_roles,
+            tuple(new_possible_roles),
             new_switches,
             self.path + (assumption,),
-            new_role_counts,
+            new_role_counts if new_role_counts else self.role_counts,
             self.count_true + 1 if assumption else self.count_true,
         )
 
@@ -131,10 +128,10 @@ def switching_solver(
         truth_state = state.is_consistent(statements[ind])
         false_state = state.is_consistent(statements[ind].negate(), False)
 
-        if truth_state.is_valid_state():
+        if truth_state is not None:
             _switch_recurse(solutions, truth_state, ind + 1)
 
-        if false_state.is_valid_state() and ind not in known_true:
+        if false_state is not None and ind not in known_true:
             _switch_recurse(solutions, false_state, ind + 1)
 
     solutions = [SolverState()]
@@ -147,11 +144,11 @@ def cached_solver(statements: Tuple[Statement, ...]) -> int:
     num_statements = len(statements)
 
     def _cache_recurse(state: SolverState, ind: int = 0) -> int:
-        if ind == num_statements or not state.is_valid_state():
+        if ind == num_statements or state is None:
             return 0
         new_state = state.is_consistent(statements[ind])
         skip_statement = _cache_recurse(state, ind + 1)
-        if not new_state.is_valid_state():
+        if new_state is None:
             return skip_statement
         return max(1 + _cache_recurse(new_state, ind + 1), skip_statement)
 
