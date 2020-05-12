@@ -50,7 +50,7 @@ class TestIsConsistent:
         """ Should check a new statement against an empty SolverState for consistency. """
         start_state = algorithms.SolverState()
 
-        result = algorithms.is_consistent(example_statement, start_state)
+        result = start_state.is_consistent(example_statement)
 
         assert result == example_small_solverstate
 
@@ -65,7 +65,7 @@ class TestIsConsistent:
         example_solverstate = algorithms.SolverState(possible_roles, (), (True,))
         new_statement = Statement("next", [(2, {"Drunk"})], [(Priority.DRUNK, 2, 5)])
 
-        result = algorithms.is_consistent(new_statement, example_solverstate)
+        result = example_solverstate.is_consistent(new_statement)
 
         assert result == example_medium_solverstate
 
@@ -79,7 +79,7 @@ class TestIsConsistent:
         example = algorithms.SolverState(possible_roles, (), (True,))
         new_statement = Statement("next", [(2, {"Drunk"})], [(Priority.DRUNK, 2, 5)])
 
-        result = algorithms.is_consistent(new_statement, example)
+        result = example.is_consistent(new_statement)
         example.possible_roles += ("junk-data",)
         example.switches += ("junk-data",)
         example.possible_roles = list(example.possible_roles)[0] & set(["junk"])

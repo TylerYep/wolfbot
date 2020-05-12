@@ -1,4 +1,6 @@
 """ algorithms.py """
+from __future__ import annotations
+
 from dataclasses import dataclass
 from typing import FrozenSet, List, Optional, Sequence, Set, Tuple, Union
 
@@ -46,22 +48,36 @@ class SolverState:
         possible = [set(roles) for roles in self.possible_roles]
         return f"SolverState(possible_roles={possible}, switches={self.switches}, path={self.path})"
 
-
-def is_consistent(statement: Statement, state: SolverState) -> SolverState:
-    """
-    Returns the new state if the statement is consistent with state,
-    otherwise returns an empty state.
-    @param state: list that contains a set of possible roles for each player.
-    """
-    new_switches = state.switches + statement.switches
-    new_possible_roles = list(state.possible_roles)
-    for proposed_ind, proposed_roles in statement.knowledge:
-        new_possible_roles[proposed_ind] &= proposed_roles
-        if not new_possible_roles[proposed_ind]:
+    def is_consistent(self, statement: Statement) -> SolverState:
+        """
+        Returns the new state if the statement is consistent with state,
+        otherwise returns an empty state.
+        """
+        new_possible_roles = list(self.possible_roles)
+        for proposed_ind, proposed_roles in statement.knowledge:
+            new_possible_roles[proposed_ind] &= proposed_roles
+            if not new_possible_roles[proposed_ind]:
+                return SolverState([])
+        if not check_role_counts(new_possible_roles):
             return SolverState([])
-    if not check_role_counts(new_possible_roles):
-        return SolverState([])
-    return SolverState(new_possible_roles, new_switches, state.path, state.count_true)
+        new_switches = self.switches + statement.switches
+        return SolverState(new_possible_roles, new_switches, self.path, self.count_true)
+
+
+def check_role_counts(possible_roles_list: List[FrozenSet[str]]) -> bool:
+    """
+    Ensures that all current sets in possible_roles_list that contain only one element
+    are still within the bounds of the ROLE_COUNTS dict. E.g.
+    {'Villager': 3, 'Robber': 0, 'Seer': 0, 'Wolf': 1}
+    """
+    counts_dict = dict(const.ROLE_COUNTS)
+    for possible_roles in possible_roles_list:
+        if len(possible_roles) == 1:
+            [single_role] = possible_roles
+            if counts_dict[single_role] == 0:
+                return False
+            counts_dict[single_role] -= 1
+    return True
 
 
 def switching_solver(
@@ -88,8 +104,8 @@ def switching_solver(
         if state.count_true + num_statements - ind < curr_max:
             return
 
-        truth_state = is_consistent(statements[ind], state)
-        false_state = is_consistent(statements[ind].negate(), state)
+        truth_state = state.is_consistent(statements[ind])
+        false_state = state.is_consistent(statements[ind].negate())
 
         if truth_state.is_valid_state():
             truth_state.add_to_path(True)
@@ -104,22 +120,6 @@ def switching_solver(
     return solutions
 
 
-def check_role_counts(possible_roles_list: List[FrozenSet[str]]) -> bool:
-    """
-    Returns a dictionary of counts for each role in [proposed roles sets].
-    Only counts players in which we are sure of their role, such as:
-    {'Villager': 3, 'Robber': 0, 'Seer': 0, 'Wolf': 1}
-    """
-    counts_dict = dict(const.ROLE_COUNTS)
-    for possible_roles in possible_roles_list:
-        if len(possible_roles) == 1:
-            [single_role] = possible_roles
-            if counts_dict[single_role] == 0:
-                return False
-            counts_dict[single_role] -= 1
-    return True
-
-
 def cached_solver(statements: Tuple[Statement, ...]) -> int:
     """ Returns maximium number of statements that can be true from a list of Statements. """
     num_statements = len(statements)
@@ -127,7 +127,7 @@ def cached_solver(statements: Tuple[Statement, ...]) -> int:
     def _cache_recurse(state: SolverState, ind: int = 0) -> int:
         if ind == num_statements or not state.is_valid_state():
             return 0
-        new_state = is_consistent(statements[ind], state)
+        new_state = state.is_consistent(statements[ind])
         skip_statement = _cache_recurse(state, ind + 1)
         if not new_state.is_valid_state():
             return skip_statement

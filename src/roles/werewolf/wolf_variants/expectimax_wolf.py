@@ -3,7 +3,7 @@ import random
 from typing import Any, Dict, List, Optional, Tuple
 
 from src import const, roles
-from src.algorithms import SolverState, is_consistent
+from src.algorithms import SolverState
 from src.const import logger
 from src.statements import Statement
 
@@ -72,7 +72,7 @@ def get_statement_expectimax(player_obj: Any, prev_statements: List[Statement]) 
         values = []
         for statement in next_statements:
             # If you are a Wolf, let yourself be inconsistent (each state needs a value).
-            new_state = state if is_evil else is_consistent(statement, state)
+            new_state = state if is_evil else state.is_consistent(statement)
             if new_state.is_valid_state():
                 new_statements = statement_list + (statement,)
                 val, _ = expectimax(new_statements, new_state, ind + 1, depth - 1)
@@ -83,7 +83,7 @@ def get_statement_expectimax(player_obj: Any, prev_statements: List[Statement]) 
     start_state = SolverState()
     for i in range(player_obj.player_index):
         if player_obj.role in ("Wolf", "Minion") and i not in player_obj.wolf_indices:
-            check_state = is_consistent(prev_statements[i], start_state)
+            check_state = start_state.is_consistent(prev_statements[i])
             if check_state.is_valid_state():
                 start_state = check_state
 
