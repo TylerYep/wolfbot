@@ -39,7 +39,9 @@ class TestSolverState:
         """ Should convert a SolverState into a representative string. """
         result = algorithms.SolverState([{"Villager"}], [], [True])
 
-        assert str(result) == "SolverState(possible_roles=[{'Villager'}], switches=[], path=[True])"
+        assert str(result) == (
+            "SolverState(possible_roles=[{'Villager'}], switches=[], path=[True], count_true=1)"
+        )
 
 
 class TestIsConsistent:
