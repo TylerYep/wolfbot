@@ -35,8 +35,8 @@ class TestRobber:
         expected = [
             Statement(
                 "I am a Robber and I swapped with Player 6. I am now a Mason.",
-                [(2, {"Robber"}), (6, {"Mason"})],
-                [(1, 2, 6)],
+                ((2, {"Robber"}), (6, {"Mason"}),),
+                ((1, 2, 6),),
                 "Robber",
             )
         ]
@@ -58,8 +58,8 @@ class TestRobber:
         assert result == [
             Statement(
                 "I am a Robber and I swapped with Player 3. I am now a Seer.",
-                [(4, {"Robber"}), (3, {"Seer"})],
-                [(1, 4, 3)],
+                ((4, {"Robber"}), (3, {"Seer"}),),
+                ((1, 4, 3),),
                 "Robber",
             )
         ]
@@ -74,20 +74,20 @@ class TestRobber:
         expected = [
             Statement(
                 "I am a Robber and I swapped with Player 0. I am now a Villager.",
-                [(1, {"Robber"}), (0, {"Villager"})],
-                [(1, 1, 0)],
+                ((1, {"Robber"}), (0, {"Villager"}),),
+                ((1, 1, 0),),
                 "Robber",
             ),
             Statement(
                 "I am a Robber and I swapped with Player 0. I am now a Wolf.",
-                [(1, {"Robber"}), (0, {"Wolf"})],
-                [(1, 1, 0)],
+                ((1, {"Robber"}), (0, {"Wolf"}),),
+                ((1, 1, 0),),
                 "Robber",
             ),
             Statement(
                 "I am a Robber and I swapped with Player 0. I am now a Robber.",
-                [(1, {"Robber"}), (0, {"Robber"})],
-                [(1, 1, 0)],
+                ((1, {"Robber"}), (0, {"Robber"}),),
+                ((1, 1, 0),),
                 "Robber",
             ),
         ]

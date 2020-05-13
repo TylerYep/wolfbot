@@ -11,7 +11,7 @@ class TestSolverState:
     @staticmethod
     def test_constructor():
         """ Should initialize a SolverState. """
-        result = algorithms.SolverState(create_frozen_sets([{"Villager"}]), [], [True])
+        result = algorithms.SolverState(create_frozen_sets([{"Villager"}]), (), [True])
 
         assert isinstance(result, algorithms.SolverState)
 
@@ -29,10 +29,10 @@ class TestSolverState:
     @staticmethod
     def test_repr():
         """ Should convert a SolverState into a representative string. """
-        result = algorithms.SolverState([{"Villager"}], [], [True])
+        result = algorithms.SolverState([{"Villager"}], (), [True])
 
         assert str(result) == (
-            "SolverState(possible_roles=[{'Villager'}], switches=[], path=[True], role_counts={"
+            "SolverState(possible_roles=[{'Villager'}], switches=(), path=[True], role_counts={"
             "'Insomniac': 1, 'Villager': 2, 'Robber': 1, 'Drunk': 1, 'Wolf': 2, 'Seer': 1, "
             "'Tanner': 1, 'Mason': 2, 'Minion': 1, 'Troublemaker': 1, 'Hunter': 1}, count_true=1)"
         )
@@ -53,7 +53,7 @@ class TestIsConsistent:
     @staticmethod
     def test_invalid_state(example_statement):
         """ Should return None for inconsistent states. """
-        start_state = algorithms.SolverState([{"Villager"}] * 3, [], [True])
+        start_state = algorithms.SolverState([{"Villager"}] * 3, (), [True])
 
         invalid_state = start_state.is_consistent(example_statement)
 
@@ -68,7 +68,7 @@ class TestIsConsistent:
         possible_roles = [const.ROLE_SET] * const.NUM_ROLES
         possible_roles[0] = {"Seer"}
         example_solverstate = algorithms.SolverState(possible_roles, (), (True,))
-        new_statement = Statement("next", [(2, {"Drunk"})], [(SwitchPriority.DRUNK, 2, 5)])
+        new_statement = Statement("next", ((2, {"Drunk"}),), ((SwitchPriority.DRUNK, 2, 5),))
 
         result = example_solverstate.is_consistent(new_statement)
 
@@ -82,7 +82,7 @@ class TestIsConsistent:
         possible_roles = [const.ROLE_SET] * const.NUM_ROLES
         possible_roles[0] = {"Seer"}
         example = algorithms.SolverState(possible_roles, (), (True,))
-        new_statement = Statement("next", [(2, {"Drunk"})], [(SwitchPriority.DRUNK, 2, 5)])
+        new_statement = Statement("next", ((2, {"Drunk"}),), ((SwitchPriority.DRUNK, 2, 5),))
 
         result = example.is_consistent(new_statement)
         example.possible_roles += ("junk-data",)

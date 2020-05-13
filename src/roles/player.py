@@ -26,7 +26,7 @@ class Player:
     def get_partial_statements(self) -> List[Statement]:
         """ Gets generic partial statements for each player. """
         partial_statements = []
-        knowledge = [(self.player_index, {self.role})]
+        knowledge = ((self.player_index, {self.role}),)
         zero_sent = "I don't want to say who I am just yet."
         partial_statements.append(Statement(zero_sent, priority=StatementLevel.NO_INFO))
 

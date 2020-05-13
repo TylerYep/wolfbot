@@ -83,7 +83,7 @@ class Seer(Player):
                 f" was a {seen_role2}."
             )
             knowledge.append((seen_index2, {seen_role2}))
-        return [Statement(sentence, knowledge)]
+        return [Statement(sentence, tuple(knowledge))]
 
     @staticmethod
     def get_all_statements(player_index: int) -> List[Statement]:

@@ -40,8 +40,8 @@ class Drunk(Player):
     def get_drunk_statements(player_index: int, choice_ind: int) -> List[Statement]:
         """ Gets Drunk Statement. """
         sentence = f"I am a Drunk and I swapped with Center {choice_ind - const.NUM_PLAYERS}."
-        knowledge = [(player_index, {"Drunk"})]
-        switches = [(SwitchPriority.DRUNK, player_index, choice_ind)]
+        knowledge = ((player_index, {"Drunk"}),)
+        switches = ((SwitchPriority.DRUNK, player_index, choice_ind),)
         return [Statement(sentence, knowledge, switches)]
 
     @staticmethod

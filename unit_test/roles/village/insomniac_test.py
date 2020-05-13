@@ -18,8 +18,8 @@ class TestInsomniac:
                     "I am a Insomniac and when I woke up I was a Robber. "
                     "I don't know who I switched with."
                 ),
-                [(1, {"Insomniac"})],
-                [],
+                ((1, {"Insomniac"}),),
+                (),
                 "Insomniac",
             )
         ]
@@ -39,8 +39,8 @@ class TestInsomniac:
                     "I am a Insomniac and when I woke up I was a Hunter. "
                     "I don't know who I switched with."
                 ),
-                [(0, {"Insomniac"})],
-                [],
+                ((0, {"Insomniac"}),),
+                (),
                 "Insomniac",
             )
         ]
@@ -61,14 +61,14 @@ class TestInsomniac:
                     "I am a Insomniac and when I woke up I was a Wolf. I don't know "
                     "who I switched with."
                 ),
-                [(2, {"Insomniac"})],
-                [],
+                ((2, {"Insomniac"}),),
+                (),
                 "Insomniac",
             ),
             Statement(
                 "I am a Insomniac and when I woke up I was a Insomniac.",
-                [(2, {"Insomniac"})],
-                [],
+                ((2, {"Insomniac"}),),
+                (),
                 "Insomniac",
             ),
             Statement(
@@ -76,8 +76,8 @@ class TestInsomniac:
                     "I am a Insomniac and when I woke up I was a Seer. I don't know "
                     "who I switched with."
                 ),
-                [(2, {"Insomniac"})],
-                [],
+                ((2, {"Insomniac"}),),
+                (),
                 "Insomniac",
             ),
         ]

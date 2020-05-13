@@ -11,9 +11,9 @@ class TestVillager:
         """ Should initialize a Villager. """
         player_index = 5
 
-        villager = Villager.awake_init(player_index, [], [])  # Other params are unused.
+        villager = Villager.awake_init(player_index, (), ())  # Other params are unused.
 
-        assert villager.statements == [Statement("I am a Villager.", [(5, {"Villager"})])]
+        assert villager.statements == [Statement("I am a Villager.", ((5, {"Villager"}),))]
 
     @staticmethod
     def test_get_villager_statements():
@@ -22,7 +22,7 @@ class TestVillager:
 
         result = Villager.get_villager_statements(player_index)
 
-        assert result == [Statement("I am a Villager.", [(0, {"Villager"})])]
+        assert result == [Statement("I am a Villager.", ((0, {"Villager"}),))]
 
     @staticmethod
     def test_get_all_statements():
@@ -31,4 +31,4 @@ class TestVillager:
 
         result = Villager.get_all_statements(player_index)
 
-        assert result == [Statement("I am a Villager.", [(2, {"Villager"})])]
+        assert result == [Statement("I am a Villager.", ((2, {"Villager"}),))]

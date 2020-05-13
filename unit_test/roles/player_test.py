@@ -33,7 +33,7 @@ class TestPlayer:
 
         statement = villager.get_statement([], [])
 
-        assert statement == Statement("I am a Villager.", [(0, {"Villager"})])
+        assert statement == Statement("I am a Villager.", ((0, {"Villager"}),))
 
     @staticmethod
     def test_json_repr():

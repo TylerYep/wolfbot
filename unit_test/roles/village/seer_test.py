@@ -24,8 +24,8 @@ class TestSeer:
                     "I am a Seer and I saw that Center 1 was a Insomniac "
                     "and that Center 0 was a Troublemaker."
                 ),
-                [(11, {"Seer"}), (13, {"Insomniac"}), (12, {"Troublemaker"})],
-                [],
+                ((11, {"Seer"}), (13, {"Insomniac"}), (12, {"Troublemaker"}),),
+                (),
                 "Seer",
             )
         ]
@@ -48,8 +48,8 @@ class TestSeer:
         expected = [
             Statement(
                 "I am a Seer and I saw that Player 6 was a Mason.",
-                [(11, {"Seer"}), (6, {"Mason"})],
-                [],
+                ((11, {"Seer"}), (6, {"Mason"}),),
+                (),
                 "Seer",
             )
         ]
@@ -70,8 +70,8 @@ class TestSeer:
         assert result == [
             Statement(
                 "I am a Seer and I saw that Player 6 was a Robber.",
-                [(1, {"Seer"}), (6, {"Robber"})],
-                [],
+                ((1, {"Seer"}), (6, {"Robber"}),),
+                (),
                 "Seer",
             )
         ]
@@ -89,38 +89,38 @@ class TestSeer:
         expected = [
             Statement(
                 "I am a Seer and I saw that Player 0 was a Villager.",
-                [(1, {"Seer"}), (0, {"Villager"})],
-                [],
+                ((1, {"Seer"}), (0, {"Villager"}),),
+                (),
                 "Seer",
             ),
             Statement(
                 "I am a Seer and I saw that Player 1 was a Villager.",
-                [(1, {"Seer"}), (1, {"Villager"})],
-                [],
+                ((1, {"Seer"}), (1, {"Villager"}),),
+                (),
                 "Seer",
             ),
             Statement(
                 "I am a Seer and I saw that Player 0 was a Wolf.",
-                [(1, {"Seer"}), (0, {"Wolf"})],
-                [],
+                ((1, {"Seer"}), (0, {"Wolf"}),),
+                (),
                 "Seer",
             ),
             Statement(
                 "I am a Seer and I saw that Player 1 was a Wolf.",
-                [(1, {"Seer"}), (1, {"Wolf"})],
-                [],
+                ((1, {"Seer"}), (1, {"Wolf"}),),
+                (),
                 "Seer",
             ),
             Statement(
                 "I am a Seer and I saw that Player 0 was a Seer.",
-                [(1, {"Seer"}), (0, {"Seer"})],
-                [],
+                ((1, {"Seer"}), (0, {"Seer"}),),
+                (),
                 "Seer",
             ),
             Statement(
                 "I am a Seer and I saw that Player 1 was a Seer.",
-                [(1, {"Seer"}), (1, {"Seer"})],
-                [],
+                ((1, {"Seer"}), (1, {"Seer"}),),
+                (),
                 "Seer",
             ),
             Statement(
@@ -128,8 +128,8 @@ class TestSeer:
                     "I am a Seer and I saw that Center 0 was a Villager and "
                     "that Center 1 was a Wolf."
                 ),
-                [(1, {"Seer"}), (2, {"Villager"}), (3, {"Wolf"})],
-                [],
+                ((1, {"Seer"}), (2, {"Villager"}), (3, {"Wolf"}),),
+                (),
                 "Seer",
             ),
             Statement(
@@ -137,14 +137,14 @@ class TestSeer:
                     "I am a Seer and I saw that Center 0 was a Wolf and "
                     "that Center 1 was a Villager."
                 ),
-                [(1, {"Seer"}), (2, {"Wolf"}), (3, {"Villager"})],
-                [],
+                ((1, {"Seer"}), (2, {"Wolf"}), (3, {"Villager"}),),
+                (),
                 "Seer",
             ),
             Statement(
                 ("I am a Seer and I saw that Center 0 was a Wolf and that Center 1 was a Wolf."),
-                [(1, {"Seer"}), (2, {"Wolf"}), (3, {"Wolf"})],
-                [],
+                ((1, {"Seer"}), (2, {"Wolf"}), (3, {"Wolf"}),),
+                (),
                 "Seer",
             ),
         ]

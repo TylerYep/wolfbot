@@ -19,8 +19,8 @@ class TestMason:
         assert mason.statements == [
             Statement(
                 "I am a Mason. The other Mason is Player 9.",
-                [(6, {"Mason"}), (9, {"Mason"})],
-                [],
+                ((6, {"Mason"}), (9, {"Mason"}),),
+                (),
                 "Mason",
             )
         ]
@@ -35,8 +35,8 @@ class TestMason:
         assert result == [
             Statement(
                 "I am a Mason. The other Mason is Player 6.",
-                [(9, {"Mason"}), (6, {"Mason"})],
-                [],
+                ((9, {"Mason"}), (6, {"Mason"}),),
+                (),
                 "Mason",
             )
         ]
@@ -58,7 +58,7 @@ class TestMason:
                     (0, {"Wolf", "Seer", "Villager"}),
                     (1, {"Wolf", "Seer", "Villager"}),
                 ],
-                [],
+                (),
                 "Mason",
             )
         ]
@@ -79,19 +79,19 @@ class TestMason:
                     (0, {"Wolf", "Seer", "Villager"}),
                     (1, {"Wolf", "Seer", "Villager"}),
                 ],
-                [],
+                (),
                 "Mason",
             ),
             Statement(
                 "I am a Mason. The other Mason is Player 0.",
-                [(2, {"Mason"}), (0, {"Mason"})],
-                [],
+                ((2, {"Mason"}), (0, {"Mason"}),),
+                (),
                 "Mason",
             ),
             Statement(
                 "I am a Mason. The other Mason is Player 1.",
-                [(2, {"Mason"}), (1, {"Mason"})],
-                [],
+                ((2, {"Mason"}), (1, {"Mason"}),),
+                (),
                 "Mason",
             ),
         ]

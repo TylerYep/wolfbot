@@ -11,7 +11,7 @@ class TestStatement:
     @staticmethod
     def test_constructor():
         """ Should initialize using the given sentence and knowledge. """
-        result = statements.Statement("test", [(1, {"Villager"})])
+        result = statements.Statement("test", ((1, {"Villager"}),))
 
         assert isinstance(result, statements.Statement)
         assert result.sentence == "test"
@@ -38,7 +38,7 @@ class TestStatement:
         """ Negated statements only contain the speaker and the opposite of the first clause. """
         const.ROLES = large_game_roles
         expected = statements.Statement(
-            "NOT - test", [(2, const.ROLE_SET - {"Robber"})], speaker="Robber"
+            "NOT - test", ((2, const.ROLE_SET - {"Robber"}),), speaker="Robber"
         )
 
         result = example_statement.negate()
@@ -52,7 +52,7 @@ class TestStatement:
         const.ROLES = large_game_roles
         expected = statements.Statement(
             "NOT - test",
-            [(2, const.ROLE_SET - {"Robber"}), (0, const.ROLE_SET - {"Seer"})],
+            ((2, const.ROLE_SET - {"Robber"}), (0, const.ROLE_SET - {"Seer"}),),
             speaker="Robber",
         )
 
@@ -91,7 +91,7 @@ class TestStatement:
     def test_eq(example_statement):
         """ Should declare two Statements with identical fields to be equal. """
         result = statements.Statement(
-            "test", [(2, {"Robber"}), (0, {"Seer"})], [(SwitchPriority.ROBBER, 2, 0)]
+            "test", ((2, {"Robber"}), (0, {"Seer"}),), ((SwitchPriority.ROBBER, 2, 0),)
         )
 
         assert result == example_statement
@@ -100,7 +100,7 @@ class TestStatement:
     def test_hash(example_statement):
         """ Should give two Statements with identical fields the same hash. """
         identical_statement = statements.Statement(
-            "test", [(2, {"Robber"}), (0, {"Seer"})], [(SwitchPriority.ROBBER, 2, 0)]
+            "test", ((2, {"Robber"}), (0, {"Seer"}),), ((SwitchPriority.ROBBER, 2, 0),)
         )
 
         result = {identical_statement, example_statement}

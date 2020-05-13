@@ -46,7 +46,7 @@ class Mason(Player):
             other_mason = mason_indices[0] if mason_indices[0] != player_index else mason_indices[1]
             sentence = f"I am a Mason. The other Mason is Player {other_mason}."
             knowledge = [(player_index, {"Mason"}), (other_mason, {"Mason"})]
-        return [Statement(sentence, knowledge)]
+        return [Statement(sentence, tuple(knowledge))]
 
     @staticmethod
     def get_all_statements(player_index: int) -> List[Statement]:

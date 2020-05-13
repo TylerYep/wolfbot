@@ -42,8 +42,8 @@ class Troublemaker(Player):
     ) -> List[Statement]:
         """ Gets Troublemaker Statement. """
         sentence = f"I am a Troublemaker and I swapped Player {tmkr_ind1} and Player {tmkr_ind2}."
-        knowledge = [(player_index, {"Troublemaker"})]
-        switches = [(SwitchPriority.TROUBLEMAKER, tmkr_ind1, tmkr_ind2)]
+        knowledge = ((player_index, {"Troublemaker"}),)
+        switches = ((SwitchPriority.TROUBLEMAKER, tmkr_ind1, tmkr_ind2),)
         return [Statement(sentence, knowledge, switches)]
 
     @staticmethod

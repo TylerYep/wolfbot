@@ -24,8 +24,8 @@ class Statement:
     def __init__(
         self,
         sentence: str,
-        knowledge: Sequence[Knowledge] = (),
-        switches: Sequence[Switch] = (),
+        knowledge: Tuple[Knowledge, ...] = (),
+        switches: Tuple[Switch, ...] = (),
         speaker: str = "",
         priority: StatementLevel = StatementLevel.PRIMARY,
     ):
@@ -39,7 +39,7 @@ class Statement:
         """
         self.sentence = sentence
         self.knowledge = tuple([(i, frozenset(role_set)) for i, role_set in knowledge])
-        self.switches = tuple(switches)
+        self.switches = switches
         self.speaker = speaker if speaker or not knowledge else next(iter(knowledge[0][1]))
         self.priority = priority
 
@@ -69,12 +69,12 @@ class Statement:
         if self.knowledge:
             index, player_clause = self.knowledge[0]
             neg.append((index, const.ROLE_SET - player_clause))
-        return Statement("NOT - " + self.sentence, neg, [], self.speaker)
+        return Statement("NOT - " + self.sentence, tuple(neg), (), self.speaker)
 
     def negate_all(self) -> Statement:
         """ Returns a negated version of every clause in the statement. """
         neg = [(i, const.ROLE_SET - role_set) for i, role_set in self.knowledge]
-        return Statement("NOT - " + self.sentence, neg, [], self.speaker)
+        return Statement("NOT - " + self.sentence, tuple(neg), (), self.speaker)
 
     def __hash__(self) -> int:
         return hash((self.sentence, self.knowledge, self.switches, self.speaker, self.priority))
