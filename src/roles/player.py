@@ -26,12 +26,12 @@ class Player:
     def get_partial_statements(self) -> List[Statement]:
         """ Gets generic partial statements for each player. """
         partial_statements = []
-        knowledge = ((self.player_index, {self.role}),)
         zero_sent = "I don't want to say who I am just yet."
         partial_statements.append(Statement(zero_sent, priority=StatementLevel.NO_INFO))
 
         if self.role not in const.EVIL_ROLES | frozenset({"Villager", "Hunter"}):
             partial_sent = f"I am a {self.role}, but I'm not going to say what I did or saw yet!"
+            knowledge = ((self.player_index, frozenset({self.role})),)
             statement = Statement(partial_sent, knowledge, priority=StatementLevel.SOME_INFO)
             partial_statements.append(statement)
         return partial_statements
@@ -77,14 +77,7 @@ class Player:
             for i, truth in enumerate(solver_result.path):
                 if truth:
                     statement = previous[i]
-                    ref = statement.get_references(self.player_index)
-                    if ref is not None:
-                        if isinstance(ref, frozenset) and len(ref) == 1:
-                            [self.new_role] = ref
-                        elif isinstance(ref, int):
-                            switched_index = ref
-                            if switched_index < len(stated_roles):
-                                self.new_role = stated_roles[switched_index]
+                    self.new_role = statement.get_references(self.player_index, stated_roles)
 
         if self.new_role != "" and self.new_role in const.EVIL_ROLES:
             return self.transform(self.new_role).get_statement(stated_roles, previous)

@@ -7,7 +7,7 @@ from typing import Any, Dict, FrozenSet, List, Optional, Sequence, Set, Tuple, U
 from src import const
 from src.const import StatementLevel, SwitchPriority
 
-Knowledge = Tuple[int, Union[Set[str], FrozenSet[str]]]
+Knowledge = Tuple[int, FrozenSet[str]]
 Switch = Tuple[SwitchPriority, int, int]
 
 
@@ -43,15 +43,16 @@ class Statement:
                 return True
         return False
 
-    def get_references(self, player_index: int) -> Optional[Union[Set[str], FrozenSet[str], int]]:
+    def get_references(self, player_index: int, stated_roles: List[str]) -> str:
         """ Returns True if a given player_index is referenced in a statement. """
         for i, role_set in self.knowledge[1:]:
-            if i == player_index:
-                return role_set
+            if i == player_index and len(role_set) == 1:
+                [role] = role_set
+                return role
         for _, i, j in self.switches:
-            if i == player_index or j == player_index:
-                return player_index
-        return None
+            if (i == player_index or j == player_index) and player_index < len(stated_roles):
+                return stated_roles[player_index]
+        return ""
 
     def negate(self) -> Statement:
         """ Returns a negated version of the first clause in a statement. """

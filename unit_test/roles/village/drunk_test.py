@@ -15,23 +15,8 @@ class TestDrunk:
         """
         player_index = 6
         orig_roles, game_roles = list(large_game_roles), list(large_game_roles)
-        new_roles = [
-            "Wolf",
-            "Villager",
-            "Robber",
-            "Seer",
-            "Villager",
-            "Tanner",
-            "Insomniac",
-            "Wolf",
-            "Minion",
-            "Mason",
-            "Drunk",
-            "Villager",
-            "Troublemaker",
-            "Mason",
-            "Hunter",
-        ]
+        new_roles = list(large_game_roles)
+        new_roles[13], new_roles[6] = new_roles[6], new_roles[13]
 
         drunk = Drunk.awake_init(player_index, game_roles, orig_roles)
 

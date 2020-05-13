@@ -43,10 +43,8 @@ class TestSwapCharacters:
     @staticmethod
     def test_same_index_error(small_game_roles):
         """ Don't attempt to swap the same index. """
-        roles = list(small_game_roles)
-
         with pytest.raises(AssertionError):
-            util.swap_characters(roles, 2, 2)
+            util.swap_characters(small_game_roles, 2, 2)
 
     @staticmethod
     def test_swap(small_game_roles):
@@ -64,9 +62,7 @@ class TestFindAllPlayerIndices:
     @staticmethod
     def test_returns_correct_indices(large_game_roles):
         """ Don't attempt to swap the same index. """
-        roles = list(large_game_roles)
-
-        result = util.find_all_player_indices(roles, "Villager")
+        result = util.find_all_player_indices(large_game_roles, "Villager")
 
         assert result == [1, 4, 11]
 

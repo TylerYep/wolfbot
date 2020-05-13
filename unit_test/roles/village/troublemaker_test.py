@@ -23,23 +23,8 @@ class TestTroublemaker:
                 "Troublemaker",
             )
         ]
-        new_roles = [
-            "Mason",
-            "Villager",
-            "Robber",
-            "Seer",
-            "Villager",
-            "Tanner",
-            "Wolf",
-            "Wolf",
-            "Minion",
-            "Mason",
-            "Drunk",
-            "Villager",
-            "Troublemaker",
-            "Insomniac",
-            "Hunter",
-        ]
+        new_roles = list(large_game_roles)
+        new_roles[0], new_roles[6] = new_roles[6], new_roles[0]
 
         tmkr = Troublemaker.awake_init(player_index, game_roles, orig_roles)
 

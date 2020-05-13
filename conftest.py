@@ -107,6 +107,7 @@ def large_game_roles() -> Tuple[str, ...]:
 
 @pytest.fixture
 def standard_game_roles() -> Tuple[str, ...]:
+    # pyre-ignore[9]
     const.ROLES = (
         "Villager",  # type: ignore
         "Villager",

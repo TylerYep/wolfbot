@@ -15,23 +15,9 @@ class TestRobber:
         """
         player_index = 2
         orig_roles, game_roles = [], list(large_game_roles)
-        new_roles = [
-            "Wolf",
-            "Villager",
-            "Mason",
-            "Seer",
-            "Villager",
-            "Tanner",
-            "Robber",
-            "Wolf",
-            "Minion",
-            "Mason",
-            "Drunk",
-            "Villager",
-            "Troublemaker",
-            "Insomniac",
-            "Hunter",
-        ]
+        new_roles = list(large_game_roles)
+        new_roles[2], new_roles[6] = new_roles[6], new_roles[2]
+
         expected = [
             Statement(
                 "I am a Robber and I swapped with Player 6. I am now a Mason.",
