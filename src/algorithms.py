@@ -58,10 +58,9 @@ class SolverState:
                     return None
                 new_role_counts[single_role] -= 1
 
-        new_switches = self.switches + statement.switches
         return SolverState(
             tuple(new_possible_roles),
-            new_switches,
+            self.switches + statement.switches,
             self.path + (assumption,),
             new_role_counts if new_role_counts else self.role_counts,
             self.count_true + int(assumption),

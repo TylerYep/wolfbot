@@ -52,8 +52,7 @@ class Troublemaker(Player):
         statements: List[Statement] = []
         for i in range(const.NUM_PLAYERS):
             for j in range(i + 1, const.NUM_PLAYERS):
-                # Troublemaker should not refer to themselves
-                # Ensure all three values are unique
+                # Troublemaker should not refer to themselves; ensure all three values are unique
                 if len({i, j, player_index}) == 3:
                     statements += Troublemaker.get_troublemaker_statements(player_index, i, j)
         return statements

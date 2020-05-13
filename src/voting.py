@@ -84,15 +84,15 @@ def eval_final_guesses(
         # Hunter kills the player he voted for if he dies.
         # Ensure player did not vote themselves in this case.
         for i in guessed_wolf_inds:
+            logger.info(f"Player {i} was chosen as a Wolf.\nPlayer {i} was a {game_roles[i]}!\n")
             if game_roles[i] == "Hunter" and i != vote_inds[i]:
-                guessed_wolf_inds.append(vote_inds[i])
+                if vote_inds[i] not in guessed_wolf_inds:
+                    guessed_wolf_inds.append(vote_inds[i])
                 logger.info(f"(Player {i}) Hunter died and killed Player {vote_inds[i]} too!\n")
             elif game_roles[i] == "Wolf":
                 killed_wolf = True
             elif game_roles[i] == "Tanner":
                 killed_tanner = True
-
-            logger.info(f"Player {i} was chosen as a Wolf.\nPlayer {i} was a {game_roles[i]}!\n")
 
     if villager_win or killed_wolf:
         logger.info("Village Team wins!")

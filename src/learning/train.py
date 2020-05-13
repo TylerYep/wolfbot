@@ -7,13 +7,9 @@ import os
 import time
 from collections import defaultdict
 
-from tqdm import tqdm
-
 from src import const
-from src.const import logger
 from src.encoder import WolfBotDecoder, WolfBotEncoder
-from src.one_night import play_one_night_werewolf
-from src.stats import Statistics
+from src.one_night import simulate_game
 
 
 def evaluate(game):
@@ -51,7 +47,7 @@ def train(folder, eta=0.01):
     for file in os.listdir(folder):
         file_path = os.path.join(folder, file)
         if file_path.lower().endswith(".json"):
-            with open(file_path, "r") as data_file:
+            with open(file_path) as data_file:
                 for game in json.load(data_file, cls=WolfBotDecoder):
                     # See how training improves over time
                     if counter % 100 == 0:
@@ -72,13 +68,7 @@ def train(folder, eta=0.01):
 def test():  # experience_dict as param
     """ Run play_one_night_werewolf with a specific experience_dict. """
     assert const.USE_RL_WOLF is False
-    start_time = time.time()
-    stats = Statistics()
-    for _ in tqdm(range(const.NUM_GAMES)):
-        game_result = play_one_night_werewolf(False)
-        stats.add_result(game_result)
-    stats.print_statistics()
-    logger.warning(f"\nTime taken: {time.time() - start_time}")
+    simulate_game(num_games=const.NUM_GAMES, disable_tqdm=False)
 
 
 if __name__ == "__main__":

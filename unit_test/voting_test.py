@@ -278,9 +278,9 @@ class TestEvalFinalGuesses:
         guessed_wolf_inds = [0, 9]
         vote_inds = [7, 10, 0, 9, 7, 9, 7, 7, 7, 0, 0, 0]
         expected = (
-            "(Player 0) Hunter died and killed Player 7 too!\n",
             "Player 0 was chosen as a Wolf.",
             "Player 0 was a Hunter!\n",
+            "(Player 0) Hunter died and killed Player 7 too!\n",
             "Player 9 was chosen as a Wolf.",
             "Player 9 was a Tanner!\n",
             "Player 7 was chosen as a Wolf.",

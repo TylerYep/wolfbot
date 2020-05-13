@@ -78,9 +78,9 @@ class Seer(Player):
         knowledge = [(player_index, frozenset({"Seer"})), (seen_index, frozenset({seen_role}))]
         if seen_index2 is not None and seen_role2 is not None:
             sentence = (
-                f"I am a Seer and I saw that Center {seen_index - const.NUM_PLAYERS} was a"
-                f" {seen_role} and that Center {seen_index2 - const.NUM_PLAYERS}"
-                f" was a {seen_role2}."
+                f"I am a Seer and I saw that Center {seen_index - const.NUM_PLAYERS} was a "
+                f"{seen_role} and that Center {seen_index2 - const.NUM_PLAYERS} "
+                f"was a {seen_role2}."
             )
             knowledge.append((seen_index2, frozenset({seen_role2})))
         return [Statement(sentence, tuple(knowledge))]
