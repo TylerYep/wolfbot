@@ -13,7 +13,7 @@ class TestHunter:
 
         hunter = Hunter.awake_init(player_index, [], [])  # Other params are unused.
 
-        assert hunter.statements == [Statement("I am a Hunter.", ((5, {"Hunter"}),))]
+        assert hunter.statements == [Statement("I am a Hunter.", ((5, frozenset({"Hunter"})),))]
 
     @staticmethod
     def test_get_hunter_statements():
@@ -22,7 +22,7 @@ class TestHunter:
 
         result = Hunter.get_hunter_statements(player_index)
 
-        assert result == [Statement("I am a Hunter.", ((0, {"Hunter"}),))]
+        assert result == [Statement("I am a Hunter.", ((0, frozenset({"Hunter"})),))]
 
     @staticmethod
     def test_get_all_statements():
@@ -31,4 +31,4 @@ class TestHunter:
 
         result = Hunter.get_all_statements(player_index)
 
-        assert result == [Statement("I am a Hunter.", ((2, {"Hunter"}),))]
+        assert result == [Statement("I am a Hunter.", ((2, frozenset({"Hunter"})),))]

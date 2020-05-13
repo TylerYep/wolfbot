@@ -30,7 +30,6 @@ class Statement:
     priority: StatementLevel = StatementLevel.PRIMARY
 
     def __post_init__(self) -> None:
-        self.knowledge = tuple([(i, frozenset(role_set)) for i, role_set in self.knowledge])
         if not self.speaker and self.knowledge:
             [self.speaker] = self.knowledge[0][1]
 

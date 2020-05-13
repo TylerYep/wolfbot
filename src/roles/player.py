@@ -30,7 +30,7 @@ class Player:
         zero_sent = "I don't want to say who I am just yet."
         partial_statements.append(Statement(zero_sent, priority=StatementLevel.NO_INFO))
 
-        if self.role not in const.EVIL_ROLES | {"Villager", "Hunter"}:
+        if self.role not in const.EVIL_ROLES | frozenset({"Villager", "Hunter"}):
             partial_sent = f"I am a {self.role}, but I'm not going to say what I did or saw yet!"
             statement = Statement(partial_sent, knowledge, priority=StatementLevel.SOME_INFO)
             partial_statements.append(statement)

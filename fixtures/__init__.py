@@ -10,7 +10,6 @@ from .savedgames import (
     example_small_saved_game,
 )
 from .solverstates import (
-    create_frozen_sets,
     example_large_solverstate,
     example_medium_solved_list,
     example_medium_solverstate,

@@ -26,7 +26,7 @@ class Hunter(Player):
     @staticmethod
     def get_hunter_statements(player_index: int) -> List[Statement]:
         """ Gets Hunter Statement. """
-        return [Statement("I am a Hunter.", ((player_index, {"Hunter"}),))]
+        return [Statement("I am a Hunter.", ((player_index, frozenset({"Hunter"})),))]
 
     @staticmethod
     def get_all_statements(player_index: int) -> List[Statement]:

@@ -111,23 +111,8 @@ class TestGetBasicGuesses:
         as well as a dictionary of counts.
         """
         expected = (
-            [
-                "Robber",
-                "Minion",
-                "Seer",
-                "Villager",
-                "Mason",
-                "Mason",
-                "Drunk",
-                "Tanner",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-            ],
+            ["Robber", "Minion", "Seer", "Villager", "Mason", "Mason", "Drunk", "Tanner"]
+            + [""] * 7,
             {
                 "Drunk": 0,
                 "Hunter": 1,
@@ -163,23 +148,7 @@ class TestRecurseAssign:
     @staticmethod
     def test_no_solution_medium(example_medium_solverstate):
         """ Should return empty list if no arrangement of assignments is valid. """
-        role_guesses = [
-            "Robber",
-            "",
-            "Seer",
-            "Villager",
-            "Mason",
-            "Mason",
-            "Drunk",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-        ]
+        role_guesses = ["Robber", "", "Seer", "Villager", "Mason", "Mason", "Drunk"] + [""] * 8
         counts = {
             "Drunk": 0,
             "Hunter": 1,
@@ -221,23 +190,7 @@ class TestRecurseAssign:
     @staticmethod
     def test_large_predict_solution(example_large_solverstate):
         """ Should return solved list if there is an arrangement of valid assignments. """
-        role_guesses = [
-            "Robber",
-            "",
-            "Seer",
-            "Villager",
-            "Mason",
-            "Mason",
-            "Drunk",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-        ]
+        role_guesses = ["Robber", "", "Seer", "Villager", "Mason", "Mason", "Drunk"] + [""] * 8
         counts = {
             "Drunk": 0,
             "Hunter": 1,
@@ -280,7 +233,7 @@ class TestGetSwitchDict:
     def test_get_empty_switch_dict(small_game_roles):
         """ Should return the identity switch dict. """
         const.ROLES = small_game_roles
-        possible_roles = [{"Robber", "Villager", "Seer"}] * 3
+        possible_roles = [frozenset({"Robber", "Villager", "Seer"})] * 3
         state = SolverState(possible_roles)
 
         result = predictions.get_switch_dict(state)

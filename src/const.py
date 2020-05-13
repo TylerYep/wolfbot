@@ -74,17 +74,13 @@ NUM_PLAYERS = NUM_ROLES - NUM_CENTER
 
 """ Game Rules """
 AWAKE_ORDER = ("Wolf", "Minion", "Mason", "Seer", "Robber", "Troublemaker", "Drunk", "Insomniac")
-VILLAGE_ROLES = {
-    "Villager",
-    "Mason",
-    "Seer",
-    "Robber",
-    "Troublemaker",
-    "Drunk",
-    "Insomniac",
-    "Hunter",
-} & ROLE_SET
-EVIL_ROLES = {"Tanner", "Wolf", "Minion"} & ROLE_SET
+VILLAGE_ROLES = (
+    frozenset(
+        {"Villager", "Mason", "Seer", "Robber", "Troublemaker", "Drunk", "Insomniac", "Hunter"}
+    )
+    & ROLE_SET
+)
+EVIL_ROLES = frozenset({"Tanner", "Wolf", "Minion"}) & ROLE_SET
 
 """ Village Players """
 CENTER_SEER_PROB = 0.9

@@ -38,14 +38,14 @@ class Mason(Player):
         assert player_index in mason_indices
         if len(mason_indices) == 1:
             sentence = "I am a Mason. The other Mason is not present."
-            knowledge = [(player_index, {"Mason"})]
+            knowledge = [(player_index, frozenset({"Mason"}))]
             for ind in range(const.NUM_PLAYERS):
                 if ind != player_index:
-                    knowledge.append((ind, set(const.ROLE_SET) - {"Mason"}))
+                    knowledge.append((ind, const.ROLE_SET - frozenset({"Mason"})))
         else:
             other_mason = mason_indices[0] if mason_indices[0] != player_index else mason_indices[1]
             sentence = f"I am a Mason. The other Mason is Player {other_mason}."
-            knowledge = [(player_index, {"Mason"}), (other_mason, {"Mason"})]
+            knowledge = [(player_index, frozenset({"Mason"})), (other_mason, frozenset({"Mason"}))]
         return [Statement(sentence, tuple(knowledge))]
 
     @staticmethod

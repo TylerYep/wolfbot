@@ -40,7 +40,7 @@ class TestDrunk:
         assert drunk.statements == [
             Statement(
                 "I am a Drunk and I swapped with Center 1.",
-                ((6, {"Drunk"}),),
+                ((6, frozenset({"Drunk"})),),
                 ((3, 6, 13),),
                 "Drunk",
             )
@@ -56,7 +56,7 @@ class TestDrunk:
         assert result == [
             Statement(
                 "I am a Drunk and I swapped with Center 0.",
-                ((4, {"Drunk"}),),
+                ((4, frozenset({"Drunk"})),),
                 ((3, 4, 12),),
                 "Drunk",
             )
@@ -74,19 +74,19 @@ class TestDrunk:
         expected_statements = [
             Statement(
                 "I am a Drunk and I swapped with Center 0.",
-                ((2, {"Drunk"}),),
+                ((2, frozenset({"Drunk"})),),
                 ((3, 2, 3),),
                 "Drunk",
             ),
             Statement(
                 "I am a Drunk and I swapped with Center 1.",
-                ((2, {"Drunk"}),),
+                ((2, frozenset({"Drunk"})),),
                 ((3, 2, 4),),
                 "Drunk",
             ),
             Statement(
                 "I am a Drunk and I swapped with Center 2.",
-                ((2, {"Drunk"}),),
+                ((2, frozenset({"Drunk"})),),
                 ((3, 2, 5),),
                 "Drunk",
             ),

@@ -36,7 +36,7 @@ class Insomniac(Player):
         player_index: int, insomniac_new_role: str, new_insomniac_index: Optional[int] = None
     ) -> List[Statement]:
         """ Gets Insomniac Statement. """
-        knowledge = ((player_index, {"Insomniac"}),)
+        knowledge = ((player_index, frozenset({"Insomniac"})),)
         sentence = f"I am a Insomniac and when I woke up I was a {insomniac_new_role}."
         if new_insomniac_index is None:
             if insomniac_new_role != "Insomniac":

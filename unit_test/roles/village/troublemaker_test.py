@@ -18,7 +18,7 @@ class TestTroublemaker:
         expected = [
             Statement(
                 "I am a Troublemaker and I swapped Player 6 and Player 0.",
-                ((11, {"Troublemaker"}),),
+                ((11, frozenset({"Troublemaker"})),),
                 ((2, 6, 0),),
                 "Troublemaker",
             )
@@ -58,7 +58,7 @@ class TestTroublemaker:
         assert result == [
             Statement(
                 "I am a Troublemaker and I swapped Player 6 and Player 3.",
-                ((1, {"Troublemaker"}),),
+                ((1, frozenset({"Troublemaker"})),),
                 ((2, 6, 3),),
                 "Troublemaker",
             )
@@ -75,7 +75,7 @@ class TestTroublemaker:
         expected_statements = [
             Statement(
                 "I am a Troublemaker and I swapped Player 0 and Player 1.",
-                ((2, {"Troublemaker"}),),
+                ((2, frozenset({"Troublemaker"})),),
                 ((2, 0, 1),),
                 "Troublemaker",
             )

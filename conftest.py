@@ -47,17 +47,10 @@ def reset_const() -> None:
     const.NUM_CENTER = 3
     const.CENTER_SEER_PROB = 0.9
     const.SMART_VILLAGERS = True
-    const.VILLAGE_ROLES = {
-        "Villager",
-        "Mason",
-        "Seer",
-        "Robber",
-        "Troublemaker",
-        "Drunk",
-        "Insomniac",
-        "Hunter",
-    }
-    const.EVIL_ROLES = {"Tanner", "Wolf", "Minion"}
+    const.VILLAGE_ROLES = frozenset(
+        {"Villager", "Mason", "Seer", "Robber", "Troublemaker", "Drunk", "Insomniac", "Hunter"}
+    )
+    const.EVIL_ROLES = frozenset({"Tanner", "Wolf", "Minion"})
     const.USE_VOTING = True
     const.USE_REG_WOLF = False
     const.EXPECTIMAX_PLAYER = False

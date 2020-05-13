@@ -45,7 +45,7 @@ class Robber(Player):
         sentence = (
             f"I am a Robber and I swapped with Player {choice_ind}. I am now a {choice_char}."
         )
-        knowledge = ((player_index, {"Robber"}), (choice_ind, {choice_char}))
+        knowledge = ((player_index, frozenset({"Robber"})), (choice_ind, frozenset({choice_char})))
         switches = ((SwitchPriority.ROBBER, player_index, choice_ind),)
         return [Statement(sentence, knowledge, switches)]
 

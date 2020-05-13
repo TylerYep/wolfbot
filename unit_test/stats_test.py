@@ -10,7 +10,9 @@ class TestSavedGame:
     @staticmethod
     def test_constructor():
         """ Should initialize correctly. """
-        villager_statement = Statement("I am a Villager.", ((0, {"Villager"}),), (), "Villager")
+        villager_statement = Statement(
+            "I am a Villager.", ((0, frozenset({"Villager"})),), (), "Villager"
+        )
 
         result = stats.SavedGame(("Villager"), ["Villager"], [villager_statement], [Villager(0)])
 
@@ -23,16 +25,16 @@ class TestSavedGame:
 
         assert result == {
             "all_statements": [
-                Statement("I am a Villager.", ((0, {"Villager"}),), (), "Villager"),
+                Statement("I am a Villager.", ((0, frozenset({"Villager"})),), (), "Villager"),
                 Statement(
                     "I am a Robber and I swapped with Player 2. I am now a Seer.",
-                    ((1, {"Robber"}), (2, {"Seer"}),),
+                    ((1, frozenset({"Robber"})), (2, frozenset({"Seer"})),),
                     ((1, 1, 2),),
                     "Robber",
                 ),
                 Statement(
                     "I am a Seer and I saw that Player 1 was a Robber.",
-                    ((2, {"Seer"}), (1, {"Robber"}),),
+                    ((2, frozenset({"Seer"})), (1, frozenset({"Robber"})),),
                     (),
                     "Seer",
                 ),
@@ -56,16 +58,16 @@ class TestSavedGame:
             ("Villager", "Robber", "Seer"),
             ["Villager", "Seer", "Robber"],
             [
-                Statement("I am a Villager.", ((0, {"Villager"}),), (), "Villager"),
+                Statement("I am a Villager.", ((0, frozenset({"Villager"})),), (), "Villager"),
                 Statement(
                     "I am a Robber and I swapped with Player 2. I am now a Seer.",
-                    ((1, {"Robber"}), (2, {"Seer"}),),
+                    ((1, frozenset({"Robber"})), (2, frozenset({"Seer"})),),
                     ((1, 1, 2),),
                     "Robber",
                 ),
                 Statement(
                     "I am a Seer and I saw that Player 1 was a Robber.",
-                    ((2, {"Seer"}), (1, {"Robber"}),),
+                    ((2, frozenset({"Seer"})), (1, frozenset({"Robber"})),),
                     (),
                     "Seer",
                 ),

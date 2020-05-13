@@ -79,16 +79,16 @@ class TestWolfBotEncoder:
         player_objs = [Villager(0), Robber(1, 2, "Seer"), Seer(2, (1, "Robber"), (None, None))]
         player_strs = ", ".join([json.dumps(player, cls=WolfBotEncoder) for player in player_objs])
         statement_objs = [
-            Statement("I am a Villager.", ((0, {"Villager"}),), [], "Villager"),
+            Statement("I am a Villager.", ((0, frozenset({"Villager"})),), [], "Villager"),
             Statement(
                 "I am a Robber and I swapped with Player 2. I am now a Seer.",
-                ((1, {"Robber"}), (2, {"Seer"}),),
+                ((1, frozenset({"Robber"})), (2, frozenset({"Seer"})),),
                 ((1, 1, 2),),
                 "Robber",
             ),
             Statement(
                 "I am a Seer and I saw that Player 1 was a Robber.",
-                ((2, {"Seer"}), (1, {"Robber"}),),
+                ((2, frozenset({"Seer"})), (1, frozenset({"Robber"})),),
                 [],
                 "Seer",
             ),
@@ -184,16 +184,16 @@ class TestWolfBotDecoder:
         player_strs = ", ".join([json.dumps(player, cls=WolfBotEncoder) for player in player_objs])
 
         statement_objs = [
-            Statement("I am a Villager.", ((0, {"Villager"}),), [], "Villager"),
+            Statement("I am a Villager.", ((0, frozenset({"Villager"})),), [], "Villager"),
             Statement(
                 "I am a Robber and I swapped with Player 2. I am now a Seer.",
-                ((1, {"Robber"}), (2, {"Seer"}),),
+                ((1, frozenset({"Robber"})), (2, frozenset({"Seer"})),),
                 ((1, 1, 2),),
                 "Robber",
             ),
             Statement(
                 "I am a Seer and I saw that Player 1 was a Robber.",
-                ((2, {"Seer"}), (1, {"Robber"}),),
+                ((2, frozenset({"Seer"})), (1, frozenset({"Robber"})),),
                 [],
                 "Seer",
             ),

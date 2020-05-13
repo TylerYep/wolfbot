@@ -26,7 +26,7 @@ class Villager(Player):
     @staticmethod
     def get_villager_statements(player_index: int) -> List[Statement]:
         """ Gets Villager Statements. """
-        return [Statement("I am a Villager.", ((player_index, {"Villager"}),))]
+        return [Statement("I am a Villager.", ((player_index, frozenset({"Villager"})),))]
 
     @staticmethod
     def get_all_statements(player_index: int) -> List[Statement]:
