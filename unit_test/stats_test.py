@@ -48,27 +48,6 @@ class TestSavedGame:
         }
 
     @staticmethod
-    def test_repr(example_small_saved_game):
-        """ Should convert a SavedGame into a string with all useful fields. """
-        expected = (
-            "SavedGame(original_roles=('Villager', 'Robber', 'Seer'), "
-            "game_roles=['Villager', 'Seer', 'Robber'], all_statements=["
-            "Statement(sentence=\"I am a Villager.\", knowledge=[(0, {'Villager'})], "
-            "switches=[], speaker='Villager'), Statement("
-            'sentence="I am a Robber and I swapped with Player 2. I am now a Seer.", '
-            "knowledge=[(1, {'Robber'}), (2, {'Seer'})], "
-            "switches=[(<SwitchPriority.ROBBER: 1>, 1, 2)], speaker='Robber'), "
-            'Statement(sentence="I am a Seer and I saw that Player 1 was a Robber.", '
-            "knowledge=[(2, {'Seer'}), (1, {'Robber'})], switches=[], speaker='Seer')], "
-            "player_objs=[Villager(0), Robber(1, 2, Seer), "
-            "Seer(2, (1, 'Robber'), (None, None))])"
-        )
-
-        result = str(example_small_saved_game)
-
-        assert result == expected
-
-    @staticmethod
     def test_eq(example_small_saved_game):
         """ Should declare two SavedGames with identical fields to be equal. """
         not_a_saved_game = "hello"

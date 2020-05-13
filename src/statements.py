@@ -1,20 +1,31 @@
 """ statements.py """
 from __future__ import annotations
 
+from dataclasses import dataclass
 from typing import Any, Dict, FrozenSet, List, Optional, Sequence, Set, Tuple, Union
 
 from src import const
 from src.const import StatementLevel, SwitchPriority
 
+Knowledge = Tuple[int, Union[Set[str], FrozenSet[str]]]
+Switch = Tuple[SwitchPriority, int, int]
 
+
+@dataclass
 class Statement:
     """ Model for all statements in the game. Statements are intended to be immutable. """
+
+    sentence: str
+    knowledge: Tuple[Knowledge, ...] = ()
+    switches: Tuple[Switch, ...] = ()
+    speaker: str = ""
+    priority: StatementLevel = StatementLevel.PRIMARY
 
     def __init__(
         self,
         sentence: str,
-        knowledge: Sequence[Tuple[int, Union[Set[str], FrozenSet[str]]]] = (),
-        switches: Sequence[Tuple[SwitchPriority, int, int]] = (),
+        knowledge: Sequence[Knowledge] = (),
+        switches: Sequence[Switch] = (),
         speaker: str = "",
         priority: StatementLevel = StatementLevel.PRIMARY,
     ):
@@ -42,7 +53,7 @@ class Statement:
                 return True
         return False
 
-    def get_references(self, player_index: int) -> Optional[Union[FrozenSet[str], int]]:
+    def get_references(self, player_index: int) -> Optional[Union[Set[str], FrozenSet[str], int]]:
         """ Returns True if a given player_index is referenced in a statement. """
         for i, role_set in self.knowledge[1:]:
             if i == player_index:
@@ -65,12 +76,8 @@ class Statement:
         neg = [(i, const.ROLE_SET - role_set) for i, role_set in self.knowledge]
         return Statement("NOT - " + self.sentence, neg, [], self.speaker)
 
-    def __eq__(self, other: object) -> bool:
-        assert isinstance(other, Statement)
-        return self.__dict__ == other.__dict__
-
     def __hash__(self) -> int:
-        return hash((self.sentence, self.knowledge, self.switches, self.speaker))
+        return hash((self.sentence, self.knowledge, self.switches, self.speaker, self.priority))
 
     def json_repr(self) -> Dict[str, Any]:
         """ Returns json representation of the Statement. """
@@ -81,10 +88,3 @@ class Statement:
             "switches": self.switches,
             "speaker": self.speaker,
         }
-
-    def __repr__(self) -> str:
-        knowledge = [(i, set(role_set)) for i, role_set in self.knowledge]
-        return (
-            f'Statement(sentence="{self.sentence}", knowledge={knowledge}, '
-            f"switches={list(self.switches)}, speaker='{self.speaker}')"
-        )

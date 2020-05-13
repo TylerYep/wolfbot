@@ -23,14 +23,14 @@ def get_statement_rl(
     from src.encoder import WolfBotDecoder
 
     exp_dict: Dict[str, Dict[Statement, int]] = {}
-    with open(const.EXPERIENCE_PATH, "r") as exp_file:
+    with open(const.EXPERIENCE_PATH) as exp_file:
         exp_dict = json.load(exp_file, cls=WolfBotDecoder)
     experience = defaultdict(lambda: defaultdict(int), exp_dict)
     assert experience
 
     logger.info("Experience dict loaded.")
 
-    state = (tuple(player_obj.wolf_indices), tuple([s.sentence for s in previous_statements]))
+    state = (tuple(player_obj.wolf_indices), tuple(previous_statements))
     scores = experience[str(state)]
     best_choice = (default_answer, -100)
     for potential_statement, score in scores.items():
@@ -39,7 +39,7 @@ def get_statement_rl(
     if best_choice[0] is None:
         return default_answer
     for statement in statements:
-        if best_choice[0] == statement.sentence:
+        if best_choice[0] == statement:
             return statement
 
     return Statement("")  # TODO

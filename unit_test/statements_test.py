@@ -78,8 +78,9 @@ class TestStatement:
     def test_repr(example_statement):
         """ Should convert a Statement into a string with all useful fields. """
         expected = (
-            "Statement(sentence=\"test\", knowledge=[(2, {'Robber'}), (0, {'Seer'})], "
-            "switches=[(<SwitchPriority.ROBBER: 1>, 2, 0)], speaker='Robber')"
+            "Statement(sentence='test', knowledge=((2, frozenset({'Robber'})), (0, "
+            "frozenset({'Seer'}))), switches=((<SwitchPriority.ROBBER: 1>, 2, 0),), "
+            "speaker='Robber', priority=<StatementLevel.PRIMARY: 10>)"
         )
 
         result = str(example_statement)
@@ -89,16 +90,11 @@ class TestStatement:
     @staticmethod
     def test_eq(example_statement):
         """ Should declare two Statements with identical fields to be equal. """
-        not_a_statement = "hello"
-
         result = statements.Statement(
             "test", [(2, {"Robber"}), (0, {"Seer"})], [(SwitchPriority.ROBBER, 2, 0)]
         )
 
         assert result == example_statement
-        with pytest.raises(AssertionError):
-            if example_statement != not_a_statement:
-                print("Should throw an exception when trying to compare Statement to another type.")
 
     @staticmethod
     def test_hash(example_statement):
@@ -107,6 +103,6 @@ class TestStatement:
             "test", [(2, {"Robber"}), (0, {"Seer"})], [(SwitchPriority.ROBBER, 2, 0)]
         )
 
-        result = set([identical_statement, example_statement])
+        result = {identical_statement, example_statement}
 
         assert result == set([example_statement])
