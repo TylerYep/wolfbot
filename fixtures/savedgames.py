@@ -16,18 +16,15 @@ def example_small_saved_game(small_game_roles: Tuple[str, ...]) -> SavedGame:
         ("Villager", "Robber", "Seer"),
         ["Villager", "Seer", "Robber"],
         [
-            Statement("I am a Villager.", ((0, frozenset({"Villager"})),), (), "Villager"),
+            Statement("I am a Villager.", ((0, frozenset({"Villager"})),)),
             Statement(
                 "I am a Robber and I swapped with Player 2. I am now a Seer.",
                 ((1, frozenset({"Robber"})), (2, frozenset({"Seer"})),),
                 ((SwitchPriority.ROBBER, 1, 2),),
-                "Robber",
             ),
             Statement(
                 "I am a Seer and I saw that Player 1 was a Robber.",
                 ((2, frozenset({"Seer"})), (1, frozenset({"Robber"})),),
-                (),
-                "Seer",
             ),
         ],
         [Villager(0), Robber(1, 2, "Seer"), Seer(2, (1, "Robber"), (None, None))],
@@ -43,32 +40,25 @@ def example_medium_saved_game(medium_game_roles: Tuple[str, ...]) -> SavedGame:
             Statement(
                 "I am a Seer and I saw that Player 2 was a Drunk.",
                 ((0, frozenset({"Seer"})), (2, frozenset({"Drunk"})),),
-                (),
-                "Seer",
             ),
             Statement(
                 "I am a Robber and I swapped with Player 0. I am now a Seer.",
                 ((1, frozenset({"Robber"})), (0, frozenset({"Seer"})),),
                 ((SwitchPriority.ROBBER, 1, 0),),
-                "Robber",
             ),
             Statement(
                 "I am a Drunk and I swapped with Center 0.",
                 ((2, frozenset({"Drunk"})),),
                 ((SwitchPriority.DRUNK, 2, 5),),
-                "Drunk",
             ),
             Statement(
                 "I am a Robber and I swapped with Player 2. I am now a Drunk.",
                 ((3, frozenset({"Robber"})), (2, frozenset({"Drunk"})),),
                 ((SwitchPriority.ROBBER, 3, 2),),
-                "Robber",
             ),
             Statement(
                 "I am a Seer and I saw that Player 3 was a Robber.",
                 ((4, frozenset({"Seer"})), (3, frozenset({"Robber"})),),
-                (),
-                "Seer",
             ),
         ],
         [
@@ -122,31 +112,26 @@ def example_large_saved_game(large_game_roles: Tuple[str, ...]) -> SavedGame:
             "Robber",
         ],
         [
-            Statement("I am a Villager.", ((0, frozenset({"Villager"})),), (), "Villager"),
+            Statement("I am a Villager.", ((0, frozenset({"Villager"})),)),
             Statement(
                 "I am a Drunk and I swapped with Center 2.",
                 ((1, frozenset({"Drunk"})),),
                 ((SwitchPriority.DRUNK, 1, 14),),
-                "Drunk",
             ),
             Statement(
                 "I am a Mason. The other Mason is not present.",
                 ((2, frozenset({"Mason"})),) + mason_roles,
-                (),
-                "Mason",
             ),
             Statement(
                 "I am a Robber and I swapped with Player 10. I am now a Insomniac.",
                 ((3, frozenset({"Robber"})), (10, frozenset({"Insomniac"})),),
                 ((SwitchPriority.ROBBER, 3, 10),),
-                "Robber",
             ),
-            Statement("I am a Villager.", ((4, frozenset({"Villager"})),), (), "Villager"),
+            Statement("I am a Villager.", ((4, frozenset({"Villager"})),)),
             Statement(
                 "I am a Robber and I swapped with Player 1. I am now a Drunk.",
                 ((5, frozenset({"Robber"})), (1, frozenset({"Drunk"})),),
                 ((SwitchPriority.ROBBER, 5, 1),),
-                "Robber",
             ),
             Statement(
                 (
@@ -158,29 +143,23 @@ def example_large_saved_game(large_game_roles: Tuple[str, ...]) -> SavedGame:
                     (13, frozenset({"Mason"})),
                     (12, frozenset({"Troublemaker"})),
                 ),
-                (),
-                "Seer",
             ),
             Statement(
                 "I am a Seer and I saw that Player 3 was a Robber.",
                 ((7, frozenset({"Seer"})), (3, frozenset({"Robber"})),),
-                (),
-                "Seer",
             ),
             Statement(
                 "I am a Troublemaker and I swapped Player 0 and Player 1.",
                 ((8, frozenset({"Troublemaker"})),),
                 ((SwitchPriority.TROUBLEMAKER, 0, 1),),
-                "Troublemaker",
             ),
-            Statement("I am a Villager.", ((9, frozenset({"Villager"})),), (), "Villager"),
+            Statement("I am a Villager.", ((9, frozenset({"Villager"})),)),
             Statement(
                 "I am a Troublemaker and I swapped Player 3 and Player 4.",
                 ((10, frozenset({"Troublemaker"})),),
                 ((SwitchPriority.TROUBLEMAKER, 3, 4),),
-                "Troublemaker",
             ),
-            Statement("I am a Hunter.", ((11, frozenset({"Hunter"})),), (), "Hunter"),
+            Statement("I am a Hunter.", ((11, frozenset({"Hunter"})),)),
         ],
         [
             Villager(0),

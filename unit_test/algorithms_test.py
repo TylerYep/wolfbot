@@ -10,7 +10,7 @@ class TestSolverState:
     @staticmethod
     def test_constructor():
         """ Should initialize a SolverState. """
-        result = algorithms.SolverState((frozenset({"Villager"}),), (), [True])
+        result = algorithms.SolverState((frozenset({"Villager"}),), path=(True,))
 
         assert isinstance(result, algorithms.SolverState)
 
@@ -32,11 +32,11 @@ class TestSolverState:
     @staticmethod
     def test_repr():
         """ Should convert a SolverState into a representative string. """
-        result = algorithms.SolverState((frozenset({"Villager"}),), (), [True])
+        result = algorithms.SolverState((frozenset({"Villager"}),), path=(True,))
 
         assert str(result) == (
-            "SolverState(possible_roles=(frozenset({'Villager'}),), switches=(), path=[True], role_"
-            "counts={'Insomniac': 1, 'Villager': 2, 'Robber': 1, 'Drunk': 1, 'Wolf': 2, 'Seer': 1,"
+            "SolverState(possible_roles=(frozenset({'Villager'}),), switches=(), path=(True,), role"
+            "_counts={'Insomniac': 1, 'Villager': 2, 'Robber': 1, 'Drunk': 1, 'Wolf': 2, 'Seer': 1,"
             " 'Tanner': 1, 'Mason': 2, 'Minion': 1, 'Troublemaker': 1, 'Hunter': 1}, count_true=1)"
         )
 
@@ -56,7 +56,7 @@ class TestIsConsistent:
     @staticmethod
     def test_invalid_state(example_statement):
         """ Should return None for inconsistent states. """
-        start_state = algorithms.SolverState((frozenset({"Villager"}),) * 3, (), [True])
+        start_state = algorithms.SolverState((frozenset({"Villager"}),) * 3, path=(True,))
 
         invalid_state = start_state.is_consistent(example_statement)
 
@@ -69,7 +69,7 @@ class TestIsConsistent:
         Should not change result.path - that is done in the switching_solver function.
         """
         possible_roles = (frozenset({"Seer"}),) + (const.ROLE_SET,) * (const.NUM_ROLES - 1)
-        example_solverstate = algorithms.SolverState(possible_roles, (), (True,))
+        example_solverstate = algorithms.SolverState(possible_roles, path=(True,))
         new_statement = Statement(
             "next", ((2, frozenset({"Drunk"})),), ((SwitchPriority.DRUNK, 2, 5),)
         )
@@ -84,7 +84,7 @@ class TestIsConsistent:
         Modifying one SolverState should not affect other SolverStates created by is_consistent.
         """
         possible_roles = (frozenset({"Seer"}),) + (const.ROLE_SET,) * (const.NUM_ROLES - 1)
-        example = algorithms.SolverState(possible_roles, (), (True,))
+        example = algorithms.SolverState(possible_roles, path=(True,))
         new_statement = Statement(
             "next", ((2, frozenset({"Drunk"})),), ((SwitchPriority.DRUNK, 2, 5),)
         )

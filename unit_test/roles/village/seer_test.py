@@ -29,8 +29,6 @@ class TestSeer:
                     (13, frozenset({"Insomniac"})),
                     (12, frozenset({"Troublemaker"})),
                 ),
-                (),
-                "Seer",
             )
         ]
 
@@ -52,9 +50,7 @@ class TestSeer:
         expected = [
             Statement(
                 "I am a Seer and I saw that Player 6 was a Mason.",
-                ((11, frozenset({"Seer"})), (6, frozenset({"Mason"})),),
-                (),
-                "Seer",
+                ((11, frozenset({"Seer"})), (6, frozenset({"Mason"}))),
             )
         ]
 
@@ -74,9 +70,7 @@ class TestSeer:
         assert result == [
             Statement(
                 "I am a Seer and I saw that Player 6 was a Robber.",
-                ((1, frozenset({"Seer"})), (6, frozenset({"Robber"})),),
-                (),
-                "Seer",
+                ((1, frozenset({"Seer"})), (6, frozenset({"Robber"}))),
             )
         ]
 
@@ -93,63 +87,45 @@ class TestSeer:
         expected = [
             Statement(
                 "I am a Seer and I saw that Player 0 was a Villager.",
-                ((1, frozenset({"Seer"})), (0, frozenset({"Villager"})),),
-                (),
-                "Seer",
+                ((1, frozenset({"Seer"})), (0, frozenset({"Villager"}))),
             ),
             Statement(
                 "I am a Seer and I saw that Player 1 was a Villager.",
-                ((1, frozenset({"Seer"})), (1, frozenset({"Villager"})),),
-                (),
-                "Seer",
+                ((1, frozenset({"Seer"})), (1, frozenset({"Villager"}))),
             ),
             Statement(
                 "I am a Seer and I saw that Player 0 was a Wolf.",
-                ((1, frozenset({"Seer"})), (0, frozenset({"Wolf"})),),
-                (),
-                "Seer",
+                ((1, frozenset({"Seer"})), (0, frozenset({"Wolf"}))),
             ),
             Statement(
                 "I am a Seer and I saw that Player 1 was a Wolf.",
-                ((1, frozenset({"Seer"})), (1, frozenset({"Wolf"})),),
-                (),
-                "Seer",
+                ((1, frozenset({"Seer"})), (1, frozenset({"Wolf"}))),
             ),
             Statement(
                 "I am a Seer and I saw that Player 0 was a Seer.",
-                ((1, frozenset({"Seer"})), (0, frozenset({"Seer"})),),
-                (),
-                "Seer",
+                ((1, frozenset({"Seer"})), (0, frozenset({"Seer"}))),
             ),
             Statement(
                 "I am a Seer and I saw that Player 1 was a Seer.",
-                ((1, frozenset({"Seer"})), (1, frozenset({"Seer"})),),
-                (),
-                "Seer",
+                ((1, frozenset({"Seer"})), (1, frozenset({"Seer"}))),
             ),
             Statement(
                 (
                     "I am a Seer and I saw that Center 0 was a Villager and "
                     "that Center 1 was a Wolf."
                 ),
-                ((1, frozenset({"Seer"})), (2, frozenset({"Villager"})), (3, frozenset({"Wolf"})),),
-                (),
-                "Seer",
+                ((1, frozenset({"Seer"})), (2, frozenset({"Villager"})), (3, frozenset({"Wolf"}))),
             ),
             Statement(
                 (
                     "I am a Seer and I saw that Center 0 was a Wolf and "
                     "that Center 1 was a Villager."
                 ),
-                ((1, frozenset({"Seer"})), (2, frozenset({"Wolf"})), (3, frozenset({"Villager"})),),
-                (),
-                "Seer",
+                ((1, frozenset({"Seer"})), (2, frozenset({"Wolf"})), (3, frozenset({"Villager"}))),
             ),
             Statement(
                 ("I am a Seer and I saw that Center 0 was a Wolf and that Center 1 was a Wolf."),
-                ((1, frozenset({"Seer"})), (2, frozenset({"Wolf"})), (3, frozenset({"Wolf"})),),
-                (),
-                "Seer",
+                ((1, frozenset({"Seer"})), (2, frozenset({"Wolf"})), (3, frozenset({"Wolf"}))),
             ),
         ]
 

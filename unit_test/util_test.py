@@ -1,7 +1,7 @@
 """ util_test.py """
 import pytest
 
-from conftest import override_input
+from conftest import override_input, verify_output_string
 from src import const, util
 
 
@@ -16,11 +16,10 @@ class TestPrintRoles:
 
         util.print_roles(shuffled_roles, "Hidden")
 
-        captured = caplog.records[0].getMessage()
         expected = (
             f"[Hidden] Player roles: [Seer, Villager, Wolf]\n{' ' * 9}Center cards: [Robber]\n"
         )
-        assert captured == expected
+        verify_output_string(caplog, expected)
 
     @staticmethod
     def test_print_wolfbot_guesses(caplog, medium_game_roles):
@@ -29,12 +28,11 @@ class TestPrintRoles:
 
         util.print_roles(list(medium_game_roles), "WolfBot")
 
-        captured = caplog.records[0].getMessage()
         expected = (
             "[WolfBot] Player roles: [Robber, Drunk, Wolf, Troublemaker, Seer]\n"
             "          Center cards: [Minion]\n"
         )
-        assert captured == expected
+        verify_output_string(caplog, expected)
 
 
 class TestSwapCharacters:

@@ -19,8 +19,6 @@ class TestInsomniac:
                     "I don't know who I switched with."
                 ),
                 ((1, frozenset({"Insomniac"})),),
-                (),
-                "Insomniac",
             )
         ]
 
@@ -40,8 +38,6 @@ class TestInsomniac:
                     "I don't know who I switched with."
                 ),
                 ((0, frozenset({"Insomniac"})),),
-                (),
-                "Insomniac",
             )
         ]
 
@@ -62,14 +58,10 @@ class TestInsomniac:
                     "who I switched with."
                 ),
                 ((2, frozenset({"Insomniac"})),),
-                (),
-                "Insomniac",
             ),
             Statement(
                 "I am a Insomniac and when I woke up I was a Insomniac.",
                 ((2, frozenset({"Insomniac"})),),
-                (),
-                "Insomniac",
             ),
             Statement(
                 (
@@ -77,8 +69,6 @@ class TestInsomniac:
                     "who I switched with."
                 ),
                 ((2, frozenset({"Insomniac"})),),
-                (),
-                "Insomniac",
             ),
         ]
 

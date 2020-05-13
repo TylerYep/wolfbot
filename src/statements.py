@@ -56,16 +56,18 @@ class Statement:
 
     def negate(self) -> Statement:
         """ Returns a negated version of the first clause in a statement. """
-        neg = []
+        not_sentence = "NOT - " + self.sentence
         if self.knowledge:
             index, player_clause = self.knowledge[0]
-            neg.append((index, const.ROLE_SET - player_clause))
-        return Statement("NOT - " + self.sentence, tuple(neg), (), self.speaker)
+            negated_knowledge = ((index, const.ROLE_SET - player_clause),)
+            return Statement(not_sentence, negated_knowledge, speaker=self.speaker)
+        return Statement(not_sentence, speaker=self.speaker)
 
     def negate_all(self) -> Statement:
         """ Returns a negated version of every clause in the statement. """
+        not_sentence = "NOT - " + self.sentence
         neg = [(i, const.ROLE_SET - role_set) for i, role_set in self.knowledge]
-        return Statement("NOT - " + self.sentence, tuple(neg), (), self.speaker)
+        return Statement(not_sentence, tuple(neg), speaker=self.speaker)
 
     def __hash__(self) -> int:
         return hash((self.sentence, self.knowledge, self.switches, self.speaker, self.priority))

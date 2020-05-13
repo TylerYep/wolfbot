@@ -1,4 +1,5 @@
 """ stats_test.py """
+from conftest import verify_output
 from src import stats
 from src.roles import Robber, Seer, Villager
 from src.statements import Statement
@@ -10,9 +11,7 @@ class TestSavedGame:
     @staticmethod
     def test_constructor():
         """ Should initialize correctly. """
-        villager_statement = Statement(
-            "I am a Villager.", ((0, frozenset({"Villager"})),), (), "Villager"
-        )
+        villager_statement = Statement("I am a Villager.", ((0, frozenset({"Villager"})),))
 
         result = stats.SavedGame(("Villager"), ["Villager"], [villager_statement], [Villager(0)])
 
@@ -25,18 +24,15 @@ class TestSavedGame:
 
         assert result == {
             "all_statements": [
-                Statement("I am a Villager.", ((0, frozenset({"Villager"})),), (), "Villager"),
+                Statement("I am a Villager.", ((0, frozenset({"Villager"})),)),
                 Statement(
                     "I am a Robber and I swapped with Player 2. I am now a Seer.",
-                    ((1, frozenset({"Robber"})), (2, frozenset({"Seer"})),),
+                    ((1, frozenset({"Robber"})), (2, frozenset({"Seer"}))),
                     ((1, 1, 2),),
-                    "Robber",
                 ),
                 Statement(
                     "I am a Seer and I saw that Player 1 was a Robber.",
-                    ((2, frozenset({"Seer"})), (1, frozenset({"Robber"})),),
-                    (),
-                    "Seer",
+                    ((2, frozenset({"Seer"})), (1, frozenset({"Robber"}))),
                 ),
             ],
             "game_roles": ["Villager", "Seer", "Robber"],
@@ -58,18 +54,15 @@ class TestSavedGame:
             ("Villager", "Robber", "Seer"),
             ["Villager", "Seer", "Robber"],
             [
-                Statement("I am a Villager.", ((0, frozenset({"Villager"})),), (), "Villager"),
+                Statement("I am a Villager.", ((0, frozenset({"Villager"})),)),
                 Statement(
                     "I am a Robber and I swapped with Player 2. I am now a Seer.",
-                    ((1, frozenset({"Robber"})), (2, frozenset({"Seer"})),),
+                    ((1, frozenset({"Robber"})), (2, frozenset({"Seer"}))),
                     ((1, 1, 2),),
-                    "Robber",
                 ),
                 Statement(
                     "I am a Seer and I saw that Player 1 was a Robber.",
-                    ((2, frozenset({"Seer"})), (1, frozenset({"Robber"})),),
-                    (),
-                    "Seer",
+                    ((2, frozenset({"Seer"})), (1, frozenset({"Robber"}))),
                 ),
             ],
             [Villager(0), Robber(1, 2, "Seer"), Seer(2, (1, "Robber"), (None, None))],
@@ -163,7 +156,6 @@ class TestStatistics:
 
         stat_tracker.print_statistics()
 
-        captured = list(map(lambda x: x.getMessage(), caplog.records))
         expected = (
             "\nNumber of Games: 1",
             "Accuracy for all predictions: 1.0",
@@ -175,4 +167,4 @@ class TestStatistics:
             "Percentage of Tanner Team wins: 0.0",
             "Percentage of Werewolf Team wins: 0.0",
         )
-        assert "\n".join(captured) == "\n".join(expected)
+        verify_output(caplog, expected)

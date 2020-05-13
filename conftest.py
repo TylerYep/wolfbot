@@ -183,12 +183,22 @@ def write_results(filename: str, stat_results: Dict[str, float]) -> None:
         writer.writerow(stat_results)
 
 
-def verify_output(caplog: LogCaptureFixture, filename: str) -> None:
-    """ Helper method for debugging print differences. """
-    captured = list(map(lambda x: x.getMessage(), caplog.records))  # type: ignore
+def verify_output_file(caplog: LogCaptureFixture, filename: str) -> None:
+    """ Helper method for debugging print differences using a file. """
     with open(filename) as output_file:
         expected = output_file.read().split("\n")
+    verify_output(caplog, expected)
+
+
+def verify_output(caplog: LogCaptureFixture, expected: List[str]) -> None:
+    """ Helper method for debugging print differences. """
+    captured = list(map(lambda x: x.getMessage(), caplog.records))  # type: ignore
     assert "\n".join(captured) == "\n".join(expected)
+
+
+def verify_output_string(caplog: LogCaptureFixture, expected: str) -> None:
+    """ Helper method for debugging print differences. """
+    assert caplog.records[0].getMessage() == expected
 
 
 def debug_spacing_issues(captured: str, expected: str) -> None:

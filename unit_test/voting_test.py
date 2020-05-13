@@ -1,6 +1,7 @@
 """ voting_test.py """
 import random
 
+from conftest import verify_output, verify_output_string
 from src import const, voting
 from src.roles import Drunk, Minion, Robber, Seer, Villager, Wolf
 from src.stats import GameResult
@@ -16,7 +17,6 @@ class TestConsolidateResults:
 
         result = voting.consolidate_results(example_small_saved_game)
 
-        captured = tuple(map(lambda x: x.getMessage(), caplog.records))
         expected = (
             "Solver interpretation: (True, True, True)",
             "[WolfBot] Player roles: [Villager, Seer, Robber]",
@@ -25,7 +25,7 @@ class TestConsolidateResults:
         assert result == GameResult(
             ["Villager", "Seer", "Robber"], ["Villager", "Seer", "Robber"], []
         )
-        assert "\n".join(captured) == "\n".join(expected)
+        verify_output(caplog, expected)
 
     @staticmethod
     def test_consolidate_without_voting_medium(caplog, example_medium_saved_game):
@@ -34,7 +34,6 @@ class TestConsolidateResults:
 
         result = voting.consolidate_results(example_medium_saved_game)
 
-        captured = tuple(map(lambda x: x.getMessage(), caplog.records))
         expected = (
             "Solver interpretation: (True, True, True, False, False)",
             "Solver interpretation: (True, False, True, True, False)",
@@ -47,7 +46,7 @@ class TestConsolidateResults:
             ["Robber", "Seer", "Troublemaker", "Minion", "Wolf", "Drunk"],
             [1],
         )
-        assert "\n".join(captured) == "\n".join(expected)
+        verify_output(caplog, expected)
 
     @staticmethod
     def test_consolidate_with_voting_medium(example_medium_saved_game):
@@ -145,9 +144,8 @@ class TestGetVotingResult:
 
         result = voting.get_voting_result(indiv_preds)
 
-        captured = caplog.records[0].getMessage()
         assert result == (["Villager", "Seer", "Robber"], [1.0] * 3, [0, 1, 2], [1, 2, 0])
-        assert captured == "\nVote Array: [1, 1, 1]\n"
+        verify_output_string(caplog, "\nVote Array: [1, 1, 1]\n")
 
     @staticmethod
     def test_medium_voting_result(caplog, medium_game_roles):
@@ -163,14 +161,13 @@ class TestGetVotingResult:
 
         result = voting.get_voting_result(indiv_preds)
 
-        captured = caplog.records[0].getMessage()
         assert result == (
             ["Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"],
             [0.6, 0.4, 0.8, 0.8, 0.4, 0.8],
             [0],
             [1, 0, 1, 0, 0],
         )
-        assert captured == "\nVote Array: [3, 2, 0, 0, 0]\n"
+        verify_output_string(caplog, "\nVote Array: [3, 2, 0, 0, 0]\n")
 
     @staticmethod
     def test_large_voting_result(caplog, large_game_roles, large_individual_preds):
@@ -180,7 +177,6 @@ class TestGetVotingResult:
 
         result = voting.get_voting_result(large_individual_preds)
 
-        captured = caplog.records[0].getMessage()
         assert result == (
             [
                 "Villager",
@@ -219,7 +215,7 @@ class TestGetVotingResult:
             [3, 10],
             [8, 10, 1, 9, 5, 7, 5, 3, 3, 10, 10, 3],
         )
-        assert captured == "\nVote Array: [0, 1, 0, 3, 0, 2, 0, 1, 1, 1, 3, 0]\n"
+        verify_output_string(caplog, "\nVote Array: [0, 1, 0, 3, 0, 2, 0, 1, 1, 1, 3, 0]\n")
 
 
 class TestEvalFinalGuesses:
@@ -234,11 +230,13 @@ class TestEvalFinalGuesses:
 
         result = voting.eval_final_guesses(medium_game_roles, guessed_wolf_inds, vote_inds)
 
-        captured = tuple(map(lambda x: x.getMessage(), caplog.records))
-        assert result == "Werewolf"
-        assert "\n".join(captured) == "\n".join(
-            ("No wolves were found.", "But Player(s) [2] was a Wolf!\n", "Werewolf Team wins!")
+        expected = (
+            "No wolves were found.",
+            "But Player(s) [2] was a Wolf!\n",
+            "Werewolf Team wins!",
         )
+        assert result == "Werewolf"
+        verify_output(caplog, expected)
 
     @staticmethod
     def test_village_wins_no_wolf(caplog, small_game_roles):
@@ -249,11 +247,9 @@ class TestEvalFinalGuesses:
 
         result = voting.eval_final_guesses(small_game_roles, guessed_wolf_inds, vote_inds)
 
-        captured = tuple(map(lambda x: x.getMessage(), caplog.records))
+        expected = ("No wolves were found.", "That was correct!\n", "Village Team wins!")
         assert result == "Villager"
-        assert "\n".join(captured) == "\n".join(
-            ("No wolves were found.", "That was correct!\n", "Village Team wins!")
-        )
+        verify_output(caplog, expected)
 
     @staticmethod
     def test_village_wins_found_wolf(caplog, medium_game_roles):
@@ -264,11 +260,13 @@ class TestEvalFinalGuesses:
 
         result = voting.eval_final_guesses(medium_game_roles, guessed_wolf_inds, vote_inds)
 
-        captured = tuple(map(lambda x: x.getMessage(), caplog.records))
-        assert result == "Villager"
-        assert "\n".join(captured) == "\n".join(
-            ("Player 2 was chosen as a Wolf.", "Player 2 was a Wolf!\n", "Village Team wins!")
+        expected = (
+            "Player 2 was chosen as a Wolf.",
+            "Player 2 was a Wolf!\n",
+            "Village Team wins!",
         )
+        assert result == "Villager"
+        verify_output(caplog, expected)
 
     @staticmethod
     def test_hunter_wins(caplog, large_game_roles):
@@ -292,9 +290,8 @@ class TestEvalFinalGuesses:
 
         result = voting.eval_final_guesses(const.ROLES, guessed_wolf_inds, vote_inds)
 
-        captured = tuple(map(lambda x: x.getMessage(), caplog.records))
         assert result == "Villager"
-        assert "\n".join(captured) == "\n".join(expected)
+        verify_output(caplog, expected)
 
     @staticmethod
     def test_tanner_wins(caplog, large_game_roles):
@@ -305,17 +302,15 @@ class TestEvalFinalGuesses:
 
         result = voting.eval_final_guesses(large_game_roles, guessed_wolf_inds, vote_inds)
 
-        captured = tuple(map(lambda x: x.getMessage(), caplog.records))
-        assert result == "Tanner"
-        assert "\n".join(captured) == "\n".join(
-            (
-                "Player 2 was chosen as a Wolf.",
-                "Player 2 was a Robber!\n",
-                "Player 5 was chosen as a Wolf.",
-                "Player 5 was a Tanner!\n",
-                "Tanner wins!",
-            )
+        expected = (
+            "Player 2 was chosen as a Wolf.",
+            "Player 2 was a Robber!\n",
+            "Player 5 was chosen as a Wolf.",
+            "Player 5 was a Tanner!\n",
+            "Tanner wins!",
         )
+        assert result == "Tanner"
+        verify_output(caplog, expected)
 
 
 class TestGetPlayerVote:

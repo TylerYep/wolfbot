@@ -1,5 +1,5 @@
 """ one_night_test.py """
-from conftest import verify_output
+from conftest import verify_output_file
 from src import one_night
 
 
@@ -12,7 +12,7 @@ class TestPlayOneNightWerewolf:
         result = one_night.play_one_night_werewolf()
 
         assert result == example_small_game_result
-        verify_output(caplog, "unit_test/test_data/one_night_small.out")
+        verify_output_file(caplog, "unit_test/test_data/one_night_small.out")
 
     @staticmethod
     def test_one_night_medium(caplog, example_medium_game_result):
@@ -20,7 +20,7 @@ class TestPlayOneNightWerewolf:
         result = one_night.play_one_night_werewolf()
 
         assert result == example_medium_game_result
-        verify_output(caplog, "unit_test/test_data/one_night_medium.out")
+        verify_output_file(caplog, "unit_test/test_data/one_night_medium.out")
 
     @staticmethod
     def test_one_night_large(caplog, example_large_game_result):
@@ -28,7 +28,7 @@ class TestPlayOneNightWerewolf:
         result = one_night.play_one_night_werewolf()
 
         assert result == example_large_game_result
-        verify_output(caplog, "unit_test/test_data/one_night_large.out")
+        verify_output_file(caplog, "unit_test/test_data/one_night_large.out")
 
 
 # class TestPlayOneNightWerewolfInteractive:

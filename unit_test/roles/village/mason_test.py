@@ -19,9 +19,7 @@ class TestMason:
         assert mason.statements == [
             Statement(
                 "I am a Mason. The other Mason is Player 9.",
-                ((6, frozenset({"Mason"})), (9, frozenset({"Mason"})),),
-                (),
-                "Mason",
+                ((6, frozenset({"Mason"})), (9, frozenset({"Mason"}))),
             )
         ]
 
@@ -35,9 +33,7 @@ class TestMason:
         assert result == [
             Statement(
                 "I am a Mason. The other Mason is Player 6.",
-                ((9, frozenset({"Mason"})), (6, frozenset({"Mason"})),),
-                (),
-                "Mason",
+                ((9, frozenset({"Mason"})), (6, frozenset({"Mason"}))),
             )
         ]
 
@@ -58,8 +54,6 @@ class TestMason:
                     (0, frozenset({"Wolf", "Seer", "Villager"})),
                     (1, frozenset({"Wolf", "Seer", "Villager"})),
                 ),
-                (),
-                "Mason",
             )
         ]
 
@@ -79,20 +73,14 @@ class TestMason:
                     (0, frozenset({"Wolf", "Seer", "Villager"})),
                     (1, frozenset({"Wolf", "Seer", "Villager"})),
                 ),
-                (),
-                "Mason",
             ),
             Statement(
                 "I am a Mason. The other Mason is Player 0.",
-                ((2, frozenset({"Mason"})), (0, frozenset({"Mason"})),),
-                (),
-                "Mason",
+                ((2, frozenset({"Mason"})), (0, frozenset({"Mason"}))),
             ),
             Statement(
                 "I am a Mason. The other Mason is Player 1.",
-                ((2, frozenset({"Mason"})), (1, frozenset({"Mason"})),),
-                (),
-                "Mason",
+                ((2, frozenset({"Mason"})), (1, frozenset({"Mason"}))),
             ),
         ]
 
