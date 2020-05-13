@@ -13,7 +13,15 @@ Switch = Tuple[SwitchPriority, int, int]
 
 @dataclass
 class Statement:
-    """ Model for all statements in the game. Statements are intended to be immutable. """
+    """
+    Model for all statements in the game. Statements are intended to be immutable.
+    sentence is a string representation of the statement
+    knowledge is a list of (player_index, set(role)) tuples
+    switches is a list of (player_priority, player_index, new_index) tuples
+    speaker is the role string that supposedly gave the statement.
+    priority is what level of priority the statement was said.
+    All member variables are converted into an immutable type to be used in hash()
+    """
 
     sentence: str
     knowledge: Tuple[Knowledge, ...] = ()
@@ -21,27 +29,10 @@ class Statement:
     speaker: str = ""
     priority: StatementLevel = StatementLevel.PRIMARY
 
-    def __init__(
-        self,
-        sentence: str,
-        knowledge: Tuple[Knowledge, ...] = (),
-        switches: Tuple[Switch, ...] = (),
-        speaker: str = "",
-        priority: StatementLevel = StatementLevel.PRIMARY,
-    ):
-        """
-        sentence is a string representation of the statement
-        knowledge is a list of (player_index, set(role)) tuples
-        switches is a list of (player_priority, player_index, new_index) tuples
-        speaker is the role string that supposedly gave the statement.
-        priority is what level of priority the statement was said.
-        All member variables are converted into an immutable type to be used in hash()
-        """
-        self.sentence = sentence
-        self.knowledge = tuple([(i, frozenset(role_set)) for i, role_set in knowledge])
-        self.switches = switches
-        self.speaker = speaker if speaker or not knowledge else next(iter(knowledge[0][1]))
-        self.priority = priority
+    def __post_init__(self) -> None:
+        self.knowledge = tuple([(i, frozenset(role_set)) for i, role_set in self.knowledge])
+        if not self.speaker and self.knowledge:
+            [self.speaker] = self.knowledge[0][1]
 
     def references(self, player_index: int) -> bool:
         """ Returns True if a given player_index is referenced in a statement. """
