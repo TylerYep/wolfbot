@@ -5,8 +5,7 @@ from dataclasses import dataclass, field
 from typing import Dict, FrozenSet, List, Optional, Tuple
 
 from src import const
-from src.const import SwitchPriority
-from src.statements import Statement
+from src.statements import Statement, Switch
 
 
 @dataclass
@@ -17,7 +16,7 @@ class SolverState:
     """
 
     possible_roles: Tuple[FrozenSet[str], ...] = ()
-    switches: Tuple[Tuple[SwitchPriority, int, int], ...] = ()
+    switches: Tuple[Switch, ...] = ()
     path: Tuple[bool, ...] = ()
     role_counts: Dict[str, int] = field(default_factory=dict)
     count_true: int = -1

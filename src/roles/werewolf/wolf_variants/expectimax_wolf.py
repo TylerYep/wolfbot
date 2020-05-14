@@ -16,12 +16,13 @@ def get_expected_statements() -> Dict[int, List[Statement]]:
     """
     possible: Dict[int, List[Statement]] = {}
     for player_index in range(const.NUM_PLAYERS):
-        possible[player_index] = []
+        statements = []
         village_roles = sorted(tuple(const.VILLAGE_ROLES))
         random.shuffle(village_roles)
         for role in village_roles:
             role_obj = roles.get_role_obj(role)
-            possible[player_index] += role_obj.get_all_statements(player_index)
+            statements += role_obj.get_all_statements(player_index)
+        possible[player_index] = statements
     return possible
 
 

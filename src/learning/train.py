@@ -1,3 +1,4 @@
+# type: ignore
 """
 train.py
 To run, cd to src/ and run python -m learning.train
@@ -6,13 +7,15 @@ import json
 import os
 import time
 from collections import defaultdict
+from typing import Any, DefaultDict, List, Tuple
 
 from src import const
 from src.encoder import WolfBotDecoder, WolfBotEncoder
 from src.one_night import simulate_game
+from src.stats import GameResult
 
 
-def evaluate(game):
+def evaluate(game: GameResult) -> int:
     """ Evaluation function. """
     val = 5
     for wolf_ind in game.wolf_inds:
@@ -21,29 +24,37 @@ def evaluate(game):
     return val
 
 
-def get_wolf_state(game):
+def get_wolf_state(game: GameResult) -> Tuple[List[Tuple[int, ...]], List[Tuple[str, ...]]]:
     """ Fetches Wolf statement from Game. """
     states, statements = [], []
     for wolf_ind in game.wolf_inds:
-        state = (tuple(game.wolf_inds), tuple([s.sentence for s in game.statements[:wolf_ind]]))
+        del wolf_ind
+        state = (
+            tuple(game.wolf_inds),
+            (),
+        )  # tuple([s.sentence for s in game.statements[:wolf_ind]]))
         states.append(state)
-        statements.append(game.statements[wolf_ind].sentence)
+        # statements.append(game.statements[wolf_ind].sentence)
     return states, statements
 
 
-def remap_keys(mapping):
+def remap_keys(
+    mapping: DefaultDict[Any, DefaultDict[Any, float]]
+) -> DefaultDict[Any, DefaultDict[Any, float]]:
     """ Remaps keys for jsonifying. """
-    exp_dict = defaultdict(lambda: defaultdict(int))
+    exp_dict: DefaultDict[Any, DefaultDict[Any, float]] = defaultdict(lambda: defaultdict(float))
     for k, val in mapping.items():
         exp_dict[str(k)] = val
     return exp_dict
 
 
-def train(folder, eta=0.01):
+def train(folder: str, eta: float = 0.01) -> None:
     """ Trains Wolf using games stored in simulations. """
     counter = 0
-    experience_dict = defaultdict(lambda: defaultdict(int))
-    count_dict = defaultdict(int)  # NOTE: For testing purposes
+    experience_dict: DefaultDict[Any, DefaultDict[Any, float]] = defaultdict(
+        lambda: defaultdict(float)
+    )
+    count_dict: DefaultDict[Any, int] = defaultdict(int)  # NOTE: For testing purposes
     for file in os.listdir(folder):
         file_path = os.path.join(folder, file)
         if file_path.lower().endswith(".json"):
@@ -65,7 +76,7 @@ def train(folder, eta=0.01):
         json.dump(exp_dict, wolf_file, cls=WolfBotEncoder)
 
 
-def test():  # experience_dict as param
+def test() -> None:  # experience_dict as param
     """ Run play_one_night_werewolf with a specific experience_dict. """
     assert const.USE_RL_WOLF is False
     simulate_game(num_games=const.NUM_GAMES, disable_tqdm=False)

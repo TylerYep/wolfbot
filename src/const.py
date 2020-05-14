@@ -97,7 +97,7 @@ BRANCH_FACTOR = 5
 
 # Reinforcement Learning Wolf
 USE_RL_WOLF = False
-EXPERIENCE_PATH = "src/learning/simulations/wolf_player.json"
+EXPERIENCE_PATH = "src/learning/simulations/wolf.json"
 
 """ Interactive Game Constants """
 INTERACTIVE_MODE_ON = ARGS.user

@@ -29,7 +29,7 @@ def profile() -> None:
     random.seed(0)
     command = "one_night.simulate_game(100, disable_tqdm=False)"
     profile_file = "data/profile.txt"
-    sort = "time"
+    sort = "cumtime"
 
     cProfile.run(command, filename=profile_file, sort=sort)
     stats = pstats.Stats(profile_file)
