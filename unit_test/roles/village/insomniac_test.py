@@ -1,5 +1,5 @@
 """ insomniac_test.py """
-from src import const
+from conftest import set_roles
 from src.roles.village import Insomniac
 from src.statements import Statement
 
@@ -49,8 +49,7 @@ class TestInsomniac:
     def test_get_all_statements():
         """ Should return the possible statements from all possible initialization actions. """
         player_index = 2
-        const.ROLE_SET = frozenset(["Wolf", "Insomniac", "Seer"])
-        const.SORTED_ROLE_SET = sorted(const.ROLE_SET)
+        set_roles(("Wolf", "Insomniac", "Seer"))
         expected = [
             Statement(
                 (

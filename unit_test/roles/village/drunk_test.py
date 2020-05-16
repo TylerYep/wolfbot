@@ -1,4 +1,5 @@
 """ drunk_test.py """
+from conftest import set_roles
 from src import const
 from src.roles.village import Drunk
 from src.statements import Statement
@@ -51,9 +52,7 @@ class TestDrunk:
     def test_get_all_statements():
         """ Should return the possible statements from all possible initialization actions. """
         player_index = 2
-        const.ROLES = ["Wolf", "Seer", "Drunk", "Villager", "Robber", "Wolf"]
-        const.ROLE_SET = frozenset(const.ROLES)
-        const.SORTED_ROLE_SET = sorted(const.ROLE_SET)
+        set_roles(("Wolf", "Seer", "Drunk", "Villager", "Robber", "Wolf"))
         const.NUM_PLAYERS = 3
         const.NUM_CENTER = 3
         expected_statements = [

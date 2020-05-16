@@ -43,7 +43,7 @@ class Minion(Player):
         else:
             self.statements += get_wolf_statements_random(self)
 
-        if const.EXPECTIMAX_PLAYER:
+        if const.EXPECTIMAX_MINION:
             return get_statement_expectimax(self, previous)
 
         return super().get_statement(stated_roles, previous)

@@ -79,7 +79,7 @@ class Wolf(Player):
             default_statement = super().get_statement(stated_roles, previous)
             return get_statement_rl(self, stated_roles, previous, default_statement)
 
-        if const.EXPECTIMAX_PLAYER:
+        if const.EXPECTIMAX_WOLF:
             return get_statement_expectimax(self, previous)
 
         return super().get_statement(stated_roles, previous)

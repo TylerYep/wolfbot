@@ -1,4 +1,5 @@
 """ algorithms_test.py """
+from conftest import set_roles
 from src import algorithms, const
 from src.const import SwitchPriority
 from src.statements import Statement
@@ -175,8 +176,7 @@ class TestSwitchingSolver:
     @staticmethod
     def test_get_role_counts():
         """ Should return True if there is a a dict with counts of all certain roles. """
-        const.ROLE_SET = frozenset({"Wolf", "Seer", "Villager", "Robber"})
-        const.ROLE_COUNTS = {"Seer": 1, "Villager": 2, "Wolf": 1, "Robber": 1}
+        set_roles(("Wolf", "Seer", "Villager", "Robber", "Villager"))
         possible_roles_list = (
             frozenset({"Villager"}),
             frozenset({"Seer"}),

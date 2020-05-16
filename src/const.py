@@ -5,6 +5,7 @@ import random
 import sys
 from collections import Counter
 from enum import IntEnum, unique
+from typing import Any, Dict, Sequence
 
 
 def init_program(is_unit_test: bool) -> argparse.Namespace:
@@ -23,6 +24,23 @@ def init_program(is_unit_test: bool) -> argparse.Namespace:
                         help="enable interactive mode")
     # fmt: on
     return parser.parse_args("" if is_unit_test else sys.argv[1:])
+
+
+def get_counts(arr: Sequence[Any]) -> Dict[Any, int]:
+    """
+    Returns a dict of counts of each item in a list. When there are fewer than ~40 items, using a
+    regular dictionary is faster than using a Counter.
+    """
+    if len(arr) < 40:
+        counts: Dict[Any, int] = {}
+        for item in arr:
+            if item in counts:
+                counts[item] += 1
+            else:
+                counts[item] = 1
+        return counts
+
+    return dict(Counter(arr))
 
 
 UNIT_TEST = "pytest" in sys.modules
@@ -69,7 +87,7 @@ REPLAY = ARGS.replay
 ROLE_SET = frozenset(ROLES)
 SORTED_ROLE_SET = sorted(ROLE_SET)
 NUM_ROLES = len(ROLES)
-ROLE_COUNTS = dict(Counter(ROLES))  # Dict of {'Villager': 3, 'Wolf': 2, ... }
+ROLE_COUNTS = get_counts(ROLES)  # Dict of {'Villager': 3, 'Wolf': 2, ... }
 NUM_PLAYERS = NUM_ROLES - NUM_CENTER
 
 """ Game Rules """
@@ -91,9 +109,11 @@ SMART_VILLAGERS = True
 USE_REG_WOLF = True
 
 # Expectimax Wolf, Minion, Tanner
-EXPECTIMAX_PLAYER = False
+EXPECTIMAX_WOLF = False
 EXPECTIMAX_DEPTH = 1
 BRANCH_FACTOR = 5
+EXPECTIMAX_TANNER = False
+EXPECTIMAX_MINION = EXPECTIMAX_WOLF
 
 # Reinforcement Learning Wolf
 USE_RL_WOLF = False
@@ -130,7 +150,7 @@ elif INTERACTIVE_MODE_ON:
     logger.setLevel(INFO)
 
 """ Ensure only one Wolf version is active """
-assert not (EXPECTIMAX_PLAYER and USE_RL_WOLF)
+assert not (EXPECTIMAX_WOLF and USE_RL_WOLF)
 
 if sys.version_info < (3, 7):
     sys.stdout.write("Python " + sys.version)

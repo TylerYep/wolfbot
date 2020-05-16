@@ -1,4 +1,5 @@
 """ mason_test.py """
+from conftest import set_roles
 from src import const
 from src.roles.village import Mason
 from src.statements import Statement
@@ -41,8 +42,7 @@ class TestMason:
     def test_get_single_mason_statement():
         """ Should give the proper statement when only one Mason is present. """
         player_index = 2
-        const.ROLES = ("Wolf", "Seer", "Mason", "Villager")
-        const.ROLE_SET = frozenset(const.ROLES)
+        set_roles(("Wolf", "Seer", "Mason", "Villager"))
         const.NUM_PLAYERS = 3
         result = Mason.get_mason_statements(player_index, [2])
 
@@ -61,9 +61,7 @@ class TestMason:
     def test_get_all_statements():
         """ Should return the possible statements from all possible initialization actions. """
         player_index = 2
-        const.ROLES = ["Wolf", "Seer", "Mason", "Villager"]
-        const.ROLE_SET = frozenset(const.ROLES)
-        const.SORTED_ROLE_SET = sorted(const.ROLE_SET)
+        set_roles(("Wolf", "Seer", "Mason", "Villager"))
         const.NUM_PLAYERS = 3
         expected_statements = [
             Statement(

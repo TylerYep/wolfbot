@@ -27,6 +27,7 @@ class Mason(Player):
         is_user = const.IS_USER[player_index]
         mason_indices = util.find_all_player_indices(original_roles, "Mason")
         assert player_index in mason_indices
+        assert len(mason_indices) <= 2
         logger.debug(f"[Hidden] Masons are at indices: {mason_indices}")
         if is_user:
             logger.info(f"Masons are players: {mason_indices} (You are player {player_index})")

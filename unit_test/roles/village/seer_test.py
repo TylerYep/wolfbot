@@ -1,6 +1,5 @@
 """ seer_test.py """
-from collections import Counter
-
+from conftest import set_roles
 from src import const
 from src.roles.village import Seer
 from src.statements import Statement
@@ -78,10 +77,7 @@ class TestSeer:
     def test_get_all_statements():
         """ Should return the possible statements from all possible initialization actions. """
         player_index = 1
-        const.ROLES = ["Wolf", "Seer", "Villager", "Wolf"]
-        const.ROLE_SET = frozenset(const.ROLES)
-        const.SORTED_ROLE_SET = sorted(const.ROLE_SET)
-        const.ROLE_COUNTS = dict(Counter(const.ROLES))
+        set_roles(("Wolf", "Seer", "Villager", "Wolf"))
         const.NUM_PLAYERS = 2
         const.NUM_CENTER = 2
         expected = [

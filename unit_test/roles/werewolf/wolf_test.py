@@ -1,4 +1,5 @@
 """ wolf_test.py """
+from conftest import set_roles
 from src import const
 from src.roles import Wolf
 
@@ -12,7 +13,7 @@ class TestWolf:
         Should initialize a Wolf. Note that the player_index of the Wolf is
         not necessarily the index where the true Wolf is located.
         """
-        const.ROLES = ("Wolf", *medium_game_roles[1:])
+        set_roles(("Wolf", *medium_game_roles[1:]))
         player_index = 2
 
         wolf = Wolf.awake_init(player_index, const.ROLES, const.ROLES)
@@ -41,7 +42,7 @@ class TestWolf:
         Should initialize a Center Wolf. Note that the player_index of the Wolf is
         not necessarily the index where the true Wolf is located.
         """
-        const.ROLES = ("Villager", *large_game_roles[1:])
+        set_roles(("Villager", *large_game_roles[1:]))
         player_index = 7
 
         wolf = Wolf.awake_init(player_index, const.ROLES, const.ROLES)

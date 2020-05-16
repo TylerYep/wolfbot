@@ -1,4 +1,5 @@
 """ troublemaker_test.py """
+from conftest import set_roles
 from src import const
 from src.roles.village import Troublemaker
 from src.statements import Statement
@@ -53,8 +54,7 @@ class TestTroublemaker:
     def test_get_all_statements():
         """ Should return the possible statements from all possible initialization actions. """
         player_index = 2
-        const.ROLES = ["Wolf", "Seer", "Troublemaker", "Villager", "Robber", "Wolf"]
-        const.ROLE_SET = frozenset(const.ROLES)
+        set_roles(("Wolf", "Seer", "Troublemaker", "Villager", "Robber", "Wolf"))
         const.NUM_PLAYERS = 3
         const.NUM_CENTER = 3
         expected_statements = [

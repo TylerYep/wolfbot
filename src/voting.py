@@ -1,6 +1,5 @@
 """ voting.py """
 import random
-from collections import defaultdict
 from typing import Dict, List, Tuple
 
 from src import const, util
@@ -115,11 +114,15 @@ def get_voting_result(
     guess_histogram stores counts of prediction arrays.
     wolf_votes stores individual votes for Wolves.
     """
-    guess_histogram: Dict[Tuple[str, ...], int] = defaultdict(int)
+    guess_histogram: Dict[Tuple[str, ...], int] = {}
     wolf_votes = [0] * const.NUM_PLAYERS
     vote_inds = []
     for i, prediction in enumerate(all_role_guesses_arr):
-        guess_histogram[tuple(prediction)] += 1
+        pred_arr = tuple(prediction)
+        if pred_arr in guess_histogram:
+            guess_histogram[pred_arr] += 1
+        else:
+            guess_histogram[pred_arr] = 1
         vote_ind = get_player_vote(i, prediction)
         wolf_votes[vote_ind] += 1
         vote_inds.append(vote_ind)
@@ -132,7 +135,7 @@ def get_voting_result(
 
     confidence = []
     for i in range(const.NUM_ROLES):
-        role_dict: Dict[str, int] = defaultdict(int)
+        role_dict: Dict[str, int] = {role: 0 for role in const.ROLE_SET}
         for prediction in all_role_guesses_arr:
             role_dict[prediction[i]] += 1
         count = max(role_dict.values())

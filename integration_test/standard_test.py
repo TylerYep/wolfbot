@@ -1,7 +1,7 @@
 """ standard_test.py """
 import random
 
-from conftest import reset_misc_const_fields, write_results
+from conftest import set_roles, write_results
 from src import const, one_night
 
 
@@ -11,25 +11,26 @@ class TestStandard:
     @staticmethod
     def test_perfect_villagers():
         """ Correctly play one round of one night werewolf. """
-        const.ROLES = (
-            "Insomniac",
-            "Villager",
-            "Robber",
-            "Villager",
-            "Seer",
-            "Mason",
-            "Troublemaker",
-            "Villager",
-            "Mason",
-            "Hunter",
-            "Wolf",
-            "Wolf",
-            "Minion",
-        )
         const.NUM_PLAYERS = 10
         const.NUM_CENTER = 3
         const.RANDOMIZE_ROLES = False
-        reset_misc_const_fields()
+        set_roles(
+            (
+                "Insomniac",
+                "Villager",
+                "Robber",
+                "Villager",
+                "Seer",
+                "Mason",
+                "Troublemaker",
+                "Villager",
+                "Mason",
+                "Hunter",
+                "Wolf",
+                "Wolf",
+                "Minion",
+            )
+        )
         random.seed()
 
         stat_tracker = one_night.simulate_game(num_games=10, disable_logging=False)
@@ -69,7 +70,7 @@ class TestStandard:
         """ Correctly play one round of one night werewolf. """
         const.ROLES = standard_game_roles
         const.USE_REG_WOLF = True
-        const.EXPECTIMAX_PLAYER = True
+        const.EXPECTIMAX_WOLF = True
 
         stat_tracker = one_night.simulate_game(num_games=500)
 
@@ -78,3 +79,33 @@ class TestStandard:
         assert stat_results["villager_wins"] < 0.5
         assert stat_results["tanner_wins"] == 0
         assert stat_results["werewolf_wins"] > 0.5
+
+    @staticmethod
+    def test_expectimax_tanner():
+        """ Correctly play one round of one night werewolf. """
+        const.NUM_PLAYERS = 9
+        const.NUM_CENTER = 3
+        const.EXPECTIMAX_TANNER = True
+        const.RANDOMIZE_ROLES = False
+        set_roles(
+            (
+                "Insomniac",
+                "Hunter",
+                "Mason",
+                "Mason",
+                "Robber",
+                "Seer",
+                "Tanner",
+                "Troublemaker",
+                "Villager",
+                "Villager",
+                "Villager",
+                "Wolf",
+            )
+        )
+
+        stat_tracker = one_night.simulate_game(num_games=20)
+
+        stat_results = stat_tracker.get_metric_results()
+        write_results("expectimax_tanner_results.csv", stat_results)
+        assert stat_results["tanner_wins"] > 0.9

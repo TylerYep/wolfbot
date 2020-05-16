@@ -1,7 +1,7 @@
 """ voting_test.py """
 import random
 
-from conftest import verify_output, verify_output_string
+from conftest import set_roles, verify_output, verify_output_string
 from src import const, voting
 from src.roles import Drunk, Minion, Robber, Seer, Villager, Wolf
 from src.stats import GameResult
@@ -274,7 +274,7 @@ class TestEvalFinalGuesses:
         Should declare Village victory if no wolves are found,
         Hunter is killed, and Hunter voted for a true Wolf.
         """
-        const.ROLES = large_game_roles[::-1]
+        set_roles(large_game_roles[::-1])
         guessed_wolf_inds = [0, 9]
         vote_inds = [7, 10, 0, 9, 7, 9, 7, 7, 7, 0, 0, 0]
         expected = (

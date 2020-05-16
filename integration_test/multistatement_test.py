@@ -25,7 +25,7 @@ class TestMultistatement:
         """ Correctly play one round of one night werewolf. """
         const.ROLES = standard_game_roles
         const.USE_REG_WOLF = True
-        const.EXPECTIMAX_PLAYER = True
+        const.EXPECTIMAX_WOLF = True
         const.MULTI_STATEMENT = True
 
         stat_tracker = one_night.simulate_game(num_games=500)

@@ -1,4 +1,5 @@
 """ robber_test.py """
+from conftest import set_roles
 from src import const
 from src.roles.village import Robber
 from src.statements import Statement
@@ -54,8 +55,7 @@ class TestRobber:
     def test_get_all_statements():
         """ Should return the possible statements from all possible initialization actions. """
         player_index = 1
-        const.ROLE_SET = frozenset(["Wolf", "Robber", "Villager"])
-        const.SORTED_ROLE_SET = sorted(const.ROLE_SET)
+        set_roles(("Wolf", "Robber", "Villager"))
         const.NUM_PLAYERS = 2
         expected = [
             Statement(

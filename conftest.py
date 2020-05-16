@@ -2,7 +2,6 @@
 import csv
 import os
 import random
-from collections import Counter
 from typing import Callable, Dict, FrozenSet, List, Set, Tuple
 
 import pytest
@@ -12,11 +11,12 @@ from fixtures import *
 from src import const
 
 
-def reset_misc_const_fields() -> None:
+def set_roles(roles: Tuple[str, ...]) -> None:
     """ Changes to ROLES should propagate to all of its descendants. """
+    const.ROLES = roles  # type: ignore
     const.ROLE_SET = frozenset(const.ROLES)
     const.SORTED_ROLE_SET = sorted(const.ROLE_SET)
-    const.ROLE_COUNTS = dict(Counter(const.ROLES))
+    const.ROLE_COUNTS = const.get_counts(const.ROLES)
     const.NUM_ROLES = len(const.ROLES)
     const.VILLAGE_ROLES &= const.ROLE_SET
     const.EVIL_ROLES &= const.ROLE_SET
@@ -26,103 +26,110 @@ def reset_misc_const_fields() -> None:
 @pytest.fixture(autouse=True)
 def reset_const() -> None:
     const.logger.setLevel(const.TRACE)
-    const.ROLES = (
-        "Insomniac",
-        "Villager",
-        "Robber",
-        "Villager",
-        "Drunk",
-        "Wolf",
-        "Wolf",
-        "Seer",
-        "Tanner",
-        "Mason",
-        "Minion",
-        "Troublemaker",
-        "Villager",
-        "Mason",
-        "Hunter",
-    )
     const.NUM_PLAYERS = 12
     const.NUM_CENTER = 3
-    const.CENTER_SEER_PROB = 0.9
-    const.SMART_VILLAGERS = True
     const.VILLAGE_ROLES = frozenset(
         {"Villager", "Mason", "Seer", "Robber", "Troublemaker", "Drunk", "Insomniac", "Hunter"}
     )
     const.EVIL_ROLES = frozenset({"Tanner", "Wolf", "Minion"})
+
+    # Game Modes
     const.USE_VOTING = True
-    const.USE_REG_WOLF = False
-    const.EXPECTIMAX_PLAYER = False
     const.RANDOMIZE_ROLES = True
     const.MULTI_STATEMENT = False
     const.INTERACTIVE_MODE_ON = False
+
+    # Player Settings
+    const.CENTER_SEER_PROB = 0.9
+    const.SMART_VILLAGERS = True
+    const.USE_REG_WOLF = False
+    const.EXPECTIMAX_WOLF = False
+    const.EXPECTIMAX_MINION = False
+    const.EXPECTIMAX_TANNER = False
+
     const.REPLAY_FILE = "unit_test/test_data/replay.json"
     random.seed(0)
-    reset_misc_const_fields()
+    set_roles(
+        (
+            "Insomniac",
+            "Villager",
+            "Robber",
+            "Villager",
+            "Drunk",
+            "Wolf",
+            "Wolf",
+            "Seer",
+            "Tanner",
+            "Mason",
+            "Minion",
+            "Troublemaker",
+            "Villager",
+            "Mason",
+            "Hunter",
+        )
+    )
 
 
 @pytest.fixture
 def small_game_roles() -> Tuple[str, ...]:
-    const.ROLES = ("Villager", "Seer", "Robber")  # type: ignore
     const.NUM_PLAYERS = 3
     const.NUM_CENTER = 0
-    reset_misc_const_fields()
+    set_roles(("Villager", "Seer", "Robber"))
     return const.ROLES
 
 
 @pytest.fixture
 def medium_game_roles() -> Tuple[str, ...]:
-    const.ROLES = ("Robber", "Drunk", "Wolf", "Troublemaker", "Seer", "Minion")  # type: ignore
     const.NUM_PLAYERS = 5
     const.NUM_CENTER = 1
-    reset_misc_const_fields()
+    set_roles(("Robber", "Drunk", "Wolf", "Troublemaker", "Seer", "Minion"))
     return const.ROLES
 
 
 @pytest.fixture
 def large_game_roles() -> Tuple[str, ...]:
-    const.ROLES = (
-        "Wolf",
-        "Villager",
-        "Robber",
-        "Seer",
-        "Villager",
-        "Tanner",
-        "Mason",
-        "Wolf",
-        "Minion",
-        "Mason",
-        "Drunk",
-        "Villager",
-        "Troublemaker",
-        "Insomniac",
-        "Hunter",
-    )
     const.NUM_PLAYERS = 12
     const.NUM_CENTER = 3
-    reset_misc_const_fields()
+    set_roles(
+        (
+            "Wolf",
+            "Villager",
+            "Robber",
+            "Seer",
+            "Villager",
+            "Tanner",
+            "Mason",
+            "Wolf",
+            "Minion",
+            "Mason",
+            "Drunk",
+            "Villager",
+            "Troublemaker",
+            "Insomniac",
+            "Hunter",
+        )
+    )
     return const.ROLES
 
 
 @pytest.fixture
 def standard_game_roles() -> Tuple[str, ...]:
-    # pyre-ignore[9]
-    const.ROLES = (
-        "Villager",  # type: ignore
-        "Villager",
-        "Villager",
-        "Seer",
-        "Wolf",
-        "Wolf",
-        "Troublemaker",
-        "Mason",
-        "Mason",
-        "Drunk",
-    )
     const.NUM_PLAYERS = 7
     const.NUM_CENTER = 3
-    reset_misc_const_fields()
+    set_roles(
+        (
+            "Villager",
+            "Villager",
+            "Villager",
+            "Seer",
+            "Wolf",
+            "Wolf",
+            "Troublemaker",
+            "Mason",
+            "Mason",
+            "Drunk",
+        )
+    )
     return const.ROLES
 
 
