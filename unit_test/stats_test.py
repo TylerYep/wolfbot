@@ -37,11 +37,7 @@ class TestSavedGame:
             ],
             "game_roles": ["Villager", "Seer", "Robber"],
             "original_roles": ("Villager", "Robber", "Seer"),
-            "player_objs": [
-                Villager(0),
-                Robber(1, 2, "Seer"),
-                Seer(2, (1, "Robber"), (None, None)),
-            ],
+            "player_objs": [Villager(0), Robber(1, 2, "Seer"), Seer(2, (1, "Robber"))],
             "type": "SavedGame",
         }
 
@@ -65,7 +61,7 @@ class TestSavedGame:
                     ((2, frozenset({"Seer"})), (1, frozenset({"Robber"}))),
                 ),
             ],
-            [Villager(0), Robber(1, 2, "Seer"), Seer(2, (1, "Robber"), (None, None))],
+            [Villager(0), Robber(1, 2, "Seer"), Seer(2, (1, "Robber"))],
         )
 
         assert result == example_small_saved_game

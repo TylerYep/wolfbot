@@ -1,7 +1,7 @@
 """ hunter.py """
 from __future__ import annotations
 
-from typing import Any, Dict, List
+from typing import List
 
 from src.statements import Statement
 
@@ -32,7 +32,3 @@ class Hunter(Player):
     def get_all_statements(player_index: int) -> List[Statement]:
         """ Required for all player types. Returns all possible role statements. """
         return Hunter.get_hunter_statements(player_index)
-
-    def json_repr(self) -> Dict[str, Any]:
-        """ Gets JSON representation of a Hunter player. """
-        return {"type": self.role, "player_index": self.player_index}

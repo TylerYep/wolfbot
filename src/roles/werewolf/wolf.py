@@ -103,10 +103,12 @@ class Wolf(Player):
 
     def json_repr(self) -> Dict[str, Any]:
         """ Gets JSON representation of a Wolf player. """
-        return {
-            "type": self.role,
-            "player_index": self.player_index,
-            "wolf_indices": self.wolf_indices,
-            "center_index": self.center_index,
-            "center_role": self.center_role,
-        }
+        json_dict = super().json_repr()
+        json_dict.update(
+            {
+                "wolf_indices": self.wolf_indices,
+                "center_index": self.center_index,
+                "center_role": self.center_role,
+            }
+        )
+        return json_dict

@@ -5,7 +5,7 @@ from typing import Dict, List, Tuple
 from src import const, util
 from src.algorithms import switching_solver as solver
 from src.const import logger
-from src.predictions import make_prediction, make_random_prediction
+from src.predictions import make_prediction
 from src.roles import Player
 from src.statements import Statement
 from src.stats import GameResult, SavedGame
@@ -18,11 +18,11 @@ def consolidate_results(save_game: SavedGame) -> GameResult:
 
     if const.USE_VOTING:
         indiv_preds = get_individual_preds(player_objs, all_statements, orig_wolf_inds)
-        all_guesses, confidence, guessed_wolf_inds, vote_inds = get_voting_result(indiv_preds)
+        all_guesses, guessed_wolf_inds, vote_inds = get_voting_result(indiv_preds)
         util.print_roles(game_roles, "Solution", const.INFO)
         util.print_roles(all_guesses, "WolfBot")
-        logger.debug(f"Confidence levels: {[float(f'{conf:.2f}') for conf in confidence]}")
-        winning_team = eval_final_guesses(game_roles, guessed_wolf_inds, vote_inds)
+        _ = get_confidence(indiv_preds)
+        winning_team = eval_winning_team(game_roles, guessed_wolf_inds, vote_inds)
         return GameResult(game_roles, all_guesses, orig_wolf_inds, winning_team)
 
     all_solutions = solver(tuple(all_statements))
@@ -33,40 +33,74 @@ def consolidate_results(save_game: SavedGame) -> GameResult:
     return GameResult(game_roles, all_role_guesses, orig_wolf_inds)
 
 
-def is_player_evil(player_objs: List[Player], i: int, orig_wolf_inds: List[int]) -> bool:
-    """ Decide whether a character is about to make an evil prediction. """
-    # TODO When a wolf becomes good? Do I need to check for Wolf twice?
-    return (
-        (i in orig_wolf_inds and player_objs[i].new_role == "")
-        or (player_objs[i].role in const.EVIL_ROLES and player_objs[i].new_role == "")
-        or player_objs[i].new_role in const.EVIL_ROLES
-    )
-
-
 def get_individual_preds(
     player_objs: List[Player], all_statements: List[Statement], orig_wolf_inds: List[int]
 ) -> List[List[str]]:
     """ Let each player make a prediction of every player's true role. """
-    all_role_guesses_arr = []
-    # Good player vs Bad player guesses
-    for i in range(const.NUM_PLAYERS):
-        is_evil = is_player_evil(player_objs, i, orig_wolf_inds)
-        if const.SMART_VILLAGERS or is_evil:
-            all_solutions = solver(tuple(all_statements), (i,))
-            prediction = make_prediction(all_solutions, is_evil)
-        else:
-            prediction = make_random_prediction()
-        all_role_guesses_arr.append(prediction)
-
     logger.log(const.TRACE, "\n[Trace] Predictions:")
+    all_predictions = [
+        player_objs[i].get_prediction(all_statements, orig_wolf_inds)
+        for i in range(const.NUM_PLAYERS)
+    ]
     number_length = len(str(const.NUM_ROLES))
-    for i, pred in enumerate(all_role_guesses_arr):
+    for i, pred in enumerate(all_predictions):
         logger.log(const.TRACE, f"Player {i:{number_length}}: {pred}".replace("'", ""))
 
-    return all_role_guesses_arr
+    return all_predictions
 
 
-def eval_final_guesses(
+def get_confidence(all_role_guesses_arr: List[List[str]]) -> List[float]:
+    """
+    Creates confidence levels for each prediction and takes most
+    common role guess array as the final guess for that index.
+    guess_histogram stores counts of prediction arrays.
+    wolf_votes stores individual votes for Wolves.
+    """
+    confidence = []
+    for i in range(const.NUM_ROLES):
+        role_dict: Dict[str, int] = {role: 0 for role in const.ROLE_SET}
+        for prediction in all_role_guesses_arr:
+            role_dict[prediction[i]] += 1
+        count = max(role_dict.values())
+        confidence.append(count / const.NUM_PLAYERS)
+
+    logger.debug(f"Confidence levels: {[float(f'{conf:.2f}') for conf in confidence]}")
+    return confidence
+
+
+def get_voting_result(
+    all_role_guesses_arr: List[List[str]],
+) -> Tuple[List[str], List[int], List[int]]:
+    """
+    Creates confidence levels for each prediction and takes most
+    common role guess array as the final guess for that index.
+    guess_histogram stores counts of prediction arrays.
+    wolf_votes stores individual votes for Wolves.
+    """
+    guess_histogram: Dict[Tuple[str, ...], int] = {}
+    wolf_votes = [0] * const.NUM_PLAYERS
+    vote_inds = []
+    for i, prediction in enumerate(all_role_guesses_arr):
+        pred_arr = tuple(prediction)
+        if pred_arr in guess_histogram:
+            guess_histogram[pred_arr] += 1
+        else:
+            guess_histogram[pred_arr] = 1
+        vote_ind = get_player_vote(i, prediction)
+        wolf_votes[vote_ind] += 1
+        vote_inds.append(vote_ind)
+
+    logger.info(f"\nVote Array: {wolf_votes}\n")
+    assert sum(wolf_votes) == const.NUM_PLAYERS
+
+    avg_role_guesses, _ = max(guess_histogram.items(), key=lambda x: x[1])
+    max_votes = max(wolf_votes)
+    guessed_wolf_inds = [i for i, count in enumerate(wolf_votes) if count == max_votes]
+
+    return list(avg_role_guesses), guessed_wolf_inds, vote_inds
+
+
+def eval_winning_team(
     game_roles: List[str], guessed_wolf_inds: List[int], vote_inds: List[int]
 ) -> str:
     """ Decide which team won based on the final vote. """
@@ -103,45 +137,6 @@ def eval_final_guesses(
 
     logger.info("Werewolf Team wins!")
     return "Werewolf"
-
-
-def get_voting_result(
-    all_role_guesses_arr: List[List[str]],
-) -> Tuple[List[str], List[float], List[int], List[int]]:
-    """
-    Creates confidence levels for each prediction and takes most
-    common role guess array as the final guess for that index.
-    guess_histogram stores counts of prediction arrays.
-    wolf_votes stores individual votes for Wolves.
-    """
-    guess_histogram: Dict[Tuple[str, ...], int] = {}
-    wolf_votes = [0] * const.NUM_PLAYERS
-    vote_inds = []
-    for i, prediction in enumerate(all_role_guesses_arr):
-        pred_arr = tuple(prediction)
-        if pred_arr in guess_histogram:
-            guess_histogram[pred_arr] += 1
-        else:
-            guess_histogram[pred_arr] = 1
-        vote_ind = get_player_vote(i, prediction)
-        wolf_votes[vote_ind] += 1
-        vote_inds.append(vote_ind)
-
-    logger.info(f"\nVote Array: {wolf_votes}\n")
-    assert sum(wolf_votes) == const.NUM_PLAYERS
-
-    all_role_guesses, _ = max(guess_histogram.items(), key=lambda x: x[1])
-    guessed_wolf_inds = [i for i, count in enumerate(wolf_votes) if count == max(wolf_votes)]
-
-    confidence = []
-    for i in range(const.NUM_ROLES):
-        role_dict: Dict[str, int] = {role: 0 for role in const.ROLE_SET}
-        for prediction in all_role_guesses_arr:
-            role_dict[prediction[i]] += 1
-        count = max(role_dict.values())
-        confidence.append(count / const.NUM_PLAYERS)
-
-    return list(all_role_guesses), confidence, guessed_wolf_inds, vote_inds
 
 
 def get_player_vote(ind: int, prediction: List[str]) -> int:

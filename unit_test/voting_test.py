@@ -3,7 +3,7 @@ import random
 
 from conftest import set_roles, verify_output, verify_output_string
 from src import const, voting
-from src.roles import Drunk, Minion, Robber, Seer, Villager, Wolf
+from src.roles import Drunk, Minion, Robber, Seer, Wolf
 from src.stats import GameResult
 
 
@@ -61,52 +61,6 @@ class TestConsolidateResults:
         )
 
 
-class TestIsPlayerEvil:
-    """ Tests for the is_player_evil function. """
-
-    @staticmethod
-    def test_no_evil_player(small_game_roles):
-        """ Should determine if a player has turned evil after night falls. """
-        const.ROLES = small_game_roles
-        player_list = [Villager(0), Robber(1, 2, "Seer"), Seer(2, (1, "Robber"), (None, None))]
-
-        result = voting.is_player_evil(player_list, 0, [])
-
-        assert result is False
-
-    @staticmethod
-    def test_find_evil_players(medium_game_roles):
-        """ Should determine if a player has turned evil after night falls. """
-        const.ROLES = medium_game_roles
-        player_list = [
-            Seer(0, (2, "Drunk"), (None, None)),
-            Wolf(1, [1], 5, "Troublemaker"),
-            Drunk(2, 5),
-            Robber(3, 2, "Drunk"),
-            Minion(4, [1]),
-        ]
-
-        result = [voting.is_player_evil(player_list, i, [1]) for i in range(len(player_list))]
-
-        assert result == [False, True, False, False, True]
-
-    @staticmethod
-    def test_turned_evil_player(medium_game_roles):
-        """ Should determine if a player has turned evil after night falls. """
-        const.ROLES = medium_game_roles
-        player_list = [
-            Seer(0, (2, "Drunk"), (None, None)),
-            Wolf(1, [1], 5, "Troublemaker"),
-            Drunk(2, 5),
-            Robber(3, 1, "Wolf"),
-            Minion(4, [1]),
-        ]
-
-        result = voting.is_player_evil(player_list, 3, [1])
-
-        assert result is True
-
-
 class TestGetIndividualPreds:
     """ Tests for the get_individual_preds function. """
 
@@ -133,6 +87,62 @@ class TestGetIndividualPreds:
         ]
 
 
+class TestConfidence:
+    """ Tests for the get_confidence function. """
+
+    @staticmethod
+    def test_small_confidence(small_game_roles):
+        """ Should get voting results from the individual predictions. """
+        const.ROLES = small_game_roles
+        indiv_preds = [["Villager", "Seer", "Robber"]] * 3
+
+        result = voting.get_confidence(indiv_preds)
+
+        assert result == [1.0] * 3
+
+    @staticmethod
+    def test_medium_confidence(medium_game_roles):
+        """ Should get voting results from the individual predictions. """
+        const.ROLES = medium_game_roles
+        indiv_preds = [
+            ["Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"],
+            ["Wolf", "Seer", "Robber", "Minion", "Troublemaker", "Drunk"],
+            ["Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"],
+            ["Wolf", "Minion", "Troublemaker", "Drunk", "Seer", "Robber"],
+            ["Wolf", "Minion", "Troublemaker", "Drunk", "Seer", "Robber"],
+        ]
+
+        result = voting.get_confidence(indiv_preds)
+
+        assert result == [0.6, 0.4, 0.8, 0.8, 0.4, 0.8]
+
+    @staticmethod
+    def test_large_confidence(large_game_roles, large_individual_preds):
+        """ Should get voting results from the individual predictions. """
+        const.ROLES = large_game_roles
+        random.shuffle(large_individual_preds)
+
+        result = voting.get_confidence(large_individual_preds)
+
+        assert result == [
+            1.0,
+            2 / 3,
+            1.0,
+            5 / 12,
+            1.0,
+            0.75,
+            0.5,
+            5 / 12,
+            5 / 12,
+            7 / 12,
+            7 / 12,
+            11 / 12,
+            0.5,
+            2 / 3,
+            0.75,
+        ]
+
+
 class TestGetVotingResult:
     """ Tests for the get_voting_result function. """
 
@@ -144,7 +154,7 @@ class TestGetVotingResult:
 
         result = voting.get_voting_result(indiv_preds)
 
-        assert result == (["Villager", "Seer", "Robber"], [1.0] * 3, [0, 1, 2], [1, 2, 0])
+        assert result == (["Villager", "Seer", "Robber"], [0, 1, 2], [1, 2, 0])
         verify_output_string(caplog, "\nVote Array: [1, 1, 1]\n")
 
     @staticmethod
@@ -163,7 +173,6 @@ class TestGetVotingResult:
 
         assert result == (
             ["Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"],
-            [0.6, 0.4, 0.8, 0.8, 0.4, 0.8],
             [0],
             [1, 0, 1, 0, 0],
         )
@@ -195,31 +204,14 @@ class TestGetVotingResult:
                 "Mason",
                 "Robber",
             ],
-            [
-                1.0,
-                2 / 3,
-                1.0,
-                5 / 12,
-                1.0,
-                0.75,
-                0.5,
-                5 / 12,
-                5 / 12,
-                7 / 12,
-                7 / 12,
-                11 / 12,
-                0.5,
-                2 / 3,
-                0.75,
-            ],
             [3, 10],
             [8, 10, 1, 9, 5, 7, 5, 3, 3, 10, 10, 3],
         )
         verify_output_string(caplog, "\nVote Array: [0, 1, 0, 3, 0, 2, 0, 1, 1, 1, 3, 0]\n")
 
 
-class TestEvalFinalGuesses:
-    """ Tests for the eval_final_guesses function. """
+class TestEvalWinningTeam:
+    """ Tests for the eval_winning_team function. """
 
     @staticmethod
     def test_werewolf_wins(caplog, medium_game_roles):
@@ -228,7 +220,7 @@ class TestEvalFinalGuesses:
         guessed_wolf_inds = list(range(const.NUM_PLAYERS))
         vote_inds = [1] * const.NUM_PLAYERS
 
-        result = voting.eval_final_guesses(medium_game_roles, guessed_wolf_inds, vote_inds)
+        result = voting.eval_winning_team(medium_game_roles, guessed_wolf_inds, vote_inds)
 
         expected = (
             "No wolves were found.",
@@ -245,7 +237,7 @@ class TestEvalFinalGuesses:
         guessed_wolf_inds = list(range(const.NUM_PLAYERS))
         vote_inds = [1] * const.NUM_PLAYERS
 
-        result = voting.eval_final_guesses(small_game_roles, guessed_wolf_inds, vote_inds)
+        result = voting.eval_winning_team(small_game_roles, guessed_wolf_inds, vote_inds)
 
         expected = ("No wolves were found.", "That was correct!\n", "Village Team wins!")
         assert result == "Villager"
@@ -258,7 +250,7 @@ class TestEvalFinalGuesses:
         guessed_wolf_inds = [2]
         vote_inds = [1, 2, 2, 2, 1]
 
-        result = voting.eval_final_guesses(medium_game_roles, guessed_wolf_inds, vote_inds)
+        result = voting.eval_winning_team(medium_game_roles, guessed_wolf_inds, vote_inds)
 
         expected = (
             "Player 2 was chosen as a Wolf.",
@@ -288,7 +280,7 @@ class TestEvalFinalGuesses:
             "Village Team wins!",
         )
 
-        result = voting.eval_final_guesses(const.ROLES, guessed_wolf_inds, vote_inds)
+        result = voting.eval_winning_team(const.ROLES, guessed_wolf_inds, vote_inds)
 
         assert result == "Villager"
         verify_output(caplog, expected)
@@ -300,7 +292,7 @@ class TestEvalFinalGuesses:
         guessed_wolf_inds = [2, 5]
         vote_inds = [8, 7, 1, 9, 5, 10, 5, 3, 3, 10, 10, 3]
 
-        result = voting.eval_final_guesses(large_game_roles, guessed_wolf_inds, vote_inds)
+        result = voting.eval_winning_team(large_game_roles, guessed_wolf_inds, vote_inds)
 
         expected = (
             "Player 2 was chosen as a Wolf.",

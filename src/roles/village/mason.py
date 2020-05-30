@@ -61,8 +61,6 @@ class Mason(Player):
 
     def json_repr(self) -> Dict[str, Any]:
         """ Gets JSON representation of a Mason player. """
-        return {
-            "type": self.role,
-            "player_index": self.player_index,
-            "mason_indices": self.mason_indices,
-        }
+        json_dict = super().json_repr()
+        json_dict.update({"mason_indices": self.mason_indices})
+        return json_dict

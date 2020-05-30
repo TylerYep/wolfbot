@@ -62,7 +62,7 @@ def example_medium_saved_game(medium_game_roles: Tuple[str, ...]) -> SavedGame:
             ),
         ],
         [
-            Seer(0, (2, "Drunk"), (None, None)),
+            Seer(0, (2, "Drunk")),
             Wolf(1, [1], 5, "Troublemaker"),
             Drunk(2, 5),
             Robber(3, 2, "Drunk"),

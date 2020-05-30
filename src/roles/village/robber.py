@@ -68,9 +68,6 @@ class Robber(Player):
 
     def json_repr(self) -> Dict[str, Any]:
         """ Gets JSON representation of a Robber player. """
-        return {
-            "type": self.role,
-            "player_index": self.player_index,
-            "choice_ind": self.choice_ind,
-            "new_role": self.new_role,
-        }
+        json_dict = super().json_repr()
+        json_dict.update({"choice_ind": self.choice_ind, "new_role": self.new_role})
+        return json_dict

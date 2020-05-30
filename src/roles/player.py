@@ -7,6 +7,7 @@ from typing import Any, Dict, List
 from src import const, util
 from src.algorithms import switching_solver as solver
 from src.const import StatementLevel, logger
+from src.predictions import make_prediction, make_random_prediction
 from src.statements import Statement
 
 
@@ -106,6 +107,28 @@ class Player:
             return next_statement
 
         return random.choice(tuple(self.statements))
+
+    def is_evil(self, orig_wolf_inds: List[int]) -> bool:
+        """ Decide whether a character is about to make an evil prediction. """
+        # TODO When a wolf becomes good? Do I need to check for Wolf twice?
+        return (
+            (self.player_index in orig_wolf_inds and self.new_role == "")
+            or (self.role in const.EVIL_ROLES and self.new_role == "")
+            or self.new_role in const.EVIL_ROLES
+        )
+
+    def get_prediction(
+        self, all_statements: List[Statement], orig_wolf_inds: List[int]
+    ) -> List[str]:
+        """ Gets a player's predictions for each index given the statements. """
+        is_evil = self.is_evil(orig_wolf_inds)
+        # Good player vs Evil player guesses
+        if const.SMART_VILLAGERS or is_evil:
+            all_solutions = solver(tuple(all_statements), (self.player_index,))
+            prediction = make_prediction(all_solutions, is_evil)
+        else:
+            prediction = make_random_prediction()
+        return prediction
 
     def __eq__(self, other: object) -> bool:
         """ Checks for equality between Players. """

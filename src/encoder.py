@@ -48,6 +48,9 @@ class WolfBotDecoder(json.JSONDecoder):
             obj["original_roles"] = tuple(obj["original_roles"])
             return get_object_initializer(obj_type)(**obj)
         if obj_type in const.ROLE_SET:
+            if obj_type == "Seer":
+                obj["choice_1"] = tuple(obj["choice_1"])
+                obj["choice_2"] = tuple(obj["choice_2"])
             return get_role_obj(obj_type)(**obj)
         return obj
 

@@ -21,8 +21,8 @@ class Seer(Player):
         choice_2: Tuple[Optional[int], Optional[str]] = (None, None),
     ):
         super().__init__(player_index)
-        self.choice_1 = tuple(choice_1)
-        self.choice_2 = tuple(choice_2)
+        self.choice_1 = choice_1
+        self.choice_2 = choice_2
         self.statements += self.get_seer_statements(player_index, choice_1, choice_2)
 
     @classmethod
@@ -106,9 +106,6 @@ class Seer(Player):
 
     def json_repr(self) -> Dict[str, Any]:
         """ Gets JSON representation of a Seer player. """
-        return {
-            "type": self.role,
-            "player_index": self.player_index,
-            "choice_1": self.choice_1,
-            "choice_2": self.choice_2,
-        }
+        json_dict = super().json_repr()
+        json_dict.update({"choice_1": self.choice_1, "choice_2": self.choice_2})
+        return json_dict
