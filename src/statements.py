@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any, Dict, FrozenSet, List, Optional, Sequence, Set, Tuple, Union
+from typing import Any, Dict, FrozenSet, List, Tuple
 
 from src import const
 from src.const import StatementLevel, SwitchPriority

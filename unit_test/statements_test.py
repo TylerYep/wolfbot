@@ -1,6 +1,4 @@
 """ statements_test.py """
-import pytest
-
 from src import const, statements
 from src.const import SwitchPriority
 

@@ -1,5 +1,5 @@
 """ solverstates.py """
-from typing import FrozenSet, List, Set, Tuple
+from typing import List, Tuple
 
 import pytest
 

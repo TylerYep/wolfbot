@@ -12,7 +12,6 @@ mypy .
 pyre check
 
 # Auto-code formatters
-autoflake --remove-all-unused-imports --remove-unused-variables --expand-star-imports --ignore-init-module-imports --remove-duplicate-keys -r -i .
 isort -y
 black . -l 100
 git add .
