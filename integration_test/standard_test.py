@@ -76,9 +76,9 @@ class TestStandard:
 
         stat_results = stat_tracker.get_metric_results()
         write_results("expectimax_wolf_results.csv", stat_results)
-        assert stat_results["villager_wins"] < 0.5
+        assert stat_results["villager_wins"] < 0.6
         assert stat_results["tanner_wins"] == 0
-        assert stat_results["werewolf_wins"] > 0.5
+        assert stat_results["werewolf_wins"] > 0.4
 
     @staticmethod
     def test_expectimax_tanner():
@@ -108,4 +108,4 @@ class TestStandard:
 
         stat_results = stat_tracker.get_metric_results()
         write_results("expectimax_tanner_results.csv", stat_results)
-        assert stat_results["tanner_wins"] > 0.9
+        assert stat_results["tanner_wins"] > 0.8

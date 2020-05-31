@@ -204,10 +204,10 @@ class TestGetVotingResult:
                 "Mason",
                 "Robber",
             ],
-            [3, 10],
-            [8, 10, 1, 9, 5, 7, 5, 3, 3, 10, 10, 3],
+            [3],
+            [8, 10, 1, 9, 5, 7, 5, 3, 3, 10, 8, 3],
         )
-        verify_output_string(caplog, "\nVote Array: [0, 1, 0, 3, 0, 2, 0, 1, 1, 1, 3, 0]\n")
+        verify_output_string(caplog, "\nVote Array: [0, 1, 0, 3, 0, 2, 0, 1, 2, 1, 2, 0]\n")
 
 
 class TestEvalWinningTeam:

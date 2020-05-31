@@ -67,7 +67,7 @@ Player  9: [Villager, Insomniac, Mason, Tanner, Villager, Drunk, Minion, Trouble
 Player 10: [Villager, Troublemaker, Mason, Wolf, Villager, Wolf, Minion, Tanner, Robber, Villager, Seer, Hunter, Insomniac, Mason, Drunk]
 Player 11: [Villager, Insomniac, Mason, Minion, Villager, Drunk, Seer, Tanner, Wolf, Villager, Wolf, Hunter, Troublemaker, Mason, Robber]
 
-Vote Array: [0, 1, 0, 2, 0, 0, 0, 3, 0, 0, 6, 0]
+Vote Array: [0, 1, 0, 1, 0, 1, 0, 3, 0, 0, 6, 0]
 
 [Solution] Player roles: [Villager, Insomniac, Mason, Tanner, Villager, Drunk, Seer, Wolf, Minion, Villager, Wolf, Hunter]
            Center cards: [Troublemaker, Mason, Robber]

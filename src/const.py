@@ -28,8 +28,8 @@ def init_program(is_unit_test: bool) -> argparse.Namespace:
 
 def get_counts(arr: Sequence[Any]) -> Dict[Any, int]:
     """
-    Returns a dict of counts of each item in a list. When there are fewer than ~40 items, using a
-    regular dictionary is faster than using a Counter.
+    Returns a dict of counts of each item in a list. When there are fewer than ~40 items, using
+    a regular dictionary is faster than using a Counter.
     """
     if len(arr) < 40:
         counts: Dict[Any, int] = {}

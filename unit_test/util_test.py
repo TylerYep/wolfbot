@@ -83,7 +83,7 @@ class TestGetPlayer:
         const.ROLES = large_game_roles
         exclude = (6, 7, 8)
 
-        result = [util.get_player(is_user=False, vals_to_exclude=exclude) for _ in range(10)]
+        result = [util.get_player(is_user=False, exclude=exclude) for _ in range(10)]
 
         assert not set(result).intersection(exclude)
         assert result == [0, 4, 4, 5, 9, 3, 2, 4, 2, 1]
@@ -107,7 +107,7 @@ class TestGetPlayer:
         inputs = [0, 20, 4, 7, 5, 6]
         monkeypatch.setattr("builtins.input", override_input(inputs))
 
-        result = [util.get_player(is_user=True, vals_to_exclude=exclude) for _ in range(3)]
+        result = [util.get_player(is_user=True, exclude=exclude) for _ in range(3)]
 
         assert not set(result).intersection(exclude)
         assert result == [0, 4, 5]
@@ -131,7 +131,7 @@ class TestGetCenter:
         const.ROLES = large_game_roles
         exclude = (12, 13)
 
-        result = [util.get_center(is_user=False, vals_to_exclude=exclude) for _ in range(10)]
+        result = [util.get_center(is_user=False, exclude=exclude) for _ in range(10)]
 
         assert not set(result).intersection(exclude)
         assert result == [14] * 10
@@ -155,7 +155,7 @@ class TestGetCenter:
         inputs = [2, 0, 4, 1, 2, 2]
         monkeypatch.setattr("builtins.input", override_input(inputs))
 
-        result = [util.get_center(is_user=True, vals_to_exclude=exclude) for _ in range(3)]
+        result = [util.get_center(is_user=True, exclude=exclude) for _ in range(3)]
 
         assert not set(result).intersection(exclude)
         assert result == [14] * 3

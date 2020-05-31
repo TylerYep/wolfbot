@@ -21,8 +21,7 @@ class Seer(Player):
         choice_2: Tuple[Optional[int], Optional[str]] = (None, None),
     ):
         super().__init__(player_index)
-        self.choice_1 = choice_1
-        self.choice_2 = choice_2
+        self.choice_1, self.choice_2 = choice_1, choice_2
         self.statements += self.get_seer_statements(player_index, choice_1, choice_2)
 
     @classmethod

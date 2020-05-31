@@ -1,5 +1,5 @@
 """ replay_test.py """
-from src import Statistics, const, one_night, replay
+from src import const, one_night, replay, stats
 
 
 class TestReplay:
@@ -17,7 +17,7 @@ class TestReplay:
 
         result_stats = replay.replay_game_from_state()
 
-        stat_tracker = Statistics()
+        stat_tracker = stats.Statistics()
         stat_tracker.add_result(example_small_game_result)
         assert result_stats == stat_tracker
 

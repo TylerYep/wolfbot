@@ -115,10 +115,9 @@ def eval_winning_team(
             villager_win = True
     else:
         # Hunter kills the player he voted for if he dies.
-        # Ensure player did not vote themselves in this case.
         for i in guessed_wolf_inds:
             logger.info(f"Player {i} was chosen as a Wolf.\nPlayer {i} was a {game_roles[i]}!\n")
-            if game_roles[i] == "Hunter" and i != vote_inds[i]:
+            if game_roles[i] == "Hunter":
                 if vote_inds[i] not in guessed_wolf_inds:
                     guessed_wolf_inds.append(vote_inds[i])
                 logger.info(f"(Player {i}) Hunter died and killed Player {vote_inds[i]} too!\n")
@@ -140,17 +139,20 @@ def eval_winning_team(
 
 
 def get_player_vote(ind: int, prediction: List[str]) -> int:
-    """ Updates Wolf votes for a given prediction. """
+    """
+    Gets the player's vote for who the Wolf is for a given prediction.
+    There are some really complicated game mechanics for the Minion.
+    https://boardgamegeek.com/thread/1422062/pointing-center-free-parking
+    """
     no_wolves_guess = (ind + 1) % const.NUM_PLAYERS
     if const.IS_USER[ind]:
         logger.info(f"\nWhich Player is a Wolf? (Type {no_wolves_guess} if there are no Wolves)")
-        return util.get_player(is_user=True)
+        return util.get_player(is_user=True, exclude=(ind,))
 
     # TODO find the most likely Wolf and only vote for that one
-    wolf_inds = util.find_all_player_indices(prediction, "Wolf")
+    # Players cannot vote for themselves.
+    wolf_inds = util.find_all_player_indices(prediction, "Wolf", exclude=(ind,))
     if wolf_inds:
         return random.choice(wolf_inds)
 
-    # There are some really complicated game mechanics for the Minion.
-    # https://boardgamegeek.com/thread/1422062/pointing-center-free-parking
     return no_wolves_guess

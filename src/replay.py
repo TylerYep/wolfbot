@@ -17,7 +17,6 @@ def replay_game_from_state() -> Statistics:
     game_state = save_game["rng_state"]
     rng_state = tuple([tuple(item) if isinstance(item, list) else item for item in game_state])
     random.setstate(rng_state)
-
     return simulate_game(disable_logging=False)
 
 
