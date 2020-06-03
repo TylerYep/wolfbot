@@ -87,15 +87,18 @@ class Player:
             self.statements = [x for x in self.statements if x.priority > self.prev_priority]
 
         if self.is_user:
-            logger.info("\nPlease choose from the following statements: ")
-            sample_statements = (
-                random.sample(self.statements, const.NUM_OPTIONS)
-                if len(self.statements) > const.NUM_OPTIONS
-                else self.statements
-            )
-            for i, statement in enumerate(sample_statements):
-                logger.info(f"{i}. {statement.sentence}")
-            choice = util.get_numeric_input(len(sample_statements))
+            sample_statements = []
+            choice = const.NUM_OPTIONS
+            while choice == const.NUM_OPTIONS:
+                logger.info("\nPlease choose from the following statements: ")
+                sample_statements = (
+                    random.sample(self.statements, const.NUM_OPTIONS) + [Statement("Next page...")]
+                    if len(self.statements) > const.NUM_OPTIONS
+                    else self.statements
+                )
+                for i, statement in enumerate(sample_statements):
+                    logger.info(f"{i}. {statement.sentence}")
+                choice = util.get_numeric_input(len(sample_statements))
 
             if const.MULTI_STATEMENT:
                 self.prev_priority = sample_statements[choice].priority

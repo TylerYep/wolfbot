@@ -81,6 +81,21 @@ class TestStandard:
         assert stat_results["werewolf_wins"] > 0.4
 
     @staticmethod
+    def test_random_villagers(standard_game_roles):
+        """ Correctly play one round of one night werewolf. """
+        const.ROLES = standard_game_roles
+        const.USE_REG_WOLF = True
+        const.EXPECTIMAX_WOLF = True
+        const.SMART_VILLAGERS = False
+
+        stat_tracker = one_night.simulate_game(num_games=100)
+
+        stat_results = stat_tracker.get_metric_results()
+        write_results("random_villagers_results.csv", stat_results)
+        assert stat_results["villager_wins"] < 0.35
+        assert stat_results["werewolf_wins"] > 0.65
+
+    @staticmethod
     def test_expectimax_tanner():
         """ Correctly play one round of one night werewolf. """
         const.NUM_PLAYERS = 9

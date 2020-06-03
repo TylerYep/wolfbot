@@ -59,12 +59,12 @@ class Robber(Player):
                     statements += Robber.get_robber_statements(player_index, i, role)
         return statements
 
-    # def get_statement(self, stated_roles: List[str], previous: List[Statement]) -> Statement:
-    #     ''' Overrides get_statement when the Robber becomes a Wolf. '''
-    #     if self.new_role != '' and self.new_role in const.EVIL_ROLES:
-    #         return self.transform(self.new_role).get_statement(stated_roles, previous)
+    def get_statement(self, stated_roles: List[str], previous: List[Statement]) -> Statement:
+        """ Overrides get_statement when the Robber becomes a Wolf. """
+        if self.new_role != "" and self.new_role in const.EVIL_ROLES:
+            return self.transform(self.new_role).get_statement(stated_roles, previous)
 
-    #     return super().get_statement(stated_roles, previous)
+        return super().get_statement(stated_roles, previous)
 
     def json_repr(self) -> Dict[str, Any]:
         """ Gets JSON representation of a Robber player. """
