@@ -7,6 +7,15 @@ By Tyler Yep & Harry Sha
 [![GitHub license](https://img.shields.io/github/license/TylerYep/wolfbot)](https://github.com/TylerYep/wolfbot/blob/master/LICENSE)
 [![codecov](https://codecov.io/gh/TylerYep/wolfbot/branch/master/graph/badge.svg)](https://codecov.io/gh/TylerYep/wolfbot)
 
-To try it out, run `python main.py` in the terminal. (Python 3.7)
+## Introduction
+This is an implementation of the popular board game One Night Ultimate Werewolf.
+
+To try it out, run `python main.py` in the terminal. (Python 3.7+)
 
 Constants, along with their use cases, are listed in src/const.py.
+
+## Interactive Mode
+To play the game yourself as a character, simply run:
+```
+python main.py --user
+```

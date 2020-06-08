@@ -1,4 +1,5 @@
 """ statements.py """
+# pylint: skip-file
 from typing import List
 
 import pytest

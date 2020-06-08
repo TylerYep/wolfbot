@@ -49,6 +49,7 @@ if ARGS.seed:
     random.seed(ARGS.seed)
 
 """ Game Constants """
+# These are the player roles used in a game.
 ROLES = (
     "Drunk",
     "Insomniac",

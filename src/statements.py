@@ -39,7 +39,7 @@ class Statement:
             if i == player_index:
                 return True
         for _, i, j in self.switches:
-            if i == player_index or j == player_index:
+            if player_index in (i, j):
                 return True
         return False
 
@@ -50,7 +50,7 @@ class Statement:
                 [role] = role_set
                 return role
         for _, i, j in self.switches:
-            if (i == player_index or j == player_index) and player_index < len(stated_roles):
+            if player_index in (i, j) and player_index < len(stated_roles):
                 return stated_roles[player_index]
         return ""
 

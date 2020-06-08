@@ -1,4 +1,5 @@
 """ solverstates.py """
+# pylint: skip-file
 from typing import List, Tuple
 
 import pytest

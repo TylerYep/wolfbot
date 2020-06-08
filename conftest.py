@@ -1,4 +1,5 @@
 """ conftest.py """
+# pylint: skip-file
 import csv
 import os
 import random
