@@ -3,7 +3,7 @@ import random
 
 from conftest import set_roles, verify_output, verify_output_string
 from src import const, voting
-from src.roles import Drunk, Minion, Robber, Seer, Wolf
+from src.roles import Drunk, Minion, Player, Robber, Seer, Wolf
 from src.stats import GameResult
 
 
@@ -79,11 +79,11 @@ class TestGetIndividualPreds:
         result = voting.get_individual_preds(player_objs, medium_statement_list, [1])
 
         assert result == [
-            ["Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"],
-            ["Wolf", "Seer", "Robber", "Minion", "Troublemaker", "Drunk"],
-            ["Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"],
-            ["Wolf", "Minion", "Troublemaker", "Drunk", "Seer", "Robber"],
-            ["Wolf", "Minion", "Troublemaker", "Drunk", "Seer", "Robber"],
+            ("Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"),
+            ("Wolf", "Seer", "Robber", "Minion", "Troublemaker", "Drunk"),
+            ("Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"),
+            ("Wolf", "Minion", "Troublemaker", "Drunk", "Seer", "Robber"),
+            ("Wolf", "Minion", "Troublemaker", "Drunk", "Seer", "Robber"),
         ]
 
 
@@ -150,9 +150,10 @@ class TestGetVotingResult:
     def test_small_voting_result(caplog, small_game_roles):
         """ Should get voting results from the individual predictions. """
         const.ROLES = small_game_roles
-        indiv_preds = [["Villager", "Seer", "Robber"]] * 3
+        indiv_preds = [("Villager", "Seer", "Robber")] * len(small_game_roles)
+        player_list = [Player(i) for i in range(len(small_game_roles))]
 
-        result = voting.get_voting_result(indiv_preds)
+        result = voting.get_voting_result(player_list, indiv_preds)
 
         assert result == (["Villager", "Seer", "Robber"], [0, 1, 2], [1, 2, 0])
         verify_output_string(caplog, "\nVote Array: [1, 1, 1]\n")
@@ -162,14 +163,15 @@ class TestGetVotingResult:
         """ Should get voting results from the individual predictions. """
         const.ROLES = medium_game_roles
         indiv_preds = [
-            ["Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"],
-            ["Wolf", "Seer", "Robber", "Minion", "Troublemaker", "Drunk"],
-            ["Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"],
-            ["Wolf", "Minion", "Troublemaker", "Drunk", "Seer", "Robber"],
-            ["Wolf", "Minion", "Troublemaker", "Drunk", "Seer", "Robber"],
+            ("Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"),
+            ("Wolf", "Seer", "Robber", "Minion", "Troublemaker", "Drunk"),
+            ("Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"),
+            ("Wolf", "Minion", "Troublemaker", "Drunk", "Seer", "Robber"),
+            ("Wolf", "Minion", "Troublemaker", "Drunk", "Seer", "Robber"),
         ]
+        player_list = [Player(i) for i in range(len(medium_game_roles))]
 
-        result = voting.get_voting_result(indiv_preds)
+        result = voting.get_voting_result(player_list, indiv_preds)
 
         assert result == (
             ["Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"],
@@ -183,8 +185,9 @@ class TestGetVotingResult:
         """ Should get voting results from the individual predictions. """
         const.ROLES = large_game_roles
         random.shuffle(large_individual_preds)
+        player_list = [Player(i) for i in range(len(large_game_roles))]
 
-        result = voting.get_voting_result(large_individual_preds)
+        result = voting.get_voting_result(player_list, large_individual_preds)
 
         assert result == (
             [
@@ -303,50 +306,3 @@ class TestEvalWinningTeam:
         )
         assert result == "Tanner"
         verify_output(caplog, expected)
-
-
-class TestGetPlayerVote:
-    """ Tests for the get_player_vote function. """
-
-    @staticmethod
-    def test_vote_for_wolf(medium_game_roles):
-        """ If a player suspects a Wolf, they should vote for that player. """
-        const.ROLES = medium_game_roles
-        prediction = ["Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"]
-
-        result = voting.get_player_vote(2, prediction)
-
-        assert result == 1
-
-    @staticmethod
-    def test_no_vote_for_center_wolf(medium_game_roles):
-        """ If a player suspects a Wolf in the center, they should not vote for that player. """
-        const.ROLES = medium_game_roles
-        prediction = ["Seer", "Troublemaker", "Drunk", "Minion", "Robber", "Wolf"]
-
-        result = voting.get_player_vote(2, prediction)
-
-        assert result == 3
-
-    @staticmethod
-    def test_vote_right(small_game_roles):
-        """ If no Wolves are found, players should vote for the person to their right. """
-        const.ROLES = small_game_roles
-        prediction = ["Villager", "Seer", "Robber"]
-
-        result = [voting.get_player_vote(i, prediction) for i in range(const.NUM_PLAYERS)]
-
-        assert result == [1, 2, 0]
-
-    @staticmethod
-    def test_interactive_vote(monkeypatch, medium_game_roles):
-        """ Prompt the user for their vote. """
-        player_index = 2
-        const.ROLES = medium_game_roles
-        const.IS_USER[player_index] = True
-        prediction = ["Seer", "Troublemaker", "Drunk", "Minion", "Robber", "Wolf"]
-        monkeypatch.setattr("builtins.input", lambda x: "4")
-
-        result = voting.get_player_vote(player_index, prediction)
-
-        assert result == 4

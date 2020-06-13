@@ -1,12 +1,12 @@
 """ util.py """
 import random
-from typing import List, Optional, Sequence, Tuple, Union
+from typing import List, Optional, Sequence, Tuple
 
 from src import const
 from src.const import logger
 
 
-def print_roles(game_roles: Union[List[str]], tag: str, log_level: int = const.DEBUG) -> None:
+def print_roles(game_roles: Sequence[str], tag: str, log_level: int = const.DEBUG) -> None:
     """ Formats hidden roles to console. """
     role_output = (
         f"[{tag}] Player roles: {game_roles[:const.NUM_PLAYERS]}\n{' ' * (len(tag) + 3)}"

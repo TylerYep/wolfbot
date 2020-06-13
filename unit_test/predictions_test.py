@@ -13,7 +13,7 @@ class TestMakeRandomPrediction:
 
         result = predictions.make_random_prediction()
 
-        assert result == ["Seer", "Wolf", "Drunk", "Robber", "Minion", "Troublemaker"]
+        assert result == ("Seer", "Wolf", "Drunk", "Robber", "Minion", "Troublemaker")
 
 
 class TestMakeEvilPrediction:
@@ -27,14 +27,14 @@ class TestMakeEvilPrediction:
 
         result = predictions.make_evil_prediction(solution_arr)
 
-        assert result == ["Seer", "Wolf", "Drunk", "Robber", "Minion", "Troublemaker"]
+        assert result == ("Seer", "Wolf", "Drunk", "Robber", "Minion", "Troublemaker")
 
     @staticmethod
     def test_evil_prediction(example_medium_solverstate_list):
         """ Should give a random prediction when an empty SolverState is passed in. """
         result = predictions.make_evil_prediction(example_medium_solverstate_list)
 
-        assert result == ["Seer", "Minion", "Troublemaker", "Drunk", "Wolf", "Robber"]
+        assert result == ("Seer", "Minion", "Troublemaker", "Drunk", "Wolf", "Robber")
 
 
 class TestMakeUnrestrictedPrediction:
@@ -48,14 +48,14 @@ class TestMakeUnrestrictedPrediction:
 
         result = predictions.make_unrestricted_prediction(solution)
 
-        assert result == ["Troublemaker", "Drunk", "Wolf", "Seer", "Robber", "Minion"]
+        assert result == ("Troublemaker", "Drunk", "Wolf", "Seer", "Robber", "Minion")
 
     @staticmethod
     def test_unrestricted_prediction(example_medium_solverstate):
         """ Should return a list of predictions without requiring adherence to possible sets. """
         result = predictions.make_unrestricted_prediction(example_medium_solverstate)
 
-        assert result == ["Seer", "Troublemaker", "Wolf", "Minion", "Robber", "Drunk"]
+        assert result == ("Seer", "Troublemaker", "Wolf", "Minion", "Robber", "Drunk")
 
 
 class TestMakePrediction:
@@ -66,14 +66,14 @@ class TestMakePrediction:
         """ Should return evil prediction when is_evil=True. """
         result = predictions.make_prediction(example_medium_solverstate_list, True)
 
-        assert result == ["Seer", "Minion", "Troublemaker", "Drunk", "Wolf", "Robber"]
+        assert result == ("Seer", "Minion", "Troublemaker", "Drunk", "Wolf", "Robber")
 
     @staticmethod
     def test_make_prediction(example_medium_solverstate_list):
         """ Should return valid prediction for villager players. """
         result = predictions.make_prediction(example_medium_solverstate_list, False)
 
-        assert result == ["Robber", "Seer", "Troublemaker", "Minion", "Wolf", "Drunk"]
+        assert result == ("Robber", "Seer", "Troublemaker", "Minion", "Wolf", "Drunk")
 
 
 class TestGetBasicGuesses:

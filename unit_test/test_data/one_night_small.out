@@ -22,9 +22,9 @@ Player 1: I am a Robber and I swapped with Player 2. I am now a Seer.
 Player 2: I am a Seer and I saw that Player 0 was a Villager.
 
 [Trace] Predictions:
-Player 0: [Villager, Seer, Robber]
-Player 1: [Villager, Seer, Robber]
-Player 2: [Villager, Seer, Robber]
+Player 0: (Villager, Seer, Robber)
+Player 1: (Villager, Seer, Robber)
+Player 2: (Villager, Seer, Robber)
 
 Vote Array: [1, 1, 1]
 

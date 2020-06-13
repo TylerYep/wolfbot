@@ -54,18 +54,18 @@ Player 10: I am a Seer and I saw that Center 1 was a Mason and that Center 2 was
 Player 11: I am a Hunter.
 
 [Trace] Predictions:
-Player  0: [Villager, Mason, Mason, Minion, Villager, Drunk, Tanner, Troublemaker, Villager, Wolf, Wolf, Hunter, Insomniac, Seer, Robber]
-Player  1: [Villager, Insomniac, Mason, Tanner, Villager, Drunk, Seer, Minion, Wolf, Villager, Wolf, Hunter, Troublemaker, Mason, Robber]
-Player  2: [Villager, Insomniac, Mason, Tanner, Villager, Drunk, Seer, Wolf, Minion, Villager, Wolf, Hunter, Troublemaker, Mason, Robber]
-Player  3: [Villager, Insomniac, Mason, Wolf, Villager, Wolf, Seer, Minion, Robber, Villager, Tanner, Hunter, Troublemaker, Mason, Drunk]
-Player  4: [Villager, Insomniac, Mason, Wolf, Villager, Drunk, Seer, Wolf, Tanner, Villager, Minion, Hunter, Troublemaker, Mason, Robber]
-Player  5: [Villager, Insomniac, Mason, Tanner, Villager, Drunk, Minion, Troublemaker, Villager, Wolf, Wolf, Hunter, Seer, Mason, Robber]
-Player  6: [Villager, Insomniac, Mason, Wolf, Villager, Drunk, Seer, Wolf, Minion, Villager, Tanner, Hunter, Troublemaker, Mason, Robber]
-Player  7: [Villager, Mason, Mason, Wolf, Villager, Drunk, Tanner, Troublemaker, Villager, Minion, Wolf, Hunter, Insomniac, Seer, Robber]
-Player  8: [Villager, Wolf, Mason, Minion, Villager, Tanner, Wolf, Troublemaker, Villager, Seer, Mason, Robber, Hunter, Drunk, Insomniac]
-Player  9: [Villager, Insomniac, Mason, Tanner, Villager, Drunk, Minion, Troublemaker, Villager, Wolf, Wolf, Hunter, Mason, Seer, Robber]
-Player 10: [Villager, Troublemaker, Mason, Wolf, Villager, Wolf, Minion, Tanner, Robber, Villager, Seer, Hunter, Insomniac, Mason, Drunk]
-Player 11: [Villager, Insomniac, Mason, Minion, Villager, Drunk, Seer, Tanner, Wolf, Villager, Wolf, Hunter, Troublemaker, Mason, Robber]
+Player  0: (Villager, Mason, Mason, Minion, Villager, Drunk, Tanner, Troublemaker, Villager, Wolf, Wolf, Hunter, Insomniac, Seer, Robber)
+Player  1: (Villager, Insomniac, Mason, Tanner, Villager, Drunk, Seer, Minion, Wolf, Villager, Wolf, Hunter, Troublemaker, Mason, Robber)
+Player  2: (Villager, Insomniac, Mason, Tanner, Villager, Drunk, Seer, Wolf, Minion, Villager, Wolf, Hunter, Troublemaker, Mason, Robber)
+Player  3: (Villager, Insomniac, Mason, Wolf, Villager, Wolf, Seer, Minion, Robber, Villager, Tanner, Hunter, Troublemaker, Mason, Drunk)
+Player  4: (Villager, Insomniac, Mason, Wolf, Villager, Drunk, Seer, Wolf, Tanner, Villager, Minion, Hunter, Troublemaker, Mason, Robber)
+Player  5: (Villager, Insomniac, Mason, Tanner, Villager, Drunk, Minion, Troublemaker, Villager, Wolf, Wolf, Hunter, Seer, Mason, Robber)
+Player  6: (Villager, Insomniac, Mason, Wolf, Villager, Drunk, Seer, Wolf, Minion, Villager, Tanner, Hunter, Troublemaker, Mason, Robber)
+Player  7: (Villager, Mason, Mason, Wolf, Villager, Drunk, Tanner, Troublemaker, Villager, Minion, Wolf, Hunter, Insomniac, Seer, Robber)
+Player  8: (Villager, Wolf, Mason, Minion, Villager, Tanner, Wolf, Troublemaker, Villager, Seer, Mason, Robber, Hunter, Drunk, Insomniac)
+Player  9: (Villager, Insomniac, Mason, Tanner, Villager, Drunk, Minion, Troublemaker, Villager, Wolf, Wolf, Hunter, Mason, Seer, Robber)
+Player 10: (Villager, Troublemaker, Mason, Wolf, Villager, Wolf, Minion, Tanner, Robber, Villager, Seer, Hunter, Insomniac, Mason, Drunk)
+Player 11: (Villager, Insomniac, Mason, Minion, Villager, Drunk, Seer, Tanner, Wolf, Villager, Wolf, Hunter, Troublemaker, Mason, Robber)
 
 Vote Array: [0, 1, 0, 1, 0, 1, 0, 3, 0, 0, 6, 0]
 

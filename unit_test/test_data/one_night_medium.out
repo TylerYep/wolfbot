@@ -39,11 +39,11 @@ Player 3: I am a Robber and I swapped with Player 2. I am now a Drunk.
 Player 4: I am a Seer and I saw that Player 1 was a Wolf.
 
 [Trace] Predictions:
-Player 0: [Seer, Wolf, Troublemaker, Drunk, Minion, Robber]
-Player 1: [Minion, Seer, Robber, Wolf, Troublemaker, Drunk]
-Player 2: [Minion, Wolf, Troublemaker, Drunk, Seer, Robber]
-Player 3: [Seer, Minion, Troublemaker, Drunk, Wolf, Robber]
-Player 4: [Wolf, Minion, Troublemaker, Drunk, Seer, Robber]
+Player 0: (Seer, Wolf, Troublemaker, Drunk, Minion, Robber)
+Player 1: (Minion, Seer, Robber, Wolf, Troublemaker, Drunk)
+Player 2: (Minion, Wolf, Troublemaker, Drunk, Seer, Robber)
+Player 3: (Seer, Minion, Troublemaker, Drunk, Wolf, Robber)
+Player 4: (Wolf, Minion, Troublemaker, Drunk, Seer, Robber)
 
 Vote Array: [1, 2, 0, 1, 1]
 

@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import random
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Tuple
 
 from src import const, util
 from src.algorithms import switching_solver as solver
@@ -55,6 +55,7 @@ class Player:
         if role_type == "Hunter":
             return Hunter(self.player_index)
         # Made-up parameters
+        # TODO fill these in... randomly?
         if role_type == "Seer":
             return Seer(self.player_index, (0, "Villager"))
         if role_type == "Robber":
@@ -80,6 +81,7 @@ class Player:
                     statement = previous[i]
                     self.new_role = statement.get_references(self.player_index, stated_roles)
 
+        # If you are evil and have a new role, transform into that role.
         if self.new_role != "" and self.new_role in const.EVIL_ROLES:
             return self.transform(self.new_role).get_statement(stated_roles, previous)
 
@@ -122,7 +124,7 @@ class Player:
 
     def get_prediction(
         self, all_statements: List[Statement], orig_wolf_inds: List[int]
-    ) -> List[str]:
+    ) -> Tuple[str, ...]:
         """ Gets a player's predictions for each index given the statements. """
         is_evil = self.is_evil(orig_wolf_inds)
         # Good player vs Evil player guesses
@@ -132,6 +134,28 @@ class Player:
         else:
             prediction = make_random_prediction()
         return prediction
+
+    def get_vote(self, prediction: Tuple[str, ...]) -> int:
+        """
+        Gets the player's vote for who the Wolf is for a given prediction.
+        There are some really complicated game mechanics for the Minion.
+        https://boardgamegeek.com/thread/1422062/pointing-center-free-parking
+        """
+        ind = self.player_index
+        no_wolves_guess = (ind + 1) % const.NUM_PLAYERS
+        if const.IS_USER[ind]:
+            logger.info(
+                f"\nWhich Player is a Wolf? (Enter {no_wolves_guess} if there are no Wolves)"
+            )
+            return util.get_player(is_user=True, exclude=(ind,))
+
+        # TODO find the most likely Wolf and only vote for that one
+        # Players cannot vote for themselves.
+        found_wolf_inds = util.find_all_player_indices(prediction, "Wolf", exclude=(ind,))
+        if found_wolf_inds:
+            return random.choice(found_wolf_inds)
+
+        return no_wolves_guess
 
     def __eq__(self, other: object) -> bool:
         """ Checks for equality between Players. """

@@ -6,14 +6,14 @@ from src import const
 from src.algorithms import SolverState
 
 
-def make_random_prediction() -> List[str]:
+def make_random_prediction() -> Tuple[str, ...]:
     """ Makes a random prediction. """
     random_guesses = list(const.ROLES)
     random.shuffle(random_guesses)
-    return random_guesses
+    return tuple(random_guesses)
 
 
-def make_evil_prediction(solution_arr: List[SolverState]) -> List[str]:
+def make_evil_prediction(solution_arr: List[SolverState]) -> Tuple[str, ...]:
     """
     Makes the Wolf character's prediction for the game.
     """
@@ -25,7 +25,7 @@ def make_evil_prediction(solution_arr: List[SolverState]) -> List[str]:
     return make_unrestricted_prediction(solution)
 
 
-def make_unrestricted_prediction(solution: SolverState) -> List[str]:
+def make_unrestricted_prediction(solution: SolverState) -> Tuple[str, ...]:
     """
     Uses a list of true/false statements and possible role sets
     to return a rushed list of predictions for all roles.
@@ -38,10 +38,10 @@ def make_unrestricted_prediction(solution: SolverState) -> List[str]:
     switch_dict = get_switch_dict(solution)
     final_guesses = [solved[switch_dict[i]] for i in range(len(solved))]
     assert len(final_guesses) == const.NUM_ROLES, "Could not find unrestricted assignment of roles."
-    return final_guesses
+    return tuple(final_guesses)
 
 
-def make_prediction(solution_arr: List[SolverState], is_evil: bool = False) -> List[str]:
+def make_prediction(solution_arr: List[SolverState], is_evil: bool = False) -> Tuple[str, ...]:
     """
     Uses a list of true/false statements and possible role sets
     to return a list of predictions for all roles.
@@ -76,7 +76,7 @@ def make_prediction(solution_arr: List[SolverState], is_evil: bool = False) -> L
     switch_dict = get_switch_dict(solution_arr[solution_index])
     final_guesses = [solved[switch_dict[i]] for i in range(len(solved))]
     assert len(final_guesses) == const.NUM_ROLES, "Could not find consistent assignment of roles."
-    return final_guesses
+    return tuple(final_guesses)
 
 
 def get_basic_guesses(solution: SolverState) -> Tuple[List[str], Dict[str, int]]:

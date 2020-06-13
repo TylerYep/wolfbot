@@ -5,7 +5,9 @@ import random
 import sys
 from collections import Counter
 from enum import IntEnum, unique
-from typing import Any, Dict, Sequence
+from typing import Dict, Sequence, TypeVar
+
+T = TypeVar("T")  # pylint: disable=invalid-name
 
 
 def init_program(is_unit_test: bool) -> argparse.Namespace:
@@ -26,13 +28,13 @@ def init_program(is_unit_test: bool) -> argparse.Namespace:
     return parser.parse_args("" if is_unit_test else sys.argv[1:])
 
 
-def get_counts(arr: Sequence[Any]) -> Dict[Any, int]:
+def get_counts(arr: Sequence[T]) -> Dict[T, int]:
     """
     Returns a dict of counts of each item in a list. When there are fewer than ~40 items, using
     a regular dictionary is faster than using a Counter.
     """
     if len(arr) < 40:
-        counts: Dict[Any, int] = {}
+        counts: Dict[T, int] = {}
         for item in arr:
             if item in counts:
                 counts[item] += 1

@@ -1,5 +1,4 @@
 """ voting.py """
-import random
 from typing import Dict, List, Tuple
 
 from src import const, util
@@ -18,7 +17,7 @@ def consolidate_results(save_game: SavedGame) -> GameResult:
 
     if const.USE_VOTING:
         indiv_preds = get_individual_preds(player_objs, all_statements, orig_wolf_inds)
-        all_guesses, guessed_wolf_inds, vote_inds = get_voting_result(indiv_preds)
+        all_guesses, guessed_wolf_inds, vote_inds = get_voting_result(player_objs, indiv_preds)
         util.print_roles(game_roles, "Solution", const.INFO)
         util.print_roles(all_guesses, "WolfBot")
         _ = get_confidence(indiv_preds)
@@ -28,18 +27,18 @@ def consolidate_results(save_game: SavedGame) -> GameResult:
     all_solutions = solver(tuple(all_statements))
     for solution in all_solutions:
         logger.log(const.TRACE, f"Solver interpretation: {solution.path}")
-    all_role_guesses = make_prediction(all_solutions)
+    all_role_guesses = list(make_prediction(all_solutions))
     util.print_roles(all_role_guesses, "WolfBot")
     return GameResult(game_roles, all_role_guesses, orig_wolf_inds)
 
 
 def get_individual_preds(
     player_objs: List[Player], all_statements: List[Statement], orig_wolf_inds: List[int]
-) -> List[List[str]]:
+) -> List[Tuple[str, ...]]:
     """ Let each player make a prediction of every player's true role. """
     logger.log(const.TRACE, "\n[Trace] Predictions:")
     all_predictions = [
-        player_objs[i].get_prediction(all_statements, orig_wolf_inds)
+        tuple(player_objs[i].get_prediction(all_statements, orig_wolf_inds))
         for i in range(const.NUM_PLAYERS)
     ]
     number_length = len(str(const.NUM_ROLES))
@@ -49,7 +48,7 @@ def get_individual_preds(
     return all_predictions
 
 
-def get_confidence(all_role_guesses_arr: List[List[str]]) -> List[float]:
+def get_confidence(all_role_guesses_arr: List[Tuple[str, ...]]) -> List[float]:
     """
     Creates confidence levels for each prediction and takes most
     common role guess array as the final guess for that index.
@@ -69,7 +68,7 @@ def get_confidence(all_role_guesses_arr: List[List[str]]) -> List[float]:
 
 
 def get_voting_result(
-    all_role_guesses_arr: List[List[str]],
+    player_objs: List[Player], all_role_guesses_arr: List[Tuple[str, ...]]
 ) -> Tuple[List[str], List[int], List[int]]:
     """
     Creates confidence levels for each prediction and takes most
@@ -77,22 +76,17 @@ def get_voting_result(
     guess_histogram stores counts of prediction arrays.
     wolf_votes stores individual votes for Wolves.
     """
-    guess_histogram: Dict[Tuple[str, ...], int] = {}
     wolf_votes = [0] * const.NUM_PLAYERS
     vote_inds = []
     for i, prediction in enumerate(all_role_guesses_arr):
-        pred_arr = tuple(prediction)
-        if pred_arr in guess_histogram:
-            guess_histogram[pred_arr] += 1
-        else:
-            guess_histogram[pred_arr] = 1
-        vote_ind = get_player_vote(i, prediction)
+        vote_ind = player_objs[i].get_vote(prediction)
         wolf_votes[vote_ind] += 1
         vote_inds.append(vote_ind)
 
     logger.info(f"\nVote Array: {wolf_votes}\n")
     assert sum(wolf_votes) == const.NUM_PLAYERS
 
+    guess_histogram = const.get_counts(all_role_guesses_arr)
     avg_role_guesses, _ = max(guess_histogram.items(), key=lambda x: x[1])
     max_votes = max(wolf_votes)
     guessed_wolf_inds = [i for i, count in enumerate(wolf_votes) if count == max_votes]
@@ -136,23 +130,3 @@ def eval_winning_team(
 
     logger.info("Werewolf Team wins!")
     return "Werewolf"
-
-
-def get_player_vote(ind: int, prediction: List[str]) -> int:
-    """
-    Gets the player's vote for who the Wolf is for a given prediction.
-    There are some really complicated game mechanics for the Minion.
-    https://boardgamegeek.com/thread/1422062/pointing-center-free-parking
-    """
-    no_wolves_guess = (ind + 1) % const.NUM_PLAYERS
-    if const.IS_USER[ind]:
-        logger.info(f"\nWhich Player is a Wolf? (Type {no_wolves_guess} if there are no Wolves)")
-        return util.get_player(is_user=True, exclude=(ind,))
-
-    # TODO find the most likely Wolf and only vote for that one
-    # Players cannot vote for themselves.
-    wolf_inds = util.find_all_player_indices(prediction, "Wolf", exclude=(ind,))
-    if wolf_inds:
-        return random.choice(wolf_inds)
-
-    return no_wolves_guess
