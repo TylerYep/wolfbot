@@ -26,7 +26,7 @@ def set_roles(roles: Tuple[str, ...]) -> None:
 
 @pytest.fixture(autouse=True)
 def reset_const() -> None:
-    const.logger.setLevel(const.TRACE)
+    const.logger.set_level(0)
     const.NUM_PLAYERS = 12
     const.NUM_CENTER = 3
     const.VILLAGE_ROLES = frozenset(

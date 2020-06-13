@@ -32,7 +32,7 @@ class Drunk(Player):
             f" and unknowingly becomes a {game_roles[choice_ind]}."
         )
         if is_user:
-            logger.info("You do not know your new role.")
+            logger.info("You do not know your new role.", cache=True)
         util.swap_characters(game_roles, player_index, choice_ind)
         return cls(player_index, choice_ind)
 

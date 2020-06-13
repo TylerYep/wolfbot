@@ -32,7 +32,7 @@ class Troublemaker(Player):
         util.swap_characters(game_roles, choice_1, choice_2)
         logger.debug(f"[Hidden] Troublemaker switches Player {choice_1} and Player {choice_2}.")
         if is_user:
-            logger.info(f"You switch Player {choice_1} with Player {choice_2}.")
+            logger.info(f"You switch Player {choice_1} with Player {choice_2}.", cache=True)
 
         return cls(player_index, choice_1, choice_2)
 

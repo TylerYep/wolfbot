@@ -55,11 +55,12 @@ class Wolf(Player):
                 center_role = game_roles[center_index]
                 if is_user:
                     logger.info(
-                        f"You see Center {center_index - const.NUM_PLAYERS} is a {center_role}."
+                        f"You see Center {center_index - const.NUM_PLAYERS} is a {center_role}.",
+                        cache=True,
                     )
             logger.debug(f"[Hidden] Wolves are at indices: {wolf_indices}")
             if is_user:
-                logger.info(f"Wolves are at indices: {wolf_indices}")
+                logger.info(f"Wolves are at indices: {wolf_indices}", cache=True)
 
         return cls(player_index, wolf_indices, center_index, center_role)
 

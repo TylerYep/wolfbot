@@ -53,7 +53,8 @@ class Seer(Player):
                 if is_user:
                     logger.info(
                         f"You see that Center {peek_ind1 - const.NUM_PLAYERS} is a {peek_char1}, "
-                        f"and Center {peek_ind2 - const.NUM_PLAYERS} is a {peek_char2}."
+                        f"and Center {peek_ind2 - const.NUM_PLAYERS} is a {peek_char2}.",
+                        cache=True,
                     )
                 return cls(player_index, (peek_ind1, peek_char1), (peek_ind2, peek_char2))
 
@@ -61,7 +62,7 @@ class Seer(Player):
         peek_char = game_roles[peek_ind]
         logger.debug(f"[Hidden] Seer sees that Player {peek_ind} is a {peek_char}.")
         if is_user:
-            logger.info(f"You see that Player {peek_ind} is a {peek_char}.")
+            logger.info(f"You see that Player {peek_ind} is a {peek_char}.", cache=True)
         return cls(player_index, (peek_ind, peek_char))
 
     @staticmethod

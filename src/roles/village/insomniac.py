@@ -28,7 +28,7 @@ class Insomniac(Player):
         insomniac_new_role = game_roles[player_index]
         logger.debug(f"[Hidden] Insomniac wakes up as a {insomniac_new_role}.")
         if is_user:
-            logger.info(f"You woke up as a {insomniac_new_role}!")
+            logger.info(f"You woke up as a {insomniac_new_role}!", cache=True)
         return cls(player_index, insomniac_new_role)
 
     @staticmethod

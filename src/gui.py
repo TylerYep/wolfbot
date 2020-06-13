@@ -13,13 +13,13 @@ class GUIState:
 
     def __init__(self) -> None:
         self.disable_gui = not const.INTERACTIVE_MODE_ON
-        self.output_cache: List[str] = []
 
-    def print_cache(self) -> None:
+    @staticmethod
+    def print_cache() -> None:
         """ Clears console and then output all lines stored in the logging cache. """
         os.system("clear")
-        for line in self.output_cache:
-            logger.info(line)
+        for log_level, line in logger.output_cache:
+            logger.log(log_level, line)
 
     def intro(self, original_roles: Tuple[str, ...]) -> None:
         """ Tells the player what their assigned role is. """
@@ -27,8 +27,7 @@ class GUIState:
             return
         user_index = random.randint(0, const.NUM_PLAYERS - 1)
         const.IS_USER[user_index] = True
-        first_line = f"Player {user_index}, you are a {original_roles[user_index]}!"
-        self.output_cache.append(first_line)
+        logger.info(f"Player {user_index}, you are a {original_roles[user_index]}!", cache=True)
         self.print_cache()
 
     def night_falls(self) -> None:
@@ -42,7 +41,7 @@ class GUIState:
         """ Prints all statements that have been said so far. """
         if self.disable_gui:
             return
-        self.output_cache.append("\n-- GAME BEGINS --\n")
+        logger.info("\n-- GAME BEGINS --\n", cache=True)
         for j, statement in enumerate(all_statements):
-            self.output_cache.append(f"Player {j}: {statement.sentence}")
+            logger.info(f"Player {j}: {statement.sentence}", cache=True)
         self.print_cache()

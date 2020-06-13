@@ -1,4 +1,5 @@
 """ voting.py """
+import logging
 from typing import Dict, List, Tuple
 
 from src import const, util
@@ -18,7 +19,7 @@ def consolidate_results(save_game: SavedGame) -> GameResult:
     if const.USE_VOTING:
         indiv_preds = get_individual_preds(player_objs, all_statements, orig_wolf_inds)
         all_guesses, guessed_wolf_inds, vote_inds = get_voting_result(player_objs, indiv_preds)
-        util.print_roles(game_roles, "Solution", const.INFO)
+        util.print_roles(game_roles, "Solution", logging.INFO)
         util.print_roles(all_guesses, "WolfBot")
         _ = get_confidence(indiv_preds)
         winning_team = eval_winning_team(game_roles, guessed_wolf_inds, vote_inds)
@@ -26,7 +27,7 @@ def consolidate_results(save_game: SavedGame) -> GameResult:
 
     all_solutions = solver(tuple(all_statements))
     for solution in all_solutions:
-        logger.log(const.TRACE, f"Solver interpretation: {solution.path}")
+        logger.trace(f"Solver interpretation: {solution.path}")
     all_role_guesses = list(make_prediction(all_solutions))
     util.print_roles(all_role_guesses, "WolfBot")
     return GameResult(game_roles, all_role_guesses, orig_wolf_inds)
@@ -36,14 +37,14 @@ def get_individual_preds(
     player_objs: List[Player], all_statements: List[Statement], orig_wolf_inds: List[int]
 ) -> List[Tuple[str, ...]]:
     """ Let each player make a prediction of every player's true role. """
-    logger.log(const.TRACE, "\n[Trace] Predictions:")
+    logger.trace("\n[Trace] Predictions:")
     all_predictions = [
         tuple(player_objs[i].get_prediction(all_statements, orig_wolf_inds))
         for i in range(const.NUM_PLAYERS)
     ]
     number_length = len(str(const.NUM_ROLES))
     for i, pred in enumerate(all_predictions):
-        logger.log(const.TRACE, f"Player {i:{number_length}}: {pred}".replace("'", ""))
+        logger.trace(f"Player {i:{number_length}}: {pred}".replace("'", ""))
 
     return all_predictions
 

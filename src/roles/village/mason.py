@@ -30,7 +30,9 @@ class Mason(Player):
         assert len(mason_indices) <= 2
         logger.debug(f"[Hidden] Masons are at indices: {mason_indices}")
         if is_user:
-            logger.info(f"Masons are players: {mason_indices} (You are player {player_index})")
+            logger.info(
+                f"Masons are players: {mason_indices} (You are player {player_index})", cache=True
+            )
         return cls(player_index, mason_indices)
 
     @staticmethod

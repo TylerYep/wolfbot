@@ -7,6 +7,9 @@ from collections import Counter
 from enum import IntEnum, unique
 from typing import Dict, Sequence, TypeVar
 
+from .log import OneNightLogger
+
+# TODO https://github.com/PyCQA/pylint/issues/3401
 T = TypeVar("T")  # pylint: disable=invalid-name
 
 
@@ -16,8 +19,8 @@ def init_program(is_unit_test: bool) -> argparse.Namespace:
     # fmt: off
     parser.add_argument("--num_games", "-n", type=int, default=1,
                         help="specify number of games")
-    parser.add_argument("--log_level", "-l", type=str, choices=['trace', 'debug', 'info', 'warn'],
-                        help="enable logging.INFO")
+    parser.add_argument("--log_level", "-l", type=str, choices=["trace", "debug", "info", "warn"],
+                        help="set logging level")
     parser.add_argument("--replay", "-r", action="store_true", default=False,
                         help="replay previous game")
     parser.add_argument("--seed", "-s",
@@ -45,8 +48,7 @@ def get_counts(arr: Sequence[T]) -> Dict[T, int]:
     return dict(Counter(arr))
 
 
-UNIT_TEST = "pytest" in sys.modules
-ARGS = init_program(UNIT_TEST)
+ARGS = init_program("pytest" in sys.modules)
 if ARGS.seed:
     random.seed(ARGS.seed)
 
@@ -90,7 +92,7 @@ REPLAY = ARGS.replay
 ROLE_SET = frozenset(ROLES)
 SORTED_ROLE_SET = sorted(ROLE_SET)
 NUM_ROLES = len(ROLES)
-ROLE_COUNTS = get_counts(ROLES)  # Dict of {'Villager': 3, 'Wolf': 2, ... }
+ROLE_COUNTS = get_counts(ROLES)  # Dict of {"Villager": 3, "Wolf": 2, ... }
 NUM_PLAYERS = NUM_ROLES - NUM_CENTER
 
 """ Game Rules """
@@ -127,30 +129,21 @@ INTERACTIVE_MODE_ON = ARGS.user
 IS_USER = [False] * NUM_ROLES
 NUM_OPTIONS = 5
 
-""" Logging Constants
-TRACE = Debugging mode for development
-DEBUG = Include all hidden messages
-INFO = Regular gameplay
-WARNING = Results only """
-TRACE = 5
-DEBUG = logging.DEBUG
-INFO = logging.INFO
-WARN = logging.WARNING
-logging.basicConfig(format="%(message)s", level=TRACE)  # filename='test1.txt', filemode='a')
-logger = logging.getLogger()
+""" Logging """
+logger = OneNightLogger()
 
 if ARGS.log_level:
-    LOG_LEVELS = {
-        "trace": TRACE,
-        "debug": DEBUG,
-        "info": INFO,
-        "warn": WARN,
+    log_levels = {
+        "trace": logger.trace_level,
+        "debug": logging.DEBUG,
+        "info": logging.INFO,
+        "warn": logging.WARNING,
     }
-    logger.setLevel(LOG_LEVELS[ARGS.log_level])
+    logger.set_level(log_levels[ARGS.log_level])
 elif NUM_GAMES >= 10:
-    logger.setLevel(WARN)
+    logger.set_level(logging.WARNING)
 elif INTERACTIVE_MODE_ON:
-    logger.setLevel(INFO)
+    logger.set_level(logging.INFO)
 
 """ Ensure only one Wolf version is active """
 assert not (EXPECTIMAX_WOLF and USE_RL_WOLF)

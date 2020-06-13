@@ -33,7 +33,9 @@ class Robber(Player):
             f"[Hidden] Robber switches with Player {choice_ind} and becomes a {choice_char}."
         )
         if is_user:
-            logger.info(f"You switched with Player {choice_ind} and are now a {choice_char}!")
+            logger.info(
+                f"You switched with Player {choice_ind} and are now a {choice_char}!", cache=True
+            )
         util.swap_characters(game_roles, player_index, choice_ind)
         return cls(player_index, choice_ind, choice_char)
 

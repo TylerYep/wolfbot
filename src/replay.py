@@ -26,7 +26,7 @@ def replay_game() -> GameResult:
         save_game = json.load(f_replay, cls=WolfBotDecoder)
     original_roles, game_roles, all_statements, player_objs = save_game.load_game()
 
-    logger.setLevel(0)
+    logger.set_level(0)
     logger.warning(player_objs)
     logger.warning("\n\nSTATEMENTS:\n")
     for sentence in all_statements:

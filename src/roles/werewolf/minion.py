@@ -33,7 +33,7 @@ class Minion(Player):
             wolf_indices = util.find_all_player_indices(original_roles, "Wolf")
             logger.debug(f"[Hidden] Wolves are at indices: {wolf_indices}")
             if is_user:
-                logger.info(f"Wolves are at indices: {wolf_indices}")
+                logger.info(f"Wolves are at indices: {wolf_indices}", cache=True)
         return cls(player_index, wolf_indices)
 
     def get_statement(self, stated_roles: List[str], previous: List[Statement]) -> Statement:

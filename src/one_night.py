@@ -24,7 +24,7 @@ def simulate_game(
 ) -> Statistics:
     """ Collects statistics about several simulations of play_one_night_werewolf. """
     if disable_logging:
-        logger.setLevel(logging.WARNING)
+        logger.set_level(logging.WARNING)
 
     stat_tracker = Statistics()
     for _ in tqdm(range(num_games), disable=disable_tqdm):

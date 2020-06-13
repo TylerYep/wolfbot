@@ -15,7 +15,7 @@ def generate_data() -> None:
     """ Simulate games and store data in simulations folder. """
     weights = [3 ** i for i in range(1, const.NUM_PLAYERS + 1)]
     sim_list = []
-    logger.setLevel(0)
+    logger.set_level(0)
     for i, weight in enumerate(weights):
         const.FIXED_WOLF_INDEX = i
         logger.warning(f"Computing index: {i}")
