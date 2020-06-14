@@ -26,6 +26,8 @@ class Troublemaker(Player):
         del original_roles
         assert const.NUM_PLAYERS > 2
         is_user = const.IS_USER[player_index]
+        if is_user:
+            logger.info("Choose two players to switch places:")
         choice_1 = util.get_player(is_user, (player_index,))
         choice_2 = util.get_player(is_user, (player_index, choice_1))
 

@@ -41,7 +41,7 @@ def get_player(is_user: bool, exclude: Tuple[int, ...] = ()) -> int:
             choice_ind = int(user_input)
 
             if choice_ind in exclude:
-                logger.info("You cannot choose yourself or any index twice.")
+                logger.info("You cannot choose yourself or an index twice.")
                 choice_ind = -1
         return choice_ind
 
@@ -62,7 +62,7 @@ def get_center(is_user: bool, exclude: Tuple[int, ...] = ()) -> int:
             choice_ind = int(user_input)
 
             if choice_ind + const.NUM_PLAYERS in exclude:
-                logger.info("You cannot choose any index twice.")
+                logger.info("You cannot choose an index twice.")
                 choice_ind = -1
         return choice_ind + const.NUM_PLAYERS
 
@@ -89,3 +89,8 @@ def get_numeric_input(end: int, start: Optional[int] = None) -> int:
             user_input = input(f"Enter a number from {start} - {end - 1}: ")
         choice_ind = int(user_input)
     return choice_ind
+
+
+def weighted_coin_flip(prob: float) -> bool:
+    """ Flips a weighted coin with probability prob and 1 - prob. """
+    return random.choices([True, False], [prob, 1 - prob])[0]

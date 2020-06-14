@@ -29,6 +29,10 @@ class OneNightLogger:
         """ Sets log level. """
         self.logger.setLevel(log_level)
 
+    def clear(self) -> None:
+        """ Clears log cache. """
+        self.output_cache.clear()
+
     def log(self, log_level: int, message: str, cache: bool = False) -> None:
         """ Logs a line and saves that line if cache = True. """
         self.logger.log(log_level, message)

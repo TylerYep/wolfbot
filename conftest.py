@@ -38,7 +38,7 @@ def reset_const() -> None:
     const.USE_VOTING = True
     const.RANDOMIZE_ROLES = True
     const.MULTI_STATEMENT = False
-    const.INTERACTIVE_MODE_ON = False
+    const.INTERACTIVE_MODE = False
 
     # Player Settings
     const.CENTER_SEER_PROB = 0.9

@@ -9,10 +9,10 @@ from src.statements import Statement
 
 
 class GUIState:
-    """ If INTERACTIVE_MODE_ON is False, all actions are no-ops. """
+    """ If INTERACTIVE_MODE is False, all actions are no-ops. """
 
     def __init__(self) -> None:
-        self.disable_gui = not const.INTERACTIVE_MODE_ON
+        self.disable_gui = not const.INTERACTIVE_MODE
 
     @staticmethod
     def print_cache() -> None:
@@ -25,6 +25,11 @@ class GUIState:
         """ Tells the player what their assigned role is. """
         if self.disable_gui:
             return
+        input("Press Enter to continue...")
+        os.system("clear")
+        logger.clear()
+
+        const.IS_USER = [False] * const.NUM_ROLES
         user_index = random.randint(0, const.NUM_PLAYERS - 1)
         const.IS_USER[user_index] = True
         logger.info(f"Player {user_index}, you are a {original_roles[user_index]}!", cache=True)

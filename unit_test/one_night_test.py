@@ -37,7 +37,7 @@ class TestPlayOneNightWerewolf:
 #     @staticmethod
 #     def test_one_night_small(monkeypatch, example_small_game_result):
 #         """ Correctly play one round of one night werewolf. """
-#         const.INTERACTIVE_MODE_ON = True
+#         const.INTERACTIVE_MODE = True
 #         monkeypatch.setattr('builtins.input', lambda x: "0")
 
 #         result = one_night.play_one_night_werewolf()

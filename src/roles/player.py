@@ -141,17 +141,32 @@ class Player:
         There are some really complicated game mechanics for the Minion.
         https://boardgamegeek.com/thread/1422062/pointing-center-free-parking
         """
-        ind = self.player_index
-        no_wolves_guess = (ind + 1) % const.NUM_PLAYERS
-        if const.IS_USER[ind]:
+        no_wolves_guess = (self.player_index + 1) % const.NUM_PLAYERS
+
+        if const.IS_USER[self.player_index]:
             logger.info(
                 f"\nWhich Player is a Wolf? (Enter {no_wolves_guess} if there are no Wolves)"
             )
-            return util.get_player(is_user=True, exclude=(ind,))
+            return util.get_player(is_user=True, exclude=(self.player_index,))
+
+        if (
+            const.INTERACTIVE_MODE
+            and self.player_index < const.NUM_PLAYERS
+            and util.weighted_coin_flip(const.INFLUENCE_PROB)
+        ):
+            # Convince other players to vote with you.
+            logger.info(
+                f"\nPlayer {self.player_index} trusts you. "
+                f"Who should Player {self.player_index} vote for? "
+                f"(Enter {no_wolves_guess} if there are no Wolves)"
+            )
+            return util.get_player(is_user=True, exclude=(self.player_index,))
 
         # TODO find the most likely Wolf and only vote for that one
         # Players cannot vote for themselves.
-        found_wolf_inds = util.find_all_player_indices(prediction, "Wolf", exclude=(ind,))
+        found_wolf_inds = util.find_all_player_indices(
+            prediction, "Wolf", exclude=(self.player_index,)
+        )
         if found_wolf_inds:
             return random.choice(found_wolf_inds)
 

@@ -94,6 +94,9 @@ class Statistics:
             "Percentage of Tanner Team wins: ",
             "Percentage of Werewolf Team wins: ",
         ]
+        if const.INTERACTIVE_MODE:
+            metric_fns = metric_fns[-3:]
+            sentences = sentences[-3:]
         self.num_games = 0
         self.metrics = [Metric(metric_fns[i], sentences[i]) for i in range(len(metric_fns))]
         self.start_time = time.perf_counter()

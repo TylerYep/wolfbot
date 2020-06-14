@@ -124,10 +124,14 @@ EXPECTIMAX_MINION = EXPECTIMAX_WOLF
 USE_RL_WOLF = False
 EXPERIENCE_PATH = "src/learning/simulations/wolf.json"
 
+""" Ensure only one Wolf version is active """
+assert not (EXPECTIMAX_WOLF and USE_RL_WOLF)
+
 """ Interactive Game Constants """
-INTERACTIVE_MODE_ON = ARGS.user
+INTERACTIVE_MODE = ARGS.user
 IS_USER = [False] * NUM_ROLES
 NUM_OPTIONS = 5
+INFLUENCE_PROB = 0.1
 
 """ Logging """
 logger = OneNightLogger()
@@ -140,13 +144,11 @@ if ARGS.log_level:
         "warn": logging.WARNING,
     }
     logger.set_level(log_levels[ARGS.log_level])
+elif INTERACTIVE_MODE:
+    logger.set_level(logging.INFO)
 elif NUM_GAMES >= 10:
     logger.set_level(logging.WARNING)
-elif INTERACTIVE_MODE_ON:
-    logger.set_level(logging.INFO)
 
-""" Ensure only one Wolf version is active """
-assert not (EXPECTIMAX_WOLF and USE_RL_WOLF)
 
 if sys.version_info < (3, 7):
     sys.stdout.write("Python " + sys.version)
