@@ -69,6 +69,7 @@ def get_player_statements(player_objs: List[Player]) -> List[Statement]:
 
     if not const.MULTI_STATEMENT:
         for j in range(const.NUM_PLAYERS):
+            player_objs[j].analyze(stated_roles, given_statements)
             statement = player_objs[j].get_statement(stated_roles, given_statements)
             stated_roles.append(statement.speaker)
             given_statements.append(statement)
@@ -81,7 +82,8 @@ def get_player_statements(player_objs: List[Player]) -> List[Statement]:
     curr_ind = 0
     while not all(val.priority == StatementLevel.PRIMARY for val in finished_speaking):
         if finished_speaking[curr_ind].priority < StatementLevel.PRIMARY:
-            statement = player_objs[curr_ind].get_statement(stated_roles, finished_speaking)
+            player_objs[curr_ind].analyze(stated_roles, given_statements)
+            statement = player_objs[curr_ind].get_statement(stated_roles, given_statements)
             given_statements.append(statement)
             if len(stated_roles) <= curr_ind:
                 stated_roles.append(statement.speaker)

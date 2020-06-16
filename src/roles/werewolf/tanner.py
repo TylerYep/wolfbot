@@ -4,6 +4,8 @@ from __future__ import annotations
 import random
 from typing import List, Tuple
 
+from overrides import overrides
+
 from src import const
 from src.algorithms import switching_solver as solver
 from src.predictions import make_unrestricted_prediction
@@ -21,6 +23,7 @@ class Tanner(Player):
         self.statements = get_wolf_statements_random(self)
 
     @classmethod
+    @overrides
     def awake_init(
         cls, player_index: int, game_roles: List[str], original_roles: List[str]
     ) -> Tanner:
@@ -28,6 +31,18 @@ class Tanner(Player):
         del game_roles, original_roles
         return cls(player_index)
 
+    @staticmethod
+    @overrides
+    def get_all_statements(player_index: int) -> List[Statement]:
+        """ Required for all player types. Returns all possible role statements. """
+        raise NotImplementedError
+
+    # @overrides
+    # def analyze(self, stated_roles: List[str], previous: List[Statement]) -> None:
+    #     """ Updates Player state given new information. """
+    #     super().analyze(stated_roles, previous)
+
+    @overrides
     def get_statement(self, stated_roles: List[str], previous: List[Statement]) -> Statement:
         """ Get Tanner Statement. """
         if const.EXPECTIMAX_TANNER:

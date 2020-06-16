@@ -3,6 +3,8 @@ from __future__ import annotations
 
 from typing import List
 
+from overrides import overrides
+
 from src.statements import Statement
 
 from ..player import Player
@@ -16,6 +18,7 @@ class Villager(Player):
         self.statements += self.get_villager_statements(player_index)
 
     @classmethod
+    @overrides
     def awake_init(
         cls, player_index: int, game_roles: List[str], original_roles: List[str]
     ) -> Villager:
@@ -29,6 +32,7 @@ class Villager(Player):
         return [Statement("I am a Villager.", ((player_index, frozenset({"Villager"})),))]
 
     @staticmethod
+    @overrides
     def get_all_statements(player_index: int) -> List[Statement]:
         """ Required for all player types. Returns all possible role statements. """
         return Villager.get_villager_statements(player_index)

@@ -70,7 +70,7 @@ class TestWolfBotEncoder:
             ' "actual": ["Villager", "Seer", "Robber"],'
             ' "guessed": ["Villager", "Seer", "Robber"],'
             ' "wolf_inds": [],'
-            ' "winning_team": "Villager"}'
+            ' "winning_team": "Village"}'
         )
 
     @staticmethod
@@ -170,7 +170,7 @@ class TestWolfBotDecoder:
             ' "actual": ["Villager", "Seer", "Robber"],'
             ' "guessed": ["Villager", "Seer", "Robber"],'
             ' "wolf_inds": [],'
-            ' "winning_team": "Villager"}'
+            ' "winning_team": "Village"}'
         )
 
         result = json.loads(input_json, cls=WolfBotDecoder)

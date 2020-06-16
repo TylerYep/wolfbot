@@ -4,6 +4,8 @@ from __future__ import annotations
 import random
 from typing import Any, Dict, List, Tuple
 
+from overrides import overrides
+
 from src import const, util
 from src.algorithms import switching_solver as solver
 from src.const import logger
@@ -22,6 +24,7 @@ class Minion(Player):
         self.wolf_indices = wolf_indices
 
     @classmethod
+    @overrides
     def awake_init(
         cls, player_index: int, game_roles: List[str], original_roles: List[str]
     ) -> Minion:
@@ -36,13 +39,24 @@ class Minion(Player):
                 logger.info(f"Wolves are at indices: {wolf_indices}", cache=True)
         return cls(player_index, wolf_indices)
 
-    def get_statement(self, stated_roles: List[str], previous: List[Statement]) -> Statement:
-        """ Get Minion Statement. """
+    @staticmethod
+    @overrides
+    def get_all_statements(player_index: int) -> List[Statement]:
+        """ Required for all player types. Returns all possible role statements. """
+        raise NotImplementedError
+
+    @overrides
+    def analyze(self, stated_roles: List[str], previous: List[Statement]) -> None:
+        """ Updates Player state given new information. """
+        super().analyze(stated_roles, previous)
         if const.USE_REG_WOLF:
             self.statements += get_wolf_statements(self, stated_roles, previous)
         else:
             self.statements += get_wolf_statements_random(self)
 
+    @overrides
+    def get_statement(self, stated_roles: List[str], previous: List[Statement]) -> Statement:
+        """ Get Minion Statement. """
         if const.EXPECTIMAX_MINION:
             return get_statement_expectimax(self, previous)
 
@@ -66,6 +80,7 @@ class Minion(Player):
                 val -= 5
         return val
 
+    @overrides
     def json_repr(self) -> Dict[str, Any]:
         """ Gets JSON representation of a Minion player. """
         json_dict = super().json_repr()

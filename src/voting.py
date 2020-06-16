@@ -123,7 +123,7 @@ def eval_winning_team(
 
     if villager_win or killed_wolf:
         logger.info("Village Team wins!")
-        return "Villager"
+        return "Village"
 
     if killed_tanner:
         logger.info("Tanner wins!")

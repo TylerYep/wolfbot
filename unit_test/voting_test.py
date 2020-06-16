@@ -57,7 +57,7 @@ class TestConsolidateResults:
             ["Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"],
             ["Minion", "Wolf", "Troublemaker", "Drunk", "Seer", "Robber"],
             [1],
-            "Villager",
+            "Village",
         )
 
 
@@ -243,7 +243,7 @@ class TestEvalWinningTeam:
         result = voting.eval_winning_team(small_game_roles, guessed_wolf_inds, vote_inds)
 
         expected = ("No wolves were found.", "That was correct!\n", "Village Team wins!")
-        assert result == "Villager"
+        assert result == "Village"
         verify_output(caplog, expected)
 
     @staticmethod
@@ -260,7 +260,7 @@ class TestEvalWinningTeam:
             "Player 2 was a Wolf!\n",
             "Village Team wins!",
         )
-        assert result == "Villager"
+        assert result == "Village"
         verify_output(caplog, expected)
 
     @staticmethod
@@ -285,7 +285,7 @@ class TestEvalWinningTeam:
 
         result = voting.eval_winning_team(const.ROLES, guessed_wolf_inds, vote_inds)
 
-        assert result == "Villager"
+        assert result == "Village"
         verify_output(caplog, expected)
 
     @staticmethod

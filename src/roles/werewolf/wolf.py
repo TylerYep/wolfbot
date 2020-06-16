@@ -4,6 +4,8 @@ from __future__ import annotations
 import random
 from typing import Any, Dict, List, Optional, Tuple
 
+from overrides import overrides
+
 from src import const, util
 from src.algorithms import switching_solver as solver
 from src.const import logger
@@ -36,6 +38,7 @@ class Wolf(Player):
         self.center_role = center_role
 
     @classmethod
+    @overrides
     def awake_init(
         cls, player_index: int, game_roles: List[str], original_roles: List[str]
     ) -> Wolf:
@@ -64,8 +67,16 @@ class Wolf(Player):
 
         return cls(player_index, wolf_indices, center_index, center_role)
 
-    def get_statement(self, stated_roles: List[str], previous: List[Statement]) -> Statement:
-        """ Get Wolf Statement. """
+    @staticmethod
+    @overrides
+    def get_all_statements(player_index: int) -> List[Statement]:
+        """ Required for all player types. Returns all possible role statements. """
+        raise NotImplementedError
+
+    @overrides
+    def analyze(self, stated_roles: List[str], previous: List[Statement]) -> None:
+        """ Updates Player state given new information. """
+        super().analyze(stated_roles, previous)
         if const.USE_REG_WOLF:
             if self.center_role not in (None, "Wolf", "Mason"):
                 center_statements = get_center_wolf_statements(self, stated_roles)
@@ -79,8 +90,11 @@ class Wolf(Player):
         else:
             self.statements += get_wolf_statements_random(self)
 
-        # Choose one statement to return by default
+    @overrides
+    def get_statement(self, stated_roles: List[str], previous: List[Statement]) -> Statement:
+        """ Get Wolf Statement. """
         if const.USE_RL_WOLF:
+            # Choose one statement to return by default
             default_statement = super().get_statement(stated_roles, previous)
             return get_statement_rl(self, stated_roles, previous, default_statement)
 
@@ -106,6 +120,7 @@ class Wolf(Player):
                 val -= 5
         return val
 
+    @overrides
     def json_repr(self) -> Dict[str, Any]:
         """ Gets JSON representation of a Wolf player. """
         json_dict = super().json_repr()

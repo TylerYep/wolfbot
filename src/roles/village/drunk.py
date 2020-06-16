@@ -3,6 +3,8 @@ from __future__ import annotations
 
 from typing import Any, Dict, List
 
+from overrides import overrides
+
 from src import const, util
 from src.const import SwitchPriority, logger
 from src.statements import Statement
@@ -19,6 +21,7 @@ class Drunk(Player):
         self.statements += self.get_drunk_statements(player_index, choice_ind)
 
     @classmethod
+    @overrides
     def awake_init(
         cls, player_index: int, game_roles: List[str], original_roles: List[str]
     ) -> Drunk:
@@ -45,6 +48,7 @@ class Drunk(Player):
         return [Statement(sentence, knowledge, switches)]
 
     @staticmethod
+    @overrides
     def get_all_statements(player_index: int) -> List[Statement]:
         """ Required for all player types. Returns all possible role statements. """
         statements: List[Statement] = []
@@ -52,6 +56,7 @@ class Drunk(Player):
             statements += Drunk.get_drunk_statements(player_index, const.NUM_PLAYERS + k)
         return statements
 
+    @overrides
     def json_repr(self) -> Dict[str, Any]:
         """ Gets JSON representation of a Drunk player. """
         json_dict = super().json_repr()

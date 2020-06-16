@@ -4,7 +4,8 @@
   "search_path": [
     { "site-package": "tqdm" },
     { "site-package": "pytest" },
-    { "site-package": "_pytest" }
+    { "site-package": "_pytest" },
+    { "site-package": "overrides" }
   ],
   "typeshed": "/Users/tyleryep/miniconda3/lib/pyre_check/typeshed/"
 }

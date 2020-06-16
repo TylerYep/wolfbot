@@ -66,7 +66,7 @@ class TestStandard:
         assert stat_results["werewolf_wins"] < 0.2
 
     @staticmethod
-    def test_standard_game_expectimax_wolf(standard_game_roles):
+    def test_expectimax_wolf(standard_game_roles):
         """ Correctly play one round of one night werewolf. """
         const.ROLES = standard_game_roles
         const.USE_REG_WOLF = True

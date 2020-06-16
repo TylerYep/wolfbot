@@ -3,6 +3,8 @@ from __future__ import annotations
 
 from typing import Any, Dict, List, Optional
 
+from overrides import overrides
+
 from src import const
 from src.const import logger
 from src.statements import Statement
@@ -19,6 +21,7 @@ class Insomniac(Player):
         self.statements += self.get_insomniac_statements(player_index, new_role)
 
     @classmethod
+    @overrides
     def awake_init(
         cls, player_index: int, game_roles: List[str], original_roles: List[str]
     ) -> Insomniac:
@@ -47,6 +50,7 @@ class Insomniac(Player):
         return [Statement(sentence, knowledge)]
 
     @staticmethod
+    @overrides
     def get_all_statements(player_index: int) -> List[Statement]:
         """ Required for all player types. Returns all possible role statements. """
         statements: List[Statement] = []
@@ -54,11 +58,9 @@ class Insomniac(Player):
             statements += Insomniac.get_insomniac_statements(player_index, role)
         return statements
 
-    def get_statement(self, stated_roles: List[str], previous: List[Statement]) -> Statement:
-        """ Overrides get_statement when the Insomniac becomes a Wolf. """
-        if self.new_role != "Insomniac" and self.new_role in const.EVIL_ROLES:
-            return self.transform(self.new_role).get_statement(stated_roles, previous)
-
+    @overrides
+    def analyze(self, stated_roles: List[str], previous: List[Statement]) -> None:
+        """ Overrides analyze. """
         possible_switches: List[int] = []
         for i, stated_role in enumerate(stated_roles):
             if stated_role == self.new_role:
@@ -67,8 +69,8 @@ class Insomniac(Player):
             self.statements += self.get_insomniac_statements(
                 self.player_index, self.new_role, possible_switches[0]
             )
-        return super().get_statement(stated_roles, previous)
 
+    @overrides
     def json_repr(self) -> Dict[str, Any]:
         """ Gets JSON representation of an Insomniac player. """
         json_dict = super().json_repr()

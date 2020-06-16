@@ -3,6 +3,8 @@ from __future__ import annotations
 
 from typing import Any, Dict, List
 
+from overrides import overrides
+
 from src import const, util
 from src.const import SwitchPriority, logger
 from src.statements import Statement
@@ -20,6 +22,7 @@ class Robber(Player):
         self.statements += self.get_robber_statements(player_index, choice_ind, new_role)
 
     @classmethod
+    @overrides
     def awake_init(
         cls, player_index: int, game_roles: List[str], original_roles: List[str]
     ) -> Robber:
@@ -52,6 +55,7 @@ class Robber(Player):
         return [Statement(sentence, knowledge, switches)]
 
     @staticmethod
+    @overrides
     def get_all_statements(player_index: int) -> List[Statement]:
         """ Required for all player types. Returns all possible role statements. """
         statements: List[Statement] = []
@@ -61,13 +65,7 @@ class Robber(Player):
                     statements += Robber.get_robber_statements(player_index, i, role)
         return statements
 
-    def get_statement(self, stated_roles: List[str], previous: List[Statement]) -> Statement:
-        """ Overrides get_statement when the Robber becomes a Wolf. """
-        if self.new_role != "" and self.new_role in const.EVIL_ROLES:
-            return self.transform(self.new_role).get_statement(stated_roles, previous)
-
-        return super().get_statement(stated_roles, previous)
-
+    @overrides
     def json_repr(self) -> Dict[str, Any]:
         """ Gets JSON representation of a Robber player. """
         json_dict = super().json_repr()

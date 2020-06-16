@@ -192,8 +192,8 @@ class Statistics:
 
     @staticmethod
     def villager_wins(game_result: GameResult) -> Tuple[int, int]:
-        """ Returns 1/1 if the Villager team won. """
-        return int(game_result.winning_team == "Villager"), 1
+        """ Returns 1/1 if the Village team won. """
+        return int(game_result.winning_team == "Village"), 1
 
     @staticmethod
     def tanner_wins(game_result: GameResult) -> Tuple[int, int]:

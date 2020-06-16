@@ -9,9 +9,7 @@ from src.stats import GameResult
 
 @pytest.fixture
 def example_small_game_result(small_game_roles: Tuple[str, ...]) -> GameResult:
-    return GameResult(
-        ["Villager", "Seer", "Robber"], ["Villager", "Seer", "Robber"], [], "Villager"
-    )
+    return GameResult(["Villager", "Seer", "Robber"], ["Villager", "Seer", "Robber"], [], "Village")
 
 
 @pytest.fixture
@@ -20,7 +18,7 @@ def example_medium_game_result(medium_game_roles: Tuple[str, ...]) -> GameResult
         ["Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"],
         ["Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"],
         [1],
-        "Villager",
+        "Village",
     )
 
 
@@ -62,5 +60,5 @@ def example_large_game_result(large_game_roles: Tuple[str, ...]) -> GameResult:
             "Robber",
         ],
         [7, 10],
-        "Villager",
+        "Village",
     )

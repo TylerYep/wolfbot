@@ -87,7 +87,7 @@ class TestGameResult:
             "actual": ["Villager", "Seer", "Robber"],
             "guessed": ["Villager", "Seer", "Robber"],
             "type": "GameResult",
-            "winning_team": "Villager",
+            "winning_team": "Village",
             "wolf_inds": [],
         }
 
@@ -97,7 +97,7 @@ class TestGameResult:
         expected = (
             "GameResult(actual=['Villager', 'Seer', 'Robber'], "
             "guessed=['Villager', 'Seer', 'Robber'], "
-            "wolf_inds=[], winning_team='Villager')"
+            "wolf_inds=[], winning_team='Village')"
         )
 
         result = str(example_small_game_result)
@@ -110,7 +110,7 @@ class TestGameResult:
         not_a_game_result = "hello"
 
         result = stats.GameResult(
-            ["Villager", "Seer", "Robber"], ["Villager", "Seer", "Robber"], [], "Villager"
+            ["Villager", "Seer", "Robber"], ["Villager", "Seer", "Robber"], [], "Village"
         )
 
         assert result == example_small_game_result

@@ -10,13 +10,15 @@ from src.const import StatementLevel, logger
 from src.predictions import make_prediction, make_random_prediction
 from src.statements import Statement
 
+# from overrides import EnforceOverrides
 
-class Player:
+
+class Player:  # (EnforceOverrides):
     """ Player class. """
 
     def __init__(self, player_index: int, new_role: str = ""):
         self.player_index = player_index
-        self.role = type(self).__name__  # e.g. 'Wolf'
+        self.role = type(self).__name__  # e.g. "Wolf"
         self.new_role = new_role
         self.statements: List[Statement] = []
         self.prev_priority = StatementLevel.NOT_YET_SPOKEN
@@ -69,8 +71,18 @@ class Player:
             return Mason(self.player_index, [0, 1])
         raise TypeError(f"Role Type: {role_type} is not a valid role.")
 
-    def get_statement(self, stated_roles: List[str], previous: List[Statement]) -> Statement:
-        """ Gets Player Statement. """
+    @classmethod
+    def awake_init(cls, player_index: int, game_roles: List[str], original_roles: List[str]) -> Any:
+        """ Initializes Player. """
+        raise NotImplementedError
+
+    @staticmethod
+    def get_all_statements(player_index: int) -> List[Statement]:
+        """ Required for all player types. Returns all possible role statements. """
+        raise NotImplementedError
+
+    def analyze(self, stated_roles: List[str], previous: List[Statement]) -> None:
+        """ Updates Player state given new information. """
         # If someone says a Statement that involves you, set your new_role to their theory.
         if self.role in const.VILLAGE_ROLES:
             # TODO Want to use random solution but would break tests.
@@ -80,15 +92,22 @@ class Player:
                     statement = previous[i]
                     self.new_role = statement.get_references(self.player_index, stated_roles)
 
-        # If you are evil and have a new role, transform into that role.
+    def get_statement(self, stated_roles: List[str], previous: List[Statement]) -> Statement:
+        """ Gets Player Statement. """
+        del stated_roles, previous
+        # If have a new role and are now evil, transform into that role.
         if self.new_role != "" and self.new_role in const.EVIL_ROLES:
-            return self.transform(self.new_role).get_statement(stated_roles, previous)
+            new_player_obj = self.transform(self.new_role)
+            # TODO shouldn't need to check statements, plus line 98 should break this.
+            if new_player_obj.statements:
+                self = new_player_obj  # pylint: disable=self-cls-assignment
 
         if const.MULTI_STATEMENT:
             self.statements = [x for x in self.statements if x.priority > self.prev_priority]
 
         # Choose a statement
         next_statement = random.choice(self.statements)
+
         if const.IS_USER[self.player_index]:
             sample_statements = []
             choice = const.NUM_OPTIONS
