@@ -16,10 +16,10 @@ from src.statements import Statement
 class Player:  # (EnforceOverrides):
     """ Player class. """
 
-    def __init__(self, player_index: int, new_role: str = ""):
+    def __init__(self, player_index: int):
         self.player_index = player_index
         self.role = type(self).__name__  # e.g. "Wolf"
-        self.new_role = new_role
+        self.new_role = ""
         self.statements: List[Statement] = []
         self.prev_priority = StatementLevel.NOT_YET_SPOKEN
         if const.MULTI_STATEMENT:
@@ -73,7 +73,7 @@ class Player:  # (EnforceOverrides):
 
     @classmethod
     def awake_init(cls, player_index: int, game_roles: List[str], original_roles: List[str]) -> Any:
-        """ Initializes Player. """
+        """ Initializes Player and performs their nighttime actions. """
         raise NotImplementedError
 
     @staticmethod
@@ -98,12 +98,16 @@ class Player:  # (EnforceOverrides):
         # If have a new role and are now evil, transform into that role.
         if self.new_role != "" and self.new_role in const.EVIL_ROLES:
             new_player_obj = self.transform(self.new_role)
-            # TODO shouldn't need to check statements, plus line 98 should break this.
+            # TODO shouldn't need to check statements, plus line 106 should break this.
             if new_player_obj.statements:
                 self = new_player_obj  # pylint: disable=self-cls-assignment
 
         if const.MULTI_STATEMENT:
             self.statements = [x for x in self.statements if x.priority > self.prev_priority]
+
+        # Base Case: avoids a call to random.choice
+        # if len(self.statements) == 1:
+        #     return self.statements[0]
 
         # Choose a statement
         next_statement = random.choice(self.statements)
@@ -135,19 +139,17 @@ class Player:  # (EnforceOverrides):
             or self.new_role in const.EVIL_ROLES
         )
 
-    def get_prediction(
-        self, all_statements: List[Statement], orig_wolf_inds: List[int]
-    ) -> Tuple[str, ...]:
-        """ Gets a player's predictions for each index given the statements. """
+    def predict(self, statements: List[Statement], orig_wolf_inds: List[int]) -> Tuple[str, ...]:
+        """ Gets a player's predictions for each index given all statements. """
         is_evil = self.is_evil(orig_wolf_inds)
         if const.SMART_VILLAGERS or is_evil:
-            all_solutions = solver(tuple(all_statements), (self.player_index,))
+            all_solutions = solver(tuple(statements), (self.player_index,))
             prediction = make_prediction(all_solutions, is_evil)
         else:
             prediction = make_random_prediction()
         return prediction
 
-    def get_vote(self, prediction: Tuple[str, ...]) -> int:
+    def vote(self, prediction: Tuple[str, ...]) -> int:
         """
         Gets the player's vote for who the Wolf is for a given prediction.
         There are some really complicated game mechanics for the Minion.

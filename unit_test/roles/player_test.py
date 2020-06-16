@@ -98,7 +98,7 @@ class TestIsEvil:
 
 class TestGetVote:
     """
-    Tests for the get_vote function.
+    Tests for the vote function.
     IMPORTANT: As written, the voter's role does not matter in their decision.
     If it becomes important, then use the player_list from test_find_evil_players.
     """
@@ -109,7 +109,7 @@ class TestGetVote:
         const.ROLES = medium_game_roles
         prediction = ["Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"]
 
-        result = Player(2).get_vote(prediction)
+        result = Player(2).vote(prediction)
 
         assert result == 1
 
@@ -119,7 +119,7 @@ class TestGetVote:
         const.ROLES = medium_game_roles
         prediction = ["Seer", "Troublemaker", "Drunk", "Minion", "Robber", "Wolf"]
 
-        result = Player(2).get_vote(prediction)
+        result = Player(2).vote(prediction)
 
         assert result == 3
 
@@ -129,7 +129,7 @@ class TestGetVote:
         const.ROLES = small_game_roles
         prediction = ["Villager", "Seer", "Robber"]
 
-        result = [Player(i).get_vote(prediction) for i in range(const.NUM_PLAYERS)]
+        result = [Player(i).vote(prediction) for i in range(const.NUM_PLAYERS)]
 
         assert result == [1, 2, 0]
 
@@ -142,6 +142,6 @@ class TestGetVote:
         prediction = ["Seer", "Troublemaker", "Drunk", "Minion", "Robber", "Wolf"]
         monkeypatch.setattr("builtins.input", lambda x: "4")
 
-        result = Player(player_index).get_vote(prediction)
+        result = Player(player_index).vote(prediction)
 
         assert result == 4

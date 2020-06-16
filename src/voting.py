@@ -39,7 +39,7 @@ def get_individual_preds(
     """ Let each player make a prediction of every player's true role. """
     logger.trace("\n[Trace] Predictions:")
     all_predictions = [
-        tuple(player_objs[i].get_prediction(all_statements, orig_wolf_inds))
+        tuple(player_objs[i].predict(all_statements, orig_wolf_inds))
         for i in range(const.NUM_PLAYERS)
     ]
     number_length = len(str(const.NUM_ROLES))
@@ -80,7 +80,7 @@ def get_voting_result(
     wolf_votes = [0] * const.NUM_PLAYERS
     vote_inds = []
     for i, prediction in enumerate(all_role_guesses_arr):
-        vote_ind = player_objs[i].get_vote(prediction)
+        vote_ind = player_objs[i].vote(prediction)
         wolf_votes[vote_ind] += 1
         vote_inds.append(vote_ind)
 
