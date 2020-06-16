@@ -88,7 +88,12 @@ def get_statement_expectimax(player_obj: Any, prev_statements: List[Statement]) 
             if check_state is not None:
                 start_state = check_state
 
+    if const.MULTI_STATEMENT:
+        player_obj.statements = [
+            x for x in player_obj.statements if x.priority > player_obj.prev_priority
+        ]
     best_val, best_move = expectimax(tuple(prev_statements), start_state, player_obj.player_index)
     logger.debug(f"Evaluation Function Score: {best_val}")
     assert best_move is not None
+    player_obj.prev_priority = best_move.priority
     return best_move

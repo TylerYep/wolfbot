@@ -79,7 +79,7 @@ def train(folder: str, eta: float = 0.01) -> None:
 def test() -> None:  # experience_dict as param
     """ Run play_one_night_werewolf with a specific experience_dict. """
     assert const.USE_RL_WOLF is False
-    simulate_game(num_games=const.NUM_GAMES, disable_tqdm=False)
+    simulate_game(num_games=const.NUM_GAMES, enable_tqdm=True)
 
 
 if __name__ == "__main__":

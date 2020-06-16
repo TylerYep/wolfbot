@@ -24,7 +24,6 @@ class TestPlayer:
 
         assert robber.choice_ind == 3
         assert robber.new_role == "Villager"
-        assert robber.is_user is False
 
     @staticmethod
     def test_get_statement_inheritance():

@@ -11,12 +11,13 @@ By Tyler Yep & Harry Sha
 This is an implementation of the popular board game One Night Ultimate Werewolf.
 
 To try it out, run `python main.py` in the terminal.
+(You may need to run `pip install -r requirements.txt` if you do not have tqdm already installed.)
 
 Constants, along with their use cases, are listed in src/const.py. You can change:
 - \# of players
 - \# of center cards
 - Which roles are used
-- Intelligence of Werewolf Team and Village Team AI players
+- Behavior of AI players on the Werewolf Team / Village Team
 
 ## Interactive Mode
 To play the game yourself as a character, use the `-u` / `--user` flag:
@@ -46,6 +47,7 @@ For additional information, please check out the GitHub Wiki!
 # Contributing
 All issues and pull requests are much appreciated!
 
+- To start developing, first run `pip install -r requirements-dev.txt`.
 - To see test coverage scripts and other auto-formatting tools, check out `scripts/run-tests`.
 - To run all tests, run `pytest`.
 - To only run unit tests, run `pytest unit_test`.

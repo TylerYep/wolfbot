@@ -19,9 +19,8 @@ class Player:
         self.role = type(self).__name__  # e.g. 'Wolf'
         self.new_role = new_role
         self.statements: List[Statement] = []
-        self.is_user = const.IS_USER[player_index]
+        self.prev_priority = StatementLevel.NOT_YET_SPOKEN
         if const.MULTI_STATEMENT:
-            self.prev_priority = StatementLevel.NOT_YET_SPOKEN
             self.statements += self.get_partial_statements()
 
     def get_partial_statements(self) -> List[Statement]:
@@ -88,7 +87,9 @@ class Player:
         if const.MULTI_STATEMENT:
             self.statements = [x for x in self.statements if x.priority > self.prev_priority]
 
-        if self.is_user:
+        # Choose a statement
+        next_statement = random.choice(self.statements)
+        if const.IS_USER[self.player_index]:
             sample_statements = []
             choice = const.NUM_OPTIONS
             while choice == const.NUM_OPTIONS:
@@ -101,17 +102,10 @@ class Player:
                 for i, statement in enumerate(sample_statements):
                     logger.info(f"{i}. {statement.sentence}")
                 choice = util.get_numeric_input(len(sample_statements))
+            next_statement = sample_statements[choice]
 
-            if const.MULTI_STATEMENT:
-                self.prev_priority = sample_statements[choice].priority
-            return sample_statements[choice]
-
-        if const.MULTI_STATEMENT:
-            next_statement = random.choice(tuple(self.statements))
-            self.prev_priority = next_statement.priority
-            return next_statement
-
-        return random.choice(tuple(self.statements))
+        self.prev_priority = next_statement.priority
+        return next_statement
 
     def is_evil(self, orig_wolf_inds: List[int]) -> bool:
         """ Decide whether a character is about to make an evil prediction. """
@@ -127,7 +121,6 @@ class Player:
     ) -> Tuple[str, ...]:
         """ Gets a player's predictions for each index given the statements. """
         is_evil = self.is_evil(orig_wolf_inds)
-        # Good player vs Evil player guesses
         if const.SMART_VILLAGERS or is_evil:
             all_solutions = solver(tuple(all_statements), (self.player_index,))
             prediction = make_prediction(all_solutions, is_evil)

@@ -27,7 +27,7 @@ def profile() -> None:
     percall - is the quotient of cumtime divided by primitive calls
     """
     random.seed(0)
-    command = "one_night.simulate_game(100, disable_tqdm=False)"
+    command = "one_night.simulate_game(100, enable_tqdm=True)"
     profile_file = "data/profile.txt"
     sort = "time"
 

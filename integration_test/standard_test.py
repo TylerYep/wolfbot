@@ -33,7 +33,7 @@ class TestStandard:
         )
         random.seed()
 
-        stat_tracker = one_night.simulate_game(num_games=10, disable_logging=False)
+        stat_tracker = one_night.simulate_game(num_games=10)
 
         stat_results = stat_tracker.get_metric_results()
         assert stat_results["villager_wins"] == 1.0
@@ -76,9 +76,9 @@ class TestStandard:
 
         stat_results = stat_tracker.get_metric_results()
         write_results("expectimax_wolf_results.csv", stat_results)
-        assert stat_results["villager_wins"] < 0.6
+        assert stat_results["villager_wins"] < 0.5
         assert stat_results["tanner_wins"] == 0
-        assert stat_results["werewolf_wins"] > 0.4
+        assert stat_results["werewolf_wins"] > 0.5
 
     @staticmethod
     def test_random_villagers(standard_game_roles):

@@ -19,15 +19,15 @@ from src.voting import consolidate_results
 def simulate_game(
     num_games: int = 1,
     save_replay: bool = False,
-    disable_tqdm: bool = True,
-    disable_logging: bool = True,
+    enable_tqdm: bool = False,
+    enable_logging: bool = False,
 ) -> Statistics:
     """ Collects statistics about several simulations of play_one_night_werewolf. """
-    if disable_logging:
+    if not enable_logging:
         logger.set_level(logging.WARNING)
 
     stat_tracker = Statistics()
-    for _ in tqdm(range(num_games), disable=disable_tqdm):
+    for _ in tqdm(range(num_games), disable=not enable_tqdm):
         game_result = play_one_night_werewolf(save_replay)
         stat_tracker.add_result(game_result)
     stat_tracker.print_statistics()
