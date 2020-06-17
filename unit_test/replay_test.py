@@ -25,7 +25,7 @@ class TestReplay:
     def test_replay_game_small(example_small_game_result):
         """
         Correctly replay last round of one night werewolf.
-        Note that the result is currently not the same as the first run, since
+        Note that the result is always not the same as the first run, as
         the second predictions receive different random numbers.
         """
         const.REPLAY_FILE = "unit_test/test_data/replay.json"
@@ -39,23 +39,21 @@ class TestReplay:
     def test_replay_game_medium(example_medium_game_result):
         """
         Correctly replay last round of one night werewolf.
-        Note that the result is currently not the same as the first run, since
+        Note that the result is always not the same as the first run, as
         the second predictions receive different random numbers.
         """
         const.REPLAY_FILE = "unit_test/test_data/replay.json"
         one_night.play_one_night_werewolf()
-        expected = example_medium_game_result
-        expected.guessed = ["Seer", "Minion", "Troublemaker", "Drunk", "Wolf", "Robber"]
 
         result = replay.replay_game()
 
-        assert result == expected
+        assert result == example_medium_game_result
 
     @staticmethod
     def test_replay_game_large(example_large_game_result):
         """
         Correctly replay last round of one night werewolf.
-        Note that the result is currently not the same as the first run, since
+        Note that the result is always not the same as the first run, as
         the second predictions receive different random numbers.
         """
         const.REPLAY_FILE = "unit_test/test_data/replay.json"
@@ -65,12 +63,12 @@ class TestReplay:
             "Villager",
             "Insomniac",
             "Mason",
-            "Wolf",
+            "Minion",
             "Villager",
             "Tanner",
             "Seer",
-            "Minion",
             "Robber",
+            "Wolf",
             "Villager",
             "Wolf",
             "Hunter",

@@ -5,10 +5,10 @@ import random
 from typing import Any, Dict, List, Tuple
 
 from src import const, util
-from src.algorithms import switching_solver as solver
 from src.const import StatementLevel, logger
 from src.predictions import make_prediction, make_random_prediction
-from src.statements import Statement
+from src.solvers import switching_solver as solver
+from src.statements import KnowledgeBase, Statement
 
 # from overrides import EnforceOverrides
 
@@ -81,20 +81,21 @@ class Player:  # (EnforceOverrides):
         """ Required for all player types. Returns all possible role statements. """
         raise NotImplementedError
 
-    def analyze(self, stated_roles: List[str], previous: List[Statement]) -> None:
+    def analyze(self, knowledge_base: KnowledgeBase) -> None:
         """ Updates Player state given new information. """
         # If someone says a Statement that involves you, set your new_role to their theory.
         if self.role in const.VILLAGE_ROLES:
-            # TODO Want to use random solution but would break tests.
-            solver_result = solver(tuple(previous))[0]
+            solver_result = random.choice(solver(tuple(knowledge_base.all_statements)))
             for i, truth in enumerate(solver_result.path):
                 if truth:
-                    statement = previous[i]
-                    self.new_role = statement.get_references(self.player_index, stated_roles)
+                    statement = knowledge_base.all_statements[i]
+                    self.new_role = statement.get_references(
+                        self.player_index, knowledge_base.stated_roles
+                    )
 
-    def get_statement(self, stated_roles: List[str], previous: List[Statement]) -> Statement:
+    def get_statement(self, knowledge_base: KnowledgeBase) -> Statement:
         """ Gets Player Statement. """
-        del stated_roles, previous
+        del knowledge_base
         # If have a new role and are now evil, transform into that role.
         if self.new_role != "" and self.new_role in const.EVIL_ROLES:
             new_player_obj = self.transform(self.new_role)
@@ -102,12 +103,7 @@ class Player:  # (EnforceOverrides):
             if new_player_obj.statements:
                 self = new_player_obj  # pylint: disable=self-cls-assignment
 
-        if const.MULTI_STATEMENT:
-            self.statements = [x for x in self.statements if x.priority > self.prev_priority]
-
-        # Base Case: avoids a call to random.choice
-        # if len(self.statements) == 1:
-        #     return self.statements[0]
+        self.statements = [x for x in self.statements if x.priority > self.prev_priority]
 
         # Choose a statement
         next_statement = random.choice(self.statements)

@@ -1,6 +1,6 @@
-""" algorithms_test.py """
+""" solvers_test.py """
 from conftest import set_roles
-from src import algorithms, const
+from src import const, solvers
 from src.const import SwitchPriority
 from src.statements import Statement
 
@@ -11,9 +11,9 @@ class TestSolverState:
     @staticmethod
     def test_constructor():
         """ Should initialize a SolverState. """
-        result = algorithms.SolverState((frozenset({"Villager"}),), path=(True,))
+        result = solvers.SolverState((frozenset({"Villager"}),), path=(True,))
 
-        assert isinstance(result, algorithms.SolverState)
+        assert isinstance(result, solvers.SolverState)
 
     @staticmethod
     def test_eq(example_small_solverstate):
@@ -26,14 +26,14 @@ class TestSolverState:
         switches = ((SwitchPriority.ROBBER, 2, 0),)
         path = (True,)
 
-        result = algorithms.SolverState(possible_roles, switches, path)
+        result = solvers.SolverState(possible_roles, switches, path)
 
         assert result == example_small_solverstate
 
     @staticmethod
     def test_repr():
         """ Should convert a SolverState into a representative string. """
-        result = algorithms.SolverState((frozenset({"Villager"}),), path=(True,))
+        result = solvers.SolverState((frozenset({"Villager"}),), path=(True,))
 
         assert str(result) == (
             "SolverState(possible_roles=(frozenset({'Villager'}),), switches=(), path=(True,), role"
@@ -48,7 +48,7 @@ class TestIsConsistent:
     @staticmethod
     def test_is_consistent_on_empty_state(example_small_solverstate, example_statement):
         """ Should check a new statement against an empty SolverState for consistency. """
-        start_state = algorithms.SolverState()
+        start_state = solvers.SolverState()
 
         result = start_state.is_consistent(example_statement)
 
@@ -57,7 +57,7 @@ class TestIsConsistent:
     @staticmethod
     def test_invalid_state(example_statement):
         """ Should return None for inconsistent states. """
-        start_state = algorithms.SolverState((frozenset({"Villager"}),) * 3, path=(True,))
+        start_state = solvers.SolverState((frozenset({"Villager"}),) * 3, path=(True,))
 
         invalid_state = start_state.is_consistent(example_statement)
 
@@ -70,7 +70,7 @@ class TestIsConsistent:
         Should not change result.path - that is done in the switching_solver function.
         """
         possible_roles = (frozenset({"Seer"}),) + (const.ROLE_SET,) * (const.NUM_ROLES - 1)
-        example_solverstate = algorithms.SolverState(possible_roles, path=(True,))
+        example_solverstate = solvers.SolverState(possible_roles, path=(True,))
         new_statement = Statement(
             "next", ((2, frozenset({"Drunk"})),), ((SwitchPriority.DRUNK, 2, 5),)
         )
@@ -85,7 +85,7 @@ class TestIsConsistent:
         Modifying one SolverState should not affect other SolverStates created by is_consistent.
         """
         possible_roles = (frozenset({"Seer"}),) + (const.ROLE_SET,) * (const.NUM_ROLES - 1)
-        example = algorithms.SolverState(possible_roles, path=(True,))
+        example = solvers.SolverState(possible_roles, path=(True,))
         new_statement = Statement(
             "next", ((2, frozenset({"Drunk"})),), ((SwitchPriority.DRUNK, 2, 5),)
         )
@@ -104,21 +104,21 @@ class TestCachedSolver:
     @staticmethod
     def test_solver_small(small_statement_list):
         """ Should return a SolverState with the most likely solution. """
-        result = algorithms.cached_solver(small_statement_list)
+        result = solvers.cached_solver(small_statement_list)
 
         assert result == 3
 
     @staticmethod
     def test_solver_medium(medium_statement_list):
         """ Should return a SolverState with the most likely solution. """
-        result = algorithms.cached_solver(medium_statement_list)
+        result = solvers.cached_solver(medium_statement_list)
 
         assert result == 3
 
     @staticmethod
     def test_solver_large(large_statement_list):
         """ Should return a SolverState with the most likely solution. """
-        result = algorithms.cached_solver(large_statement_list)
+        result = solvers.cached_solver(large_statement_list)
 
         assert result == 6
 
@@ -129,14 +129,14 @@ class TestSwitchingSolver:
     @staticmethod
     def test_solver_small(small_statement_list, example_small_solverstate_solved):
         """ Should return a SolverState with the most likely solution. """
-        result = algorithms.switching_solver(small_statement_list)
+        result = solvers.switching_solver(small_statement_list)
 
         assert result[0] == example_small_solverstate_solved
 
     @staticmethod
     def test_solver_medium(medium_statement_list, example_medium_solverstate_solved):
         """ Should return a SolverState with the most likely solution. """
-        result = algorithms.switching_solver(medium_statement_list)
+        result = solvers.switching_solver(medium_statement_list)
 
         assert result[0] == example_medium_solverstate_solved
 
@@ -153,23 +153,23 @@ class TestSwitchingSolver:
             frozenset({"Robber", "Minion", "Troublemaker", "Seer", "Wolf", "Drunk"}),
         )
 
-        result = algorithms.switching_solver(medium_statement_list, (1,))
+        result = solvers.switching_solver(medium_statement_list, (1,))
 
-        assert result[0] == algorithms.SolverState(
+        assert result[0] == solvers.SolverState(
             possible_roles, ((SwitchPriority.DRUNK, 2, 5),), (False, True, True, False, False)
         )
 
     @staticmethod
     def test_solver_medium_multiple_solns(medium_statement_list, example_medium_solved_list):
         """ Should return a SolverState with the most likely solution. """
-        result = algorithms.switching_solver(medium_statement_list)
+        result = solvers.switching_solver(medium_statement_list)
 
         assert result == example_medium_solved_list
 
     @staticmethod
     def test_solver_large(large_statement_list, example_large_solverstate):
         """ Should return a SolverState with the most likely solution. """
-        result = algorithms.switching_solver(large_statement_list)
+        result = solvers.switching_solver(large_statement_list)
 
         assert result[0] == example_large_solverstate
 
@@ -183,6 +183,6 @@ class TestSwitchingSolver:
             frozenset({"Villager"}),
         ) + (const.ROLE_SET,) * 2
 
-        result = algorithms.SolverState(possible_roles_list).get_role_counts()
+        result = solvers.SolverState(possible_roles_list).get_role_counts()
 
         assert result == {"Seer": 0, "Villager": 0, "Wolf": 1, "Robber": 1}

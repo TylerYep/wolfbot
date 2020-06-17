@@ -1,6 +1,6 @@
 """ predictions_test.py """
 from src import const, predictions
-from src.algorithms import SolverState
+from src.solvers import SolverState
 
 
 class TestMakeRandomPrediction:

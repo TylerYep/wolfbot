@@ -30,7 +30,7 @@ class TestPlayer:
         """ Classes extending Player should contain a get_statement method. """
         villager = Villager(0)
 
-        statement = villager.get_statement([], [])
+        statement = villager.get_statement(None)
 
         assert statement == Statement("I am a Villager.", ((0, frozenset({"Villager"})),))
 

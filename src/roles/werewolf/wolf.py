@@ -7,10 +7,10 @@ from typing import Any, Dict, List, Optional, Tuple
 from overrides import overrides
 
 from src import const, util
-from src.algorithms import switching_solver as solver
 from src.const import logger
 from src.predictions import make_unrestricted_prediction
-from src.statements import Statement
+from src.solvers import switching_solver as solver
+from src.statements import KnowledgeBase, Statement
 
 from ..player import Player
 from .wolf_variants import (
@@ -74,34 +74,40 @@ class Wolf(Player):
         raise NotImplementedError
 
     @overrides
-    def analyze(self, stated_roles: List[str], previous: List[Statement]) -> None:
+    def analyze(self, knowledge_base: KnowledgeBase) -> None:
         """ Updates Player state given new information. """
-        super().analyze(stated_roles, previous)
+        super().analyze(knowledge_base)
         if const.USE_REG_WOLF:
             if self.center_role not in (None, "Wolf", "Mason"):
-                center_statements = get_center_wolf_statements(self, stated_roles)
+                center_statements = get_center_wolf_statements(self, knowledge_base.stated_roles)
                 self.statements += (
                     center_statements
                     if center_statements
-                    else get_wolf_statements(self, stated_roles, previous)
+                    else get_wolf_statements(
+                        self, knowledge_base.stated_roles, knowledge_base.all_statements
+                    )
                 )
             else:
-                self.statements += get_wolf_statements(self, stated_roles, previous)
+                self.statements += get_wolf_statements(
+                    self, knowledge_base.stated_roles, knowledge_base.all_statements
+                )
         else:
             self.statements += get_wolf_statements_random(self)
 
     @overrides
-    def get_statement(self, stated_roles: List[str], previous: List[Statement]) -> Statement:
+    def get_statement(self, knowledge_base: KnowledgeBase) -> Statement:
         """ Get Wolf Statement. """
         if const.USE_RL_WOLF:
             # Choose one statement to return by default
-            default_statement = super().get_statement(stated_roles, previous)
-            return get_statement_rl(self, stated_roles, previous, default_statement)
+            default_statement = super().get_statement(knowledge_base)
+            return get_statement_rl(
+                self, knowledge_base.stated_roles, knowledge_base.all_statements, default_statement
+            )
 
         if const.EXPECTIMAX_WOLF:
-            return get_statement_expectimax(self, previous)
+            return get_statement_expectimax(self, knowledge_base.all_statements)
 
-        return super().get_statement(stated_roles, previous)
+        return super().get_statement(knowledge_base)
 
     def eval_fn(self, statement_list: Tuple[Statement]) -> int:
         """

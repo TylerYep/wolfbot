@@ -5,8 +5,8 @@ from typing import List, Tuple
 import pytest
 
 from src import const
-from src.algorithms import SolverState
 from src.const import SwitchPriority
+from src.solvers import SolverState
 
 
 @pytest.fixture

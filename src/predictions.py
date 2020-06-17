@@ -3,7 +3,7 @@ import random
 from typing import Dict, List, Tuple
 
 from src import const
-from src.algorithms import SolverState
+from src.solvers import SolverState
 
 
 def make_random_prediction() -> Tuple[str, ...]:

@@ -3,10 +3,10 @@ import logging
 from typing import Dict, List, Tuple
 
 from src import const, util
-from src.algorithms import switching_solver as solver
 from src.const import logger
 from src.predictions import make_prediction
 from src.roles import Player
+from src.solvers import switching_solver as solver
 from src.statements import Statement
 from src.stats import GameResult, SavedGame
 

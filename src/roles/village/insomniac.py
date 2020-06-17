@@ -7,7 +7,7 @@ from overrides import overrides
 
 from src import const
 from src.const import logger
-from src.statements import Statement
+from src.statements import KnowledgeBase, Statement
 
 from ..player import Player
 
@@ -59,10 +59,10 @@ class Insomniac(Player):
         return statements
 
     @overrides
-    def analyze(self, stated_roles: List[str], previous: List[Statement]) -> None:
+    def analyze(self, knowledge_base: KnowledgeBase) -> None:
         """ Overrides analyze. """
         possible_switches: List[int] = []
-        for i, stated_role in enumerate(stated_roles):
+        for i, stated_role in enumerate(knowledge_base.stated_roles):
             if stated_role == self.new_role:
                 possible_switches.append(i)
         if len(possible_switches) == 1:  # TODO how to handle multiple possible switches

@@ -7,10 +7,10 @@ from typing import Any, Dict, List, Tuple
 from overrides import overrides
 
 from src import const, util
-from src.algorithms import switching_solver as solver
 from src.const import logger
 from src.predictions import make_unrestricted_prediction
-from src.statements import Statement
+from src.solvers import switching_solver as solver
+from src.statements import KnowledgeBase, Statement
 
 from ..player import Player
 from .wolf_variants import get_statement_expectimax, get_wolf_statements, get_wolf_statements_random
@@ -46,21 +46,23 @@ class Minion(Player):
         raise NotImplementedError
 
     @overrides
-    def analyze(self, stated_roles: List[str], previous: List[Statement]) -> None:
+    def analyze(self, knowledge_base: KnowledgeBase) -> None:
         """ Updates Player state given new information. """
-        super().analyze(stated_roles, previous)
+        super().analyze(knowledge_base)
         if const.USE_REG_WOLF:
-            self.statements += get_wolf_statements(self, stated_roles, previous)
+            self.statements += get_wolf_statements(
+                self, knowledge_base.stated_roles, knowledge_base.all_statements
+            )
         else:
             self.statements += get_wolf_statements_random(self)
 
     @overrides
-    def get_statement(self, stated_roles: List[str], previous: List[Statement]) -> Statement:
+    def get_statement(self, knowledge_base: KnowledgeBase) -> Statement:
         """ Get Minion Statement. """
         if const.EXPECTIMAX_MINION:
-            return get_statement_expectimax(self, previous)
+            return get_statement_expectimax(self, knowledge_base.all_statements)
 
-        return super().get_statement(stated_roles, previous)
+        return super().get_statement(knowledge_base)
 
     def eval_fn(self, statement_list: Tuple[Statement]) -> int:
         """

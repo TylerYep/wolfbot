@@ -1,7 +1,7 @@
 """ statements.py """
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Any, Dict, FrozenSet, List, Tuple
 
 from src import const
@@ -12,15 +12,41 @@ Switch = Tuple[SwitchPriority, int, int]
 
 
 @dataclass
+class KnowledgeBase:
+    """
+    Class for storing all available knowledge shared by all players.
+    Used during one_night, to avoid repeated computation and to help players make decisions.
+    """
+
+    all_statements: List[Statement] = field(default_factory=list)
+    stated_roles: List[str] = field(default_factory=list)
+    final_claims: List[Statement] = field(default_factory=list)
+
+    def __post_init__(self) -> None:
+        self.stated_roles = [""] * const.NUM_PLAYERS
+
+        # Can share the same reference because they will be replaced
+        prior = StatementLevel.NOT_YET_SPOKEN
+        self.final_claims = [Statement("", priority=prior)] * const.NUM_PLAYERS
+
+    def add(self, statement: Statement, curr_ind: int) -> None:
+        """ Adds a new statement to the knowledge base. """
+        self.all_statements.append(statement)
+        self.stated_roles[curr_ind] = statement.speaker
+        self.final_claims[curr_ind] = statement
+
+
+@dataclass
 class Statement:
     """
     Model for all statements in the game. Statements are intended to be immutable.
-    sentence is a string representation of the statement
-    knowledge is a list of (player_index, set(role)) tuples
-    switches is a list of (player_priority, player_index, new_index) tuples
-    speaker is the role string that supposedly gave the statement.
-    priority is what level of priority the statement was said.
-    All member variables are converted into an immutable type to be used in hash()
+    All member variables are converted into an immutable type to be used in hash().
+    Args:
+        sentence: a string representation of the statement
+        knowledge: a list of (player_index, set(role)) tuples
+        switches: a list of (player_priority, player_index, new_index) tuples
+        speaker: the role string that supposedly gave the statement.
+        priority: what level of priority the statement was said.
     """
 
     sentence: str

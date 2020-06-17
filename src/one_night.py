@@ -11,7 +11,7 @@ from src.const import StatementLevel, logger
 from src.encoder import WolfBotEncoder
 from src.gui import GUIState
 from src.roles import Player, get_role_obj
-from src.statements import Statement
+from src.statements import KnowledgeBase, Statement
 from src.stats import GameResult, SavedGame, Statistics
 from src.voting import consolidate_results
 
@@ -64,36 +64,22 @@ def play_one_night_werewolf(save_replay: bool = True) -> GameResult:
 
 def get_player_statements(player_objs: List[Player]) -> List[Statement]:
     """ Returns array of each player's statements. """
-    stated_roles: List[str] = []
-    given_statements: List[Statement] = []
-
-    if not const.MULTI_STATEMENT:
-        for j in range(const.NUM_PLAYERS):
-            player_objs[j].analyze(stated_roles, given_statements)
-            statement = player_objs[j].get_statement(stated_roles, given_statements)
-            stated_roles.append(statement.speaker)
-            given_statements.append(statement)
-            logger.info(f"Player {j}: {statement.sentence}")
-        return given_statements
-
-    finished_speaking = [
-        Statement("", priority=StatementLevel.NOT_YET_SPOKEN) for _ in range(const.NUM_PLAYERS)
-    ]
+    knowledge_base = KnowledgeBase()
     curr_ind = 0
-    while not all(val.priority == StatementLevel.PRIMARY for val in finished_speaking):
-        if finished_speaking[curr_ind].priority < StatementLevel.PRIMARY:
-            player_objs[curr_ind].analyze(stated_roles, given_statements)
-            statement = player_objs[curr_ind].get_statement(stated_roles, given_statements)
-            given_statements.append(statement)
-            if len(stated_roles) <= curr_ind:
-                stated_roles.append(statement.speaker)
-            else:
-                stated_roles[curr_ind] = statement.speaker
-            finished_speaking[curr_ind] = statement
+    while (not const.MULTI_STATEMENT and curr_ind < const.NUM_PLAYERS) or not all(
+        val.priority == StatementLevel.PRIMARY for val in knowledge_base.final_claims
+    ):
+        if knowledge_base.final_claims[curr_ind].priority < StatementLevel.PRIMARY:
+            player_objs[curr_ind].analyze(knowledge_base)
+            statement = player_objs[curr_ind].get_statement(knowledge_base)
+            knowledge_base.add(statement, curr_ind)
             logger.info(f"Player {curr_ind}: {statement.sentence}")
         # TODO: allow random order
-        curr_ind = (curr_ind + 1) % const.NUM_PLAYERS
-    return finished_speaking
+        if const.MULTI_STATEMENT:
+            curr_ind = (curr_ind + 1) % const.NUM_PLAYERS
+        else:
+            curr_ind += 1
+    return knowledge_base.final_claims
 
 
 def night_falls(game_roles: List[str], original_roles: Tuple[str, ...]) -> List[Player]:

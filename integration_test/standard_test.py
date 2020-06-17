@@ -76,9 +76,9 @@ class TestStandard:
 
         stat_results = stat_tracker.get_metric_results()
         write_results("expectimax_wolf_results.csv", stat_results)
-        assert stat_results["villager_wins"] < 0.5
+        assert stat_results["villager_wins"] < 0.55
         assert stat_results["tanner_wins"] == 0
-        assert stat_results["werewolf_wins"] > 0.5
+        assert stat_results["werewolf_wins"] > 0.45
 
     @staticmethod
     def test_random_villagers(standard_game_roles):

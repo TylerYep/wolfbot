@@ -33,19 +33,19 @@ Everyone, wake up!
 -- GAME BEGINS --
 
 Player 0: I am a Seer and I saw that Player 2 was a Drunk.
-Player 1: I am a Seer and I saw that Player 3 was a Minion.
+Player 1: I am a Robber and I swapped with Player 4. I am now a Seer.
 Player 2: I am a Drunk and I swapped with Center 0.
 Player 3: I am a Robber and I swapped with Player 2. I am now a Drunk.
-Player 4: I am a Seer and I saw that Player 1 was a Wolf.
+Player 4: I am a Robber and I swapped with Player 2. I am now a Seer.
 
 [Trace] Predictions:
 Player 0: (Seer, Wolf, Troublemaker, Drunk, Minion, Robber)
-Player 1: (Minion, Seer, Robber, Wolf, Troublemaker, Drunk)
-Player 2: (Minion, Wolf, Troublemaker, Drunk, Seer, Robber)
-Player 3: (Seer, Minion, Troublemaker, Drunk, Wolf, Robber)
-Player 4: (Wolf, Minion, Troublemaker, Drunk, Seer, Robber)
+Player 1: (Minion, Troublemaker, Seer, Wolf, Robber, Drunk)
+Player 2: (Seer, Wolf, Troublemaker, Drunk, Minion, Robber)
+Player 3: (Seer, Wolf, Troublemaker, Drunk, Minion, Robber)
+Player 4: (Minion, Wolf, Robber, Troublemaker, Drunk, Seer)
 
-Vote Array: [1, 2, 0, 1, 1]
+Vote Array: [0, 4, 0, 1, 0]
 
 [Solution] Player roles: [Seer, Wolf, Troublemaker, Drunk, Minion]
            Center cards: [Robber]
@@ -53,7 +53,7 @@ Vote Array: [1, 2, 0, 1, 1]
 [WolfBot] Player roles: [Seer, Wolf, Troublemaker, Drunk, Minion]
           Center cards: [Robber]
 
-Confidence levels: [0.4, 0.4, 0.8, 0.8, 0.4, 0.8]
+Confidence levels: [0.6, 0.8, 0.6, 0.6, 0.6, 0.6]
 Player 1 was chosen as a Wolf.
 Player 1 was a Wolf!
 

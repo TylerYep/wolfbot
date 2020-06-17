@@ -7,9 +7,9 @@ from typing import List, Tuple
 from overrides import overrides
 
 from src import const
-from src.algorithms import switching_solver as solver
 from src.predictions import make_unrestricted_prediction
-from src.statements import Statement
+from src.solvers import switching_solver as solver
+from src.statements import KnowledgeBase, Statement
 
 from ..player import Player
 from .wolf_variants import get_statement_expectimax, get_wolf_statements_random
@@ -37,17 +37,12 @@ class Tanner(Player):
         """ Required for all player types. Returns all possible role statements. """
         raise NotImplementedError
 
-    # @overrides
-    # def analyze(self, stated_roles: List[str], previous: List[Statement]) -> None:
-    #     """ Updates Player state given new information. """
-    #     super().analyze(stated_roles, previous)
-
     @overrides
-    def get_statement(self, stated_roles: List[str], previous: List[Statement]) -> Statement:
+    def get_statement(self, knowledge_base: KnowledgeBase) -> Statement:
         """ Get Tanner Statement. """
         if const.EXPECTIMAX_TANNER:
-            return get_statement_expectimax(self, previous)
-        return super().get_statement(stated_roles, previous)
+            return get_statement_expectimax(self, knowledge_base.all_statements)
+        return super().get_statement(knowledge_base)
 
     def eval_fn(self, statement_list: Tuple[Statement]) -> int:
         """
