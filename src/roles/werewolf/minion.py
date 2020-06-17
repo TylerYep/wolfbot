@@ -50,9 +50,7 @@ class Minion(Player):
         """ Updates Player state given new information. """
         super().analyze(knowledge_base)
         if const.USE_REG_WOLF:
-            self.statements += get_wolf_statements(
-                self, knowledge_base.stated_roles, knowledge_base.all_statements
-            )
+            self.statements += get_wolf_statements(self, knowledge_base)
         else:
             self.statements += get_wolf_statements_random(self)
 
@@ -60,7 +58,7 @@ class Minion(Player):
     def get_statement(self, knowledge_base: KnowledgeBase) -> Statement:
         """ Get Minion Statement. """
         if const.EXPECTIMAX_MINION:
-            return get_statement_expectimax(self, knowledge_base.all_statements)
+            return get_statement_expectimax(self, knowledge_base)
 
         return super().get_statement(knowledge_base)
 

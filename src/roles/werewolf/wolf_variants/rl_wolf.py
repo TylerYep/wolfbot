@@ -1,23 +1,20 @@
 """ rl_wolf.py """
 import json
 from collections import defaultdict
-from typing import Any, Dict, List
+from typing import Any, Dict
 
 from src import const
 from src.const import logger
-from src.statements import Statement
+from src.statements import KnowledgeBase, Statement
 
 from .reg_wolf import get_wolf_statements
 
 
 def get_statement_rl(
-    player_obj: Any,
-    stated_roles: List[str],
-    previous_statements: List[Statement],
-    default_answer: Statement,
+    player_obj: Any, knowledge_base: KnowledgeBase, default_answer: Statement,
 ) -> Statement:
     """ Gets Reinforcement Learning Wolf statement. """
-    statements = get_wolf_statements(player_obj, stated_roles, previous_statements)
+    statements = get_wolf_statements(player_obj, knowledge_base)
 
     # Necessary to put this here to avoid circular import
     from src.encoder import WolfBotDecoder
@@ -30,7 +27,7 @@ def get_statement_rl(
 
     logger.info("Experience dict loaded.")
 
-    state = (tuple(player_obj.wolf_indices), tuple(previous_statements))
+    state = (tuple(player_obj.wolf_indices), tuple(knowledge_base.all_statements))
     scores = experience[str(state)]
     best_choice = (default_answer, -100)
     for potential_statement, score in scores.items():

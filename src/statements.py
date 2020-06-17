@@ -24,10 +24,9 @@ class KnowledgeBase:
 
     def __post_init__(self) -> None:
         self.stated_roles = [""] * const.NUM_PLAYERS
-
         # Can share the same reference because they will be replaced
-        prior = StatementLevel.NOT_YET_SPOKEN
-        self.final_claims = [Statement("", priority=prior)] * const.NUM_PLAYERS
+        zero_priority = StatementLevel.NOT_YET_SPOKEN
+        self.final_claims = [Statement("", priority=zero_priority)] * const.NUM_PLAYERS
 
     def add(self, statement: Statement, curr_ind: int) -> None:
         """ Adds a new statement to the knowledge base. """

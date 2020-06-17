@@ -4,7 +4,9 @@ from typing import Any, Dict, List
 
 from src import const, roles
 from src.algorithms import expectimax
-from src.statements import Statement
+from src.const import logger
+from src.solvers import switching_solver as solver
+from src.statements import KnowledgeBase, Statement
 
 
 def get_expected_statements() -> Dict[int, List[Statement]]:
@@ -25,12 +27,21 @@ def get_expected_statements() -> Dict[int, List[Statement]]:
     return possible
 
 
-def get_statement_expectimax(player_obj: Any, prev_statements: List[Statement]) -> Statement:
+def get_statement_expectimax(player_obj: Any, knowledge_base: KnowledgeBase) -> Statement:
     """ Gets Expectimax Wolf statement. """
-    expected_player_statements = get_expected_statements()
+    prev_statements = tuple(knowledge_base.final_claims)
+    expected_statements = get_expected_statements()
     player_obj.statements = [
         x for x in player_obj.statements if x.priority > player_obj.prev_priority
     ]
-    next_statement = expectimax(player_obj, tuple(prev_statements), expected_player_statements)
-    player_obj.prev_priority = next_statement.priority
-    return next_statement
+
+    # Initialize start_state to use all previous statements
+    start_state = random.choice(solver(prev_statements))
+    best_val, best_move = expectimax(
+        player_obj, expected_statements, prev_statements, start_state, player_obj.player_index
+    )
+    logger.debug(f"[Hidden] Evaluation Function Score: {best_val}")
+    assert best_move is not None
+
+    player_obj.prev_priority = best_move.priority
+    return best_move

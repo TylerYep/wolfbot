@@ -2,12 +2,12 @@
 from typing import Any, List
 
 from src import const
-from src.statements import Statement
+from src.statements import KnowledgeBase, Statement
 
 from ...village import Drunk, Hunter, Insomniac, Robber, Seer, Troublemaker, Villager
 
 
-def get_center_wolf_statements(player_obj: Any, stated_roles: List[str]) -> List[Statement]:
+def get_center_wolf_statements(player_obj: Any, knowledge_base: KnowledgeBase) -> List[Statement]:
     """ Center Wolf Player logic. """
     statements: List[Statement] = []
     player_index = player_obj.player_index
@@ -23,18 +23,18 @@ def get_center_wolf_statements(player_obj: Any, stated_roles: List[str]) -> List
         # TODO check for switches and prioritize those statements
         statements += Insomniac.get_insomniac_statements(player_index, "Insomniac")
     elif center_role == "Robber":
-        for i, stated_role in enumerate(stated_roles):
+        for i, stated_role in enumerate(knowledge_base.stated_roles):
             if stated_role and stated_role != "Robber":
                 statements += Robber.get_robber_statements(player_index, i, stated_role)
     elif center_role == "Troublemaker":
-        for i in range(len(stated_roles)):
-            for j in range(i + 1, len(stated_roles)):
+        for i in range(len(knowledge_base.stated_roles)):
+            for j in range(i + 1, len(knowledge_base.stated_roles)):
                 if j not in wolf_indices:
                     statements += Troublemaker.get_troublemaker_statements(player_index, i, j)
     elif center_role == "Drunk":
         statements += Drunk.get_drunk_statements(player_index, center_index)
     elif center_role == "Seer":
-        for i, stated_role in enumerate(stated_roles):
+        for i, stated_role in enumerate(knowledge_base.stated_roles):
             # 'Hey, I'm a Seer and I saw another Seer...'
             if i not in wolf_indices and stated_role and stated_role != "Seer":
                 statements += Seer.get_seer_statements(player_index, (i, stated_role))

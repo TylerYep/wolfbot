@@ -41,7 +41,7 @@ class Tanner(Player):
     def get_statement(self, knowledge_base: KnowledgeBase) -> Statement:
         """ Get Tanner Statement. """
         if const.EXPECTIMAX_TANNER:
-            return get_statement_expectimax(self, knowledge_base.all_statements)
+            return get_statement_expectimax(self, knowledge_base)
         return super().get_statement(knowledge_base)
 
     def eval_fn(self, statement_list: Tuple[Statement]) -> int:

@@ -79,18 +79,14 @@ class Wolf(Player):
         super().analyze(knowledge_base)
         if const.USE_REG_WOLF:
             if self.center_role not in (None, "Wolf", "Mason"):
-                center_statements = get_center_wolf_statements(self, knowledge_base.stated_roles)
+                center_statements = get_center_wolf_statements(self, knowledge_base)
                 self.statements += (
                     center_statements
                     if center_statements
-                    else get_wolf_statements(
-                        self, knowledge_base.stated_roles, knowledge_base.all_statements
-                    )
+                    else get_wolf_statements(self, knowledge_base)
                 )
             else:
-                self.statements += get_wolf_statements(
-                    self, knowledge_base.stated_roles, knowledge_base.all_statements
-                )
+                self.statements += get_wolf_statements(self, knowledge_base)
         else:
             self.statements += get_wolf_statements_random(self)
 
@@ -100,12 +96,10 @@ class Wolf(Player):
         if const.USE_RL_WOLF:
             # Choose one statement to return by default
             default_statement = super().get_statement(knowledge_base)
-            return get_statement_rl(
-                self, knowledge_base.stated_roles, knowledge_base.all_statements, default_statement
-            )
+            return get_statement_rl(self, knowledge_base, default_statement)
 
         if const.EXPECTIMAX_WOLF:
-            return get_statement_expectimax(self, knowledge_base.all_statements)
+            return get_statement_expectimax(self, knowledge_base)
 
         return super().get_statement(knowledge_base)
 
