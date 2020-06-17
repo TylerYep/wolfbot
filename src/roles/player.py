@@ -126,18 +126,16 @@ class Player:  # (EnforceOverrides):
         self.prev_priority = next_statement.priority
         return next_statement
 
-    def is_evil(self, orig_wolf_inds: List[int]) -> bool:
-        """ Decide whether a character is about to make an evil prediction. """
+    def is_evil(self) -> bool:
+        """ Decide whether a character should make an evil prediction or not. """
         # TODO When a wolf becomes good? Do I need to check for Wolf twice?
         return (
-            (self.player_index in orig_wolf_inds and self.new_role == "")
-            or (self.role in const.EVIL_ROLES and self.new_role == "")
-            or self.new_role in const.EVIL_ROLES
-        )
+            self.role in const.EVIL_ROLES and self.new_role == ""
+        ) or self.new_role in const.EVIL_ROLES
 
-    def predict(self, statements: List[Statement], orig_wolf_inds: List[int]) -> Tuple[str, ...]:
+    def predict(self, statements: List[Statement]) -> Tuple[str, ...]:
         """ Gets a player's predictions for each index given all statements. """
-        is_evil = self.is_evil(orig_wolf_inds)
+        is_evil = self.is_evil()
         if const.SMART_VILLAGERS or is_evil:
             all_solutions = solver(tuple(statements), (self.player_index,))
             prediction = make_prediction(all_solutions, is_evil)

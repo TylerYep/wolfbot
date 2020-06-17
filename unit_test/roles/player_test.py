@@ -61,9 +61,8 @@ class TestIsEvil:
         """ Should determine if a player has turned evil after night falls. """
         const.ROLES = small_game_roles
         villager = Villager(0)
-        wolf_inds = []
 
-        result = villager.is_evil(wolf_inds)
+        result = villager.is_evil()
 
         assert result is False
 
@@ -78,9 +77,8 @@ class TestIsEvil:
             Robber(3, 2, "Drunk"),
             Minion(4, [1]),
         ]
-        wolf_inds = [1]
 
-        result = [player.is_evil(wolf_inds) for player in player_list]
+        result = [player.is_evil() for player in player_list]
 
         assert result == [False, True, False, False, True]
 
@@ -89,9 +87,8 @@ class TestIsEvil:
         """ Should determine if a player has turned evil after night falls. """
         const.ROLES = medium_game_roles
         robber = Robber(3, 1, "Wolf")
-        wolf_inds = [1]
 
-        result = robber.is_evil(wolf_inds)
+        result = robber.is_evil()
 
         assert result is True
 

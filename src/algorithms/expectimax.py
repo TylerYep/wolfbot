@@ -30,7 +30,7 @@ def expectimax(
             return player_obj.eval_fn(statement_list), None
 
         if ind == player_obj.player_index:  # Choose your own move, maximize val
-            vals = _get_next_vals(statement_list, player_obj.statements, state, ind, depth, True)
+            vals = _get_next_vals(statement_list, player_obj.statements, state, ind, depth)
             max_value = max(vals)
             best_indices = [index for index, value in enumerate(vals) if value == max_value]
             best_move = player_obj.statements[random.choice(best_indices)]
@@ -54,13 +54,12 @@ def expectimax(
         state: SolverState,
         ind: int,
         depth: int,
-        is_evil: bool = False,
     ) -> List[float]:
         """ Evaluate current state (value of consistent statements) and return values. """
         values = []
         for statement in next_statements:
             # If you are a Wolf, let yourself be inconsistent (each state needs a value).
-            new_state = state if is_evil else state.is_consistent(statement)
+            new_state = state if player_obj.is_evil() else state.is_consistent(statement)
             if new_state is not None:
                 new_statements = statement_list + (statement,)
                 val, _ = _expectimax(new_statements, new_state, ind + 1, depth - 1)

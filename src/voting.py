@@ -17,7 +17,7 @@ def consolidate_results(save_game: SavedGame) -> GameResult:
     orig_wolf_inds = util.find_all_player_indices(original_roles, "Wolf")
 
     if const.USE_VOTING:
-        indiv_preds = get_individual_preds(player_objs, all_statements, orig_wolf_inds)
+        indiv_preds = get_individual_preds(player_objs, all_statements)
         all_guesses, guessed_wolf_inds, vote_inds = get_voting_result(player_objs, indiv_preds)
         util.print_roles(game_roles, "Solution", logging.INFO)
         util.print_roles(all_guesses, "WolfBot")
@@ -34,19 +34,16 @@ def consolidate_results(save_game: SavedGame) -> GameResult:
 
 
 def get_individual_preds(
-    player_objs: List[Player], all_statements: List[Statement], orig_wolf_inds: List[int]
+    player_objs: List[Player], all_statements: List[Statement]
 ) -> List[Tuple[str, ...]]:
     """ Let each player make a prediction of every player's true role. """
     logger.trace("\n[Trace] Predictions:")
-    all_predictions = [
-        tuple(player_objs[i].predict(all_statements, orig_wolf_inds))
-        for i in range(const.NUM_PLAYERS)
-    ]
+    all_preds = [tuple(player_objs[i].predict(all_statements)) for i in range(const.NUM_PLAYERS)]
     number_length = len(str(const.NUM_ROLES))
-    for i, pred in enumerate(all_predictions):
+    for i, pred in enumerate(all_preds):
         logger.trace(f"Player {i:{number_length}}: {pred}".replace("'", ""))
 
-    return all_predictions
+    return all_preds
 
 
 def get_confidence(all_role_guesses_arr: List[Tuple[str, ...]]) -> List[float]:

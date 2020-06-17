@@ -76,7 +76,7 @@ class TestGetIndividualPreds:
             Minion(4, [1]),
         ]
 
-        result = voting.get_individual_preds(player_objs, medium_statement_list, [1])
+        result = voting.get_individual_preds(player_objs, medium_statement_list)
 
         assert result == [
             ("Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"),
