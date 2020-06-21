@@ -1,2 +1,2 @@
 tqdm==4.46.1
-overrides==3.0.0
+overrides==3.1.0

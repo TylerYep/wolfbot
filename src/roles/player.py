@@ -4,16 +4,16 @@ from __future__ import annotations
 import random
 from typing import Any, Dict, List, Tuple
 
+from overrides import EnforceOverrides
+
 from src import const, util
 from src.const import StatementLevel, logger
 from src.predictions import make_prediction, make_random_prediction
 from src.solvers import switching_solver as solver
 from src.statements import KnowledgeBase, Statement
 
-# from overrides import EnforceOverrides
 
-
-class Player:  # (EnforceOverrides):
+class Player(EnforceOverrides):  # type: ignore
     """ Player class. """
 
     def __init__(self, player_index: int):
@@ -72,7 +72,9 @@ class Player:  # (EnforceOverrides):
         raise TypeError(f"Role Type: {role_type} is not a valid role.")
 
     @classmethod
-    def awake_init(cls, player_index: int, game_roles: List[str], original_roles: List[str]) -> Any:
+    def awake_init(
+        cls, player_index: int, game_roles: List[str], original_roles: List[str]
+    ) -> Player:
         """ Initializes Player and performs their nighttime actions. """
         raise NotImplementedError
 
@@ -107,6 +109,10 @@ class Player:  # (EnforceOverrides):
 
         # Choose a statement
         next_statement = random.choice(self.statements)
+
+        # Evil players try to avoid giving info
+        if const.MULTI_STATEMENT and const.USE_REG_WOLF and self.role in const.EVIL_ROLES:
+            next_statement = min(self.statements, key=lambda x: x.priority)
 
         if const.IS_USER[self.player_index]:
             sample_statements = []

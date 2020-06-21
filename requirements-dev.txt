@@ -1,11 +1,11 @@
 tqdm==4.46.1
-overrides==3.0.0
+overrides==3.1.0
 pur==5.3.0
 pylint==2.5.3
 pyre-check==0.0.46
 pycodestyle==2.6.0
 pytest==5.4.3
-mypy==0.780
+mypy==0.781
 pytest-cov==2.10.0
 black==19.10b0
 isort==4.3.21

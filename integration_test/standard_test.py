@@ -53,17 +53,31 @@ class TestStandard:
         assert stat_results["villager_wins"] == 1.0
 
     @staticmethod
-    def test_standard_game(standard_game_roles):
+    def test_random_wolf(standard_game_roles):
         """ Correctly play one round of one night werewolf. """
         const.ROLES = standard_game_roles
 
         stat_tracker = one_night.simulate_game(num_games=1000)
 
         stat_results = stat_tracker.get_metric_results()
-        write_results("standard_results.csv", stat_results)
+        write_results(stat_results, "standard/random.csv")
         assert stat_results["villager_wins"] > 0.8
         assert stat_results["tanner_wins"] == 0
         assert stat_results["werewolf_wins"] < 0.2
+
+    @staticmethod
+    def test_reg_wolf(standard_game_roles):
+        """ Correctly play one round of one night werewolf. """
+        const.ROLES = standard_game_roles
+        const.USE_REG_WOLF = True
+
+        stat_tracker = one_night.simulate_game(num_games=1000)
+
+        stat_results = stat_tracker.get_metric_results()
+        write_results(stat_results, "standard/reg_wolf.csv")
+        assert stat_results["villager_wins"] > 0.6
+        assert stat_results["tanner_wins"] == 0
+        assert stat_results["werewolf_wins"] < 0.4
 
     @staticmethod
     def test_expectimax_wolf(standard_game_roles):
@@ -75,7 +89,7 @@ class TestStandard:
         stat_tracker = one_night.simulate_game(num_games=500)
 
         stat_results = stat_tracker.get_metric_results()
-        write_results("expectimax_wolf_results.csv", stat_results)
+        write_results(stat_results, "standard/expectimax_wolf.csv")
         assert stat_results["villager_wins"] < 0.55
         assert stat_results["tanner_wins"] == 0
         assert stat_results["werewolf_wins"] > 0.45
@@ -91,7 +105,7 @@ class TestStandard:
         stat_tracker = one_night.simulate_game(num_games=100)
 
         stat_results = stat_tracker.get_metric_results()
-        write_results("random_villagers_results.csv", stat_results)
+        write_results(stat_results, "random_villagers.csv")
         assert stat_results["villager_wins"] < 0.35
         assert stat_results["werewolf_wins"] > 0.65
 
@@ -122,5 +136,5 @@ class TestStandard:
         stat_tracker = one_night.simulate_game(num_games=20)
 
         stat_results = stat_tracker.get_metric_results()
-        write_results("expectimax_tanner_results.csv", stat_results)
+        write_results(stat_results, "standard/expectimax_tanner.csv")
         assert stat_results["tanner_wins"] > 0.8

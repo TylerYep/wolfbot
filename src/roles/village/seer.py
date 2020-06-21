@@ -41,8 +41,7 @@ class Seer(Player):
                 choose_center = bool(util.get_numeric_input(1, 3) - 1)
             else:
                 # Pick two center cards more often, because that generally yields higher win rates.
-                prob = const.CENTER_SEER_PROB
-                choose_center = random.choices([True, False], [prob, 1 - prob])[0]
+                choose_center = util.weighted_coin_flip(const.CENTER_SEER_PROB)
 
             if choose_center:
                 peek_ind1 = util.get_center(is_user)

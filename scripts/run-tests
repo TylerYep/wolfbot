@@ -19,7 +19,7 @@ git add .
 # Style Checking
 flake8 .
 pycodestyle .
-find . -iname "*.py" | xargs pylint
+pylint **py
 
 # Testing
 pytest --cov=src --cov-report=html unit_test

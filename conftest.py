@@ -181,9 +181,14 @@ def override_input(inputs: List[str]) -> Callable[[str], str]:
     return _input
 
 
-def write_results(filename: str, stat_results: Dict[str, float]) -> None:
+def write_results(stat_results: Dict[str, float], file_path: str) -> None:
     """ Writes stat_results to corresponding csv file. """
-    results_filename = os.path.join("integration_test/results/", filename)
+    sub_folder, filename = os.path.split(file_path)
+    destination = os.path.join("integration_test", "results", sub_folder)
+    if not os.path.isdir(destination):
+        os.makedirs(destination)
+
+    results_filename = os.path.join(destination, filename)
     with open(results_filename, "a+") as out_file:
         writer = csv.DictWriter(out_file, fieldnames=stat_results.keys())
         if os.path.getsize(results_filename) == 0:

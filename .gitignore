@@ -10,6 +10,7 @@ __pycache__/
 .pyre
 data/profile.txt
 .vscode
+results/
 
 # C extensions
 *.so

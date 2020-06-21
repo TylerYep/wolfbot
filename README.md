@@ -32,7 +32,7 @@ python main.py --user -r
 
 To examine verbose output of a game, use the `-l` / `--log_level` flag.
 ```
-python main.py -l "trace"
+python main.py -l trace
 ```
 
 ## Simulating Games

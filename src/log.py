@@ -18,10 +18,10 @@ class OneNightLogger:
         self.trace_level = 5
         if filename:
             logging.basicConfig(
-                format="%(message)s", level=self.trace_level, filename=filename, filemode="a"
+                format="%(message)s", level=logging.DEBUG, filename=filename, filemode="a"
             )
         else:
-            logging.basicConfig(format="%(message)s", level=self.trace_level)
+            logging.basicConfig(format="%(message)s", level=logging.DEBUG)
         self.logger = logging.getLogger()
         self.output_cache: List[Tuple[int, str]] = []
 

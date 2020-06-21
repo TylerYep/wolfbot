@@ -146,8 +146,6 @@ if ARGS.log_level:
     logger.set_level(log_levels[ARGS.log_level])
 elif INTERACTIVE_MODE:
     logger.set_level(logging.INFO)
-elif NUM_GAMES >= 10:
-    logger.set_level(logging.WARNING)
 
 
 if sys.version_info < (3, 7):
@@ -165,7 +163,7 @@ class SwitchPriority(IntEnum):
 
 @unique
 class StatementLevel(IntEnum):
-    """ Statement Priority Levels """
+    """ Statement Priority Levels. Only the order of the values matters. """
 
     NOT_YET_SPOKEN = -1
     NO_INFO = 0
