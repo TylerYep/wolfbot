@@ -55,20 +55,29 @@ class Player(EnforceOverrides):  # type: ignore
             return Villager(self.player_index)
         if role_type == "Hunter":
             return Hunter(self.player_index)
-        # Made-up parameters
-        # TODO fill these in... randomly?
-        if role_type == "Seer":
-            return Seer(self.player_index, (0, "Villager"))
-        if role_type == "Robber":
-            return Robber(self.player_index, 0, "Villager")
-        if role_type == "Troublemaker":
-            return Troublemaker(self.player_index, 0, 1)
-        if role_type == "Drunk":
-            return Drunk(self.player_index, const.NUM_PLAYERS + 1)
         if role_type == "Insomniac":
+            # TODO you can lie and say you are a different character.
             return Insomniac(self.player_index, "Insomniac")
+        if role_type == "Drunk":
+            rand_center = util.get_center(const.IS_USER[self.player_index])
+            return Drunk(self.player_index, rand_center)
+
+        rand_int1 = util.get_player(const.IS_USER[self.player_index], exclude=(self.player_index,))
         if role_type == "Mason":
-            return Mason(self.player_index, [0, 1])
+            return Mason(self.player_index, [self.player_index, rand_int1])
+
+        rand_role = random.choice(list(const.ROLE_SET))
+        if role_type == "Seer":
+            return Seer(self.player_index, (rand_int1, rand_role))
+        if role_type == "Robber":
+            return Robber(self.player_index, rand_int1, rand_role)
+
+        rand_int2 = util.get_player(
+            const.IS_USER[self.player_index], exclude=(self.player_index, rand_int1)
+        )
+        if role_type == "Troublemaker":
+            return Troublemaker(self.player_index, rand_int1, rand_int2)
+
         raise TypeError(f"Role Type: {role_type} is not a valid role.")
 
     @classmethod
@@ -128,8 +137,6 @@ class Player(EnforceOverrides):  # type: ignore
                     logger.info(f"{i}. {statement.sentence}")
                 choice = util.get_numeric_input(len(sample_statements))
             next_statement = sample_statements[choice]
-
-        self.prev_priority = next_statement.priority
         return next_statement
 
     def is_evil(self) -> bool:

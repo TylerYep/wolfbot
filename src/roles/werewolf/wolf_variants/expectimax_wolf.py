@@ -42,6 +42,4 @@ def get_statement_expectimax(player_obj: Any, knowledge_base: KnowledgeBase) -> 
     )
     logger.debug(f"[Hidden] Evaluation Function Score: {best_val}")
     assert best_move is not None
-
-    player_obj.prev_priority = best_move.priority
     return best_move

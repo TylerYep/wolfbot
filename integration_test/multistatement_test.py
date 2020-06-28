@@ -47,6 +47,6 @@ class TestMultistatement:
 
         stat_results = stat_tracker.get_metric_results()
         write_results(stat_results, "multistatement/expectimax_wolf.csv")
-        assert stat_results["villager_wins"] > 0.5
+        assert stat_results["villager_wins"] < 0.55
         assert stat_results["tanner_wins"] == 0
-        assert stat_results["werewolf_wins"] < 0.5
+        assert stat_results["werewolf_wins"] > 0.45

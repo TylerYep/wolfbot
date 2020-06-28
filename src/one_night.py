@@ -1,4 +1,5 @@
 """ one_night.py """
+import heapq
 import json
 import logging
 import random
@@ -49,7 +50,11 @@ def play_one_night_werewolf(save_replay: bool = True) -> GameResult:
     player_objs = night_falls(game_roles, original_roles)
     gui_state.night_falls()
     logger.info("\n-- GAME BEGINS --\n")
-    all_statements = get_player_statements(player_objs)
+    all_statements = (
+        get_player_multistatements(player_objs)
+        if const.MULTI_STATEMENT
+        else get_player_statements(player_objs)
+    )
     gui_state.print_statements(all_statements)
 
     save_game = SavedGame(original_roles, game_roles, all_statements, player_objs)
@@ -62,23 +67,39 @@ def play_one_night_werewolf(save_replay: bool = True) -> GameResult:
     return consolidate_results(save_game)
 
 
+def get_player_multistatements(player_objs: List[Player]) -> List[Statement]:
+    """ Returns array of each player's statements. """
+    knowledge_base = KnowledgeBase()
+    heap = [(i, i) for i in range(const.NUM_PLAYERS)]
+    heapq.heapify(heap)
+    while not all(val.priority == StatementLevel.PRIMARY for val in knowledge_base.final_claims):
+        _, curr_ind = heapq.heappop(heap)
+
+        if knowledge_base.final_claims[curr_ind].priority < StatementLevel.PRIMARY:
+            player_objs[curr_ind].analyze(knowledge_base)
+            statement = player_objs[curr_ind].get_statement(knowledge_base)
+            player_objs[curr_ind].prev_priority = statement.priority
+            knowledge_base.add(statement, curr_ind)
+            logger.info(f"Player {curr_ind}: {statement.sentence}")
+
+            if statement.priority < StatementLevel.PRIMARY:
+                # TODO Do I even want this
+                new_priority = curr_ind if const.KEEP_MULTI_ORDER else random.randint(0, len(heap))
+                heapq.heappush(heap, (new_priority, curr_ind))
+
+    return knowledge_base.final_claims
+
+
 def get_player_statements(player_objs: List[Player]) -> List[Statement]:
     """ Returns array of each player's statements. """
     knowledge_base = KnowledgeBase()
     curr_ind = 0
-    while (not const.MULTI_STATEMENT and curr_ind < const.NUM_PLAYERS) or not all(
-        val.priority == StatementLevel.PRIMARY for val in knowledge_base.final_claims
-    ):
-        if knowledge_base.final_claims[curr_ind].priority < StatementLevel.PRIMARY:
-            player_objs[curr_ind].analyze(knowledge_base)
-            statement = player_objs[curr_ind].get_statement(knowledge_base)
-            knowledge_base.add(statement, curr_ind)
-            logger.info(f"Player {curr_ind}: {statement.sentence}")
-        # TODO: allow random order
-        if const.MULTI_STATEMENT:
-            curr_ind = (curr_ind + 1) % const.NUM_PLAYERS
-        else:
-            curr_ind += 1
+    while curr_ind < const.NUM_PLAYERS:
+        player_objs[curr_ind].analyze(knowledge_base)
+        statement = player_objs[curr_ind].get_statement(knowledge_base)
+        knowledge_base.add(statement, curr_ind)
+        logger.info(f"Player {curr_ind}: {statement.sentence}")
+        curr_ind += 1
     return knowledge_base.final_claims
 
 
