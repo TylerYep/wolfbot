@@ -30,7 +30,7 @@ class GUIState:
         logger.clear()
 
         const.IS_USER = [False] * const.NUM_ROLES
-        user_index = random.randint(0, const.NUM_PLAYERS - 1)
+        user_index = random.randrange(const.NUM_PLAYERS)
         const.IS_USER[user_index] = True
         logger.info(f"Player {user_index}, you are a {original_roles[user_index]}!", cache=True)
         self.print_cache()

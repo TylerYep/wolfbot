@@ -81,9 +81,10 @@ class Statistics:
             self.wolf_predictions_one,
             self.wolf_predictions_all,
             self.wolf_predictions_center,
+            self.villager_wins,
+            self.tanner_wins,
+            self.werewolf_wins,
         ]
-        if const.USE_VOTING:
-            metric_fns += [self.villager_wins, self.tanner_wins, self.werewolf_wins]
         sentences = [
             "Accuracy for all predictions: ",
             "Accuracy with lenient center scores: ",

@@ -5,9 +5,8 @@ import random
 from src import const, util
 from src.const import logger
 from src.encoder import WolfBotDecoder
-from src.one_night import simulate_game
+from src.one_night import consolidate_results, simulate_game
 from src.stats import GameResult, Statistics
-from src.voting import consolidate_results
 
 
 def replay_game_from_state() -> Statistics:

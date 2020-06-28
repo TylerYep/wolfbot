@@ -72,8 +72,6 @@ ROLES = (
     "Villager",
 )
 NUM_CENTER = 3
-# Disabling this is good for testing solvers.
-USE_VOTING = True
 # Randomize or use literally the order of the ROLES constant above.
 RANDOMIZE_ROLES = True
 # Enable multi-statement rounds.

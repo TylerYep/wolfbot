@@ -47,7 +47,7 @@ def get_player(is_user: bool, exclude: Tuple[int, ...] = ()) -> int:
 
     choice_ind = -1
     while choice_ind == -1 or choice_ind in exclude:
-        choice_ind = random.randint(0, const.NUM_PLAYERS - 1)
+        choice_ind = random.randrange(const.NUM_PLAYERS)
     return choice_ind
 
 
@@ -68,7 +68,7 @@ def get_center(is_user: bool, exclude: Tuple[int, ...] = ()) -> int:
 
     choice_ind = -1
     while choice_ind == -1 or choice_ind in exclude:
-        choice_ind = const.NUM_PLAYERS + random.randint(0, const.NUM_CENTER - 1)
+        choice_ind = const.NUM_PLAYERS + random.randrange(const.NUM_CENTER)
     return choice_ind
 
 

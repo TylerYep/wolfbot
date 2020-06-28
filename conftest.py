@@ -35,7 +35,6 @@ def reset_const() -> None:
     const.EVIL_ROLES = frozenset({"Tanner", "Wolf", "Minion"})
 
     # Game Modes
-    const.USE_VOTING = True
     const.RANDOMIZE_ROLES = True
     const.MULTI_STATEMENT = False
     const.INTERACTIVE_MODE = False
