@@ -1,7 +1,6 @@
 """ seer.py """
 from __future__ import annotations
 
-import random
 from typing import Any, Dict, List, Optional, Tuple
 
 from overrides import overrides

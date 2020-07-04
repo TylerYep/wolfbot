@@ -11,9 +11,7 @@ from src import const, util
 from src.const import StatementLevel, logger
 from src.encoder import WolfBotEncoder
 from src.gui import GUIState
-from src.predictions import make_prediction
 from src.roles import Player, get_role_obj
-from src.solvers import switching_solver as solver
 from src.statements import KnowledgeBase, Statement
 from src.stats import GameResult, SavedGame, Statistics
 
@@ -71,6 +69,7 @@ def play_one_night_werewolf(save_replay: bool = True) -> GameResult:
 def get_player_multistatements(player_objs: List[Player]) -> List[Statement]:
     """ Returns array of each player's statements. """
     knowledge_base = KnowledgeBase()
+    # TODO players choose with what priority they want to speak
     heap = [(i, i) for i in range(const.NUM_PLAYERS)]
     heapq.heapify(heap)
     while not all(val.priority == StatementLevel.PRIMARY for val in knowledge_base.final_claims):
@@ -148,11 +147,10 @@ def get_individual_preds(
 ) -> List[Tuple[str, ...]]:
     """ Let each player make a prediction of every player's true role. """
     logger.trace("\n[Trace] Predictions:")
-    all_preds = [tuple(player_objs[i].predict(all_statements)) for i in range(const.NUM_PLAYERS)]
+    all_preds = [player_objs[i].predict(all_statements) for i in range(const.NUM_PLAYERS)]
     number_length = len(str(const.NUM_ROLES))
     for i, pred in enumerate(all_preds):
         logger.trace(f"Player {i:{number_length}}: {pred}".replace("'", ""))
-
     return all_preds
 
 

@@ -1,8 +1,8 @@
 version = 1
 
 test_patterns = [
-    "unit_test/",
-    "integration_test/"
+    "unit_test/**/*_test.py",
+    "integration_test/**/*_test.py"
 ]
 
 [[analyzers]]
