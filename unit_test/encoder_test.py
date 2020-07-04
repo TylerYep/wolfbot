@@ -23,7 +23,7 @@ class TestWolfBotEncoder:
     @staticmethod
     def test_default_set():
         """ Should convert objects of different types to JSON. """
-        input_obj = set(["Wolf", "Villager"])
+        input_obj = {"Wolf", "Villager"}
 
         result = json.dumps(input_obj, cls=WolfBotEncoder)
 
@@ -127,7 +127,7 @@ class TestWolfBotDecoder:
 
         result = json.loads(input_json, cls=WolfBotDecoder)
 
-        assert result == set(["Wolf", "Villager"])
+        assert result == {"Wolf", "Villager"}
 
     @staticmethod
     def test_json_to_frozenset():

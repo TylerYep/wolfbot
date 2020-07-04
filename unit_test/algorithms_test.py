@@ -93,7 +93,7 @@ class TestIsConsistent:
         result = example.is_consistent(new_statement)
         example.possible_roles += ("junk-data",)
         example.switches += ("junk-data",)
-        example.possible_roles = list(example.possible_roles)[0] & set(["junk"])
+        example.possible_roles = list(example.possible_roles)[0] & {"junk"}
 
         assert result == example_medium_solverstate
 
