@@ -76,7 +76,6 @@ NUM_CENTER = 3
 RANDOMIZE_ROLES = True
 # Enable multi-statement rounds.
 MULTI_STATEMENT = False
-KEEP_MULTI_ORDER = True
 
 """ Simulation Constants """
 NUM_GAMES = ARGS.num_games

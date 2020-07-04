@@ -194,7 +194,7 @@ class Player(EnforceOverrides):  # type: ignore
         return no_wolves_guess
 
     def __eq__(self, other: object) -> bool:
-        """ Checks for equality between Players. """
+        """ Checks for equality between Players. Ensure that all fields exist and are identical. """
         assert isinstance(other, Player)
         self_json, other_json = self.json_repr(), other.json_repr()
         is_equal = all(self_json[key] == other_json[key] for key in self_json)
