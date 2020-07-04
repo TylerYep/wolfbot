@@ -110,4 +110,4 @@ class TestStatement:
 
         result = {identical_statement, example_statement}
 
-        assert result == set([example_statement])
+        assert result == {example_statement}
