@@ -6,7 +6,7 @@ By Tyler Yep & Harry Sha
 [![Build Status](https://travis-ci.org/TylerYep/wolfbot.svg?branch=master)](https://travis-ci.org/TylerYep/wolfbot)
 [![GitHub license](https://img.shields.io/github/license/TylerYep/wolfbot)](https://github.com/TylerYep/wolfbot/blob/master/LICENSE)
 [![codecov](https://codecov.io/gh/TylerYep/wolfbot/branch/master/graph/badge.svg)](https://codecov.io/gh/TylerYep/wolfbot)
-[![DeepSource](https://static.deepsource.io/deepsource-badge-dark-mini.svg)](https://deepsource.io/gh/TylerYep/wolfbot/?ref=repository-badge)
+[![DeepSource](https://static.deepsource.io/deepsource-badge-light-mini.svg)](https://deepsource.io/gh/TylerYep/wolfbot/?ref=repository-badge)
 
 ## Introduction
 This is an implementation of the popular board game One Night Ultimate Werewolf.

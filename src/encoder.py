@@ -1,6 +1,5 @@
 """ encoder.py """
 import json
-import pickle
 import sys
 from typing import Any, Dict
 
@@ -58,10 +57,3 @@ class WolfBotDecoder(json.JSONDecoder):
 def get_object_initializer(obj_name: str) -> Any:
     """ Retrieves class initializer from its string name. """
     return getattr(sys.modules[__name__], obj_name)
-
-
-def convert_pkl_to_json(file_path: str) -> None:
-    """ Backwards compatibility with pkl. """
-    with open(file_path, "rb") as fpkl, open(f"{file_path[0:-4]}.json", "w") as fjson:
-        data = pickle.load(fpkl)
-        json.dump(data, fjson, cls=WolfBotEncoder)
