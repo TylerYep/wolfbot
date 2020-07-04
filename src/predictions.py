@@ -97,7 +97,7 @@ def get_basic_guesses(solution: SolverState) -> Tuple[List[str], Dict[str, int]]
             # Remove already chosen cards
             for rol in const.ROLE_SET:
                 if curr_role_counts[rol] == 0:
-                    guess_set -= set([rol])
+                    guess_set -= {rol}
 
             # Player is telling the truth
             if len(guess_set) == 1:
