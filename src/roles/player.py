@@ -38,7 +38,7 @@ class Player(EnforceOverrides):  # type: ignore
             partial_statements.append(statement)
         return partial_statements
 
-    def transform(self, role_type: str) -> Player:
+    def transform(self, role_type: str) -> Player:  # pylint: disable=too-many-locals
         """ Returns new Player identity. """
         from .werewolf import Wolf, Minion, Tanner
         from .village import Villager, Seer, Robber, Troublemaker, Drunk, Insomniac, Hunter, Mason

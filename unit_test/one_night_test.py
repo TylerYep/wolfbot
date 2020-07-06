@@ -53,7 +53,7 @@ class TestConsolidateResults:
     """ Tests for the consolidate_results function. """
 
     @staticmethod
-    def test_consolidate_small(caplog, example_small_saved_game):
+    def test_consolidate_small(example_small_saved_game):
         """ Should return a final GameResult after voting. """
         result = one_night.consolidate_results(example_small_saved_game)
 

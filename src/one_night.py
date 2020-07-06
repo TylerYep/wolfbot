@@ -72,7 +72,7 @@ def get_player_multistatements(player_objs: List[Player]) -> List[Statement]:
     # TODO players choose with what priority they want to speak
     heap = [(i, i) for i in range(const.NUM_PLAYERS)]
     heapq.heapify(heap)
-    while not all(val.priority == StatementLevel.PRIMARY for val in knowledge_base.final_claims):
+    while heap:
         _, curr_ind = heapq.heappop(heap)
 
         if knowledge_base.final_claims[curr_ind].priority < StatementLevel.PRIMARY:
@@ -84,6 +84,9 @@ def get_player_multistatements(player_objs: List[Player]) -> List[Statement]:
 
             if statement.priority < StatementLevel.PRIMARY:
                 new_priority = random.randrange(len(heap) + 1)
+                # new_priority = random.randrange(
+                #     const.NUM_PLAYERS, const.NUM_PLAYERS + len(heap) + 1
+                # )
                 heapq.heappush(heap, (new_priority, curr_ind))
 
     return knowledge_base.final_claims
