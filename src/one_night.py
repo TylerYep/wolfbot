@@ -67,10 +67,12 @@ def play_one_night_werewolf(save_replay: bool = True) -> GameResult:
 
 
 def get_player_multistatements(player_objs: List[Player]) -> List[Statement]:
-    """ Returns array of each player's statements. """
+    """
+    Returns array of each player's statements.
+    TODO players should choose with what priority they want to speak
+    """
     knowledge_base = KnowledgeBase()
-    # TODO players choose with what priority they want to speak
-    heap = [(i, i) for i in range(const.NUM_PLAYERS)]
+    heap = [(i, i) for i in range(const.NUM_PLAYERS)]  # (priority, player_index) tuples
     heapq.heapify(heap)
     while heap:
         _, curr_ind = heapq.heappop(heap)
@@ -83,10 +85,8 @@ def get_player_multistatements(player_objs: List[Player]) -> List[Statement]:
             logger.info(f"Player {curr_ind}: {statement.sentence}")
 
             if statement.priority < StatementLevel.PRIMARY:
-                new_priority = random.randrange(len(heap) + 1)
-                # new_priority = random.randrange(
-                #     const.NUM_PLAYERS, const.NUM_PLAYERS + len(heap) + 1
-                # )
+                # New statements have priority at least NUM_PLAYERS to ensure everyone spoke once
+                new_priority = const.NUM_PLAYERS + random.randrange(len(heap) + 1)
                 heapq.heappush(heap, (new_priority, curr_ind))
 
     return knowledge_base.final_claims

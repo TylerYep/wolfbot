@@ -110,9 +110,12 @@ class Player(EnforceOverrides):  # type: ignore
         # If have a new role and are now evil, transform into that role.
         if self.new_role != "" and self.new_role in const.EVIL_ROLES:
             new_player_obj = self.transform(self.new_role)
-            # TODO shouldn't need to check statements, plus line 106 should break this.
-            if new_player_obj.statements:
-                self = new_player_obj  # pylint: disable=self-cls-assignment
+            new_player_obj.prev_priority = self.prev_priority
+            self = new_player_obj  # pylint: disable=self-cls-assignment
+            if not [x for x in self.statements if x.priority > self.prev_priority]:
+                from .werewolf.wolf_variants import get_wolf_statements_random
+
+                self.statements = get_wolf_statements_random(self)
 
         self.statements = [x for x in self.statements if x.priority > self.prev_priority]
 
