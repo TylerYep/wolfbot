@@ -52,7 +52,7 @@ ARGS = init_program("pytest" in sys.modules)
 if ARGS.seed:
     random.seed(ARGS.seed)
 
-""" Game Constants """
+# Game Constants
 # These are the player roles used in a game.
 ROLES = (
     "Drunk",
@@ -122,9 +122,6 @@ EXPECTIMAX_MINION = EXPECTIMAX_WOLF
 USE_RL_WOLF = False
 EXPERIENCE_PATH = "src/learning/simulations/wolf.json"
 
-""" Ensure only one Wolf version is active """
-assert not (EXPECTIMAX_WOLF and USE_RL_WOLF)
-
 """ Interactive Game Constants """
 INTERACTIVE_MODE = ARGS.user
 IS_USER = [False] * NUM_ROLES
@@ -146,6 +143,7 @@ elif INTERACTIVE_MODE:
     logger.set_level(logging.INFO)
 
 
+assert not (EXPECTIMAX_WOLF and USE_RL_WOLF)
 if sys.version_info < (3, 7):
     sys.stdout.write("Python " + sys.version)
     sys.stdout.write("\n\nWolfBot requires Python 3.7+ to work!\n\n")

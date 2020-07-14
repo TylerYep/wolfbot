@@ -221,5 +221,7 @@ class Player(EnforceOverrides):  # type: ignore
         attrs = ""
         for key, item in self.json_repr().items():
             if key != "type":
+                if key != "player_index":
+                    attrs += f"{key}="
                 attrs += f"{item}, "
         return f"{self.role}({attrs[:-2]})"

@@ -1,6 +1,6 @@
 """ player_test.py """
 from src import const
-from src.roles import Drunk, Minion, Player, Robber, Seer, Villager, Wolf
+from src.roles import Drunk, Hunter, Minion, Player, Robber, Seer, Villager, Wolf
 from src.statements import Statement
 
 
@@ -51,6 +51,19 @@ class TestPlayer:
         result = str(villager)
 
         assert result == "Villager(3)"
+
+    @staticmethod
+    def test_eq():
+        """ Should convert a Player into a representative string. """
+        villager = Villager(3)
+        hunter = Hunter(3)
+        drunk_1 = Drunk(4, 5)
+        drunk_2 = Drunk(4, 5)
+        drunk_3 = Drunk(4, 7)
+
+        assert villager != hunter
+        assert drunk_1 == drunk_2
+        assert drunk_1 != drunk_3
 
 
 class TestIsEvil:
