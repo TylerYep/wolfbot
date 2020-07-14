@@ -229,12 +229,3 @@ class TestGetObjectInitializer:
         )
 
         assert result == (Player, Statement, GameResult, SavedGame)
-
-
-class TestConvertPklToJson:
-    """ Tests for the convert_pkl_to_json function. """
-
-    @staticmethod
-    def test_convert_pkl_to_json():
-        """ Should convert pkl to JSON. """
-        pass

@@ -7,7 +7,7 @@ from collections import Counter
 from enum import IntEnum, unique
 from typing import Dict, Sequence, TypeVar
 
-from .log import OneNightLogger
+from src.log import OneNightLogger
 
 # TODO https://github.com/PyCQA/pylint/issues/3401
 T = TypeVar("T")  # pylint: disable=invalid-name

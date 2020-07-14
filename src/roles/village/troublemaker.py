@@ -7,9 +7,8 @@ from overrides import overrides
 
 from src import const, util
 from src.const import SwitchPriority, logger
+from src.roles.player import Player
 from src.statements import Statement
-
-from ..player import Player
 
 
 class Troublemaker(Player):

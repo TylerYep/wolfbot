@@ -2,18 +2,18 @@
 import sys
 from typing import Any
 
-from .player import Player
-from .village.drunk import Drunk
-from .village.hunter import Hunter
-from .village.insomniac import Insomniac
-from .village.mason import Mason
-from .village.robber import Robber
-from .village.seer import Seer
-from .village.troublemaker import Troublemaker
-from .village.villager import Villager
-from .werewolf.minion import Minion
-from .werewolf.tanner import Tanner
-from .werewolf.wolf import Wolf
+from src.roles.player import Player
+from src.roles.village.drunk import Drunk
+from src.roles.village.hunter import Hunter
+from src.roles.village.insomniac import Insomniac
+from src.roles.village.mason import Mason
+from src.roles.village.robber import Robber
+from src.roles.village.seer import Seer
+from src.roles.village.troublemaker import Troublemaker
+from src.roles.village.villager import Villager
+from src.roles.werewolf.minion import Minion
+from src.roles.werewolf.tanner import Tanner
+from src.roles.werewolf.wolf import Wolf
 
 
 def get_role_obj(role_str: str) -> Any:

@@ -51,12 +51,12 @@ class TestWolf:
         assert wolf.center_index == 13
         assert wolf.center_role == "Insomniac"
 
-    @staticmethod
-    def test_get_wolf_statement():
-        """ Should execute initialization actions and return the possible statements. """
-        pass
+    # @staticmethod
+    # def test_get_wolf_statement():
+    #     """ Should execute initialization actions and return the possible statements. """
+    #     pass
 
-    @staticmethod
-    def test_eval_fn():
-        """ Should return the value from the chosen statement action. """
-        pass
+    # @staticmethod
+    # def test_eval_fn():
+    #     """ Should return the value from the chosen statement action. """
+    #     pass

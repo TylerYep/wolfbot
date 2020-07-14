@@ -7,9 +7,8 @@ from overrides import overrides
 
 from src import const
 from src.const import logger
+from src.roles.player import Player
 from src.statements import KnowledgeBase, Statement
-
-from ..player import Player
 
 
 class Insomniac(Player):

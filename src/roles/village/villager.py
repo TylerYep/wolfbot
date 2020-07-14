@@ -5,9 +5,8 @@ from typing import List
 
 from overrides import overrides
 
+from src.roles.player import Player
 from src.statements import Statement
-
-from ..player import Player
 
 
 class Villager(Player):

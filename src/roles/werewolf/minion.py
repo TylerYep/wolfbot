@@ -9,11 +9,14 @@ from overrides import overrides
 from src import const, util
 from src.const import logger
 from src.predictions import make_unrestricted_prediction
+from src.roles.player import Player
+from src.roles.werewolf.wolf_variants import (
+    get_statement_expectimax,
+    get_wolf_statements,
+    get_wolf_statements_random,
+)
 from src.solvers import switching_solver as solver
 from src.statements import KnowledgeBase, Statement
-
-from ..player import Player
-from .wolf_variants import get_statement_expectimax, get_wolf_statements, get_wolf_statements_random
 
 
 class Minion(Player):

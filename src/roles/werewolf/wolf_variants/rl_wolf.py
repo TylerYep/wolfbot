@@ -5,9 +5,8 @@ from typing import Any, Dict
 
 from src import const
 from src.const import logger
+from src.roles.werewolf.wolf_variants.reg_wolf import get_wolf_statements
 from src.statements import KnowledgeBase, Statement
-
-from .reg_wolf import get_wolf_statements
 
 
 def get_statement_rl(

@@ -2,9 +2,8 @@
 from typing import Any, List
 
 from src import const
+from src.roles.village import Drunk, Hunter, Insomniac, Mason, Robber, Seer, Troublemaker, Villager
 from src.statements import KnowledgeBase, Statement
-
-from ...village import Drunk, Hunter, Insomniac, Mason, Robber, Seer, Troublemaker, Villager
 
 
 def get_wolf_statements(player_obj: Any, knowledge_base: KnowledgeBase) -> List[Statement]:

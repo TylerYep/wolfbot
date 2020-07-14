@@ -1,4 +1,4 @@
 """ Imports all Werewolf team objects. """
-from .minion import Minion
-from .tanner import Tanner
-from .wolf import Wolf
+from src.roles.werewolf.minion import Minion
+from src.roles.werewolf.tanner import Tanner
+from src.roles.werewolf.wolf import Wolf

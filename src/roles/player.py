@@ -40,8 +40,17 @@ class Player(EnforceOverrides):  # type: ignore
 
     def transform(self, role_type: str) -> Player:  # pylint: disable=too-many-locals
         """ Returns new Player identity. """
-        from .werewolf import Wolf, Minion, Tanner
-        from .village import Villager, Seer, Robber, Troublemaker, Drunk, Insomniac, Hunter, Mason
+        from src.roles.werewolf import Wolf, Minion, Tanner
+        from src.roles.village import (
+            Villager,
+            Seer,
+            Robber,
+            Troublemaker,
+            Drunk,
+            Insomniac,
+            Hunter,
+            Mason,
+        )
 
         logger.debug(f"[Hidden] Player {self.player_index} ({self.role}) is a {role_type} now!")
 
@@ -113,7 +122,7 @@ class Player(EnforceOverrides):  # type: ignore
             new_player_obj.prev_priority = self.prev_priority
             self = new_player_obj  # pylint: disable=self-cls-assignment
             if not [x for x in self.statements if x.priority > self.prev_priority]:
-                from .werewolf.wolf_variants import get_wolf_statements_random
+                from src.roles.werewolf.wolf_variants import get_wolf_statements_random
 
                 self.statements = get_wolf_statements_random(self)
 

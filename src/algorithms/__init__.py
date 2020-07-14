@@ -1,2 +1,2 @@
 """ Imports all algorithms. """
-from .expectimax import expectimax
+from src.algorithms.expectimax import expectimax

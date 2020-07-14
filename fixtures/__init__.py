@@ -1,15 +1,15 @@
 """ fixtures """
-from .gameresults import (
+from fixtures.gameresults import (
     example_large_game_result,
     example_medium_game_result,
     example_small_game_result,
 )
-from .savedgames import (
+from fixtures.savedgames import (
     example_large_saved_game,
     example_medium_saved_game,
     example_small_saved_game,
 )
-from .solverstates import (
+from fixtures.solverstates import (
     example_large_solverstate,
     example_medium_solved_list,
     example_medium_solverstate,
@@ -18,7 +18,7 @@ from .solverstates import (
     example_small_solverstate,
     example_small_solverstate_solved,
 )
-from .statement import (
+from fixtures.statement import (
     example_statement,
     large_statement_list,
     medium_statement_list,
