@@ -49,6 +49,7 @@ For additional information, please check out the GitHub Wiki!
 All issues and pull requests are much appreciated!
 
 - To start developing, first run `pip install -r requirements-dev.txt`.
+- Next, run 'scripts/install-hooks'.
 - To see test coverage scripts and other auto-formatting tools, check out `scripts/run-tests`.
 - To run all tests, run `pytest`.
 - To only run unit tests, run `pytest unit_test`.

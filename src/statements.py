@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from functools import cached_property  # type: ignore
 from typing import Any, Dict, FrozenSet, List, Tuple
 
 from src import const
@@ -79,7 +80,8 @@ class Statement:
                 return stated_roles[player_index]
         return ""
 
-    def negate(self) -> Statement:
+    @cached_property
+    def negation(self) -> Statement:
         """ Returns a negated version of the first clause in a statement. """
         not_sentence = "NOT - " + self.sentence
         if self.knowledge:

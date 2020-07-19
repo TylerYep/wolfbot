@@ -107,7 +107,7 @@ def switching_solver(
             return
 
         truth_state = state.is_consistent(statements[ind])
-        false_state = state.is_consistent(statements[ind].negate(), False)
+        false_state = state.is_consistent(statements[ind].negation, False)
 
         if truth_state is not None:
             _switch_recurse(solutions, truth_state, ind + 1)
