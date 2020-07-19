@@ -127,7 +127,7 @@ class Player(EnforceOverrides):  # type: ignore
             if not [x for x in self.statements if x.priority > self.prev_priority]:
                 from src.roles.werewolf.wolf_variants import get_wolf_statements_random
 
-                self.statements = get_wolf_statements_random(self)
+                self.statements = get_wolf_statements_random(self.player_index)
 
         self.statements = tuple([x for x in self.statements if x.priority > self.prev_priority])
 

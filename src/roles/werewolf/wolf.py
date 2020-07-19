@@ -87,7 +87,7 @@ class Wolf(Player):
             else:
                 self.statements += get_wolf_statements(self, knowledge_base)
         else:
-            self.statements += get_wolf_statements_random(self)
+            self.statements += get_wolf_statements_random(self.player_index)
 
     @overrides
     def get_statement(self, knowledge_base: KnowledgeBase) -> Statement:

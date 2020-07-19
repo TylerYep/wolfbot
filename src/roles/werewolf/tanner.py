@@ -19,7 +19,7 @@ class Tanner(Player):
 
     def __init__(self, player_index: int):
         super().__init__(player_index)
-        self.statements = get_wolf_statements_random(self)
+        self.statements = get_wolf_statements_random(self.player_index)
 
     @classmethod
     @overrides
