@@ -1,5 +1,5 @@
 """ villager_test.py """
-from src.roles.village import Villager
+from src.roles import Villager
 from src.statements import Statement
 
 

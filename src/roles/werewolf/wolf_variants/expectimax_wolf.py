@@ -4,11 +4,12 @@ from typing import Any, Dict, Tuple
 
 from src import const, roles
 from src.algorithms import expectimax
-from src.const import logger
+from src.const import logger, lru_cache
 from src.solvers import switching_solver as solver
 from src.statements import KnowledgeBase, Statement
 
 
+@lru_cache
 def get_expected_statements() -> Dict[int, Tuple[Statement, ...]]:
     """
     Gets all possible statements that can be made by a Village player from any index.

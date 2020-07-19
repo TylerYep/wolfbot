@@ -1,7 +1,7 @@
 """ robber_test.py """
 from conftest import set_roles
 from src import const
-from src.roles.village import Robber
+from src.roles import Robber
 from src.statements import Statement
 
 

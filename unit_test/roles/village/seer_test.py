@@ -1,7 +1,7 @@
 """ seer_test.py """
 from conftest import set_roles
 from src import const
-from src.roles.village import Seer
+from src.roles import Seer
 from src.statements import Statement
 
 

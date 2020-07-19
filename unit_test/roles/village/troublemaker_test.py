@@ -1,7 +1,7 @@
 """ troublemaker_test.py """
 from conftest import set_roles
 from src import const
-from src.roles.village import Troublemaker
+from src.roles import Troublemaker
 from src.statements import Statement
 
 

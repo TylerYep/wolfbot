@@ -1,7 +1,7 @@
 """ drunk_test.py """
 from conftest import set_roles
 from src import const
-from src.roles.village import Drunk
+from src.roles import Drunk
 from src.statements import Statement
 
 

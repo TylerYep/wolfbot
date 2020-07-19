@@ -1,7 +1,7 @@
 """ mason_test.py """
 from conftest import set_roles
 from src import const
-from src.roles.village import Mason
+from src.roles import Mason
 from src.statements import Statement
 
 

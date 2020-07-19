@@ -40,7 +40,7 @@ class Player(EnforceOverrides):  # type: ignore
 
     def transform(self, role_type: str) -> Player:  # pylint: disable=too-many-locals
         """ Returns new Player identity. """
-        from src.roles.village import (
+        from src.roles import (
             Drunk,
             Hunter,
             Insomniac,
@@ -49,8 +49,10 @@ class Player(EnforceOverrides):  # type: ignore
             Seer,
             Troublemaker,
             Villager,
+            Minion,
+            Tanner,
+            Wolf,
         )
-        from src.roles.werewolf import Minion, Tanner, Wolf
 
         logger.debug(f"[Hidden] Player {self.player_index} ({self.role}) is a {role_type} now!")
 

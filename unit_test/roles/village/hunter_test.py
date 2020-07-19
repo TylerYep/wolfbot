@@ -1,5 +1,5 @@
 """ hunter_test.py """
-from src.roles.village import Hunter
+from src.roles import Hunter
 from src.statements import Statement
 
 

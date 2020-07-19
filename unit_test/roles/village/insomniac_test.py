@@ -1,6 +1,6 @@
 """ insomniac_test.py """
 from conftest import set_roles
-from src.roles.village import Insomniac
+from src.roles import Insomniac
 from src.statements import Statement
 
 
