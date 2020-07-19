@@ -16,7 +16,7 @@ class TestMason:
 
         mason = Mason.awake_init(player_index, game_roles, orig_roles)
 
-        assert mason.mason_indices == [6, 9]
+        assert mason.mason_indices == (6, 9)
         assert mason.statements == (
             Statement(
                 "I am a Mason. The other Mason is Player 9.",
@@ -29,7 +29,7 @@ class TestMason:
         """ Should execute initialization actions and return the possible statements. """
         player_index = 9
 
-        result = Mason.get_mason_statements(player_index, [6, 9])
+        result = Mason.get_mason_statements(player_index, (6, 9))
 
         assert result == (
             Statement(
@@ -44,7 +44,7 @@ class TestMason:
         player_index = 2
         set_roles(("Wolf", "Seer", "Mason", "Villager"))
         const.NUM_PLAYERS = 3
-        result = Mason.get_mason_statements(player_index, [2])
+        result = Mason.get_mason_statements(player_index, (2,))
 
         assert result == (
             Statement(

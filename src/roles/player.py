@@ -75,7 +75,7 @@ class Player(EnforceOverrides):  # type: ignore
 
         rand_int1 = util.get_player(const.IS_USER[self.player_index], exclude=(self.player_index,))
         if role_type == "Mason":
-            return Mason(self.player_index, [self.player_index, rand_int1])
+            return Mason(self.player_index, (self.player_index, rand_int1))
 
         rand_role = random.choice(list(const.ROLE_SET))
         if role_type == "Seer":

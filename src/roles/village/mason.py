@@ -14,7 +14,7 @@ from src.statements import Statement
 class Mason(Player):
     """ Mason Player class. """
 
-    def __init__(self, player_index: int, mason_indices: List[int]):
+    def __init__(self, player_index: int, mason_indices: Tuple[int, ...]):
         super().__init__(player_index)
         self.mason_indices = mason_indices
         self.statements += self.get_mason_statements(player_index, mason_indices)
@@ -35,10 +35,13 @@ class Mason(Player):
             logger.info(
                 f"Masons are players: {mason_indices} (You are player {player_index})", cache=True
             )
-        return cls(player_index, mason_indices)
+        return cls(player_index, tuple(mason_indices))
 
     @staticmethod
-    def get_mason_statements(player_index: int, mason_indices: List[int]) -> Tuple[Statement, ...]:
+    @lru_cache
+    def get_mason_statements(
+        player_index: int, mason_indices: Tuple[int, ...]
+    ) -> Tuple[Statement, ...]:
         """ Gets Mason Statement. """
         assert player_index in mason_indices
         if len(mason_indices) == 1:
@@ -58,10 +61,10 @@ class Mason(Player):
     @overrides
     def get_all_statements(player_index: int) -> Tuple[Statement, ...]:
         """ Required for all player types. Returns all possible role statements. """
-        statements = Mason.get_mason_statements(player_index, [player_index])
+        statements = Mason.get_mason_statements(player_index, (player_index,))
         for i in range(const.NUM_PLAYERS):
             if player_index != i:
-                mason_indices = [player_index, i]
+                mason_indices = (player_index, i)
                 statements += Mason.get_mason_statements(player_index, mason_indices)
         return statements
 

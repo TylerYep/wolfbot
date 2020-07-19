@@ -50,6 +50,8 @@ class WolfBotDecoder(json.JSONDecoder):
             if obj_type == "Seer":
                 obj["choice_1"] = tuple(obj["choice_1"])
                 obj["choice_2"] = tuple(obj["choice_2"])
+            elif obj_type == "Mason":
+                obj["mason_indices"] = tuple(obj["mason_indices"])
             return get_role_obj(obj_type)(**obj)
         return obj
 

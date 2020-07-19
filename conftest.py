@@ -72,10 +72,12 @@ def reset_const() -> None:
     Drunk.get_all_statements.cache_clear()
     Seer.get_all_statements.cache_clear()
     Robber.get_all_statements.cache_clear()
+    Mason.get_all_statements.cache_clear()
 
     Drunk.get_drunk_statements.cache_clear()
     Seer.get_seer_statements.cache_clear()
     Robber.get_robber_statements.cache_clear()
+    Mason.get_mason_statements.cache_clear()
 
 
 @pytest.fixture

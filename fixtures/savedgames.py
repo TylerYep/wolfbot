@@ -165,7 +165,7 @@ def example_large_saved_game(large_game_roles: Tuple[str, ...]) -> SavedGame:
         [
             Villager(0),
             Drunk(1, 14),
-            Mason(2, [2]),
+            Mason(2, (2,)),
             Tanner(3),
             Villager(4),
             Robber(5, 1, "Drunk"),
