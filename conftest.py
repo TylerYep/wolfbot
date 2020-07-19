@@ -211,13 +211,3 @@ def verify_output(caplog: LogCaptureFixture, expected: List[str]) -> None:
 def verify_output_string(caplog: LogCaptureFixture, expected: str) -> None:
     """ Helper method for debugging print differences. """
     assert caplog.records[0].getMessage() == expected
-
-
-def debug_spacing_issues(captured: str, expected: str) -> None:
-    """ Helper method for debugging print differences. """
-    print(len(captured), len(expected))
-    for i, captured_char in enumerate(captured):
-        if captured_char != expected[i]:
-            print("INCORRECT: ", i, captured_char, "vs", expected[i])
-        else:
-            print(" " * 10, i, captured_char, "vs", expected[i])

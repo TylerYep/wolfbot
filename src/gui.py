@@ -1,6 +1,5 @@
 """ gui.py """
 import os
-import random
 from typing import List, Tuple
 
 from src import const
@@ -29,9 +28,7 @@ class GUIState:
         os.system("clear")
         logger.clear()
 
-        const.IS_USER = [False] * const.NUM_ROLES
-        user_index = random.randrange(const.NUM_PLAYERS)
-        const.IS_USER[user_index] = True
+        user_index = const.IS_USER.index(True)
         logger.info(f"Player {user_index}, you are a {original_roles[user_index]}!", cache=True)
         self.print_cache()
 

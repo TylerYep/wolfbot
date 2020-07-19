@@ -41,8 +41,7 @@ def play_one_night_werewolf(save_replay: bool = True) -> GameResult:
     if const.RANDOMIZE_ROLES:
         random.shuffle(game_roles)
     original_roles = tuple(game_roles)
-    if const.FIXED_WOLF_INDEX is not None:
-        override_wolf_index(game_roles)
+    override_players(game_roles)
 
     gui_state = GUIState()
     gui_state.intro(original_roles)
@@ -241,9 +240,28 @@ def eval_winning_team(
     return "Werewolf"
 
 
-def override_wolf_index(game_roles: List[str]) -> None:
-    """ Swap a Wolf to the const.FIXED_WOLF_INDEX. """
-    wolf_inds = util.find_all_player_indices(game_roles, "Wolf")
-    if wolf_inds and const.FIXED_WOLF_INDEX >= 0:
-        wolf_ind = random.choice(wolf_inds)
-        util.swap_characters(game_roles, wolf_ind, const.FIXED_WOLF_INDEX)
+def override_players(game_roles: List[str]) -> None:
+    """
+    Makes changes to the randomized set of game_roles using the specifications in const.py.
+    For example, we can swap a Wolf to the const.FIXED_WOLF_INDEX, or
+    choose what player role we want to have.
+    """
+    if const.INTERACTIVE_MODE:
+        if const.USER_ROLE is None:
+            user_index = random.randrange(const.NUM_PLAYERS)
+            const.IS_USER[user_index] = True
+        else:
+            role_indices = util.find_all_player_indices(game_roles, const.USER_ROLE)
+            if role_indices:
+                new_user_ind = random.choice(role_indices)
+                const.IS_USER[new_user_ind] = True
+            else:
+                role_ind = game_roles.index(const.USER_ROLE)
+                random_player_ind = random.randrange(const.NUM_PLAYERS)
+                util.swap_characters(game_roles, role_ind, random_player_ind)
+
+    if const.FIXED_WOLF_INDEX is not None:
+        wolf_inds = util.find_all_player_indices(game_roles, "Wolf")
+        if wolf_inds and const.FIXED_WOLF_INDEX >= 0:
+            wolf_ind = random.choice(wolf_inds)
+            util.swap_characters(game_roles, wolf_ind, const.FIXED_WOLF_INDEX)
