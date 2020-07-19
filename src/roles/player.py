@@ -7,7 +7,7 @@ from typing import Any, Dict, List, Tuple
 from overrides import EnforceOverrides
 
 from src import const, util
-from src.const import StatementLevel, logger
+from src.const import StatementLevel, logger, lru_cache
 from src.predictions import make_prediction, make_random_prediction
 from src.solvers import switching_solver as solver
 from src.statements import KnowledgeBase, Statement
@@ -97,6 +97,7 @@ class Player(EnforceOverrides):  # type: ignore
         raise NotImplementedError
 
     @staticmethod
+    @lru_cache
     def get_all_statements(player_index: int) -> Tuple[Statement, ...]:
         """ Required for all player types. Returns all possible role statements. """
         raise NotImplementedError

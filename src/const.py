@@ -1,16 +1,26 @@
 """ const.py """
+from __future__ import annotations
+
 import argparse
+import functools
 import logging
 import random
 import sys
 from collections import Counter
 from enum import IntEnum, unique
-from typing import Dict, Sequence, TypeVar
+from typing import Callable, Dict, Sequence, TypeVar
 
 from src.log import OneNightLogger
 
 # TODO https://github.com/PyCQA/pylint/issues/3401
 T = TypeVar("T")  # pylint: disable=invalid-name
+
+
+def lru_cache(  # pylint: disable=protected-access
+    func: Callable[..., T]
+) -> functools._lru_cache_wrapper[T]:
+    """ Allows lru_cache to type check correctly. """
+    return functools.lru_cache()(func)
 
 
 def init_program(is_unit_test: bool) -> argparse.Namespace:

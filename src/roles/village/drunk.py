@@ -6,7 +6,7 @@ from typing import Any, Dict, List, Tuple
 from overrides import overrides
 
 from src import const, util
-from src.const import SwitchPriority, logger
+from src.const import SwitchPriority, logger, lru_cache
 from src.roles.player import Player
 from src.statements import Statement
 
@@ -39,6 +39,7 @@ class Drunk(Player):
         return cls(player_index, choice_ind)
 
     @staticmethod
+    @lru_cache
     def get_drunk_statements(player_index: int, choice_ind: int) -> Tuple[Statement, ...]:
         """ Gets Drunk Statement. """
         sentence = f"I am a Drunk and I swapped with Center {choice_ind - const.NUM_PLAYERS}."
@@ -47,6 +48,7 @@ class Drunk(Player):
         return (Statement(sentence, knowledge, switches),)
 
     @staticmethod
+    @lru_cache
     @overrides
     def get_all_statements(player_index: int) -> Tuple[Statement, ...]:
         """ Required for all player types. Returns all possible role statements. """

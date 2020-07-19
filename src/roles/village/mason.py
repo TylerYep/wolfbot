@@ -6,7 +6,7 @@ from typing import Any, Dict, List, Tuple
 from overrides import overrides
 
 from src import const, util
-from src.const import logger
+from src.const import logger, lru_cache
 from src.roles.player import Player
 from src.statements import Statement
 
@@ -54,6 +54,7 @@ class Mason(Player):
         return (Statement(sentence, tuple(knowledge)),)
 
     @staticmethod
+    @lru_cache
     @overrides
     def get_all_statements(player_index: int) -> Tuple[Statement, ...]:
         """ Required for all player types. Returns all possible role statements. """

@@ -10,6 +10,7 @@ from _pytest.logging import LogCaptureFixture
 
 from fixtures import *
 from src import const
+from src.roles import Drunk, Hunter, Insomniac, Mason, Robber, Seer, Troublemaker, Villager
 
 
 def set_roles(roles: Tuple[str, ...]) -> None:
@@ -68,6 +69,13 @@ def reset_const() -> None:
             "Hunter",
         )
     )
+    Drunk.get_all_statements.cache_clear()
+    Seer.get_all_statements.cache_clear()
+    Robber.get_all_statements.cache_clear()
+
+    Drunk.get_drunk_statements.cache_clear()
+    Seer.get_seer_statements.cache_clear()
+    Robber.get_robber_statements.cache_clear()
 
 
 @pytest.fixture

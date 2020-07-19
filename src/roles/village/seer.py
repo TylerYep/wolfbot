@@ -6,7 +6,7 @@ from typing import Any, Dict, List, Optional, Tuple
 from overrides import overrides
 
 from src import const, util
-from src.const import logger
+from src.const import logger, lru_cache
 from src.roles.player import Player
 from src.statements import Statement
 
@@ -66,6 +66,7 @@ class Seer(Player):
         return cls(player_index, (peek_ind, peek_char))
 
     @staticmethod
+    @lru_cache
     def get_seer_statements(
         player_index: int,
         choice_1: Tuple[int, str],
@@ -85,6 +86,7 @@ class Seer(Player):
         return (Statement(sentence, tuple(knowledge)),)
 
     @staticmethod
+    @lru_cache
     @overrides
     def get_all_statements(player_index: int) -> Tuple[Statement, ...]:
         """ Required for all player types. Returns all possible role statements. """
