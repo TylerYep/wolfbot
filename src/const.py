@@ -159,9 +159,9 @@ elif INTERACTIVE_MODE:
 
 assert USER_ROLE is None or USER_ROLE in ROLES
 assert not (EXPECTIMAX_WOLF and USE_RL_WOLF)
-if sys.version_info < (3, 7):
+if sys.version_info < (3, 8):
     sys.stdout.write("Python " + sys.version)
-    sys.stdout.write("\n\nWolfBot requires Python 3.7+ to work!\n\n")
+    sys.stdout.write("\n\nWolfBot requires Python 3.8+ to work!\n\n")
     sys.exit()
 
 

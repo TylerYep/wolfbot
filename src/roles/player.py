@@ -201,10 +201,9 @@ class Player(EnforceOverrides):  # type: ignore
 
         # TODO find the most likely Wolf and only vote for that one
         # Players cannot vote for themselves.
-        found_wolf_inds = util.find_all_player_indices(
+        if found_wolf_inds := util.find_all_player_indices(
             prediction, "Wolf", exclude=(self.player_index,)
-        )
-        if found_wolf_inds:
+        ):
             return random.choice(found_wolf_inds)
 
         return no_wolves_guess

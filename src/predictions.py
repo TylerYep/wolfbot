@@ -60,8 +60,7 @@ def make_prediction(solution_arr: List[SolverState], is_evil: bool = False) -> T
         solution_index = index
         all_role_guesses, curr_role_counts = get_basic_guesses(solution)
         basic_guess_cache[index] = (all_role_guesses, curr_role_counts)
-        solved = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts))
-        if solved:
+        if solved := recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts)):
             break
 
     # Assume all players that could lie are lying.
@@ -69,8 +68,9 @@ def make_prediction(solution_arr: List[SolverState], is_evil: bool = False) -> T
         for index, solution in enumerate(solution_arr):
             solution_index = index
             all_role_guesses, curr_role_counts = basic_guess_cache[index]
-            solved = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts), False)
-            if solved:
+            if solved := recurse_assign(
+                solution, list(all_role_guesses), dict(curr_role_counts), False
+            ):
                 break
 
     switch_dict = get_switch_dict(solution_arr[solution_index])
@@ -111,8 +111,7 @@ def get_basic_guesses(solution: SolverState) -> Tuple[List[str], Dict[str, int]]
         elif not consistent_statements[j]:
             evil_roles = sorted(const.EVIL_ROLES)
             random.shuffle(evil_roles)
-            choices = [r for r in evil_roles if curr_role_counts[r] > 0]
-            if choices:
+            if choices := [r for r in evil_roles if curr_role_counts[r] > 0]:
                 choice = random.choice(choices)
                 all_role_guesses.append(choice)
                 curr_role_counts[choice] -= 1
@@ -148,10 +147,9 @@ def recurse_assign(
                 if curr_role_counts[rol] > 0:
                     curr_role_counts[rol] -= 1
                     all_role_guesses[i] = rol
-                    result = recurse_assign(
+                    if result := recurse_assign(
                         solution, all_role_guesses, curr_role_counts, restrict_possible
-                    )
-                    if result:
+                    ):
                         return result
                     curr_role_counts[rol] += 1
                     all_role_guesses[i] = ""

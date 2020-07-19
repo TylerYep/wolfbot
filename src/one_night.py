@@ -209,8 +209,7 @@ def eval_winning_team(
     killed_wolf, killed_tanner, villager_win = False, False, False
     if len(guessed_wolf_inds) == const.NUM_PLAYERS:
         logger.info("No wolves were found.")
-        final_wolf_inds = util.find_all_player_indices(game_roles, "Wolf")
-        if final_wolf_inds:
+        if final_wolf_inds := util.find_all_player_indices(game_roles, "Wolf"):
             logger.info(f"But Player(s) {final_wolf_inds} was a Wolf!\n")
         else:
             logger.info("That was correct!\n")
@@ -251,8 +250,7 @@ def override_players(game_roles: List[str]) -> None:
             user_index = random.randrange(const.NUM_PLAYERS)
             const.IS_USER[user_index] = True
         else:
-            role_indices = util.find_all_player_indices(game_roles, const.USER_ROLE)
-            if role_indices:
+            if role_indices := util.find_all_player_indices(game_roles, const.USER_ROLE):
                 new_user_ind = random.choice(role_indices)
                 const.IS_USER[new_user_ind] = True
             else:
