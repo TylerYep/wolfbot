@@ -17,7 +17,7 @@ class TestSeer:
         player_index = 11
         const.CENTER_SEER_PROB = 1
         orig_roles, game_roles = [], list(large_game_roles)
-        expected = [
+        expected = (
             Statement(
                 (
                     "I am a Seer and I saw that Center 1 was a Insomniac "
@@ -28,8 +28,8 @@ class TestSeer:
                     (13, frozenset({"Insomniac"})),
                     (12, frozenset({"Troublemaker"})),
                 ),
-            )
-        ]
+            ),
+        )
 
         seer = Seer.awake_init(player_index, game_roles, orig_roles)
 
@@ -46,12 +46,12 @@ class TestSeer:
         player_index = 11
         const.CENTER_SEER_PROB = 0
         orig_roles, game_roles = [], list(large_game_roles)
-        expected = [
+        expected = (
             Statement(
                 "I am a Seer and I saw that Player 6 was a Mason.",
                 ((11, frozenset({"Seer"})), (6, frozenset({"Mason"}))),
-            )
-        ]
+            ),
+        )
 
         seer = Seer.awake_init(player_index, game_roles, orig_roles)
 
@@ -66,12 +66,12 @@ class TestSeer:
 
         result = Seer.get_seer_statements(player_index, (6, "Robber"))
 
-        assert result == [
+        assert result == (
             Statement(
                 "I am a Seer and I saw that Player 6 was a Robber.",
                 ((1, frozenset({"Seer"})), (6, frozenset({"Robber"}))),
-            )
-        ]
+            ),
+        )
 
     @staticmethod
     def test_get_all_statements():
@@ -80,7 +80,7 @@ class TestSeer:
         set_roles(("Wolf", "Seer", "Villager", "Wolf"))
         const.NUM_PLAYERS = 2
         const.NUM_CENTER = 2
-        expected = [
+        expected = (
             Statement(
                 "I am a Seer and I saw that Player 0 was a Villager.",
                 ((1, frozenset({"Seer"})), (0, frozenset({"Villager"}))),
@@ -123,7 +123,7 @@ class TestSeer:
                 ("I am a Seer and I saw that Center 0 was a Wolf and that Center 1 was a Wolf."),
                 ((1, frozenset({"Seer"})), (2, frozenset({"Wolf"})), (3, frozenset({"Wolf"}))),
             ),
-        ]
+        )
 
         result = Seer.get_all_statements(player_index)
 

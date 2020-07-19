@@ -68,7 +68,7 @@ class Wolf(Player):
 
     @staticmethod
     @overrides
-    def get_all_statements(player_index: int) -> List[Statement]:
+    def get_all_statements(player_index: int) -> Tuple[Statement, ...]:
         """ Required for all player types. Returns all possible role statements. """
         raise NotImplementedError
 

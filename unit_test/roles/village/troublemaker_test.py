@@ -16,14 +16,14 @@ class TestTroublemaker:
         """
         player_index = 11
         orig_roles, game_roles = [], list(large_game_roles)
-        expected = [
+        expected = (
             Statement(
                 "I am a Troublemaker and I swapped Player 6 and Player 0.",
                 ((11, frozenset({"Troublemaker"})),),
                 ((2, 6, 0),),
                 "Troublemaker",
-            )
-        ]
+            ),
+        )
         new_roles = list(large_game_roles)
         new_roles[0], new_roles[6] = new_roles[6], new_roles[0]
 
@@ -41,14 +41,14 @@ class TestTroublemaker:
 
         result = Troublemaker.get_troublemaker_statements(player_index, 6, 3)
 
-        assert result == [
+        assert result == (
             Statement(
                 "I am a Troublemaker and I swapped Player 6 and Player 3.",
                 ((1, frozenset({"Troublemaker"})),),
                 ((2, 6, 3),),
                 "Troublemaker",
-            )
-        ]
+            ),
+        )
 
     @staticmethod
     def test_get_all_statements():
@@ -57,14 +57,14 @@ class TestTroublemaker:
         set_roles(("Wolf", "Seer", "Troublemaker", "Villager", "Robber", "Wolf"))
         const.NUM_PLAYERS = 3
         const.NUM_CENTER = 3
-        expected_statements = [
+        expected_statements = (
             Statement(
                 "I am a Troublemaker and I swapped Player 0 and Player 1.",
                 ((2, frozenset({"Troublemaker"})),),
                 ((2, 0, 1),),
                 "Troublemaker",
-            )
-        ]
+            ),
+        )
 
         result = Troublemaker.get_all_statements(player_index)
 

@@ -1,14 +1,16 @@
 """ center_wolf.py """
-from typing import Any, List
+from typing import Any, Tuple
 
 from src import const
 from src.roles.village import Drunk, Hunter, Insomniac, Robber, Seer, Troublemaker, Villager
 from src.statements import KnowledgeBase, Statement
 
 
-def get_center_wolf_statements(player_obj: Any, knowledge_base: KnowledgeBase) -> List[Statement]:
+def get_center_wolf_statements(
+    player_obj: Any, knowledge_base: KnowledgeBase
+) -> Tuple[Statement, ...]:
     """ Center Wolf Player logic. """
-    statements: List[Statement] = []
+    statements: Tuple[Statement, ...] = ()
     player_index = player_obj.player_index
     wolf_indices = player_obj.wolf_indices
     center_role = player_obj.center_role

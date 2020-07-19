@@ -17,12 +17,12 @@ class TestMason:
         mason = Mason.awake_init(player_index, game_roles, orig_roles)
 
         assert mason.mason_indices == [6, 9]
-        assert mason.statements == [
+        assert mason.statements == (
             Statement(
                 "I am a Mason. The other Mason is Player 9.",
                 ((6, frozenset({"Mason"})), (9, frozenset({"Mason"}))),
-            )
-        ]
+            ),
+        )
 
     @staticmethod
     def test_get_mason_statements():
@@ -31,12 +31,12 @@ class TestMason:
 
         result = Mason.get_mason_statements(player_index, [6, 9])
 
-        assert result == [
+        assert result == (
             Statement(
                 "I am a Mason. The other Mason is Player 6.",
                 ((9, frozenset({"Mason"})), (6, frozenset({"Mason"}))),
-            )
-        ]
+            ),
+        )
 
     @staticmethod
     def test_get_single_mason_statement():
@@ -46,7 +46,7 @@ class TestMason:
         const.NUM_PLAYERS = 3
         result = Mason.get_mason_statements(player_index, [2])
 
-        assert result == [
+        assert result == (
             Statement(
                 "I am a Mason. The other Mason is not present.",
                 (
@@ -54,8 +54,8 @@ class TestMason:
                     (0, frozenset({"Wolf", "Seer", "Villager"})),
                     (1, frozenset({"Wolf", "Seer", "Villager"})),
                 ),
-            )
-        ]
+            ),
+        )
 
     @staticmethod
     def test_get_all_statements():
@@ -63,7 +63,7 @@ class TestMason:
         player_index = 2
         set_roles(("Wolf", "Seer", "Mason", "Villager"))
         const.NUM_PLAYERS = 3
-        expected_statements = [
+        expected_statements = (
             Statement(
                 "I am a Mason. The other Mason is not present.",
                 (
@@ -80,7 +80,7 @@ class TestMason:
                 "I am a Mason. The other Mason is Player 1.",
                 ((2, frozenset({"Mason"})), (1, frozenset({"Mason"}))),
             ),
-        ]
+        )
 
         result = Mason.get_all_statements(player_index)
 

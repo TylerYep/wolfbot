@@ -1,7 +1,7 @@
 """ villager.py """
 from __future__ import annotations
 
-from typing import List
+from typing import List, Tuple
 
 from overrides import overrides
 
@@ -26,12 +26,12 @@ class Villager(Player):
         return cls(player_index)
 
     @staticmethod
-    def get_villager_statements(player_index: int) -> List[Statement]:
+    def get_villager_statements(player_index: int) -> Tuple[Statement, ...]:
         """ Gets Villager Statements. """
-        return [Statement("I am a Villager.", ((player_index, frozenset({"Villager"})),))]
+        return (Statement("I am a Villager.", ((player_index, frozenset({"Villager"})),)),)
 
     @staticmethod
     @overrides
-    def get_all_statements(player_index: int) -> List[Statement]:
+    def get_all_statements(player_index: int) -> Tuple[Statement, ...]:
         """ Required for all player types. Returns all possible role statements. """
         return Villager.get_villager_statements(player_index)

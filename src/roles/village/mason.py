@@ -1,7 +1,7 @@
 """ mason.py """
 from __future__ import annotations
 
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Tuple
 
 from overrides import overrides
 
@@ -38,7 +38,7 @@ class Mason(Player):
         return cls(player_index, mason_indices)
 
     @staticmethod
-    def get_mason_statements(player_index: int, mason_indices: List[int]) -> List[Statement]:
+    def get_mason_statements(player_index: int, mason_indices: List[int]) -> Tuple[Statement, ...]:
         """ Gets Mason Statement. """
         assert player_index in mason_indices
         if len(mason_indices) == 1:
@@ -51,11 +51,11 @@ class Mason(Player):
             other_mason = mason_indices[0] if mason_indices[0] != player_index else mason_indices[1]
             sentence = f"I am a Mason. The other Mason is Player {other_mason}."
             knowledge = [(player_index, frozenset({"Mason"})), (other_mason, frozenset({"Mason"}))]
-        return [Statement(sentence, tuple(knowledge))]
+        return (Statement(sentence, tuple(knowledge)),)
 
     @staticmethod
     @overrides
-    def get_all_statements(player_index: int) -> List[Statement]:
+    def get_all_statements(player_index: int) -> Tuple[Statement, ...]:
         """ Required for all player types. Returns all possible role statements. """
         statements = Mason.get_mason_statements(player_index, [player_index])
         for i in range(const.NUM_PLAYERS):

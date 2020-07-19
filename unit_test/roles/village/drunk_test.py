@@ -23,14 +23,14 @@ class TestDrunk:
 
         assert game_roles == new_roles
         assert drunk.choice_ind == 13
-        assert drunk.statements == [
+        assert drunk.statements == (
             Statement(
                 "I am a Drunk and I swapped with Center 1.",
                 ((6, frozenset({"Drunk"})),),
                 ((3, 6, 13),),
                 "Drunk",
-            )
-        ]
+            ),
+        )
 
     @staticmethod
     def test_get_drunk_statements():
@@ -39,14 +39,14 @@ class TestDrunk:
 
         result = Drunk.get_drunk_statements(player_index, 12)
 
-        assert result == [
+        assert result == (
             Statement(
                 "I am a Drunk and I swapped with Center 0.",
                 ((4, frozenset({"Drunk"})),),
                 ((3, 4, 12),),
                 "Drunk",
-            )
-        ]
+            ),
+        )
 
     @staticmethod
     def test_get_all_statements():
@@ -55,7 +55,7 @@ class TestDrunk:
         set_roles(("Wolf", "Seer", "Drunk", "Villager", "Robber", "Wolf"))
         const.NUM_PLAYERS = 3
         const.NUM_CENTER = 3
-        expected_statements = [
+        expected_statements = (
             Statement(
                 "I am a Drunk and I swapped with Center 0.",
                 ((2, frozenset({"Drunk"})),),
@@ -74,7 +74,7 @@ class TestDrunk:
                 ((3, 2, 5),),
                 "Drunk",
             ),
-        ]
+        )
 
         result = Drunk.get_all_statements(player_index)
 

@@ -12,15 +12,15 @@ class TestInsomniac:
         """ Should initialize a Insomniac. """
         player_index = 1
         game_roles = ["Insomniac", "Robber", "Villager"]
-        expected = [
+        expected = (
             Statement(
                 (
                     "I am a Insomniac and when I woke up I was a Robber. "
                     "I don't know who I switched with."
                 ),
                 ((1, frozenset({"Insomniac"})),),
-            )
-        ]
+            ),
+        )
 
         insomniac = Insomniac.awake_init(player_index, game_roles, [])
 
@@ -31,15 +31,15 @@ class TestInsomniac:
     def test_get_insomniac_statements():
         """ Should execute initialization actions and return the possible statements. """
         player_index = 0
-        expected = [
+        expected = (
             Statement(
                 (
                     "I am a Insomniac and when I woke up I was a Hunter. "
                     "I don't know who I switched with."
                 ),
                 ((0, frozenset({"Insomniac"})),),
-            )
-        ]
+            ),
+        )
 
         result = Insomniac.get_insomniac_statements(player_index, "Hunter")
 
@@ -50,7 +50,7 @@ class TestInsomniac:
         """ Should return the possible statements from all possible initialization actions. """
         player_index = 2
         set_roles(("Wolf", "Insomniac", "Seer"))
-        expected = [
+        expected = (
             Statement(
                 (
                     "I am a Insomniac and when I woke up I was a Wolf. I don't know "
@@ -69,7 +69,7 @@ class TestInsomniac:
                 ),
                 ((2, frozenset({"Insomniac"})),),
             ),
-        ]
+        )
 
         result = Insomniac.get_all_statements(player_index)
 

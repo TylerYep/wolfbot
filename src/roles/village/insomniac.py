@@ -1,7 +1,7 @@
 """ insomniac.py """
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 from overrides import overrides
 
@@ -36,7 +36,7 @@ class Insomniac(Player):
     @staticmethod
     def get_insomniac_statements(
         player_index: int, insomniac_new_role: str, new_insomniac_index: Optional[int] = None
-    ) -> List[Statement]:
+    ) -> Tuple[Statement, ...]:
         """ Gets Insomniac Statement. """
         knowledge = ((player_index, frozenset({"Insomniac"})),)
         sentence = f"I am a Insomniac and when I woke up I was a {insomniac_new_role}."
@@ -46,16 +46,16 @@ class Insomniac(Player):
         else:
             sentence += f" I switched with Player {new_insomniac_index}."
         # switches = ((player_index, new_insomniac_index),)  # TODO
-        return [Statement(sentence, knowledge)]
+        return (Statement(sentence, knowledge),)
 
     @staticmethod
     @overrides
-    def get_all_statements(player_index: int) -> List[Statement]:
+    def get_all_statements(player_index: int) -> Tuple[Statement, ...]:
         """ Required for all player types. Returns all possible role statements. """
         statements: List[Statement] = []
         for role in const.SORTED_ROLE_SET:
             statements += Insomniac.get_insomniac_statements(player_index, role)
-        return statements
+        return tuple(statements)
 
     @overrides
     def analyze(self, knowledge_base: KnowledgeBase) -> None:

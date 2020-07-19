@@ -20,12 +20,12 @@ class Player(EnforceOverrides):  # type: ignore
         self.player_index = player_index
         self.role = type(self).__name__  # e.g. "Wolf"
         self.new_role = ""
-        self.statements: List[Statement] = []
+        self.statements: Tuple[Statement, ...] = ()
         self.prev_priority = StatementLevel.NOT_YET_SPOKEN
         if const.MULTI_STATEMENT:
             self.statements += self.get_partial_statements()
 
-    def get_partial_statements(self) -> List[Statement]:
+    def get_partial_statements(self) -> Tuple[Statement, ...]:
         """ Gets generic partial statements for each player. """
         partial_statements = []
         zero_sent = "I don't want to say who I am just yet."
@@ -36,7 +36,7 @@ class Player(EnforceOverrides):  # type: ignore
             knowledge = ((self.player_index, frozenset({self.role})),)
             statement = Statement(partial_sent, knowledge, priority=StatementLevel.SOME_INFO)
             partial_statements.append(statement)
-        return partial_statements
+        return tuple(partial_statements)
 
     def transform(self, role_type: str) -> Player:  # pylint: disable=too-many-locals
         """ Returns new Player identity. """
@@ -97,7 +97,7 @@ class Player(EnforceOverrides):  # type: ignore
         raise NotImplementedError
 
     @staticmethod
-    def get_all_statements(player_index: int) -> List[Statement]:
+    def get_all_statements(player_index: int) -> Tuple[Statement, ...]:
         """ Required for all player types. Returns all possible role statements. """
         raise NotImplementedError
 
@@ -126,7 +126,7 @@ class Player(EnforceOverrides):  # type: ignore
 
                 self.statements = get_wolf_statements_random(self)
 
-        self.statements = [x for x in self.statements if x.priority > self.prev_priority]
+        self.statements = tuple([x for x in self.statements if x.priority > self.prev_priority])
 
         # Choose a statement
         next_statement = random.choice(self.statements)
@@ -136,12 +136,13 @@ class Player(EnforceOverrides):  # type: ignore
             next_statement = min(self.statements, key=lambda x: x.priority)
 
         if const.IS_USER[self.player_index]:
-            sample_statements = []
+            sample_statements: Tuple[Statement, ...] = ()
             choice = const.NUM_OPTIONS
             while choice == const.NUM_OPTIONS:
                 logger.info("\nPlease choose from the following statements: ")
                 sample_statements = (
-                    random.sample(self.statements, const.NUM_OPTIONS) + [Statement("Next page...")]
+                    tuple(random.sample(self.statements, const.NUM_OPTIONS))
+                    + (Statement("Next page..."),)
                     if len(self.statements) > const.NUM_OPTIONS
                     else self.statements
                 )

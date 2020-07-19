@@ -1,7 +1,7 @@
 """ drunk.py """
 from __future__ import annotations
 
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Tuple
 
 from overrides import overrides
 
@@ -39,18 +39,18 @@ class Drunk(Player):
         return cls(player_index, choice_ind)
 
     @staticmethod
-    def get_drunk_statements(player_index: int, choice_ind: int) -> List[Statement]:
+    def get_drunk_statements(player_index: int, choice_ind: int) -> Tuple[Statement, ...]:
         """ Gets Drunk Statement. """
         sentence = f"I am a Drunk and I swapped with Center {choice_ind - const.NUM_PLAYERS}."
         knowledge = ((player_index, frozenset({"Drunk"})),)
         switches = ((SwitchPriority.DRUNK, player_index, choice_ind),)
-        return [Statement(sentence, knowledge, switches)]
+        return (Statement(sentence, knowledge, switches),)
 
     @staticmethod
     @overrides
-    def get_all_statements(player_index: int) -> List[Statement]:
+    def get_all_statements(player_index: int) -> Tuple[Statement, ...]:
         """ Required for all player types. Returns all possible role statements. """
-        statements: List[Statement] = []
+        statements: Tuple[Statement, ...] = ()
         for k in range(const.NUM_CENTER):
             statements += Drunk.get_drunk_statements(player_index, const.NUM_PLAYERS + k)
         return statements

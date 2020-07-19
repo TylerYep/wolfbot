@@ -15,7 +15,7 @@ class TestPlayer:
         empty_player = Player(player_index)
 
         assert empty_player.role == "Player"
-        assert empty_player.statements == []
+        assert empty_player.statements == ()
 
     @staticmethod
     def test_inheritance():

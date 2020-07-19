@@ -1,7 +1,7 @@
 """ hunter.py """
 from __future__ import annotations
 
-from typing import List
+from typing import List, Tuple
 
 from overrides import overrides
 
@@ -26,12 +26,12 @@ class Hunter(Player):
         return cls(player_index)
 
     @staticmethod
-    def get_hunter_statements(player_index: int) -> List[Statement]:
+    def get_hunter_statements(player_index: int) -> Tuple[Statement, ...]:
         """ Gets Hunter Statement. """
-        return [Statement("I am a Hunter.", ((player_index, frozenset({"Hunter"})),))]
+        return (Statement("I am a Hunter.", ((player_index, frozenset({"Hunter"})),)),)
 
     @staticmethod
     @overrides
-    def get_all_statements(player_index: int) -> List[Statement]:
+    def get_all_statements(player_index: int) -> Tuple[Statement, ...]:
         """ Required for all player types. Returns all possible role statements. """
         return Hunter.get_hunter_statements(player_index)

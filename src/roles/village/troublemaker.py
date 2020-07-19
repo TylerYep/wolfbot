@@ -1,7 +1,7 @@
 """ troublemaker.py """
 from __future__ import annotations
 
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Tuple
 
 from overrides import overrides
 
@@ -43,18 +43,18 @@ class Troublemaker(Player):
     @staticmethod
     def get_troublemaker_statements(
         player_index: int, tmkr_ind1: int, tmkr_ind2: int
-    ) -> List[Statement]:
+    ) -> Tuple[Statement, ...]:
         """ Gets Troublemaker Statement. """
         sentence = f"I am a Troublemaker and I swapped Player {tmkr_ind1} and Player {tmkr_ind2}."
         knowledge = ((player_index, frozenset({"Troublemaker"})),)
         switches = ((SwitchPriority.TROUBLEMAKER, tmkr_ind1, tmkr_ind2),)
-        return [Statement(sentence, knowledge, switches)]
+        return (Statement(sentence, knowledge, switches),)
 
     @staticmethod
     @overrides
-    def get_all_statements(player_index: int) -> List[Statement]:
+    def get_all_statements(player_index: int) -> Tuple[Statement, ...]:
         """ Required for all player types. Returns all possible role statements. """
-        statements: List[Statement] = []
+        statements: Tuple[Statement, ...] = ()
         for i in range(const.NUM_PLAYERS):
             for j in range(i + 1, const.NUM_PLAYERS):
                 # Troublemaker should not refer to themselves; ensure all three values are unique

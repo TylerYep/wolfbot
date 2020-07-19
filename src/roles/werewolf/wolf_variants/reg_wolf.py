@@ -1,14 +1,14 @@
 """ reg_wolf.py """
-from typing import Any, List
+from typing import Any, Tuple
 
 from src import const
 from src.roles.village import Drunk, Hunter, Insomniac, Mason, Robber, Seer, Troublemaker, Villager
 from src.statements import KnowledgeBase, Statement
 
 
-def get_wolf_statements(player_obj: Any, knowledge_base: KnowledgeBase) -> List[Statement]:
+def get_wolf_statements(player_obj: Any, knowledge_base: KnowledgeBase) -> Tuple[Statement, ...]:
     """ Gets Regular Wolf statement. """
-    statements: List[Statement] = []
+    statements: Tuple[Statement, ...] = ()
     stated_roles = knowledge_base.stated_roles
     previous_statements = knowledge_base.all_statements
     player_index = player_obj.player_index

@@ -70,7 +70,7 @@ class Seer(Player):
         player_index: int,
         choice_1: Tuple[int, str],
         choice_2: Tuple[Optional[int], Optional[str]] = (None, None),
-    ) -> List[Statement]:
+    ) -> Tuple[Statement, ...]:
         """ Gets Seer Statement. """
         seen_index, seen_role = choice_1
         seen_index2, seen_role2 = choice_2
@@ -82,13 +82,13 @@ class Seer(Player):
                 f"{seen_role} and that Center {seen_index2 - const.NUM_PLAYERS} was a {seen_role2}."
             )
             knowledge.append((seen_index2, frozenset({seen_role2})))
-        return [Statement(sentence, tuple(knowledge))]
+        return (Statement(sentence, tuple(knowledge)),)
 
     @staticmethod
     @overrides
-    def get_all_statements(player_index: int) -> List[Statement]:
+    def get_all_statements(player_index: int) -> Tuple[Statement, ...]:
         """ Required for all player types. Returns all possible role statements. """
-        statements: List[Statement] = []
+        statements: Tuple[Statement, ...] = ()
         for role in const.SORTED_ROLE_SET:
             for i in range(const.NUM_PLAYERS):  # OK: 'Hey, I'm a Seer and I saw another Seer...'
                 statements += Seer.get_seer_statements(player_index, (i, role))

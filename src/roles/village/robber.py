@@ -1,7 +1,7 @@
 """ robber.py """
 from __future__ import annotations
 
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Tuple
 
 from overrides import overrides
 
@@ -44,20 +44,20 @@ class Robber(Player):
     @staticmethod
     def get_robber_statements(
         player_index: int, choice_ind: int, choice_char: str
-    ) -> List[Statement]:
+    ) -> Tuple[Statement, ...]:
         """ Gets Robber Statement. """
         sentence = (
             f"I am a Robber and I swapped with Player {choice_ind}. I am now a {choice_char}."
         )
         knowledge = ((player_index, frozenset({"Robber"})), (choice_ind, frozenset({choice_char})))
         switches = ((SwitchPriority.ROBBER, player_index, choice_ind),)
-        return [Statement(sentence, knowledge, switches)]
+        return (Statement(sentence, knowledge, switches),)
 
     @staticmethod
     @overrides
-    def get_all_statements(player_index: int) -> List[Statement]:
+    def get_all_statements(player_index: int) -> Tuple[Statement, ...]:
         """ Required for all player types. Returns all possible role statements. """
-        statements: List[Statement] = []
+        statements: Tuple[Statement, ...] = ()
         for i in range(const.NUM_PLAYERS):
             for role in const.SORTED_ROLE_SET:
                 if player_index != i:  # OK: 'I robbed Player 0 and now I'm a Wolf... ;)'

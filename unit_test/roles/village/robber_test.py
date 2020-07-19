@@ -19,14 +19,14 @@ class TestRobber:
         new_roles = list(large_game_roles)
         new_roles[2], new_roles[6] = new_roles[6], new_roles[2]
 
-        expected = [
+        expected = (
             Statement(
                 "I am a Robber and I swapped with Player 6. I am now a Mason.",
                 ((2, frozenset({"Robber"})), (6, frozenset({"Mason"}))),
                 ((1, 2, 6),),
                 "Robber",
-            )
-        ]
+            ),
+        )
 
         robber = Robber.awake_init(player_index, game_roles, orig_roles)
 
@@ -42,14 +42,14 @@ class TestRobber:
 
         result = Robber.get_robber_statements(player_index, 3, "Seer")
 
-        assert result == [
+        assert result == (
             Statement(
                 "I am a Robber and I swapped with Player 3. I am now a Seer.",
                 ((4, frozenset({"Robber"})), (3, frozenset({"Seer"}))),
                 ((1, 4, 3),),
                 "Robber",
-            )
-        ]
+            ),
+        )
 
     @staticmethod
     def test_get_all_statements():
@@ -57,7 +57,7 @@ class TestRobber:
         player_index = 1
         set_roles(("Wolf", "Robber", "Villager"))
         const.NUM_PLAYERS = 2
-        expected = [
+        expected = (
             Statement(
                 "I am a Robber and I swapped with Player 0. I am now a Villager.",
                 ((1, frozenset({"Robber"})), (0, frozenset({"Villager"}))),
@@ -76,7 +76,7 @@ class TestRobber:
                 ((1, 1, 0),),
                 "Robber",
             ),
-        ]
+        )
 
         result = Robber.get_all_statements(player_index)
 

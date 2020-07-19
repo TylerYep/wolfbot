@@ -1,6 +1,6 @@
 """ expectimax.py """
 import random
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, Optional, Tuple
 
 from src import const
 from src.solvers import SolverState
@@ -9,7 +9,7 @@ from src.statements import Statement
 
 def expectimax(
     player_obj: Any,
-    expected_statements: Dict[int, List[Statement]],
+    expected_statements: Dict[int, Tuple[Statement, ...]],
     statement_list: Tuple[Statement, ...],
     state: SolverState,
     ind: int,
