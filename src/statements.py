@@ -97,7 +97,12 @@ class Statement:
         return Statement(not_sentence, tuple(neg), speaker=self.speaker)
 
     def __hash__(self) -> int:
-        return hash((self.sentence, self.knowledge, self.switches, self.speaker, self.priority))
+        """
+        The sentence field currently uniquely identifies the fields of a statement, however
+        this could change with the introduction of statements (e.g. user-generated) in which
+        different sentences carry the same knowledge.
+        """
+        return hash(self.sentence)
 
     def json_repr(self) -> Dict[str, Any]:
         """ Returns json representation of the Statement. """
