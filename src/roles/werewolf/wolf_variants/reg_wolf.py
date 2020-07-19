@@ -23,7 +23,7 @@ def get_wolf_statements(player_obj: Any, knowledge_base: KnowledgeBase) -> Tuple
     if "Mason" in const.ROLE_SET:
         # Only say you are a Mason if you are the last player and there are no Masons.
         if player_index == const.NUM_PLAYERS - 1 and "Mason" not in stated_roles:
-            statements += Mason.get_mason_statements(player_index, [player_index])
+            statements += Mason.get_mason_statements(player_index, (player_index,))
     if "Drunk" in const.ROLE_SET:
         for k in range(const.NUM_CENTER):
             statements += Drunk.get_drunk_statements(player_index, k + const.NUM_PLAYERS)
