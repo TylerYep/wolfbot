@@ -39,10 +39,10 @@ def get_center_wolf_statements(
             # 'Hey, I'm a Seer and I saw another Seer...'
             if i not in wolf_indices and stated_role and stated_role != "Seer":
                 statements += Seer.get_seer_statements(player_index, (i, stated_role))
-        for role2 in const.ROLES:
+        for role2 in const.SORTED_ROLE_SET:
             for cent1 in range(const.NUM_CENTER):
                 if cent1 != center_index:
-                    for role1 in const.ROLES:
+                    for role1 in const.SORTED_ROLE_SET:
                         if role1 != "Seer" and role2 != "Seer":
                             if role1 != role2 or const.ROLE_COUNTS[role1] >= 2:
                                 choice_1 = (cent1 + const.NUM_PLAYERS, role1)

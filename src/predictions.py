@@ -109,7 +109,7 @@ def get_basic_guesses(solution: SolverState) -> Tuple[List[str], Dict[str, int]]
 
         # Player is lying
         elif not consistent_statements[j]:
-            evil_roles = sorted(tuple(const.EVIL_ROLES))
+            evil_roles = sorted(const.EVIL_ROLES)
             random.shuffle(evil_roles)
             choices = [r for r in evil_roles if curr_role_counts[r] > 0]
             if choices:
@@ -137,7 +137,7 @@ def recurse_assign(
 
     for i in range(const.NUM_ROLES):
         if all_role_guesses[i] == "":
-            # Sorted() will convert possible_roles sets into a sorted list.
+            # sorted() will convert possible_roles sets into a sorted list.
             leftover_roles = sorted(
                 solution.possible_roles[i]
                 if restrict_possible

@@ -11,9 +11,12 @@ def get_wolf_statements_random(player_index: int) -> Tuple[Statement, ...]:
     Gets Random Wolf statements.
     Empirically, adding an lru_cache to this function seems to slow the program down,
     possibly because this re-caches get_all_statement calls unnecessarily.
+
+    TODO: This function does not need to randomly shuffle the village roles, but editing the
+    expected output is a lot of work.
     """
     statements: Tuple[Statement, ...] = ()
-    village_roles = sorted(tuple(const.VILLAGE_ROLES))
+    village_roles = sorted(const.VILLAGE_ROLES)
     random.shuffle(village_roles)
     for role in village_roles:
         role_obj = roles.get_role_obj(role)

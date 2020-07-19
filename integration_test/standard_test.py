@@ -105,7 +105,7 @@ class TestStandard:
         stat_tracker = one_night.simulate_game(num_games=100)
 
         stat_results = stat_tracker.get_metric_results()
-        write_results(stat_results, "random_villagers.csv")
+        write_results(stat_results, "standard/random_villagers.csv")
         assert stat_results["villager_wins"] < 0.35
         assert stat_results["tanner_wins"] == 0
         assert stat_results["werewolf_wins"] > 0.65

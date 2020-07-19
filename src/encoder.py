@@ -17,9 +17,9 @@ class WolfBotEncoder(json.JSONEncoder):
         if isinstance(o, (Player, Statement, GameResult, SavedGame)):
             return o.json_repr()
         if isinstance(o, set):
-            return {"type": "Set", "data": sorted(tuple(o))}
+            return {"type": "Set", "data": sorted(o)}
         if isinstance(o, frozenset):
-            return {"type": "FrozenSet", "data": sorted(tuple(o))}
+            return {"type": "FrozenSet", "data": sorted(o)}
         return json.JSONEncoder.default(self, o)
 
 
