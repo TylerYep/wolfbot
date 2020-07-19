@@ -70,14 +70,22 @@ def reset_const() -> None:
         )
     )
     Drunk.get_all_statements.cache_clear()
-    Seer.get_all_statements.cache_clear()
-    Robber.get_all_statements.cache_clear()
+    Hunter.get_all_statements.cache_clear()
+    Insomniac.get_all_statements.cache_clear()
     Mason.get_all_statements.cache_clear()
+    Robber.get_all_statements.cache_clear()
+    Seer.get_all_statements.cache_clear()
+    Troublemaker.get_all_statements.cache_clear()
+    Villager.get_all_statements.cache_clear()
 
     Drunk.get_drunk_statements.cache_clear()
-    Seer.get_seer_statements.cache_clear()
-    Robber.get_robber_statements.cache_clear()
+    Hunter.get_hunter_statements.cache_clear()
+    Insomniac.get_insomniac_statements.cache_clear()
     Mason.get_mason_statements.cache_clear()
+    Robber.get_robber_statements.cache_clear()
+    Seer.get_seer_statements.cache_clear()
+    Troublemaker.get_troublemaker_statements.cache_clear()
+    Villager.get_villager_statements.cache_clear()
 
 
 @pytest.fixture
