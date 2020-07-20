@@ -17,10 +17,6 @@ from src.statements import KnowledgeBase, Statement
 class Tanner(Player):
     """ Tanner Player class. """
 
-    def __init__(self, player_index: int):
-        super().__init__(player_index)
-        self.statements = get_wolf_statements_random(self.player_index)
-
     @classmethod
     @overrides
     def awake_init(
@@ -35,6 +31,12 @@ class Tanner(Player):
     def get_all_statements(player_index: int) -> Tuple[Statement, ...]:
         """ Required for all player types. Returns all possible role statements. """
         raise NotImplementedError
+
+    @overrides
+    def analyze(self, knowledge_base: KnowledgeBase) -> None:
+        """ Updates Player state given new information. """
+        super().analyze(knowledge_base)
+        self.statements += get_wolf_statements_random(self.player_index)
 
     @overrides
     def get_statement(self, knowledge_base: KnowledgeBase) -> Statement:

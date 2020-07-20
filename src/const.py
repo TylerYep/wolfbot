@@ -88,7 +88,7 @@ NUM_CENTER = 3
 # Randomize or use literally the order of the ROLES constant above.
 RANDOMIZE_ROLES = True
 # Enable multi-statement rounds.
-MULTI_STATEMENT = True
+MULTI_STATEMENT = False
 
 """ Simulation Constants """
 NUM_GAMES = ARGS.num_games
@@ -125,7 +125,7 @@ SMART_VILLAGERS = True
 USE_REG_WOLF = True
 
 # Expectimax Wolf, Minion, Tanner
-EXPECTIMAX_WOLF = True
+EXPECTIMAX_WOLF = False
 EXPECTIMAX_DEPTH = 1
 BRANCH_FACTOR = 5
 EXPECTIMAX_TANNER = False

@@ -63,19 +63,20 @@ class TestReplay:
             "Villager",
             "Insomniac",
             "Mason",
-            "Minion",
-            "Villager",
-            "Tanner",
-            "Seer",
-            "Robber",
             "Wolf",
+            "Villager",
+            "Drunk",
+            "Seer",
+            "Tanner",
+            "Minion",
             "Villager",
             "Wolf",
             "Hunter",
             "Troublemaker",
             "Mason",
-            "Drunk",
+            "Robber",
         ]
+        expected.winning_team = "Tanner"
 
         result = replay.replay_game()
 

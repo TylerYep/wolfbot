@@ -69,7 +69,7 @@ def make_prediction(solution_arr: List[SolverState], is_evil: bool = False) -> T
             solution_index = index
             all_role_guesses, curr_role_counts = basic_guess_cache[index]
             if solved := recurse_assign(
-                solution, list(all_role_guesses), dict(curr_role_counts), False
+                solution, list(all_role_guesses), dict(curr_role_counts), restrict_possible=False
             ):
                 break
 

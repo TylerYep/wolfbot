@@ -258,8 +258,10 @@ def override_players(game_roles: List[str]) -> None:
                 random_player_ind = random.randrange(const.NUM_PLAYERS)
                 util.swap_characters(game_roles, role_ind, random_player_ind)
 
-    if const.FIXED_WOLF_INDEX is not None:
-        wolf_inds = util.find_all_player_indices(game_roles, "Wolf")
-        if wolf_inds and const.FIXED_WOLF_INDEX >= 0:
-            wolf_ind = random.choice(wolf_inds)
-            util.swap_characters(game_roles, wolf_ind, const.FIXED_WOLF_INDEX)
+    if (
+        const.FIXED_WOLF_INDEX is not None
+        and (wolf_inds := util.find_all_player_indices(game_roles, "Wolf"))
+        and const.FIXED_WOLF_INDEX >= 0
+    ):
+        wolf_ind = random.choice(wolf_inds)
+        util.swap_characters(game_roles, wolf_ind, const.FIXED_WOLF_INDEX)

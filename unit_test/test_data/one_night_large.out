@@ -43,11 +43,11 @@ Everyone, wake up!
 Player 0: I am a Villager.
 Player 1: I am a Drunk and I swapped with Center 2.
 Player 2: I am a Mason. The other Mason is not present.
-Player 3: I am a Seer and I saw that Center 0 was a Hunter and that Center 2 was a Villager.
+Player 3: I am a Robber and I swapped with Player 7. I am now a Seer.
 Player 4: I am a Villager.
 Player 5: I am a Robber and I swapped with Player 1. I am now a Drunk.
 Player 6: I am a Seer and I saw that Center 1 was a Mason and that Center 0 was a Troublemaker.
-Player 7: I am a Seer and I saw that Player 10 was a Wolf.
+Player 7: I am a Seer and I saw that Center 0 was a Robber and that Center 1 was a Troublemaker.
 Player 8: I am a Seer and I saw that Player 7 was a Robber.
 Player 9: I am a Villager.
 Player 10: I am a Robber and I swapped with Player 7. I am now a Minion.
@@ -55,27 +55,27 @@ Player 11: I am a Hunter.
 
 [Trace] Predictions:
 Player  0: (Villager, Insomniac, Mason, Tanner, Villager, Drunk, Seer, Minion, Wolf, Villager, Wolf, Hunter, Troublemaker, Mason, Robber)
-Player  1: (Villager, Insomniac, Mason, Tanner, Villager, Minion, Seer, Robber, Wolf, Villager, Wolf, Hunter, Troublemaker, Mason, Drunk)
-Player  2: (Villager, Insomniac, Mason, Minion, Villager, Drunk, Seer, Tanner, Wolf, Villager, Wolf, Hunter, Troublemaker, Mason, Robber)
-Player  3: (Villager, Villager, Mason, Seer, Villager, Drunk, Minion, Tanner, Wolf, Wolf, Mason, Troublemaker, Hunter, Insomniac, Robber)
-Player  4: (Villager, Insomniac, Mason, Wolf, Villager, Tanner, Seer, Robber, Wolf, Villager, Minion, Hunter, Troublemaker, Mason, Drunk)
-Player  5: (Villager, Insomniac, Mason, Minion, Villager, Drunk, Seer, Tanner, Wolf, Villager, Wolf, Hunter, Troublemaker, Mason, Robber)
-Player  6: (Villager, Insomniac, Mason, Minion, Villager, Drunk, Seer, Tanner, Wolf, Villager, Wolf, Hunter, Troublemaker, Mason, Robber)
-Player  7: (Villager, Troublemaker, Mason, Minion, Villager, Drunk, Tanner, Seer, Wolf, Villager, Wolf, Hunter, Insomniac, Mason, Robber)
-Player  8: (Villager, Troublemaker, Mason, Wolf, Villager, Minion, Wolf, Tanner, Seer, Villager, Mason, Hunter, Insomniac, Robber, Drunk)
-Player  9: (Villager, Insomniac, Mason, Tanner, Villager, Drunk, Seer, Wolf, Wolf, Villager, Minion, Hunter, Troublemaker, Mason, Robber)
-Player 10: (Villager, Insomniac, Mason, Minion, Villager, Tanner, Seer, Robber, Wolf, Villager, Wolf, Hunter, Troublemaker, Mason, Drunk)
-Player 11: (Villager, Insomniac, Mason, Tanner, Villager, Drunk, Seer, Wolf, Minion, Villager, Wolf, Hunter, Troublemaker, Mason, Robber)
+Player  1: (Villager, Insomniac, Mason, Minion, Villager, Drunk, Seer, Tanner, Wolf, Villager, Wolf, Hunter, Troublemaker, Mason, Robber)
+Player  2: (Villager, Insomniac, Mason, Tanner, Villager, Drunk, Seer, Minion, Wolf, Villager, Wolf, Hunter, Troublemaker, Mason, Robber)
+Player  3: (Drunk, Mason, Minion, Troublemaker, Insomniac, Mason, Wolf, Robber, Tanner, Hunter, Villager, Villager, Villager, Wolf, Seer)
+Player  4: (Villager, Insomniac, Mason, Tanner, Villager, Wolf, Seer, Robber, Wolf, Villager, Minion, Hunter, Troublemaker, Mason, Drunk)
+Player  5: (Villager, Insomniac, Mason, Minion, Villager, Drunk, Seer, Wolf, Tanner, Villager, Wolf, Hunter, Troublemaker, Mason, Robber)
+Player  6: (Villager, Insomniac, Mason, Tanner, Villager, Drunk, Seer, Wolf, Wolf, Villager, Minion, Hunter, Troublemaker, Mason, Robber)
+Player  7: (Villager, Insomniac, Mason, Minion, Villager, Tanner, Wolf, Seer, Wolf, Villager, Mason, Hunter, Robber, Troublemaker, Drunk)
+Player  8: (Villager, Robber, Mason, Tanner, Villager, Wolf, Wolf, Minion, Seer, Villager, Mason, Hunter, Troublemaker, Insomniac, Drunk)
+Player  9: (Villager, Insomniac, Mason, Tanner, Villager, Wolf, Seer, Robber, Minion, Villager, Wolf, Hunter, Troublemaker, Mason, Drunk)
+Player 10: (Villager, Insomniac, Mason, Wolf, Villager, Wolf, Seer, Robber, Tanner, Villager, Minion, Hunter, Troublemaker, Mason, Drunk)
+Player 11: (Villager, Insomniac, Mason, Wolf, Villager, Drunk, Seer, Tanner, Minion, Villager, Wolf, Hunter, Troublemaker, Mason, Robber)
 
-Vote Array: [0, 0, 0, 2, 0, 0, 0, 2, 5, 1, 2, 0]
+Vote Array: [0, 0, 0, 2, 0, 1, 3, 0, 4, 0, 2, 0]
 
 [Solution] Player roles: [Villager, Insomniac, Mason, Tanner, Villager, Drunk, Seer, Wolf, Minion, Villager, Wolf, Hunter]
            Center cards: [Troublemaker, Mason, Robber]
 
-[WolfBot] Player roles: [Villager, Insomniac, Mason, Minion, Villager, Drunk, Seer, Tanner, Wolf, Villager, Wolf, Hunter]
+[WolfBot] Player roles: [Villager, Insomniac, Mason, Tanner, Villager, Drunk, Seer, Minion, Wolf, Villager, Wolf, Hunter]
           Center cards: [Troublemaker, Mason, Robber]
 
-Confidence levels: [1.0, 0.75, 1.0, 0.42, 1.0, 0.67, 0.75, 0.42, 0.83, 0.92, 0.67, 0.92, 0.75, 0.83, 0.67]
+Confidence levels: [0.92, 0.83, 0.92, 0.5, 0.92, 0.5, 0.75, 0.33, 0.5, 0.92, 0.5, 0.92, 0.83, 0.75, 0.5]
 Player 8 was chosen as a Wolf.
 Player 8 was a Minion!
 

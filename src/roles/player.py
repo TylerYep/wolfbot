@@ -140,6 +140,7 @@ class Player(EnforceOverrides):  # type: ignore
 
         if const.IS_USER[self.player_index]:
             sample_statements: Tuple[Statement, ...] = ()
+            # If the user selects "Next Page", choice is NUM_OPTIONS
             choice = const.NUM_OPTIONS
             while choice == const.NUM_OPTIONS:
                 logger.info("\nPlease choose from the following statements: ")
