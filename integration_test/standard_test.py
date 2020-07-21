@@ -15,21 +15,19 @@ class TestStandard:
         const.NUM_CENTER = 3
         const.RANDOMIZE_ROLES = False
         set_roles(
-            (
-                "Insomniac",
-                "Villager",
-                "Robber",
-                "Villager",
-                "Seer",
-                "Mason",
-                "Troublemaker",
-                "Villager",
-                "Mason",
-                "Hunter",
-                "Wolf",
-                "Wolf",
-                "Minion",
-            )
+            "Insomniac",
+            "Villager",
+            "Robber",
+            "Villager",
+            "Seer",
+            "Mason",
+            "Troublemaker",
+            "Villager",
+            "Mason",
+            "Hunter",
+            "Wolf",
+            "Wolf",
+            "Minion",
         )
         random.seed()
 
@@ -112,20 +110,18 @@ class TestStandard:
         const.EXPECTIMAX_TANNER = True
         const.RANDOMIZE_ROLES = False
         set_roles(
-            (
-                "Insomniac",
-                "Hunter",
-                "Mason",
-                "Mason",
-                "Robber",
-                "Seer",
-                "Tanner",
-                "Troublemaker",
-                "Villager",
-                "Villager",
-                "Villager",
-                "Wolf",
-            )
+            "Insomniac",
+            "Hunter",
+            "Mason",
+            "Mason",
+            "Robber",
+            "Seer",
+            "Tanner",
+            "Troublemaker",
+            "Villager",
+            "Villager",
+            "Villager",
+            "Wolf",
         )
 
         stat_tracker = one_night.simulate_game(num_games=20)
