@@ -1,5 +1,5 @@
 """ solverstates.py """
-# pylint: skip-file
+# pylint: disable=missing-function-docstring
 from typing import List, Tuple
 
 import pytest

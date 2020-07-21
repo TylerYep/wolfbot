@@ -2,7 +2,7 @@
 import pytest
 
 from conftest import override_input, verify_output_string
-from src import const, util
+from src import util
 
 
 class TestPrintRoles:
@@ -11,7 +11,6 @@ class TestPrintRoles:
     @staticmethod
     def test_print_roles(caplog, small_game_roles):
         """ Correctly print and format roles. """
-        const.ROLES = small_game_roles
         shuffled_roles = ["Seer", "Villager", "Wolf", "Robber"]
 
         util.print_roles(shuffled_roles, "Hidden")
@@ -24,8 +23,6 @@ class TestPrintRoles:
     @staticmethod
     def test_print_wolfbot_guesses(caplog, medium_game_roles):
         """ Correctly print and format roles. """
-        const.ROLES = medium_game_roles
-
         util.print_roles(list(medium_game_roles), "WolfBot")
 
         expected = (
@@ -71,8 +68,6 @@ class TestGetPlayer:
     @staticmethod
     def test_generates_random_indices(large_game_roles):
         """ Generated indices should be random. """
-        const.ROLES = large_game_roles
-
         result = [util.get_player(is_user=False) for _ in range(10)]
 
         assert result == [6, 6, 0, 4, 8, 7, 6, 4, 7, 5]
@@ -80,7 +75,6 @@ class TestGetPlayer:
     @staticmethod
     def test_random_excludes_values(large_game_roles):
         """ Generated indices should exclude specified values. """
-        const.ROLES = large_game_roles
         exclude = (6, 7, 8)
 
         result = [util.get_player(is_user=False, exclude=exclude) for _ in range(10)]
@@ -91,7 +85,6 @@ class TestGetPlayer:
     @staticmethod
     def test_user_input_indices(monkeypatch, large_game_roles):
         """ Generated indices should be random. """
-        const.ROLES = large_game_roles
         inputs = [0, 2, 20, 1]
         monkeypatch.setattr("builtins.input", override_input(inputs))
 
@@ -102,7 +95,6 @@ class TestGetPlayer:
     @staticmethod
     def test_user_excludes_values(monkeypatch, large_game_roles):
         """ Generated indices should exclude specified values. """
-        const.ROLES = large_game_roles
         exclude = (6, 7, 8)
         inputs = [0, 20, 4, 7, 5, 6]
         monkeypatch.setattr("builtins.input", override_input(inputs))
@@ -119,8 +111,6 @@ class TestGetCenter:
     @staticmethod
     def test_generates_random_indices(large_game_roles):
         """ Generated indices should be random. """
-        const.ROLES = large_game_roles
-
         result = [util.get_center(is_user=False) for _ in range(10)]
 
         assert result == [13, 13, 12, 13, 14, 13, 13, 13, 13, 13]
@@ -128,7 +118,6 @@ class TestGetCenter:
     @staticmethod
     def test_excludes_values(large_game_roles):
         """ Generated indices should exclude specified values. """
-        const.ROLES = large_game_roles
         exclude = (12, 13)
 
         result = [util.get_center(is_user=False, exclude=exclude) for _ in range(10)]
@@ -139,7 +128,6 @@ class TestGetCenter:
     @staticmethod
     def test_user_center_indices(monkeypatch, large_game_roles):
         """ Generated indices should be random. """
-        const.ROLES = large_game_roles
         inputs = [1, 2, 0, 2]
         monkeypatch.setattr("builtins.input", override_input(inputs))
 
@@ -150,7 +138,6 @@ class TestGetCenter:
     @staticmethod
     def test_user_excludes_values(monkeypatch, large_game_roles):
         """ Generated indices should exclude specified values. """
-        const.ROLES = large_game_roles
         exclude = (12, 13)
         inputs = [2, 0, 4, 1, 2, 2]
         monkeypatch.setattr("builtins.input", override_input(inputs))

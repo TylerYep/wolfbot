@@ -1,5 +1,5 @@
 """ conftest.py """
-# pylint: skip-file
+# pylint: disable=missing-function-docstring, unused-import
 import csv
 import os
 import random
@@ -8,11 +8,29 @@ from typing import Callable, Dict, List, Tuple
 import pytest
 from _pytest.logging import LogCaptureFixture
 
-from fixtures import *
+from fixtures import (
+    example_large_game_result,
+    example_large_saved_game,
+    example_large_solverstate,
+    example_medium_game_result,
+    example_medium_saved_game,
+    example_medium_solved_list,
+    example_medium_solverstate,
+    example_medium_solverstate_list,
+    example_medium_solverstate_solved,
+    example_small_game_result,
+    example_small_saved_game,
+    example_small_solverstate,
+    example_small_solverstate_solved,
+    example_statement,
+    large_statement_list,
+    medium_statement_list,
+    small_statement_list,
+)
 from src import const
 
 
-def set_roles(roles: Tuple[str, ...]) -> None:
+def set_roles(*roles: str) -> None:
     """ Changes to ROLES should propagate to all of its descendants. """
     const.ROLES = roles  # type: ignore
     const.ROLE_SET = frozenset(const.ROLES)
@@ -50,23 +68,21 @@ def reset_const() -> None:
     const.REPLAY_FILE = "unit_test/test_data/replay.json"
     random.seed(0)
     set_roles(
-        (
-            "Insomniac",
-            "Villager",
-            "Robber",
-            "Villager",
-            "Drunk",
-            "Wolf",
-            "Wolf",
-            "Seer",
-            "Tanner",
-            "Mason",
-            "Minion",
-            "Troublemaker",
-            "Villager",
-            "Mason",
-            "Hunter",
-        )
+        "Insomniac",
+        "Villager",
+        "Robber",
+        "Villager",
+        "Drunk",
+        "Wolf",
+        "Wolf",
+        "Seer",
+        "Tanner",
+        "Mason",
+        "Minion",
+        "Troublemaker",
+        "Villager",
+        "Mason",
+        "Hunter",
     )
 
     for cached_function in const.CACHED_FUNCTIONS:
@@ -77,7 +93,7 @@ def reset_const() -> None:
 def small_game_roles() -> Tuple[str, ...]:
     const.NUM_PLAYERS = 3
     const.NUM_CENTER = 0
-    set_roles(("Villager", "Seer", "Robber"))
+    set_roles("Villager", "Seer", "Robber")
     return const.ROLES
 
 
@@ -85,7 +101,7 @@ def small_game_roles() -> Tuple[str, ...]:
 def medium_game_roles() -> Tuple[str, ...]:
     const.NUM_PLAYERS = 5
     const.NUM_CENTER = 1
-    set_roles(("Robber", "Drunk", "Wolf", "Troublemaker", "Seer", "Minion"))
+    set_roles("Robber", "Drunk", "Wolf", "Troublemaker", "Seer", "Minion")
     return const.ROLES
 
 
@@ -94,23 +110,21 @@ def large_game_roles() -> Tuple[str, ...]:
     const.NUM_PLAYERS = 12
     const.NUM_CENTER = 3
     set_roles(
-        (
-            "Wolf",
-            "Villager",
-            "Robber",
-            "Seer",
-            "Villager",
-            "Tanner",
-            "Mason",
-            "Wolf",
-            "Minion",
-            "Mason",
-            "Drunk",
-            "Villager",
-            "Troublemaker",
-            "Insomniac",
-            "Hunter",
-        )
+        "Wolf",
+        "Villager",
+        "Robber",
+        "Seer",
+        "Villager",
+        "Tanner",
+        "Mason",
+        "Wolf",
+        "Minion",
+        "Mason",
+        "Drunk",
+        "Villager",
+        "Troublemaker",
+        "Insomniac",
+        "Hunter",
     )
     return const.ROLES
 
@@ -120,18 +134,16 @@ def standard_game_roles() -> Tuple[str, ...]:
     const.NUM_PLAYERS = 7
     const.NUM_CENTER = 3
     set_roles(
-        (
-            "Villager",
-            "Villager",
-            "Villager",
-            "Seer",
-            "Wolf",
-            "Wolf",
-            "Troublemaker",
-            "Mason",
-            "Mason",
-            "Drunk",
-        )
+        "Villager",
+        "Villager",
+        "Villager",
+        "Seer",
+        "Wolf",
+        "Wolf",
+        "Troublemaker",
+        "Mason",
+        "Mason",
+        "Drunk",
     )
     return const.ROLES
 

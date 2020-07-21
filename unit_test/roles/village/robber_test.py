@@ -55,7 +55,7 @@ class TestRobber:
     def test_get_all_statements():
         """ Should return the possible statements from all possible initialization actions. """
         player_index = 1
-        set_roles(("Wolf", "Robber", "Villager"))
+        set_roles("Wolf", "Robber", "Villager")
         const.NUM_PLAYERS = 2
         expected = (
             Statement(

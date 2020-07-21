@@ -44,7 +44,6 @@ class TestStandard:
     @staticmethod
     def test_small_game(small_game_roles):
         """ Correctly play one round of one night werewolf. """
-        const.ROLES = small_game_roles
         random.seed()
 
         stat_tracker = one_night.simulate_game(num_games=10)
@@ -55,8 +54,6 @@ class TestStandard:
     @staticmethod
     def test_random_wolf(standard_game_roles):
         """ Correctly play one round of one night werewolf. """
-        const.ROLES = standard_game_roles
-
         stat_tracker = one_night.simulate_game(num_games=1000)
 
         stat_results = stat_tracker.get_metric_results()
@@ -68,7 +65,6 @@ class TestStandard:
     @staticmethod
     def test_reg_wolf(standard_game_roles):
         """ Correctly play one round of one night werewolf. """
-        const.ROLES = standard_game_roles
         const.USE_REG_WOLF = True
 
         stat_tracker = one_night.simulate_game(num_games=1000)
@@ -82,7 +78,6 @@ class TestStandard:
     @staticmethod
     def test_expectimax_wolf(standard_game_roles):
         """ Correctly play one round of one night werewolf. """
-        const.ROLES = standard_game_roles
         const.USE_REG_WOLF = True
         const.EXPECTIMAX_WOLF = True
 
@@ -97,7 +92,6 @@ class TestStandard:
     @staticmethod
     def test_random_villagers(standard_game_roles):
         """ Correctly play one round of one night werewolf. """
-        const.ROLES = standard_game_roles
         const.USE_REG_WOLF = True
         const.EXPECTIMAX_WOLF = True
         const.SMART_VILLAGERS = False

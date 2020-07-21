@@ -7,7 +7,7 @@ from src.statements import KnowledgeBase, Statement
 
 
 def get_wolf_statements(player_obj: Any, knowledge_base: KnowledgeBase) -> Tuple[Statement, ...]:
-    """ Gets Regular Wolf statement. """
+    """ Gets Regular Wolf statement. Includes custom logic to maximize Wolf win rate. """
     statements: Tuple[Statement, ...] = ()
     stated_roles = knowledge_base.stated_roles
     previous_statements = knowledge_base.all_statements
@@ -28,8 +28,9 @@ def get_wolf_statements(player_obj: Any, knowledge_base: KnowledgeBase) -> Tuple
         for k in range(const.NUM_CENTER):
             statements += Drunk.get_drunk_statements(player_index, k + const.NUM_PLAYERS)
     if "Troublemaker" in const.ROLE_SET:
-        for i in range(len(stated_roles)):
-            for j in range(i + 1, len(stated_roles)):
+        num_stated = len(stated_roles)
+        for i in range(num_stated):
+            for j in range(i + 1, num_stated):
                 # Do not reference a Wolf as the second index.
                 if j not in wolf_indices:
                     statements += Troublemaker.get_troublemaker_statements(player_index, i, j)

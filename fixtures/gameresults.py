@@ -1,5 +1,5 @@
 """ gameresults.py """
-# pylint: skip-file
+# pylint: disable=missing-function-docstring
 from typing import Tuple
 
 import pytest

@@ -80,7 +80,6 @@ class TestGetIndividualPreds:
     @staticmethod
     def test_medium_individual_preds(medium_game_roles, medium_statement_list):
         """ Should get the individual predictions for all players. """
-        const.ROLES = medium_game_roles
         player_objs = [
             Seer(0, (2, "Drunk")),
             Wolf(1, [1], 5, "Troublemaker"),
@@ -106,7 +105,6 @@ class TestConfidence:
     @staticmethod
     def test_small_confidence(small_game_roles):
         """ Should get voting results from the individual predictions. """
-        const.ROLES = small_game_roles
         indiv_preds = [["Villager", "Seer", "Robber"]] * 3
 
         result = one_night.get_confidence(indiv_preds)
@@ -116,7 +114,6 @@ class TestConfidence:
     @staticmethod
     def test_medium_confidence(medium_game_roles):
         """ Should get voting results from the individual predictions. """
-        const.ROLES = medium_game_roles
         indiv_preds = [
             ["Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"],
             ["Wolf", "Seer", "Robber", "Minion", "Troublemaker", "Drunk"],
@@ -132,7 +129,6 @@ class TestConfidence:
     @staticmethod
     def test_large_confidence(large_game_roles, large_individual_preds):
         """ Should get voting results from the individual predictions. """
-        const.ROLES = large_game_roles
         random.shuffle(large_individual_preds)
 
         result = one_night.get_confidence(large_individual_preds)
@@ -162,7 +158,6 @@ class TestGetVotingResult:
     @staticmethod
     def test_small_voting_result(caplog, small_game_roles):
         """ Should get voting results from the individual predictions. """
-        const.ROLES = small_game_roles
         indiv_preds = [("Villager", "Seer", "Robber")] * len(small_game_roles)
         player_list = [Player(i) for i in range(len(small_game_roles))]
 
@@ -174,7 +169,6 @@ class TestGetVotingResult:
     @staticmethod
     def test_medium_voting_result(caplog, medium_game_roles):
         """ Should get voting results from the individual predictions. """
-        const.ROLES = medium_game_roles
         indiv_preds = [
             ("Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"),
             ("Wolf", "Seer", "Robber", "Minion", "Troublemaker", "Drunk"),
@@ -196,7 +190,6 @@ class TestGetVotingResult:
     @staticmethod
     def test_large_voting_result(caplog, large_game_roles, large_individual_preds):
         """ Should get voting results from the individual predictions. """
-        const.ROLES = large_game_roles
         random.shuffle(large_individual_preds)
         player_list = [Player(i) for i in range(len(large_game_roles))]
 
@@ -232,7 +225,6 @@ class TestEvalWinningTeam:
     @staticmethod
     def test_werewolf_wins(caplog, medium_game_roles):
         """ Should declare Werewolf victory if no wolves are found, but one exists. """
-        const.ROLES = medium_game_roles
         guessed_wolf_inds = list(range(const.NUM_PLAYERS))
         vote_inds = [1] * const.NUM_PLAYERS
 
@@ -249,7 +241,6 @@ class TestEvalWinningTeam:
     @staticmethod
     def test_village_wins_no_wolf(caplog, small_game_roles):
         """ Should declare Villager victory if no wolves are found, and there are none. """
-        const.ROLES = small_game_roles
         guessed_wolf_inds = list(range(const.NUM_PLAYERS))
         vote_inds = [1] * const.NUM_PLAYERS
 
@@ -262,7 +253,6 @@ class TestEvalWinningTeam:
     @staticmethod
     def test_village_wins_found_wolf(caplog, medium_game_roles):
         """ Should declare Villager victory if no wolves are found, and there are none. """
-        const.ROLES = medium_game_roles
         guessed_wolf_inds = [2]
         vote_inds = [1, 2, 2, 2, 1]
 
@@ -282,7 +272,7 @@ class TestEvalWinningTeam:
         Should declare Village victory if no wolves are found,
         Hunter is killed, and Hunter voted for a true Wolf.
         """
-        set_roles(large_game_roles[::-1])
+        set_roles(*large_game_roles[::-1])
         guessed_wolf_inds = [0, 9]
         vote_inds = [7, 10, 0, 9, 7, 9, 7, 7, 7, 0, 0, 0]
         expected = (
@@ -304,7 +294,6 @@ class TestEvalWinningTeam:
     @staticmethod
     def test_tanner_wins(caplog, large_game_roles):
         """ Should declare Tanner victory if no wolves are found, and Tanner was chosen. """
-        const.ROLES = large_game_roles
         guessed_wolf_inds = [2, 5]
         vote_inds = [8, 7, 1, 9, 5, 10, 5, 3, 3, 10, 10, 3]
 

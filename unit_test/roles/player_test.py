@@ -72,7 +72,6 @@ class TestIsEvil:
     @staticmethod
     def test_no_evil_player(small_game_roles):
         """ Should determine if a player has turned evil after night falls. """
-        const.ROLES = small_game_roles
         villager = Villager(0)
 
         result = villager.is_evil()
@@ -82,7 +81,6 @@ class TestIsEvil:
     @staticmethod
     def test_find_evil_players(medium_game_roles):
         """ Should determine if a player has turned evil after night falls. """
-        const.ROLES = medium_game_roles
         player_list = [
             Seer(0, (2, "Drunk")),
             Wolf(1, [1], 5, "Troublemaker"),
@@ -98,7 +96,6 @@ class TestIsEvil:
     @staticmethod
     def test_turned_evil_player(medium_game_roles):
         """ Should determine if a player has turned evil after night falls. """
-        const.ROLES = medium_game_roles
         robber = Robber(3, 1, "Wolf")
 
         result = robber.is_evil()
@@ -116,7 +113,6 @@ class TestGetVote:
     @staticmethod
     def test_vote_for_wolf(medium_game_roles):
         """ If a player suspects a Wolf, they should vote for that player. """
-        const.ROLES = medium_game_roles
         prediction = ["Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"]
 
         result = Player(2).vote(prediction)
@@ -126,7 +122,6 @@ class TestGetVote:
     @staticmethod
     def test_no_vote_for_center_wolf(medium_game_roles):
         """ If a player suspects a Wolf in the center, they should not vote for that player. """
-        const.ROLES = medium_game_roles
         prediction = ["Seer", "Troublemaker", "Drunk", "Minion", "Robber", "Wolf"]
 
         result = Player(2).vote(prediction)
@@ -136,7 +131,6 @@ class TestGetVote:
     @staticmethod
     def test_vote_right(small_game_roles):
         """ If no Wolves are found, players should vote for the person to their right. """
-        const.ROLES = small_game_roles
         prediction = ["Villager", "Seer", "Robber"]
 
         result = [Player(i).vote(prediction) for i in range(const.NUM_PLAYERS)]
@@ -147,7 +141,6 @@ class TestGetVote:
     def test_interactive_vote(monkeypatch, medium_game_roles):
         """ Prompt the user for their vote. """
         player_index = 2
-        const.ROLES = medium_game_roles
         const.IS_USER[player_index] = True
         prediction = ["Seer", "Troublemaker", "Drunk", "Minion", "Robber", "Wolf"]
         monkeypatch.setattr("builtins.input", lambda x: "4")

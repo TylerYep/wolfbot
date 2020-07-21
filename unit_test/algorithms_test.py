@@ -143,7 +143,6 @@ class TestSwitchingSolver:
     @staticmethod
     def test_solver_medium_known_true(medium_statement_list, medium_game_roles):
         """ Should return a SolverState with the most likely solution. """
-        const.ROLES = medium_game_roles
         possible_roles = (
             frozenset({"Drunk", "Minion", "Troublemaker", "Wolf", "Robber"}),
             frozenset({"Seer"}),
@@ -176,7 +175,7 @@ class TestSwitchingSolver:
     @staticmethod
     def test_get_role_counts():
         """ Should return True if there is a a dict with counts of all certain roles. """
-        set_roles(("Wolf", "Seer", "Villager", "Robber", "Villager"))
+        set_roles("Wolf", "Seer", "Villager", "Robber", "Villager")
         possible_roles_list = (
             frozenset({"Villager"}),
             frozenset({"Seer"}),

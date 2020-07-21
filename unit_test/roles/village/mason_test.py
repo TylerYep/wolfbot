@@ -42,7 +42,7 @@ class TestMason:
     def test_get_single_mason_statement():
         """ Should give the proper statement when only one Mason is present. """
         player_index = 2
-        set_roles(("Wolf", "Seer", "Mason", "Villager"))
+        set_roles("Wolf", "Seer", "Mason", "Villager")
         const.NUM_PLAYERS = 3
         result = Mason.get_mason_statements(player_index, (2,))
 
@@ -61,7 +61,7 @@ class TestMason:
     def test_get_all_statements():
         """ Should return the possible statements from all possible initialization actions. """
         player_index = 2
-        set_roles(("Wolf", "Seer", "Mason", "Villager"))
+        set_roles("Wolf", "Seer", "Mason", "Villager")
         const.NUM_PLAYERS = 3
         expected_statements = (
             Statement(

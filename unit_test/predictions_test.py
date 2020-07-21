@@ -9,8 +9,6 @@ class TestMakeRandomPrediction:
     @staticmethod
     def test_random_prediction(medium_game_roles):
         """ Should return a random shuffled list as the predicted roles. """
-        const.ROLES = medium_game_roles
-
         result = predictions.make_random_prediction()
 
         assert result == ("Seer", "Wolf", "Drunk", "Robber", "Minion", "Troublemaker")
@@ -22,7 +20,6 @@ class TestMakeEvilPrediction:
     @staticmethod
     def test_random_evil_prediction(medium_game_roles):
         """ Should give a random prediction when an empty SolverState is passed in. """
-        const.ROLES = medium_game_roles
         solution_arr = [SolverState()]
 
         result = predictions.make_evil_prediction(solution_arr)
@@ -43,7 +40,6 @@ class TestMakeUnrestrictedPrediction:
     @staticmethod
     def test_empty_unrestricted_prediction(medium_game_roles):
         """ Should return an empty list to denote that no prediction could be made. """
-        const.ROLES = medium_game_roles
         solution = SolverState()
 
         result = predictions.make_unrestricted_prediction(solution)
@@ -232,7 +228,6 @@ class TestGetSwitchDict:
     @staticmethod
     def test_get_empty_switch_dict(small_game_roles):
         """ Should return the identity switch dict. """
-        const.ROLES = small_game_roles
         possible_roles = [frozenset({"Robber", "Villager", "Seer"})] * 3
         state = SolverState(possible_roles)
 

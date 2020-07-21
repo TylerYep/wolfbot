@@ -77,7 +77,7 @@ class TestSeer:
     def test_get_all_statements():
         """ Should return the possible statements from all possible initialization actions. """
         player_index = 1
-        set_roles(("Wolf", "Seer", "Villager", "Wolf"))
+        set_roles("Wolf", "Seer", "Villager", "Wolf")
         const.NUM_PLAYERS = 2
         const.NUM_CENTER = 2
         expected = (

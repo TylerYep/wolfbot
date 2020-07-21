@@ -34,7 +34,6 @@ class TestStatement:
     @staticmethod
     def test_negation(large_game_roles, example_statement):
         """ Negated statements only contain the speaker and the opposite of the first clause. """
-        const.ROLES = large_game_roles
         expected = statements.Statement(
             "NOT - test", ((2, const.ROLE_SET - frozenset({"Robber"})),), speaker="Robber"
         )
@@ -47,7 +46,6 @@ class TestStatement:
     @staticmethod
     def test_negate_all(large_game_roles, example_statement):
         """ Negate-all statements contain the opposite of all clauses. """
-        const.ROLES = large_game_roles
         expected = statements.Statement(
             "NOT - test",
             (

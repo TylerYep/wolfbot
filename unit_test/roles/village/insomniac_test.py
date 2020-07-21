@@ -49,7 +49,7 @@ class TestInsomniac:
     def test_get_all_statements():
         """ Should return the possible statements from all possible initialization actions. """
         player_index = 2
-        set_roles(("Wolf", "Insomniac", "Seer"))
+        set_roles("Wolf", "Insomniac", "Seer")
         expected = (
             Statement(
                 (

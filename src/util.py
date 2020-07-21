@@ -19,7 +19,7 @@ def print_roles(game_roles: Sequence[str], tag: str, log_level: int = logging.DE
 def swap_characters(game_roles: List[str], ind1: int, ind2: int) -> None:
     """ Util function to swap two characters, updating game_roles. """
     assert ind1 != ind2
-    assert ind1 < len(game_roles) and ind2 < len(game_roles)
+    assert 0 <= ind1 < const.NUM_ROLES and 0 <= ind2 < const.NUM_ROLES
     game_roles[ind1], game_roles[ind2] = game_roles[ind2], game_roles[ind1]
 
 

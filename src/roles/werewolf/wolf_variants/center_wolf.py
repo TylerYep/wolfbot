@@ -28,8 +28,9 @@ def get_center_wolf_statements(
             if stated_role and stated_role != "Robber":
                 statements += Robber.get_robber_statements(player_index, i, stated_role)
     elif center_role == "Troublemaker":
-        for i in range(len(knowledge_base.stated_roles)):
-            for j in range(i + 1, len(knowledge_base.stated_roles)):
+        num_stated = len(knowledge_base.stated_roles)
+        for i in range(num_stated):
+            for j in range(i + 1, num_stated):
                 if j not in wolf_indices:
                     statements += Troublemaker.get_troublemaker_statements(player_index, i, j)
     elif center_role == "Drunk":
@@ -45,9 +46,9 @@ def get_center_wolf_statements(
                     for role1 in const.SORTED_ROLE_SET:
                         if role1 != "Seer" and role2 != "Seer":
                             if role1 != role2 or const.ROLE_COUNTS[role1] >= 2:
-                                choice_1 = (cent1 + const.NUM_PLAYERS, role1)
-                                choice_2 = (center_index, role2)
                                 statements += Seer.get_seer_statements(
-                                    player_index, choice_1, choice_2
+                                    player_index,
+                                    (cent1 + const.NUM_PLAYERS, role1),
+                                    (center_index, role2),
                                 )
     return statements
