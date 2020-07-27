@@ -23,8 +23,11 @@ from fixtures import (
     example_small_solverstate,
     example_small_solverstate_solved,
     example_statement,
+    large_knowledge_base,
     large_statement_list,
+    medium_knowledge_base,
     medium_statement_list,
+    small_knowledge_base,
     small_statement_list,
 )
 from src import const
@@ -148,33 +151,35 @@ def standard_game_roles() -> Tuple[str, ...]:
     return const.ROLES
 
 
-@pytest.fixture
-def large_individual_preds() -> List[Tuple[str, ...]]:
+@pytest.fixture(scope="session")
+def large_individual_preds() -> Tuple[Tuple[str, ...], ...]:
     # fmt: off
-    return [('Villager', 'Mason', 'Mason', 'Minion', 'Villager', 'Drunk', 'Tanner', 'Troublemaker',
-             'Villager', 'Wolf', 'Wolf', 'Hunter', 'Insomniac', 'Seer', 'Robber'),
-            ('Villager', 'Insomniac', 'Mason', 'Tanner', 'Villager', 'Drunk', 'Seer', 'Minion',
-             'Wolf', 'Villager', 'Wolf', 'Hunter', 'Troublemaker', 'Mason', 'Robber'),
-            ('Villager', 'Insomniac', 'Mason', 'Tanner', 'Villager', 'Drunk', 'Seer', 'Wolf',
-             'Minion', 'Villager', 'Wolf', 'Hunter', 'Troublemaker', 'Mason', 'Robber'),
-            ('Villager', 'Insomniac', 'Mason', 'Wolf', 'Villager', 'Wolf', 'Seer', 'Minion',
-             'Robber', 'Villager', 'Tanner', 'Hunter', 'Troublemaker', 'Mason', 'Drunk'),
-            ('Villager', 'Insomniac', 'Mason', 'Wolf', 'Villager', 'Drunk', 'Seer', 'Wolf',
-             'Tanner', 'Villager', 'Minion', 'Hunter', 'Troublemaker', 'Mason', 'Robber'),
-            ('Villager', 'Insomniac', 'Mason', 'Tanner', 'Villager', 'Drunk', 'Minion',
-             'Troublemaker', 'Villager', 'Wolf', 'Wolf', 'Hunter', 'Seer', 'Mason', 'Robber'),
-            ('Villager', 'Insomniac', 'Mason', 'Wolf', 'Villager', 'Drunk', 'Seer', 'Wolf',
-             'Minion', 'Villager', 'Tanner', 'Hunter', 'Troublemaker', 'Mason', 'Robber'),
-            ('Villager', 'Mason', 'Mason', 'Wolf', 'Villager', 'Drunk', 'Tanner', 'Troublemaker',
-             'Villager', 'Minion', 'Wolf', 'Hunter', 'Insomniac', 'Seer', 'Robber'),
-            ('Villager', 'Wolf', 'Mason', 'Minion', 'Villager', 'Tanner', 'Wolf', 'Troublemaker',
-             'Villager', 'Seer', 'Mason', 'Robber', 'Hunter', 'Drunk', 'Insomniac'),
-            ('Villager', 'Insomniac', 'Mason', 'Tanner', 'Villager', 'Drunk', 'Minion',
-             'Troublemaker', 'Villager', 'Wolf', 'Wolf', 'Hunter', 'Mason', 'Seer', 'Robber'),
-            ('Villager', 'Troublemaker', 'Mason', 'Wolf', 'Villager', 'Wolf', 'Minion', 'Tanner',
-             'Robber', 'Villager', 'Seer', 'Hunter', 'Insomniac', 'Mason', 'Drunk'),
-            ('Villager', 'Insomniac', 'Mason', 'Minion', 'Villager', 'Drunk', 'Seer', 'Tanner',
-             'Wolf', 'Villager', 'Wolf', 'Hunter', 'Troublemaker', 'Mason', 'Robber')]
+    return (
+        ('Villager', 'Mason', 'Mason', 'Minion', 'Villager', 'Drunk', 'Tanner', 'Troublemaker',
+            'Villager', 'Wolf', 'Wolf', 'Hunter', 'Insomniac', 'Seer', 'Robber'),
+        ('Villager', 'Insomniac', 'Mason', 'Tanner', 'Villager', 'Drunk', 'Seer', 'Minion',
+            'Wolf', 'Villager', 'Wolf', 'Hunter', 'Troublemaker', 'Mason', 'Robber'),
+        ('Villager', 'Insomniac', 'Mason', 'Tanner', 'Villager', 'Drunk', 'Seer', 'Wolf',
+            'Minion', 'Villager', 'Wolf', 'Hunter', 'Troublemaker', 'Mason', 'Robber'),
+        ('Villager', 'Insomniac', 'Mason', 'Wolf', 'Villager', 'Wolf', 'Seer', 'Minion',
+            'Robber', 'Villager', 'Tanner', 'Hunter', 'Troublemaker', 'Mason', 'Drunk'),
+        ('Villager', 'Insomniac', 'Mason', 'Wolf', 'Villager', 'Drunk', 'Seer', 'Wolf',
+            'Tanner', 'Villager', 'Minion', 'Hunter', 'Troublemaker', 'Mason', 'Robber'),
+        ('Villager', 'Insomniac', 'Mason', 'Tanner', 'Villager', 'Drunk', 'Minion',
+            'Troublemaker', 'Villager', 'Wolf', 'Wolf', 'Hunter', 'Seer', 'Mason', 'Robber'),
+        ('Villager', 'Insomniac', 'Mason', 'Wolf', 'Villager', 'Drunk', 'Seer', 'Wolf',
+            'Minion', 'Villager', 'Tanner', 'Hunter', 'Troublemaker', 'Mason', 'Robber'),
+        ('Villager', 'Mason', 'Mason', 'Wolf', 'Villager', 'Drunk', 'Tanner', 'Troublemaker',
+            'Villager', 'Minion', 'Wolf', 'Hunter', 'Insomniac', 'Seer', 'Robber'),
+        ('Villager', 'Wolf', 'Mason', 'Minion', 'Villager', 'Tanner', 'Wolf', 'Troublemaker',
+            'Villager', 'Seer', 'Mason', 'Robber', 'Hunter', 'Drunk', 'Insomniac'),
+        ('Villager', 'Insomniac', 'Mason', 'Tanner', 'Villager', 'Drunk', 'Minion',
+            'Troublemaker', 'Villager', 'Wolf', 'Wolf', 'Hunter', 'Mason', 'Seer', 'Robber'),
+        ('Villager', 'Troublemaker', 'Mason', 'Wolf', 'Villager', 'Wolf', 'Minion', 'Tanner',
+            'Robber', 'Villager', 'Seer', 'Hunter', 'Insomniac', 'Mason', 'Drunk'),
+        ('Villager', 'Insomniac', 'Mason', 'Minion', 'Villager', 'Drunk', 'Seer', 'Tanner',
+            'Wolf', 'Villager', 'Wolf', 'Hunter', 'Troublemaker', 'Mason', 'Robber')
+    )
     # fmt: on
 
 

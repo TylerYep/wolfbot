@@ -13,6 +13,7 @@ from src.statements import Statement
 class SavedGame:
     """ All of the necessary data needed to rerun a game. """
 
+    __slots__ = ["original_roles", "game_roles", "all_statements", "player_objs"]
     original_roles: Tuple[str, ...]
     game_roles: List[str]
     all_statements: List[Statement]
@@ -37,10 +38,11 @@ class SavedGame:
 class GameResult:
     """ Each round of one_night returns a GameResult. """
 
+    __slots__ = ["actual", "guessed", "wolf_inds", "winning_team"]
     actual: List[str]
     guessed: List[str]
     wolf_inds: List[int]
-    winning_team: str = ""
+    winning_team: str
 
     def json_repr(self) -> Dict[str, Any]:
         """ Returns json representation of the GameResult. """

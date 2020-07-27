@@ -2,6 +2,7 @@
 from conftest import set_roles
 from src import const
 from src.roles import Wolf
+from src.statements import Statement
 
 
 class TestWolf:
@@ -50,10 +51,55 @@ class TestWolf:
         assert wolf.center_index == 13
         assert wolf.center_role == "Insomniac"
 
-    # @staticmethod
-    # def test_get_wolf_statement():
-    #     """ Should execute initialization actions and return the possible statements. """
-    #     pass
+    @staticmethod
+    def test_get_random_statement_medium(medium_game_roles, medium_knowledge_base):
+        """ Should execute initialization actions and return the possible statements. """
+        player_index = 4
+        wolf = Wolf(player_index, [1, player_index])
+
+        wolf.analyze(medium_knowledge_base)
+        result = wolf.get_statement(medium_knowledge_base)
+
+        assert len(wolf.statements) == 61
+        assert result == Statement(
+            "I am a Seer and I saw that Player 1 was a Seer.",
+            ((4, frozenset({"Seer"})), (1, frozenset({"Seer"})),),
+        )
+
+    @staticmethod
+    def test_get_reg_wolf_statement_medium(medium_game_roles, medium_knowledge_base):
+        """ Should execute initialization actions and return the possible statements. """
+        const.USE_REG_WOLF = True
+        player_index = 4
+        wolf = Wolf(player_index, [1, player_index])
+
+        wolf.analyze(medium_knowledge_base)
+        _ = wolf.get_statement(medium_knowledge_base)
+
+        assert len(wolf.statements) == 12
+
+    @staticmethod
+    def test_get_random_statement_large(large_game_roles, large_knowledge_base):
+        """ Should execute initialization actions and return the possible statements. """
+        player_index = 4
+        wolf = Wolf(player_index, [1, player_index])
+
+        wolf.analyze(large_knowledge_base)
+        _ = wolf.get_statement(large_knowledge_base)
+
+        assert len(wolf.statements) == 615
+
+    @staticmethod
+    def test_get_reg_wolf_statement_large(large_game_roles, large_knowledge_base):
+        """ Should execute initialization actions and return the possible statements. """
+        const.USE_REG_WOLF = True
+        player_index = 4
+        wolf = Wolf(player_index, [1, player_index])
+
+        wolf.analyze(large_knowledge_base)
+        _ = wolf.get_statement(large_knowledge_base)
+
+        assert len(wolf.statements) == 77
 
     # @staticmethod
     # def test_eval_fn():

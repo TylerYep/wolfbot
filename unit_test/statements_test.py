@@ -1,6 +1,26 @@
 """ statements_test.py """
 from src import const, statements
-from src.const import SwitchPriority
+from src.const import StatementLevel, SwitchPriority
+
+
+class TestKnowledgeBase:
+    """ Tests for the KnowledgeBase class. """
+
+    @staticmethod
+    def test_add_knowledge(example_statement):
+        """ Should initialize using the given sentence and knowledge. """
+        knowledge_base = statements.KnowledgeBase()
+        next_statement = statements.Statement("test", ((1, frozenset({"Villager"})),))
+
+        knowledge_base.add(example_statement, 0)
+        knowledge_base.add(next_statement, 1)
+
+        not_yet_spoken = statements.Statement("", priority=StatementLevel.NOT_YET_SPOKEN)
+        assert knowledge_base.all_statements == [example_statement, next_statement]
+        assert knowledge_base.stated_roles == ["Robber", "Villager"] + ([""] * 10)
+        assert knowledge_base.final_claims == (
+            [example_statement, next_statement] + ([not_yet_spoken] * 10)
+        )
 
 
 class TestStatement:
@@ -11,7 +31,6 @@ class TestStatement:
         """ Should initialize using the given sentence and knowledge. """
         result = statements.Statement("test", ((1, frozenset({"Villager"})),))
 
-        assert isinstance(result, statements.Statement)
         assert result.sentence == "test"
         assert result.knowledge == ((1, frozenset({"Villager"})),)
         assert result.switches == ()
@@ -40,7 +59,6 @@ class TestStatement:
 
         result = example_statement.negation
 
-        assert isinstance(result, statements.Statement)
         assert str(result) == str(expected)
 
     @staticmethod
@@ -57,7 +75,6 @@ class TestStatement:
 
         result = example_statement.negate_all()
 
-        assert isinstance(result, statements.Statement)
         assert str(result) == str(expected)
 
     @staticmethod

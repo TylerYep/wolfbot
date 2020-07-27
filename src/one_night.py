@@ -146,17 +146,17 @@ def consolidate_results(save_game: SavedGame) -> GameResult:
 
 def get_individual_preds(
     player_objs: List[Player], all_statements: List[Statement]
-) -> List[Tuple[str, ...]]:
+) -> Tuple[Tuple[str, ...], ...]:
     """ Let each player make a prediction of every player's true role. """
     logger.trace("\n[Trace] Predictions:")
-    all_preds = [player_objs[i].predict(all_statements) for i in range(const.NUM_PLAYERS)]
+    all_preds = tuple([player_objs[i].predict(all_statements) for i in range(const.NUM_PLAYERS)])
     number_length = len(str(const.NUM_ROLES))
     for i, pred in enumerate(all_preds):
         logger.trace(f"Player {i:{number_length}}: {pred}".replace("'", ""))
     return all_preds
 
 
-def get_confidence(all_role_guesses_arr: List[Tuple[str, ...]]) -> List[float]:
+def get_confidence(all_role_guesses_arr: Tuple[Tuple[str, ...], ...]) -> List[float]:
     """
     Creates confidence levels for each prediction and takes most
     common role guess array as the final guess for that index.
@@ -176,7 +176,7 @@ def get_confidence(all_role_guesses_arr: List[Tuple[str, ...]]) -> List[float]:
 
 
 def get_voting_result(
-    player_objs: List[Player], all_role_guesses_arr: List[Tuple[str, ...]]
+    player_objs: List[Player], all_role_guesses_arr: Tuple[Tuple[str, ...], ...]
 ) -> Tuple[List[str], List[int], List[int]]:
     """
     Creates confidence levels for each prediction and takes most

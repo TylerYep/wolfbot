@@ -8,8 +8,9 @@ from src.const import SwitchPriority
 from src.statements import Statement
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def example_statement() -> Statement:
+    print("hey")
     return Statement(
         "test",
         ((2, frozenset({"Robber"})), (0, frozenset({"Seer"}))),
@@ -17,7 +18,7 @@ def example_statement() -> Statement:
     )
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def small_statement_list() -> List[Statement]:
     return [
         Statement("I am a Villager.", ((0, frozenset({"Villager"})),)),
@@ -33,7 +34,7 @@ def small_statement_list() -> List[Statement]:
     ]
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def medium_statement_list() -> List[Statement]:
     return [
         Statement(
@@ -61,7 +62,7 @@ def medium_statement_list() -> List[Statement]:
     ]
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def large_statement_list() -> List[Statement]:
     return [
         Statement(

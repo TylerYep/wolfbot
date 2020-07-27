@@ -35,6 +35,15 @@ class KnowledgeBase:
         self.stated_roles[curr_ind] = statement.speaker
         self.final_claims[curr_ind] = statement
 
+    @classmethod
+    def from_statement_list(cls, statement_list: List[Statement]) -> KnowledgeBase:
+        """ Create a new statement from a Statement list. """
+        knowledge_base = cls()
+        for statement in statement_list:
+            speaker_index = statement.knowledge[0][0]
+            knowledge_base.add(statement, speaker_index)
+        return knowledge_base
+
 
 @dataclass
 class Statement:

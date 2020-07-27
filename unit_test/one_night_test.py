@@ -1,52 +1,10 @@
 """ one_night_test.py """
 import random
 
-from conftest import set_roles, verify_output, verify_output_file, verify_output_string
+from conftest import set_roles, verify_output, verify_output_string
 from src import const, one_night
 from src.roles import Drunk, Minion, Player, Robber, Seer, Wolf
 from src.stats import GameResult
-
-
-class TestPlayOneNightWerewolf:
-    """ Tests for the play_one_night_werewolf function. """
-
-    @staticmethod
-    def test_one_night_small(caplog, example_small_game_result):
-        """ Correctly play one round of one night werewolf. """
-        result = one_night.play_one_night_werewolf()
-
-        assert result == example_small_game_result
-        verify_output_file(caplog, "unit_test/test_data/one_night_small.out")
-
-    @staticmethod
-    def test_one_night_medium(caplog, example_medium_game_result):
-        """ Correctly play one round of one night werewolf. """
-        result = one_night.play_one_night_werewolf()
-
-        assert result == example_medium_game_result
-        verify_output_file(caplog, "unit_test/test_data/one_night_medium.out")
-
-    @staticmethod
-    def test_one_night_large(caplog, example_large_game_result):
-        """ Correctly play one round of one night werewolf. """
-        result = one_night.play_one_night_werewolf()
-
-        assert result == example_large_game_result
-        verify_output_file(caplog, "unit_test/test_data/one_night_large.out")
-
-
-# class TestPlayOneNightWerewolfInteractive:
-#     """ Tests for the play_one_night_werewolf function. """
-
-#     @staticmethod
-#     def test_one_night_small(monkeypatch, example_small_game_result):
-#         """ Correctly play one round of one night werewolf. """
-#         const.INTERACTIVE_MODE = True
-#         monkeypatch.setattr('builtins.input', lambda x: "0")
-
-#         result = one_night.play_one_night_werewolf()
-
-#         assert result == example_small_game_result
 
 
 class TestConsolidateResults:
@@ -90,13 +48,13 @@ class TestGetIndividualPreds:
 
         result = one_night.get_individual_preds(player_objs, medium_statement_list)
 
-        assert result == [
+        assert result == (
             ("Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"),
             ("Wolf", "Seer", "Robber", "Minion", "Troublemaker", "Drunk"),
             ("Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"),
             ("Wolf", "Minion", "Troublemaker", "Drunk", "Seer", "Robber"),
             ("Wolf", "Minion", "Troublemaker", "Drunk", "Seer", "Robber"),
-        ]
+        )
 
 
 class TestConfidence:
@@ -105,7 +63,7 @@ class TestConfidence:
     @staticmethod
     def test_small_confidence(small_game_roles):
         """ Should get voting results from the individual predictions. """
-        indiv_preds = [["Villager", "Seer", "Robber"]] * 3
+        indiv_preds = (("Villager", "Seer", "Robber"),) * 3
 
         result = one_night.get_confidence(indiv_preds)
 
@@ -114,13 +72,13 @@ class TestConfidence:
     @staticmethod
     def test_medium_confidence(medium_game_roles):
         """ Should get voting results from the individual predictions. """
-        indiv_preds = [
-            ["Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"],
-            ["Wolf", "Seer", "Robber", "Minion", "Troublemaker", "Drunk"],
-            ["Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"],
-            ["Wolf", "Minion", "Troublemaker", "Drunk", "Seer", "Robber"],
-            ["Wolf", "Minion", "Troublemaker", "Drunk", "Seer", "Robber"],
-        ]
+        indiv_preds = (
+            ("Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"),
+            ("Wolf", "Seer", "Robber", "Minion", "Troublemaker", "Drunk"),
+            ("Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"),
+            ("Wolf", "Minion", "Troublemaker", "Drunk", "Seer", "Robber"),
+            ("Wolf", "Minion", "Troublemaker", "Drunk", "Seer", "Robber"),
+        )
 
         result = one_night.get_confidence(indiv_preds)
 
@@ -129,9 +87,9 @@ class TestConfidence:
     @staticmethod
     def test_large_confidence(large_game_roles, large_individual_preds):
         """ Should get voting results from the individual predictions. """
-        random.shuffle(large_individual_preds)
+        individual_preds = random.sample(large_individual_preds, k=len(large_individual_preds))
 
-        result = one_night.get_confidence(large_individual_preds)
+        result = one_night.get_confidence(individual_preds)
 
         assert result == [
             1.0,
@@ -158,7 +116,7 @@ class TestGetVotingResult:
     @staticmethod
     def test_small_voting_result(caplog, small_game_roles):
         """ Should get voting results from the individual predictions. """
-        indiv_preds = [("Villager", "Seer", "Robber")] * len(small_game_roles)
+        indiv_preds = (("Villager", "Seer", "Robber"),) * len(small_game_roles)
         player_list = [Player(i) for i in range(len(small_game_roles))]
 
         result = one_night.get_voting_result(player_list, indiv_preds)
@@ -169,13 +127,13 @@ class TestGetVotingResult:
     @staticmethod
     def test_medium_voting_result(caplog, medium_game_roles):
         """ Should get voting results from the individual predictions. """
-        indiv_preds = [
+        indiv_preds = (
             ("Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"),
             ("Wolf", "Seer", "Robber", "Minion", "Troublemaker", "Drunk"),
             ("Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"),
             ("Wolf", "Minion", "Troublemaker", "Drunk", "Seer", "Robber"),
             ("Wolf", "Minion", "Troublemaker", "Drunk", "Seer", "Robber"),
-        ]
+        )
         player_list = [Player(i) for i in range(len(medium_game_roles))]
 
         result = one_night.get_voting_result(player_list, indiv_preds)
@@ -190,33 +148,33 @@ class TestGetVotingResult:
     @staticmethod
     def test_large_voting_result(caplog, large_game_roles, large_individual_preds):
         """ Should get voting results from the individual predictions. """
-        random.shuffle(large_individual_preds)
+        individual_preds = random.sample(large_individual_preds, k=len(large_individual_preds))
         player_list = [Player(i) for i in range(len(large_game_roles))]
 
-        result = one_night.get_voting_result(player_list, large_individual_preds)
+        result = one_night.get_voting_result(player_list, individual_preds)
 
         assert result == (
             [
                 "Villager",
                 "Insomniac",
                 "Mason",
-                "Tanner",
+                "Wolf",
                 "Villager",
                 "Drunk",
                 "Seer",
+                "Wolf",
                 "Minion",
-                "Wolf",
                 "Villager",
-                "Wolf",
+                "Tanner",
                 "Hunter",
                 "Troublemaker",
                 "Mason",
                 "Robber",
             ],
-            [3],
-            [8, 10, 1, 9, 5, 7, 5, 3, 3, 10, 8, 3],
+            [3, 7],
+            [7, 8, 9, 7, 3, 3, 7, 3, 10, 6, 9, 10],
         )
-        verify_output_string(caplog, "\nVote Array: [0, 1, 0, 3, 0, 2, 0, 1, 2, 1, 2, 0]\n")
+        verify_output_string(caplog, "\nVote Array: [0, 0, 0, 3, 0, 0, 1, 3, 1, 2, 2, 0]\n")
 
 
 class TestEvalWinningTeam:
