@@ -3,13 +3,16 @@ from _pytest.logging import LogCaptureFixture
 
 from conftest import verify_output_file
 from src import one_night
+from src.stats import GameResult
 
 
 class TestPlayOneNightWerewolf:
     """ Tests for the play_one_night_werewolf function. """
 
     @staticmethod
-    def test_one_night_small(caplog: LogCaptureFixture, example_small_game_result) -> None:
+    def test_one_night_small(
+        caplog: LogCaptureFixture, example_small_game_result: GameResult
+    ) -> None:
         """ Correctly play one round of one night werewolf. """
         result = one_night.play_one_night_werewolf()
 
@@ -17,7 +20,9 @@ class TestPlayOneNightWerewolf:
         verify_output_file(caplog, "unit_test/test_data/one_night_small.out")
 
     @staticmethod
-    def test_one_night_medium(caplog: LogCaptureFixture, example_medium_game_result) -> None:
+    def test_one_night_medium(
+        caplog: LogCaptureFixture, example_medium_game_result: GameResult
+    ) -> None:
         """ Correctly play one round of one night werewolf. """
         result = one_night.play_one_night_werewolf()
 
@@ -25,7 +30,9 @@ class TestPlayOneNightWerewolf:
         verify_output_file(caplog, "unit_test/test_data/one_night_medium.out")
 
     @staticmethod
-    def test_one_night_large(caplog: LogCaptureFixture, example_large_game_result) -> None:
+    def test_one_night_large(
+        caplog: LogCaptureFixture, example_large_game_result: GameResult
+    ) -> None:
         """ Correctly play one round of one night werewolf. """
         result = one_night.play_one_night_werewolf()
 

@@ -1,12 +1,13 @@
 """ replay_test.py """
 from src import const, one_night, replay, stats
+from src.stats import GameResult
 
 
 class TestReplay:
     """ Tests for the replay_game function. """
 
     @staticmethod
-    def test_replay_game_state_small(example_small_game_result) -> None:
+    def test_replay_game_state_small(example_small_game_result: GameResult) -> None:
         """
         Correctly replay last round of one night werewolf.
         Note that the result is currently not the same as the first run, since
@@ -22,7 +23,7 @@ class TestReplay:
         assert result_stats == stat_tracker
 
     @staticmethod
-    def test_replay_game_small(example_small_game_result) -> None:
+    def test_replay_game_small(example_small_game_result: GameResult) -> None:
         """
         Correctly replay last round of one night werewolf.
         Note that the result is always not the same as the first run, as
@@ -36,7 +37,7 @@ class TestReplay:
         assert result == example_small_game_result
 
     @staticmethod
-    def test_replay_game_medium(example_medium_game_result) -> None:
+    def test_replay_game_medium(example_medium_game_result: GameResult) -> None:
         """
         Correctly replay last round of one night werewolf.
         Note that the result is always not the same as the first run, as
@@ -50,7 +51,7 @@ class TestReplay:
         assert result == example_medium_game_result
 
     @staticmethod
-    def test_replay_game_large(example_large_game_result) -> None:
+    def test_replay_game_large(example_large_game_result: GameResult) -> None:
         """
         Correctly replay last round of one night werewolf.
         Note that the result is always not the same as the first run, as
