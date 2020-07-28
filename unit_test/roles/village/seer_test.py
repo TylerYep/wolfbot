@@ -9,7 +9,7 @@ class TestSeer:
     """ Tests for the Seer player class. """
 
     @staticmethod
-    def test_awake_init_center_choice(large_game_roles):
+    def test_awake_init_center_choice(large_game_roles) -> None:
         """
         Should initialize a Seer. Note that the player_index of the Seer is
         not necessarily the index where the true Seer is located.
@@ -38,7 +38,7 @@ class TestSeer:
         assert seer.statements == expected
 
     @staticmethod
-    def test_awake_init_player_choice(large_game_roles):
+    def test_awake_init_player_choice(large_game_roles) -> None:
         """
         Should initialize a Seer. Note that the player_index of the Seer is
         not necessarily the index where the true Seer is located.
@@ -60,7 +60,7 @@ class TestSeer:
         assert seer.statements == expected
 
     @staticmethod
-    def test_get_seer_statements():
+    def test_get_seer_statements() -> None:
         """ Should execute initialization actions and return the possible statements. """
         player_index = 1
 
@@ -74,7 +74,7 @@ class TestSeer:
         )
 
     @staticmethod
-    def test_get_all_statements():
+    def test_get_all_statements() -> None:
         """ Should return the possible statements from all possible initialization actions. """
         player_index = 1
         set_roles("Wolf", "Seer", "Villager", "Wolf")

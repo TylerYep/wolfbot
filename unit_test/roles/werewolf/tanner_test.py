@@ -7,7 +7,7 @@ class TestTanner:
     """ Tests for the Tanner player class. """
 
     # @staticmethod
-    # def test_awake_init(large_game_roles):
+    # def test_awake_init(large_game_roles) -> None:
     #     '''
     #     Should initialize a Tanner. Note that the player_index of the Tanner is
     #     not necessarily the index where the true Tanner is located.
@@ -20,7 +20,7 @@ class TestTanner:
     # assert tanner.statements == expected
 
     @staticmethod
-    def test_get_random_statement(large_game_roles, large_knowledge_base):
+    def test_get_random_statement(large_game_roles, large_knowledge_base) -> None:
         """ Should execute initialization actions and return the possible statements. """
         player_index = 1
         tanner = Tanner(player_index)

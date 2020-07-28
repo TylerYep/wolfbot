@@ -7,7 +7,7 @@ class TestVillager:
     """ Tests for the Villager player class. """
 
     @staticmethod
-    def test_awake_init():
+    def test_awake_init() -> None:
         """ Should initialize a Villager. """
         player_index = 5
 
@@ -18,7 +18,7 @@ class TestVillager:
         )
 
     @staticmethod
-    def test_get_villager_statements():
+    def test_get_villager_statements() -> None:
         """ Should execute initialization actions and return the possible statements. """
         player_index = 0
 
@@ -27,7 +27,7 @@ class TestVillager:
         assert result == (Statement("I am a Villager.", ((0, frozenset({"Villager"})),)),)
 
     @staticmethod
-    def test_get_all_statements():
+    def test_get_all_statements() -> None:
         """ Should return the possible statements from all possible initialization actions. """
         player_index = 2
 

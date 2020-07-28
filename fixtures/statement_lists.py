@@ -1,6 +1,6 @@
 """ statements.py """
 # pylint: disable=missing-function-docstring
-from typing import List
+from typing import Tuple
 
 import pytest
 
@@ -18,8 +18,8 @@ def example_statement() -> Statement:
 
 
 @pytest.fixture(scope="session")
-def small_statement_list() -> List[Statement]:
-    return [
+def small_statement_list() -> Tuple[Statement, ...]:
+    return (
         Statement("I am a Villager.", ((0, frozenset({"Villager"})),)),
         Statement(
             "I am a Robber and I swapped with Player 2. I am now a Seer.",
@@ -30,12 +30,12 @@ def small_statement_list() -> List[Statement]:
             "I am a Seer and I saw that Player 1 was a Robber.",
             ((2, frozenset({"Seer"})), (1, frozenset({"Robber"}))),
         ),
-    ]
+    )
 
 
 @pytest.fixture(scope="session")
-def medium_statement_list() -> List[Statement]:
-    return [
+def medium_statement_list() -> Tuple[Statement, ...]:
+    return (
         Statement(
             "I am a Seer and I saw that Player 2 was a Drunk.",
             ((0, frozenset({"Seer"})), (2, frozenset({"Drunk"}))),
@@ -58,12 +58,12 @@ def medium_statement_list() -> List[Statement]:
             "I am a Seer and I saw that Player 1 was a Wolf.",
             ((4, frozenset({"Seer"})), (1, frozenset({"Wolf"}))),
         ),
-    ]
+    )
 
 
 @pytest.fixture(scope="session")
-def large_statement_list() -> List[Statement]:
-    return [
+def large_statement_list() -> Tuple[Statement, ...]:
+    return (
         Statement(
             "I am a Robber and I swapped with Player 6. I am now a Drunk.",
             ((0, frozenset({"Robber"})), (6, frozenset({"Drunk"}))),
@@ -97,4 +97,4 @@ def large_statement_list() -> List[Statement]:
             ((7, frozenset({"Robber"})), (5, frozenset({"Seer"}))),
             ((SwitchPriority.ROBBER, 5, 7),),
         ),
-    ]
+    )

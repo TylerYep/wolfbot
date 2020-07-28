@@ -13,7 +13,7 @@ def make_random_prediction() -> Tuple[str, ...]:
     return tuple(random_guesses)
 
 
-def make_evil_prediction(solution_arr: List[SolverState]) -> Tuple[str, ...]:
+def make_evil_prediction(solution_arr: Tuple[SolverState, ...]) -> Tuple[str, ...]:
     """
     Makes the Wolf character's prediction for the game.
     """
@@ -47,11 +47,12 @@ def make_prediction(solution_arr: List[SolverState], is_evil: bool = False) -> T
     to return a list of predictions for all roles.
     """
     if is_evil:
-        return make_evil_prediction(solution_arr)
+        return make_evil_prediction(tuple(solution_arr))  # TODO
 
     solved: List[str] = []
     solution_index = 0
     random.shuffle(solution_arr)
+    # solution_arr = random.sample(solution_arr, k=len(solution_arr))
     basic_guess_cache: Dict[int, Tuple[List[str], Dict[str, int]]] = {}
     for index, solution in enumerate(solution_arr):
         # This case only occurs when Wolves tell a perfect lie.

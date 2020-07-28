@@ -188,7 +188,6 @@ def override_input(inputs: List[str]) -> Callable[[str], str]:
     Returns a new input() function that accepts a string and repeatedly pops strings from
     the front the provided list and returns them as calls to input().
     """
-    inputs = list(map(str, inputs))
 
     def _input(prompt: str) -> str:
         """ The new input() function. Prints a prompt and then modifies the provided list. """
@@ -218,11 +217,11 @@ def write_results(stat_results: Dict[str, float], file_path: str) -> None:
 def verify_output_file(caplog: LogCaptureFixture, filename: str) -> None:
     """ Helper method for debugging print differences using a file. """
     with open(filename) as output_file:
-        expected = output_file.read().split("\n")
+        expected = tuple(output_file.read().split("\n"))
     verify_output(caplog, expected)
 
 
-def verify_output(caplog: LogCaptureFixture, expected: List[str]) -> None:
+def verify_output(caplog: LogCaptureFixture, expected: Tuple[str, ...]) -> None:
     """ Helper method for debugging print differences. """
     captured = list(map(lambda x: x.getMessage(), caplog.records))  # type: ignore
     assert "\n".join(captured) == "\n".join(expected)

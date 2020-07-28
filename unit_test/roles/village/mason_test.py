@@ -9,7 +9,7 @@ class TestMason:
     """ Tests for the Mason player class. """
 
     @staticmethod
-    def test_awake_init(large_game_roles):
+    def test_awake_init(large_game_roles) -> None:
         """ Should initialize a Mason. """
         player_index = 6
         orig_roles, game_roles = list(large_game_roles), []
@@ -25,7 +25,7 @@ class TestMason:
         )
 
     @staticmethod
-    def test_get_mason_statements():
+    def test_get_mason_statements() -> None:
         """ Should execute initialization actions and return the possible statements. """
         player_index = 9
 
@@ -39,7 +39,7 @@ class TestMason:
         )
 
     @staticmethod
-    def test_get_single_mason_statement():
+    def test_get_single_mason_statement() -> None:
         """ Should give the proper statement when only one Mason is present. """
         player_index = 2
         set_roles("Wolf", "Seer", "Mason", "Villager")
@@ -58,7 +58,7 @@ class TestMason:
         )
 
     @staticmethod
-    def test_get_all_statements():
+    def test_get_all_statements() -> None:
         """ Should return the possible statements from all possible initialization actions. """
         player_index = 2
         set_roles("Wolf", "Seer", "Mason", "Villager")

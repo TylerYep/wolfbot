@@ -16,7 +16,7 @@ def example_small_saved_game(small_game_roles: Tuple[str, ...]) -> SavedGame:
     return SavedGame(
         ("Villager", "Robber", "Seer"),
         ["Villager", "Seer", "Robber"],
-        [
+        (
             Statement("I am a Villager.", ((0, frozenset({"Villager"})),)),
             Statement(
                 "I am a Robber and I swapped with Player 2. I am now a Seer.",
@@ -27,8 +27,8 @@ def example_small_saved_game(small_game_roles: Tuple[str, ...]) -> SavedGame:
                 "I am a Seer and I saw that Player 1 was a Robber.",
                 ((2, frozenset({"Seer"})), (1, frozenset({"Robber"})),),
             ),
-        ],
-        [Villager(0), Robber(1, 2, "Seer"), Seer(2, (1, "Robber"), (None, None))],
+        ),
+        (Villager(0), Robber(1, 2, "Seer"), Seer(2, (1, "Robber"), (None, None))),
     )
 
 
@@ -37,7 +37,7 @@ def example_medium_saved_game(medium_game_roles: Tuple[str, ...]) -> SavedGame:
     return SavedGame(
         ("Seer", "Wolf", "Drunk", "Robber", "Minion", "Troublemaker"),
         ["Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"],
-        [
+        (
             Statement(
                 "I am a Seer and I saw that Player 2 was a Drunk.",
                 ((0, frozenset({"Seer"})), (2, frozenset({"Drunk"})),),
@@ -61,14 +61,14 @@ def example_medium_saved_game(medium_game_roles: Tuple[str, ...]) -> SavedGame:
                 "I am a Seer and I saw that Player 3 was a Robber.",
                 ((4, frozenset({"Seer"})), (3, frozenset({"Robber"})),),
             ),
-        ],
-        [
+        ),
+        (
             Seer(0, (2, "Drunk")),
             Wolf(1, [1], 5, "Troublemaker"),
             Drunk(2, 5),
             Robber(3, 2, "Drunk"),
             Minion(4, [1]),
-        ],
+        ),
     )
 
 
@@ -112,7 +112,7 @@ def example_large_saved_game(large_game_roles: Tuple[str, ...]) -> SavedGame:
             "Mason",
             "Robber",
         ],
-        [
+        (
             Statement("I am a Villager.", ((0, frozenset({"Villager"})),)),
             Statement(
                 "I am a Drunk and I swapped with Center 2.",
@@ -161,8 +161,8 @@ def example_large_saved_game(large_game_roles: Tuple[str, ...]) -> SavedGame:
                 ((SwitchPriority.TROUBLEMAKER, 3, 4),),
             ),
             Statement("I am a Hunter.", ((11, frozenset({"Hunter"})),)),
-        ],
-        [
+        ),
+        (
             Villager(0),
             Drunk(1, 14),
             Mason(2, (2,)),
@@ -175,5 +175,5 @@ def example_large_saved_game(large_game_roles: Tuple[str, ...]) -> SavedGame:
             Villager(9),
             Wolf(10, [7, 10], None, None),
             Hunter(11),
-        ],
+        ),
     )

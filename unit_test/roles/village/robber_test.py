@@ -9,7 +9,7 @@ class TestRobber:
     """ Tests for the Robber player class. """
 
     @staticmethod
-    def test_awake_init(large_game_roles):
+    def test_awake_init(large_game_roles) -> None:
         """
         Should initialize a Robber. Note that the player_index of the Robber is not necessarily
         the index where the true Robber is located.
@@ -36,7 +36,7 @@ class TestRobber:
         assert robber.statements == expected
 
     @staticmethod
-    def test_get_robber_statements():
+    def test_get_robber_statements() -> None:
         """ Should execute initialization actions and return the possible statements. """
         player_index = 4
 
@@ -52,7 +52,7 @@ class TestRobber:
         )
 
     @staticmethod
-    def test_get_all_statements():
+    def test_get_all_statements() -> None:
         """ Should return the possible statements from all possible initialization actions. """
         player_index = 1
         set_roles("Wolf", "Robber", "Villager")

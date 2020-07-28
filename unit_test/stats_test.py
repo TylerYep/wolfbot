@@ -1,85 +1,63 @@
 """ stats_test.py """
+from _pytest.logging import LogCaptureFixture
+
 from conftest import verify_output
 from src import stats
+from src.const import SwitchPriority
 from src.roles import Robber, Seer, Villager
 from src.statements import Statement
+from src.stats import GameResult, SavedGame, Statistics
 
 
 class TestSavedGame:
     """ Tests for the SavedGame class. """
 
     @staticmethod
-    def test_constructor():
+    def test_constructor() -> None:
         """ Should initialize correctly. """
         villager_statement = Statement("I am a Villager.", ((0, frozenset({"Villager"})),))
 
-        result = stats.SavedGame(("Villager"), ["Villager"], [villager_statement], [Villager(0)])
+        result = SavedGame(("Villager",), ["Villager"], (villager_statement,), (Villager(0),))
 
         assert isinstance(result, stats.SavedGame)
 
     @staticmethod
-    def test_json_repr(example_small_saved_game):
+    def test_json_repr(example_small_saved_game: SavedGame) -> None:
         """ Should convert a SavedGame into a dict with all of its fields. """
         result = example_small_saved_game.json_repr()
 
         assert result == {
-            "all_statements": [
+            "all_statements": (
                 Statement("I am a Villager.", ((0, frozenset({"Villager"})),)),
                 Statement(
                     "I am a Robber and I swapped with Player 2. I am now a Seer.",
                     ((1, frozenset({"Robber"})), (2, frozenset({"Seer"}))),
-                    ((1, 1, 2),),
+                    ((SwitchPriority.ROBBER, 1, 2),),
                 ),
                 Statement(
                     "I am a Seer and I saw that Player 1 was a Robber.",
                     ((2, frozenset({"Seer"})), (1, frozenset({"Robber"}))),
                 ),
-            ],
+            ),
             "game_roles": ["Villager", "Seer", "Robber"],
             "original_roles": ("Villager", "Robber", "Seer"),
-            "player_objs": [Villager(0), Robber(1, 2, "Seer"), Seer(2, (1, "Robber"))],
+            "player_objs": (Villager(0), Robber(1, 2, "Seer"), Seer(2, (1, "Robber"))),
             "type": "SavedGame",
         }
-
-    @staticmethod
-    def test_eq(example_small_saved_game):
-        """ Should declare two SavedGames with identical fields to be equal. """
-        not_a_saved_game = "hello"
-
-        result = stats.SavedGame(
-            ("Villager", "Robber", "Seer"),
-            ["Villager", "Seer", "Robber"],
-            [
-                Statement("I am a Villager.", ((0, frozenset({"Villager"})),)),
-                Statement(
-                    "I am a Robber and I swapped with Player 2. I am now a Seer.",
-                    ((1, frozenset({"Robber"})), (2, frozenset({"Seer"}))),
-                    ((1, 1, 2),),
-                ),
-                Statement(
-                    "I am a Seer and I saw that Player 1 was a Robber.",
-                    ((2, frozenset({"Seer"})), (1, frozenset({"Robber"}))),
-                ),
-            ],
-            [Villager(0), Robber(1, 2, "Seer"), Seer(2, (1, "Robber"))],
-        )
-
-        assert result == example_small_saved_game
-        assert example_small_saved_game != not_a_saved_game
 
 
 class TestGameResult:
     """ Tests for the GameResult class. """
 
     @staticmethod
-    def test_constructor():
+    def test_constructor() -> None:
         """ Should initialize correctly. """
-        result = stats.GameResult(["Wolf"], ["Wolf"], [0], "Werewolf")
+        result = GameResult(["Wolf"], ["Wolf"], [0], "Werewolf")
 
         assert isinstance(result, stats.GameResult)
 
     @staticmethod
-    def test_json_repr(example_small_game_result):
+    def test_json_repr(example_small_game_result: GameResult) -> None:
         """ Should convert a GameResult into a dict with all of its fields. """
         result = example_small_game_result.json_repr()
 
@@ -91,47 +69,22 @@ class TestGameResult:
             "wolf_inds": [],
         }
 
-    @staticmethod
-    def test_repr(example_small_game_result):
-        """ Should convert a GameResult into a string with all useful fields. """
-        expected = (
-            "GameResult(actual=['Villager', 'Seer', 'Robber'], "
-            "guessed=['Villager', 'Seer', 'Robber'], "
-            "wolf_inds=[], winning_team='Village')"
-        )
-
-        result = str(example_small_game_result)
-
-        assert result == expected
-
-    @staticmethod
-    def test_eq(example_small_game_result):
-        """ Should declare two GameResults with identical fields to be equal. """
-        not_a_game_result = "hello"
-
-        result = stats.GameResult(
-            ["Villager", "Seer", "Robber"], ["Villager", "Seer", "Robber"], [], "Village"
-        )
-
-        assert result == example_small_game_result
-        assert example_small_game_result != not_a_game_result
-
 
 class TestStatistics:
     """ Tests for the Statistics class. """
 
     @staticmethod
-    def test_constructor():
+    def test_constructor() -> None:
         """ Should initialize correctly. """
-        result = stats.Statistics()
+        result = Statistics()
 
         assert result.num_games == 0
         assert len(result.metrics) == 8
 
     @staticmethod
-    def test_add_result(example_medium_game_result):
+    def test_add_result(example_medium_game_result: GameResult) -> None:
         """ Should correctly add a single game result to the aggregate. """
-        stat_tracker = stats.Statistics()
+        stat_tracker = Statistics()
 
         stat_tracker.add_result(example_medium_game_result)
 
@@ -144,11 +97,12 @@ class TestStatistics:
         )
 
     @staticmethod
-    def test_print_statistics(caplog, example_medium_game_result):
+    def test_print_statistics(
+        caplog: LogCaptureFixture, example_medium_game_result: GameResult
+    ) -> None:
         """ Should correctly print out the current statistics for the games. """
-        stat_tracker = stats.Statistics()
+        stat_tracker = Statistics()
         stat_tracker.add_result(example_medium_game_result)
-        expected = ""
 
         stat_tracker.print_statistics()
 

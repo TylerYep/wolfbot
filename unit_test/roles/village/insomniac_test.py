@@ -8,7 +8,7 @@ class TestInsomniac:
     """ Tests for the Insomniac player class. """
 
     @staticmethod
-    def test_awake_init():
+    def test_awake_init() -> None:
         """ Should initialize a Insomniac. """
         player_index = 1
         game_roles = ["Insomniac", "Robber", "Villager"]
@@ -28,7 +28,7 @@ class TestInsomniac:
         assert insomniac.statements == expected
 
     @staticmethod
-    def test_get_insomniac_statements():
+    def test_get_insomniac_statements() -> None:
         """ Should execute initialization actions and return the possible statements. """
         player_index = 0
         expected = (
@@ -46,7 +46,7 @@ class TestInsomniac:
         assert result == expected
 
     @staticmethod
-    def test_get_all_statements():
+    def test_get_all_statements() -> None:
         """ Should return the possible statements from all possible initialization actions. """
         player_index = 2
         set_roles("Wolf", "Insomniac", "Seer")

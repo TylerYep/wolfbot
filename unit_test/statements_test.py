@@ -1,16 +1,19 @@
 """ statements_test.py """
+from typing import Tuple
+
 from src import const, statements
 from src.const import StatementLevel, SwitchPriority
+from src.statements import KnowledgeBase, Statement
 
 
 class TestKnowledgeBase:
     """ Tests for the KnowledgeBase class. """
 
     @staticmethod
-    def test_add_knowledge(example_statement):
+    def test_add_knowledge(example_statement: Statement) -> None:
         """ Should initialize using the given sentence and knowledge. """
-        knowledge_base = statements.KnowledgeBase()
-        next_statement = statements.Statement("test", ((1, frozenset({"Villager"})),))
+        knowledge_base = KnowledgeBase()
+        next_statement = Statement("test", ((1, frozenset({"Villager"})),))
 
         knowledge_base.add(example_statement, 0)
         knowledge_base.add(next_statement, 1)
@@ -27,9 +30,9 @@ class TestStatement:
     """ Tests for the Statement class. """
 
     @staticmethod
-    def test_constructor():
+    def test_constructor() -> None:
         """ Should initialize using the given sentence and knowledge. """
-        result = statements.Statement("test", ((1, frozenset({"Villager"})),))
+        result = Statement("test", ((1, frozenset({"Villager"})),))
 
         assert result.sentence == "test"
         assert result.knowledge == ((1, frozenset({"Villager"})),)
@@ -37,23 +40,23 @@ class TestStatement:
         assert result.speaker == "Villager"
 
     @staticmethod
-    def test_references_true(example_statement):
+    def test_references_true(example_statement: Statement) -> None:
         """ Should return True if a given player_index is referenced in a statement. """
         result = example_statement.references(0)
 
         assert result is True
 
     @staticmethod
-    def test_references_false(example_statement):
+    def test_references_false(example_statement: Statement) -> None:
         """ Should return True if a given player_index is referenced in a statement. """
         result = example_statement.references(1)
 
         assert result is False
 
     @staticmethod
-    def test_negation(large_game_roles, example_statement):
+    def test_negation(large_game_roles: Tuple[str, ...], example_statement: Statement) -> None:
         """ Negated statements only contain the speaker and the opposite of the first clause. """
-        expected = statements.Statement(
+        expected = Statement(
             "NOT - test", ((2, const.ROLE_SET - frozenset({"Robber"})),), speaker="Robber"
         )
 
@@ -62,9 +65,9 @@ class TestStatement:
         assert str(result) == str(expected)
 
     @staticmethod
-    def test_negate_all(large_game_roles, example_statement):
+    def test_negate_all(large_game_roles: Tuple[str, ...], example_statement: Statement) -> None:
         """ Negate-all statements contain the opposite of all clauses. """
-        expected = statements.Statement(
+        expected = Statement(
             "NOT - test",
             (
                 (2, const.ROLE_SET - frozenset({"Robber"})),
@@ -78,7 +81,7 @@ class TestStatement:
         assert str(result) == str(expected)
 
     @staticmethod
-    def test_json_repr(example_statement):
+    def test_json_repr(example_statement: Statement) -> None:
         """ Should convert a Statement into a dict with all of its fields. """
         result = example_statement.json_repr()
 
@@ -91,7 +94,7 @@ class TestStatement:
         }
 
     @staticmethod
-    def test_repr(example_statement):
+    def test_repr(example_statement: Statement) -> None:
         """ Should convert a Statement into a string with all useful fields. """
         expected = (
             "Statement(sentence='test', knowledge=((2, frozenset({'Robber'})), (0, "
@@ -104,9 +107,9 @@ class TestStatement:
         assert result == expected
 
     @staticmethod
-    def test_eq(example_statement):
+    def test_eq(example_statement: Statement) -> None:
         """ Should declare two Statements with identical fields to be equal. """
-        result = statements.Statement(
+        result = Statement(
             "test",
             ((2, frozenset({"Robber"})), (0, frozenset({"Seer"})),),
             ((SwitchPriority.ROBBER, 2, 0),),
@@ -115,9 +118,9 @@ class TestStatement:
         assert result == example_statement
 
     @staticmethod
-    def test_hash(example_statement):
+    def test_hash(example_statement: Statement) -> None:
         """ Should give two Statements with identical fields the same hash. """
-        identical_statement = statements.Statement(
+        identical_statement = Statement(
             "test",
             ((2, frozenset({"Robber"})), (0, frozenset({"Seer"})),),
             ((SwitchPriority.ROBBER, 2, 0),),

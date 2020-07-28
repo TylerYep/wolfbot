@@ -9,7 +9,7 @@ class TestTroublemaker:
     """ Tests for the Troublemaker player class. """
 
     @staticmethod
-    def test_awake_init(large_game_roles):
+    def test_awake_init(large_game_roles) -> None:
         """
         Should initialize a Troublemaker. Note that the player_index of the Troublemaker is
         not necessarily the index where the true Troublemaker is located.
@@ -35,7 +35,7 @@ class TestTroublemaker:
         assert tmkr.statements == expected
 
     @staticmethod
-    def test_get_troublemaker_statements():
+    def test_get_troublemaker_statements() -> None:
         """ Should execute initialization actions and return the possible statements. """
         player_index = 1
 
@@ -51,7 +51,7 @@ class TestTroublemaker:
         )
 
     @staticmethod
-    def test_get_all_statements():
+    def test_get_all_statements() -> None:
         """ Should return the possible statements from all possible initialization actions. """
         player_index = 2
         set_roles("Wolf", "Seer", "Troublemaker", "Villager", "Robber", "Wolf")

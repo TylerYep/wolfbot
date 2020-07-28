@@ -65,7 +65,7 @@ def play_one_night_werewolf(save_replay: bool = True) -> GameResult:
     return consolidate_results(save_game)
 
 
-def get_player_multistatements(player_objs: List[Player]) -> List[Statement]:
+def get_player_multistatements(player_objs: Tuple[Player, ...]) -> Tuple[Statement, ...]:
     """
     Returns array of each player's statements.
     TODO players should choose with what priority they want to speak
@@ -88,10 +88,10 @@ def get_player_multistatements(player_objs: List[Player]) -> List[Statement]:
                 new_priority = const.NUM_PLAYERS + random.randrange(len(heap) + 1)
                 heapq.heappush(heap, (new_priority, curr_ind))
 
-    return knowledge_base.final_claims
+    return tuple(knowledge_base.final_claims)
 
 
-def get_player_statements(player_objs: List[Player]) -> List[Statement]:
+def get_player_statements(player_objs: Tuple[Player, ...]) -> Tuple[Statement, ...]:
     """ Returns array of each player's statements. """
     knowledge_base = KnowledgeBase()
     curr_ind = 0
@@ -101,10 +101,10 @@ def get_player_statements(player_objs: List[Player]) -> List[Statement]:
         knowledge_base.add(statement, curr_ind)
         logger.info(f"Player {curr_ind}: {statement.sentence}")
         curr_ind += 1
-    return knowledge_base.final_claims
+    return tuple(knowledge_base.final_claims)
 
 
-def night_falls(game_roles: List[str], original_roles: Tuple[str, ...]) -> List[Player]:
+def night_falls(game_roles: List[str], original_roles: Tuple[str, ...]) -> Tuple[Player, ...]:
     """ Initialize role object list and perform all switching and peeking actions to begin. """
     assert game_roles == list(original_roles)
     logger.info("\n-- NIGHT FALLS --\n")
@@ -128,7 +128,7 @@ def night_falls(game_roles: List[str], original_roles: Tuple[str, ...]) -> List[
             role_obj = get_role_obj(role_str)
             player_objs[i] = role_obj.awake_init(i, game_roles, original_roles)
 
-    return player_objs[: const.NUM_PLAYERS]
+    return tuple(player_objs[: const.NUM_PLAYERS])
 
 
 def consolidate_results(save_game: SavedGame) -> GameResult:
@@ -140,12 +140,12 @@ def consolidate_results(save_game: SavedGame) -> GameResult:
     util.print_roles(game_roles, "Solution", logging.INFO)
     util.print_roles(all_guesses, "WolfBot")
     _ = get_confidence(indiv_preds)
-    winning_team = eval_winning_team(game_roles, guessed_wolf_inds, vote_inds)
+    winning_team = eval_winning_team(tuple(game_roles), list(guessed_wolf_inds), vote_inds)  # TODO
     return GameResult(game_roles, all_guesses, orig_wolf_inds, winning_team)
 
 
 def get_individual_preds(
-    player_objs: List[Player], all_statements: List[Statement]
+    player_objs: Tuple[Player, ...], all_statements: Tuple[Statement, ...]
 ) -> Tuple[Tuple[str, ...], ...]:
     """ Let each player make a prediction of every player's true role. """
     logger.trace("\n[Trace] Predictions:")
@@ -156,7 +156,7 @@ def get_individual_preds(
     return all_preds
 
 
-def get_confidence(all_role_guesses_arr: Tuple[Tuple[str, ...], ...]) -> List[float]:
+def get_confidence(all_role_guesses_arr: Tuple[Tuple[str, ...], ...]) -> Tuple[float, ...]:
     """
     Creates confidence levels for each prediction and takes most
     common role guess array as the final guess for that index.
@@ -172,12 +172,12 @@ def get_confidence(all_role_guesses_arr: Tuple[Tuple[str, ...], ...]) -> List[fl
         confidence.append(count / const.NUM_PLAYERS)
 
     logger.debug(f"Confidence levels: {[float(f'{conf:.2f}') for conf in confidence]}")
-    return confidence
+    return tuple(confidence)
 
 
 def get_voting_result(
-    player_objs: List[Player], all_role_guesses_arr: Tuple[Tuple[str, ...], ...]
-) -> Tuple[List[str], List[int], List[int]]:
+    player_objs: Tuple[Player, ...], all_role_guesses_arr: Tuple[Tuple[str, ...], ...]
+) -> Tuple[List[str], Tuple[int, ...], Tuple[int, ...]]:
     """
     Creates confidence levels for each prediction and takes most
     common role guess array as the final guess for that index.
@@ -199,11 +199,11 @@ def get_voting_result(
     max_votes = max(wolf_votes)
     guessed_wolf_inds = [i for i, count in enumerate(wolf_votes) if count == max_votes]
 
-    return list(avg_role_guesses), guessed_wolf_inds, vote_inds
+    return list(avg_role_guesses), tuple(guessed_wolf_inds), tuple(vote_inds)
 
 
 def eval_winning_team(
-    game_roles: List[str], guessed_wolf_inds: List[int], vote_inds: List[int]
+    game_roles: Tuple[str, ...], guessed_wolf_inds: List[int], vote_inds: Tuple[int, ...]
 ) -> str:
     """ Decide which team won based on the final vote. """
     killed_wolf, killed_tanner, villager_win = False, False, False

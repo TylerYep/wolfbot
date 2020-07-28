@@ -1,4 +1,6 @@
 """ player_test.py """
+from typing import Tuple
+
 from src import const
 from src.roles import Drunk, Hunter, Minion, Player, Robber, Seer, Villager, Wolf
 from src.statements import Statement
@@ -8,7 +10,7 @@ class TestPlayer:
     """ Tests for the Player class. """
 
     @staticmethod
-    def test_constructor():
+    def test_constructor() -> None:
         """ Should initialize a Player. """
         player_index = 5
 
@@ -18,7 +20,7 @@ class TestPlayer:
         assert empty_player.statements == ()
 
     @staticmethod
-    def test_inheritance():
+    def test_inheritance() -> None:
         """ Classes extending Player should be able to access Player fields. """
         robber = Robber(2, 3, "Villager")
 
@@ -26,7 +28,7 @@ class TestPlayer:
         assert robber.new_role == "Villager"
 
     @staticmethod
-    def test_get_statement_inheritance():
+    def test_get_statement_inheritance() -> None:
         """ Classes extending Player should contain a get_statement method. """
         villager = Villager(0)
 
@@ -35,7 +37,7 @@ class TestPlayer:
         assert statement == Statement("I am a Villager.", ((0, frozenset({"Villager"})),))
 
     @staticmethod
-    def test_json_repr():
+    def test_json_repr() -> None:
         """ Should convert a Player into a dict with all of its fields. """
         villager = Villager(0)
 
@@ -44,7 +46,7 @@ class TestPlayer:
         assert result == {"type": "Villager", "player_index": 0}
 
     @staticmethod
-    def test_repr():
+    def test_repr() -> None:
         """ Should convert a Player into a representative string. """
         villager = Villager(3)
 
@@ -53,7 +55,7 @@ class TestPlayer:
         assert result == "Villager(3)"
 
     @staticmethod
-    def test_eq():
+    def test_eq() -> None:
         """ Should convert a Player into a representative string. """
         villager = Villager(3)
         hunter = Hunter(3)
@@ -70,7 +72,7 @@ class TestIsEvil:
     """ Tests for the is_evil function. """
 
     @staticmethod
-    def test_no_evil_player(small_game_roles):
+    def test_no_evil_player(small_game_roles: Tuple[str, ...]) -> None:
         """ Should determine if a player has turned evil after night falls. """
         villager = Villager(0)
 
@@ -79,7 +81,7 @@ class TestIsEvil:
         assert result is False
 
     @staticmethod
-    def test_find_evil_players(medium_game_roles):
+    def test_find_evil_players(medium_game_roles: Tuple[str, ...]) -> None:
         """ Should determine if a player has turned evil after night falls. """
         player_list = [
             Seer(0, (2, "Drunk")),
@@ -94,7 +96,7 @@ class TestIsEvil:
         assert result == [False, True, False, False, True]
 
     @staticmethod
-    def test_turned_evil_player(medium_game_roles):
+    def test_turned_evil_player(medium_game_roles) -> None:
         """ Should determine if a player has turned evil after night falls. """
         robber = Robber(3, 1, "Wolf")
 
@@ -111,7 +113,7 @@ class TestGetVote:
     """
 
     @staticmethod
-    def test_vote_for_wolf(medium_game_roles):
+    def test_vote_for_wolf(medium_game_roles) -> None:
         """ If a player suspects a Wolf, they should vote for that player. """
         prediction = ["Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"]
 
@@ -120,7 +122,7 @@ class TestGetVote:
         assert result == 1
 
     @staticmethod
-    def test_no_vote_for_center_wolf(medium_game_roles):
+    def test_no_vote_for_center_wolf(medium_game_roles) -> None:
         """ If a player suspects a Wolf in the center, they should not vote for that player. """
         prediction = ["Seer", "Troublemaker", "Drunk", "Minion", "Robber", "Wolf"]
 
@@ -129,7 +131,7 @@ class TestGetVote:
         assert result == 3
 
     @staticmethod
-    def test_vote_right(small_game_roles):
+    def test_vote_right(small_game_roles) -> None:
         """ If no Wolves are found, players should vote for the person to their right. """
         prediction = ["Villager", "Seer", "Robber"]
 
@@ -138,7 +140,7 @@ class TestGetVote:
         assert result == [1, 2, 0]
 
     @staticmethod
-    def test_interactive_vote(monkeypatch, medium_game_roles):
+    def test_interactive_vote(monkeypatch, medium_game_roles) -> None:
         """ Prompt the user for their vote. """
         player_index = 2
         const.IS_USER[player_index] = True

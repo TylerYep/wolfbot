@@ -16,10 +16,12 @@ class SavedGame:
     __slots__ = ["original_roles", "game_roles", "all_statements", "player_objs"]
     original_roles: Tuple[str, ...]
     game_roles: List[str]
-    all_statements: List[Statement]
-    player_objs: List[Player]
+    all_statements: Tuple[Statement, ...]
+    player_objs: Tuple[Player, ...]
 
-    def load_game(self) -> Tuple[Tuple[str, ...], List[str], List[Statement], List[Player]]:
+    def load_game(
+        self,
+    ) -> Tuple[Tuple[str, ...], List[str], Tuple[Statement, ...], Tuple[Player, ...]]:
         """ Returns game data. """
         return self.original_roles, self.game_roles, self.all_statements, self.player_objs
 

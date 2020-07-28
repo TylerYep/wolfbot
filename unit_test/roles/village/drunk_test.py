@@ -9,7 +9,7 @@ class TestDrunk:
     """ Tests for the Drunk player class. """
 
     @staticmethod
-    def test_awake_init(large_game_roles):
+    def test_awake_init(large_game_roles) -> None:
         """
         Should initialize a Drunk. Note that the player_index of the Drunk is not necessarily
         the index where the true Drunk is located.
@@ -33,7 +33,7 @@ class TestDrunk:
         )
 
     @staticmethod
-    def test_get_drunk_statements():
+    def test_get_drunk_statements() -> None:
         """ Should execute initialization actions and return the possible statements. """
         player_index = 4
 
@@ -49,7 +49,7 @@ class TestDrunk:
         )
 
     @staticmethod
-    def test_get_all_statements():
+    def test_get_all_statements() -> None:
         """ Should return the possible statements from all possible initialization actions. """
         player_index = 2
         set_roles("Wolf", "Seer", "Drunk", "Villager", "Robber", "Wolf")

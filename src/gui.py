@@ -1,6 +1,6 @@
 """ gui.py """
 import os
-from typing import List, Tuple
+from typing import Tuple
 
 from src import const
 from src.const import logger
@@ -39,7 +39,7 @@ class GUIState:
         input("Press Enter to continue...")
         self.print_cache()
 
-    def print_statements(self, all_statements: List[Statement]) -> None:
+    def print_statements(self, all_statements: Tuple[Statement, ...]) -> None:
         """ Prints all statements that have been said so far. """
         if self.disable_gui:
             return

@@ -7,7 +7,7 @@ class TestLRUCache:
     """ Tests for the lru_cache function. """
 
     @staticmethod
-    def test_lru_cache_hit():
+    def test_lru_cache_hit() -> None:
         """ Correctly cache a function call cache hit. """
         result_1 = Seer.get_seer_statements(1, (6, "Robber"))
 
@@ -20,7 +20,7 @@ class TestLRUCache:
         assert info.currsize == 1
 
     @staticmethod
-    def test_lru_cache_miss():
+    def test_lru_cache_miss() -> None:
         """ Correctly cache a function call cache miss. """
         result_1 = Seer.get_seer_statements(2, (6, "Robber"))
 
@@ -33,7 +33,7 @@ class TestLRUCache:
         assert info.currsize == 2
 
     @staticmethod
-    def test_lru_cache_side_effects():
+    def test_lru_cache_side_effects() -> None:
         """ Showcase the problem with using a cache and changing internal constants. """
         result_1 = Mason.get_mason_statements(6, (6,))
         const.NUM_PLAYERS = 3

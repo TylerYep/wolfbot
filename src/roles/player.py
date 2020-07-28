@@ -163,11 +163,11 @@ class Player(EnforceOverrides):  # type: ignore
             self.role in const.EVIL_ROLES and self.new_role == ""
         ) or self.new_role in const.EVIL_ROLES
 
-    def predict(self, statements: List[Statement]) -> Tuple[str, ...]:
+    def predict(self, statements: Tuple[Statement, ...]) -> Tuple[str, ...]:
         """ Gets a player's predictions for each index given all statements. """
         is_evil = self.is_evil()
         if const.SMART_VILLAGERS or is_evil:
-            all_solutions = solver(tuple(statements), (self.player_index,))
+            all_solutions = solver(statements, (self.player_index,))
             prediction = make_prediction(all_solutions, is_evil)
         else:
             prediction = make_random_prediction()

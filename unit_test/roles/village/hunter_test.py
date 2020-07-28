@@ -7,7 +7,7 @@ class TestHunter:
     """ Tests for the Hunter player class. """
 
     @staticmethod
-    def test_awake_init():
+    def test_awake_init() -> None:
         """ Should initialize a Hunter. """
         player_index = 5
 
@@ -16,7 +16,7 @@ class TestHunter:
         assert hunter.statements == (Statement("I am a Hunter.", ((5, frozenset({"Hunter"})),)),)
 
     @staticmethod
-    def test_get_hunter_statements():
+    def test_get_hunter_statements() -> None:
         """ Should execute initialization actions and return the possible statements. """
         player_index = 0
 
@@ -25,7 +25,7 @@ class TestHunter:
         assert result == (Statement("I am a Hunter.", ((0, frozenset({"Hunter"})),)),)
 
     @staticmethod
-    def test_get_all_statements():
+    def test_get_all_statements() -> None:
         """ Should return the possible statements from all possible initialization actions. """
         player_index = 2
 
