@@ -1,6 +1,9 @@
 """ robber_test.py """
+from typing import Tuple
+
 from conftest import set_roles
 from src import const
+from src.const import SwitchPriority
 from src.roles import Robber
 from src.statements import Statement
 
@@ -9,13 +12,13 @@ class TestRobber:
     """ Tests for the Robber player class. """
 
     @staticmethod
-    def test_awake_init(large_game_roles) -> None:
+    def test_awake_init(large_game_roles: Tuple[str, ...]) -> None:
         """
         Should initialize a Robber. Note that the player_index of the Robber is not necessarily
         the index where the true Robber is located.
         """
         player_index = 2
-        orig_roles, game_roles = [], list(large_game_roles)
+        game_roles = list(large_game_roles)
         new_roles = list(large_game_roles)
         new_roles[2], new_roles[6] = new_roles[6], new_roles[2]
 
@@ -23,12 +26,12 @@ class TestRobber:
             Statement(
                 "I am a Robber and I swapped with Player 6. I am now a Mason.",
                 ((2, frozenset({"Robber"})), (6, frozenset({"Mason"}))),
-                ((1, 2, 6),),
+                ((SwitchPriority.ROBBER, 2, 6),),
                 "Robber",
             ),
         )
 
-        robber = Robber.awake_init(player_index, game_roles, orig_roles)
+        robber = Robber.awake_init(player_index, game_roles, [])
 
         assert game_roles == new_roles
         assert robber.choice_ind == 6
@@ -46,7 +49,7 @@ class TestRobber:
             Statement(
                 "I am a Robber and I swapped with Player 3. I am now a Seer.",
                 ((4, frozenset({"Robber"})), (3, frozenset({"Seer"}))),
-                ((1, 4, 3),),
+                ((SwitchPriority.ROBBER, 4, 3),),
                 "Robber",
             ),
         )
@@ -61,19 +64,19 @@ class TestRobber:
             Statement(
                 "I am a Robber and I swapped with Player 0. I am now a Villager.",
                 ((1, frozenset({"Robber"})), (0, frozenset({"Villager"}))),
-                ((1, 1, 0),),
+                ((SwitchPriority.ROBBER, 1, 0),),
                 "Robber",
             ),
             Statement(
                 "I am a Robber and I swapped with Player 0. I am now a Wolf.",
                 ((1, frozenset({"Robber"})), (0, frozenset({"Wolf"}))),
-                ((1, 1, 0),),
+                ((SwitchPriority.ROBBER, 1, 0),),
                 "Robber",
             ),
             Statement(
                 "I am a Robber and I swapped with Player 0. I am now a Robber.",
                 ((1, frozenset({"Robber"})), (0, frozenset({"Robber"}))),
-                ((1, 1, 0),),
+                ((SwitchPriority.ROBBER, 1, 0),),
                 "Robber",
             ),
         )

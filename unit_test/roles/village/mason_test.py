@@ -1,4 +1,6 @@
 """ mason_test.py """
+from typing import Tuple
+
 from conftest import set_roles
 from src import const
 from src.roles import Mason
@@ -9,12 +11,12 @@ class TestMason:
     """ Tests for the Mason player class. """
 
     @staticmethod
-    def test_awake_init(large_game_roles) -> None:
+    def test_awake_init(large_game_roles: Tuple[str, ...]) -> None:
         """ Should initialize a Mason. """
         player_index = 6
-        orig_roles, game_roles = list(large_game_roles), []
+        orig_roles = list(large_game_roles)
 
-        mason = Mason.awake_init(player_index, game_roles, orig_roles)
+        mason = Mason.awake_init(player_index, [], orig_roles)
 
         assert mason.mason_indices == (6, 9)
         assert mason.statements == (

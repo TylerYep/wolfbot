@@ -1,6 +1,9 @@
 """ drunk_test.py """
+from typing import Tuple
+
 from conftest import set_roles
 from src import const
+from src.const import SwitchPriority
 from src.roles import Drunk
 from src.statements import Statement
 
@@ -9,7 +12,7 @@ class TestDrunk:
     """ Tests for the Drunk player class. """
 
     @staticmethod
-    def test_awake_init(large_game_roles) -> None:
+    def test_awake_init(large_game_roles: Tuple[str, ...]) -> None:
         """
         Should initialize a Drunk. Note that the player_index of the Drunk is not necessarily
         the index where the true Drunk is located.
@@ -27,7 +30,7 @@ class TestDrunk:
             Statement(
                 "I am a Drunk and I swapped with Center 1.",
                 ((6, frozenset({"Drunk"})),),
-                ((3, 6, 13),),
+                ((SwitchPriority.DRUNK, 6, 13),),
                 "Drunk",
             ),
         )
@@ -43,7 +46,7 @@ class TestDrunk:
             Statement(
                 "I am a Drunk and I swapped with Center 0.",
                 ((4, frozenset({"Drunk"})),),
-                ((3, 4, 12),),
+                ((SwitchPriority.DRUNK, 4, 12),),
                 "Drunk",
             ),
         )
@@ -59,19 +62,19 @@ class TestDrunk:
             Statement(
                 "I am a Drunk and I swapped with Center 0.",
                 ((2, frozenset({"Drunk"})),),
-                ((3, 2, 3),),
+                ((SwitchPriority.DRUNK, 2, 3),),
                 "Drunk",
             ),
             Statement(
                 "I am a Drunk and I swapped with Center 1.",
                 ((2, frozenset({"Drunk"})),),
-                ((3, 2, 4),),
+                ((SwitchPriority.DRUNK, 2, 4),),
                 "Drunk",
             ),
             Statement(
                 "I am a Drunk and I swapped with Center 2.",
                 ((2, frozenset({"Drunk"})),),
-                ((3, 2, 5),),
+                ((SwitchPriority.DRUNK, 2, 5),),
                 "Drunk",
             ),
         )

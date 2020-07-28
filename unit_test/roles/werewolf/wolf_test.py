@@ -1,15 +1,17 @@
 """ wolf_test.py """
+from typing import Tuple
+
 from conftest import set_roles
 from src import const
 from src.roles import Wolf
-from src.statements import Statement
+from src.statements import KnowledgeBase, Statement
 
 
 class TestWolf:
     """ Tests for the Wolf player class. """
 
     @staticmethod
-    def test_awake_init_medium(medium_game_roles) -> None:
+    def test_awake_init_medium(medium_game_roles: Tuple[str, ...]) -> None:
         """
         Should initialize a Wolf. Note that the player_index of the Wolf is
         not necessarily the index where the true Wolf is located.
@@ -23,7 +25,7 @@ class TestWolf:
         assert wolf.center_role is None
 
     @staticmethod
-    def test_awake_init_large(large_game_roles) -> None:
+    def test_awake_init_large(large_game_roles: Tuple[str, ...]) -> None:
         """
         Should initialize a Wolf. Note that the player_index of the Wolf is
         not necessarily the index where the true Wolf is located.
@@ -37,7 +39,7 @@ class TestWolf:
         assert wolf.center_role is None
 
     @staticmethod
-    def test_awake_init_center(large_game_roles) -> None:
+    def test_awake_init_center(large_game_roles: Tuple[str, ...]) -> None:
         """
         Should initialize a Center Wolf. Note that the player_index of the Wolf is
         not necessarily the index where the true Wolf is located.
@@ -52,7 +54,9 @@ class TestWolf:
         assert wolf.center_role == "Insomniac"
 
     @staticmethod
-    def test_get_random_statement_medium(medium_game_roles, medium_knowledge_base) -> None:
+    def test_get_random_statement_medium(
+        medium_game_roles: Tuple[str, ...], medium_knowledge_base: KnowledgeBase
+    ) -> None:
         """ Should execute initialization actions and return the possible statements. """
         player_index = 4
         wolf = Wolf(player_index, [1, player_index])
@@ -67,7 +71,9 @@ class TestWolf:
         )
 
     @staticmethod
-    def test_get_reg_wolf_statement_medium(medium_game_roles, medium_knowledge_base) -> None:
+    def test_get_reg_wolf_statement_medium(
+        medium_game_roles: Tuple[str, ...], medium_knowledge_base: KnowledgeBase
+    ) -> None:
         """ Should execute initialization actions and return the possible statements. """
         const.USE_REG_WOLF = True
         player_index = 4
@@ -79,7 +85,9 @@ class TestWolf:
         assert len(wolf.statements) == 12
 
     @staticmethod
-    def test_get_center_statement_medium(medium_game_roles, medium_knowledge_base) -> None:
+    def test_get_center_statement_medium(
+        medium_game_roles: Tuple[str, ...], medium_knowledge_base: KnowledgeBase
+    ) -> None:
         """ Should execute initialization actions and return the possible statements. """
         const.USE_REG_WOLF = True
         player_index = 2
@@ -91,7 +99,9 @@ class TestWolf:
         assert len(wolf.statements) == 4
 
     @staticmethod
-    def test_get_random_statement_large(large_game_roles, large_knowledge_base) -> None:
+    def test_get_random_statement_large(
+        large_game_roles: Tuple[str, ...], large_knowledge_base: KnowledgeBase
+    ) -> None:
         """ Should execute initialization actions and return the possible statements. """
         player_index = 4
         wolf = Wolf(player_index, [1, player_index])
@@ -102,7 +112,9 @@ class TestWolf:
         assert len(wolf.statements) == 615
 
     @staticmethod
-    def test_get_reg_wolf_statement_large(large_game_roles, large_knowledge_base) -> None:
+    def test_get_reg_wolf_statement_large(
+        large_game_roles: Tuple[str, ...], large_knowledge_base: KnowledgeBase
+    ) -> None:
         """ Should execute initialization actions and return the possible statements. """
         const.USE_REG_WOLF = True
         player_index = 4

@@ -1,14 +1,18 @@
 """ minion_test.py """
+from typing import Tuple
+
 from src import const
 from src.roles import Minion
-from src.statements import Statement
+from src.statements import KnowledgeBase, Statement
 
 
 class TestMinion:
     """ Tests for the Minion player class. """
 
     @staticmethod
-    def test_get_random_statement_medium(medium_game_roles, medium_knowledge_base) -> None:
+    def test_get_random_statement_medium(
+        medium_game_roles: Tuple[str, ...], medium_knowledge_base: KnowledgeBase
+    ) -> None:
         """ Should execute initialization actions and return the possible statements. """
         player_index = 4
         minion = Minion(player_index, [1, 5])
@@ -23,7 +27,9 @@ class TestMinion:
         )
 
     @staticmethod
-    def test_get_reg_wolf_statement_medium(medium_game_roles, medium_knowledge_base) -> None:
+    def test_get_reg_wolf_statement_medium(
+        medium_game_roles: Tuple[str, ...], medium_knowledge_base: KnowledgeBase
+    ) -> None:
         """ Should execute initialization actions and return the possible statements. """
         const.USE_REG_WOLF = True
         player_index = 4
@@ -35,7 +41,9 @@ class TestMinion:
         assert len(minion.statements) == 16
 
     @staticmethod
-    def test_get_random_statement_large(large_game_roles, large_knowledge_base) -> None:
+    def test_get_random_statement_large(
+        large_game_roles: Tuple[str, ...], large_knowledge_base: KnowledgeBase
+    ) -> None:
         """ Should execute initialization actions and return the possible statements. """
         player_index = 4
         minion = Minion(player_index, [1, 5])
@@ -46,7 +54,9 @@ class TestMinion:
         assert len(minion.statements) == 615
 
     @staticmethod
-    def test_get_reg_wolf_statement_large(large_game_roles, large_knowledge_base) -> None:
+    def test_get_reg_wolf_statement_large(
+        large_game_roles: Tuple[str, ...], large_knowledge_base: KnowledgeBase
+    ) -> None:
         """ Should execute initialization actions and return the possible statements. """
         const.USE_REG_WOLF = True
         player_index = 4

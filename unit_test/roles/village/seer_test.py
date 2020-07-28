@@ -1,4 +1,6 @@
 """ seer_test.py """
+from typing import Tuple
+
 from conftest import set_roles
 from src import const
 from src.roles import Seer
@@ -9,14 +11,14 @@ class TestSeer:
     """ Tests for the Seer player class. """
 
     @staticmethod
-    def test_awake_init_center_choice(large_game_roles) -> None:
+    def test_awake_init_center_choice(large_game_roles: Tuple[str, ...]) -> None:
         """
         Should initialize a Seer. Note that the player_index of the Seer is
         not necessarily the index where the true Seer is located.
         """
         player_index = 11
         const.CENTER_SEER_PROB = 1
-        orig_roles, game_roles = [], list(large_game_roles)
+        game_roles = list(large_game_roles)
         expected = (
             Statement(
                 (
@@ -31,21 +33,21 @@ class TestSeer:
             ),
         )
 
-        seer = Seer.awake_init(player_index, game_roles, orig_roles)
+        seer = Seer.awake_init(player_index, game_roles, [])
 
         assert seer.choice_1 == (13, "Insomniac")
         assert seer.choice_2 == (12, "Troublemaker")
         assert seer.statements == expected
 
     @staticmethod
-    def test_awake_init_player_choice(large_game_roles) -> None:
+    def test_awake_init_player_choice(large_game_roles: Tuple[str, ...]) -> None:
         """
         Should initialize a Seer. Note that the player_index of the Seer is
         not necessarily the index where the true Seer is located.
         """
         player_index = 11
         const.CENTER_SEER_PROB = 0
-        orig_roles, game_roles = [], list(large_game_roles)
+        game_roles = list(large_game_roles)
         expected = (
             Statement(
                 "I am a Seer and I saw that Player 6 was a Mason.",
@@ -53,7 +55,7 @@ class TestSeer:
             ),
         )
 
-        seer = Seer.awake_init(player_index, game_roles, orig_roles)
+        seer = Seer.awake_init(player_index, game_roles, [])
 
         assert seer.choice_1 == (6, "Mason")
         assert seer.choice_2 == (None, None)

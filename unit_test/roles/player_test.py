@@ -1,9 +1,11 @@
 """ player_test.py """
 from typing import Tuple
 
+from _pytest.monkeypatch import MonkeyPatch
+
 from src import const
 from src.roles import Drunk, Hunter, Minion, Player, Robber, Seer, Villager, Wolf
-from src.statements import Statement
+from src.statements import KnowledgeBase, Statement
 
 
 class TestPlayer:
@@ -31,8 +33,9 @@ class TestPlayer:
     def test_get_statement_inheritance() -> None:
         """ Classes extending Player should contain a get_statement method. """
         villager = Villager(0)
+        knowledge_base = KnowledgeBase()
 
-        statement = villager.get_statement(None)
+        statement = villager.get_statement(knowledge_base)
 
         assert statement == Statement("I am a Villager.", ((0, frozenset({"Villager"})),))
 
@@ -83,20 +86,20 @@ class TestIsEvil:
     @staticmethod
     def test_find_evil_players(medium_game_roles: Tuple[str, ...]) -> None:
         """ Should determine if a player has turned evil after night falls. """
-        player_list = [
+        player_list: Tuple[Player, ...] = (
             Seer(0, (2, "Drunk")),
             Wolf(1, [1], 5, "Troublemaker"),
             Drunk(2, 5),
             Robber(3, 2, "Drunk"),
             Minion(4, [1]),
-        ]
+        )
 
         result = [player.is_evil() for player in player_list]
 
         assert result == [False, True, False, False, True]
 
     @staticmethod
-    def test_turned_evil_player(medium_game_roles) -> None:
+    def test_turned_evil_player(medium_game_roles: Tuple[str, ...]) -> None:
         """ Should determine if a player has turned evil after night falls. """
         robber = Robber(3, 1, "Wolf")
 
@@ -113,38 +116,38 @@ class TestGetVote:
     """
 
     @staticmethod
-    def test_vote_for_wolf(medium_game_roles) -> None:
+    def test_vote_for_wolf(medium_game_roles: Tuple[str, ...]) -> None:
         """ If a player suspects a Wolf, they should vote for that player. """
-        prediction = ["Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"]
+        prediction = ("Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber")
 
         result = Player(2).vote(prediction)
 
         assert result == 1
 
     @staticmethod
-    def test_no_vote_for_center_wolf(medium_game_roles) -> None:
+    def test_no_vote_for_center_wolf(medium_game_roles: Tuple[str, ...]) -> None:
         """ If a player suspects a Wolf in the center, they should not vote for that player. """
-        prediction = ["Seer", "Troublemaker", "Drunk", "Minion", "Robber", "Wolf"]
+        prediction = ("Seer", "Troublemaker", "Drunk", "Minion", "Robber", "Wolf")
 
         result = Player(2).vote(prediction)
 
         assert result == 3
 
     @staticmethod
-    def test_vote_right(small_game_roles) -> None:
+    def test_vote_right(small_game_roles: Tuple[str, ...]) -> None:
         """ If no Wolves are found, players should vote for the person to their right. """
-        prediction = ["Villager", "Seer", "Robber"]
+        prediction = ("Villager", "Seer", "Robber")
 
         result = [Player(i).vote(prediction) for i in range(const.NUM_PLAYERS)]
 
         assert result == [1, 2, 0]
 
     @staticmethod
-    def test_interactive_vote(monkeypatch, medium_game_roles) -> None:
+    def test_interactive_vote(monkeypatch: MonkeyPatch, medium_game_roles: Tuple[str, ...]) -> None:
         """ Prompt the user for their vote. """
         player_index = 2
         const.IS_USER[player_index] = True
-        prediction = ["Seer", "Troublemaker", "Drunk", "Minion", "Robber", "Wolf"]
+        prediction = ("Seer", "Troublemaker", "Drunk", "Minion", "Robber", "Wolf")
         monkeypatch.setattr("builtins.input", lambda x: "4")
 
         result = Player(player_index).vote(prediction)

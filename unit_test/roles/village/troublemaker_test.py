@@ -1,6 +1,9 @@
 """ troublemaker_test.py """
+from typing import Tuple
+
 from conftest import set_roles
 from src import const
+from src.const import SwitchPriority
 from src.roles import Troublemaker
 from src.statements import Statement
 
@@ -9,25 +12,25 @@ class TestTroublemaker:
     """ Tests for the Troublemaker player class. """
 
     @staticmethod
-    def test_awake_init(large_game_roles) -> None:
+    def test_awake_init(large_game_roles: Tuple[str, ...]) -> None:
         """
         Should initialize a Troublemaker. Note that the player_index of the Troublemaker is
         not necessarily the index where the true Troublemaker is located.
         """
         player_index = 11
-        orig_roles, game_roles = [], list(large_game_roles)
+        game_roles = list(large_game_roles)
         expected = (
             Statement(
                 "I am a Troublemaker and I swapped Player 6 and Player 0.",
                 ((11, frozenset({"Troublemaker"})),),
-                ((2, 6, 0),),
+                ((SwitchPriority.TROUBLEMAKER, 6, 0),),
                 "Troublemaker",
             ),
         )
         new_roles = list(large_game_roles)
         new_roles[0], new_roles[6] = new_roles[6], new_roles[0]
 
-        tmkr = Troublemaker.awake_init(player_index, game_roles, orig_roles)
+        tmkr = Troublemaker.awake_init(player_index, game_roles, [])
 
         assert game_roles == new_roles
         assert tmkr.choice_ind1 == 6
@@ -45,7 +48,7 @@ class TestTroublemaker:
             Statement(
                 "I am a Troublemaker and I swapped Player 6 and Player 3.",
                 ((1, frozenset({"Troublemaker"})),),
-                ((2, 6, 3),),
+                ((SwitchPriority.TROUBLEMAKER, 6, 3),),
                 "Troublemaker",
             ),
         )
@@ -61,7 +64,7 @@ class TestTroublemaker:
             Statement(
                 "I am a Troublemaker and I swapped Player 0 and Player 1.",
                 ((2, frozenset({"Troublemaker"})),),
-                ((2, 0, 1),),
+                ((SwitchPriority.TROUBLEMAKER, 0, 1),),
                 "Troublemaker",
             ),
         )
