@@ -33,3 +33,26 @@ class TestMinion:
         _ = minion.get_statement(medium_knowledge_base)
 
         assert len(minion.statements) == 16
+
+    @staticmethod
+    def test_get_random_statement_large(large_game_roles, large_knowledge_base):
+        """ Should execute initialization actions and return the possible statements. """
+        player_index = 4
+        minion = Minion(player_index, [1, 5])
+
+        minion.analyze(large_knowledge_base)
+        _ = minion.get_statement(large_knowledge_base)
+
+        assert len(minion.statements) == 615
+
+    @staticmethod
+    def test_get_reg_wolf_statement_large(large_game_roles, large_knowledge_base):
+        """ Should execute initialization actions and return the possible statements. """
+        const.USE_REG_WOLF = True
+        player_index = 4
+        minion = Minion(player_index, [1, 5])
+
+        minion.analyze(large_knowledge_base)
+        _ = minion.get_statement(large_knowledge_base)
+
+        assert len(minion.statements) == 76

@@ -79,6 +79,18 @@ class TestWolf:
         assert len(wolf.statements) == 12
 
     @staticmethod
+    def test_get_center_statement_medium(medium_game_roles, medium_knowledge_base):
+        """ Should execute initialization actions and return the possible statements. """
+        const.USE_REG_WOLF = True
+        player_index = 2
+        wolf = Wolf(player_index, [1, player_index], 5, "Robber")
+
+        wolf.analyze(medium_knowledge_base)
+        _ = wolf.get_statement(medium_knowledge_base)
+
+        assert len(wolf.statements) == 4
+
+    @staticmethod
     def test_get_random_statement_large(large_game_roles, large_knowledge_base):
         """ Should execute initialization actions and return the possible statements. """
         player_index = 4

@@ -10,7 +10,6 @@ from src.statements import Statement
 
 @pytest.fixture(scope="session")
 def example_statement() -> Statement:
-    print("hey")
     return Statement(
         "test",
         ((2, frozenset({"Robber"})), (0, frozenset({"Seer"}))),
