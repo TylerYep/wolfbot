@@ -14,9 +14,8 @@ class TestMason:
     def test_awake_init(large_game_roles: Tuple[str, ...]) -> None:
         """ Should initialize a Mason. """
         player_index = 6
-        orig_roles = list(large_game_roles)
 
-        mason = Mason.awake_init(player_index, [], orig_roles)
+        mason = Mason.awake_init(player_index, [], large_game_roles)
 
         assert mason.mason_indices == (6, 9)
         assert mason.statements == (

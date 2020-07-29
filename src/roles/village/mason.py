@@ -3,8 +3,6 @@ from __future__ import annotations
 
 from typing import Any, Dict, List, Tuple
 
-from overrides import overrides
-
 from src import const, util
 from src.const import logger, lru_cache
 from src.roles.player import Player
@@ -20,7 +18,6 @@ class Mason(Player):
         self.statements += self.get_mason_statements(player_index, mason_indices)
 
     @classmethod
-    @overrides
     def awake_init(
         cls, player_index: int, game_roles: List[str], original_roles: Tuple[str, ...]
     ) -> Mason:
@@ -58,7 +55,6 @@ class Mason(Player):
 
     @staticmethod
     @lru_cache
-    @overrides
     def get_all_statements(player_index: int) -> Tuple[Statement, ...]:
         """ Required for all player types. Returns all possible role statements. """
         statements = Mason.get_mason_statements(player_index, (player_index,))
@@ -68,7 +64,6 @@ class Mason(Player):
                 statements += Mason.get_mason_statements(player_index, mason_indices)
         return statements
 
-    @overrides
     def json_repr(self) -> Dict[str, Any]:
         """ Gets JSON representation of a Mason player. """
         json_dict = super().json_repr()

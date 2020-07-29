@@ -30,7 +30,7 @@ class TestTroublemaker:
         new_roles = list(large_game_roles)
         new_roles[0], new_roles[6] = new_roles[6], new_roles[0]
 
-        tmkr = Troublemaker.awake_init(player_index, game_roles, [])
+        tmkr = Troublemaker.awake_init(player_index, game_roles, ())
 
         assert game_roles == new_roles
         assert tmkr.choice_ind1 == 6

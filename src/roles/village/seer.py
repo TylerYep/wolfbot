@@ -3,8 +3,6 @@ from __future__ import annotations
 
 from typing import Any, Dict, List, Optional, Tuple
 
-from overrides import overrides
-
 from src import const, util
 from src.const import logger, lru_cache
 from src.roles.player import Player
@@ -25,7 +23,6 @@ class Seer(Player):
         self.statements += self.get_seer_statements(player_index, choice_1, choice_2)
 
     @classmethod
-    @overrides
     def awake_init(
         cls, player_index: int, game_roles: List[str], original_roles: Tuple[str, ...]
     ) -> Seer:
@@ -87,7 +84,6 @@ class Seer(Player):
 
     @staticmethod
     @lru_cache
-    @overrides
     def get_all_statements(player_index: int) -> Tuple[Statement, ...]:
         """ Required for all player types. Returns all possible role statements. """
         statements: Tuple[Statement, ...] = ()
@@ -107,7 +103,6 @@ class Seer(Player):
                             statements += Seer.get_seer_statements(player_index, choice_1, choice_2)
         return statements
 
-    @overrides
     def json_repr(self) -> Dict[str, Any]:
         """ Gets JSON representation of a Seer player. """
         json_dict = super().json_repr()

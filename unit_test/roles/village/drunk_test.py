@@ -18,11 +18,11 @@ class TestDrunk:
         the index where the true Drunk is located.
         """
         player_index = 6
-        orig_roles, game_roles = list(large_game_roles), list(large_game_roles)
+        game_roles = list(large_game_roles)
         new_roles = list(large_game_roles)
         new_roles[13], new_roles[6] = new_roles[6], new_roles[13]
 
-        drunk = Drunk.awake_init(player_index, game_roles, orig_roles)
+        drunk = Drunk.awake_init(player_index, game_roles, large_game_roles)
 
         assert game_roles == new_roles
         assert drunk.choice_ind == 13

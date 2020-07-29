@@ -4,8 +4,6 @@ from __future__ import annotations
 import random
 from typing import Any, Dict, List, Tuple
 
-from overrides import EnforceOverrides
-
 from src import const, util
 from src.const import StatementLevel, logger, lru_cache
 from src.predictions import make_prediction, make_random_prediction
@@ -13,7 +11,7 @@ from src.solvers import switching_solver as solver
 from src.statements import KnowledgeBase, Statement
 
 
-class Player(EnforceOverrides):  # type: ignore
+class Player:
     """ Player class. """
 
     def __init__(self, player_index: int):

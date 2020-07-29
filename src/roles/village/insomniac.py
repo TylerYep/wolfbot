@@ -3,8 +3,6 @@ from __future__ import annotations
 
 from typing import Any, Dict, List, Optional, Tuple
 
-from overrides import overrides
-
 from src import const
 from src.const import logger, lru_cache
 from src.roles.player import Player
@@ -20,7 +18,6 @@ class Insomniac(Player):
         self.statements += self.get_insomniac_statements(player_index, new_role)
 
     @classmethod
-    @overrides
     def awake_init(
         cls, player_index: int, game_roles: List[str], original_roles: Tuple[str, ...]
     ) -> Insomniac:
@@ -51,7 +48,6 @@ class Insomniac(Player):
 
     @staticmethod
     @lru_cache
-    @overrides
     def get_all_statements(player_index: int) -> Tuple[Statement, ...]:
         """ Required for all player types. Returns all possible role statements. """
         statements: List[Statement] = []
@@ -59,7 +55,6 @@ class Insomniac(Player):
             statements += Insomniac.get_insomniac_statements(player_index, role)
         return tuple(statements)
 
-    @overrides
     def analyze(self, knowledge_base: KnowledgeBase) -> None:
         """ Overrides analyze. """
         possible_switches: List[int] = []
@@ -71,7 +66,6 @@ class Insomniac(Player):
                 self.player_index, self.new_role, possible_switches[0]
             )
 
-    @overrides
     def json_repr(self) -> Dict[str, Any]:
         """ Gets JSON representation of an Insomniac player. """
         json_dict = super().json_repr()

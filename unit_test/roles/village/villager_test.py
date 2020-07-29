@@ -11,7 +11,7 @@ class TestVillager:
         """ Should initialize a Villager. """
         player_index = 5
 
-        villager = Villager.awake_init(player_index, (), ())  # Other params are unused.
+        villager = Villager.awake_init(player_index, [], ())  # Other params are unused.
 
         assert villager.statements == (
             Statement("I am a Villager.", ((5, frozenset({"Villager"})),)),

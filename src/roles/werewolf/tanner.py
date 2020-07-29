@@ -4,9 +4,8 @@ from __future__ import annotations
 import random
 from typing import List, Tuple
 
-from overrides import overrides
-
 from src import const
+from src.const import lru_cache
 from src.predictions import make_unrestricted_prediction
 from src.roles.player import Player
 from src.roles.werewolf.wolf_variants import get_statement_expectimax, get_wolf_statements_random
@@ -18,7 +17,6 @@ class Tanner(Player):
     """ Tanner Player class. """
 
     @classmethod
-    @overrides
     def awake_init(
         cls, player_index: int, game_roles: List[str], original_roles: Tuple[str, ...]
     ) -> Tanner:
@@ -27,18 +25,16 @@ class Tanner(Player):
         return cls(player_index)
 
     @staticmethod
-    @overrides
+    @lru_cache
     def get_all_statements(player_index: int) -> Tuple[Statement, ...]:
         """ Required for all player types. Returns all possible role statements. """
         raise NotImplementedError
 
-    @overrides
     def analyze(self, knowledge_base: KnowledgeBase) -> None:
         """ Updates Player state given new information. """
         super().analyze(knowledge_base)
         self.statements += get_wolf_statements_random(self.player_index)
 
-    @overrides
     def get_statement(self, knowledge_base: KnowledgeBase) -> Statement:
         """ Get Tanner Statement. """
         if const.EXPECTIMAX_TANNER:

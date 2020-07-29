@@ -19,7 +19,7 @@ class TestWolf:
         set_roles("Wolf", *medium_game_roles[1:])
         player_index = 2
 
-        wolf = Wolf.awake_init(player_index, const.ROLES, const.ROLES)
+        wolf = Wolf.awake_init(player_index, list(const.ROLES), const.ROLES)
         assert wolf.wolf_indices == [0, 2]
         assert wolf.center_index is None
         assert wolf.center_role is None
@@ -32,7 +32,7 @@ class TestWolf:
         """
         player_index = 7
 
-        wolf = Wolf.awake_init(player_index, const.ROLES, const.ROLES)
+        wolf = Wolf.awake_init(player_index, list(const.ROLES), const.ROLES)
 
         assert wolf.wolf_indices == [0, 7]
         assert wolf.center_index is None
@@ -47,7 +47,7 @@ class TestWolf:
         set_roles("Villager", *large_game_roles[1:])
         player_index = 7
 
-        wolf = Wolf.awake_init(player_index, const.ROLES, const.ROLES)
+        wolf = Wolf.awake_init(player_index, list(const.ROLES), const.ROLES)
 
         assert wolf.wolf_indices == [7]
         assert wolf.center_index == 13

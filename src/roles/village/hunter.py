@@ -3,8 +3,6 @@ from __future__ import annotations
 
 from typing import List, Tuple
 
-from overrides import overrides
-
 from src.const import lru_cache
 from src.roles.player import Player
 from src.statements import Statement
@@ -18,7 +16,6 @@ class Hunter(Player):
         self.statements += self.get_hunter_statements(player_index)
 
     @classmethod
-    @overrides
     def awake_init(
         cls, player_index: int, game_roles: List[str], original_roles: Tuple[str, ...]
     ) -> Hunter:
@@ -34,7 +31,6 @@ class Hunter(Player):
 
     @staticmethod
     @lru_cache
-    @overrides
     def get_all_statements(player_index: int) -> Tuple[Statement, ...]:
         """ Required for all player types. Returns all possible role statements. """
         return Hunter.get_hunter_statements(player_index)

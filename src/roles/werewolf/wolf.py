@@ -4,10 +4,8 @@ from __future__ import annotations
 import random
 from typing import Any, Dict, List, Optional, Tuple
 
-from overrides import overrides
-
 from src import const, util
-from src.const import logger
+from src.const import logger, lru_cache
 from src.predictions import make_unrestricted_prediction
 from src.roles.player import Player
 from src.roles.werewolf.wolf_variants import (
@@ -37,7 +35,6 @@ class Wolf(Player):
         self.center_role = center_role
 
     @classmethod
-    @overrides
     def awake_init(
         cls, player_index: int, game_roles: List[str], original_roles: Tuple[str, ...]
     ) -> Wolf:
@@ -63,12 +60,11 @@ class Wolf(Player):
         return cls(player_index, wolf_indices, center_index, center_role)
 
     @staticmethod
-    @overrides
+    @lru_cache
     def get_all_statements(player_index: int) -> Tuple[Statement, ...]:
         """ Required for all player types. Returns all possible role statements. """
         raise NotImplementedError
 
-    @overrides
     def analyze(self, knowledge_base: KnowledgeBase) -> None:
         """ Updates Player state given new information. """
         super().analyze(knowledge_base)
@@ -85,7 +81,6 @@ class Wolf(Player):
         else:
             self.statements += get_wolf_statements_random(self.player_index)
 
-    @overrides
     def get_statement(self, knowledge_base: KnowledgeBase) -> Statement:
         """ Get Wolf Statement. """
         if const.USE_RL_WOLF:
@@ -115,7 +110,6 @@ class Wolf(Player):
                 val -= 5
         return val
 
-    @overrides
     def json_repr(self) -> Dict[str, Any]:
         """ Gets JSON representation of a Wolf player. """
         json_dict = super().json_repr()
