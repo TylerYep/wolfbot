@@ -20,7 +20,7 @@ class Villager(Player):
     @classmethod
     @overrides
     def awake_init(
-        cls, player_index: int, game_roles: List[str], original_roles: List[str]
+        cls, player_index: int, game_roles: List[str], original_roles: Tuple[str, ...]
     ) -> Villager:
         """ Initializes Villager when night falls. """
         del game_roles, original_roles

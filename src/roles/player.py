@@ -93,7 +93,7 @@ class Player(EnforceOverrides):  # type: ignore
 
     @classmethod
     def awake_init(
-        cls, player_index: int, game_roles: List[str], original_roles: List[str]
+        cls, player_index: int, game_roles: List[str], original_roles: Tuple[str, ...]
     ) -> Player:
         """ Initializes Player and performs their nighttime actions. """
         raise NotImplementedError
