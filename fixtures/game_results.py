@@ -9,23 +9,23 @@ from src.stats import GameResult
 
 @pytest.fixture
 def example_small_game_result(small_game_roles: Tuple[str, ...]) -> GameResult:
-    return GameResult(["Villager", "Seer", "Robber"], ["Villager", "Seer", "Robber"], [], "Village")
+    return GameResult(("Villager", "Seer", "Robber"), ("Villager", "Seer", "Robber"), (), "Village")
 
 
 @pytest.fixture
 def example_medium_game_result(medium_game_roles: Tuple[str, ...]) -> GameResult:
     return GameResult(
-        ["Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"],
-        ["Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"],
-        [1],
-        "Village",
+        ("Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"),
+        ("Seer", "Minion", "Troublemaker", "Drunk", "Wolf", "Robber"),
+        (1,),
+        "Werewolf",
     )
 
 
 @pytest.fixture
 def example_large_game_result(large_game_roles: Tuple[str, ...]) -> GameResult:
     return GameResult(
-        [
+        (
             "Villager",
             "Insomniac",
             "Mason",
@@ -41,24 +41,24 @@ def example_large_game_result(large_game_roles: Tuple[str, ...]) -> GameResult:
             "Troublemaker",
             "Mason",
             "Robber",
-        ],
-        [
+        ),
+        (
             "Villager",
-            "Insomniac",
             "Mason",
-            "Tanner",
+            "Mason",
+            "Minion",
             "Villager",
             "Drunk",
+            "Wolf",
+            "Wolf",
             "Seer",
-            "Minion",
-            "Wolf",
             "Villager",
-            "Wolf",
+            "Tanner",
             "Hunter",
+            "Insomniac",
             "Troublemaker",
-            "Mason",
             "Robber",
-        ],
-        [7, 10],
-        "Werewolf",
+        ),
+        (7, 10),
+        "Village",
     )

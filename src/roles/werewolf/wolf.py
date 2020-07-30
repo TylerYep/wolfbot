@@ -25,7 +25,7 @@ class Wolf(Player):
     def __init__(
         self,
         player_index: int,
-        wolf_indices: List[int],
+        wolf_indices: Tuple[int, ...],
         center_index: Optional[int] = None,
         center_role: Optional[str] = None,
     ):
@@ -53,9 +53,9 @@ class Wolf(Player):
                     f"You see Center {center_index - const.NUM_PLAYERS} is a {center_role}.",
                     cache=True,
                 )
-        logger.debug(f"[Hidden] Wolves are at indices: {wolf_indices}")
+        logger.debug(f"[Hidden] Wolves are at indices: {list(wolf_indices)}")
         if is_user:
-            logger.info(f"Wolves are at indices: {wolf_indices}", cache=True)
+            logger.info(f"Wolves are at indices: {list(wolf_indices)}", cache=True)
 
         return cls(player_index, wolf_indices, center_index, center_role)
 

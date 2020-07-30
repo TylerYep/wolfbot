@@ -223,7 +223,7 @@ def verify_output_file(caplog: LogCaptureFixture, filename: str) -> None:
 
 def verify_output(caplog: LogCaptureFixture, expected: Tuple[str, ...]) -> None:
     """ Helper method for debugging print differences. """
-    captured = list(map(lambda x: x.getMessage(), caplog.records))  # type: ignore
+    captured = list(map(lambda x: x.getMessage(), caplog.records))
     assert "\n".join(captured) == "\n".join(expected)
 
 

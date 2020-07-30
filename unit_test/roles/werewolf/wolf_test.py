@@ -4,7 +4,7 @@ from typing import Tuple
 from conftest import set_roles
 from src import const
 from src.roles import Wolf
-from src.statements import KnowledgeBase, Statement
+from src.statements import KnowledgeBase
 
 
 class TestWolf:
@@ -20,7 +20,7 @@ class TestWolf:
         player_index = 2
 
         wolf = Wolf.awake_init(player_index, list(const.ROLES), const.ROLES)
-        assert wolf.wolf_indices == [0, 2]
+        assert wolf.wolf_indices == (0, 2)
         assert wolf.center_index is None
         assert wolf.center_role is None
 
@@ -34,7 +34,7 @@ class TestWolf:
 
         wolf = Wolf.awake_init(player_index, list(const.ROLES), const.ROLES)
 
-        assert wolf.wolf_indices == [0, 7]
+        assert wolf.wolf_indices == (0, 7)
         assert wolf.center_index is None
         assert wolf.center_role is None
 
@@ -49,7 +49,7 @@ class TestWolf:
 
         wolf = Wolf.awake_init(player_index, list(const.ROLES), const.ROLES)
 
-        assert wolf.wolf_indices == [7]
+        assert wolf.wolf_indices == (7,)
         assert wolf.center_index == 13
         assert wolf.center_role == "Insomniac"
 
@@ -59,16 +59,12 @@ class TestWolf:
     ) -> None:
         """ Should execute initialization actions and return the possible statements. """
         player_index = 4
-        wolf = Wolf(player_index, [1, player_index])
+        wolf = Wolf(player_index, (1, player_index))
 
         wolf.analyze(medium_knowledge_base)
-        result = wolf.get_statement(medium_knowledge_base)
+        _ = wolf.get_statement(medium_knowledge_base)
 
         assert len(wolf.statements) == 61
-        assert result == Statement(
-            "I am a Seer and I saw that Player 1 was a Seer.",
-            ((4, frozenset({"Seer"})), (1, frozenset({"Seer"})),),
-        )
 
     @staticmethod
     def test_get_reg_wolf_statement_medium(
@@ -77,7 +73,7 @@ class TestWolf:
         """ Should execute initialization actions and return the possible statements. """
         const.USE_REG_WOLF = True
         player_index = 4
-        wolf = Wolf(player_index, [1, player_index])
+        wolf = Wolf(player_index, (1, player_index))
 
         wolf.analyze(medium_knowledge_base)
         _ = wolf.get_statement(medium_knowledge_base)
@@ -91,7 +87,7 @@ class TestWolf:
         """ Should execute initialization actions and return the possible statements. """
         const.USE_REG_WOLF = True
         player_index = 2
-        wolf = Wolf(player_index, [1, player_index], 5, "Robber")
+        wolf = Wolf(player_index, (1, player_index), 5, "Robber")
 
         wolf.analyze(medium_knowledge_base)
         _ = wolf.get_statement(medium_knowledge_base)
@@ -104,7 +100,7 @@ class TestWolf:
     ) -> None:
         """ Should execute initialization actions and return the possible statements. """
         player_index = 4
-        wolf = Wolf(player_index, [1, player_index])
+        wolf = Wolf(player_index, (1, player_index))
 
         wolf.analyze(large_knowledge_base)
         _ = wolf.get_statement(large_knowledge_base)
@@ -118,7 +114,7 @@ class TestWolf:
         """ Should execute initialization actions and return the possible statements. """
         const.USE_REG_WOLF = True
         player_index = 4
-        wolf = Wolf(player_index, [1, player_index])
+        wolf = Wolf(player_index, (1, player_index))
 
         wolf.analyze(large_knowledge_base)
         _ = wolf.get_statement(large_knowledge_base)

@@ -17,7 +17,7 @@ class TestSavedGame:
         """ Should initialize correctly. """
         villager_statement = Statement("I am a Villager.", ((0, frozenset({"Villager"})),))
 
-        result = SavedGame(("Villager",), ["Villager"], (villager_statement,), (Villager(0),))
+        result = SavedGame(("Villager",), ("Villager",), (villager_statement,), (Villager(0),))
 
         assert isinstance(result, stats.SavedGame)
 
@@ -39,7 +39,7 @@ class TestSavedGame:
                     ((2, frozenset({"Seer"})), (1, frozenset({"Robber"}))),
                 ),
             ),
-            "game_roles": ["Villager", "Seer", "Robber"],
+            "game_roles": ("Villager", "Seer", "Robber"),
             "original_roles": ("Villager", "Robber", "Seer"),
             "player_objs": (Villager(0), Robber(1, 2, "Seer"), Seer(2, (1, "Robber"))),
             "type": "SavedGame",
@@ -52,7 +52,7 @@ class TestGameResult:
     @staticmethod
     def test_constructor() -> None:
         """ Should initialize correctly. """
-        result = GameResult(["Wolf"], ["Wolf"], [0], "Werewolf")
+        result = GameResult(("Wolf",), ("Wolf",), (0,), "Werewolf")
 
         assert isinstance(result, stats.GameResult)
 
@@ -62,11 +62,11 @@ class TestGameResult:
         result = example_small_game_result.json_repr()
 
         assert result == {
-            "actual": ["Villager", "Seer", "Robber"],
-            "guessed": ["Villager", "Seer", "Robber"],
+            "actual": ("Villager", "Seer", "Robber"),
+            "guessed": ("Villager", "Seer", "Robber"),
             "type": "GameResult",
             "winning_team": "Village",
-            "wolf_inds": [],
+            "wolf_inds": (),
         }
 
 
@@ -88,7 +88,8 @@ class TestStatistics:
 
         stat_tracker.add_result(example_medium_game_result)
 
-        correct = [6.0, 6.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0]
+        # To update these, refer to the output of print_statistics.
+        correct = [4.0, 4.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
         total = [6.0, 6.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
         assert stat_tracker.num_games == 1
         assert all(
@@ -108,13 +109,13 @@ class TestStatistics:
 
         expected = (
             "\nNumber of Games: 1",
-            "Accuracy for all predictions: 1.0",
-            "Accuracy with lenient center scores: 1.0",
-            "S1: Found at least 1 Wolf player: 1.0",
-            "S2: Found all Wolf players: 1.0",
-            "Percentage of correct Wolf guesses (including center Wolves): 1.0",
-            "Percentage of Villager Team wins: 1.0",
+            "Accuracy for all predictions: 0.6666666666666666",
+            "Accuracy with lenient center scores: 0.6666666666666666",
+            "S1: Found at least 1 Wolf player: 0.0",
+            "S2: Found all Wolf players: 0.0",
+            "Percentage of correct Wolf guesses (including center Wolves): 0.0",
+            "Percentage of Villager Team wins: 0.0",
             "Percentage of Tanner Team wins: 0.0",
-            "Percentage of Werewolf Team wins: 0.0",
+            "Percentage of Werewolf Team wins: 1.0",
         )
         verify_output(caplog, expected)

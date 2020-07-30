@@ -1,5 +1,4 @@
 """ one_night_test.py """
-import random
 from typing import Tuple
 
 from _pytest.logging import LogCaptureFixture
@@ -20,7 +19,7 @@ class TestConsolidateResults:
         result = one_night.consolidate_results(example_small_saved_game)
 
         assert result == GameResult(
-            ["Villager", "Seer", "Robber"], ["Villager", "Seer", "Robber"], [], "Village"
+            ("Villager", "Seer", "Robber"), ("Villager", "Seer", "Robber"), (), "Village"
         )
 
     @staticmethod
@@ -29,9 +28,9 @@ class TestConsolidateResults:
         result = one_night.consolidate_results(example_medium_saved_game)
 
         assert result == GameResult(
-            ["Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"],
-            ["Minion", "Wolf", "Troublemaker", "Drunk", "Seer", "Robber"],
-            [1],
+            ("Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"),
+            ("Minion", "Wolf", "Troublemaker", "Drunk", "Seer", "Robber"),
+            (1,),
             "Village",
         )
 
@@ -46,10 +45,10 @@ class TestGetIndividualPreds:
         """ Should get the individual predictions for all players. """
         player_objs: Tuple[Player, ...] = (
             Seer(0, (2, "Drunk")),
-            Wolf(1, [1], 5, "Troublemaker"),
+            Wolf(1, (1,), 5, "Troublemaker"),
             Drunk(2, 5),
             Robber(3, 1, "Wolf"),
-            Minion(4, [1]),
+            Minion(4, (1,)),
         )
 
         result = one_night.get_individual_preds(player_objs, medium_statement_list)
@@ -64,7 +63,10 @@ class TestGetIndividualPreds:
 
 
 class TestConfidence:
-    """ Tests for the get_confidence function. """
+    """
+    Tests for the get_confidence function.
+    The order of the indiv_preds does not matter.
+    """
 
     @staticmethod
     def test_small_confidence(small_game_roles: Tuple[str, ...]) -> None:
@@ -95,11 +97,7 @@ class TestConfidence:
         large_game_roles: Tuple[str, ...], large_individual_preds: Tuple[Tuple[str, ...], ...]
     ) -> None:
         """ Should get voting results from the individual predictions. """
-        individual_preds = tuple(
-            random.sample(large_individual_preds, k=len(large_individual_preds))
-        )
-
-        result = one_night.get_confidence(individual_preds)
+        result = one_night.get_confidence(large_individual_preds)
 
         assert result == (
             1.0,
@@ -133,7 +131,7 @@ class TestGetVotingResult:
 
         result = one_night.get_voting_result(player_list, indiv_preds)
 
-        assert result == (["Villager", "Seer", "Robber"], (0, 1, 2), (1, 2, 0))
+        assert result == (("Villager", "Seer", "Robber"), (0, 1, 2), (1, 2, 0))
         verify_output_string(caplog, "\nVote Array: [1, 1, 1]\n")
 
     @staticmethod
@@ -153,7 +151,7 @@ class TestGetVotingResult:
         result = one_night.get_voting_result(player_list, indiv_preds)
 
         assert result == (
-            ["Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"],
+            ("Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"),
             (0,),
             (1, 0, 1, 0, 0),
         )
@@ -166,35 +164,32 @@ class TestGetVotingResult:
         large_individual_preds: Tuple[Tuple[str, ...], ...],
     ) -> None:
         """ Should get voting results from the individual predictions. """
-        individual_preds = tuple(
-            random.sample(large_individual_preds, k=len(large_individual_preds))
-        )
         player_list = tuple([Player(i) for i in range(len(large_game_roles))])
 
-        result = one_night.get_voting_result(player_list, individual_preds)
+        result = one_night.get_voting_result(player_list, large_individual_preds)
 
         assert result == (
-            [
+            (
                 "Villager",
-                "Insomniac",
                 "Mason",
-                "Wolf",
-                "Villager",
-                "Drunk",
-                "Seer",
-                "Wolf",
+                "Mason",
                 "Minion",
                 "Villager",
+                "Drunk",
                 "Tanner",
-                "Hunter",
                 "Troublemaker",
-                "Mason",
+                "Villager",
+                "Wolf",
+                "Wolf",
+                "Hunter",
+                "Insomniac",
+                "Seer",
                 "Robber",
-            ],
-            (3, 7),
-            (7, 8, 9, 7, 3, 3, 7, 3, 10, 6, 9, 10),
+            ),
+            (10,),
+            (10, 10, 7, 5, 7, 10, 7, 10, 6, 10, 3, 10),
         )
-        verify_output_string(caplog, "\nVote Array: [0, 0, 0, 3, 0, 0, 1, 3, 1, 2, 2, 0]\n")
+        verify_output_string(caplog, "\nVote Array: [0, 0, 0, 1, 0, 1, 1, 3, 0, 0, 6, 0]\n")
 
 
 class TestEvalWinningTeam:

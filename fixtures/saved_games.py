@@ -15,7 +15,7 @@ from src.stats import SavedGame
 def example_small_saved_game(small_game_roles: Tuple[str, ...]) -> SavedGame:
     return SavedGame(
         ("Villager", "Robber", "Seer"),
-        ["Villager", "Seer", "Robber"],
+        ("Villager", "Seer", "Robber"),
         (
             Statement("I am a Villager.", ((0, frozenset({"Villager"})),)),
             Statement(
@@ -36,7 +36,7 @@ def example_small_saved_game(small_game_roles: Tuple[str, ...]) -> SavedGame:
 def example_medium_saved_game(medium_game_roles: Tuple[str, ...]) -> SavedGame:
     return SavedGame(
         ("Seer", "Wolf", "Drunk", "Robber", "Minion", "Troublemaker"),
-        ["Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"],
+        ("Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"),
         (
             Statement(
                 "I am a Seer and I saw that Player 2 was a Drunk.",
@@ -64,10 +64,10 @@ def example_medium_saved_game(medium_game_roles: Tuple[str, ...]) -> SavedGame:
         ),
         (
             Seer(0, (2, "Drunk")),
-            Wolf(1, [1], 5, "Troublemaker"),
+            Wolf(1, (1,), 5, "Troublemaker"),
             Drunk(2, 5),
             Robber(3, 2, "Drunk"),
-            Minion(4, [1]),
+            Minion(4, (1,)),
         ),
     )
 
@@ -95,7 +95,7 @@ def example_large_saved_game(large_game_roles: Tuple[str, ...]) -> SavedGame:
             "Mason",
             "Insomniac",
         ),
-        [
+        (
             "Villager",
             "Insomniac",
             "Mason",
@@ -111,7 +111,7 @@ def example_large_saved_game(large_game_roles: Tuple[str, ...]) -> SavedGame:
             "Troublemaker",
             "Mason",
             "Robber",
-        ],
+        ),
         (
             Statement("I am a Villager.", ((0, frozenset({"Villager"})),)),
             Statement(
@@ -170,10 +170,10 @@ def example_large_saved_game(large_game_roles: Tuple[str, ...]) -> SavedGame:
             Villager(4),
             Robber(5, 1, "Drunk"),
             Seer(6, (13, "Mason"), (12, "Troublemaker")),
-            Wolf(7, [7, 10], None, None),
-            Minion(8, [7, 10]),
+            Wolf(7, (7, 10), None, None),
+            Minion(8, (7, 10)),
             Villager(9),
-            Wolf(10, [7, 10], None, None),
+            Wolf(10, (7, 10), None, None),
             Hunter(11),
         ),
     )

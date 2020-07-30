@@ -96,8 +96,8 @@ class TestIsConsistent:
         )
 
         result = example.is_consistent(new_statement)
-        example.possible_roles += ("junk-data",)
-        example.switches += ("junk-data",)
+        example.possible_roles += (frozenset({"junk-data"}),)
+        example.switches += ((SwitchPriority.DRUNK, 5, 5),)
         example.possible_roles = (example.possible_roles[0] & {"junk"},)
 
         assert result == example_medium_solverstate

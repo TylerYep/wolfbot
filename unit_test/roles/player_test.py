@@ -88,10 +88,10 @@ class TestIsEvil:
         """ Should determine if a player has turned evil after night falls. """
         player_list: Tuple[Player, ...] = (
             Seer(0, (2, "Drunk")),
-            Wolf(1, [1], 5, "Troublemaker"),
+            Wolf(1, (1,), 5, "Troublemaker"),
             Drunk(2, 5),
             Robber(3, 2, "Drunk"),
-            Minion(4, [1]),
+            Minion(4, (1,)),
         )
 
         result = [player.is_evil() for player in player_list]

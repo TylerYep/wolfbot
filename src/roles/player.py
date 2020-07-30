@@ -15,6 +15,9 @@ class Player:
     """ Player class. """
 
     def __init__(self, player_index: int):
+        # Exit early if we are creating a placeholder Player
+        if player_index < 0:
+            return
         self.player_index = player_index
         self.role = type(self).__name__  # e.g. "Wolf"
         self.new_role = ""
@@ -55,9 +58,9 @@ class Player:
         logger.debug(f"[Hidden] Player {self.player_index} ({self.role}) is a {role_type} now!")
 
         if role_type == "Wolf":
-            return Wolf(self.player_index, [])
+            return Wolf(self.player_index, ())
         if role_type == "Minion":
-            return Minion(self.player_index, [])
+            return Minion(self.player_index, ())
         if role_type == "Tanner":
             return Tanner(self.player_index)
         if role_type == "Villager":
@@ -165,7 +168,7 @@ class Player:
         """ Gets a player's predictions for each index given all statements. """
         is_evil = self.is_evil()
         if const.SMART_VILLAGERS or is_evil:
-            all_solutions = solver(statements, (self.player_index,))
+            all_solutions = tuple(solver(statements, (self.player_index,)))
             prediction = make_prediction(all_solutions, is_evil)
         else:
             prediction = make_random_prediction()

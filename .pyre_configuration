@@ -1,11 +1,11 @@
 {
-  "binary": "/Users/tyleryep/miniconda3/bin/pyre.bin",
+  "binary": "/Users/tyler.yep/.pyenv/versions/3.8.3/bin/pyre.bin",
   "source_directories": ["."],
   "search_path": [
     { "site-package": "tqdm" },
     { "site-package": "pytest" },
-    { "site-package": "_pytest" },
-    { "site-package": "overrides" }
+    { "site-package": "_pytest" }
   ],
-  "typeshed": "/Users/tyleryep/miniconda3/lib/pyre_check/typeshed/"
+  "taint_models_path": "/Users/tyler.yep/.pyenv/versions/3.8.3/lib/pyre_check/taint/",
+  "typeshed": "/Users/tyler.yep/.pyenv/versions/3.8.3/lib/pyre_check/typeshed/"
 }

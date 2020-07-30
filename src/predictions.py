@@ -41,18 +41,22 @@ def make_unrestricted_prediction(solution: SolverState) -> Tuple[str, ...]:
     return tuple(final_guesses)
 
 
-def make_prediction(solution_arr: List[SolverState], is_evil: bool = False) -> Tuple[str, ...]:
+def make_prediction(
+    solution_arr: Tuple[SolverState, ...], is_evil: bool = False
+) -> Tuple[str, ...]:
     """
     Uses a list of true/false statements and possible role sets
     to return a list of predictions for all roles.
     """
     if is_evil:
-        return make_evil_prediction(tuple(solution_arr))  # TODO
+        return make_evil_prediction(solution_arr)
+
+    solutions_lst = list(solution_arr)
+    random.shuffle(solutions_lst)
+    solution_arr = tuple(solutions_lst)
 
     solved: List[str] = []
     solution_index = 0
-    random.shuffle(solution_arr)
-    # solution_arr = random.sample(solution_arr, k=len(solution_arr))
     basic_guess_cache: Dict[int, Tuple[List[str], Dict[str, int]]] = {}
     for index, solution in enumerate(solution_arr):
         # This case only occurs when Wolves tell a perfect lie.

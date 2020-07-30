@@ -1,7 +1,7 @@
 """ stats.py """
 import time
 from dataclasses import dataclass
-from typing import Any, Callable, Dict, List, Tuple
+from typing import Any, Callable, Dict, Tuple
 
 from src import const
 from src.const import logger
@@ -15,13 +15,13 @@ class SavedGame:
 
     __slots__ = ["original_roles", "game_roles", "all_statements", "player_objs"]
     original_roles: Tuple[str, ...]
-    game_roles: List[str]
+    game_roles: Tuple[str, ...]
     all_statements: Tuple[Statement, ...]
     player_objs: Tuple[Player, ...]
 
     def load_game(
         self,
-    ) -> Tuple[Tuple[str, ...], List[str], Tuple[Statement, ...], Tuple[Player, ...]]:
+    ) -> Tuple[Tuple[str, ...], Tuple[str, ...], Tuple[Statement, ...], Tuple[Player, ...]]:
         """ Returns game data. """
         return self.original_roles, self.game_roles, self.all_statements, self.player_objs
 
@@ -41,9 +41,9 @@ class GameResult:
     """ Each round of one_night returns a GameResult. """
 
     __slots__ = ["actual", "guessed", "wolf_inds", "winning_team"]
-    actual: List[str]
-    guessed: List[str]
-    wolf_inds: List[int]
+    actual: Tuple[str, ...]
+    guessed: Tuple[str, ...]
+    wolf_inds: Tuple[int, ...]
     winning_team: str
 
     def json_repr(self) -> Dict[str, Any]:

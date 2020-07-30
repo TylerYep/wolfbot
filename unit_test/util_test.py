@@ -29,7 +29,7 @@ class TestPrintRoles:
         caplog: LogCaptureFixture, medium_game_roles: Tuple[str, ...]
     ) -> None:
         """ Correctly print and format roles. """
-        util.print_roles(list(medium_game_roles), "WolfBot")
+        util.print_roles(medium_game_roles, "WolfBot")
 
         expected = (
             "[WolfBot] Player roles: [Robber, Drunk, Wolf, Troublemaker, Seer]\n"
@@ -65,7 +65,7 @@ class TestFindAllPlayerIndices:
         """ Don't attempt to swap the same index. """
         result = util.find_all_player_indices(large_game_roles, "Villager")
 
-        assert result == [1, 4, 11]
+        assert result == (1, 4, 11)
 
 
 class TestGetPlayer:

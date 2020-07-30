@@ -10,8 +10,8 @@ from src.const import logger
 def print_roles(game_roles: Sequence[str], tag: str, log_level: int = logging.DEBUG) -> None:
     """ Formats hidden roles to console. """
     role_output = (
-        f"[{tag}] Player roles: {game_roles[:const.NUM_PLAYERS]}\n{' ' * (len(tag) + 3)}"
-        f"Center cards: {game_roles[const.NUM_PLAYERS:]}\n"
+        f"[{tag}] Player roles: {list(game_roles[:const.NUM_PLAYERS])}\n{' ' * (len(tag) + 3)}"
+        f"Center cards: {list(game_roles[const.NUM_PLAYERS:])}\n"
     )
     logger.log(log_level, role_output.replace("'", ""))
 
@@ -25,9 +25,11 @@ def swap_characters(game_roles: List[str], ind1: int, ind2: int) -> None:
 
 def find_all_player_indices(
     game_roles: Sequence[str], role: str, exclude: Tuple[int, ...] = ()
-) -> List[int]:
+) -> Tuple[int, ...]:
     """ Util function to find all indices of a given role. """
-    return [i for i in range(const.NUM_PLAYERS) if game_roles[i] == role and i not in exclude]
+    return tuple(
+        [i for i in range(const.NUM_PLAYERS) if game_roles[i] == role and i not in exclude]
+    )
 
 
 def get_player(is_user: bool, exclude: Tuple[int, ...] = ()) -> int:

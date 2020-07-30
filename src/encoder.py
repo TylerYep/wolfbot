@@ -42,11 +42,13 @@ class WolfBotDecoder(json.JSONDecoder):
             obj["switches"] = tuple([tuple(switch) for switch in obj["switches"]])
             return get_object_initializer(obj_type)(**obj)
         if obj_type == "GameResult":
+            for key, value in obj.items():
+                if key != "winning_team":
+                    obj[key] = tuple(value)
             return get_object_initializer(obj_type)(**obj)
         if obj_type == "SavedGame":
-            obj["original_roles"] = tuple(obj["original_roles"])
-            obj["all_statements"] = tuple(obj["all_statements"])
-            obj["player_objs"] = tuple(obj["player_objs"])
+            for key, value in obj.items():
+                obj[key] = tuple(value)
             return get_object_initializer(obj_type)(**obj)
         if obj_type in const.ROLE_SET:
             if obj_type == "Seer":

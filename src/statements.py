@@ -36,7 +36,7 @@ class KnowledgeBase:
         self.final_claims[curr_ind] = statement
 
     @classmethod
-    def from_statement_list(cls, statement_list: List[Statement]) -> KnowledgeBase:
+    def from_statement_list(cls, statement_list: Tuple[Statement, ...]) -> KnowledgeBase:
         """ Create a new statement from a Statement list. """
         knowledge_base = cls()
         for statement in statement_list:

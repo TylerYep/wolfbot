@@ -20,7 +20,7 @@ from src.statements import KnowledgeBase, Statement
 class Minion(Player):
     """ Minion Player class. """
 
-    def __init__(self, player_index: int, wolf_indices: List[int]):
+    def __init__(self, player_index: int, wolf_indices: Tuple[int, ...]):
         super().__init__(player_index)
         self.wolf_indices = wolf_indices
 
@@ -32,9 +32,9 @@ class Minion(Player):
         del game_roles
         is_user = const.IS_USER[player_index]
         wolf_indices = util.find_all_player_indices(original_roles, "Wolf")
-        logger.debug(f"[Hidden] Wolves are at indices: {wolf_indices}")
+        logger.debug(f"[Hidden] Wolves are at indices: {list(wolf_indices)}")
         if is_user:
-            logger.info(f"Wolves are at indices: {wolf_indices}", cache=True)
+            logger.info(f"Wolves are at indices: {list(wolf_indices)}", cache=True)
         return cls(player_index, wolf_indices)
 
     @staticmethod
