@@ -2,6 +2,7 @@
 from typing import Tuple
 
 from src import const, predictions
+from src.const import Role
 from src.solvers import SolverState
 
 
@@ -13,7 +14,7 @@ class TestMakeRandomPrediction:
         """ Should return a random shuffled list as the predicted roles. """
         result = predictions.make_random_prediction()
 
-        assert result == ("Seer", "Wolf", "Drunk", "Robber", "Minion", "Troublemaker")
+        assert result == (Role.SEER, Role.WOLF, Role.DRUNK, Role.ROBBER, Role.MINION, Role.TROUBLEMAKER)
 
 
 class TestMakeEvilPrediction:
@@ -26,14 +27,14 @@ class TestMakeEvilPrediction:
 
         result = predictions.make_evil_prediction(solution_arr)
 
-        assert result == ("Seer", "Wolf", "Drunk", "Robber", "Minion", "Troublemaker")
+        assert result == (Role.SEER, Role.WOLF, Role.DRUNK, Role.ROBBER, Role.MINION, Role.TROUBLEMAKER)
 
     @staticmethod
     def test_evil_prediction(example_medium_solverstate_list: Tuple[SolverState, ...]) -> None:
         """ Should give a random prediction when an empty SolverState is passed in. """
         result = predictions.make_evil_prediction(example_medium_solverstate_list)
 
-        assert result == ("Seer", "Minion", "Troublemaker", "Drunk", "Wolf", "Robber")
+        assert result == (Role.SEER, Role.MINION, Role.TROUBLEMAKER, Role.DRUNK, Role.WOLF, Role.ROBBER)
 
 
 class TestMakeUnrestrictedPrediction:
@@ -46,14 +47,14 @@ class TestMakeUnrestrictedPrediction:
 
         result = predictions.make_unrestricted_prediction(solution)
 
-        assert result == ("Troublemaker", "Drunk", "Wolf", "Seer", "Robber", "Minion")
+        assert result == (Role.TROUBLEMAKER, Role.DRUNK, Role.WOLF, Role.SEER, Role.ROBBER, Role.MINION)
 
     @staticmethod
     def test_unrestricted_prediction(example_medium_solverstate: SolverState) -> None:
         """ Should return a list of predictions without requiring adherence to possible sets. """
         result = predictions.make_unrestricted_prediction(example_medium_solverstate)
 
-        assert result == ("Seer", "Troublemaker", "Wolf", "Minion", "Robber", "Drunk")
+        assert result == (Role.SEER, Role.TROUBLEMAKER, Role.WOLF, Role.MINION, Role.ROBBER, Role.DRUNK)
 
 
 class TestMakePrediction:  # TODO stop converting to lists
@@ -64,14 +65,14 @@ class TestMakePrediction:  # TODO stop converting to lists
         """ Should return evil prediction when is_evil=True. """
         result = predictions.make_prediction(example_medium_solverstate_list, is_evil=True)
 
-        assert result == ("Seer", "Minion", "Troublemaker", "Drunk", "Wolf", "Robber")
+        assert result == (Role.SEER, Role.MINION, Role.TROUBLEMAKER, Role.DRUNK, Role.WOLF, Role.ROBBER)
 
     @staticmethod
     def test_make_prediction(example_medium_solverstate_list: Tuple[SolverState, ...]) -> None:
         """ Should return valid prediction for villager players. """
         result = predictions.make_prediction(example_medium_solverstate_list, is_evil=False)
 
-        assert result == ("Robber", "Seer", "Troublemaker", "Minion", "Wolf", "Drunk")
+        assert result == (Role.ROBBER, Role.SEER, Role.TROUBLEMAKER, Role.MINION, Role.WOLF, Role.DRUNK)
 
 
 class TestGetBasicGuesses:
@@ -85,7 +86,7 @@ class TestGetBasicGuesses:
         """
         result = predictions.get_basic_guesses(example_small_solverstate)
 
-        assert result == (["Seer", "", "Robber"], {"Robber": 0, "Seer": 0, "Villager": 1})
+        assert result == ([Role.SEER, "", Role.ROBBER], {Role.ROBBER: 0, Role.SEER: 0, Role.VILLAGER: 1})
 
     @staticmethod
     def test_guesses_medium(example_medium_solverstate: SolverState) -> None:
@@ -94,8 +95,8 @@ class TestGetBasicGuesses:
         as well as a dictionary of counts.
         """
         expected = (
-            ["Seer", "", "Drunk", "", "", ""],
-            {"Drunk": 0, "Minion": 1, "Robber": 1, "Seer": 0, "Troublemaker": 1, "Wolf": 1},
+            [Role.SEER, "", Role.DRUNK, "", "", ""],
+            {Role.DRUNK: 0, Role.MINION: 1, Role.ROBBER: 1, Role.SEER: 0, Role.TROUBLEMAKER: 1, Role.WOLF: 1},
         )
 
         result = predictions.get_basic_guesses(example_medium_solverstate)
@@ -109,20 +110,20 @@ class TestGetBasicGuesses:
         as well as a dictionary of counts.
         """
         expected = (
-            ["Robber", "Minion", "Seer", "Villager", "Mason", "Mason", "Drunk", "Tanner"]
+            [Role.ROBBER, Role.MINION, Role.SEER, Role.VILLAGER, Role.MASON, Role.MASON, Role.DRUNK, Role.TANNER]
             + [""] * 7,
             {
-                "Drunk": 0,
-                "Hunter": 1,
-                "Insomniac": 1,
-                "Mason": 0,
-                "Minion": 0,
-                "Robber": 0,
-                "Seer": 0,
-                "Tanner": 0,
-                "Troublemaker": 1,
-                "Villager": 2,
-                "Wolf": 2,
+                Role.DRUNK: 0,
+                Role.HUNTER: 1,
+                Role.INSOMNIAC: 1,
+                Role.MASON: 0,
+                Role.MINION: 0,
+                Role.ROBBER: 0,
+                Role.SEER: 0,
+                Role.TANNER: 0,
+                Role.TROUBLEMAKER: 1,
+                Role.VILLAGER: 2,
+                Role.WOLF: 2,
             },
         )
 
@@ -139,7 +140,7 @@ class TestRecurseAssign:
         example_small_solverstate: SolverState, small_game_roles: Tuple[str, ...]
     ) -> None:
         """ Should not make any assignments if all assignments are made. """
-        counts = {"Robber": 0, "Seer": 0, "Villager": 0}
+        counts = {Role.ROBBER: 0, Role.SEER: 0, Role.VILLAGER: 0}
 
         result = predictions.recurse_assign(
             example_small_solverstate, list(small_game_roles), counts
@@ -150,19 +151,19 @@ class TestRecurseAssign:
     @staticmethod
     def test_no_solution_medium(example_medium_solverstate: SolverState) -> None:
         """ Should return empty list if no arrangement of assignments is valid. """
-        role_guesses = ["Robber", "", "Seer", "Villager", "Mason", "Mason", "Drunk"] + [""] * 8
+        role_guesses = [Role.ROBBER, "", Role.SEER, Role.VILLAGER, Role.MASON, Role.MASON, Role.DRUNK] + [""] * 8
         counts = {
-            "Drunk": 0,
-            "Hunter": 1,
-            "Insomniac": 1,
-            "Mason": 0,
-            "Minion": 1,
-            "Robber": 0,
-            "Seer": 0,
-            "Tanner": 1,
-            "Troublemaker": 1,
-            "Villager": 2,
-            "Wolf": 2,
+            Role.DRUNK: 0,
+            Role.HUNTER: 1,
+            Role.INSOMNIAC: 1,
+            Role.MASON: 0,
+            Role.MINION: 1,
+            Role.ROBBER: 0,
+            Role.SEER: 0,
+            Role.TANNER: 1,
+            Role.TROUBLEMAKER: 1,
+            Role.VILLAGER: 2,
+            Role.WOLF: 2,
         }
 
         result = predictions.recurse_assign(example_medium_solverstate, role_guesses, counts)
@@ -172,59 +173,59 @@ class TestRecurseAssign:
     @staticmethod
     def test_small_predict_solution(example_small_solverstate: SolverState) -> None:
         """ Should return solved list if there is an arrangement of valid assignments. """
-        role_guesses = ["Seer", "", "Robber"]
-        counts = {"Robber": 0, "Seer": 0, "Villager": 1}
+        role_guesses = [Role.SEER, "", Role.ROBBER]
+        counts = {Role.ROBBER: 0, Role.SEER: 0, Role.VILLAGER: 1}
 
         result = predictions.recurse_assign(example_small_solverstate, role_guesses, counts)
 
-        assert result == ["Seer", "Villager", "Robber"]
+        assert result == [Role.SEER, Role.VILLAGER, Role.ROBBER]
 
     @staticmethod
     def test_medium_predict_solution(example_medium_solverstate: SolverState) -> None:
         """ Should return solved list if there is an arrangement of valid assignments. """
-        role_guesses = ["Seer", "", "Drunk", "", "", ""]
-        counts = {"Drunk": 0, "Minion": 1, "Robber": 1, "Seer": 0, "Troublemaker": 1, "Wolf": 1}
+        role_guesses = [Role.SEER, "", Role.DRUNK, "", "", ""]
+        counts = {Role.DRUNK: 0, Role.MINION: 1, Role.ROBBER: 1, Role.SEER: 0, Role.TROUBLEMAKER: 1, Role.WOLF: 1}
 
         result = predictions.recurse_assign(example_medium_solverstate, role_guesses, counts)
 
-        assert result == ["Seer", "Troublemaker", "Drunk", "Minion", "Wolf", "Robber"]
+        assert result == [Role.SEER, Role.TROUBLEMAKER, Role.DRUNK, Role.MINION, Role.WOLF, Role.ROBBER]
 
     @staticmethod
     def test_large_predict_solution(example_large_solverstate: SolverState) -> None:
         """ Should return solved list if there is an arrangement of valid assignments. """
-        role_guesses = ["Robber", "", "Seer", "Villager", "Mason", "Mason", "Drunk"] + [""] * 8
+        role_guesses = [Role.ROBBER, "", Role.SEER, Role.VILLAGER, Role.MASON, Role.MASON, Role.DRUNK] + [""] * 8
         counts = {
-            "Drunk": 0,
-            "Hunter": 1,
-            "Insomniac": 1,
-            "Mason": 0,
-            "Minion": 1,
-            "Robber": 0,
-            "Seer": 0,
-            "Tanner": 1,
-            "Troublemaker": 1,
-            "Villager": 2,
-            "Wolf": 2,
+            Role.DRUNK: 0,
+            Role.HUNTER: 1,
+            Role.INSOMNIAC: 1,
+            Role.MASON: 0,
+            Role.MINION: 1,
+            Role.ROBBER: 0,
+            Role.SEER: 0,
+            Role.TANNER: 1,
+            Role.TROUBLEMAKER: 1,
+            Role.VILLAGER: 2,
+            Role.WOLF: 2,
         }
 
         result = predictions.recurse_assign(example_large_solverstate, role_guesses, counts)
 
         assert result == [
-            "Robber",
-            "Troublemaker",
-            "Seer",
-            "Villager",
-            "Mason",
-            "Mason",
-            "Drunk",
-            "Wolf",
-            "Tanner",
-            "Hunter",
-            "Minion",
-            "Insomniac",
-            "Villager",
-            "Villager",
-            "Wolf",
+            Role.ROBBER,
+            Role.TROUBLEMAKER,
+            Role.SEER,
+            Role.VILLAGER,
+            Role.MASON,
+            Role.MASON,
+            Role.DRUNK,
+            Role.WOLF,
+            Role.TANNER,
+            Role.HUNTER,
+            Role.MINION,
+            Role.INSOMNIAC,
+            Role.VILLAGER,
+            Role.VILLAGER,
+            Role.WOLF,
         ]
 
 
@@ -234,7 +235,7 @@ class TestGetSwitchDict:
     @staticmethod
     def test_get_empty_switch_dict(small_game_roles: Tuple[str, ...]) -> None:
         """ Should return the identity switch dict. """
-        possible_roles = (frozenset({"Robber", "Villager", "Seer"}),) * 3
+        possible_roles = (frozenset({Role.ROBBER, Role.VILLAGER, Role.SEER}),) * 3
         state = SolverState(possible_roles)
 
         result = predictions.get_switch_dict(state)

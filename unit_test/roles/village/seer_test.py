@@ -3,6 +3,7 @@ from typing import Tuple
 
 from conftest import set_roles
 from src import const
+from src.const import Role
 from src.roles import Seer
 from src.statements import Statement
 
@@ -26,17 +27,17 @@ class TestSeer:
                     "and that Center 0 was a Troublemaker."
                 ),
                 (
-                    (11, frozenset({"Seer"})),
-                    (13, frozenset({"Insomniac"})),
-                    (12, frozenset({"Troublemaker"})),
+                    (11, frozenset({Role.SEER})),
+                    (13, frozenset({Role.INSOMNIAC})),
+                    (12, frozenset({Role.TROUBLEMAKER})),
                 ),
             ),
         )
 
         seer = Seer.awake_init(player_index, game_roles, ())
 
-        assert seer.choice_1 == (13, "Insomniac")
-        assert seer.choice_2 == (12, "Troublemaker")
+        assert seer.choice_1 == (13, Role.INSOMNIAC)
+        assert seer.choice_2 == (12, Role.TROUBLEMAKER)
         assert seer.statements == expected
 
     @staticmethod
@@ -51,13 +52,13 @@ class TestSeer:
         expected = (
             Statement(
                 "I am a Seer and I saw that Player 6 was a Mason.",
-                ((11, frozenset({"Seer"})), (6, frozenset({"Mason"}))),
+                ((11, frozenset({Role.SEER})), (6, frozenset({Role.MASON}))),
             ),
         )
 
         seer = Seer.awake_init(player_index, game_roles, ())
 
-        assert seer.choice_1 == (6, "Mason")
+        assert seer.choice_1 == (6, Role.MASON)
         assert seer.choice_2 == (None, None)
         assert seer.statements == expected
 
@@ -66,12 +67,12 @@ class TestSeer:
         """ Should execute initialization actions and return the possible statements. """
         player_index = 1
 
-        result = Seer.get_seer_statements(player_index, (6, "Robber"))
+        result = Seer.get_seer_statements(player_index, (6, Role.ROBBER))
 
         assert result == (
             Statement(
                 "I am a Seer and I saw that Player 6 was a Robber.",
-                ((1, frozenset({"Seer"})), (6, frozenset({"Robber"}))),
+                ((1, frozenset({Role.SEER})), (6, frozenset({Role.ROBBER}))),
             ),
         )
 
@@ -79,51 +80,51 @@ class TestSeer:
     def test_get_all_statements() -> None:
         """ Should return the possible statements from all possible initialization actions. """
         player_index = 1
-        set_roles("Wolf", "Seer", "Villager", "Wolf")
+        set_roles(Role.WOLF, Role.SEER, Role.VILLAGER, Role.WOLF)
         const.NUM_PLAYERS = 2
         const.NUM_CENTER = 2
         expected = (
             Statement(
                 "I am a Seer and I saw that Player 0 was a Villager.",
-                ((1, frozenset({"Seer"})), (0, frozenset({"Villager"}))),
+                ((1, frozenset({Role.SEER})), (0, frozenset({Role.VILLAGER}))),
             ),
             Statement(
                 "I am a Seer and I saw that Player 1 was a Villager.",
-                ((1, frozenset({"Seer"})), (1, frozenset({"Villager"}))),
+                ((1, frozenset({Role.SEER})), (1, frozenset({Role.VILLAGER}))),
             ),
             Statement(
                 "I am a Seer and I saw that Player 0 was a Wolf.",
-                ((1, frozenset({"Seer"})), (0, frozenset({"Wolf"}))),
+                ((1, frozenset({Role.SEER})), (0, frozenset({Role.WOLF}))),
             ),
             Statement(
                 "I am a Seer and I saw that Player 1 was a Wolf.",
-                ((1, frozenset({"Seer"})), (1, frozenset({"Wolf"}))),
+                ((1, frozenset({Role.SEER})), (1, frozenset({Role.WOLF}))),
             ),
             Statement(
                 "I am a Seer and I saw that Player 0 was a Seer.",
-                ((1, frozenset({"Seer"})), (0, frozenset({"Seer"}))),
+                ((1, frozenset({Role.SEER})), (0, frozenset({Role.SEER}))),
             ),
             Statement(
                 "I am a Seer and I saw that Player 1 was a Seer.",
-                ((1, frozenset({"Seer"})), (1, frozenset({"Seer"}))),
+                ((1, frozenset({Role.SEER})), (1, frozenset({Role.SEER}))),
             ),
             Statement(
                 (
                     "I am a Seer and I saw that Center 0 was a Villager and "
                     "that Center 1 was a Wolf."
                 ),
-                ((1, frozenset({"Seer"})), (2, frozenset({"Villager"})), (3, frozenset({"Wolf"}))),
+                ((1, frozenset({Role.SEER})), (2, frozenset({Role.VILLAGER})), (3, frozenset({Role.WOLF}))),
             ),
             Statement(
                 (
                     "I am a Seer and I saw that Center 0 was a Wolf and "
                     "that Center 1 was a Villager."
                 ),
-                ((1, frozenset({"Seer"})), (2, frozenset({"Wolf"})), (3, frozenset({"Villager"}))),
+                ((1, frozenset({Role.SEER})), (2, frozenset({Role.WOLF})), (3, frozenset({Role.VILLAGER}))),
             ),
             Statement(
                 ("I am a Seer and I saw that Center 0 was a Wolf and that Center 1 was a Wolf."),
-                ((1, frozenset({"Seer"})), (2, frozenset({"Wolf"})), (3, frozenset({"Wolf"}))),
+                ((1, frozenset({Role.SEER})), (2, frozenset({Role.WOLF})), (3, frozenset({Role.WOLF}))),
             ),
         )
 

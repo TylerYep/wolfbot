@@ -4,7 +4,7 @@ from typing import Tuple
 
 import pytest
 
-from src.const import SwitchPriority
+from src.const import SwitchPriority, Role
 from src.statements import Statement
 
 
@@ -12,7 +12,7 @@ from src.statements import Statement
 def example_statement() -> Statement:
     return Statement(
         "test",
-        ((2, frozenset({"Robber"})), (0, frozenset({"Seer"}))),
+        ((2, frozenset({Role.ROBBER})), (0, frozenset({Role.SEER}))),
         ((SwitchPriority.ROBBER, 2, 0),),
     )
 
@@ -20,15 +20,15 @@ def example_statement() -> Statement:
 @pytest.fixture(scope="session")
 def small_statement_list() -> Tuple[Statement, ...]:
     return (
-        Statement("I am a Villager.", ((0, frozenset({"Villager"})),)),
+        Statement("I am a Villager.", ((0, frozenset({Role.VILLAGER})),)),
         Statement(
             "I am a Robber and I swapped with Player 2. I am now a Seer.",
-            ((1, frozenset({"Robber"})), (2, frozenset({"Seer"}))),
+            ((1, frozenset({Role.ROBBER})), (2, frozenset({Role.SEER}))),
             ((SwitchPriority.ROBBER, 1, 2),),
         ),
         Statement(
             "I am a Seer and I saw that Player 1 was a Robber.",
-            ((2, frozenset({"Seer"})), (1, frozenset({"Robber"}))),
+            ((2, frozenset({Role.SEER})), (1, frozenset({Role.ROBBER}))),
         ),
     )
 
@@ -38,25 +38,25 @@ def medium_statement_list() -> Tuple[Statement, ...]:
     return (
         Statement(
             "I am a Seer and I saw that Player 2 was a Drunk.",
-            ((0, frozenset({"Seer"})), (2, frozenset({"Drunk"}))),
+            ((0, frozenset({Role.SEER})), (2, frozenset({Role.DRUNK}))),
         ),
         Statement(
             "I am a Seer and I saw that Player 3 was a Minion.",
-            ((1, frozenset({"Seer"})), (3, frozenset({"Minion"}))),
+            ((1, frozenset({Role.SEER})), (3, frozenset({Role.MINION}))),
         ),
         Statement(
             "I am a Drunk and I swapped with Center 0.",
-            ((2, frozenset({"Drunk"})),),
+            ((2, frozenset({Role.DRUNK})),),
             ((SwitchPriority.DRUNK, 2, 5),),
         ),
         Statement(
             "I am a Robber and I swapped with Player 2. I am now a Drunk.",
-            ((3, frozenset({"Robber"})), (2, frozenset({"Drunk"}))),
+            ((3, frozenset({Role.ROBBER})), (2, frozenset({Role.DRUNK}))),
             ((SwitchPriority.ROBBER, 3, 2),),
         ),
         Statement(
             "I am a Seer and I saw that Player 1 was a Wolf.",
-            ((4, frozenset({"Seer"})), (1, frozenset({"Wolf"}))),
+            ((4, frozenset({Role.SEER})), (1, frozenset({Role.WOLF}))),
         ),
     )
 
@@ -66,35 +66,35 @@ def large_statement_list() -> Tuple[Statement, ...]:
     return (
         Statement(
             "I am a Robber and I swapped with Player 6. I am now a Drunk.",
-            ((0, frozenset({"Robber"})), (6, frozenset({"Drunk"}))),
+            ((0, frozenset({Role.ROBBER})), (6, frozenset({Role.DRUNK}))),
             ((SwitchPriority.ROBBER, 6, 0),),
         ),
         Statement(
             "I am a Robber and I swapped with Player 0. I am now a Seer.",
-            ((1, frozenset({"Robber"})), (0, frozenset({"Seer"}))),
+            ((1, frozenset({Role.ROBBER})), (0, frozenset({Role.SEER}))),
             ((SwitchPriority.ROBBER, 0, 1),),
         ),
         Statement(
             "I am a Seer and I saw that Player 3 was a Villager.",
-            ((2, frozenset({"Seer"})), (3, frozenset({"Villager"}))),
+            ((2, frozenset({Role.SEER})), (3, frozenset({Role.VILLAGER}))),
         ),
-        Statement("I am a Villager.", ((3, frozenset({"Villager"})),)),
+        Statement("I am a Villager.", ((3, frozenset({Role.VILLAGER})),)),
         Statement(
             "I am a Mason. The other Mason is Player 5.",
-            ((4, frozenset({"Mason"})), (5, frozenset({"Mason"}))),
+            ((4, frozenset({Role.MASON})), (5, frozenset({Role.MASON}))),
         ),
         Statement(
             "I am a Mason. The other Mason is Player 4.",
-            ((5, frozenset({"Mason"})), (4, frozenset({"Mason"}))),
+            ((5, frozenset({Role.MASON})), (4, frozenset({Role.MASON}))),
         ),
         Statement(
             "I am a Drunk and I swapped with Center 1.",
-            ((6, frozenset({"Drunk"})),),
+            ((6, frozenset({Role.DRUNK})),),
             ((SwitchPriority.ROBBER, 9, 6),),
         ),
         Statement(
             "I am a Robber and I swapped with Player 5. I am now a Seer.",
-            ((7, frozenset({"Robber"})), (5, frozenset({"Seer"}))),
+            ((7, frozenset({Role.ROBBER})), (5, frozenset({Role.SEER}))),
             ((SwitchPriority.ROBBER, 5, 7),),
         ),
     )

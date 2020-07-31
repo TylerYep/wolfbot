@@ -4,6 +4,7 @@ from typing import Tuple
 
 from conftest import set_roles, write_results
 from src import const, one_night
+from src.const import Role
 
 
 class TestStandard:
@@ -16,19 +17,19 @@ class TestStandard:
         const.NUM_CENTER = 3
         const.RANDOMIZE_ROLES = False
         set_roles(
-            "Insomniac",
-            "Villager",
-            "Robber",
-            "Villager",
-            "Seer",
-            "Mason",
-            "Troublemaker",
-            "Villager",
-            "Mason",
-            "Hunter",
-            "Wolf",
-            "Wolf",
-            "Minion",
+            Role.INSOMNIAC,
+            Role.VILLAGER,
+            Role.ROBBER,
+            Role.VILLAGER,
+            Role.SEER,
+            Role.MASON,
+            Role.TROUBLEMAKER,
+            Role.VILLAGER,
+            Role.MASON,
+            Role.HUNTER,
+            Role.WOLF,
+            Role.WOLF,
+            Role.MINION,
         )
         random.seed()
 
@@ -111,18 +112,18 @@ class TestStandard:
         const.EXPECTIMAX_TANNER = True
         const.RANDOMIZE_ROLES = False
         set_roles(
-            "Insomniac",
-            "Hunter",
-            "Mason",
-            "Mason",
-            "Robber",
-            "Seer",
-            "Tanner",
-            "Troublemaker",
-            "Villager",
-            "Villager",
-            "Villager",
-            "Wolf",
+            Role.INSOMNIAC,
+            Role.HUNTER,
+            Role.MASON,
+            Role.MASON,
+            Role.ROBBER,
+            Role.SEER,
+            Role.TANNER,
+            Role.TROUBLEMAKER,
+            Role.VILLAGER,
+            Role.VILLAGER,
+            Role.VILLAGER,
+            Role.WOLF,
         )
 
         stat_tracker = one_night.simulate_game(num_games=20)

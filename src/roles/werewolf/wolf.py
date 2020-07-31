@@ -5,7 +5,7 @@ import random
 from typing import Any, Dict, List, Optional, Tuple
 
 from src import const, util
-from src.const import logger, lru_cache
+from src.const import logger, lru_cache, Role
 from src.predictions import make_unrestricted_prediction
 from src.roles.player import Player
 from src.roles.werewolf.wolf_variants import (
@@ -44,7 +44,7 @@ class Wolf(Player):
         """
         is_user = const.IS_USER[player_index]
         center_index, center_role = None, None
-        wolf_indices = util.find_all_player_indices(original_roles, "Wolf")
+        wolf_indices = util.find_all_player_indices(original_roles, Role.WOLF)
         if len(wolf_indices) == 1 and const.NUM_CENTER > 0:
             center_index = util.get_center(is_user)
             center_role = game_roles[center_index]
@@ -69,7 +69,7 @@ class Wolf(Player):
         """ Updates Player state given new information. """
         super().analyze(knowledge_base)
         if const.USE_REG_WOLF:
-            if self.center_role not in (None, "Wolf", "Mason"):
+            if self.center_role not in (None, Role.WOLF, Role.MASON):
                 center_statements = get_center_wolf_statements(self, knowledge_base)
                 self.statements += (
                     center_statements
@@ -104,9 +104,9 @@ class Wolf(Player):
         if not predictions:
             return -10
         for wolfi in self.wolf_indices:
-            if predictions[wolfi] == "Wolf":
+            if predictions[wolfi] == Role.WOLF:
                 val -= 7
-            if "Wolf" in solver_result.possible_roles[wolfi]:
+            if Role.WOLF in solver_result.possible_roles[wolfi]:
                 val -= 5
         return val
 

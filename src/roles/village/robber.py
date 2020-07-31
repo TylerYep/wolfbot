@@ -4,7 +4,7 @@ from __future__ import annotations
 from typing import Any, Dict, List, Tuple
 
 from src import const, util
-from src.const import SwitchPriority, logger, lru_cache
+from src.const import SwitchPriority, logger, lru_cache, Role
 from src.roles.player import Player
 from src.statements import Statement
 
@@ -47,7 +47,7 @@ class Robber(Player):
         sentence = (
             f"I am a Robber and I swapped with Player {choice_ind}. I am now a {choice_char}."
         )
-        knowledge = ((player_index, frozenset({"Robber"})), (choice_ind, frozenset({choice_char})))
+        knowledge = ((player_index, frozenset({Role.ROBBER})), (choice_ind, frozenset({choice_char})))
         switches = ((SwitchPriority.ROBBER, player_index, choice_ind),)
         return (Statement(sentence, knowledge, switches),)
 

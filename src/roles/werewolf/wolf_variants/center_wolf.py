@@ -2,6 +2,7 @@
 from typing import Any, Tuple
 
 from src import const
+from src.const import Role
 from src.roles.village import Drunk, Hunter, Insomniac, Robber, Seer, Troublemaker, Villager
 from src.statements import KnowledgeBase, Statement
 
@@ -16,35 +17,35 @@ def get_center_wolf_statements(
     center_role = player_obj.center_role
     center_index = player_obj.center_index
 
-    if center_role == "Villager":
+    if center_role == Role.VILLAGER:
         statements += Villager.get_villager_statements(player_index)
-    elif center_role == "Hunter":
+    elif center_role == Role.HUNTER:
         statements += Hunter.get_hunter_statements(player_index)
-    elif center_role == "Insomniac":
+    elif center_role == Role.INSOMNIAC:
         # TODO check for switches and prioritize those statements
-        statements += Insomniac.get_insomniac_statements(player_index, "Insomniac")
-    elif center_role == "Robber":
+        statements += Insomniac.get_insomniac_statements(player_index, Role.INSOMNIAC)
+    elif center_role == Role.ROBBER:
         for i, stated_role in enumerate(knowledge_base.stated_roles):
-            if stated_role and stated_role != "Robber":
+            if stated_role and stated_role != Role.ROBBER:
                 statements += Robber.get_robber_statements(player_index, i, stated_role)
-    elif center_role == "Troublemaker":
+    elif center_role == Role.TROUBLEMAKER:
         num_stated = len(knowledge_base.stated_roles)
         for i in range(num_stated):
             for j in range(i + 1, num_stated):
                 if j not in wolf_indices:
                     statements += Troublemaker.get_troublemaker_statements(player_index, i, j)
-    elif center_role == "Drunk":
+    elif center_role == Role.DRUNK:
         statements += Drunk.get_drunk_statements(player_index, center_index)
-    elif center_role == "Seer":
+    elif center_role == Role.SEER:
         for i, stated_role in enumerate(knowledge_base.stated_roles):
             # 'Hey, I'm a Seer and I saw another Seer...'
-            if i not in wolf_indices and stated_role and stated_role != "Seer":
+            if i not in wolf_indices and stated_role and stated_role != Role.SEER:
                 statements += Seer.get_seer_statements(player_index, (i, stated_role))
         for role2 in const.SORTED_ROLE_SET:
             for cent1 in range(const.NUM_CENTER):
                 if cent1 != center_index:
                     for role1 in const.SORTED_ROLE_SET:
-                        if role1 != "Seer" and role2 != "Seer":
+                        if role1 != Role.SEER and role2 != Role.SEER:
                             if role1 != role2 or const.ROLE_COUNTS[role1] >= 2:
                                 statements += Seer.get_seer_statements(
                                     player_index,

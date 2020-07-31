@@ -8,7 +8,7 @@ from typing import Dict, List, Tuple
 from tqdm import tqdm
 
 from src import const, util
-from src.const import StatementLevel, logger
+from src.const import StatementLevel, logger, Role
 from src.encoder import WolfBotEncoder
 from src.gui import GUIState
 from src.roles import Player, get_role_obj
@@ -134,7 +134,7 @@ def night_falls(game_roles: List[str], original_roles: Tuple[str, ...]) -> Tuple
 def consolidate_results(save_game: SavedGame) -> GameResult:
     """ Consolidates results and returns final GameResult. """
     original_roles, game_roles, all_statements, player_objs = save_game.load_game()
-    orig_wolf_inds = util.find_all_player_indices(original_roles, "Wolf")
+    orig_wolf_inds = util.find_all_player_indices(original_roles, Role.WOLF)
     indiv_preds = get_individual_preds(player_objs, all_statements)
     all_guesses, guessed_wolf_inds, vote_inds = get_voting_result(player_objs, indiv_preds)
     util.print_roles(game_roles, "Solution", logging.INFO)
@@ -208,7 +208,7 @@ def eval_winning_team(
     killed_wolf, killed_tanner, villager_win = False, False, False
     if len(guessed_wolf_inds) == const.NUM_PLAYERS:
         logger.info("No wolves were found.")
-        if final_wolf_inds := util.find_all_player_indices(game_roles, "Wolf"):
+        if final_wolf_inds := util.find_all_player_indices(game_roles, Role.WOLF):
             logger.info(f"But Player(s) {list(final_wolf_inds)} was a Wolf!\n")
         else:
             logger.info("That was correct!\n")
@@ -217,13 +217,13 @@ def eval_winning_team(
         # Hunter kills the player he voted for if he dies.
         for i in guessed_wolf_inds:
             logger.info(f"Player {i} was chosen as a Wolf.\nPlayer {i} was a {game_roles[i]}!\n")
-            if game_roles[i] == "Hunter":
+            if game_roles[i] == Role.HUNTER:
                 if vote_inds[i] not in guessed_wolf_inds:
                     guessed_wolf_inds.append(vote_inds[i])
                 logger.info(f"(Player {i}) Hunter died and killed Player {vote_inds[i]} too!\n")
-            elif game_roles[i] == "Wolf":
+            elif game_roles[i] == Role.WOLF:
                 killed_wolf = True
-            elif game_roles[i] == "Tanner":
+            elif game_roles[i] == Role.TANNER:
                 killed_tanner = True
 
     if villager_win or killed_wolf:
@@ -232,7 +232,7 @@ def eval_winning_team(
 
     if killed_tanner:
         logger.info("Tanner wins!")
-        return "Tanner"
+        return Role.TANNER
 
     logger.info("Werewolf Team wins!")
     return "Werewolf"
@@ -259,7 +259,7 @@ def override_players(game_roles: List[str]) -> None:
 
     if (
         const.FIXED_WOLF_INDEX is not None
-        and (wolf_inds := util.find_all_player_indices(game_roles, "Wolf"))
+        and (wolf_inds := util.find_all_player_indices(game_roles, Role.WOLF))
         and const.FIXED_WOLF_INDEX >= 0
     ):
         wolf_ind = random.choice(wolf_inds)

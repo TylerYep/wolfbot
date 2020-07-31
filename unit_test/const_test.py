@@ -1,5 +1,6 @@
 """ const_test.py """
 from src import const
+from src.const import Role
 from src.roles import Mason, Seer
 
 
@@ -9,9 +10,9 @@ class TestLRUCache:
     @staticmethod
     def test_lru_cache_hit() -> None:
         """ Correctly cache a function call cache hit. """
-        result_1 = Seer.get_seer_statements(1, (6, "Robber"))
+        result_1 = Seer.get_seer_statements(1, (6, Role.ROBBER))
 
-        result_2 = Seer.get_seer_statements(1, (6, "Robber"))
+        result_2 = Seer.get_seer_statements(1, (6, Role.ROBBER))
         info = Seer.get_seer_statements.cache_info()
 
         assert result_1 == result_2
@@ -22,9 +23,9 @@ class TestLRUCache:
     @staticmethod
     def test_lru_cache_miss() -> None:
         """ Correctly cache a function call cache miss. """
-        result_1 = Seer.get_seer_statements(2, (6, "Robber"))
+        result_1 = Seer.get_seer_statements(2, (6, Role.ROBBER))
 
-        result_2 = Seer.get_seer_statements(2, (2, "Robber"))
+        result_2 = Seer.get_seer_statements(2, (2, Role.ROBBER))
         info = Seer.get_seer_statements.cache_info()
 
         assert result_1 != result_2

@@ -7,6 +7,7 @@ from _pytest.monkeypatch import MonkeyPatch
 
 from conftest import override_input, verify_output_string
 from src import util
+from src.const import Role
 
 
 class TestPrintRoles:
@@ -15,7 +16,7 @@ class TestPrintRoles:
     @staticmethod
     def test_print_roles(caplog: LogCaptureFixture, small_game_roles: Tuple[str, ...]) -> None:
         """ Correctly print and format roles. """
-        shuffled_roles = ["Seer", "Villager", "Wolf", "Robber"]
+        shuffled_roles = [Role.SEER, Role.VILLAGER, Role.WOLF, Role.ROBBER]
 
         util.print_roles(shuffled_roles, "Hidden")
 
@@ -54,7 +55,7 @@ class TestSwapCharacters:
 
         util.swap_characters(roles, 0, 2)
 
-        assert roles == ["Robber", "Seer", "Villager"]
+        assert roles == [Role.ROBBER, Role.SEER, Role.VILLAGER]
 
 
 class TestFindAllPlayerIndices:
@@ -63,7 +64,7 @@ class TestFindAllPlayerIndices:
     @staticmethod
     def test_returns_correct_indices(large_game_roles: Tuple[str, ...]) -> None:
         """ Don't attempt to swap the same index. """
-        result = util.find_all_player_indices(large_game_roles, "Villager")
+        result = util.find_all_player_indices(large_game_roles, Role.VILLAGER)
 
         assert result == (1, 4, 11)
 

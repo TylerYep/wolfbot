@@ -5,7 +5,7 @@ import random
 from typing import Any, Dict, List, Tuple
 
 from src import const, util
-from src.const import logger, lru_cache
+from src.const import logger, lru_cache, Role
 from src.predictions import make_unrestricted_prediction
 from src.roles.player import Player
 from src.roles.werewolf.wolf_variants import (
@@ -31,7 +31,7 @@ class Minion(Player):
         """ Initializes Minion - gets Wolf indices. """
         del game_roles
         is_user = const.IS_USER[player_index]
-        wolf_indices = util.find_all_player_indices(original_roles, "Wolf")
+        wolf_indices = util.find_all_player_indices(original_roles, Role.WOLF)
         logger.debug(f"[Hidden] Wolves are at indices: {list(wolf_indices)}")
         if is_user:
             logger.info(f"Wolves are at indices: {list(wolf_indices)}", cache=True)
@@ -67,12 +67,12 @@ class Minion(Player):
         val = 10
         if not predictions:
             return -10
-        if predictions[self.player_index] == "Wolf":
+        if predictions[self.player_index] == Role.WOLF:
             val += 10
         for wolfi in self.wolf_indices:
-            if predictions[wolfi] == "Wolf":
+            if predictions[wolfi] == Role.WOLF:
                 val -= 7
-            if "Wolf" in solver_result.possible_roles[wolfi]:
+            if Role.WOLF in solver_result.possible_roles[wolfi]:
                 val -= 5
         return val
 

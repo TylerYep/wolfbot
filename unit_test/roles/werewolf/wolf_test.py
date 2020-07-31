@@ -3,6 +3,7 @@ from typing import Tuple
 
 from conftest import set_roles
 from src import const
+from src.const import Role
 from src.roles import Wolf
 from src.statements import KnowledgeBase
 
@@ -16,7 +17,7 @@ class TestWolf:
         Should initialize a Wolf. Note that the player_index of the Wolf is
         not necessarily the index where the true Wolf is located.
         """
-        set_roles("Wolf", *medium_game_roles[1:])
+        set_roles(Role.WOLF, *medium_game_roles[1:])
         player_index = 2
 
         wolf = Wolf.awake_init(player_index, list(const.ROLES), const.ROLES)
@@ -44,14 +45,14 @@ class TestWolf:
         Should initialize a Center Wolf. Note that the player_index of the Wolf is
         not necessarily the index where the true Wolf is located.
         """
-        set_roles("Villager", *large_game_roles[1:])
+        set_roles(Role.VILLAGER, *large_game_roles[1:])
         player_index = 7
 
         wolf = Wolf.awake_init(player_index, list(const.ROLES), const.ROLES)
 
         assert wolf.wolf_indices == (7,)
         assert wolf.center_index == 13
-        assert wolf.center_role == "Insomniac"
+        assert wolf.center_role == Role.INSOMNIAC
 
     @staticmethod
     def test_get_random_statement_medium(
@@ -87,7 +88,7 @@ class TestWolf:
         """ Should execute initialization actions and return the possible statements. """
         const.USE_REG_WOLF = True
         player_index = 2
-        wolf = Wolf(player_index, (1, player_index), 5, "Robber")
+        wolf = Wolf(player_index, (1, player_index), 5, Role.ROBBER)
 
         wolf.analyze(medium_knowledge_base)
         _ = wolf.get_statement(medium_knowledge_base)

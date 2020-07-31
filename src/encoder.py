@@ -4,6 +4,7 @@ import sys
 from typing import Any, Dict
 
 from src import const
+from src.const import Role
 from src.roles import Player, get_role_obj
 from src.statements import Statement
 from src.stats import GameResult, SavedGame
@@ -14,7 +15,7 @@ class WolfBotEncoder(json.JSONEncoder):
 
     def default(self, o: Any) -> Any:
         """ Overrides encoding method. """
-        if isinstance(o, (Player, Statement, GameResult, SavedGame)):
+        if isinstance(o, (Role, Player, Statement, GameResult, SavedGame)):
             return o.json_repr()
         if isinstance(o, set):
             return {"type": "Set", "data": sorted(o)}
@@ -37,6 +38,8 @@ class WolfBotDecoder(json.JSONDecoder):
             return set(obj["data"])
         if obj_type == "FrozenSet":
             return frozenset(obj["data"])
+        if obj_type == "Role":
+            return Role(obj["data"])
         if obj_type == "Statement":
             obj["knowledge"] = tuple([tuple(know) for know in obj["knowledge"]])
             obj["switches"] = tuple([tuple(switch) for switch in obj["switches"]])
@@ -51,10 +54,10 @@ class WolfBotDecoder(json.JSONDecoder):
                 obj[key] = tuple(value)
             return get_object_initializer(obj_type)(**obj)
         if obj_type in const.ROLE_SET:
-            if obj_type == "Seer":
+            if obj_type == Role.SEER:
                 obj["choice_1"] = tuple(obj["choice_1"])
                 obj["choice_2"] = tuple(obj["choice_2"])
-            elif obj_type == "Mason":
+            elif obj_type == Role.MASON:
                 obj["mason_indices"] = tuple(obj["mason_indices"])
             return get_role_obj(obj_type)(**obj)
         return obj

@@ -5,7 +5,7 @@ import random
 from typing import Any, Dict, List, Tuple
 
 from src import const, util
-from src.const import StatementLevel, logger, lru_cache
+from src.const import StatementLevel, logger, lru_cache, Role
 from src.predictions import make_prediction, make_random_prediction
 from src.solvers import switching_solver as solver
 from src.statements import KnowledgeBase, Statement
@@ -19,7 +19,7 @@ class Player:
         if player_index < 0:
             return
         self.player_index = player_index
-        self.role = type(self).__name__  # e.g. "Wolf"
+        self.role = Role(type(self).__name__)  # e.g. Role.WOLF
         self.new_role = ""
         self.statements: Tuple[Statement, ...] = ()
         self.prev_priority = StatementLevel.NOT_YET_SPOKEN
@@ -32,7 +32,7 @@ class Player:
         zero_sent = "I don't want to say who I am just yet."
         partial_statements.append(Statement(zero_sent, priority=StatementLevel.NO_INFO))
 
-        if self.role not in const.EVIL_ROLES | frozenset({"Villager", "Hunter"}):
+        if self.role not in const.EVIL_ROLES | frozenset({Role.VILLAGER, Role.HUNTER}):
             partial_sent = f"I am a {self.role}, but I'm not going to say what I did or saw yet!"
             knowledge = ((self.player_index, frozenset({self.role})),)
             statement = Statement(partial_sent, knowledge, priority=StatementLevel.SOME_INFO)
@@ -57,37 +57,37 @@ class Player:
 
         logger.debug(f"[Hidden] Player {self.player_index} ({self.role}) is a {role_type} now!")
 
-        if role_type == "Wolf":
+        if role_type == Role.WOLF:
             return Wolf(self.player_index, ())
-        if role_type == "Minion":
+        if role_type == Role.MINION:
             return Minion(self.player_index, ())
-        if role_type == "Tanner":
+        if role_type == Role.TANNER:
             return Tanner(self.player_index)
-        if role_type == "Villager":
+        if role_type == Role.VILLAGER:
             return Villager(self.player_index)
-        if role_type == "Hunter":
+        if role_type == Role.HUNTER:
             return Hunter(self.player_index)
-        if role_type == "Insomniac":
+        if role_type == Role.INSOMNIAC:
             # TODO you can lie and say you are a different character.
-            return Insomniac(self.player_index, "Insomniac")
-        if role_type == "Drunk":
+            return Insomniac(self.player_index, Role.INSOMNIAC)
+        if role_type == Role.DRUNK:
             rand_center = util.get_center(const.IS_USER[self.player_index])
             return Drunk(self.player_index, rand_center)
 
         rand_int1 = util.get_player(const.IS_USER[self.player_index], exclude=(self.player_index,))
-        if role_type == "Mason":
+        if role_type == Role.MASON:
             return Mason(self.player_index, (self.player_index, rand_int1))
 
         rand_role = random.choice(list(const.ROLE_SET))
-        if role_type == "Seer":
+        if role_type == Role.SEER:
             return Seer(self.player_index, (rand_int1, rand_role))
-        if role_type == "Robber":
+        if role_type == Role.ROBBER:
             return Robber(self.player_index, rand_int1, rand_role)
 
         rand_int2 = util.get_player(
             const.IS_USER[self.player_index], exclude=(self.player_index, rand_int1)
         )
-        if role_type == "Troublemaker":
+        if role_type == Role.TROUBLEMAKER:
             return Troublemaker(self.player_index, rand_int1, rand_int2)
 
         raise TypeError(f"Role Type: {role_type} is not a valid role.")
@@ -204,7 +204,7 @@ class Player:
         # TODO find the most likely Wolf and only vote for that one
         # Players cannot vote for themselves.
         if found_wolf_inds := util.find_all_player_indices(
-            prediction, "Wolf", exclude=(self.player_index,)
+            prediction, Role.WOLF, exclude=(self.player_index,)
         ):
             return random.choice(found_wolf_inds)
 
@@ -219,7 +219,7 @@ class Player:
 
     def json_repr(self) -> Dict[str, Any]:
         """ Gets JSON representation of a Player object. """
-        return {"type": self.role, "player_index": self.player_index}
+        return {"type": self.role.value, "player_index": self.player_index}
 
     def __repr__(self) -> str:
         """ Gets string representation of a Player object. """

@@ -1,5 +1,6 @@
 """ insomniac_test.py """
 from conftest import set_roles
+from src.const import Role
 from src.roles import Insomniac
 from src.statements import Statement
 
@@ -11,20 +12,20 @@ class TestInsomniac:
     def test_awake_init() -> None:
         """ Should initialize a Insomniac. """
         player_index = 1
-        game_roles = ["Insomniac", "Robber", "Villager"]
+        game_roles = [Role.INSOMNIAC, Role.ROBBER, Role.VILLAGER]
         expected = (
             Statement(
                 (
                     "I am a Insomniac and when I woke up I was a Robber. "
                     "I don't know who I switched with."
                 ),
-                ((1, frozenset({"Insomniac"})),),
+                ((1, frozenset({Role.INSOMNIAC})),),
             ),
         )
 
         insomniac = Insomniac.awake_init(player_index, game_roles, ())
 
-        assert insomniac.new_role == "Robber"
+        assert insomniac.new_role == Role.ROBBER
         assert insomniac.statements == expected
 
     @staticmethod
@@ -37,11 +38,11 @@ class TestInsomniac:
                     "I am a Insomniac and when I woke up I was a Hunter. "
                     "I don't know who I switched with."
                 ),
-                ((0, frozenset({"Insomniac"})),),
+                ((0, frozenset({Role.INSOMNIAC})),),
             ),
         )
 
-        result = Insomniac.get_insomniac_statements(player_index, "Hunter")
+        result = Insomniac.get_insomniac_statements(player_index, Role.HUNTER)
 
         assert result == expected
 
@@ -49,25 +50,25 @@ class TestInsomniac:
     def test_get_all_statements() -> None:
         """ Should return the possible statements from all possible initialization actions. """
         player_index = 2
-        set_roles("Wolf", "Insomniac", "Seer")
+        set_roles(Role.WOLF, Role.INSOMNIAC, Role.SEER)
         expected = (
             Statement(
                 (
                     "I am a Insomniac and when I woke up I was a Wolf. I don't know "
                     "who I switched with."
                 ),
-                ((2, frozenset({"Insomniac"})),),
+                ((2, frozenset({Role.INSOMNIAC})),),
             ),
             Statement(
                 "I am a Insomniac and when I woke up I was a Insomniac.",
-                ((2, frozenset({"Insomniac"})),),
+                ((2, frozenset({Role.INSOMNIAC})),),
             ),
             Statement(
                 (
                     "I am a Insomniac and when I woke up I was a Seer. I don't know "
                     "who I switched with."
                 ),
-                ((2, frozenset({"Insomniac"})),),
+                ((2, frozenset({Role.INSOMNIAC})),),
             ),
         )
 

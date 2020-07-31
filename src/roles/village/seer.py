@@ -4,7 +4,7 @@ from __future__ import annotations
 from typing import Any, Dict, List, Optional, Tuple
 
 from src import const, util
-from src.const import logger, lru_cache
+from src.const import logger, lru_cache, Role
 from src.roles.player import Player
 from src.statements import Statement
 
@@ -73,7 +73,7 @@ class Seer(Player):
         seen_index, seen_role = choice_1
         seen_index2, seen_role2 = choice_2
         sentence = f"I am a Seer and I saw that Player {seen_index} was a {seen_role}."
-        knowledge = [(player_index, frozenset({"Seer"})), (seen_index, frozenset({seen_role}))]
+        knowledge = [(player_index, frozenset({Role.SEER})), (seen_index, frozenset({seen_role}))]
         if seen_index2 is not None and seen_role2 is not None:
             sentence = (
                 f"I am a Seer and I saw that Center {seen_index - const.NUM_PLAYERS} was a "
@@ -92,7 +92,7 @@ class Seer(Player):
                 statements += Seer.get_seer_statements(player_index, (i, role))
         # Wolf using these usually gives themselves away
         role_set = list(const.SORTED_ROLE_SET)
-        role_set.remove("Seer")
+        role_set.remove(Role.SEER)
         for cent1 in range(const.NUM_CENTER):
             for cent2 in range(cent1 + 1, const.NUM_CENTER):
                 for role1 in role_set:

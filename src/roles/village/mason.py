@@ -4,7 +4,7 @@ from __future__ import annotations
 from typing import Any, Dict, List, Tuple
 
 from src import const, util
-from src.const import logger, lru_cache
+from src.const import logger, lru_cache, Role
 from src.roles.player import Player
 from src.statements import Statement
 
@@ -24,7 +24,7 @@ class Mason(Player):
         """ Initializes Mason - sees all other Masons. """
         del game_roles
         is_user = const.IS_USER[player_index]
-        mason_indices = util.find_all_player_indices(original_roles, "Mason")
+        mason_indices = util.find_all_player_indices(original_roles, Role.MASON)
         assert player_index in mason_indices
         assert len(mason_indices) <= 2
         logger.debug(f"[Hidden] Masons are at indices: {list(mason_indices)}")
@@ -44,14 +44,14 @@ class Mason(Player):
         assert player_index in mason_indices
         if len(mason_indices) == 1:
             sentence = "I am a Mason. The other Mason is not present."
-            knowledge = [(player_index, frozenset({"Mason"}))]
+            knowledge = [(player_index, frozenset({Role.MASON}))]
             for ind in range(const.NUM_PLAYERS):
                 if ind != player_index:
-                    knowledge.append((ind, const.ROLE_SET - frozenset({"Mason"})))
+                    knowledge.append((ind, const.ROLE_SET - frozenset({Role.MASON})))
         else:
             other_mason = mason_indices[0] if mason_indices[0] != player_index else mason_indices[1]
             sentence = f"I am a Mason. The other Mason is Player {other_mason}."
-            knowledge = [(player_index, frozenset({"Mason"})), (other_mason, frozenset({"Mason"}))]
+            knowledge = [(player_index, frozenset({Role.MASON})), (other_mason, frozenset({Role.MASON}))]
         return (Statement(sentence, tuple(knowledge)),)
 
     @staticmethod

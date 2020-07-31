@@ -31,6 +31,7 @@ from fixtures import (
     small_statement_list,
 )
 from src import const
+from src.const import Role
 
 
 def set_roles(*roles: str) -> None:
@@ -51,9 +52,9 @@ def reset_const() -> None:
     const.NUM_PLAYERS = 12
     const.NUM_CENTER = 3
     const.VILLAGE_ROLES = frozenset(
-        {"Villager", "Mason", "Seer", "Robber", "Troublemaker", "Drunk", "Insomniac", "Hunter"}
+        {Role.VILLAGER, Role.MASON, Role.SEER, Role.ROBBER, Role.TROUBLEMAKER, Role.DRUNK, Role.INSOMNIAC, Role.HUNTER}
     )
-    const.EVIL_ROLES = frozenset({"Tanner", "Wolf", "Minion"})
+    const.EVIL_ROLES = frozenset({Role.TANNER, Role.WOLF, Role.MINION})
 
     # Game Modes
     const.RANDOMIZE_ROLES = True
@@ -71,21 +72,21 @@ def reset_const() -> None:
     const.REPLAY_FILE = "unit_test/test_data/replay.json"
     random.seed(0)
     set_roles(
-        "Insomniac",
-        "Villager",
-        "Robber",
-        "Villager",
-        "Drunk",
-        "Wolf",
-        "Wolf",
-        "Seer",
-        "Tanner",
-        "Mason",
-        "Minion",
-        "Troublemaker",
-        "Villager",
-        "Mason",
-        "Hunter",
+        Role.INSOMNIAC,
+        Role.VILLAGER,
+        Role.ROBBER,
+        Role.VILLAGER,
+        Role.DRUNK,
+        Role.WOLF,
+        Role.WOLF,
+        Role.SEER,
+        Role.TANNER,
+        Role.MASON,
+        Role.MINION,
+        Role.TROUBLEMAKER,
+        Role.VILLAGER,
+        Role.MASON,
+        Role.HUNTER,
     )
 
     for cached_function in const.CACHED_FUNCTIONS:
@@ -96,7 +97,7 @@ def reset_const() -> None:
 def small_game_roles() -> Tuple[str, ...]:
     const.NUM_PLAYERS = 3
     const.NUM_CENTER = 0
-    set_roles("Villager", "Seer", "Robber")
+    set_roles(Role.VILLAGER, Role.SEER, Role.ROBBER)
     return const.ROLES
 
 
@@ -104,7 +105,7 @@ def small_game_roles() -> Tuple[str, ...]:
 def medium_game_roles() -> Tuple[str, ...]:
     const.NUM_PLAYERS = 5
     const.NUM_CENTER = 1
-    set_roles("Robber", "Drunk", "Wolf", "Troublemaker", "Seer", "Minion")
+    set_roles(Role.ROBBER, Role.DRUNK, Role.WOLF, Role.TROUBLEMAKER, Role.SEER, Role.MINION)
     return const.ROLES
 
 
@@ -113,21 +114,21 @@ def large_game_roles() -> Tuple[str, ...]:
     const.NUM_PLAYERS = 12
     const.NUM_CENTER = 3
     set_roles(
-        "Wolf",
-        "Villager",
-        "Robber",
-        "Seer",
-        "Villager",
-        "Tanner",
-        "Mason",
-        "Wolf",
-        "Minion",
-        "Mason",
-        "Drunk",
-        "Villager",
-        "Troublemaker",
-        "Insomniac",
-        "Hunter",
+        Role.WOLF,
+        Role.VILLAGER,
+        Role.ROBBER,
+        Role.SEER,
+        Role.VILLAGER,
+        Role.TANNER,
+        Role.MASON,
+        Role.WOLF,
+        Role.MINION,
+        Role.MASON,
+        Role.DRUNK,
+        Role.VILLAGER,
+        Role.TROUBLEMAKER,
+        Role.INSOMNIAC,
+        Role.HUNTER,
     )
     return const.ROLES
 
@@ -137,16 +138,16 @@ def standard_game_roles() -> Tuple[str, ...]:
     const.NUM_PLAYERS = 7
     const.NUM_CENTER = 3
     set_roles(
-        "Villager",
-        "Villager",
-        "Villager",
-        "Seer",
-        "Wolf",
-        "Wolf",
-        "Troublemaker",
-        "Mason",
-        "Mason",
-        "Drunk",
+        Role.VILLAGER,
+        Role.VILLAGER,
+        Role.VILLAGER,
+        Role.SEER,
+        Role.WOLF,
+        Role.WOLF,
+        Role.TROUBLEMAKER,
+        Role.MASON,
+        Role.MASON,
+        Role.DRUNK,
     )
     return const.ROLES
 

@@ -4,19 +4,20 @@ from typing import Tuple
 
 import pytest
 
+from src.const import Role
 from src.stats import GameResult
 
 
 @pytest.fixture
 def example_small_game_result(small_game_roles: Tuple[str, ...]) -> GameResult:
-    return GameResult(("Villager", "Seer", "Robber"), ("Villager", "Seer", "Robber"), (), "Village")
+    return GameResult((Role.VILLAGER, Role.SEER, Role.ROBBER), (Role.VILLAGER, Role.SEER, Role.ROBBER), (), "Village")
 
 
 @pytest.fixture
 def example_medium_game_result(medium_game_roles: Tuple[str, ...]) -> GameResult:
     return GameResult(
-        ("Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"),
-        ("Seer", "Minion", "Troublemaker", "Drunk", "Wolf", "Robber"),
+        (Role.SEER, Role.WOLF, Role.TROUBLEMAKER, Role.DRUNK, Role.MINION, Role.ROBBER),
+        (Role.SEER, Role.MINION, Role.TROUBLEMAKER, Role.DRUNK, Role.WOLF, Role.ROBBER),
         (1,),
         "Werewolf",
     )
@@ -26,38 +27,38 @@ def example_medium_game_result(medium_game_roles: Tuple[str, ...]) -> GameResult
 def example_large_game_result(large_game_roles: Tuple[str, ...]) -> GameResult:
     return GameResult(
         (
-            "Villager",
-            "Insomniac",
-            "Mason",
-            "Tanner",
-            "Villager",
-            "Drunk",
-            "Seer",
-            "Wolf",
-            "Minion",
-            "Villager",
-            "Wolf",
-            "Hunter",
-            "Troublemaker",
-            "Mason",
-            "Robber",
+            Role.VILLAGER,
+            Role.INSOMNIAC,
+            Role.MASON,
+            Role.TANNER,
+            Role.VILLAGER,
+            Role.DRUNK,
+            Role.SEER,
+            Role.WOLF,
+            Role.MINION,
+            Role.VILLAGER,
+            Role.WOLF,
+            Role.HUNTER,
+            Role.TROUBLEMAKER,
+            Role.MASON,
+            Role.ROBBER,
         ),
         (
-            "Villager",
-            "Mason",
-            "Mason",
-            "Minion",
-            "Villager",
-            "Drunk",
-            "Wolf",
-            "Wolf",
-            "Seer",
-            "Villager",
-            "Tanner",
-            "Hunter",
-            "Insomniac",
-            "Troublemaker",
-            "Robber",
+            Role.VILLAGER,
+            Role.MASON,
+            Role.MASON,
+            Role.MINION,
+            Role.VILLAGER,
+            Role.DRUNK,
+            Role.WOLF,
+            Role.WOLF,
+            Role.SEER,
+            Role.VILLAGER,
+            Role.TANNER,
+            Role.HUNTER,
+            Role.INSOMNIAC,
+            Role.TROUBLEMAKER,
+            Role.ROBBER,
         ),
         (7, 10),
         "Village",

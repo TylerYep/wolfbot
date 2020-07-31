@@ -3,7 +3,7 @@ from _pytest.logging import LogCaptureFixture
 
 from conftest import verify_output
 from src import stats
-from src.const import SwitchPriority
+from src.const import SwitchPriority, Role
 from src.roles import Robber, Seer, Villager
 from src.statements import Statement
 from src.stats import GameResult, SavedGame, Statistics
@@ -15,9 +15,9 @@ class TestSavedGame:
     @staticmethod
     def test_constructor() -> None:
         """ Should initialize correctly. """
-        villager_statement = Statement("I am a Villager.", ((0, frozenset({"Villager"})),))
+        villager_statement = Statement("I am a Villager.", ((0, frozenset({Role.VILLAGER})),))
 
-        result = SavedGame(("Villager",), ("Villager",), (villager_statement,), (Villager(0),))
+        result = SavedGame((Role.VILLAGER,), (Role.VILLAGER,), (villager_statement,), (Villager(0),))
 
         assert isinstance(result, stats.SavedGame)
 
@@ -28,20 +28,20 @@ class TestSavedGame:
 
         assert result == {
             "all_statements": (
-                Statement("I am a Villager.", ((0, frozenset({"Villager"})),)),
+                Statement("I am a Villager.", ((0, frozenset({Role.VILLAGER})),)),
                 Statement(
                     "I am a Robber and I swapped with Player 2. I am now a Seer.",
-                    ((1, frozenset({"Robber"})), (2, frozenset({"Seer"}))),
+                    ((1, frozenset({Role.ROBBER})), (2, frozenset({Role.SEER}))),
                     ((SwitchPriority.ROBBER, 1, 2),),
                 ),
                 Statement(
                     "I am a Seer and I saw that Player 1 was a Robber.",
-                    ((2, frozenset({"Seer"})), (1, frozenset({"Robber"}))),
+                    ((2, frozenset({Role.SEER})), (1, frozenset({Role.ROBBER}))),
                 ),
             ),
-            "game_roles": ("Villager", "Seer", "Robber"),
-            "original_roles": ("Villager", "Robber", "Seer"),
-            "player_objs": (Villager(0), Robber(1, 2, "Seer"), Seer(2, (1, "Robber"))),
+            "game_roles": (Role.VILLAGER, Role.SEER, Role.ROBBER),
+            "original_roles": (Role.VILLAGER, Role.ROBBER, Role.SEER),
+            "player_objs": (Villager(0), Robber(1, 2, Role.SEER), Seer(2, (1, Role.ROBBER))),
             "type": "SavedGame",
         }
 
@@ -52,7 +52,7 @@ class TestGameResult:
     @staticmethod
     def test_constructor() -> None:
         """ Should initialize correctly. """
-        result = GameResult(("Wolf",), ("Wolf",), (0,), "Werewolf")
+        result = GameResult((Role.WOLF,), (Role.WOLF,), (0,), "Werewolf")
 
         assert isinstance(result, stats.GameResult)
 
@@ -62,8 +62,8 @@ class TestGameResult:
         result = example_small_game_result.json_repr()
 
         assert result == {
-            "actual": ("Villager", "Seer", "Robber"),
-            "guessed": ("Villager", "Seer", "Robber"),
+            "actual": (Role.VILLAGER, Role.SEER, Role.ROBBER),
+            "guessed": (Role.VILLAGER, Role.SEER, Role.ROBBER),
             "type": "GameResult",
             "winning_team": "Village",
             "wolf_inds": (),

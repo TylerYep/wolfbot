@@ -3,6 +3,7 @@ from typing import Tuple
 
 from conftest import set_roles
 from src import const
+from src.const import Role
 from src.roles import Mason
 from src.statements import Statement
 
@@ -21,7 +22,7 @@ class TestMason:
         assert mason.statements == (
             Statement(
                 "I am a Mason. The other Mason is Player 9.",
-                ((6, frozenset({"Mason"})), (9, frozenset({"Mason"}))),
+                ((6, frozenset({Role.MASON})), (9, frozenset({Role.MASON}))),
             ),
         )
 
@@ -35,7 +36,7 @@ class TestMason:
         assert result == (
             Statement(
                 "I am a Mason. The other Mason is Player 6.",
-                ((9, frozenset({"Mason"})), (6, frozenset({"Mason"}))),
+                ((9, frozenset({Role.MASON})), (6, frozenset({Role.MASON}))),
             ),
         )
 
@@ -43,7 +44,7 @@ class TestMason:
     def test_get_single_mason_statement() -> None:
         """ Should give the proper statement when only one Mason is present. """
         player_index = 2
-        set_roles("Wolf", "Seer", "Mason", "Villager")
+        set_roles(Role.WOLF, Role.SEER, Role.MASON, Role.VILLAGER)
         const.NUM_PLAYERS = 3
         result = Mason.get_mason_statements(player_index, (2,))
 
@@ -51,9 +52,9 @@ class TestMason:
             Statement(
                 "I am a Mason. The other Mason is not present.",
                 (
-                    (2, frozenset({"Mason"})),
-                    (0, frozenset({"Wolf", "Seer", "Villager"})),
-                    (1, frozenset({"Wolf", "Seer", "Villager"})),
+                    (2, frozenset({Role.MASON})),
+                    (0, frozenset({Role.WOLF, Role.SEER, Role.VILLAGER})),
+                    (1, frozenset({Role.WOLF, Role.SEER, Role.VILLAGER})),
                 ),
             ),
         )
@@ -62,24 +63,24 @@ class TestMason:
     def test_get_all_statements() -> None:
         """ Should return the possible statements from all possible initialization actions. """
         player_index = 2
-        set_roles("Wolf", "Seer", "Mason", "Villager")
+        set_roles(Role.WOLF, Role.SEER, Role.MASON, Role.VILLAGER)
         const.NUM_PLAYERS = 3
         expected_statements = (
             Statement(
                 "I am a Mason. The other Mason is not present.",
                 (
-                    (2, frozenset({"Mason"})),
-                    (0, frozenset({"Wolf", "Seer", "Villager"})),
-                    (1, frozenset({"Wolf", "Seer", "Villager"})),
+                    (2, frozenset({Role.MASON})),
+                    (0, frozenset({Role.WOLF, Role.SEER, Role.VILLAGER})),
+                    (1, frozenset({Role.WOLF, Role.SEER, Role.VILLAGER})),
                 ),
             ),
             Statement(
                 "I am a Mason. The other Mason is Player 0.",
-                ((2, frozenset({"Mason"})), (0, frozenset({"Mason"}))),
+                ((2, frozenset({Role.MASON})), (0, frozenset({Role.MASON}))),
             ),
             Statement(
                 "I am a Mason. The other Mason is Player 1.",
-                ((2, frozenset({"Mason"})), (1, frozenset({"Mason"}))),
+                ((2, frozenset({Role.MASON})), (1, frozenset({Role.MASON}))),
             ),
         )
 

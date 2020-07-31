@@ -2,55 +2,73 @@
 import json
 
 from src import encoder
-from src.const import SwitchPriority
+from src.const import SwitchPriority, Role
 from src.encoder import WolfBotDecoder, WolfBotEncoder
 from src.roles import Player, Robber, Seer, Villager
 from src.statements import Statement
 from src.stats import GameResult, SavedGame
 
 
-class TestWolfBotEncoder:
-    """ Tests for the WolfBotEncoder class. """
+class TestWolfBotEncoderDecoder:
+    """
+    Tests for the WolfBotEncoder and WolfBotDecoder class.
+    These tests break the arrange-act-assert paradigm to keep them symmetric.
+    """
 
     @staticmethod
     def test_default_list() -> None:
         """ Should convert objects of different types to JSON. """
-        input_obj = ["Wolf", "Villager"]
+        input_obj = [Role.WOLF, Role.VILLAGER]
 
         result = json.dumps(input_obj, cls=WolfBotEncoder)
+        assert result == '[{"type": "Role", "data": "Wolf"}, {"type": "Role", "data": "Villager"}]'
 
-        assert result == '["Wolf", "Villager"]'
+        result = json.loads(result, cls=WolfBotDecoder)
+        assert result == input_obj
 
     @staticmethod
     def test_default_set() -> None:
         """ Should convert objects of different types to JSON. """
-        input_obj = {"Wolf", "Villager"}
+        input_obj = {Role.WOLF, Role.VILLAGER}
 
         result = json.dumps(input_obj, cls=WolfBotEncoder)
+        assert result == (
+            '{"type": "Set",'
+            ' "data": [{"type": "Role", "data": "Villager"}, {"type": "Role", "data": "Wolf"}]}'
+        )
 
-        assert result == '{"type": "Set", "data": ["Villager", "Wolf"]}'
+        result = json.loads(result, cls=WolfBotDecoder)
+        assert result == input_obj
 
     @staticmethod
     def test_default_frozenset() -> None:
         """ Should convert objects of different types to JSON. """
-        input_obj = frozenset(["Wolf", "Villager"])
+        input_obj = frozenset([Role.WOLF, Role.VILLAGER])
 
         result = json.dumps(input_obj, cls=WolfBotEncoder)
+        assert result == (
+            '{"type": "FrozenSet",'
+            ' "data": [{"type": "Role", "data": "Villager"}, {"type": "Role", "data": "Wolf"}]}'
+        )
 
-        assert result == '{"type": "FrozenSet", "data": ["Villager", "Wolf"]}'
+        result = json.loads(result, cls=WolfBotDecoder)
+        assert result == input_obj
 
     @staticmethod
     def test_default_statement(example_statement: Statement) -> None:
         """ Should convert objects of different types to JSON. """
         result = json.dumps(example_statement, cls=WolfBotEncoder)
-
         assert result == (
             '{"type": "Statement",'
             ' "sentence": "test",'
-            ' "knowledge": [[2, {"type": "FrozenSet", "data": ["Robber"]}],'
-            ' [0, {"type": "FrozenSet", "data": ["Seer"]}]],'
-            ' "switches": [[1, 2, 0]], "speaker": "Robber"}'
+            ' "knowledge": [[2, {"type": "FrozenSet",'
+            ' "data": [{"type": "Role", "data": "Robber"}]}],'
+            ' [0, {"type": "FrozenSet", "data": [{"type": "Role", "data": "Seer"}]}]],'
+            ' "switches": [[1, 2, 0]], "speaker": {"type": "Role", "data": "Robber"}}'
         )
+
+        result = json.loads(result, cls=WolfBotDecoder)
+        assert result == example_statement
 
     @staticmethod
     def test_default_player() -> None:
@@ -58,39 +76,45 @@ class TestWolfBotEncoder:
         input_obj = Villager(0)
 
         result = json.dumps(input_obj, cls=WolfBotEncoder)
-
         assert result == '{"type": "Villager", "player_index": 0}'
+
+        result = json.loads(result, cls=WolfBotDecoder)
+        assert result == input_obj
 
     @staticmethod
     def test_default_game_result(example_small_game_result: GameResult) -> None:
         """ Should convert objects of different types to JSON. """
         result = json.dumps(example_small_game_result, cls=WolfBotEncoder)
-
         assert result == (
             '{"type": "GameResult",'
-            ' "actual": ["Villager", "Seer", "Robber"],'
-            ' "guessed": ["Villager", "Seer", "Robber"],'
+            ' "actual": [{"type": "Role", "data": "Villager"},'
+            ' {"type": "Role", "data": "Seer"}, {"type": "Role", "data": "Robber"}],'
+            ' "guessed": [{"type": "Role", "data": "Villager"},'
+            ' {"type": "Role", "data": "Seer"}, {"type": "Role", "data": "Robber"}],'
             ' "wolf_inds": [],'
             ' "winning_team": "Village"}'
         )
 
+        result = json.loads(result, cls=WolfBotDecoder)
+        assert result == example_small_game_result
+
     @staticmethod
     def test_default_saved_game(example_small_saved_game: SavedGame) -> None:
         """ Should convert objects of different types to JSON. """
-        player_objs = [Villager(0), Robber(1, 2, "Seer"), Seer(2, (1, "Robber"))]
+        player_objs = [Villager(0), Robber(1, 2, Role.SEER), Seer(2, (1, Role.ROBBER))]
         player_strs = ", ".join([json.dumps(player, cls=WolfBotEncoder) for player in player_objs])
         statement_objs = [
-            Statement("I am a Villager.", ((0, frozenset({"Villager"})),), speaker="Villager"),
+            Statement("I am a Villager.", ((0, frozenset({Role.VILLAGER})),), speaker=Role.VILLAGER),
             Statement(
                 "I am a Robber and I swapped with Player 2. I am now a Seer.",
-                ((1, frozenset({"Robber"})), (2, frozenset({"Seer"})),),
+                ((1, frozenset({Role.ROBBER})), (2, frozenset({Role.SEER})),),
                 ((SwitchPriority.ROBBER, 1, 2),),
-                "Robber",
+                Role.ROBBER,
             ),
             Statement(
                 "I am a Seer and I saw that Player 1 was a Robber.",
-                ((2, frozenset({"Seer"})), (1, frozenset({"Robber"})),),
-                speaker="Seer",
+                ((2, frozenset({Role.SEER})), (1, frozenset({Role.ROBBER})),),
+                speaker=Role.SEER,
             ),
         ]
         statement_strs = ", ".join(
@@ -98,119 +122,17 @@ class TestWolfBotEncoder:
         )
 
         result = json.dumps(example_small_saved_game, cls=WolfBotEncoder)
-
         assert result == (
             '{"type": "SavedGame",'
-            ' "original_roles": ["Villager", "Robber", "Seer"],'
-            ' "game_roles": ["Villager", "Seer", "Robber"],'
+            ' "original_roles": [{"type": "Role", "data": "Villager"},'
+            ' {"type": "Role", "data": "Seer"}, {"type": "Role", "data": "Robber"}],'
+            ' "game_roles": [{"type": "Role", "data": "Villager"},'
+            ' {"type": "Role", "data": "Seer"}, {"type": "Role", "data": "Robber"}],'
             f' "all_statements": [{statement_strs}],'
             f' "player_objs": [{player_strs}]}}'
         )
 
-
-class TestWolfBotDecoder:
-    """ Tests for the WolfBotDecoder class. """
-
-    @staticmethod
-    def test_json_to_list() -> None:
-        """ Should convert JSON to the correct objects. """
-        input_json = '["Wolf", "Villager"]'
-
-        result = json.loads(input_json, cls=WolfBotDecoder)
-
-        assert result == ["Wolf", "Villager"]
-
-    @staticmethod
-    def test_json_to_set() -> None:
-        """ Should convert JSON to the correct objects. """
-        input_json = '{"type": "Set", "data": ["Villager", "Wolf"]}'
-
-        result = json.loads(input_json, cls=WolfBotDecoder)
-
-        assert result == {"Wolf", "Villager"}
-
-    @staticmethod
-    def test_json_to_frozenset() -> None:
-        """ Should convert JSON to the correct objects. """
-        input_json = '{"type": "FrozenSet", "data": ["Villager", "Wolf"]}'
-
-        result = json.loads(input_json, cls=WolfBotDecoder)
-
-        assert result == frozenset(["Wolf", "Villager"])
-
-    @staticmethod
-    def test_json_to_statement(example_statement: Statement) -> None:
-        """ Should convert JSON to the correct objects. """
-        input_json = (
-            '{"type": "Statement",'
-            ' "sentence": "test",'
-            ' "knowledge": [[2, {"type": "FrozenSet", "data": ["Robber"]}],'
-            ' [0, {"type": "FrozenSet", "data": ["Seer"]}]],'
-            ' "switches": [[1, 2, 0]], "speaker": "Robber"}'
-        )
-
-        result = json.loads(input_json, cls=WolfBotDecoder)
-
-        assert result == example_statement
-
-    @staticmethod
-    def test_json_to_player() -> None:
-        """ Should convert JSON to the correct objects. """
-        input_json = '{"type": "Villager", "player_index": 0}'
-
-        result = json.loads(input_json, cls=WolfBotDecoder)
-
-        assert result == Villager(0)
-
-    @staticmethod
-    def test_json_to_game_result(example_small_game_result: GameResult) -> None:
-        """ Should convert JSON to the correct objects. """
-        input_json = (
-            '{"type": "GameResult",'
-            ' "actual": ["Villager", "Seer", "Robber"],'
-            ' "guessed": ["Villager", "Seer", "Robber"],'
-            ' "wolf_inds": [],'
-            ' "winning_team": "Village"}'
-        )
-
-        result = json.loads(input_json, cls=WolfBotDecoder)
-
-        assert result == example_small_game_result
-
-    @staticmethod
-    def test_json_to_saved_game(example_small_saved_game: SavedGame) -> None:
-        """ Should convert JSON to the correct objects. """
-        player_objs = (Villager(0), Robber(1, 2, "Seer"), Seer(2, (1, "Robber")))
-        player_strs = ", ".join([json.dumps(player, cls=WolfBotEncoder) for player in player_objs])
-
-        statement_objs = (
-            Statement("I am a Villager.", ((0, frozenset({"Villager"})),), speaker="Villager"),
-            Statement(
-                "I am a Robber and I swapped with Player 2. I am now a Seer.",
-                ((1, frozenset({"Robber"})), (2, frozenset({"Seer"})),),
-                ((SwitchPriority.ROBBER, 1, 2),),
-                "Robber",
-            ),
-            Statement(
-                "I am a Seer and I saw that Player 1 was a Robber.",
-                ((2, frozenset({"Seer"})), (1, frozenset({"Robber"})),),
-                speaker="Seer",
-            ),
-        )
-        statement_strs = ", ".join(
-            [json.dumps(statement, cls=WolfBotEncoder) for statement in statement_objs]
-        )
-
-        input_json = (
-            '{"type": "SavedGame",'
-            ' "original_roles": ["Villager", "Robber", "Seer"],'
-            ' "game_roles": ["Villager", "Seer", "Robber"],'
-            f' "all_statements": [{statement_strs}],'
-            f' "player_objs": [{player_strs}]}}'
-        )
-
-        result = json.loads(input_json, cls=WolfBotDecoder)
-
+        result = json.loads(result, cls=WolfBotDecoder)
         assert result == example_small_saved_game
 
 

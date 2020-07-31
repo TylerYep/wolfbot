@@ -7,8 +7,8 @@ import logging
 import random
 import sys
 from collections import Counter
-from enum import IntEnum, unique
-from typing import Callable, Dict, Sequence, TypeVar
+from enum import Enum, IntEnum, unique
+from typing import Any, Callable, Dict, Sequence, TypeVar
 
 from src.log import OneNightLogger
 
@@ -61,6 +61,56 @@ def get_counts(arr: Sequence[T]) -> Dict[T, int]:
     return dict(Counter(arr))
 
 
+# @unique
+# class Role(IntEnum):
+#     """ Role Type. """
+
+#     DRUNK = 1
+#     HUNTER = 2
+#     INSOMNIAC = 3
+#     MASON = 4
+#     MINION = 5
+#     ROBBER = 6
+#     SEER = 7
+#     TANNER = 8
+#     TROUBLEMAKER = 9
+#     WOLF = 10
+#     VILLAGER = 11
+
+
+@unique
+@functools.total_ordering
+class Role(Enum):
+    """ Role Type. """
+
+    DRUNK = "Drunk"
+    HUNTER = "Hunter"
+    INSOMNIAC = "Insomniac"
+    MASON = "Mason"
+    MINION = "Minion"
+    PLAYER = "Player"
+    ROBBER = "Robber"
+    SEER = "Seer"
+    TANNER = "Tanner"
+    TROUBLEMAKER = "Troublemaker"
+    WOLF = "Wolf"
+    VILLAGER = "Villager"
+
+    def __lt__(self, other):
+        if self.__class__ is other.__class__:
+            return self.value < other.value
+        return NotImplemented
+
+    def __repr__(self) -> Any:
+        return str(self.value)
+
+    def __format__(self, formatstr: str) -> str:
+        return self.value
+
+    def json_repr(self) -> Dict[str, Any]:
+        return {"type": "Role", "data": self.value}
+
+
 ARGS = init_program("pytest" in sys.modules)
 if ARGS.seed:
     random.seed(ARGS.seed)
@@ -68,21 +118,21 @@ if ARGS.seed:
 # Game Constants
 # These are the player roles used in a game.
 ROLES = (
-    "Drunk",
-    "Insomniac",
-    "Hunter",
-    "Mason",
-    "Mason",
-    "Minion",
-    "Robber",
-    "Seer",
-    "Tanner",
-    "Troublemaker",
-    "Wolf",
-    "Wolf",
-    "Villager",
-    "Villager",
-    "Villager",
+    Role.DRUNK,
+    Role.INSOMNIAC,
+    Role.HUNTER,
+    Role.MASON,
+    Role.MASON,
+    Role.MINION,
+    Role.ROBBER,
+    Role.SEER,
+    Role.TANNER,
+    Role.TROUBLEMAKER,
+    Role.WOLF,
+    Role.WOLF,
+    Role.VILLAGER,
+    Role.VILLAGER,
+    Role.VILLAGER,
 )
 NUM_CENTER = 3
 # Randomize or use literally the order of the ROLES constant above.
@@ -103,18 +153,18 @@ REPLAY = ARGS.replay
 ROLE_SET = frozenset(ROLES)
 SORTED_ROLE_SET = sorted(ROLE_SET)
 NUM_ROLES = len(ROLES)
-ROLE_COUNTS = get_counts(ROLES)  # Dict of {"Villager": 3, "Wolf": 2, ... }
+ROLE_COUNTS = get_counts(ROLES)  # Dict of {Role.VILLAGER: 3, Role.WOLF: 2, ... }
 NUM_PLAYERS = NUM_ROLES - NUM_CENTER
 
 """ Game Rules """
-AWAKE_ORDER = ("Wolf", "Minion", "Mason", "Seer", "Robber", "Troublemaker", "Drunk", "Insomniac")
+AWAKE_ORDER = (Role.WOLF, Role.MINION, Role.MASON, Role.SEER, Role.ROBBER, Role.TROUBLEMAKER, Role.DRUNK, Role.INSOMNIAC)
 VILLAGE_ROLES = (
     frozenset(
-        {"Villager", "Mason", "Seer", "Robber", "Troublemaker", "Drunk", "Insomniac", "Hunter"}
+        {Role.VILLAGER, Role.MASON, Role.SEER, Role.ROBBER, Role.TROUBLEMAKER, Role.DRUNK, Role.INSOMNIAC, Role.HUNTER}
     )
     & ROLE_SET
 )
-EVIL_ROLES = frozenset({"Tanner", "Wolf", "Minion"}) & ROLE_SET
+EVIL_ROLES = frozenset({Role.TANNER, Role.WOLF, Role.MINION}) & ROLE_SET
 
 """ Village Players """
 CENTER_SEER_PROB = 0.9
@@ -138,7 +188,7 @@ EXPERIENCE_PATH = "src/learning/simulations/wolf.json"
 """ Interactive Game Constants """
 INTERACTIVE_MODE = ARGS.user
 IS_USER = [False] * NUM_ROLES
-USER_ROLE = "Drunk"
+USER_ROLE = Role.DRUNK
 NUM_OPTIONS = 5
 INFLUENCE_PROB = 0.1
 
@@ -167,7 +217,7 @@ if sys.version_info < (3, 8):
 
 @unique
 class SwitchPriority(IntEnum):
-    """ Priorities for switch actions. """
+    """ Priorities for switch actions, in order that they are performed. """
 
     ROBBER, TROUBLEMAKER, DRUNK = 1, 2, 3
 

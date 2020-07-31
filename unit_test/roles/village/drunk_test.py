@@ -3,7 +3,7 @@ from typing import Tuple
 
 from conftest import set_roles
 from src import const
-from src.const import SwitchPriority
+from src.const import SwitchPriority, Role
 from src.roles import Drunk
 from src.statements import Statement
 
@@ -29,9 +29,9 @@ class TestDrunk:
         assert drunk.statements == (
             Statement(
                 "I am a Drunk and I swapped with Center 1.",
-                ((6, frozenset({"Drunk"})),),
+                ((6, frozenset({Role.DRUNK})),),
                 ((SwitchPriority.DRUNK, 6, 13),),
-                "Drunk",
+                Role.DRUNK,
             ),
         )
 
@@ -45,9 +45,9 @@ class TestDrunk:
         assert result == (
             Statement(
                 "I am a Drunk and I swapped with Center 0.",
-                ((4, frozenset({"Drunk"})),),
+                ((4, frozenset({Role.DRUNK})),),
                 ((SwitchPriority.DRUNK, 4, 12),),
-                "Drunk",
+                Role.DRUNK,
             ),
         )
 
@@ -55,27 +55,27 @@ class TestDrunk:
     def test_get_all_statements() -> None:
         """ Should return the possible statements from all possible initialization actions. """
         player_index = 2
-        set_roles("Wolf", "Seer", "Drunk", "Villager", "Robber", "Wolf")
+        set_roles(Role.WOLF, Role.SEER, Role.DRUNK, Role.VILLAGER, Role.ROBBER, Role.WOLF)
         const.NUM_PLAYERS = 3
         const.NUM_CENTER = 3
         expected_statements = (
             Statement(
                 "I am a Drunk and I swapped with Center 0.",
-                ((2, frozenset({"Drunk"})),),
+                ((2, frozenset({Role.DRUNK})),),
                 ((SwitchPriority.DRUNK, 2, 3),),
-                "Drunk",
+                Role.DRUNK,
             ),
             Statement(
                 "I am a Drunk and I swapped with Center 1.",
-                ((2, frozenset({"Drunk"})),),
+                ((2, frozenset({Role.DRUNK})),),
                 ((SwitchPriority.DRUNK, 2, 4),),
-                "Drunk",
+                Role.DRUNK,
             ),
             Statement(
                 "I am a Drunk and I swapped with Center 2.",
-                ((2, frozenset({"Drunk"})),),
+                ((2, frozenset({Role.DRUNK})),),
                 ((SwitchPriority.DRUNK, 2, 5),),
-                "Drunk",
+                Role.DRUNK,
             ),
         )
 

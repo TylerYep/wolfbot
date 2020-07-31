@@ -4,6 +4,7 @@ from typing import Tuple
 from _pytest.monkeypatch import MonkeyPatch
 
 from src import const
+from src.const import Role
 from src.roles import Drunk, Hunter, Minion, Player, Robber, Seer, Villager, Wolf
 from src.statements import KnowledgeBase, Statement
 
@@ -18,16 +19,16 @@ class TestPlayer:
 
         empty_player = Player(player_index)
 
-        assert empty_player.role == "Player"
+        assert empty_player.role == Role.PLAYER
         assert empty_player.statements == ()
 
     @staticmethod
     def test_inheritance() -> None:
         """ Classes extending Player should be able to access Player fields. """
-        robber = Robber(2, 3, "Villager")
+        robber = Robber(2, 3, Role.VILLAGER)
 
         assert robber.choice_ind == 3
-        assert robber.new_role == "Villager"
+        assert robber.new_role == Role.VILLAGER
 
     @staticmethod
     def test_get_statement_inheritance() -> None:
@@ -37,7 +38,7 @@ class TestPlayer:
 
         statement = villager.get_statement(knowledge_base)
 
-        assert statement == Statement("I am a Villager.", ((0, frozenset({"Villager"})),))
+        assert statement == Statement("I am a Villager.", ((0, frozenset({Role.VILLAGER})),))
 
     @staticmethod
     def test_json_repr() -> None:
@@ -46,7 +47,7 @@ class TestPlayer:
 
         result = villager.json_repr()
 
-        assert result == {"type": "Villager", "player_index": 0}
+        assert result == {"type": Role.VILLAGER, "player_index": 0}
 
     @staticmethod
     def test_repr() -> None:
@@ -87,10 +88,10 @@ class TestIsEvil:
     def test_find_evil_players(medium_game_roles: Tuple[str, ...]) -> None:
         """ Should determine if a player has turned evil after night falls. """
         player_list: Tuple[Player, ...] = (
-            Seer(0, (2, "Drunk")),
-            Wolf(1, (1,), 5, "Troublemaker"),
+            Seer(0, (2, Role.DRUNK)),
+            Wolf(1, (1,), 5, Role.TROUBLEMAKER),
             Drunk(2, 5),
-            Robber(3, 2, "Drunk"),
+            Robber(3, 2, Role.DRUNK),
             Minion(4, (1,)),
         )
 
@@ -101,7 +102,7 @@ class TestIsEvil:
     @staticmethod
     def test_turned_evil_player(medium_game_roles: Tuple[str, ...]) -> None:
         """ Should determine if a player has turned evil after night falls. """
-        robber = Robber(3, 1, "Wolf")
+        robber = Robber(3, 1, Role.WOLF)
 
         result = robber.is_evil()
 
@@ -118,7 +119,7 @@ class TestGetVote:
     @staticmethod
     def test_vote_for_wolf(medium_game_roles: Tuple[str, ...]) -> None:
         """ If a player suspects a Wolf, they should vote for that player. """
-        prediction = ("Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber")
+        prediction = (Role.SEER, Role.WOLF, Role.TROUBLEMAKER, Role.DRUNK, Role.MINION, Role.ROBBER)
 
         result = Player(2).vote(prediction)
 
@@ -127,7 +128,7 @@ class TestGetVote:
     @staticmethod
     def test_no_vote_for_center_wolf(medium_game_roles: Tuple[str, ...]) -> None:
         """ If a player suspects a Wolf in the center, they should not vote for that player. """
-        prediction = ("Seer", "Troublemaker", "Drunk", "Minion", "Robber", "Wolf")
+        prediction = (Role.SEER, Role.TROUBLEMAKER, Role.DRUNK, Role.MINION, Role.ROBBER, Role.WOLF)
 
         result = Player(2).vote(prediction)
 
@@ -136,7 +137,7 @@ class TestGetVote:
     @staticmethod
     def test_vote_right(small_game_roles: Tuple[str, ...]) -> None:
         """ If no Wolves are found, players should vote for the person to their right. """
-        prediction = ("Villager", "Seer", "Robber")
+        prediction = (Role.VILLAGER, Role.SEER, Role.ROBBER)
 
         result = [Player(i).vote(prediction) for i in range(const.NUM_PLAYERS)]
 
@@ -147,7 +148,7 @@ class TestGetVote:
         """ Prompt the user for their vote. """
         player_index = 2
         const.IS_USER[player_index] = True
-        prediction = ("Seer", "Troublemaker", "Drunk", "Minion", "Robber", "Wolf")
+        prediction = (Role.SEER, Role.TROUBLEMAKER, Role.DRUNK, Role.MINION, Role.ROBBER, Role.WOLF)
         monkeypatch.setattr("builtins.input", lambda x: "4")
 
         result = Player(player_index).vote(prediction)

@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from typing import Any, Callable, Dict, Tuple
 
 from src import const
-from src.const import logger
+from src.const import logger, Role
 from src.roles import Player
 from src.statements import Statement
 
@@ -169,7 +169,7 @@ class Statistics:
         """ Returns 1/1 if at least one Wolf was correctly identified. """
         correct_guesses, total_wolves = 0, 1
         for i in range(const.NUM_PLAYERS):
-            if game_result.actual[i] == "Wolf" == game_result.guessed[i]:
+            if game_result.actual[i] == Role.WOLF == game_result.guessed[i]:
                 correct_guesses += 1
         return int(correct_guesses > 0), total_wolves
 
@@ -178,9 +178,9 @@ class Statistics:
         """ Returns 1/1 if all Wolves were correctly identified. """
         correct_guesses, total_wolves = 0, 0
         for i in range(const.NUM_PLAYERS):
-            if game_result.actual[i] == "Wolf":
+            if game_result.actual[i] == Role.WOLF:
                 total_wolves += 1
-                if game_result.guessed[i] == "Wolf":
+                if game_result.guessed[i] == Role.WOLF:
                     correct_guesses += 1
         return int(correct_guesses == total_wolves), 1
 
@@ -189,9 +189,9 @@ class Statistics:
         """ Returns fraction of how many Wolves were correctly identified. """
         correct_guesses, total_wolves = 0, 0
         for i in range(const.NUM_ROLES):
-            if game_result.actual[i] == "Wolf":
+            if game_result.actual[i] == Role.WOLF:
                 total_wolves += 1
-                if game_result.guessed[i] == "Wolf":
+                if game_result.guessed[i] == Role.WOLF:
                     correct_guesses += 1
         return correct_guesses, total_wolves
 
@@ -203,7 +203,7 @@ class Statistics:
     @staticmethod
     def tanner_wins(game_result: GameResult) -> Tuple[int, int]:
         """ Returns 1/1 if the Tanner won. """
-        return int(game_result.winning_team == "Tanner"), 1
+        return int(game_result.winning_team == Role.TANNER), 1
 
     @staticmethod
     def werewolf_wins(game_result: GameResult) -> Tuple[int, int]:

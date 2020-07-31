@@ -3,7 +3,7 @@ from typing import Tuple
 
 from conftest import set_roles
 from src import const
-from src.const import SwitchPriority
+from src.const import SwitchPriority, Role
 from src.roles import Troublemaker
 from src.statements import Statement
 
@@ -22,9 +22,9 @@ class TestTroublemaker:
         expected = (
             Statement(
                 "I am a Troublemaker and I swapped Player 6 and Player 0.",
-                ((11, frozenset({"Troublemaker"})),),
+                ((11, frozenset({Role.TROUBLEMAKER})),),
                 ((SwitchPriority.TROUBLEMAKER, 6, 0),),
-                "Troublemaker",
+                Role.TROUBLEMAKER,
             ),
         )
         new_roles = list(large_game_roles)
@@ -47,9 +47,9 @@ class TestTroublemaker:
         assert result == (
             Statement(
                 "I am a Troublemaker and I swapped Player 6 and Player 3.",
-                ((1, frozenset({"Troublemaker"})),),
+                ((1, frozenset({Role.TROUBLEMAKER})),),
                 ((SwitchPriority.TROUBLEMAKER, 6, 3),),
-                "Troublemaker",
+                Role.TROUBLEMAKER,
             ),
         )
 
@@ -57,15 +57,15 @@ class TestTroublemaker:
     def test_get_all_statements() -> None:
         """ Should return the possible statements from all possible initialization actions. """
         player_index = 2
-        set_roles("Wolf", "Seer", "Troublemaker", "Villager", "Robber", "Wolf")
+        set_roles(Role.WOLF, Role.SEER, Role.TROUBLEMAKER, Role.VILLAGER, Role.ROBBER, Role.WOLF)
         const.NUM_PLAYERS = 3
         const.NUM_CENTER = 3
         expected_statements = (
             Statement(
                 "I am a Troublemaker and I swapped Player 0 and Player 1.",
-                ((2, frozenset({"Troublemaker"})),),
+                ((2, frozenset({Role.TROUBLEMAKER})),),
                 ((SwitchPriority.TROUBLEMAKER, 0, 1),),
-                "Troublemaker",
+                Role.TROUBLEMAKER,
             ),
         )
 

@@ -10,6 +10,7 @@ from collections import defaultdict
 from typing import Any, DefaultDict, List, Tuple
 
 from src import const
+from src.const import Role
 from src.encoder import WolfBotDecoder, WolfBotEncoder
 from src.one_night import simulate_game
 from src.stats import GameResult
@@ -19,7 +20,7 @@ def evaluate(game: GameResult) -> int:
     """ Evaluation function. """
     val = 5
     for wolf_ind in game.wolf_inds:
-        if game.guessed[wolf_ind] == "Wolf":
+        if game.guessed[wolf_ind] == Role.WOLF:
             val = -5
     return val
 

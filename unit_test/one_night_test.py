@@ -5,6 +5,7 @@ from _pytest.logging import LogCaptureFixture
 
 from conftest import set_roles, verify_output, verify_output_string
 from src import const, one_night
+from src.const import Role
 from src.roles import Drunk, Minion, Player, Robber, Seer, Wolf
 from src.statements import Statement
 from src.stats import GameResult, SavedGame
@@ -19,7 +20,7 @@ class TestConsolidateResults:
         result = one_night.consolidate_results(example_small_saved_game)
 
         assert result == GameResult(
-            ("Villager", "Seer", "Robber"), ("Villager", "Seer", "Robber"), (), "Village"
+            (Role.VILLAGER, Role.SEER, Role.ROBBER), (Role.VILLAGER, Role.SEER, Role.ROBBER), (), "Village"
         )
 
     @staticmethod
@@ -28,8 +29,8 @@ class TestConsolidateResults:
         result = one_night.consolidate_results(example_medium_saved_game)
 
         assert result == GameResult(
-            ("Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"),
-            ("Minion", "Wolf", "Troublemaker", "Drunk", "Seer", "Robber"),
+            (Role.SEER, Role.WOLF, Role.TROUBLEMAKER, Role.DRUNK, Role.MINION, Role.ROBBER),
+            (Role.MINION, Role.WOLF, Role.TROUBLEMAKER, Role.DRUNK, Role.SEER, Role.ROBBER),
             (1,),
             "Village",
         )
@@ -44,21 +45,21 @@ class TestGetIndividualPreds:
     ) -> None:
         """ Should get the individual predictions for all players. """
         player_objs: Tuple[Player, ...] = (
-            Seer(0, (2, "Drunk")),
-            Wolf(1, (1,), 5, "Troublemaker"),
+            Seer(0, (2, Role.DRUNK)),
+            Wolf(1, (1,), 5, Role.TROUBLEMAKER),
             Drunk(2, 5),
-            Robber(3, 1, "Wolf"),
+            Robber(3, 1, Role.WOLF),
             Minion(4, (1,)),
         )
 
         result = one_night.get_individual_preds(player_objs, medium_statement_list)
 
         assert result == (
-            ("Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"),
-            ("Wolf", "Seer", "Robber", "Minion", "Troublemaker", "Drunk"),
-            ("Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"),
-            ("Wolf", "Minion", "Troublemaker", "Drunk", "Seer", "Robber"),
-            ("Wolf", "Minion", "Troublemaker", "Drunk", "Seer", "Robber"),
+            (Role.SEER, Role.WOLF, Role.TROUBLEMAKER, Role.DRUNK, Role.MINION, Role.ROBBER),
+            (Role.WOLF, Role.SEER, Role.ROBBER, Role.MINION, Role.TROUBLEMAKER, Role.DRUNK),
+            (Role.SEER, Role.WOLF, Role.TROUBLEMAKER, Role.DRUNK, Role.MINION, Role.ROBBER),
+            (Role.WOLF, Role.MINION, Role.TROUBLEMAKER, Role.DRUNK, Role.SEER, Role.ROBBER),
+            (Role.WOLF, Role.MINION, Role.TROUBLEMAKER, Role.DRUNK, Role.SEER, Role.ROBBER),
         )
 
 
@@ -71,7 +72,7 @@ class TestConfidence:
     @staticmethod
     def test_small_confidence(small_game_roles: Tuple[str, ...]) -> None:
         """ Should get voting results from the individual predictions. """
-        indiv_preds = (("Villager", "Seer", "Robber"),) * 3
+        indiv_preds = ((Role.VILLAGER, Role.SEER, Role.ROBBER),) * 3
 
         result = one_night.get_confidence(indiv_preds)
 
@@ -81,11 +82,11 @@ class TestConfidence:
     def test_medium_confidence(medium_game_roles: Tuple[str, ...]) -> None:
         """ Should get voting results from the individual predictions. """
         indiv_preds = (
-            ("Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"),
-            ("Wolf", "Seer", "Robber", "Minion", "Troublemaker", "Drunk"),
-            ("Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"),
-            ("Wolf", "Minion", "Troublemaker", "Drunk", "Seer", "Robber"),
-            ("Wolf", "Minion", "Troublemaker", "Drunk", "Seer", "Robber"),
+            (Role.SEER, Role.WOLF, Role.TROUBLEMAKER, Role.DRUNK, Role.MINION, Role.ROBBER),
+            (Role.WOLF, Role.SEER, Role.ROBBER, Role.MINION, Role.TROUBLEMAKER, Role.DRUNK),
+            (Role.SEER, Role.WOLF, Role.TROUBLEMAKER, Role.DRUNK, Role.MINION, Role.ROBBER),
+            (Role.WOLF, Role.MINION, Role.TROUBLEMAKER, Role.DRUNK, Role.SEER, Role.ROBBER),
+            (Role.WOLF, Role.MINION, Role.TROUBLEMAKER, Role.DRUNK, Role.SEER, Role.ROBBER),
         )
 
         result = one_night.get_confidence(indiv_preds)
@@ -126,12 +127,12 @@ class TestGetVotingResult:
         caplog: LogCaptureFixture, small_game_roles: Tuple[str, ...]
     ) -> None:
         """ Should get voting results from the individual predictions. """
-        indiv_preds = (("Villager", "Seer", "Robber"),) * len(small_game_roles)
+        indiv_preds = ((Role.VILLAGER, Role.SEER, Role.ROBBER),) * len(small_game_roles)
         player_list = tuple([Player(i) for i in range(len(small_game_roles))])
 
         result = one_night.get_voting_result(player_list, indiv_preds)
 
-        assert result == (("Villager", "Seer", "Robber"), (0, 1, 2), (1, 2, 0))
+        assert result == ((Role.VILLAGER, Role.SEER, Role.ROBBER), (0, 1, 2), (1, 2, 0))
         verify_output_string(caplog, "\nVote Array: [1, 1, 1]\n")
 
     @staticmethod
@@ -140,18 +141,18 @@ class TestGetVotingResult:
     ) -> None:
         """ Should get voting results from the individual predictions. """
         indiv_preds = (
-            ("Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"),
-            ("Wolf", "Seer", "Robber", "Minion", "Troublemaker", "Drunk"),
-            ("Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"),
-            ("Wolf", "Minion", "Troublemaker", "Drunk", "Seer", "Robber"),
-            ("Wolf", "Minion", "Troublemaker", "Drunk", "Seer", "Robber"),
+            (Role.SEER, Role.WOLF, Role.TROUBLEMAKER, Role.DRUNK, Role.MINION, Role.ROBBER),
+            (Role.WOLF, Role.SEER, Role.ROBBER, Role.MINION, Role.TROUBLEMAKER, Role.DRUNK),
+            (Role.SEER, Role.WOLF, Role.TROUBLEMAKER, Role.DRUNK, Role.MINION, Role.ROBBER),
+            (Role.WOLF, Role.MINION, Role.TROUBLEMAKER, Role.DRUNK, Role.SEER, Role.ROBBER),
+            (Role.WOLF, Role.MINION, Role.TROUBLEMAKER, Role.DRUNK, Role.SEER, Role.ROBBER),
         )
         player_list = tuple([Player(i) for i in range(len(medium_game_roles))])
 
         result = one_night.get_voting_result(player_list, indiv_preds)
 
         assert result == (
-            ("Seer", "Wolf", "Troublemaker", "Drunk", "Minion", "Robber"),
+            (Role.SEER, Role.WOLF, Role.TROUBLEMAKER, Role.DRUNK, Role.MINION, Role.ROBBER),
             (0,),
             (1, 0, 1, 0, 0),
         )
@@ -170,21 +171,21 @@ class TestGetVotingResult:
 
         assert result == (
             (
-                "Villager",
-                "Mason",
-                "Mason",
-                "Minion",
-                "Villager",
-                "Drunk",
-                "Tanner",
-                "Troublemaker",
-                "Villager",
-                "Wolf",
-                "Wolf",
-                "Hunter",
-                "Insomniac",
-                "Seer",
-                "Robber",
+                Role.VILLAGER,
+                Role.MASON,
+                Role.MASON,
+                Role.MINION,
+                Role.VILLAGER,
+                Role.DRUNK,
+                Role.TANNER,
+                Role.TROUBLEMAKER,
+                Role.VILLAGER,
+                Role.WOLF,
+                Role.WOLF,
+                Role.HUNTER,
+                Role.INSOMNIAC,
+                Role.SEER,
+                Role.ROBBER,
             ),
             (10,),
             (10, 10, 7, 5, 7, 10, 7, 10, 6, 10, 3, 10),
@@ -283,5 +284,5 @@ class TestEvalWinningTeam:
             "Player 5 was a Tanner!\n",
             "Tanner wins!",
         )
-        assert result == "Tanner"
+        assert result == Role.TANNER
         verify_output(caplog, expected)

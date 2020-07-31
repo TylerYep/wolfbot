@@ -5,7 +5,7 @@ import random
 from typing import List, Tuple
 
 from src import const
-from src.const import lru_cache
+from src.const import lru_cache, Role
 from src.predictions import make_unrestricted_prediction
 from src.roles.player import Player
 from src.roles.werewolf.wolf_variants import get_statement_expectimax, get_wolf_statements_random
@@ -50,6 +50,6 @@ class Tanner(Player):
         val = 10
         if not predictions:
             return -10
-        if predictions[self.player_index] == "Wolf":
+        if predictions[self.player_index] == Role.WOLF:
             val += 10
         return val

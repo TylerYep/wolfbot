@@ -1,4 +1,5 @@
 """ villager_test.py """
+from src.const import Role
 from src.roles import Villager
 from src.statements import Statement
 
@@ -14,7 +15,7 @@ class TestVillager:
         villager = Villager.awake_init(player_index, [], ())  # Other params are unused.
 
         assert villager.statements == (
-            Statement("I am a Villager.", ((5, frozenset({"Villager"})),)),
+            Statement("I am a Villager.", ((5, frozenset({Role.VILLAGER})),)),
         )
 
     @staticmethod
@@ -24,7 +25,7 @@ class TestVillager:
 
         result = Villager.get_villager_statements(player_index)
 
-        assert result == (Statement("I am a Villager.", ((0, frozenset({"Villager"})),)),)
+        assert result == (Statement("I am a Villager.", ((0, frozenset({Role.VILLAGER})),)),)
 
     @staticmethod
     def test_get_all_statements() -> None:
@@ -33,4 +34,4 @@ class TestVillager:
 
         result = Villager.get_all_statements(player_index)
 
-        assert result == (Statement("I am a Villager.", ((2, frozenset({"Villager"})),)),)
+        assert result == (Statement("I am a Villager.", ((2, frozenset({Role.VILLAGER})),)),)
