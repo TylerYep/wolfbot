@@ -62,4 +62,4 @@ class TestMinion:
         minion.analyze(large_knowledge_base)
         _ = minion.get_statement(large_knowledge_base)
 
-        assert len(minion.statements) == 84
+        assert len(minion.statements) == 76

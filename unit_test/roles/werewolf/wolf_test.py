@@ -52,7 +52,7 @@ class TestWolf:
 
         assert wolf.wolf_indices == (7,)
         assert wolf.center_index == 13
-        assert wolf.center_role == Role.INSOMNIAC
+        assert wolf.center_role is Role.INSOMNIAC
 
     @staticmethod
     def test_get_random_statement_medium(
@@ -120,7 +120,7 @@ class TestWolf:
         wolf.analyze(large_knowledge_base)
         _ = wolf.get_statement(large_knowledge_base)
 
-        assert len(wolf.statements) == 85
+        assert len(wolf.statements) == 77
 
     # @staticmethod
     # def test_eval_fn() -> None:

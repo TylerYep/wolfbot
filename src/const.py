@@ -79,17 +79,21 @@ class Role(Enum):
     WOLF = "Wolf"
     VILLAGER = "Villager"
 
+    @lru_cache
     def __lt__(self, other: object) -> bool:
+        """ This function is necessary to make Role sortable alphabetically. """
         if not isinstance(other, Role):
             raise NotImplementedError
         result = self.value < other.value  # pylint: disable=comparison-with-callable
         assert isinstance(result, bool)
         return result
 
+    @lru_cache
     def __repr__(self) -> str:  # pylint: disable=invalid-repr-returned
         assert isinstance(self.value, str)
         return self.value
 
+    @lru_cache
     def __format__(self, formatstr: str) -> str:  # pylint: disable=invalid-format-returned
         del formatstr
         assert isinstance(self.value, str)
@@ -195,7 +199,7 @@ EXPERIENCE_PATH = "src/learning/simulations/wolf.json"
 """ Interactive Game Constants """
 INTERACTIVE_MODE = ARGS.user
 IS_USER = [False] * NUM_ROLES
-USER_ROLE = Role.DRUNK
+USER_ROLE = Role.NONE
 NUM_OPTIONS = 5
 INFLUENCE_PROB = 0.1
 
@@ -214,7 +218,7 @@ elif INTERACTIVE_MODE:
     logger.set_level(logging.INFO)
 
 
-assert USER_ROLE is None or USER_ROLE in ROLES
+assert USER_ROLE is Role.NONE or USER_ROLE in ROLES
 assert not (EXPECTIMAX_WOLF and USE_RL_WOLF)
 if sys.version_info < (3, 8):
     sys.stdout.write("Python " + sys.version)

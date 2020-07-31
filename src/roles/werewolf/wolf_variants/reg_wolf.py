@@ -37,9 +37,9 @@ def get_wolf_statements(player_obj: Any, knowledge_base: KnowledgeBase) -> Tuple
                     statements += Troublemaker.get_troublemaker_statements(player_index, i, j)
     if Role.ROBBER in const.ROLE_SET:
         for i, stated_role in enumerate(stated_roles):
-            if stated_role and stated_role != Role.ROBBER:
+            if stated_role not in (Role.NONE, Role.ROBBER):
                 # Only say you robbed a Seer if the real Seer did not reference a Robber.
-                if stated_role == Role.SEER:
+                if stated_role is Role.SEER:
                     use_index = True
                     for _, poss_set in previous_statements[i].knowledge:
                         if Role.ROBBER in poss_set:
@@ -50,6 +50,6 @@ def get_wolf_statements(player_obj: Any, knowledge_base: KnowledgeBase) -> Tuple
     if Role.SEER in const.ROLE_SET:
         for i, stated_role in enumerate(stated_roles):
             # 'Hey, I'm a Seer and I saw another Seer...'
-            if stated_role and i not in wolf_indices and stated_role != Role.SEER:
+            if stated_role not in (Role.NONE, Role.SEER) and i not in wolf_indices:
                 statements += Seer.get_seer_statements(player_index, (i, stated_role))
     return statements

@@ -50,6 +50,6 @@ class Tanner(Player):
         val = 10
         if not predictions:
             return -10
-        if predictions[self.player_index] == Role.WOLF:
+        if predictions[self.player_index] is Role.WOLF:
             val += 10
         return val

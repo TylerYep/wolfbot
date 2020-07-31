@@ -212,7 +212,7 @@ class TestEvalWinningTeam:
             "But Player(s) [2] was a Wolf!\n",
             "Werewolf Team wins!",
         )
-        assert result == Team.WEREWOLF
+        assert result is Team.WEREWOLF
         verify_output(caplog, expected)
 
     @staticmethod
@@ -226,7 +226,7 @@ class TestEvalWinningTeam:
         result = one_night.eval_winning_team(small_game_roles, guessed_wolf_inds, vote_inds)
 
         expected = ("No wolves were found.", "That was correct!\n", "Village Team wins!")
-        assert result == Team.VILLAGE
+        assert result is Team.VILLAGE
         verify_output(caplog, expected)
 
     @staticmethod
@@ -244,7 +244,7 @@ class TestEvalWinningTeam:
             "Player 2 was a Wolf!\n",
             "Village Team wins!",
         )
-        assert result == Team.VILLAGE
+        assert result is Team.VILLAGE
         verify_output(caplog, expected)
 
     @staticmethod
@@ -269,7 +269,7 @@ class TestEvalWinningTeam:
 
         result = one_night.eval_winning_team(const.ROLES, guessed_wolf_inds, vote_inds)
 
-        assert result == Team.VILLAGE
+        assert result is Team.VILLAGE
         verify_output(caplog, expected)
 
     @staticmethod
@@ -287,5 +287,5 @@ class TestEvalWinningTeam:
             "Player 5 was a Tanner!\n",
             "Tanner wins!",
         )
-        assert result == Team.TANNER
+        assert result is Team.TANNER
         verify_output(caplog, expected)

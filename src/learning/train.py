@@ -20,7 +20,7 @@ def evaluate(game: GameResult) -> int:
     """ Evaluation function. """
     val = 5
     for wolf_ind in game.wolf_inds:
-        if game.guessed[wolf_ind] == Role.WOLF:
+        if game.guessed[wolf_ind] is Role.WOLF:
             val = -5
     return val
 

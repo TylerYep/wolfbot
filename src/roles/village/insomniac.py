@@ -39,7 +39,7 @@ class Insomniac(Player):
         knowledge = ((player_index, frozenset({Role.INSOMNIAC})),)
         sentence = f"I am a Insomniac and when I woke up I was a {insomniac_new_role}."
         if new_insomniac_index is None:
-            if insomniac_new_role != Role.INSOMNIAC:
+            if insomniac_new_role is not Role.INSOMNIAC:
                 sentence += " I don't know who I switched with."
         else:
             sentence += f" I switched with Player {new_insomniac_index}."
@@ -59,7 +59,7 @@ class Insomniac(Player):
         """ Overrides analyze. """
         possible_switches: List[int] = []
         for i, stated_role in enumerate(knowledge_base.stated_roles):
-            if stated_role == self.new_role:
+            if stated_role is self.new_role:
                 possible_switches.append(i)
         if len(possible_switches) == 1:  # TODO how to handle multiple possible switches
             self.statements += self.get_insomniac_statements(

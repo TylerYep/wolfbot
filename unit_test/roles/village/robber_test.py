@@ -35,7 +35,7 @@ class TestRobber:
 
         assert game_roles == new_roles
         assert robber.choice_ind == 6
-        assert robber.new_role == Role.MASON
+        assert robber.new_role is Role.MASON
         assert robber.statements == expected
 
     @staticmethod

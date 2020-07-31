@@ -112,20 +112,20 @@ def night_falls(game_roles: List[Role], original_roles: Tuple[Role, ...]) -> Tup
 
     # Awaken each player in order and initialize the Player object.
     player_objs = [Player(-1) for i in range(const.NUM_ROLES)]
-    for role_str in const.AWAKE_ORDER:
-        if role_str in const.ROLE_SET:
-            logger.info(f"{role_str}, wake up.")
-            role_obj = get_role_obj(role_str)
+    for awaken_role in const.AWAKE_ORDER:
+        if awaken_role in const.ROLE_SET:
+            logger.info(f"{awaken_role}, wake up.")
+            role_obj = get_role_obj(awaken_role)
             for i in range(const.NUM_PLAYERS):
-                if original_roles[i] == role_str:
+                if original_roles[i] is awaken_role:
                     player_objs[i] = role_obj.awake_init(i, game_roles, original_roles)
-            logger.info(f"{role_str}, go to sleep.\n")
+            logger.info(f"{awaken_role}, go to sleep.\n")
 
     # All other players wake up at the same time.
     logger.info("Everyone, wake up!\n")
-    for i, role_str in enumerate(original_roles):
-        if role_str in const.ROLE_SET - set(const.AWAKE_ORDER):
-            role_obj = get_role_obj(role_str)
+    for i, role_name in enumerate(original_roles):
+        if role_name in const.ROLE_SET - set(const.AWAKE_ORDER):
+            role_obj = get_role_obj(role_name)
             player_objs[i] = role_obj.awake_init(i, game_roles, original_roles)
 
     return tuple(player_objs[: const.NUM_PLAYERS])
@@ -217,13 +217,13 @@ def eval_winning_team(
         # Hunter kills the player he voted for if he dies.
         for i in guessed_wolf_inds:
             logger.info(f"Player {i} was chosen as a Wolf.\nPlayer {i} was a {game_roles[i]}!\n")
-            if game_roles[i] == Role.HUNTER:
+            if game_roles[i] is Role.HUNTER:
                 if vote_inds[i] not in guessed_wolf_inds:
                     guessed_wolf_inds.append(vote_inds[i])
                 logger.info(f"(Player {i}) Hunter died and killed Player {vote_inds[i]} too!\n")
-            elif game_roles[i] == Role.WOLF:
+            elif game_roles[i] is Role.WOLF:
                 killed_wolf = True
-            elif game_roles[i] == Role.TANNER:
+            elif game_roles[i] is Role.TANNER:
                 killed_tanner = True
 
     if villager_win or killed_wolf:
@@ -245,7 +245,7 @@ def override_players(game_roles: List[Role]) -> None:
     choose what player role we want to have.
     """
     if const.INTERACTIVE_MODE:
-        if const.USER_ROLE is None:
+        if const.USER_ROLE is Role.NONE:
             user_index = random.randrange(const.NUM_PLAYERS)
             const.IS_USER[user_index] = True
         else:

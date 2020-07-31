@@ -25,7 +25,7 @@ class TestInsomniac:
 
         insomniac = Insomniac.awake_init(player_index, game_roles, ())
 
-        assert insomniac.new_role == Role.ROBBER
+        assert insomniac.new_role is Role.ROBBER
         assert insomniac.statements == expected
 
     @staticmethod

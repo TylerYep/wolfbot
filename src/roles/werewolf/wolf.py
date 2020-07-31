@@ -104,7 +104,7 @@ class Wolf(Player):
         if not predictions:
             return -10
         for wolfi in self.wolf_indices:
-            if predictions[wolfi] == Role.WOLF:
+            if predictions[wolfi] is Role.WOLF:
                 val -= 7
             if Role.WOLF in solver_result.possible_roles[wolfi]:
                 val -= 5

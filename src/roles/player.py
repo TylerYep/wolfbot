@@ -58,37 +58,37 @@ class Player:
 
         logger.debug(f"[Hidden] Player {self.player_index} ({self.role}) is a {role_type} now!")
 
-        if role_type == Role.WOLF:
+        if role_type is Role.WOLF:
             return Wolf(self.player_index, ())
-        if role_type == Role.MINION:
+        if role_type is Role.MINION:
             return Minion(self.player_index, ())
-        if role_type == Role.TANNER:
+        if role_type is Role.TANNER:
             return Tanner(self.player_index)
-        if role_type == Role.VILLAGER:
+        if role_type is Role.VILLAGER:
             return Villager(self.player_index)
-        if role_type == Role.HUNTER:
+        if role_type is Role.HUNTER:
             return Hunter(self.player_index)
-        if role_type == Role.INSOMNIAC:
+        if role_type is Role.INSOMNIAC:
             # TODO you can lie and say you are a different character.
             return Insomniac(self.player_index, Role.INSOMNIAC)
-        if role_type == Role.DRUNK:
+        if role_type is Role.DRUNK:
             rand_center = util.get_center(const.IS_USER[self.player_index])
             return Drunk(self.player_index, rand_center)
 
         rand_int1 = util.get_player(const.IS_USER[self.player_index], exclude=(self.player_index,))
-        if role_type == Role.MASON:
+        if role_type is Role.MASON:
             return Mason(self.player_index, (self.player_index, rand_int1))
 
         rand_role = random.choice(list(const.ROLE_SET))
-        if role_type == Role.SEER:
+        if role_type is Role.SEER:
             return Seer(self.player_index, (rand_int1, rand_role))
-        if role_type == Role.ROBBER:
+        if role_type is Role.ROBBER:
             return Robber(self.player_index, rand_int1, rand_role)
 
         rand_int2 = util.get_player(
             const.IS_USER[self.player_index], exclude=(self.player_index, rand_int1)
         )
-        if role_type == Role.TROUBLEMAKER:
+        if role_type is Role.TROUBLEMAKER:
             return Troublemaker(self.player_index, rand_int1, rand_int2)
 
         raise TypeError(f"Role Type: {role_type} is not a valid role.")
@@ -122,7 +122,7 @@ class Player:
         """ Gets Player Statement. """
         del knowledge_base
         # If have a new role and are now evil, transform into that role.
-        if self.new_role != Role.NONE and self.new_role in const.EVIL_ROLES:
+        if self.new_role is not Role.NONE and self.new_role in const.EVIL_ROLES:
             new_player_obj = self.transform(self.new_role)
             new_player_obj.prev_priority = self.prev_priority
             self = new_player_obj  # pylint: disable=self-cls-assignment
@@ -162,7 +162,7 @@ class Player:
         """ Decide whether a character should make an evil prediction or not. """
         # TODO When a wolf becomes good? Do I need to check for Wolf twice?
         return (
-            self.role in const.EVIL_ROLES and self.new_role == Role.NONE
+            self.role in const.EVIL_ROLES and self.new_role is Role.NONE
         ) or self.new_role in const.EVIL_ROLES
 
     def predict(self, statements: Tuple[Statement, ...]) -> Tuple[Role, ...]:

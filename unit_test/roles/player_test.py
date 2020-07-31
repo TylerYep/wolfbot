@@ -19,7 +19,7 @@ class TestPlayer:
 
         empty_player = Player(player_index)
 
-        assert empty_player.role == Role.NONE
+        assert empty_player.role is Role.NONE
         assert empty_player.statements == ()
 
     @staticmethod
@@ -28,7 +28,7 @@ class TestPlayer:
         robber = Robber(2, 3, Role.VILLAGER)
 
         assert robber.choice_ind == 3
-        assert robber.new_role == Role.VILLAGER
+        assert robber.new_role is Role.VILLAGER
 
     @staticmethod
     def test_get_statement_inheritance() -> None:

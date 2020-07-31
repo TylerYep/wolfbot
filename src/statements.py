@@ -65,7 +65,7 @@ class Statement:
     priority: StatementLevel = StatementLevel.PRIMARY
 
     def __post_init__(self) -> None:
-        if self.speaker == Role.NONE and self.knowledge:
+        if self.speaker is Role.NONE and self.knowledge:
             [self.speaker] = self.knowledge[0][1]
 
     def references(self, player_index: int) -> bool:

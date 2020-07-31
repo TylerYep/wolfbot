@@ -28,7 +28,7 @@ def find_all_player_indices(
 ) -> Tuple[int, ...]:
     """ Util function to find all indices of a given role. """
     return tuple(
-        [i for i in range(const.NUM_PLAYERS) if game_roles[i] == role and i not in exclude]
+        [i for i in range(const.NUM_PLAYERS) if game_roles[i] is role and i not in exclude]
     )
 
 

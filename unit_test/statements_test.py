@@ -37,7 +37,7 @@ class TestStatement:
         assert result.sentence == "test"
         assert result.knowledge == ((1, frozenset({Role.VILLAGER})),)
         assert result.switches == ()
-        assert result.speaker == Role.VILLAGER
+        assert result.speaker is Role.VILLAGER
 
     @staticmethod
     def test_references_true(example_statement: Statement) -> None:

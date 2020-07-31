@@ -141,7 +141,7 @@ class Statistics:
         """ Returns fraction of how many roles were guessed correctly out of all roles. """
         correct = 0
         for i in range(const.NUM_ROLES):
-            if game_result.actual[i] == game_result.guessed[i]:
+            if game_result.actual[i] is game_result.guessed[i]:
                 correct += 1
         return correct, const.NUM_ROLES
 
@@ -153,7 +153,7 @@ class Statistics:
         """
         correct = const.NUM_CENTER
         for i in range(const.NUM_PLAYERS):
-            if game_result.actual[i] == game_result.guessed[i]:
+            if game_result.actual[i] is game_result.guessed[i]:
                 correct += 1
         center_set = const.get_counts(game_result.actual[const.NUM_PLAYERS :])
         center_set2 = game_result.guessed[const.NUM_PLAYERS :]
@@ -169,7 +169,7 @@ class Statistics:
         """ Returns 1/1 if at least one Wolf was correctly identified. """
         correct_guesses, total_wolves = 0, 1
         for i in range(const.NUM_PLAYERS):
-            if game_result.actual[i] == Role.WOLF == game_result.guessed[i]:
+            if game_result.actual[i] is Role.WOLF is game_result.guessed[i]:
                 correct_guesses += 1
         return int(correct_guesses > 0), total_wolves
 
@@ -178,9 +178,9 @@ class Statistics:
         """ Returns 1/1 if all Wolves were correctly identified. """
         correct_guesses, total_wolves = 0, 0
         for i in range(const.NUM_PLAYERS):
-            if game_result.actual[i] == Role.WOLF:
+            if game_result.actual[i] is Role.WOLF:
                 total_wolves += 1
-                if game_result.guessed[i] == Role.WOLF:
+                if game_result.guessed[i] is Role.WOLF:
                     correct_guesses += 1
         return int(correct_guesses == total_wolves), 1
 
@@ -189,23 +189,23 @@ class Statistics:
         """ Returns fraction of how many Wolves were correctly identified. """
         correct_guesses, total_wolves = 0, 0
         for i in range(const.NUM_ROLES):
-            if game_result.actual[i] == Role.WOLF:
+            if game_result.actual[i] is Role.WOLF:
                 total_wolves += 1
-                if game_result.guessed[i] == Role.WOLF:
+                if game_result.guessed[i] is Role.WOLF:
                     correct_guesses += 1
         return correct_guesses, total_wolves
 
     @staticmethod
     def villager_wins(game_result: GameResult) -> Tuple[int, int]:
         """ Returns 1/1 if the Village team won. """
-        return int(game_result.winning_team == Team.VILLAGE), 1
+        return int(game_result.winning_team is Team.VILLAGE), 1
 
     @staticmethod
     def tanner_wins(game_result: GameResult) -> Tuple[int, int]:
         """ Returns 1/1 if the Tanner won. """
-        return int(game_result.winning_team == Team.TANNER), 1
+        return int(game_result.winning_team is Team.TANNER), 1
 
     @staticmethod
     def werewolf_wins(game_result: GameResult) -> Tuple[int, int]:
         """ Returns 1/1 if the Werewolf team won. """
-        return int(game_result.winning_team == Team.WEREWOLF), 1
+        return int(game_result.winning_team is Team.WEREWOLF), 1

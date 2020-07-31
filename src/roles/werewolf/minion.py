@@ -67,10 +67,10 @@ class Minion(Player):
         val = 10
         if not predictions:
             return -10
-        if predictions[self.player_index] == Role.WOLF:
+        if predictions[self.player_index] is Role.WOLF:
             val += 10
         for wolfi in self.wolf_indices:
-            if predictions[wolfi] == Role.WOLF:
+            if predictions[wolfi] is Role.WOLF:
                 val -= 7
             if Role.WOLF in solver_result.possible_roles[wolfi]:
                 val -= 5
