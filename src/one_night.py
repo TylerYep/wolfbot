@@ -8,7 +8,7 @@ from typing import Dict, List, Tuple
 from tqdm import tqdm
 
 from src import const, util
-from src.const import StatementLevel, logger, Role
+from src.const import Role, StatementLevel, logger
 from src.encoder import WolfBotEncoder
 from src.gui import GUIState
 from src.roles import Player, get_role_obj
@@ -104,7 +104,7 @@ def get_player_statements(player_objs: Tuple[Player, ...]) -> Tuple[Statement, .
     return tuple(knowledge_base.final_claims)
 
 
-def night_falls(game_roles: List[str], original_roles: Tuple[str, ...]) -> Tuple[Player, ...]:
+def night_falls(game_roles: List[Role], original_roles: Tuple[Role, ...]) -> Tuple[Player, ...]:
     """ Initialize role object list and perform all switching and peeking actions to begin. """
     assert game_roles == list(original_roles)
     logger.info("\n-- NIGHT FALLS --\n")
@@ -146,7 +146,7 @@ def consolidate_results(save_game: SavedGame) -> GameResult:
 
 def get_individual_preds(
     player_objs: Tuple[Player, ...], all_statements: Tuple[Statement, ...]
-) -> Tuple[Tuple[str, ...], ...]:
+) -> Tuple[Tuple[Role, ...], ...]:
     """ Let each player make a prediction of every player's true role. """
     logger.trace("\n[Trace] Predictions:")
     all_preds = [player_objs[i].predict(all_statements) for i in range(const.NUM_PLAYERS)]
@@ -156,7 +156,7 @@ def get_individual_preds(
     return tuple(all_preds)
 
 
-def get_confidence(all_role_guesses_arr: Tuple[Tuple[str, ...], ...]) -> Tuple[float, ...]:
+def get_confidence(all_role_guesses_arr: Tuple[Tuple[Role, ...], ...]) -> Tuple[float, ...]:
     """
     Creates confidence levels for each prediction and takes most
     common role guess array as the final guess for that index.
@@ -165,7 +165,7 @@ def get_confidence(all_role_guesses_arr: Tuple[Tuple[str, ...], ...]) -> Tuple[f
     """
     confidence = []
     for i in range(const.NUM_ROLES):
-        role_dict: Dict[str, int] = {role: 0 for role in const.ROLE_SET}
+        role_dict: Dict[Role, int] = {role: 0 for role in const.ROLE_SET}
         for prediction in all_role_guesses_arr:
             role_dict[prediction[i]] += 1
         count = max(role_dict.values())
@@ -176,8 +176,8 @@ def get_confidence(all_role_guesses_arr: Tuple[Tuple[str, ...], ...]) -> Tuple[f
 
 
 def get_voting_result(
-    player_objs: Tuple[Player, ...], all_role_guesses_arr: Tuple[Tuple[str, ...], ...]
-) -> Tuple[Tuple[str, ...], Tuple[int, ...], Tuple[int, ...]]:
+    player_objs: Tuple[Player, ...], all_role_guesses_arr: Tuple[Tuple[Role, ...], ...]
+) -> Tuple[Tuple[Role, ...], Tuple[int, ...], Tuple[int, ...]]:
     """
     Creates confidence levels for each prediction and takes most
     common role guess array as the final guess for that index.
@@ -202,7 +202,7 @@ def get_voting_result(
 
 
 def eval_winning_team(
-    game_roles: Tuple[str, ...], guessed_wolf_inds: List[int], vote_inds: Tuple[int, ...]
+    game_roles: Tuple[Role, ...], guessed_wolf_inds: List[int], vote_inds: Tuple[int, ...]
 ) -> str:
     """ Decide which team won based on the final vote. """
     killed_wolf, killed_tanner, villager_win = False, False, False
@@ -232,13 +232,13 @@ def eval_winning_team(
 
     if killed_tanner:
         logger.info("Tanner wins!")
-        return Role.TANNER
+        return "Tanner"
 
     logger.info("Werewolf Team wins!")
     return "Werewolf"
 
 
-def override_players(game_roles: List[str]) -> None:
+def override_players(game_roles: List[Role]) -> None:
     """
     Makes changes to the randomized set of game_roles using the specifications in const.py.
     For example, we can swap a Wolf to the const.FIXED_WOLF_INDEX, or

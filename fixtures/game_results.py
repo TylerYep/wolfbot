@@ -9,12 +9,17 @@ from src.stats import GameResult
 
 
 @pytest.fixture
-def example_small_game_result(small_game_roles: Tuple[str, ...]) -> GameResult:
-    return GameResult((Role.VILLAGER, Role.SEER, Role.ROBBER), (Role.VILLAGER, Role.SEER, Role.ROBBER), (), "Village")
+def example_small_game_result(small_game_roles: Tuple[Role, ...]) -> GameResult:
+    return GameResult(
+        (Role.VILLAGER, Role.SEER, Role.ROBBER),
+        (Role.VILLAGER, Role.SEER, Role.ROBBER),
+        (),
+        "Village",
+    )
 
 
 @pytest.fixture
-def example_medium_game_result(medium_game_roles: Tuple[str, ...]) -> GameResult:
+def example_medium_game_result(medium_game_roles: Tuple[Role, ...]) -> GameResult:
     return GameResult(
         (Role.SEER, Role.WOLF, Role.TROUBLEMAKER, Role.DRUNK, Role.MINION, Role.ROBBER),
         (Role.SEER, Role.MINION, Role.TROUBLEMAKER, Role.DRUNK, Role.WOLF, Role.ROBBER),
@@ -24,7 +29,7 @@ def example_medium_game_result(medium_game_roles: Tuple[str, ...]) -> GameResult
 
 
 @pytest.fixture
-def example_large_game_result(large_game_roles: Tuple[str, ...]) -> GameResult:
+def example_large_game_result(large_game_roles: Tuple[Role, ...]) -> GameResult:
     return GameResult(
         (
             Role.VILLAGER,

@@ -4,7 +4,7 @@ from __future__ import annotations
 from typing import Any, Dict, List, Optional, Tuple
 
 from src import const, util
-from src.const import logger, lru_cache, Role
+from src.const import Role, logger, lru_cache
 from src.roles.player import Player
 from src.statements import Statement
 
@@ -15,8 +15,8 @@ class Seer(Player):
     def __init__(
         self,
         player_index: int,
-        choice_1: Tuple[int, str],
-        choice_2: Tuple[Optional[int], Optional[str]] = (None, None),
+        choice_1: Tuple[int, Role],
+        choice_2: Tuple[Optional[int], Optional[Role]] = (None, None),
     ):
         super().__init__(player_index)
         self.choice_1, self.choice_2 = choice_1, choice_2
@@ -24,7 +24,7 @@ class Seer(Player):
 
     @classmethod
     def awake_init(
-        cls, player_index: int, game_roles: List[str], original_roles: Tuple[str, ...]
+        cls, player_index: int, game_roles: List[Role], original_roles: Tuple[Role, ...]
     ) -> Seer:
         """ Initializes Seer - either sees 2 center cards or 1 player card. """
         del original_roles
@@ -66,8 +66,8 @@ class Seer(Player):
     @lru_cache
     def get_seer_statements(
         player_index: int,
-        choice_1: Tuple[int, str],
-        choice_2: Tuple[Optional[int], Optional[str]] = (None, None),
+        choice_1: Tuple[int, Role],
+        choice_2: Tuple[Optional[int], Optional[Role]] = (None, None),
     ) -> Tuple[Statement, ...]:
         """ Gets Seer Statement. """
         seen_index, seen_role = choice_1

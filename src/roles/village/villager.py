@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from typing import List, Tuple
 
-from src.const import lru_cache, Role
+from src.const import Role, lru_cache
 from src.roles.player import Player
 from src.statements import Statement
 
@@ -17,7 +17,7 @@ class Villager(Player):
 
     @classmethod
     def awake_init(
-        cls, player_index: int, game_roles: List[str], original_roles: Tuple[str, ...]
+        cls, player_index: int, game_roles: List[Role], original_roles: Tuple[Role, ...]
     ) -> Villager:
         """ Initializes Villager when night falls. """
         del game_roles, original_roles

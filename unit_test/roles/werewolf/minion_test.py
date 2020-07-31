@@ -2,6 +2,7 @@
 from typing import Tuple
 
 from src import const
+from src.const import Role
 from src.roles import Minion
 from src.statements import KnowledgeBase
 
@@ -11,7 +12,7 @@ class TestMinion:
 
     @staticmethod
     def test_get_random_statement_medium(
-        medium_game_roles: Tuple[str, ...], medium_knowledge_base: KnowledgeBase
+        medium_game_roles: Tuple[Role, ...], medium_knowledge_base: KnowledgeBase
     ) -> None:
         """ Should execute initialization actions and return the possible statements. """
         player_index = 4
@@ -24,7 +25,7 @@ class TestMinion:
 
     @staticmethod
     def test_get_reg_wolf_statement_medium(
-        medium_game_roles: Tuple[str, ...], medium_knowledge_base: KnowledgeBase
+        medium_game_roles: Tuple[Role, ...], medium_knowledge_base: KnowledgeBase
     ) -> None:
         """ Should execute initialization actions and return the possible statements. """
         const.USE_REG_WOLF = True
@@ -38,7 +39,7 @@ class TestMinion:
 
     @staticmethod
     def test_get_random_statement_large(
-        large_game_roles: Tuple[str, ...], large_knowledge_base: KnowledgeBase
+        large_game_roles: Tuple[Role, ...], large_knowledge_base: KnowledgeBase
     ) -> None:
         """ Should execute initialization actions and return the possible statements. """
         player_index = 4
@@ -51,7 +52,7 @@ class TestMinion:
 
     @staticmethod
     def test_get_reg_wolf_statement_large(
-        large_game_roles: Tuple[str, ...], large_knowledge_base: KnowledgeBase
+        large_game_roles: Tuple[Role, ...], large_knowledge_base: KnowledgeBase
     ) -> None:
         """ Should execute initialization actions and return the possible statements. """
         const.USE_REG_WOLF = True
@@ -61,4 +62,4 @@ class TestMinion:
         minion.analyze(large_knowledge_base)
         _ = minion.get_statement(large_knowledge_base)
 
-        assert len(minion.statements) == 76
+        assert len(minion.statements) == 84

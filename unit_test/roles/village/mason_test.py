@@ -12,7 +12,7 @@ class TestMason:
     """ Tests for the Mason player class. """
 
     @staticmethod
-    def test_awake_init(large_game_roles: Tuple[str, ...]) -> None:
+    def test_awake_init(large_game_roles: Tuple[Role, ...]) -> None:
         """ Should initialize a Mason. """
         player_index = 6
 

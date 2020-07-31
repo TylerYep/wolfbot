@@ -12,7 +12,7 @@ class TestSeer:
     """ Tests for the Seer player class. """
 
     @staticmethod
-    def test_awake_init_center_choice(large_game_roles: Tuple[str, ...]) -> None:
+    def test_awake_init_center_choice(large_game_roles: Tuple[Role, ...]) -> None:
         """
         Should initialize a Seer. Note that the player_index of the Seer is
         not necessarily the index where the true Seer is located.
@@ -41,7 +41,7 @@ class TestSeer:
         assert seer.statements == expected
 
     @staticmethod
-    def test_awake_init_player_choice(large_game_roles: Tuple[str, ...]) -> None:
+    def test_awake_init_player_choice(large_game_roles: Tuple[Role, ...]) -> None:
         """
         Should initialize a Seer. Note that the player_index of the Seer is
         not necessarily the index where the true Seer is located.
@@ -113,18 +113,30 @@ class TestSeer:
                     "I am a Seer and I saw that Center 0 was a Villager and "
                     "that Center 1 was a Wolf."
                 ),
-                ((1, frozenset({Role.SEER})), (2, frozenset({Role.VILLAGER})), (3, frozenset({Role.WOLF}))),
+                (
+                    (1, frozenset({Role.SEER})),
+                    (2, frozenset({Role.VILLAGER})),
+                    (3, frozenset({Role.WOLF})),
+                ),
             ),
             Statement(
                 (
                     "I am a Seer and I saw that Center 0 was a Wolf and "
                     "that Center 1 was a Villager."
                 ),
-                ((1, frozenset({Role.SEER})), (2, frozenset({Role.WOLF})), (3, frozenset({Role.VILLAGER}))),
+                (
+                    (1, frozenset({Role.SEER})),
+                    (2, frozenset({Role.WOLF})),
+                    (3, frozenset({Role.VILLAGER})),
+                ),
             ),
             Statement(
                 ("I am a Seer and I saw that Center 0 was a Wolf and that Center 1 was a Wolf."),
-                ((1, frozenset({Role.SEER})), (2, frozenset({Role.WOLF})), (3, frozenset({Role.WOLF}))),
+                (
+                    (1, frozenset({Role.SEER})),
+                    (2, frozenset({Role.WOLF})),
+                    (3, frozenset({Role.WOLF})),
+                ),
             ),
         )
 

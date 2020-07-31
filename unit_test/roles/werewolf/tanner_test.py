@@ -1,6 +1,7 @@
 """ tanner_test.py """
 from typing import Tuple
 
+from src.const import Role
 from src.roles import Tanner
 from src.statements import KnowledgeBase
 
@@ -9,7 +10,7 @@ class TestTanner:
     """ Tests for the Tanner player class. """
 
     @staticmethod
-    def test_awake_init(large_game_roles: Tuple[str, ...]) -> None:
+    def test_awake_init(large_game_roles: Tuple[Role, ...]) -> None:
         """
         Should initialize a Tanner. Note that the player_index of the Tanner is
         not necessarily the index where the true Tanner is located.
@@ -23,7 +24,7 @@ class TestTanner:
 
     @staticmethod
     def test_get_random_statement(
-        large_game_roles: Tuple[str, ...], large_knowledge_base: KnowledgeBase
+        large_game_roles: Tuple[Role, ...], large_knowledge_base: KnowledgeBase
     ) -> None:
         """ Should execute initialization actions and return the possible statements. """
         player_index = 1

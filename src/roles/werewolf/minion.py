@@ -5,7 +5,7 @@ import random
 from typing import Any, Dict, List, Tuple
 
 from src import const, util
-from src.const import logger, lru_cache, Role
+from src.const import Role, logger, lru_cache
 from src.predictions import make_unrestricted_prediction
 from src.roles.player import Player
 from src.roles.werewolf.wolf_variants import (
@@ -26,7 +26,7 @@ class Minion(Player):
 
     @classmethod
     def awake_init(
-        cls, player_index: int, game_roles: List[str], original_roles: Tuple[str, ...]
+        cls, player_index: int, game_roles: List[Role], original_roles: Tuple[Role, ...]
     ) -> Minion:
         """ Initializes Minion - gets Wolf indices. """
         del game_roles

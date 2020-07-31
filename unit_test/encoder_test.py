@@ -2,7 +2,7 @@
 import json
 
 from src import encoder
-from src.const import SwitchPriority, Role
+from src.const import Role, SwitchPriority
 from src.encoder import WolfBotDecoder, WolfBotEncoder
 from src.roles import Player, Robber, Seer, Villager
 from src.statements import Statement
@@ -23,8 +23,8 @@ class TestWolfBotEncoderDecoder:
         result = json.dumps(input_obj, cls=WolfBotEncoder)
         assert result == '[{"type": "Role", "data": "Wolf"}, {"type": "Role", "data": "Villager"}]'
 
-        result = json.loads(result, cls=WolfBotDecoder)
-        assert result == input_obj
+        reverted_result = json.loads(result, cls=WolfBotDecoder)
+        assert reverted_result == input_obj
 
     @staticmethod
     def test_default_set() -> None:
@@ -37,8 +37,8 @@ class TestWolfBotEncoderDecoder:
             ' "data": [{"type": "Role", "data": "Villager"}, {"type": "Role", "data": "Wolf"}]}'
         )
 
-        result = json.loads(result, cls=WolfBotDecoder)
-        assert result == input_obj
+        reverted_result = json.loads(result, cls=WolfBotDecoder)
+        assert reverted_result == input_obj
 
     @staticmethod
     def test_default_frozenset() -> None:
@@ -51,8 +51,8 @@ class TestWolfBotEncoderDecoder:
             ' "data": [{"type": "Role", "data": "Villager"}, {"type": "Role", "data": "Wolf"}]}'
         )
 
-        result = json.loads(result, cls=WolfBotDecoder)
-        assert result == input_obj
+        reverted_result = json.loads(result, cls=WolfBotDecoder)
+        assert reverted_result == input_obj
 
     @staticmethod
     def test_default_statement(example_statement: Statement) -> None:
@@ -67,8 +67,8 @@ class TestWolfBotEncoderDecoder:
             ' "switches": [[1, 2, 0]], "speaker": {"type": "Role", "data": "Robber"}}'
         )
 
-        result = json.loads(result, cls=WolfBotDecoder)
-        assert result == example_statement
+        reverted_result = json.loads(result, cls=WolfBotDecoder)
+        assert reverted_result == example_statement
 
     @staticmethod
     def test_default_player() -> None:
@@ -78,8 +78,8 @@ class TestWolfBotEncoderDecoder:
         result = json.dumps(input_obj, cls=WolfBotEncoder)
         assert result == '{"type": "Villager", "player_index": 0}'
 
-        result = json.loads(result, cls=WolfBotDecoder)
-        assert result == input_obj
+        reverted_result = json.loads(result, cls=WolfBotDecoder)
+        assert reverted_result == input_obj
 
     @staticmethod
     def test_default_game_result(example_small_game_result: GameResult) -> None:
@@ -95,8 +95,8 @@ class TestWolfBotEncoderDecoder:
             ' "winning_team": "Village"}'
         )
 
-        result = json.loads(result, cls=WolfBotDecoder)
-        assert result == example_small_game_result
+        reverted_result = json.loads(result, cls=WolfBotDecoder)
+        assert reverted_result == example_small_game_result
 
     @staticmethod
     def test_default_saved_game(example_small_saved_game: SavedGame) -> None:
@@ -104,7 +104,9 @@ class TestWolfBotEncoderDecoder:
         player_objs = [Villager(0), Robber(1, 2, Role.SEER), Seer(2, (1, Role.ROBBER))]
         player_strs = ", ".join([json.dumps(player, cls=WolfBotEncoder) for player in player_objs])
         statement_objs = [
-            Statement("I am a Villager.", ((0, frozenset({Role.VILLAGER})),), speaker=Role.VILLAGER),
+            Statement(
+                "I am a Villager.", ((0, frozenset({Role.VILLAGER})),), speaker=Role.VILLAGER
+            ),
             Statement(
                 "I am a Robber and I swapped with Player 2. I am now a Seer.",
                 ((1, frozenset({Role.ROBBER})), (2, frozenset({Role.SEER})),),
@@ -125,15 +127,15 @@ class TestWolfBotEncoderDecoder:
         assert result == (
             '{"type": "SavedGame",'
             ' "original_roles": [{"type": "Role", "data": "Villager"},'
-            ' {"type": "Role", "data": "Seer"}, {"type": "Role", "data": "Robber"}],'
+            ' {"type": "Role", "data": "Robber"}, {"type": "Role", "data": "Seer"}],'
             ' "game_roles": [{"type": "Role", "data": "Villager"},'
             ' {"type": "Role", "data": "Seer"}, {"type": "Role", "data": "Robber"}],'
             f' "all_statements": [{statement_strs}],'
             f' "player_objs": [{player_strs}]}}'
         )
 
-        result = json.loads(result, cls=WolfBotDecoder)
-        assert result == example_small_saved_game
+        reverted_result = json.loads(result, cls=WolfBotDecoder)
+        assert reverted_result == example_small_saved_game
 
 
 class TestGetObjectInitializer:

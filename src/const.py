@@ -61,23 +61,6 @@ def get_counts(arr: Sequence[T]) -> Dict[T, int]:
     return dict(Counter(arr))
 
 
-# @unique
-# class Role(IntEnum):
-#     """ Role Type. """
-
-#     DRUNK = 1
-#     HUNTER = 2
-#     INSOMNIAC = 3
-#     MASON = 4
-#     MINION = 5
-#     ROBBER = 6
-#     SEER = 7
-#     TANNER = 8
-#     TROUBLEMAKER = 9
-#     WOLF = 10
-#     VILLAGER = 11
-
-
 @unique
 @functools.total_ordering
 class Role(Enum):
@@ -88,6 +71,7 @@ class Role(Enum):
     INSOMNIAC = "Insomniac"
     MASON = "Mason"
     MINION = "Minion"
+    NONE = ""
     PLAYER = "Player"
     ROBBER = "Robber"
     SEER = "Seer"
@@ -96,18 +80,23 @@ class Role(Enum):
     WOLF = "Wolf"
     VILLAGER = "Villager"
 
-    def __lt__(self, other):
-        if self.__class__ is other.__class__:
-            return self.value < other.value
-        return NotImplemented
+    def __lt__(self, other: object) -> bool:
+        if not isinstance(other, Role):
+            raise NotImplementedError
+        result = self.value < other.value  # pylint: disable=comparison-with-callable
+        assert isinstance(result, bool)
+        return result
 
-    def __repr__(self) -> Any:
-        return str(self.value)
+    def __repr__(self) -> str:  # pylint: disable=invalid-repr-returned
+        assert isinstance(self.value, str)
+        return self.value
 
-    def __format__(self, formatstr: str) -> str:
+    def __format__(self, formatstr: str) -> str:  # pylint: disable=invalid-format-returned
+        assert isinstance(self.value, str)
         return self.value
 
     def json_repr(self) -> Dict[str, Any]:
+        """ Gets JSON representation of a Role enum. """
         return {"type": "Role", "data": self.value}
 
 
@@ -157,10 +146,28 @@ ROLE_COUNTS = get_counts(ROLES)  # Dict of {Role.VILLAGER: 3, Role.WOLF: 2, ... 
 NUM_PLAYERS = NUM_ROLES - NUM_CENTER
 
 """ Game Rules """
-AWAKE_ORDER = (Role.WOLF, Role.MINION, Role.MASON, Role.SEER, Role.ROBBER, Role.TROUBLEMAKER, Role.DRUNK, Role.INSOMNIAC)
+AWAKE_ORDER = (
+    Role.WOLF,
+    Role.MINION,
+    Role.MASON,
+    Role.SEER,
+    Role.ROBBER,
+    Role.TROUBLEMAKER,
+    Role.DRUNK,
+    Role.INSOMNIAC,
+)
 VILLAGE_ROLES = (
     frozenset(
-        {Role.VILLAGER, Role.MASON, Role.SEER, Role.ROBBER, Role.TROUBLEMAKER, Role.DRUNK, Role.INSOMNIAC, Role.HUNTER}
+        {
+            Role.VILLAGER,
+            Role.MASON,
+            Role.SEER,
+            Role.ROBBER,
+            Role.TROUBLEMAKER,
+            Role.DRUNK,
+            Role.INSOMNIAC,
+            Role.HUNTER,
+        }
     )
     & ROLE_SET
 )

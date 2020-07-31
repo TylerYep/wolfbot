@@ -10,51 +10,86 @@ class TestMakeRandomPrediction:
     """ Tests for the random_prediction function. """
 
     @staticmethod
-    def test_random_prediction(medium_game_roles: Tuple[str, ...]) -> None:
+    def test_random_prediction(medium_game_roles: Tuple[Role, ...]) -> None:
         """ Should return a random shuffled list as the predicted roles. """
         result = predictions.make_random_prediction()
 
-        assert result == (Role.SEER, Role.WOLF, Role.DRUNK, Role.ROBBER, Role.MINION, Role.TROUBLEMAKER)
+        assert result == (
+            Role.SEER,
+            Role.WOLF,
+            Role.DRUNK,
+            Role.ROBBER,
+            Role.MINION,
+            Role.TROUBLEMAKER,
+        )
 
 
 class TestMakeEvilPrediction:
     """ Tests for the make_evil_prediction function. """
 
     @staticmethod
-    def test_random_evil_prediction(medium_game_roles: Tuple[str, ...]) -> None:
+    def test_random_evil_prediction(medium_game_roles: Tuple[Role, ...]) -> None:
         """ Should give a random prediction when an empty SolverState is passed in. """
         solution_arr = (SolverState(),)
 
         result = predictions.make_evil_prediction(solution_arr)
 
-        assert result == (Role.SEER, Role.WOLF, Role.DRUNK, Role.ROBBER, Role.MINION, Role.TROUBLEMAKER)
+        assert result == (
+            Role.SEER,
+            Role.WOLF,
+            Role.DRUNK,
+            Role.ROBBER,
+            Role.MINION,
+            Role.TROUBLEMAKER,
+        )
 
     @staticmethod
     def test_evil_prediction(example_medium_solverstate_list: Tuple[SolverState, ...]) -> None:
         """ Should give a random prediction when an empty SolverState is passed in. """
         result = predictions.make_evil_prediction(example_medium_solverstate_list)
 
-        assert result == (Role.SEER, Role.MINION, Role.TROUBLEMAKER, Role.DRUNK, Role.WOLF, Role.ROBBER)
+        assert result == (
+            Role.SEER,
+            Role.MINION,
+            Role.TROUBLEMAKER,
+            Role.DRUNK,
+            Role.WOLF,
+            Role.ROBBER,
+        )
 
 
 class TestMakeUnrestrictedPrediction:
     """ Tests for the make_unrestricted_prediction function. """
 
     @staticmethod
-    def test_empty_unrestricted_prediction(medium_game_roles: Tuple[str, ...]) -> None:
+    def test_empty_unrestricted_prediction(medium_game_roles: Tuple[Role, ...]) -> None:
         """ Should return an empty list to denote that no prediction could be made. """
         solution = SolverState()
 
         result = predictions.make_unrestricted_prediction(solution)
 
-        assert result == (Role.TROUBLEMAKER, Role.DRUNK, Role.WOLF, Role.SEER, Role.ROBBER, Role.MINION)
+        assert result == (
+            Role.TROUBLEMAKER,
+            Role.DRUNK,
+            Role.WOLF,
+            Role.SEER,
+            Role.ROBBER,
+            Role.MINION,
+        )
 
     @staticmethod
     def test_unrestricted_prediction(example_medium_solverstate: SolverState) -> None:
         """ Should return a list of predictions without requiring adherence to possible sets. """
         result = predictions.make_unrestricted_prediction(example_medium_solverstate)
 
-        assert result == (Role.SEER, Role.TROUBLEMAKER, Role.WOLF, Role.MINION, Role.ROBBER, Role.DRUNK)
+        assert result == (
+            Role.SEER,
+            Role.TROUBLEMAKER,
+            Role.WOLF,
+            Role.MINION,
+            Role.ROBBER,
+            Role.DRUNK,
+        )
 
 
 class TestMakePrediction:  # TODO stop converting to lists
@@ -65,14 +100,28 @@ class TestMakePrediction:  # TODO stop converting to lists
         """ Should return evil prediction when is_evil=True. """
         result = predictions.make_prediction(example_medium_solverstate_list, is_evil=True)
 
-        assert result == (Role.SEER, Role.MINION, Role.TROUBLEMAKER, Role.DRUNK, Role.WOLF, Role.ROBBER)
+        assert result == (
+            Role.SEER,
+            Role.MINION,
+            Role.TROUBLEMAKER,
+            Role.DRUNK,
+            Role.WOLF,
+            Role.ROBBER,
+        )
 
     @staticmethod
     def test_make_prediction(example_medium_solverstate_list: Tuple[SolverState, ...]) -> None:
         """ Should return valid prediction for villager players. """
         result = predictions.make_prediction(example_medium_solverstate_list, is_evil=False)
 
-        assert result == (Role.ROBBER, Role.SEER, Role.TROUBLEMAKER, Role.MINION, Role.WOLF, Role.DRUNK)
+        assert result == (
+            Role.ROBBER,
+            Role.SEER,
+            Role.TROUBLEMAKER,
+            Role.MINION,
+            Role.WOLF,
+            Role.DRUNK,
+        )
 
 
 class TestGetBasicGuesses:
@@ -86,7 +135,10 @@ class TestGetBasicGuesses:
         """
         result = predictions.get_basic_guesses(example_small_solverstate)
 
-        assert result == ([Role.SEER, "", Role.ROBBER], {Role.ROBBER: 0, Role.SEER: 0, Role.VILLAGER: 1})
+        assert result == (
+            [Role.SEER, Role.NONE, Role.ROBBER],
+            {Role.ROBBER: 0, Role.SEER: 0, Role.VILLAGER: 1},
+        )
 
     @staticmethod
     def test_guesses_medium(example_medium_solverstate: SolverState) -> None:
@@ -95,8 +147,15 @@ class TestGetBasicGuesses:
         as well as a dictionary of counts.
         """
         expected = (
-            [Role.SEER, "", Role.DRUNK, "", "", ""],
-            {Role.DRUNK: 0, Role.MINION: 1, Role.ROBBER: 1, Role.SEER: 0, Role.TROUBLEMAKER: 1, Role.WOLF: 1},
+            [Role.SEER, Role.NONE, Role.DRUNK, Role.NONE, Role.NONE, Role.NONE],
+            {
+                Role.DRUNK: 0,
+                Role.MINION: 1,
+                Role.ROBBER: 1,
+                Role.SEER: 0,
+                Role.TROUBLEMAKER: 1,
+                Role.WOLF: 1,
+            },
         )
 
         result = predictions.get_basic_guesses(example_medium_solverstate)
@@ -110,8 +169,17 @@ class TestGetBasicGuesses:
         as well as a dictionary of counts.
         """
         expected = (
-            [Role.ROBBER, Role.MINION, Role.SEER, Role.VILLAGER, Role.MASON, Role.MASON, Role.DRUNK, Role.TANNER]
-            + [""] * 7,
+            [
+                Role.ROBBER,
+                Role.MINION,
+                Role.SEER,
+                Role.VILLAGER,
+                Role.MASON,
+                Role.MASON,
+                Role.DRUNK,
+                Role.TANNER,
+            ]
+            + [Role.NONE] * 7,
             {
                 Role.DRUNK: 0,
                 Role.HUNTER: 1,
@@ -137,7 +205,7 @@ class TestRecurseAssign:
 
     @staticmethod
     def test_no_action(
-        example_small_solverstate: SolverState, small_game_roles: Tuple[str, ...]
+        example_small_solverstate: SolverState, small_game_roles: Tuple[Role, ...]
     ) -> None:
         """ Should not make any assignments if all assignments are made. """
         counts = {Role.ROBBER: 0, Role.SEER: 0, Role.VILLAGER: 0}
@@ -151,7 +219,15 @@ class TestRecurseAssign:
     @staticmethod
     def test_no_solution_medium(example_medium_solverstate: SolverState) -> None:
         """ Should return empty list if no arrangement of assignments is valid. """
-        role_guesses = [Role.ROBBER, "", Role.SEER, Role.VILLAGER, Role.MASON, Role.MASON, Role.DRUNK] + [""] * 8
+        role_guesses = [
+            Role.ROBBER,
+            Role.NONE,
+            Role.SEER,
+            Role.VILLAGER,
+            Role.MASON,
+            Role.MASON,
+            Role.DRUNK,
+        ] + [Role.NONE] * 8
         counts = {
             Role.DRUNK: 0,
             Role.HUNTER: 1,
@@ -173,7 +249,7 @@ class TestRecurseAssign:
     @staticmethod
     def test_small_predict_solution(example_small_solverstate: SolverState) -> None:
         """ Should return solved list if there is an arrangement of valid assignments. """
-        role_guesses = [Role.SEER, "", Role.ROBBER]
+        role_guesses = [Role.SEER, Role.NONE, Role.ROBBER]
         counts = {Role.ROBBER: 0, Role.SEER: 0, Role.VILLAGER: 1}
 
         result = predictions.recurse_assign(example_small_solverstate, role_guesses, counts)
@@ -183,17 +259,39 @@ class TestRecurseAssign:
     @staticmethod
     def test_medium_predict_solution(example_medium_solverstate: SolverState) -> None:
         """ Should return solved list if there is an arrangement of valid assignments. """
-        role_guesses = [Role.SEER, "", Role.DRUNK, "", "", ""]
-        counts = {Role.DRUNK: 0, Role.MINION: 1, Role.ROBBER: 1, Role.SEER: 0, Role.TROUBLEMAKER: 1, Role.WOLF: 1}
+        role_guesses = [Role.SEER, Role.NONE, Role.DRUNK, Role.NONE, Role.NONE, Role.NONE]
+        counts = {
+            Role.DRUNK: 0,
+            Role.MINION: 1,
+            Role.ROBBER: 1,
+            Role.SEER: 0,
+            Role.TROUBLEMAKER: 1,
+            Role.WOLF: 1,
+        }
 
         result = predictions.recurse_assign(example_medium_solverstate, role_guesses, counts)
 
-        assert result == [Role.SEER, Role.TROUBLEMAKER, Role.DRUNK, Role.MINION, Role.WOLF, Role.ROBBER]
+        assert result == [
+            Role.SEER,
+            Role.TROUBLEMAKER,
+            Role.DRUNK,
+            Role.MINION,
+            Role.WOLF,
+            Role.ROBBER,
+        ]
 
     @staticmethod
     def test_large_predict_solution(example_large_solverstate: SolverState) -> None:
         """ Should return solved list if there is an arrangement of valid assignments. """
-        role_guesses = [Role.ROBBER, "", Role.SEER, Role.VILLAGER, Role.MASON, Role.MASON, Role.DRUNK] + [""] * 8
+        role_guesses = [
+            Role.ROBBER,
+            Role.NONE,
+            Role.SEER,
+            Role.VILLAGER,
+            Role.MASON,
+            Role.MASON,
+            Role.DRUNK,
+        ] + [Role.NONE] * 8
         counts = {
             Role.DRUNK: 0,
             Role.HUNTER: 1,
@@ -233,7 +331,7 @@ class TestGetSwitchDict:
     """ Tests for the get_switch_dict function. """
 
     @staticmethod
-    def test_get_empty_switch_dict(small_game_roles: Tuple[str, ...]) -> None:
+    def test_get_empty_switch_dict(small_game_roles: Tuple[Role, ...]) -> None:
         """ Should return the identity switch dict. """
         possible_roles = (frozenset({Role.ROBBER, Role.VILLAGER, Role.SEER}),) * 3
         state = SolverState(possible_roles)

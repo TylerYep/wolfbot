@@ -14,7 +14,7 @@ class TestPrintRoles:
     """ Tests for the print_roles function. """
 
     @staticmethod
-    def test_print_roles(caplog: LogCaptureFixture, small_game_roles: Tuple[str, ...]) -> None:
+    def test_print_roles(caplog: LogCaptureFixture, small_game_roles: Tuple[Role, ...]) -> None:
         """ Correctly print and format roles. """
         shuffled_roles = [Role.SEER, Role.VILLAGER, Role.WOLF, Role.ROBBER]
 
@@ -27,7 +27,7 @@ class TestPrintRoles:
 
     @staticmethod
     def test_print_wolfbot_guesses(
-        caplog: LogCaptureFixture, medium_game_roles: Tuple[str, ...]
+        caplog: LogCaptureFixture, medium_game_roles: Tuple[Role, ...]
     ) -> None:
         """ Correctly print and format roles. """
         util.print_roles(medium_game_roles, "WolfBot")
@@ -43,13 +43,13 @@ class TestSwapCharacters:
     """ Tests for the swap_characters function. """
 
     @staticmethod
-    def test_same_index_error(small_game_roles: Tuple[str, ...]) -> None:
+    def test_same_index_error(small_game_roles: Tuple[Role, ...]) -> None:
         """ Don't attempt to swap the same index. """
         with pytest.raises(AssertionError):
             util.swap_characters(list(small_game_roles), 2, 2)
 
     @staticmethod
-    def test_swap(small_game_roles: Tuple[str, ...]) -> None:
+    def test_swap(small_game_roles: Tuple[Role, ...]) -> None:
         """ Correctly swap two players. """
         roles = list(small_game_roles)
 
@@ -62,7 +62,7 @@ class TestFindAllPlayerIndices:
     """ Tests for the find_all_player_indices function. """
 
     @staticmethod
-    def test_returns_correct_indices(large_game_roles: Tuple[str, ...]) -> None:
+    def test_returns_correct_indices(large_game_roles: Tuple[Role, ...]) -> None:
         """ Don't attempt to swap the same index. """
         result = util.find_all_player_indices(large_game_roles, Role.VILLAGER)
 
@@ -73,14 +73,14 @@ class TestGetPlayer:
     """ Tests for the get_player function. """
 
     @staticmethod
-    def test_generates_random_indices(large_game_roles: Tuple[str, ...]) -> None:
+    def test_generates_random_indices(large_game_roles: Tuple[Role, ...]) -> None:
         """ Generated indices should be random. """
         result = [util.get_player(is_user=False) for _ in range(10)]
 
         assert result == [6, 6, 0, 4, 8, 7, 6, 4, 7, 5]
 
     @staticmethod
-    def test_random_excludes_values(large_game_roles: Tuple[str, ...]) -> None:
+    def test_random_excludes_values(large_game_roles: Tuple[Role, ...]) -> None:
         """ Generated indices should exclude specified values. """
         exclude = (6, 7, 8)
 
@@ -91,7 +91,7 @@ class TestGetPlayer:
 
     @staticmethod
     def test_user_input_indices(
-        monkeypatch: MonkeyPatch, large_game_roles: Tuple[str, ...]
+        monkeypatch: MonkeyPatch, large_game_roles: Tuple[Role, ...]
     ) -> None:
         """ Generated indices should be random. """
         inputs = [0, 2, 20, 1]
@@ -103,7 +103,7 @@ class TestGetPlayer:
 
     @staticmethod
     def test_user_excludes_values(
-        monkeypatch: MonkeyPatch, large_game_roles: Tuple[str, ...]
+        monkeypatch: MonkeyPatch, large_game_roles: Tuple[Role, ...]
     ) -> None:
         """ Generated indices should exclude specified values. """
         exclude = (6, 7, 8)
@@ -120,7 +120,7 @@ class TestGetCenter:
     """ Tests for the get_center function. """
 
     @staticmethod
-    def test_generates_random_indices(large_game_roles: Tuple[str, ...]) -> None:
+    def test_generates_random_indices(large_game_roles: Tuple[Role, ...]) -> None:
         """ Generated indices should be random. """
         result = [util.get_center(is_user=False) for _ in range(10)]
 
@@ -138,7 +138,7 @@ class TestGetCenter:
 
     @staticmethod
     def test_user_center_indices(
-        monkeypatch: MonkeyPatch, large_game_roles: Tuple[str, ...]
+        monkeypatch: MonkeyPatch, large_game_roles: Tuple[Role, ...]
     ) -> None:
         """ Generated indices should be random. """
         inputs = [1, 2, 0, 2]
@@ -150,7 +150,7 @@ class TestGetCenter:
 
     @staticmethod
     def test_user_excludes_values(
-        monkeypatch: MonkeyPatch, large_game_roles: Tuple[str, ...]
+        monkeypatch: MonkeyPatch, large_game_roles: Tuple[Role, ...]
     ) -> None:
         """ Generated indices should exclude specified values. """
         exclude = (12, 13)

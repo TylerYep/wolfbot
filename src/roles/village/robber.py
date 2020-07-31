@@ -4,7 +4,7 @@ from __future__ import annotations
 from typing import Any, Dict, List, Tuple
 
 from src import const, util
-from src.const import SwitchPriority, logger, lru_cache, Role
+from src.const import Role, SwitchPriority, logger, lru_cache
 from src.roles.player import Player
 from src.statements import Statement
 
@@ -12,7 +12,7 @@ from src.statements import Statement
 class Robber(Player):
     """ Robber Player class. """
 
-    def __init__(self, player_index: int, choice_ind: int, new_role: str):
+    def __init__(self, player_index: int, choice_ind: int, new_role: Role):
         super().__init__(player_index)
         self.choice_ind = choice_ind
         self.new_role = new_role
@@ -20,7 +20,7 @@ class Robber(Player):
 
     @classmethod
     def awake_init(
-        cls, player_index: int, game_roles: List[str], original_roles: Tuple[str, ...]
+        cls, player_index: int, game_roles: List[Role], original_roles: Tuple[Role, ...]
     ) -> Robber:
         """ Initializes Robber - switches roles with another player. """
         del original_roles
@@ -41,13 +41,16 @@ class Robber(Player):
     @staticmethod
     @lru_cache
     def get_robber_statements(
-        player_index: int, choice_ind: int, choice_char: str
+        player_index: int, choice_ind: int, choice_char: Role
     ) -> Tuple[Statement, ...]:
         """ Gets Robber Statement. """
         sentence = (
             f"I am a Robber and I swapped with Player {choice_ind}. I am now a {choice_char}."
         )
-        knowledge = ((player_index, frozenset({Role.ROBBER})), (choice_ind, frozenset({choice_char})))
+        knowledge = (
+            (player_index, frozenset({Role.ROBBER})),
+            (choice_ind, frozenset({choice_char})),
+        )
         switches = ((SwitchPriority.ROBBER, player_index, choice_ind),)
         return (Statement(sentence, knowledge, switches),)
 

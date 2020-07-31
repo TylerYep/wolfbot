@@ -25,7 +25,7 @@ def evaluate(game: GameResult) -> int:
     return val
 
 
-def get_wolf_state(game: GameResult) -> Tuple[List[Tuple[int, ...]], List[Tuple[str, ...]]]:
+def get_wolf_state(game: GameResult) -> Tuple[List[Tuple[int, ...]], List[Tuple[Role, ...]]]:
     """ Fetches Wolf statement from Game. """
     states, statements = [], []
     for wolf_ind in game.wolf_inds:

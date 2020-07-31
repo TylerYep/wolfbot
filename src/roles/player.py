@@ -5,7 +5,7 @@ import random
 from typing import Any, Dict, List, Tuple
 
 from src import const, util
-from src.const import StatementLevel, logger, lru_cache, Role
+from src.const import Role, StatementLevel, logger, lru_cache
 from src.predictions import make_prediction, make_random_prediction
 from src.solvers import switching_solver as solver
 from src.statements import KnowledgeBase, Statement
@@ -20,7 +20,7 @@ class Player:
             return
         self.player_index = player_index
         self.role = Role(type(self).__name__)  # e.g. Role.WOLF
-        self.new_role = ""
+        self.new_role = Role.NONE
         self.statements: Tuple[Statement, ...] = ()
         self.prev_priority = StatementLevel.NOT_YET_SPOKEN
         if const.MULTI_STATEMENT:
@@ -39,7 +39,7 @@ class Player:
             partial_statements.append(statement)
         return tuple(partial_statements)
 
-    def transform(self, role_type: str) -> Player:  # pylint: disable=too-many-locals
+    def transform(self, role_type: Role) -> Player:  # pylint: disable=too-many-locals
         """ Returns new Player identity. """
         from src.roles import (
             Drunk,
@@ -94,7 +94,7 @@ class Player:
 
     @classmethod
     def awake_init(
-        cls, player_index: int, game_roles: List[str], original_roles: Tuple[str, ...]
+        cls, player_index: int, game_roles: List[Role], original_roles: Tuple[Role, ...]
     ) -> Player:
         """ Initializes Player and performs their nighttime actions. """
         raise NotImplementedError
@@ -121,7 +121,7 @@ class Player:
         """ Gets Player Statement. """
         del knowledge_base
         # If have a new role and are now evil, transform into that role.
-        if self.new_role != "" and self.new_role in const.EVIL_ROLES:
+        if self.new_role != Role.NONE and self.new_role in const.EVIL_ROLES:
             new_player_obj = self.transform(self.new_role)
             new_player_obj.prev_priority = self.prev_priority
             self = new_player_obj  # pylint: disable=self-cls-assignment
@@ -161,10 +161,10 @@ class Player:
         """ Decide whether a character should make an evil prediction or not. """
         # TODO When a wolf becomes good? Do I need to check for Wolf twice?
         return (
-            self.role in const.EVIL_ROLES and self.new_role == ""
+            self.role in const.EVIL_ROLES and self.new_role == Role.NONE
         ) or self.new_role in const.EVIL_ROLES
 
-    def predict(self, statements: Tuple[Statement, ...]) -> Tuple[str, ...]:
+    def predict(self, statements: Tuple[Statement, ...]) -> Tuple[Role, ...]:
         """ Gets a player's predictions for each index given all statements. """
         is_evil = self.is_evil()
         if const.SMART_VILLAGERS or is_evil:
@@ -174,7 +174,7 @@ class Player:
             prediction = make_random_prediction()
         return prediction
 
-    def vote(self, prediction: Tuple[str, ...]) -> int:
+    def vote(self, prediction: Tuple[Role, ...]) -> int:
         """
         Gets the player's vote for who the Wolf is for a given prediction.
         There are some really complicated game mechanics for the Minion.

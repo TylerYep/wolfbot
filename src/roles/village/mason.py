@@ -4,7 +4,7 @@ from __future__ import annotations
 from typing import Any, Dict, List, Tuple
 
 from src import const, util
-from src.const import logger, lru_cache, Role
+from src.const import Role, logger, lru_cache
 from src.roles.player import Player
 from src.statements import Statement
 
@@ -19,7 +19,7 @@ class Mason(Player):
 
     @classmethod
     def awake_init(
-        cls, player_index: int, game_roles: List[str], original_roles: Tuple[str, ...]
+        cls, player_index: int, game_roles: List[Role], original_roles: Tuple[Role, ...]
     ) -> Mason:
         """ Initializes Mason - sees all other Masons. """
         del game_roles
@@ -51,7 +51,10 @@ class Mason(Player):
         else:
             other_mason = mason_indices[0] if mason_indices[0] != player_index else mason_indices[1]
             sentence = f"I am a Mason. The other Mason is Player {other_mason}."
-            knowledge = [(player_index, frozenset({Role.MASON})), (other_mason, frozenset({Role.MASON}))]
+            knowledge = [
+                (player_index, frozenset({Role.MASON})),
+                (other_mason, frozenset({Role.MASON})),
+            ]
         return (Statement(sentence, tuple(knowledge)),)
 
     @staticmethod

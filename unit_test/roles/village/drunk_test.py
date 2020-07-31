@@ -3,7 +3,7 @@ from typing import Tuple
 
 from conftest import set_roles
 from src import const
-from src.const import SwitchPriority, Role
+from src.const import Role, SwitchPriority
 from src.roles import Drunk
 from src.statements import Statement
 
@@ -12,7 +12,7 @@ class TestDrunk:
     """ Tests for the Drunk player class. """
 
     @staticmethod
-    def test_awake_init(large_game_roles: Tuple[str, ...]) -> None:
+    def test_awake_init(large_game_roles: Tuple[Role, ...]) -> None:
         """
         Should initialize a Drunk. Note that the player_index of the Drunk is not necessarily
         the index where the true Drunk is located.

@@ -2,7 +2,7 @@
 from typing import Tuple
 
 from src import const, statements
-from src.const import StatementLevel, SwitchPriority, Role
+from src.const import Role, StatementLevel, SwitchPriority
 from src.statements import KnowledgeBase, Statement
 
 
@@ -20,7 +20,7 @@ class TestKnowledgeBase:
 
         not_yet_spoken = statements.Statement("", priority=StatementLevel.NOT_YET_SPOKEN)
         assert knowledge_base.all_statements == [example_statement, next_statement]
-        assert knowledge_base.stated_roles == [Role.ROBBER, Role.VILLAGER] + ([""] * 10)
+        assert knowledge_base.stated_roles == [Role.ROBBER, Role.VILLAGER] + ([Role.NONE] * 10)
         assert knowledge_base.final_claims == (
             [example_statement, next_statement] + ([not_yet_spoken] * 10)
         )
@@ -54,7 +54,7 @@ class TestStatement:
         assert result is False
 
     @staticmethod
-    def test_negation(large_game_roles: Tuple[str, ...], example_statement: Statement) -> None:
+    def test_negation(large_game_roles: Tuple[Role, ...], example_statement: Statement) -> None:
         """ Negated statements only contain the speaker and the opposite of the first clause. """
         expected = Statement(
             "NOT - test", ((2, const.ROLE_SET - frozenset({Role.ROBBER})),), speaker=Role.ROBBER
@@ -65,7 +65,7 @@ class TestStatement:
         assert str(result) == str(expected)
 
     @staticmethod
-    def test_negate_all(large_game_roles: Tuple[str, ...], example_statement: Statement) -> None:
+    def test_negate_all(large_game_roles: Tuple[Role, ...], example_statement: Statement) -> None:
         """ Negate-all statements contain the opposite of all clauses. """
         expected = Statement(
             "NOT - test",
@@ -92,19 +92,6 @@ class TestStatement:
             "switches": ((SwitchPriority.ROBBER, 2, 0),),
             "speaker": Role.ROBBER,
         }
-
-    @staticmethod
-    def test_repr(example_statement: Statement) -> None:
-        """ Should convert a Statement into a string with all useful fields. """
-        expected = (
-            "Statement(sentence='test', knowledge=((2, frozenset({'Robber'})), (0, "
-            "frozenset({'Seer'}))), switches=((<SwitchPriority.ROBBER: 1>, 2, 0),), "
-            "speaker='Robber', priority=<StatementLevel.PRIMARY: 10>)"
-        )
-
-        result = str(example_statement)
-
-        assert result == expected
 
     @staticmethod
     def test_eq(example_statement: Statement) -> None:

@@ -53,13 +53,13 @@ class WolfBotDecoder(json.JSONDecoder):
             for key, value in obj.items():
                 obj[key] = tuple(value)
             return get_object_initializer(obj_type)(**obj)
-        if obj_type in const.ROLE_SET:
-            if obj_type == Role.SEER:
+        if obj_type in [rol.value for rol in const.ROLE_SET]:
+            if obj_type == Role.SEER.value:
                 obj["choice_1"] = tuple(obj["choice_1"])
                 obj["choice_2"] = tuple(obj["choice_2"])
-            elif obj_type == Role.MASON:
+            elif obj_type == Role.MASON.value:
                 obj["mason_indices"] = tuple(obj["mason_indices"])
-            return get_role_obj(obj_type)(**obj)
+            return get_role_obj(Role(obj_type))(**obj)
         return obj
 
 

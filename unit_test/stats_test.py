@@ -3,7 +3,7 @@ from _pytest.logging import LogCaptureFixture
 
 from conftest import verify_output
 from src import stats
-from src.const import SwitchPriority, Role
+from src.const import Role, SwitchPriority
 from src.roles import Robber, Seer, Villager
 from src.statements import Statement
 from src.stats import GameResult, SavedGame, Statistics
@@ -17,7 +17,9 @@ class TestSavedGame:
         """ Should initialize correctly. """
         villager_statement = Statement("I am a Villager.", ((0, frozenset({Role.VILLAGER})),))
 
-        result = SavedGame((Role.VILLAGER,), (Role.VILLAGER,), (villager_statement,), (Villager(0),))
+        result = SavedGame(
+            (Role.VILLAGER,), (Role.VILLAGER,), (villager_statement,), (Villager(0),)
+        )
 
         assert isinstance(result, stats.SavedGame)
 

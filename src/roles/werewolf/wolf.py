@@ -5,7 +5,7 @@ import random
 from typing import Any, Dict, List, Optional, Tuple
 
 from src import const, util
-from src.const import logger, lru_cache, Role
+from src.const import Role, logger, lru_cache
 from src.predictions import make_unrestricted_prediction
 from src.roles.player import Player
 from src.roles.werewolf.wolf_variants import (
@@ -27,7 +27,7 @@ class Wolf(Player):
         player_index: int,
         wolf_indices: Tuple[int, ...],
         center_index: Optional[int] = None,
-        center_role: Optional[str] = None,
+        center_role: Optional[Role] = None,
     ):
         super().__init__(player_index)
         self.wolf_indices = wolf_indices
@@ -36,7 +36,7 @@ class Wolf(Player):
 
     @classmethod
     def awake_init(
-        cls, player_index: int, game_roles: List[str], original_roles: Tuple[str, ...]
+        cls, player_index: int, game_roles: List[Role], original_roles: Tuple[Role, ...]
     ) -> Wolf:
         """
         Constructor: original_roles defaults to [] when a player becomes a Wolf and realizes it.

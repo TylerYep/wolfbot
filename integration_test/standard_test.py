@@ -42,7 +42,7 @@ class TestStandard:
         assert stat_results["wolf_predictions_all"] == 1.0
 
     @staticmethod
-    def test_small_game(small_game_roles: Tuple[str, ...]) -> None:
+    def test_small_game(small_game_roles: Tuple[Role, ...]) -> None:
         """ Correctly play one round of one night werewolf. """
         random.seed()
 
@@ -52,7 +52,7 @@ class TestStandard:
         assert stat_results["villager_wins"] == 1.0
 
     @staticmethod
-    def test_random_wolf(standard_game_roles: Tuple[str, ...]) -> None:
+    def test_random_wolf(standard_game_roles: Tuple[Role, ...]) -> None:
         """ Correctly play one round of one night werewolf. """
         stat_tracker = one_night.simulate_game(num_games=1000)
 
@@ -63,7 +63,7 @@ class TestStandard:
         assert stat_results["werewolf_wins"] < 0.2
 
     @staticmethod
-    def test_reg_wolf(standard_game_roles: Tuple[str, ...]) -> None:
+    def test_reg_wolf(standard_game_roles: Tuple[Role, ...]) -> None:
         """ Correctly play one round of one night werewolf. """
         const.USE_REG_WOLF = True
 
@@ -76,7 +76,7 @@ class TestStandard:
         assert stat_results["werewolf_wins"] > 0.3
 
     @staticmethod
-    def test_expectimax_wolf(standard_game_roles: Tuple[str, ...]) -> None:
+    def test_expectimax_wolf(standard_game_roles: Tuple[Role, ...]) -> None:
         """ Correctly play one round of one night werewolf. """
         const.USE_REG_WOLF = True
         const.EXPECTIMAX_WOLF = True
@@ -90,7 +90,7 @@ class TestStandard:
         assert stat_results["werewolf_wins"] > 0.45
 
     @staticmethod
-    def test_random_villagers(standard_game_roles: Tuple[str, ...]) -> None:
+    def test_random_villagers(standard_game_roles: Tuple[Role, ...]) -> None:
         """ Correctly play one round of one night werewolf. """
         const.USE_REG_WOLF = True
         const.EXPECTIMAX_WOLF = True

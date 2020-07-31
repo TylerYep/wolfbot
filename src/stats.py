@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from typing import Any, Callable, Dict, Tuple
 
 from src import const
-from src.const import logger, Role
+from src.const import Role, logger
 from src.roles import Player
 from src.statements import Statement
 
@@ -14,14 +14,14 @@ class SavedGame:
     """ All of the necessary data needed to rerun a game. """
 
     __slots__ = ["original_roles", "game_roles", "all_statements", "player_objs"]
-    original_roles: Tuple[str, ...]
-    game_roles: Tuple[str, ...]
+    original_roles: Tuple[Role, ...]
+    game_roles: Tuple[Role, ...]
     all_statements: Tuple[Statement, ...]
     player_objs: Tuple[Player, ...]
 
     def load_game(
         self,
-    ) -> Tuple[Tuple[str, ...], Tuple[str, ...], Tuple[Statement, ...], Tuple[Player, ...]]:
+    ) -> Tuple[Tuple[Role, ...], Tuple[Role, ...], Tuple[Statement, ...], Tuple[Player, ...]]:
         """ Returns game data. """
         return self.original_roles, self.game_roles, self.all_statements, self.player_objs
 
@@ -41,8 +41,8 @@ class GameResult:
     """ Each round of one_night returns a GameResult. """
 
     __slots__ = ["actual", "guessed", "wolf_inds", "winning_team"]
-    actual: Tuple[str, ...]
-    guessed: Tuple[str, ...]
+    actual: Tuple[Role, ...]
+    guessed: Tuple[Role, ...]
     wolf_inds: Tuple[int, ...]
     winning_team: str
 
@@ -203,7 +203,7 @@ class Statistics:
     @staticmethod
     def tanner_wins(game_result: GameResult) -> Tuple[int, int]:
         """ Returns 1/1 if the Tanner won. """
-        return int(game_result.winning_team == Role.TANNER), 1
+        return int(game_result.winning_team == "Tanner"), 1
 
     @staticmethod
     def werewolf_wins(game_result: GameResult) -> Tuple[int, int]:

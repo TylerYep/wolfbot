@@ -3,7 +3,7 @@ from typing import List, Tuple
 
 from conftest import set_roles
 from src import const, solvers
-from src.const import SwitchPriority, Role
+from src.const import Role, SwitchPriority
 from src.solvers import SolverState
 from src.statements import Statement
 
@@ -32,17 +32,6 @@ class TestSolverState:
         result = SolverState(possible_roles, switches, path)
 
         assert result == example_small_solverstate
-
-    @staticmethod
-    def test_repr() -> None:
-        """ Should convert a SolverState into a representative string. """
-        result = SolverState((frozenset({Role.VILLAGER}),), path=(True,))
-
-        assert str(result) == (
-            "SolverState(possible_roles=(frozenset({'Villager'}),), switches=(), path=(True,), role"
-            "_counts={'Insomniac': 1, 'Villager': 2, 'Robber': 1, 'Drunk': 1, 'Wolf': 2, 'Seer': 1,"
-            " 'Tanner': 1, 'Mason': 2, 'Minion': 1, 'Troublemaker': 1, 'Hunter': 1}, count_true=1)"
-        )
 
 
 class TestIsConsistent:
@@ -98,7 +87,7 @@ class TestIsConsistent:
         result = example.is_consistent(new_statement)
         example.possible_roles += (frozenset({"junk-data"}),)
         example.switches += ((SwitchPriority.DRUNK, 5, 5),)
-        example.possible_roles = (example.possible_roles[0] & {"junk"},)
+        example.possible_roles = (example.possible_roles[0] & {Role.NONE},)
 
         assert result == example_medium_solverstate
 
@@ -151,7 +140,7 @@ class TestSwitchingSolver:
 
     @staticmethod
     def test_solver_medium_known_true(
-        medium_statement_list: Tuple[Statement, ...], medium_game_roles: Tuple[str, ...]
+        medium_statement_list: Tuple[Statement, ...], medium_game_roles: Tuple[Role, ...]
     ) -> None:
         """ Should return a SolverState with the most likely solution. """
         possible_roles = (
@@ -160,7 +149,9 @@ class TestSwitchingSolver:
             frozenset({Role.DRUNK}),
             frozenset({Role.MINION}),
             frozenset({Role.DRUNK, Role.MINION, Role.TROUBLEMAKER, Role.WOLF, Role.ROBBER}),
-            frozenset({Role.ROBBER, Role.MINION, Role.TROUBLEMAKER, Role.SEER, Role.WOLF, Role.DRUNK}),
+            frozenset(
+                {Role.ROBBER, Role.MINION, Role.TROUBLEMAKER, Role.SEER, Role.WOLF, Role.DRUNK}
+            ),
         )
 
         result = solvers.switching_solver(medium_statement_list, (1,))

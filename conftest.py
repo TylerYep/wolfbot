@@ -34,7 +34,7 @@ from src import const
 from src.const import Role
 
 
-def set_roles(*roles: str) -> None:
+def set_roles(*roles: Role) -> None:
     """ Changes to ROLES should propagate to all of its descendants. """
     const.ROLES = roles  # type: ignore
     const.ROLE_SET = frozenset(const.ROLES)
@@ -52,7 +52,16 @@ def reset_const() -> None:
     const.NUM_PLAYERS = 12
     const.NUM_CENTER = 3
     const.VILLAGE_ROLES = frozenset(
-        {Role.VILLAGER, Role.MASON, Role.SEER, Role.ROBBER, Role.TROUBLEMAKER, Role.DRUNK, Role.INSOMNIAC, Role.HUNTER}
+        {
+            Role.VILLAGER,
+            Role.MASON,
+            Role.SEER,
+            Role.ROBBER,
+            Role.TROUBLEMAKER,
+            Role.DRUNK,
+            Role.INSOMNIAC,
+            Role.HUNTER,
+        }
     )
     const.EVIL_ROLES = frozenset({Role.TANNER, Role.WOLF, Role.MINION})
 
@@ -94,7 +103,7 @@ def reset_const() -> None:
 
 
 @pytest.fixture
-def small_game_roles() -> Tuple[str, ...]:
+def small_game_roles() -> Tuple[Role, ...]:
     const.NUM_PLAYERS = 3
     const.NUM_CENTER = 0
     set_roles(Role.VILLAGER, Role.SEER, Role.ROBBER)
@@ -102,7 +111,7 @@ def small_game_roles() -> Tuple[str, ...]:
 
 
 @pytest.fixture
-def medium_game_roles() -> Tuple[str, ...]:
+def medium_game_roles() -> Tuple[Role, ...]:
     const.NUM_PLAYERS = 5
     const.NUM_CENTER = 1
     set_roles(Role.ROBBER, Role.DRUNK, Role.WOLF, Role.TROUBLEMAKER, Role.SEER, Role.MINION)
@@ -110,7 +119,7 @@ def medium_game_roles() -> Tuple[str, ...]:
 
 
 @pytest.fixture
-def large_game_roles() -> Tuple[str, ...]:
+def large_game_roles() -> Tuple[Role, ...]:
     const.NUM_PLAYERS = 12
     const.NUM_CENTER = 3
     set_roles(
@@ -134,7 +143,7 @@ def large_game_roles() -> Tuple[str, ...]:
 
 
 @pytest.fixture
-def standard_game_roles() -> Tuple[str, ...]:
+def standard_game_roles() -> Tuple[Role, ...]:
     const.NUM_PLAYERS = 7
     const.NUM_CENTER = 3
     set_roles(
@@ -153,33 +162,45 @@ def standard_game_roles() -> Tuple[str, ...]:
 
 
 @pytest.fixture(scope="session")
-def large_individual_preds() -> Tuple[Tuple[str, ...], ...]:
+def large_individual_preds() -> Tuple[Tuple[Role, ...], ...]:
     # fmt: off
     return (
-        ('Villager', 'Mason', 'Mason', 'Minion', 'Villager', 'Drunk', 'Tanner', 'Troublemaker',
-            'Villager', 'Wolf', 'Wolf', 'Hunter', 'Insomniac', 'Seer', 'Robber'),
-        ('Villager', 'Insomniac', 'Mason', 'Tanner', 'Villager', 'Drunk', 'Seer', 'Minion',
-            'Wolf', 'Villager', 'Wolf', 'Hunter', 'Troublemaker', 'Mason', 'Robber'),
-        ('Villager', 'Insomniac', 'Mason', 'Tanner', 'Villager', 'Drunk', 'Seer', 'Wolf',
-            'Minion', 'Villager', 'Wolf', 'Hunter', 'Troublemaker', 'Mason', 'Robber'),
-        ('Villager', 'Insomniac', 'Mason', 'Wolf', 'Villager', 'Wolf', 'Seer', 'Minion',
-            'Robber', 'Villager', 'Tanner', 'Hunter', 'Troublemaker', 'Mason', 'Drunk'),
-        ('Villager', 'Insomniac', 'Mason', 'Wolf', 'Villager', 'Drunk', 'Seer', 'Wolf',
-            'Tanner', 'Villager', 'Minion', 'Hunter', 'Troublemaker', 'Mason', 'Robber'),
-        ('Villager', 'Insomniac', 'Mason', 'Tanner', 'Villager', 'Drunk', 'Minion',
-            'Troublemaker', 'Villager', 'Wolf', 'Wolf', 'Hunter', 'Seer', 'Mason', 'Robber'),
-        ('Villager', 'Insomniac', 'Mason', 'Wolf', 'Villager', 'Drunk', 'Seer', 'Wolf',
-            'Minion', 'Villager', 'Tanner', 'Hunter', 'Troublemaker', 'Mason', 'Robber'),
-        ('Villager', 'Mason', 'Mason', 'Wolf', 'Villager', 'Drunk', 'Tanner', 'Troublemaker',
-            'Villager', 'Minion', 'Wolf', 'Hunter', 'Insomniac', 'Seer', 'Robber'),
-        ('Villager', 'Wolf', 'Mason', 'Minion', 'Villager', 'Tanner', 'Wolf', 'Troublemaker',
-            'Villager', 'Seer', 'Mason', 'Robber', 'Hunter', 'Drunk', 'Insomniac'),
-        ('Villager', 'Insomniac', 'Mason', 'Tanner', 'Villager', 'Drunk', 'Minion',
-            'Troublemaker', 'Villager', 'Wolf', 'Wolf', 'Hunter', 'Mason', 'Seer', 'Robber'),
-        ('Villager', 'Troublemaker', 'Mason', 'Wolf', 'Villager', 'Wolf', 'Minion', 'Tanner',
-            'Robber', 'Villager', 'Seer', 'Hunter', 'Insomniac', 'Mason', 'Drunk'),
-        ('Villager', 'Insomniac', 'Mason', 'Minion', 'Villager', 'Drunk', 'Seer', 'Tanner',
-            'Wolf', 'Villager', 'Wolf', 'Hunter', 'Troublemaker', 'Mason', 'Robber')
+        (Role.VILLAGER, Role.MASON, Role.MASON, Role.MINION, Role.VILLAGER, Role.DRUNK,
+            Role.TANNER, Role.TROUBLEMAKER, Role.VILLAGER, Role.WOLF, Role.WOLF,
+            Role.HUNTER, Role.INSOMNIAC, Role.SEER, Role.ROBBER),
+        (Role.VILLAGER, Role.INSOMNIAC, Role.MASON, Role.TANNER, Role.VILLAGER, Role.DRUNK,
+            Role.SEER, Role.MINION, Role.WOLF, Role.VILLAGER, Role.WOLF, Role.HUNTER,
+            Role.TROUBLEMAKER, Role.MASON, Role.ROBBER),
+        (Role.VILLAGER, Role.INSOMNIAC, Role.MASON, Role.TANNER, Role.VILLAGER, Role.DRUNK,
+            Role.SEER, Role.WOLF, Role.MINION, Role.VILLAGER, Role.WOLF, Role.HUNTER,
+            Role.TROUBLEMAKER, Role.MASON, Role.ROBBER),
+        (Role.VILLAGER, Role.INSOMNIAC, Role.MASON, Role.WOLF, Role.VILLAGER, Role.WOLF,
+            Role.SEER, Role.MINION, Role.ROBBER, Role.VILLAGER, Role.TANNER, Role.HUNTER,
+            Role.TROUBLEMAKER, Role.MASON, Role.DRUNK),
+        (Role.VILLAGER, Role.INSOMNIAC, Role.MASON, Role.WOLF, Role.VILLAGER, Role.DRUNK,
+            Role.SEER, Role.WOLF, Role.TANNER, Role.VILLAGER, Role.MINION, Role.HUNTER,
+            Role.TROUBLEMAKER, Role.MASON, Role.ROBBER),
+        (Role.VILLAGER, Role.INSOMNIAC, Role.MASON, Role.TANNER, Role.VILLAGER, Role.DRUNK,
+            Role.MINION, Role.TROUBLEMAKER, Role.VILLAGER, Role.WOLF, Role.WOLF, Role.HUNTER,
+            Role.SEER, Role.MASON, Role.ROBBER),
+        (Role.VILLAGER, Role.INSOMNIAC, Role.MASON, Role.WOLF, Role.VILLAGER, Role.DRUNK,
+            Role.SEER, Role.WOLF, Role.MINION, Role.VILLAGER, Role.TANNER, Role.HUNTER,
+            Role.TROUBLEMAKER, Role.MASON, Role.ROBBER),
+        (Role.VILLAGER, Role.MASON, Role.MASON, Role.WOLF, Role.VILLAGER, Role.DRUNK,
+            Role.TANNER, Role.TROUBLEMAKER, Role.VILLAGER, Role.MINION, Role.WOLF,
+            Role.HUNTER, Role.INSOMNIAC, Role.SEER, Role.ROBBER),
+        (Role.VILLAGER, Role.WOLF, Role.MASON, Role.MINION, Role.VILLAGER, Role.TANNER,
+            Role.WOLF, Role.TROUBLEMAKER, Role.VILLAGER, Role.SEER, Role.MASON,
+            Role.ROBBER, Role.HUNTER, Role.DRUNK, Role.INSOMNIAC),
+        (Role.VILLAGER, Role.INSOMNIAC, Role.MASON, Role.TANNER, Role.VILLAGER, Role.DRUNK,
+            Role.MINION, Role.TROUBLEMAKER, Role.VILLAGER, Role.WOLF, Role.WOLF, Role.HUNTER,
+            Role.MASON, Role.SEER, Role.ROBBER),
+        (Role.VILLAGER, Role.TROUBLEMAKER, Role.MASON, Role.WOLF, Role.VILLAGER, Role.WOLF,
+            Role.MINION, Role.TANNER, Role.ROBBER, Role.VILLAGER, Role.SEER, Role.HUNTER,
+            Role.INSOMNIAC, Role.MASON, Role.DRUNK),
+        (Role.VILLAGER, Role.INSOMNIAC, Role.MASON, Role.MINION, Role.VILLAGER, Role.DRUNK,
+            Role.SEER, Role.TANNER, Role.WOLF, Role.VILLAGER, Role.WOLF, Role.HUNTER,
+            Role.TROUBLEMAKER, Role.MASON, Role.ROBBER)
     )
     # fmt: on
 

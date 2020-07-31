@@ -6,9 +6,9 @@ from functools import cached_property  # type: ignore
 from typing import Any, Dict, FrozenSet, List, Tuple
 
 from src import const
-from src.const import StatementLevel, SwitchPriority
+from src.const import Role, StatementLevel, SwitchPriority
 
-Knowledge = Tuple[int, FrozenSet[str]]
+Knowledge = Tuple[int, FrozenSet[Role]]
 Switch = Tuple[SwitchPriority, int, int]
 
 
@@ -20,11 +20,11 @@ class KnowledgeBase:
     """
 
     all_statements: List[Statement] = field(default_factory=list)
-    stated_roles: List[str] = field(default_factory=list)
+    stated_roles: List[Role] = field(default_factory=list)
     final_claims: List[Statement] = field(default_factory=list)
 
     def __post_init__(self) -> None:
-        self.stated_roles = [""] * const.NUM_PLAYERS
+        self.stated_roles = [Role.NONE] * const.NUM_PLAYERS
         # Can share the same reference because they will be replaced
         zero_priority = StatementLevel.NOT_YET_SPOKEN
         self.final_claims = [Statement("", priority=zero_priority)] * const.NUM_PLAYERS
@@ -61,11 +61,11 @@ class Statement:
     sentence: str
     knowledge: Tuple[Knowledge, ...] = ()
     switches: Tuple[Switch, ...] = ()
-    speaker: str = ""
+    speaker: Role = Role.NONE
     priority: StatementLevel = StatementLevel.PRIMARY
 
     def __post_init__(self) -> None:
-        if not self.speaker and self.knowledge:
+        if self.speaker == Role.NONE and self.knowledge:
             [self.speaker] = self.knowledge[0][1]
 
     def references(self, player_index: int) -> bool:
@@ -78,7 +78,7 @@ class Statement:
                 return True
         return False
 
-    def get_references(self, player_index: int, stated_roles: List[str]) -> str:
+    def get_references(self, player_index: int, stated_roles: List[Role]) -> Role:
         """ Returns True if a given player_index is referenced in a statement. """
         for i, role_set in self.knowledge[1:]:
             if i == player_index and len(role_set) == 1:
@@ -87,7 +87,7 @@ class Statement:
         for _, i, j in self.switches:
             if player_index in (i, j) and player_index < len(stated_roles):
                 return stated_roles[player_index]
-        return ""
+        return Role.NONE
 
     @cached_property
     def negation(self) -> Statement:

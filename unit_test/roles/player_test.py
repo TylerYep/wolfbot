@@ -47,7 +47,7 @@ class TestPlayer:
 
         result = villager.json_repr()
 
-        assert result == {"type": Role.VILLAGER, "player_index": 0}
+        assert result == {"type": "Villager", "player_index": 0}
 
     @staticmethod
     def test_repr() -> None:

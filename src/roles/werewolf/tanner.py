@@ -5,7 +5,7 @@ import random
 from typing import List, Tuple
 
 from src import const
-from src.const import lru_cache, Role
+from src.const import Role, lru_cache
 from src.predictions import make_unrestricted_prediction
 from src.roles.player import Player
 from src.roles.werewolf.wolf_variants import get_statement_expectimax, get_wolf_statements_random
@@ -18,7 +18,7 @@ class Tanner(Player):
 
     @classmethod
     def awake_init(
-        cls, player_index: int, game_roles: List[str], original_roles: Tuple[str, ...]
+        cls, player_index: int, game_roles: List[Role], original_roles: Tuple[Role, ...]
     ) -> Tanner:
         """ Initializes Tanner when night falls. """
         del game_roles, original_roles

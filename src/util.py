@@ -4,10 +4,10 @@ import random
 from typing import List, Optional, Sequence, Tuple
 
 from src import const
-from src.const import logger
+from src.const import Role, logger
 
 
-def print_roles(game_roles: Sequence[str], tag: str, log_level: int = logging.DEBUG) -> None:
+def print_roles(game_roles: Sequence[Role], tag: str, log_level: int = logging.DEBUG) -> None:
     """ Formats hidden roles to console. """
     role_output = (
         f"[{tag}] Player roles: {list(game_roles[:const.NUM_PLAYERS])}\n{' ' * (len(tag) + 3)}"
@@ -16,7 +16,7 @@ def print_roles(game_roles: Sequence[str], tag: str, log_level: int = logging.DE
     logger.log(log_level, role_output.replace("'", ""))
 
 
-def swap_characters(game_roles: List[str], ind1: int, ind2: int) -> None:
+def swap_characters(game_roles: List[Role], ind1: int, ind2: int) -> None:
     """ Util function to swap two characters, updating game_roles. """
     assert ind1 != ind2
     assert 0 <= ind1 < const.NUM_ROLES and 0 <= ind2 < const.NUM_ROLES
@@ -24,7 +24,7 @@ def swap_characters(game_roles: List[str], ind1: int, ind2: int) -> None:
 
 
 def find_all_player_indices(
-    game_roles: Sequence[str], role: str, exclude: Tuple[int, ...] = ()
+    game_roles: Sequence[Role], role: Role, exclude: Tuple[int, ...] = ()
 ) -> Tuple[int, ...]:
     """ Util function to find all indices of a given role. """
     return tuple(

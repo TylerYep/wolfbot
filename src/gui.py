@@ -3,7 +3,7 @@ import os
 from typing import Tuple
 
 from src import const
-from src.const import logger
+from src.const import Role, logger
 from src.statements import Statement
 
 
@@ -20,7 +20,7 @@ class GUIState:
         for log_level, line in logger.output_cache:
             logger.log(log_level, line)
 
-    def intro(self, original_roles: Tuple[str, ...]) -> None:
+    def intro(self, original_roles: Tuple[Role, ...]) -> None:
         """ Tells the player what their assigned role is. """
         if self.disable_gui:
             return

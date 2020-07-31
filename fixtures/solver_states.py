@@ -5,12 +5,12 @@ from typing import List, Tuple
 import pytest
 
 from src import const
-from src.const import SwitchPriority, Role
+from src.const import Role, SwitchPriority
 from src.solvers import SolverState
 
 
 @pytest.fixture
-def example_small_solverstate(small_game_roles: Tuple[str, ...]) -> SolverState:
+def example_small_solverstate(small_game_roles: Tuple[Role, ...]) -> SolverState:
     possible_roles = (
         frozenset({Role.SEER}),
         frozenset({Role.ROBBER, Role.VILLAGER, Role.SEER}),
@@ -25,13 +25,13 @@ def example_small_solverstate(small_game_roles: Tuple[str, ...]) -> SolverState:
 
 
 @pytest.fixture
-def example_small_solverstate_solved(small_game_roles: Tuple[str, ...]) -> SolverState:
+def example_small_solverstate_solved(small_game_roles: Tuple[Role, ...]) -> SolverState:
     possible_roles = (frozenset({Role.VILLAGER}), frozenset({Role.ROBBER}), frozenset({Role.SEER}))
     return SolverState(possible_roles, ((SwitchPriority.ROBBER, 1, 2),), (True, True, True))
 
 
 @pytest.fixture
-def example_medium_solverstate(medium_game_roles: Tuple[str, ...]) -> SolverState:
+def example_medium_solverstate(medium_game_roles: Tuple[Role, ...]) -> SolverState:
     possible_roles = (
         frozenset({Role.SEER}),
         frozenset({Role.TROUBLEMAKER, Role.WOLF, Role.DRUNK, Role.ROBBER, Role.SEER, Role.MINION}),
@@ -44,7 +44,7 @@ def example_medium_solverstate(medium_game_roles: Tuple[str, ...]) -> SolverStat
 
 
 @pytest.fixture
-def example_medium_solverstate_solved(medium_game_roles: Tuple[str, ...]) -> SolverState:
+def example_medium_solverstate_solved(medium_game_roles: Tuple[Role, ...]) -> SolverState:
     possible_roles = (
         frozenset({Role.SEER}),
         frozenset({Role.ROBBER, Role.DRUNK, Role.WOLF, Role.TROUBLEMAKER, Role.MINION}),
@@ -59,7 +59,7 @@ def example_medium_solverstate_solved(medium_game_roles: Tuple[str, ...]) -> Sol
 
 
 @pytest.fixture
-def example_medium_solved_list(medium_game_roles: Tuple[str, ...]) -> List[SolverState]:
+def example_medium_solved_list(medium_game_roles: Tuple[Role, ...]) -> List[SolverState]:
     possible_roles_1 = (
         frozenset({Role.SEER}),
         frozenset({Role.ROBBER, Role.TROUBLEMAKER, Role.WOLF, Role.DRUNK, Role.MINION}),
@@ -91,7 +91,7 @@ def example_medium_solved_list(medium_game_roles: Tuple[str, ...]) -> List[Solve
 
 
 @pytest.fixture
-def example_medium_solverstate_list(medium_game_roles: Tuple[str, ...]) -> List[SolverState]:
+def example_medium_solverstate_list(medium_game_roles: Tuple[Role, ...]) -> List[SolverState]:
     possible_roles_1 = (
         frozenset({Role.SEER}),
         frozenset({Role.ROBBER}),
@@ -136,7 +136,7 @@ def example_medium_solverstate_list(medium_game_roles: Tuple[str, ...]) -> List[
 
 
 @pytest.fixture
-def example_large_solverstate(large_game_roles: Tuple[str, ...]) -> SolverState:
+def example_large_solverstate(large_game_roles: Tuple[Role, ...]) -> SolverState:
     possible_roles = (
         frozenset({Role.ROBBER}),
         frozenset(

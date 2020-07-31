@@ -4,7 +4,7 @@ from __future__ import annotations
 from typing import Any, Dict, List, Optional, Tuple
 
 from src import const
-from src.const import logger, lru_cache, Role
+from src.const import Role, logger, lru_cache
 from src.roles.player import Player
 from src.statements import KnowledgeBase, Statement
 
@@ -12,14 +12,14 @@ from src.statements import KnowledgeBase, Statement
 class Insomniac(Player):
     """ Insomniac Player class. """
 
-    def __init__(self, player_index: int, new_role: str):
+    def __init__(self, player_index: int, new_role: Role):
         super().__init__(player_index)
         self.new_role = new_role
         self.statements += self.get_insomniac_statements(player_index, new_role)
 
     @classmethod
     def awake_init(
-        cls, player_index: int, game_roles: List[str], original_roles: Tuple[str, ...]
+        cls, player_index: int, game_roles: List[Role], original_roles: Tuple[Role, ...]
     ) -> Insomniac:
         """ Initializes Insomniac - learns new role. """
         del original_roles
@@ -33,7 +33,7 @@ class Insomniac(Player):
     @staticmethod
     @lru_cache
     def get_insomniac_statements(
-        player_index: int, insomniac_new_role: str, new_insomniac_index: Optional[int] = None
+        player_index: int, insomniac_new_role: Role, new_insomniac_index: Optional[int] = None
     ) -> Tuple[Statement, ...]:
         """ Gets Insomniac Statement. """
         knowledge = ((player_index, frozenset({Role.INSOMNIAC})),)

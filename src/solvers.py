@@ -5,6 +5,7 @@ from dataclasses import dataclass, field
 from typing import Dict, FrozenSet, List, Optional, Tuple
 
 from src import const
+from src.const import Role
 from src.statements import Statement, Switch
 
 
@@ -15,10 +16,10 @@ class SolverState:
     @param path: tuple of (True, False, True ...) values.
     """
 
-    possible_roles: Tuple[FrozenSet[str], ...] = ()
+    possible_roles: Tuple[FrozenSet[Role], ...] = ()
     switches: Tuple[Switch, ...] = ()
     path: Tuple[bool, ...] = ()
-    role_counts: Dict[str, int] = field(default_factory=dict)
+    role_counts: Dict[Role, int] = field(default_factory=dict)
     count_true: int = -1
 
     def __post_init__(self) -> None:
@@ -65,7 +66,7 @@ class SolverState:
             self.count_true + int(assumption),
         )
 
-    def get_role_counts(self) -> Dict[str, int]:
+    def get_role_counts(self) -> Dict[Role, int]:
         """
         Ensures that all current sets in possible_roles_list that contain only one element
         are still within the bounds of the ROLE_COUNTS dict. E.g.
