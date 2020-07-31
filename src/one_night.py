@@ -8,7 +8,7 @@ from typing import Dict, List, Tuple
 from tqdm import tqdm
 
 from src import const, util
-from src.const import Role, StatementLevel, logger
+from src.const import Role, StatementLevel, Team, logger
 from src.encoder import WolfBotEncoder
 from src.gui import GUIState
 from src.roles import Player, get_role_obj
@@ -203,7 +203,7 @@ def get_voting_result(
 
 def eval_winning_team(
     game_roles: Tuple[Role, ...], guessed_wolf_inds: List[int], vote_inds: Tuple[int, ...]
-) -> str:
+) -> Team:
     """ Decide which team won based on the final vote. """
     killed_wolf, killed_tanner, villager_win = False, False, False
     if len(guessed_wolf_inds) == const.NUM_PLAYERS:
@@ -228,14 +228,14 @@ def eval_winning_team(
 
     if villager_win or killed_wolf:
         logger.info("Village Team wins!")
-        return "Village"
+        return Team.VILLAGE
 
     if killed_tanner:
         logger.info("Tanner wins!")
-        return "Tanner"
+        return Team.TANNER
 
     logger.info("Werewolf Team wins!")
-    return "Werewolf"
+    return Team.WEREWOLF
 
 
 def override_players(game_roles: List[Role]) -> None:

@@ -19,7 +19,7 @@ class TestPlayer:
 
         empty_player = Player(player_index)
 
-        assert empty_player.role == Role.PLAYER
+        assert empty_player.role == Role.NONE
         assert empty_player.statements == ()
 
     @staticmethod

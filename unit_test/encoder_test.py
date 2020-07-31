@@ -2,7 +2,7 @@
 import json
 
 from src import encoder
-from src.const import Role, SwitchPriority
+from src.const import Role, SwitchPriority, Team
 from src.encoder import WolfBotDecoder, WolfBotEncoder
 from src.roles import Player, Robber, Seer, Villager
 from src.statements import Statement
@@ -82,6 +82,28 @@ class TestWolfBotEncoderDecoder:
         assert reverted_result == input_obj
 
     @staticmethod
+    def test_default_role() -> None:
+        """ Should convert objects of different types to JSON. """
+        input_obj = Role.VILLAGER
+
+        result = json.dumps(input_obj, cls=WolfBotEncoder)
+        assert result == '{"type": "Role", "data": "Villager"}'
+
+        reverted_result = json.loads(result, cls=WolfBotDecoder)
+        assert reverted_result == input_obj
+
+    @staticmethod
+    def test_default_team() -> None:
+        """ Should convert objects of different types to JSON. """
+        input_obj = Team.WEREWOLF
+
+        result = json.dumps(input_obj, cls=WolfBotEncoder)
+        assert result == '{"type": "Team", "data": 3}'
+
+        reverted_result = json.loads(result, cls=WolfBotDecoder)
+        assert reverted_result == input_obj
+
+    @staticmethod
     def test_default_game_result(example_small_game_result: GameResult) -> None:
         """ Should convert objects of different types to JSON. """
         result = json.dumps(example_small_game_result, cls=WolfBotEncoder)
@@ -92,7 +114,7 @@ class TestWolfBotEncoderDecoder:
             ' "guessed": [{"type": "Role", "data": "Villager"},'
             ' {"type": "Role", "data": "Seer"}, {"type": "Role", "data": "Robber"}],'
             ' "wolf_inds": [],'
-            ' "winning_team": "Village"}'
+            ' "winning_team": {"type": "Team", "data": 1}}'
         )
 
         reverted_result = json.loads(result, cls=WolfBotDecoder)

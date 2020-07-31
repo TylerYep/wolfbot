@@ -4,7 +4,7 @@ from typing import Tuple
 
 import pytest
 
-from src.const import Role
+from src.const import Role, Team
 from src.stats import GameResult
 
 
@@ -14,7 +14,7 @@ def example_small_game_result(small_game_roles: Tuple[Role, ...]) -> GameResult:
         (Role.VILLAGER, Role.SEER, Role.ROBBER),
         (Role.VILLAGER, Role.SEER, Role.ROBBER),
         (),
-        "Village",
+        Team.VILLAGE,
     )
 
 
@@ -24,7 +24,7 @@ def example_medium_game_result(medium_game_roles: Tuple[Role, ...]) -> GameResul
         (Role.SEER, Role.WOLF, Role.TROUBLEMAKER, Role.DRUNK, Role.MINION, Role.ROBBER),
         (Role.SEER, Role.MINION, Role.TROUBLEMAKER, Role.DRUNK, Role.WOLF, Role.ROBBER),
         (1,),
-        "Werewolf",
+        Team.WEREWOLF,
     )
 
 
@@ -66,5 +66,5 @@ def example_large_game_result(large_game_roles: Tuple[Role, ...]) -> GameResult:
             Role.ROBBER,
         ),
         (7, 10),
-        "Village",
+        Team.VILLAGE,
     )

@@ -7,7 +7,7 @@ import logging
 import random
 import sys
 from collections import Counter
-from enum import Enum, IntEnum, unique
+from enum import Enum, IntEnum, auto, unique
 from typing import Any, Callable, Dict, Sequence, TypeVar
 
 from src.log import OneNightLogger
@@ -72,7 +72,6 @@ class Role(Enum):
     MASON = "Mason"
     MINION = "Minion"
     NONE = ""
-    PLAYER = "Player"
     ROBBER = "Robber"
     SEER = "Seer"
     TANNER = "Tanner"
@@ -92,6 +91,7 @@ class Role(Enum):
         return self.value
 
     def __format__(self, formatstr: str) -> str:  # pylint: disable=invalid-format-returned
+        del formatstr
         assert isinstance(self.value, str)
         return self.value
 
@@ -237,3 +237,14 @@ class StatementLevel(IntEnum):
     NO_INFO = 0
     SOME_INFO = 5
     PRIMARY = 10
+
+
+@unique
+class Team(Enum):
+    """ Team names, order doesn't matter. """
+
+    VILLAGE, TANNER, WEREWOLF = auto(), auto(), auto()
+
+    def json_repr(self) -> Dict[str, Any]:
+        """ Gets JSON representation of a Role enum. """
+        return {"type": "Team", "data": self.value}

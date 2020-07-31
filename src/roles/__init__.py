@@ -10,4 +10,7 @@ from src.roles.werewolf import Minion, Tanner, Wolf
 
 def get_role_obj(role_str: Role) -> Any:
     """ Retrieves class initializer from its string name. """
-    return getattr(sys.modules[__name__], role_str.value)
+    role_class_name = role_str.value
+    if role_str == Role.NONE:
+        role_class_name = "Player"
+    return getattr(sys.modules[__name__], role_class_name)

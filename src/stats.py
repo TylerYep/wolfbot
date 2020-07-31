@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from typing import Any, Callable, Dict, Tuple
 
 from src import const
-from src.const import Role, logger
+from src.const import Role, Team, logger
 from src.roles import Player
 from src.statements import Statement
 
@@ -44,7 +44,7 @@ class GameResult:
     actual: Tuple[Role, ...]
     guessed: Tuple[Role, ...]
     wolf_inds: Tuple[int, ...]
-    winning_team: str
+    winning_team: Team
 
     def json_repr(self) -> Dict[str, Any]:
         """ Returns json representation of the GameResult. """
@@ -198,14 +198,14 @@ class Statistics:
     @staticmethod
     def villager_wins(game_result: GameResult) -> Tuple[int, int]:
         """ Returns 1/1 if the Village team won. """
-        return int(game_result.winning_team == "Village"), 1
+        return int(game_result.winning_team == Team.VILLAGE), 1
 
     @staticmethod
     def tanner_wins(game_result: GameResult) -> Tuple[int, int]:
         """ Returns 1/1 if the Tanner won. """
-        return int(game_result.winning_team == "Tanner"), 1
+        return int(game_result.winning_team == Team.TANNER), 1
 
     @staticmethod
     def werewolf_wins(game_result: GameResult) -> Tuple[int, int]:
         """ Returns 1/1 if the Werewolf team won. """
-        return int(game_result.winning_team == "Werewolf"), 1
+        return int(game_result.winning_team == Team.WEREWOLF), 1

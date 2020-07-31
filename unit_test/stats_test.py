@@ -3,7 +3,7 @@ from _pytest.logging import LogCaptureFixture
 
 from conftest import verify_output
 from src import stats
-from src.const import Role, SwitchPriority
+from src.const import Role, SwitchPriority, Team
 from src.roles import Robber, Seer, Villager
 from src.statements import Statement
 from src.stats import GameResult, SavedGame, Statistics
@@ -54,7 +54,7 @@ class TestGameResult:
     @staticmethod
     def test_constructor() -> None:
         """ Should initialize correctly. """
-        result = GameResult((Role.WOLF,), (Role.WOLF,), (0,), "Werewolf")
+        result = GameResult((Role.WOLF,), (Role.WOLF,), (0,), Team.WEREWOLF)
 
         assert isinstance(result, stats.GameResult)
 
@@ -67,7 +67,7 @@ class TestGameResult:
             "actual": (Role.VILLAGER, Role.SEER, Role.ROBBER),
             "guessed": (Role.VILLAGER, Role.SEER, Role.ROBBER),
             "type": "GameResult",
-            "winning_team": "Village",
+            "winning_team": Team.VILLAGE,
             "wolf_inds": (),
         }
 

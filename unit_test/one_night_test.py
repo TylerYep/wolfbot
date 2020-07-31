@@ -5,7 +5,7 @@ from _pytest.logging import LogCaptureFixture
 
 from conftest import set_roles, verify_output, verify_output_string
 from src import const, one_night
-from src.const import Role
+from src.const import Role, Team
 from src.roles import Drunk, Minion, Player, Robber, Seer, Wolf
 from src.statements import Statement
 from src.stats import GameResult, SavedGame
@@ -23,7 +23,7 @@ class TestConsolidateResults:
             (Role.VILLAGER, Role.SEER, Role.ROBBER),
             (Role.VILLAGER, Role.SEER, Role.ROBBER),
             (),
-            "Village",
+            Team.VILLAGE,
         )
 
     @staticmethod
@@ -35,7 +35,7 @@ class TestConsolidateResults:
             (Role.SEER, Role.WOLF, Role.TROUBLEMAKER, Role.DRUNK, Role.MINION, Role.ROBBER),
             (Role.MINION, Role.WOLF, Role.TROUBLEMAKER, Role.DRUNK, Role.SEER, Role.ROBBER),
             (1,),
-            "Village",
+            Team.VILLAGE,
         )
 
 
@@ -212,7 +212,7 @@ class TestEvalWinningTeam:
             "But Player(s) [2] was a Wolf!\n",
             "Werewolf Team wins!",
         )
-        assert result == "Werewolf"
+        assert result == Team.WEREWOLF
         verify_output(caplog, expected)
 
     @staticmethod
@@ -226,7 +226,7 @@ class TestEvalWinningTeam:
         result = one_night.eval_winning_team(small_game_roles, guessed_wolf_inds, vote_inds)
 
         expected = ("No wolves were found.", "That was correct!\n", "Village Team wins!")
-        assert result == "Village"
+        assert result == Team.VILLAGE
         verify_output(caplog, expected)
 
     @staticmethod
@@ -244,7 +244,7 @@ class TestEvalWinningTeam:
             "Player 2 was a Wolf!\n",
             "Village Team wins!",
         )
-        assert result == "Village"
+        assert result == Team.VILLAGE
         verify_output(caplog, expected)
 
     @staticmethod
@@ -269,7 +269,7 @@ class TestEvalWinningTeam:
 
         result = one_night.eval_winning_team(const.ROLES, guessed_wolf_inds, vote_inds)
 
-        assert result == "Village"
+        assert result == Team.VILLAGE
         verify_output(caplog, expected)
 
     @staticmethod
@@ -287,5 +287,5 @@ class TestEvalWinningTeam:
             "Player 5 was a Tanner!\n",
             "Tanner wins!",
         )
-        assert result == "Tanner"
+        assert result == Team.TANNER
         verify_output(caplog, expected)

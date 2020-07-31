@@ -4,7 +4,7 @@ import sys
 from typing import Any, Dict
 
 from src import const
-from src.const import Role
+from src.const import Role, Team
 from src.roles import Player, get_role_obj
 from src.statements import Statement
 from src.stats import GameResult, SavedGame
@@ -15,7 +15,7 @@ class WolfBotEncoder(json.JSONEncoder):
 
     def default(self, o: Any) -> Any:
         """ Overrides encoding method. """
-        if isinstance(o, (Role, Player, Statement, GameResult, SavedGame)):
+        if isinstance(o, (Role, Team, Player, Statement, GameResult, SavedGame)):
             return o.json_repr()
         if isinstance(o, set):
             return {"type": "Set", "data": sorted(o)}
@@ -40,6 +40,8 @@ class WolfBotDecoder(json.JSONDecoder):
             return frozenset(obj["data"])
         if obj_type == "Role":
             return Role(obj["data"])
+        if obj_type == "Team":
+            return Team(obj["data"])
         if obj_type == "Statement":
             obj["knowledge"] = tuple([tuple(know) for know in obj["knowledge"]])
             obj["switches"] = tuple([tuple(switch) for switch in obj["switches"]])

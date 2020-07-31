@@ -18,8 +18,9 @@ class Player:
         # Exit early if we are creating a placeholder Player
         if player_index < 0:
             return
+        class_name = type(self).__name__
         self.player_index = player_index
-        self.role = Role(type(self).__name__)  # e.g. Role.WOLF
+        self.role = Role(class_name) if class_name != "Player" else Role.NONE
         self.new_role = Role.NONE
         self.statements: Tuple[Statement, ...] = ()
         self.prev_priority = StatementLevel.NOT_YET_SPOKEN
