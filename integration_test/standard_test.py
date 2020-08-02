@@ -57,7 +57,7 @@ class TestStandard:
         stat_tracker = one_night.simulate_game(num_games=1000)
 
         stat_results = stat_tracker.get_metric_results()
-        write_results(stat_results, "standard/random.csv")
+        write_results(stat_results, "standard/random_wolf.csv")
         assert stat_results["villager_wins"] > 0.8
         assert stat_results["tanner_wins"] == 0
         assert stat_results["werewolf_wins"] < 0.2
@@ -88,6 +88,19 @@ class TestStandard:
         assert stat_results["villager_wins"] < 0.55
         assert stat_results["tanner_wins"] == 0
         assert stat_results["werewolf_wins"] > 0.45
+
+    # @staticmethod
+    # def test_rl_wolf(medium_game_roles: Tuple[Role, ...]) -> None:
+    #     """ Correctly play one round of one night werewolf. """
+    #     const.USE_RL_WOLF = True
+
+    #     stat_tracker = one_night.simulate_game(num_games=500)
+
+    #     stat_results = stat_tracker.get_metric_results()
+    #     write_results(stat_results, "standard/rl_wolf.csv")
+    #     assert stat_results["villager_wins"] < 0.6
+    #     assert stat_results["tanner_wins"] == 0
+    #     assert stat_results["werewolf_wins"] > 0.4
 
     @staticmethod
     def test_random_villagers(standard_game_roles: Tuple[Role, ...]) -> None:

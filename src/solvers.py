@@ -71,6 +71,8 @@ class SolverState:
         Ensures that all current sets in possible_roles_list that contain only one element
         are still within the bounds of the ROLE_COUNTS dict. E.g.
         {'Villager': 3, 'Robber': 0, 'Seer': 0, 'Wolf': 1}
+
+        Does not benefit from @cached_property because it is only called once per instance.
         """
         if not self.possible_roles:
             return {}

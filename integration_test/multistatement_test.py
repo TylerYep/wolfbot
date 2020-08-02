@@ -17,7 +17,7 @@ class TestMultistatement:
         stat_tracker = one_night.simulate_game(num_games=1000)
 
         stat_results = stat_tracker.get_metric_results()
-        write_results(stat_results, "multistatement/random.csv")
+        write_results(stat_results, "multistatement/random_wolf.csv")
         assert stat_results["villager_wins"] > 0.8
         assert stat_results["tanner_wins"] == 0
         assert stat_results["werewolf_wins"] < 0.2

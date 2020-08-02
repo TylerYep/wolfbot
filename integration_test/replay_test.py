@@ -21,42 +21,29 @@ class TestReplay:
         assert result_stats == stat_tracker
 
     @staticmethod
-    def test_replay_game_small(example_small_game_result: GameResult) -> None:
+    def test_replay_game_state_medium(example_medium_game_result: GameResult) -> None:
         """
-        Deprecated in favor of replay_game_state.
-        Correctly replay last round of one night werewolf.
-        Note that the result is always not the same as the first run, as
-        the second predictions receive different random numbers.
+        Correctly replay last round of one night werewolf using saved random numbers.
         """
         const.REPLAY_FILE = "unit_test/test_data/replay.json"
         one_night.play_one_night_werewolf()
 
-        result = replay.replay_game()
+        result_stats = replay.replay_game_from_state()
 
-        assert result == example_small_game_result
+        stat_tracker = stats.Statistics()
+        stat_tracker.add_result(example_medium_game_result)
+        assert result_stats == stat_tracker
 
     @staticmethod
-    def test_replay_game_medium(example_medium_game_result: GameResult) -> None:
+    def test_replay_game_state_large(example_large_game_result: GameResult) -> None:
         """
-        Deprecated in favor of replay_game_state.
-        Correctly replay last round of one night werewolf.
-        Note that the result is always not the same as the first run, as
-        the second predictions receive different random numbers.
+        Correctly replay last round of one night werewolf using saved random numbers.
         """
         const.REPLAY_FILE = "unit_test/test_data/replay.json"
         one_night.play_one_night_werewolf()
 
-        assert replay.replay_game()
+        result_stats = replay.replay_game_from_state()
 
-    @staticmethod
-    def test_replay_game_large(example_large_game_result: GameResult) -> None:
-        """
-        Deprecated in favor of replay_game_state.
-        Correctly replay last round of one night werewolf.
-        Note that the result is always not the same as the first run, as
-        the second predictions receive different random numbers.
-        """
-        const.REPLAY_FILE = "unit_test/test_data/replay.json"
-        one_night.play_one_night_werewolf()
-
-        assert replay.replay_game()
+        stat_tracker = stats.Statistics()
+        stat_tracker.add_result(example_large_game_result)
+        assert result_stats == stat_tracker

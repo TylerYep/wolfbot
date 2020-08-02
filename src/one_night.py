@@ -9,11 +9,10 @@ from tqdm import tqdm
 
 from src import const, util
 from src.const import Role, StatementLevel, Team, logger
-from src.encoder import WolfBotEncoder
 from src.gui import GUIState
 from src.roles import Player, get_role_obj
 from src.statements import KnowledgeBase, Statement
-from src.stats import GameResult, SavedGame, Statistics
+from src.stats import GameResult, Statistics
 
 
 def simulate_game(
@@ -36,7 +35,10 @@ def simulate_game(
 
 def play_one_night_werewolf(save_replay: bool = True) -> GameResult:
     """ Plays one round of One Night Ultimate Werewolf. """
-    random_state = {"rng_state": random.getstate()}
+    if save_replay:
+        with open(const.REPLAY_STATE, "w") as replay_file:
+            json.dump({"rng_state": random.getstate()}, replay_file)
+
     game_roles = list(const.ROLES)
     if const.RANDOMIZE_ROLES:
         random.shuffle(game_roles)
@@ -55,14 +57,16 @@ def play_one_night_werewolf(save_replay: bool = True) -> GameResult:
     )
     gui_state.print_statements(all_statements)
 
-    save_game = SavedGame(original_roles, tuple(game_roles), all_statements, player_objs)
-    if save_replay:
-        with open(const.REPLAY_STATE, "w") as replay_file:
-            json.dump(random_state, replay_file)
-        with open(const.REPLAY_FILE, "w") as replay_file:
-            json.dump(save_game, replay_file, cls=WolfBotEncoder, indent=2)
-
-    return consolidate_results(save_game)
+    orig_wolf_inds = util.find_all_player_indices(original_roles, Role.WOLF)
+    indiv_preds = get_individual_preds(player_objs, all_statements)
+    most_freq_guesses, guessed_wolf_inds, vote_inds = get_voting_result(player_objs, indiv_preds)
+    util.print_roles(game_roles, "Solution", logging.INFO)
+    util.print_roles(most_freq_guesses, "WolfBot")
+    _ = get_confidence(indiv_preds)
+    winning_team = eval_winning_team(tuple(game_roles), list(guessed_wolf_inds), vote_inds)
+    return GameResult(
+        tuple(game_roles), most_freq_guesses, orig_wolf_inds, winning_team, all_statements
+    )
 
 
 def get_player_multistatements(player_objs: Tuple[Player, ...]) -> Tuple[Statement, ...]:
@@ -129,19 +133,6 @@ def night_falls(game_roles: List[Role], original_roles: Tuple[Role, ...]) -> Tup
             player_objs[i] = role_obj.awake_init(i, game_roles, original_roles)
 
     return tuple(player_objs[: const.NUM_PLAYERS])
-
-
-def consolidate_results(save_game: SavedGame) -> GameResult:
-    """ Consolidates results and returns final GameResult. """
-    original_roles, game_roles, all_statements, player_objs = save_game.load_game()
-    orig_wolf_inds = util.find_all_player_indices(original_roles, Role.WOLF)
-    indiv_preds = get_individual_preds(player_objs, all_statements)
-    all_guesses, guessed_wolf_inds, vote_inds = get_voting_result(player_objs, indiv_preds)
-    util.print_roles(game_roles, "Solution", logging.INFO)
-    util.print_roles(all_guesses, "WolfBot")
-    _ = get_confidence(indiv_preds)
-    winning_team = eval_winning_team(game_roles, list(guessed_wolf_inds), vote_inds)
-    return GameResult(game_roles, all_guesses, orig_wolf_inds, winning_team)
 
 
 def get_individual_preds(
@@ -263,4 +254,5 @@ def override_players(game_roles: List[Role]) -> None:
         and const.FIXED_WOLF_INDEX >= 0
     ):
         wolf_ind = random.choice(wolf_inds)
-        util.swap_characters(game_roles, wolf_ind, const.FIXED_WOLF_INDEX)
+        if wolf_ind != const.FIXED_WOLF_INDEX:
+            util.swap_characters(game_roles, wolf_ind, const.FIXED_WOLF_INDEX)

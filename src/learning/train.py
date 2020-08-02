@@ -1,11 +1,11 @@
-# type: ignore
 """
 train.py
-To run, cd to src/ and run python -m learning.train
+To run: python -m src.learning.train
 """
 import json
 import os
-import time
+
+# import time
 from collections import defaultdict
 from typing import Any, DefaultDict, List, Tuple
 
@@ -25,17 +25,15 @@ def evaluate(game: GameResult) -> int:
     return val
 
 
-def get_wolf_state(game: GameResult) -> Tuple[List[Tuple[int, ...]], List[Tuple[Role, ...]]]:
+def get_wolf_state(
+    game: GameResult,
+) -> Tuple[List[Tuple[Tuple[int, ...], Tuple[str, ...]]], List[str]]:
     """ Fetches Wolf statement from Game. """
     states, statements = [], []
     for wolf_ind in game.wolf_inds:
-        del wolf_ind
-        state = (
-            tuple(game.wolf_inds),
-            (),
-        )  # tuple([s.sentence for s in game.statements[:wolf_ind]]))
+        state = (game.wolf_inds, tuple([s.sentence for s in game.statements[:wolf_ind]]))
         states.append(state)
-        # statements.append(game.statements[wolf_ind].sentence)
+        statements.append(game.statements[wolf_ind].sentence)
     return states, statements
 
 
@@ -73,15 +71,16 @@ def train(folder: str, eta: float = 0.01) -> None:
                     counter += 1
 
     exp_dict = remap_keys(experience_dict)
-    with open(f"learning/simulations/wolf_{time.strftime('%Y%m%d_%H%M%S')}.json", "w") as wolf_file:
-        json.dump(exp_dict, wolf_file, cls=WolfBotEncoder)
+    with open("src/learning/simulations/wolf.json", "w") as wolf_file:
+        # _{time.strftime('%Y%m%d_%H%M%S')}.json", "w") as wolf_file:
+        json.dump(exp_dict, wolf_file, cls=WolfBotEncoder, indent=2)
 
 
 def test() -> None:  # experience_dict as param
     """ Run play_one_night_werewolf with a specific experience_dict. """
-    assert const.USE_RL_WOLF is False
+    const.USE_RL_WOLF = False
     simulate_game(num_games=const.NUM_GAMES, enable_tqdm=True)
 
 
 if __name__ == "__main__":
-    train("learning/simulations")
+    train("src/learning/simulations")

@@ -24,18 +24,19 @@ def get_statement_rl(
     experience = defaultdict(lambda: defaultdict(int), exp_dict)
     assert experience
 
-    logger.info("Experience dict loaded.")
-
     state = (tuple(player_obj.wolf_indices), tuple(knowledge_base.all_statements))
     scores = experience[str(state)]
+    logger.info(f"Experience dict loaded.\n    {len(scores)} matching states.")
+
     best_choice = (default_answer, -100)
     for potential_statement, score in scores.items():
         if score > best_choice[1]:
             best_choice = (potential_statement, score)
     if best_choice[0] is None:
+        logger.info("Using default statement...")
         return default_answer
     for statement in statements:
         if best_choice[0] == statement:
             return statement
 
-    return Statement("")  # TODO
+    raise RuntimeError("Reached end of rl_wolf code.")

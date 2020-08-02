@@ -40,11 +40,12 @@ class SavedGame:
 class GameResult:
     """ Each round of one_night returns a GameResult. """
 
-    __slots__ = ["actual", "guessed", "wolf_inds", "winning_team"]
+    __slots__ = ["actual", "guessed", "wolf_inds", "winning_team", "statements"]
     actual: Tuple[Role, ...]
     guessed: Tuple[Role, ...]
     wolf_inds: Tuple[int, ...]
     winning_team: Team
+    statements: Tuple[Statement, ...]
 
     def json_repr(self) -> Dict[str, Any]:
         """ Returns json representation of the GameResult. """
@@ -52,6 +53,7 @@ class GameResult:
             "type": "GameResult",
             "actual": self.actual,
             "guessed": self.guessed,
+            "statements": self.statements,
             "wolf_inds": self.wolf_inds,
             "winning_team": self.winning_team,
         }

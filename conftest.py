@@ -77,6 +77,7 @@ def reset_const() -> None:
     const.EXPECTIMAX_WOLF = False
     const.EXPECTIMAX_MINION = False
     const.EXPECTIMAX_TANNER = False
+    const.USE_RL_WOLF = False
 
     const.REPLAY_FILE = "unit_test/test_data/replay.json"
     random.seed(0)

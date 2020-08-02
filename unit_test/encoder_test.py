@@ -107,17 +107,8 @@ class TestWolfBotEncoderDecoder:
     def test_default_game_result(example_small_game_result: GameResult) -> None:
         """ Should convert objects of different types to JSON. """
         result = json.dumps(example_small_game_result, cls=WolfBotEncoder)
-        assert result == (
-            '{"type": "GameResult",'
-            ' "actual": [{"type": "Role", "data": "Villager"},'
-            ' {"type": "Role", "data": "Seer"}, {"type": "Role", "data": "Robber"}],'
-            ' "guessed": [{"type": "Role", "data": "Villager"},'
-            ' {"type": "Role", "data": "Seer"}, {"type": "Role", "data": "Robber"}],'
-            ' "wolf_inds": [],'
-            ' "winning_team": {"type": "Team", "data": 1}}'
-        )
-
         reverted_result = json.loads(result, cls=WolfBotDecoder)
+
         assert reverted_result == example_small_game_result
 
     @staticmethod

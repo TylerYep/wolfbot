@@ -54,7 +54,7 @@ class TestGameResult:
     @staticmethod
     def test_constructor() -> None:
         """ Should initialize correctly. """
-        result = GameResult((Role.WOLF,), (Role.WOLF,), (0,), Team.WEREWOLF)
+        result = GameResult((Role.WOLF,), (Role.WOLF,), (0,), Team.WEREWOLF, ())
 
         assert isinstance(result, stats.GameResult)
 
@@ -69,6 +69,18 @@ class TestGameResult:
             "type": "GameResult",
             "winning_team": Team.VILLAGE,
             "wolf_inds": (),
+            "statements": (
+                Statement("I am a Villager.", ((0, frozenset({Role.VILLAGER})),)),
+                Statement(
+                    "I am a Robber and I swapped with Player 2. I am now a Seer.",
+                    ((1, frozenset({Role.ROBBER})), (2, frozenset({Role.SEER}))),
+                    ((SwitchPriority.ROBBER, 1, 2),),
+                ),
+                Statement(
+                    "I am a Seer and I saw that Player 0 was a Villager.",
+                    ((2, frozenset({Role.SEER})), (0, frozenset({Role.VILLAGER}))),
+                ),
+            ),
         }
 
 

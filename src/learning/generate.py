@@ -1,8 +1,9 @@
 """
 generate.py
-To run, cd to src/ and run python -m learning.generate
+To run: python -m src.learning.generate
 """
 import json
+import logging
 import time
 
 from src import const
@@ -10,12 +11,17 @@ from src.const import logger
 from src.encoder import WolfBotEncoder
 from src.one_night import play_one_night_werewolf
 
+MAX_INDEX = 7
+
 
 def generate_data() -> None:
     """ Simulate games and store data in simulations folder. """
-    weights = [3 ** i for i in range(1, const.NUM_PLAYERS + 1)]
+    assert MAX_INDEX <= const.NUM_PLAYERS
+    # weights = [3 ** i for i in range(1, MAX_INDEX + 1)]
+    weights = [300 for i in range(MAX_INDEX + 1)]
     sim_list = []
-    logger.set_level(0)
+    logger.set_level(logging.WARNING)
+    const.USE_RL_WOLF = False
     for i, weight in enumerate(weights):
         const.FIXED_WOLF_INDEX = i
         logger.warning(f"Computing index: {i}")
@@ -23,9 +29,9 @@ def generate_data() -> None:
             simulation = play_one_night_werewolf(save_replay=False)
             sim_list.append(simulation)
 
-    fname = f"learning/simulations/simulation_{time.strftime('%Y%m%d_%H%M%S')}.json"
+    fname = f"src/learning/simulations/simulation_{time.strftime('%Y%m%d_%H%M%S')}.json"
     with open(fname, "w") as f_sim:
-        json.dump(sim_list, f_sim, cls=WolfBotEncoder)
+        json.dump(sim_list, f_sim, cls=WolfBotEncoder, indent=2)
 
 
 if __name__ == "__main__":

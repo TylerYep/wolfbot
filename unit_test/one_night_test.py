@@ -8,35 +8,6 @@ from src import const, one_night
 from src.const import Role, Team
 from src.roles import Drunk, Minion, Player, Robber, Seer, Wolf
 from src.statements import Statement
-from src.stats import GameResult, SavedGame
-
-
-class TestConsolidateResults:
-    """ Tests for the consolidate_results function. """
-
-    @staticmethod
-    def test_consolidate_small(example_small_saved_game: SavedGame) -> None:
-        """ Should return a final GameResult after voting. """
-        result = one_night.consolidate_results(example_small_saved_game)
-
-        assert result == GameResult(
-            (Role.VILLAGER, Role.SEER, Role.ROBBER),
-            (Role.VILLAGER, Role.SEER, Role.ROBBER),
-            (),
-            Team.VILLAGE,
-        )
-
-    @staticmethod
-    def test_consolidate_medium(example_medium_saved_game: SavedGame) -> None:
-        """ Should return a final GameResult after voting. """
-        result = one_night.consolidate_results(example_medium_saved_game)
-
-        assert result == GameResult(
-            (Role.SEER, Role.WOLF, Role.TROUBLEMAKER, Role.DRUNK, Role.MINION, Role.ROBBER),
-            (Role.MINION, Role.WOLF, Role.TROUBLEMAKER, Role.DRUNK, Role.SEER, Role.ROBBER),
-            (1,),
-            Team.VILLAGE,
-        )
 
 
 class TestGetIndividualPreds:
