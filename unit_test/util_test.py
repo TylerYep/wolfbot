@@ -87,7 +87,7 @@ class TestGetPlayer:
         result = [util.get_player(is_user=False, exclude=exclude) for _ in range(10)]
 
         assert not set(result).intersection(exclude)
-        assert result == [0, 4, 4, 5, 9, 3, 2, 4, 2, 1]
+        assert result == [9, 9, 0, 4, 11, 10, 9, 4, 10, 5]
 
     @staticmethod
     def test_user_input_indices(

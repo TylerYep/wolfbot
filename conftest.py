@@ -3,10 +3,11 @@
 import csv
 import os
 import random
-from typing import Callable, Dict, List, Tuple
+from typing import Any, Callable, Dict, List, Tuple
 
 import pytest
 from _pytest.logging import LogCaptureFixture
+from _pytest.monkeypatch import MonkeyPatch
 
 from fixtures import (
     example_large_game_result,
@@ -220,6 +221,33 @@ def override_input(inputs: List[str]) -> Callable[[str], str]:
         return inputs.pop(0)
 
     return _input
+
+
+@pytest.fixture
+def override_random(monkeypatch: MonkeyPatch) -> None:
+    def fix_seed(orig_function: Callable[..., Any]) -> Callable[..., Any]:
+        """
+        Returns the exact same function, but adds a call to random.seed(0) first.
+        Ensures idempotency, which means that, for example, multiple random.shuffle() calls
+        always produce the same result.
+        """
+
+        def fixed_seed_version(param: Any, *args: Any, **kwargs: Any) -> Any:
+            """ Sets the random seed and then returns the original function result. """
+            random.seed(0)
+            return orig_function(param, *args, **kwargs)
+
+        return fixed_seed_version
+
+    def fixed_seed_shuffle(param: Any) -> Any:
+        """ Sets the random seed and then returns the original function result. """
+        random.seed(0)
+        param = random.sample(param, len(param))
+
+    monkeypatch.setattr("random.choice", fix_seed(random.choice))
+    monkeypatch.setattr("random.choices", fix_seed(random.choices))
+    monkeypatch.setattr("random.randrange", fix_seed(random.randrange))
+    monkeypatch.setattr("random.shuffle", fixed_seed_shuffle)
 
 
 def write_results(stat_results: Dict[str, float], file_path: str) -> None:

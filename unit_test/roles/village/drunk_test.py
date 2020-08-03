@@ -24,8 +24,8 @@ class TestDrunk:
 
         drunk = Drunk.awake_init(player_index, game_roles, large_game_roles)
 
-        assert game_roles == new_roles
         assert drunk.choice_ind == 13
+        assert game_roles == new_roles
         assert drunk.statements == (
             Statement(
                 "I am a Drunk and I swapped with Center 1.",

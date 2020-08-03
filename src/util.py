@@ -47,10 +47,7 @@ def get_player(is_user: bool, exclude: Tuple[int, ...] = ()) -> int:
                 choice_ind = -1
         return choice_ind
 
-    choice_ind = -1
-    while choice_ind == -1 or choice_ind in exclude:
-        choice_ind = random.randrange(const.NUM_PLAYERS)
-    return choice_ind
+    return random.choice([i for i in range(const.NUM_PLAYERS) if i not in exclude])
 
 
 def get_center(is_user: bool, exclude: Tuple[int, ...] = ()) -> int:
@@ -68,10 +65,12 @@ def get_center(is_user: bool, exclude: Tuple[int, ...] = ()) -> int:
                 choice_ind = -1
         return choice_ind + const.NUM_PLAYERS
 
-    choice_ind = -1
-    while choice_ind == -1 or choice_ind in exclude:
-        choice_ind = const.NUM_PLAYERS + random.randrange(const.NUM_CENTER)
-    return choice_ind
+    choices = [
+        const.NUM_PLAYERS + i
+        for i in range(const.NUM_CENTER)
+        if const.NUM_PLAYERS + i not in exclude
+    ]
+    return random.choice(choices)
 
 
 def get_numeric_input(end: int, start: Optional[int] = None) -> int:

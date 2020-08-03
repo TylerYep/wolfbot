@@ -1,15 +1,15 @@
 
 -- NIGHT FALLS --
 
-[Hidden] Player roles: [Villager, Robber, Seer]
+[Hidden] Player roles: [Villager, Seer, Robber]
          Center cards: []
 
 Seer, wake up.
-[Hidden] Seer sees that Player 0 is a Villager.
+[Hidden] Seer sees that Player 2 is a Robber.
 Seer, go to sleep.
 
 Robber, wake up.
-[Hidden] Robber switches with Player 2 and becomes a Seer.
+[Hidden] Robber switches with Player 1 and becomes a Seer.
 Robber, go to sleep.
 
 Everyone, wake up!
@@ -18,20 +18,20 @@ Everyone, wake up!
 -- GAME BEGINS --
 
 Player 0: I am a Villager.
-Player 1: I am a Robber and I swapped with Player 2. I am now a Seer.
-Player 2: I am a Seer and I saw that Player 0 was a Villager.
+Player 1: I am a Seer and I saw that Player 2 was a Robber.
+Player 2: I am a Robber and I swapped with Player 1. I am now a Seer.
 
 [Trace] Predictions:
-Player 0: (Villager, Seer, Robber)
-Player 1: (Villager, Seer, Robber)
-Player 2: (Villager, Seer, Robber)
+Player 0: (Villager, Robber, Seer)
+Player 1: (Villager, Robber, Seer)
+Player 2: (Villager, Robber, Seer)
 
 Vote Array: [1, 1, 1]
 
-[Solution] Player roles: [Villager, Seer, Robber]
+[Solution] Player roles: [Villager, Robber, Seer]
            Center cards: []
 
-[WolfBot] Player roles: [Villager, Seer, Robber]
+[WolfBot] Player roles: [Villager, Robber, Seer]
           Center cards: []
 
 Confidence levels: [1.0, 1.0, 1.0]

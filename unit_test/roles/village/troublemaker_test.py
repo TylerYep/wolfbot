@@ -21,20 +21,20 @@ class TestTroublemaker:
         game_roles = list(large_game_roles)
         expected = (
             Statement(
-                "I am a Troublemaker and I swapped Player 6 and Player 0.",
+                "I am a Troublemaker and I swapped Player 6 and Player 7.",
                 ((11, frozenset({Role.TROUBLEMAKER})),),
-                ((SwitchPriority.TROUBLEMAKER, 6, 0),),
+                ((SwitchPriority.TROUBLEMAKER, 6, 7),),
                 Role.TROUBLEMAKER,
             ),
         )
         new_roles = list(large_game_roles)
-        new_roles[0], new_roles[6] = new_roles[6], new_roles[0]
+        new_roles[6], new_roles[7] = new_roles[7], new_roles[6]
 
         tmkr = Troublemaker.awake_init(player_index, game_roles, ())
 
-        assert game_roles == new_roles
         assert tmkr.choice_ind1 == 6
-        assert tmkr.choice_ind2 == 0
+        assert tmkr.choice_ind2 == 7
+        assert game_roles == new_roles
         assert tmkr.statements == expected
 
     @staticmethod

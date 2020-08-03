@@ -123,6 +123,18 @@ def get_basic_guesses(solution: SolverState) -> Tuple[List[Role], Dict[Role, int
                 curr_role_counts[choice] -= 1
             else:
                 all_role_guesses.append(Role.NONE)
+
+            # choice = None
+            # for r in evil_roles:
+            #     if curr_role_counts[r] > 0:
+            #         choice = r
+            #         break
+            # if choice is None:
+            #     all_role_guesses.append(Role.NONE)
+            # else:
+            #     all_role_guesses.append(choice)
+            #     curr_role_counts[choice] -= 1
+
     return all_role_guesses, curr_role_counts
 
 

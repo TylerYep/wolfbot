@@ -20,22 +20,22 @@ class TestRobber:
         player_index = 2
         game_roles = list(large_game_roles)
         new_roles = list(large_game_roles)
-        new_roles[2], new_roles[6] = new_roles[6], new_roles[2]
+        new_roles[2], new_roles[7] = new_roles[7], new_roles[2]
 
         expected = (
             Statement(
-                "I am a Robber and I swapped with Player 6. I am now a Mason.",
-                ((2, frozenset({Role.ROBBER})), (6, frozenset({Role.MASON}))),
-                ((SwitchPriority.ROBBER, 2, 6),),
+                "I am a Robber and I swapped with Player 7. I am now a Wolf.",
+                ((2, frozenset({Role.ROBBER})), (7, frozenset({Role.WOLF}))),
+                ((SwitchPriority.ROBBER, 2, 7),),
                 Role.ROBBER,
             ),
         )
 
         robber = Robber.awake_init(player_index, game_roles, ())
 
+        assert robber.choice_ind == 7
+        assert robber.new_role is Role.WOLF
         assert game_roles == new_roles
-        assert robber.choice_ind == 6
-        assert robber.new_role is Role.MASON
         assert robber.statements == expected
 
     @staticmethod
