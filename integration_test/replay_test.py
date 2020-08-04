@@ -1,6 +1,8 @@
 """ replay_test.py """
-from src import const, one_night, replay, stats
-from src.stats import GameResult
+from typing import Tuple
+
+from src import one_night, replay
+from src.const import Role
 
 
 class TestReplay:
@@ -8,48 +10,39 @@ class TestReplay:
 
     @staticmethod
     def test_replay_game_state_small(
-        example_small_game_result: GameResult, override_random: None
+        small_game_roles: Tuple[Role, ...], override_random: None
     ) -> None:
         """
         Correctly replay last round of one night werewolf using saved random numbers.
         """
-        const.REPLAY_FILE = "unit_test/test_data/replay.json"
-        one_night.play_one_night_werewolf()
+        game_result = one_night.play_one_night_werewolf()
 
-        result_stats = replay.replay_game_from_state()
+        replay_game_result = replay.replay_game_from_state()
 
-        stat_tracker = stats.Statistics()
-        stat_tracker.add_result(example_small_game_result)
-        assert result_stats == stat_tracker
+        assert game_result == replay_game_result
 
     @staticmethod
     def test_replay_game_state_medium(
-        example_medium_game_result: GameResult, override_random: None
+        medium_game_roles: Tuple[Role, ...], override_random: None
     ) -> None:
         """
         Correctly replay last round of one night werewolf using saved random numbers.
         """
-        const.REPLAY_FILE = "unit_test/test_data/replay.json"
-        one_night.play_one_night_werewolf()
+        game_result = one_night.play_one_night_werewolf()
 
-        result_stats = replay.replay_game_from_state()
+        replay_game_result = replay.replay_game_from_state()
 
-        stat_tracker = stats.Statistics()
-        stat_tracker.add_result(example_medium_game_result)
-        assert result_stats == stat_tracker
+        assert game_result == replay_game_result
 
     @staticmethod
     def test_replay_game_state_large(
-        example_large_game_result: GameResult, override_random: None
+        large_game_roles: Tuple[Role, ...], override_random: None
     ) -> None:
         """
         Correctly replay last round of one night werewolf using saved random numbers.
         """
-        const.REPLAY_FILE = "unit_test/test_data/replay.json"
-        one_night.play_one_night_werewolf()
+        game_result = one_night.play_one_night_werewolf()
 
-        result_stats = replay.replay_game_from_state()
+        replay_game_result = replay.replay_game_from_state()
 
-        stat_tracker = stats.Statistics()
-        stat_tracker.add_result(example_large_game_result)
-        assert result_stats == stat_tracker
+        assert game_result == replay_game_result
