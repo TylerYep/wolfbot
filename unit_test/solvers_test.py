@@ -1,5 +1,5 @@
 """ solvers_test.py """
-from typing import List, Tuple
+from typing import Tuple
 
 from conftest import set_roles
 from src import const, solvers
@@ -162,12 +162,13 @@ class TestSwitchingSolver:
 
     @staticmethod
     def test_solver_medium_multiple_solns(
-        medium_statement_list: Tuple[Statement, ...], example_medium_solved_list: List[SolverState]
+        medium_statement_list: Tuple[Statement, ...],
+        example_medium_solved_list: Tuple[SolverState, ...],
     ) -> None:
         """ Should return a SolverState with the most likely solution. """
         result = solvers.switching_solver(medium_statement_list)
 
-        assert result == example_medium_solved_list
+        assert tuple(result) == example_medium_solved_list
 
     @staticmethod
     def test_solver_large(

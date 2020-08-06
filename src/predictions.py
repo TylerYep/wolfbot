@@ -58,14 +58,12 @@ def make_prediction(
 
     solved: List[Role] = []
     solution_index = 0
-    basic_guess_cache: Dict[int, Tuple[List[Role], Dict[Role, int]]] = {}
     for index, solution in enumerate(solution_arr):
         # This case only occurs when Wolves tell a perfect lie.
         if len(solution.possible_roles) != const.NUM_ROLES:
             return make_random_prediction()
         solution_index = index
         all_role_guesses, curr_role_counts = get_basic_guesses(solution)
-        basic_guess_cache[index] = (all_role_guesses, curr_role_counts)
         if solved := recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts)):
             break
 
@@ -73,7 +71,7 @@ def make_prediction(
     if not solved:
         for index, solution in enumerate(solution_arr):
             solution_index = index
-            all_role_guesses, curr_role_counts = basic_guess_cache[index]
+            all_role_guesses, curr_role_counts = get_basic_guesses(solution)
             if solved := recurse_assign(
                 solution, list(all_role_guesses), dict(curr_role_counts), restrict_possible=False
             ):
@@ -85,7 +83,7 @@ def make_prediction(
     return tuple(final_guesses)
 
 
-def get_basic_guesses(solution: SolverState) -> Tuple[List[Role], Dict[Role, int]]:
+def get_basic_guesses(solution: SolverState) -> Tuple[Tuple[Role, ...], Dict[Role, int]]:
     """
     Populates the basic set of predictions, or adds the empty string if the
     possible roles set is not of size 1. For each statement, take the
@@ -94,11 +92,10 @@ def get_basic_guesses(solution: SolverState) -> Tuple[List[Role], Dict[Role, int
     assert len(solution.possible_roles) == const.NUM_ROLES
 
     all_role_guesses = []
-    consistent_statements = list(solution.path)
     curr_role_counts = dict(const.ROLE_COUNTS)
     for j in range(const.NUM_ROLES):
         # Center card or is truth
-        if j >= len(consistent_statements) or consistent_statements[j]:
+        if j >= len(solution.path) or solution.path[j]:
             guess_set = solution.possible_roles[j]
             # Remove already chosen cards
             for rol in const.ROLE_SET:
@@ -114,7 +111,7 @@ def get_basic_guesses(solution: SolverState) -> Tuple[List[Role], Dict[Role, int
                 all_role_guesses.append(Role.NONE)
 
         # Player is lying
-        elif not consistent_statements[j]:
+        elif not solution.path[j]:
             evil_roles = sorted(const.EVIL_ROLES)
             random.shuffle(evil_roles)
 
@@ -129,7 +126,7 @@ def get_basic_guesses(solution: SolverState) -> Tuple[List[Role], Dict[Role, int
             if choice is not Role.NONE:
                 curr_role_counts[choice] -= 1
 
-    return all_role_guesses, curr_role_counts
+    return tuple(all_role_guesses), curr_role_counts
 
 
 def recurse_assign(

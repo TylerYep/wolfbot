@@ -1,6 +1,6 @@
 """ solverstates.py """
 # pylint: disable=missing-function-docstring
-from typing import List, Tuple
+from typing import Tuple
 
 import pytest
 
@@ -59,7 +59,7 @@ def example_medium_solverstate_solved(medium_game_roles: Tuple[Role, ...]) -> So
 
 
 @pytest.fixture
-def example_medium_solved_list(medium_game_roles: Tuple[Role, ...]) -> List[SolverState]:
+def example_medium_solved_list(medium_game_roles: Tuple[Role, ...]) -> Tuple[SolverState, ...]:
     possible_roles_1 = (
         frozenset({Role.SEER}),
         frozenset({Role.ROBBER, Role.TROUBLEMAKER, Role.WOLF, Role.DRUNK, Role.MINION}),
@@ -76,7 +76,7 @@ def example_medium_solved_list(medium_game_roles: Tuple[Role, ...]) -> List[Solv
         frozenset({Role.SEER}),
         frozenset({Role.ROBBER, Role.TROUBLEMAKER, Role.WOLF, Role.DRUNK, Role.SEER, Role.MINION}),
     )
-    return [
+    return (
         SolverState(
             possible_roles_1,
             ((SwitchPriority.DRUNK, 2, 5), (SwitchPriority.ROBBER, 3, 2)),
@@ -87,11 +87,11 @@ def example_medium_solved_list(medium_game_roles: Tuple[Role, ...]) -> List[Solv
             ((SwitchPriority.DRUNK, 2, 5), (SwitchPriority.ROBBER, 3, 2)),
             (False, False, True, True, True),
         ),
-    ]
+    )
 
 
 @pytest.fixture
-def example_medium_solverstate_list(medium_game_roles: Tuple[Role, ...]) -> List[SolverState]:
+def example_medium_solverstate_list(medium_game_roles: Tuple[Role, ...]) -> Tuple[SolverState, ...]:
     possible_roles_1 = (
         frozenset({Role.SEER}),
         frozenset({Role.ROBBER}),
@@ -116,7 +116,7 @@ def example_medium_solverstate_list(medium_game_roles: Tuple[Role, ...]) -> List
         frozenset({Role.SEER}),
         frozenset({Role.MINION, Role.WOLF, Role.SEER, Role.DRUNK, Role.TROUBLEMAKER, Role.ROBBER}),
     )
-    return [
+    return (
         SolverState(
             possible_roles_1,
             ((SwitchPriority.ROBBER, 1, 0), (SwitchPriority.DRUNK, 2, 5)),
@@ -132,7 +132,7 @@ def example_medium_solverstate_list(medium_game_roles: Tuple[Role, ...]) -> List
             ((SwitchPriority.DRUNK, 2, 5), (SwitchPriority.ROBBER, 3, 2)),
             (False, False, True, True, True),
         ),
-    ]
+    )
 
 
 @pytest.fixture

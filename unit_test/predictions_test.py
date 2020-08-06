@@ -136,7 +136,7 @@ class TestGetBasicGuesses:
         result = predictions.get_basic_guesses(example_small_solverstate)
 
         assert result == (
-            [Role.SEER, Role.NONE, Role.ROBBER],
+            (Role.SEER, Role.NONE, Role.ROBBER),
             {Role.ROBBER: 0, Role.SEER: 0, Role.VILLAGER: 1},
         )
 
@@ -147,7 +147,7 @@ class TestGetBasicGuesses:
         as well as a dictionary of counts.
         """
         expected = (
-            [Role.SEER, Role.NONE, Role.DRUNK, Role.NONE, Role.NONE, Role.NONE],
+            (Role.SEER, Role.NONE, Role.DRUNK, Role.NONE, Role.NONE, Role.NONE),
             {
                 Role.DRUNK: 0,
                 Role.MINION: 1,
@@ -169,7 +169,7 @@ class TestGetBasicGuesses:
         as well as a dictionary of counts.
         """
         expected = (
-            [
+            (
                 Role.ROBBER,
                 Role.MINION,
                 Role.SEER,
@@ -178,8 +178,8 @@ class TestGetBasicGuesses:
                 Role.MASON,
                 Role.DRUNK,
                 Role.WOLF,
-            ]
-            + [Role.NONE] * 7,
+            )
+            + (Role.NONE,) * 7,
             {
                 Role.DRUNK: 0,
                 Role.HUNTER: 1,
