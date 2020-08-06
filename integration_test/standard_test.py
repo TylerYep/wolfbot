@@ -85,9 +85,9 @@ class TestStandard:
 
         stat_results = stat_tracker.get_metric_results()
         write_results(stat_results, "standard/expectimax_wolf.csv")
-        assert stat_results["villager_wins"] < 0.55
+        assert stat_results["villager_wins"] < 0.6
         assert stat_results["tanner_wins"] == 0
-        assert stat_results["werewolf_wins"] > 0.45
+        assert stat_results["werewolf_wins"] > 0.4
 
     # @staticmethod
     # def test_rl_wolf(medium_game_roles: Tuple[Role, ...]) -> None:

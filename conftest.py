@@ -48,7 +48,18 @@ def set_roles(*roles: Role) -> None:
 
 
 @pytest.fixture(autouse=True)
-def reset_const() -> None:
+def reset_const(seed: int = 0) -> None:
+    """
+    This fixture sets the constants for ALL unit + integration tests.
+
+    IMPORTANT:
+    -   No caching is able to be used between different tests, as some cached functions have
+        side effects because they rely on other constants.
+    -   All random() methods are monkeypatched to always return the same result. This was done
+        to prevent results from changing when new calls to random() are added. Beware of using
+        random() functions in any loop or sequence.
+    """
+    random.seed(seed)
     const.logger.set_level(0)
     const.NUM_PLAYERS = 12
     const.NUM_CENTER = 3
@@ -81,7 +92,6 @@ def reset_const() -> None:
     const.USE_RL_WOLF = False
 
     const.REPLAY_FILE = "unit_test/test_data/replay.json"
-    random.seed(0)
     set_roles(
         Role.INSOMNIAC,
         Role.VILLAGER,
@@ -207,6 +217,33 @@ def large_individual_preds() -> Tuple[Tuple[Role, ...], ...]:
     # fmt: on
 
 
+@pytest.fixture
+def override_random(monkeypatch: MonkeyPatch, seed: int = 0) -> None:
+    def fix_seed(orig_function: Callable[..., Any]) -> Callable[..., Any]:
+        """
+        Returns the exact same function, but adds a call to random.seed(0) first.
+        Ensures idempotency, which means that, for example, multiple random.shuffle() calls
+        always produce the same result.
+        """
+
+        def fixed_seed_version(param: Any, *args: Any, **kwargs: Any) -> Any:
+            """ Sets the random seed and then returns the original function result. """
+            random.seed(seed)
+            return orig_function(param, *args, **kwargs)
+
+        return fixed_seed_version
+
+    def fixed_seed_shuffle(param: Any) -> Any:
+        """ Sets the random seed and then returns the original function result. """
+        random.seed(seed)
+        param = random.sample(param, len(param))
+
+    monkeypatch.setattr("random.choice", fix_seed(random.choice))
+    monkeypatch.setattr("random.choices", fix_seed(random.choices))
+    monkeypatch.setattr("random.randrange", fix_seed(random.randrange))
+    monkeypatch.setattr("random.shuffle", fixed_seed_shuffle)
+
+
 def override_input(inputs: List[str]) -> Callable[[str], str]:
     """
     Returns a new input() function that accepts a string and repeatedly pops strings from
@@ -221,33 +258,6 @@ def override_input(inputs: List[str]) -> Callable[[str], str]:
         return inputs.pop(0)
 
     return _input
-
-
-@pytest.fixture
-def override_random(monkeypatch: MonkeyPatch) -> None:
-    def fix_seed(orig_function: Callable[..., Any]) -> Callable[..., Any]:
-        """
-        Returns the exact same function, but adds a call to random.seed(0) first.
-        Ensures idempotency, which means that, for example, multiple random.shuffle() calls
-        always produce the same result.
-        """
-
-        def fixed_seed_version(param: Any, *args: Any, **kwargs: Any) -> Any:
-            """ Sets the random seed and then returns the original function result. """
-            random.seed(0)
-            return orig_function(param, *args, **kwargs)
-
-        return fixed_seed_version
-
-    def fixed_seed_shuffle(param: Any) -> Any:
-        """ Sets the random seed and then returns the original function result. """
-        random.seed(0)
-        param = random.sample(param, len(param))
-
-    monkeypatch.setattr("random.choice", fix_seed(random.choice))
-    monkeypatch.setattr("random.choices", fix_seed(random.choices))
-    monkeypatch.setattr("random.randrange", fix_seed(random.randrange))
-    monkeypatch.setattr("random.shuffle", fixed_seed_shuffle)
 
 
 def write_results(stat_results: Dict[str, float], file_path: str) -> None:

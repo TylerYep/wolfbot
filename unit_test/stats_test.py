@@ -95,7 +95,7 @@ class TestStatistics:
         stat_tracker.add_result(example_medium_game_result)
 
         # To update these, refer to the output of print_statistics.
-        correct = [6, 6, 1, 1, 1, 1, 0, 0]
+        correct = [4, 4, 0, 0, 0, 0, 0, 1]
         total = [6, 6, 1, 1, 1, 1, 1, 1]
         assert stat_tracker.num_games == 1
         assert [metric.correct for metric in stat_tracker.metrics] == correct
@@ -113,13 +113,13 @@ class TestStatistics:
 
         expected = (
             "\nNumber of Games: 1",
-            "Accuracy for all predictions: 1.0",
-            "Accuracy with lenient center scores: 1.0",
-            "S1: Found at least 1 Wolf player: 1.0",
-            "S2: Found all Wolf players: 1.0",
-            "Percentage of correct Wolf guesses (including center Wolves): 1.0",
-            "Percentage of Villager Team wins: 1.0",
+            "Accuracy for all predictions: 0.6666666666666666",
+            "Accuracy with lenient center scores: 0.6666666666666666",
+            "S1: Found at least 1 Wolf player: 0.0",
+            "S2: Found all Wolf players: 0.0",
+            "Percentage of correct Wolf guesses (including center Wolves): 0.0",
+            "Percentage of Villager Team wins: 0.0",
             "Percentage of Tanner Team wins: 0.0",
-            "Percentage of Werewolf Team wins: 0.0",
+            "Percentage of Werewolf Team wins: 1.0",
         )
         verify_output(caplog, expected)

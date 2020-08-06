@@ -39,22 +39,22 @@ Player 3: I am a Troublemaker and I swapped Player 4 and Player 1.
 Player 4: I am a Seer and I saw that Player 3 was a Troublemaker.
 
 [Trace] Predictions:
-Player 0: (Seer, Minion, Wolf, Troublemaker, Drunk, Robber)
-Player 1: (Seer, Minion, Wolf, Troublemaker, Drunk, Robber)
-Player 2: (Wolf, Robber, Seer, Troublemaker, Drunk, Minion)
-Player 3: (Seer, Minion, Wolf, Troublemaker, Drunk, Robber)
-Player 4: (Seer, Minion, Wolf, Troublemaker, Drunk, Robber)
+Player 0: (Seer, Wolf, Minion, Troublemaker, Drunk, Robber)
+Player 1: (Seer, Wolf, Minion, Troublemaker, Drunk, Robber)
+Player 2: (Minion, Robber, Seer, Troublemaker, Drunk, Wolf)
+Player 3: (Seer, Wolf, Minion, Troublemaker, Drunk, Robber)
+Player 4: (Seer, Wolf, Minion, Troublemaker, Drunk, Robber)
 
-Vote Array: [1, 0, 4, 0, 0]
+Vote Array: [0, 3, 1, 1, 0]
 
 [Solution] Player roles: [Seer, Minion, Wolf, Troublemaker, Drunk]
            Center cards: [Robber]
 
-[WolfBot] Player roles: [Seer, Minion, Wolf, Troublemaker, Drunk]
+[WolfBot] Player roles: [Seer, Wolf, Minion, Troublemaker, Drunk]
           Center cards: [Robber]
 
 Confidence levels: [0.8, 0.8, 0.8, 1.0, 1.0, 0.8]
-Player 2 was chosen as a Wolf.
-Player 2 was a Wolf!
+Player 1 was chosen as a Wolf.
+Player 1 was a Minion!
 
-Village Team wins!
+Werewolf Team wins!

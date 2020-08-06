@@ -35,9 +35,9 @@ def example_small_game_result(small_game_roles: Tuple[Role, ...]) -> GameResult:
 def example_medium_game_result(medium_game_roles: Tuple[Role, ...]) -> GameResult:
     return GameResult(
         (Role.SEER, Role.MINION, Role.WOLF, Role.TROUBLEMAKER, Role.DRUNK, Role.ROBBER),
-        (Role.SEER, Role.MINION, Role.WOLF, Role.TROUBLEMAKER, Role.DRUNK, Role.ROBBER),
+        (Role.SEER, Role.WOLF, Role.MINION, Role.TROUBLEMAKER, Role.DRUNK, Role.ROBBER),
         (2,),
-        Team.VILLAGE,
+        Team.WEREWOLF,
         (
             Statement(
                 "I am a Robber and I swapped with Player 4. I am now a Seer.",
@@ -87,15 +87,15 @@ def example_large_game_result(large_game_roles: Tuple[Role, ...]) -> GameResult:
             Role.HUNTER,
         ),
         (
-            Role.TANNER,
+            Role.MINION,
             Role.VILLAGER,
             Role.WOLF,
             Role.SEER,
             Role.VILLAGER,
-            Role.WOLF,
+            Role.TANNER,
             Role.MASON,
             Role.ROBBER,
-            Role.MINION,
+            Role.WOLF,
             Role.MASON,
             Role.INSOMNIAC,
             Role.VILLAGER,
@@ -104,7 +104,7 @@ def example_large_game_result(large_game_roles: Tuple[Role, ...]) -> GameResult:
             Role.HUNTER,
         ),
         (0, 7),
-        Team.TANNER,
+        Team.WEREWOLF,
         (
             Statement(
                 "I am a Seer and I saw that Center 0 was a Insomniac"

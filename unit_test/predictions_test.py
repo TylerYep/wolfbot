@@ -92,7 +92,7 @@ class TestMakeUnrestrictedPrediction:
         )
 
 
-class TestMakePrediction:  # TODO stop converting to lists
+class TestMakePrediction:
     """ Tests for the make_prediction function. """
 
     @staticmethod
@@ -118,8 +118,8 @@ class TestMakePrediction:  # TODO stop converting to lists
             Role.ROBBER,
             Role.SEER,
             Role.TROUBLEMAKER,
-            Role.MINION,
             Role.WOLF,
+            Role.MINION,
             Role.DRUNK,
         )
 
@@ -177,7 +177,7 @@ class TestGetBasicGuesses:
                 Role.MASON,
                 Role.MASON,
                 Role.DRUNK,
-                Role.TANNER,
+                Role.WOLF,
             ]
             + [Role.NONE] * 7,
             {
@@ -188,10 +188,10 @@ class TestGetBasicGuesses:
                 Role.MINION: 0,
                 Role.ROBBER: 0,
                 Role.SEER: 0,
-                Role.TANNER: 0,
+                Role.TANNER: 1,
                 Role.TROUBLEMAKER: 1,
                 Role.VILLAGER: 2,
-                Role.WOLF: 2,
+                Role.WOLF: 1,
             },
         )
 

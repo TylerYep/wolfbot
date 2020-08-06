@@ -117,23 +117,17 @@ def get_basic_guesses(solution: SolverState) -> Tuple[List[Role], Dict[Role, int
         elif not consistent_statements[j]:
             evil_roles = sorted(const.EVIL_ROLES)
             random.shuffle(evil_roles)
-            if choices := [r for r in evil_roles if curr_role_counts[r] > 0]:
-                choice = random.choice(choices)
-                all_role_guesses.append(choice)
-                curr_role_counts[choice] -= 1
-            else:
-                all_role_guesses.append(Role.NONE)
 
-            # choice = None
-            # for r in evil_roles:
-            #     if curr_role_counts[r] > 0:
-            #         choice = r
-            #         break
-            # if choice is None:
-            #     all_role_guesses.append(Role.NONE)
-            # else:
-            #     all_role_guesses.append(choice)
-            #     curr_role_counts[choice] -= 1
+            # Choose a random evil player to be the guess.
+            # TODO this has room for improvement.
+            choice = Role.NONE
+            for role in evil_roles:
+                if curr_role_counts[role] > 0:
+                    choice = role
+                    break
+            all_role_guesses.append(choice)
+            if choice is not Role.NONE:
+                curr_role_counts[choice] -= 1
 
     return all_role_guesses, curr_role_counts
 

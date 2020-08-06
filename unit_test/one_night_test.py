@@ -29,11 +29,11 @@ class TestGetIndividualPreds:
         result = one_night.get_individual_preds(player_objs, medium_statement_list)
 
         assert result == (
-            (Role.SEER, Role.WOLF, Role.TROUBLEMAKER, Role.DRUNK, Role.MINION, Role.ROBBER),
-            (Role.WOLF, Role.SEER, Role.ROBBER, Role.MINION, Role.TROUBLEMAKER, Role.DRUNK),
-            (Role.SEER, Role.WOLF, Role.TROUBLEMAKER, Role.DRUNK, Role.MINION, Role.ROBBER),
-            (Role.WOLF, Role.MINION, Role.TROUBLEMAKER, Role.DRUNK, Role.SEER, Role.ROBBER),
-            (Role.WOLF, Role.MINION, Role.TROUBLEMAKER, Role.DRUNK, Role.SEER, Role.ROBBER),
+            (Role.SEER, Role.MINION, Role.TROUBLEMAKER, Role.DRUNK, Role.WOLF, Role.ROBBER),
+            (Role.MINION, Role.SEER, Role.TROUBLEMAKER, Role.WOLF, Role.ROBBER, Role.DRUNK),
+            (Role.SEER, Role.MINION, Role.TROUBLEMAKER, Role.DRUNK, Role.WOLF, Role.ROBBER),
+            (Role.SEER, Role.MINION, Role.TROUBLEMAKER, Role.DRUNK, Role.WOLF, Role.ROBBER),
+            (Role.MINION, Role.WOLF, Role.TROUBLEMAKER, Role.DRUNK, Role.SEER, Role.ROBBER),
         )
 
 
