@@ -4,12 +4,14 @@ from __future__ import annotations
 import argparse
 import functools
 import logging
+import math
 import random
 import sys
 from collections import Counter
 from enum import Enum, IntEnum, auto, unique
-from typing import Any, Callable, Dict, Sequence, TypeVar
+from typing import Any, Callable, Dict, Optional, Sequence, Tuple, TypeVar
 
+from src.bits import Bits
 from src.log import OneNightLogger
 
 # TODO https://github.com/PyCQA/pylint/issues/3401
@@ -252,3 +254,50 @@ class Team(Enum):
     def json_repr(self) -> Dict[str, Any]:
         """ Gets JSON representation of a Role enum. """
         return {"type": "Team", "data": self.value}
+
+
+ROLE_TO_BITS = {role: i for i, role in enumerate(SORTED_ROLE_SET)}
+BITS_TO_ROLE = {i: role for i, role in enumerate(SORTED_ROLE_SET)}
+
+
+class RoleBits(Bits):
+    def __init__(self, val: str = "", length: Optional[int] = None) -> None:
+        self.val = int(val, 2) if val else 0  # -1 == 111111
+        self.length = len(val) if length is None else len(SORTED_ROLE_SET)
+
+    @classmethod
+    def from_roles(cls, *args: Role) -> Bits:
+        new_bits = cls()
+        for role in args:
+            assert role in ROLE_SET
+            new_bits.set_bit(ROLE_TO_BITS[role], True)
+        return new_bits
+
+    @property
+    def solo_role(self) -> Role:
+        """ Assumes is_solo is True. """
+        assert self.is_solo
+        return BITS_TO_ROLE[self.solo]
+
+    def flip_index(self, index: int) -> RoleBits:
+        """ Mark an index as opposite of its current state. """
+        # TODO SHOULD THESE RETURN NEW STATES OR MODIFY OLD STATES IN PLACE
+        reversed_index = self.length - index - 1
+        new_val = self.val
+        new_val &= ~(1 << reversed_index)
+        if new_val == self.val:
+            new_val |= (1 << reversed_index)
+        return RoleBits.from_num(new_val, self.length)
+
+    @classmethod
+    def from_num(cls, val: int, length: int) -> RoleBits:
+        return cls(f"{val:b}", length)
+
+    def __invert__(self) -> RoleBits:
+        """ Inverts all bits. """
+        return RoleBits.from_num(~self.val, self.length)
+
+    def __and__(self, other: object) -> RoleBits:
+        """ Intersection of two role sets. """
+        assert isinstance(other, Bits)
+        return RoleBits.from_num(self.val & other.val, self.length)

@@ -4,7 +4,7 @@ from typing import Tuple
 
 import pytest
 
-from src.const import Role, SwitchPriority
+from src.const import Role, RoleBits, SwitchPriority
 from src.statements import Statement
 
 
@@ -12,7 +12,7 @@ from src.statements import Statement
 def example_statement() -> Statement:
     return Statement(
         "test",
-        ((2, frozenset({Role.ROBBER})), (0, frozenset({Role.SEER}))),
+        ((2, RoleBits.from_roles(Role.ROBBER)), (0, RoleBits.from_roles(Role.SEER))),
         ((SwitchPriority.ROBBER, 2, 0),),
         Role.ROBBER,
     )

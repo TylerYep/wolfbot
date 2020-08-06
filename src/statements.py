@@ -6,9 +6,9 @@ from functools import cached_property  # type: ignore
 from typing import Any, Dict, FrozenSet, List, Tuple
 
 from src import const
-from src.const import Role, StatementLevel, SwitchPriority
+from src.const import RoleBits, Role, StatementLevel, SwitchPriority
 
-Knowledge = Tuple[int, FrozenSet[Role]]
+Knowledge = Tuple[int, RoleBits]
 Switch = Tuple[SwitchPriority, int, int]
 
 
@@ -52,7 +52,7 @@ class Statement:
     All member variables are converted into an immutable type to be used in hash().
     Args:
         sentence: a string representation of the statement
-        knowledge: a list of (player_index, set(role)) tuples
+        knowledge: a list of (player_index, roles bitstring)) tuples
         switches: a list of (player_priority, player_index, new_index) tuples
         speaker: the role string that supposedly gave the statement.
         priority: what level of priority the statement was said.
@@ -66,7 +66,7 @@ class Statement:
 
     def __post_init__(self) -> None:
         if self.speaker is Role.NONE and self.knowledge:
-            [self.speaker] = self.knowledge[0][1]
+            self.speaker = self.knowledge[0][1].solo_role
 
     def references(self, player_index: int) -> bool:
         """ Returns True if a given player_index is referenced in a statement. """
@@ -80,10 +80,9 @@ class Statement:
 
     def get_references(self, player_index: int, stated_roles: List[Role]) -> Role:
         """ Returns True if a given player_index is referenced in a statement. """
-        for i, role_set in self.knowledge[1:]:
-            if i == player_index and len(role_set) == 1:
-                [role] = role_set
-                return role
+        for i, role_bits in self.knowledge[1:]:
+            if i == player_index and role_bits.is_solo:
+                return role_bits.solo_role
         for _, i, j in self.switches:
             if player_index in (i, j) and player_index < len(stated_roles):
                 return stated_roles[player_index]
@@ -95,14 +94,14 @@ class Statement:
         not_sentence = "NOT - " + self.sentence
         if self.knowledge:
             index, player_clause = self.knowledge[0]
-            negated_knowledge = ((index, const.ROLE_SET - player_clause),)
+            negated_knowledge = ((index, ~player_clause),)
             return Statement(not_sentence, negated_knowledge, speaker=self.speaker)
         return Statement(not_sentence, speaker=self.speaker)
 
     def negate_all(self) -> Statement:
         """ Returns a negated version of every clause in the statement. """
         not_sentence = "NOT - " + self.sentence
-        neg = [(i, const.ROLE_SET - role_set) for i, role_set in self.knowledge]
+        neg = [(i, ~role_bits) for i, role_bits in self.knowledge]
         return Statement(not_sentence, tuple(neg), speaker=self.speaker)
 
     def __hash__(self) -> int:
