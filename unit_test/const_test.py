@@ -11,7 +11,7 @@ class TestRoleBits:
 
 def test_everything(medium_game_roles: Tuple[Role, ...]) -> None:
     # Role.DRUNK, Role.MINION, Role.ROBBER, Role.SEER, Role.TROUBLEMAKER, Role.WOLF
-    x = RoleBits.from_num(5)
+    x = RoleBits(0)
 
     y = RoleBits.from_roles(Role.MINION, Role.ROBBER, Role.WOLF)
     assert str(y) == "011001"
@@ -20,14 +20,14 @@ def test_everything(medium_game_roles: Tuple[Role, ...]) -> None:
 
     assert str(~y) == "100110"
 
-    y.set_bit(3, True)
+    y = y.set_bit(3, True)
     assert str(y) == "011101"
-    y.set_bit(3, False)
+    y = y.set_bit(3, False)
     assert str(y) == "011001"
-    y.set_bit(0, False)
+    y = y.set_bit(0, False)
     assert str(y) == "011001"
-    y.set_bit(5, False)
-    y.set_bit(1, False)
+    y = y.set_bit(5, False)
+    y = y.set_bit(1, False)
     assert str(y) == "001000"
 
     assert y.is_solo is True

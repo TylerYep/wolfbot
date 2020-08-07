@@ -154,11 +154,14 @@ ROLE_TO_BITS = {role: i for i, role in enumerate(SORTED_ROLE_SET)}
 BITS_TO_ROLE = {i: role for i, role in enumerate(SORTED_ROLE_SET)}
 
 
-class RoleBits:
+class RoleBits(int):
     """ Acts like a Set. """
+    def __new__(cls, val: Optional[int] = None) -> int:  #, *args, **kwargs):
+        val = (1 << NUM_UNIQUE_ROLES) - 1 if val is None else val
+        return super().__new__(cls, val)
 
-    def __init__(self, ones: bool = False) -> None:
-        self.val = (1 << NUM_UNIQUE_ROLES) - 1 if ones else 0
+    # def __init__(self, ones: bool = False) -> None:
+    #     self.val = (1 << NUM_UNIQUE_ROLES) - 1 if ones else 0
 
     @staticmethod
     def binary_str(val: int) -> str:
@@ -166,39 +169,36 @@ class RoleBits:
         return f"{coerced_positive_val:0{NUM_UNIQUE_ROLES}b}"
 
     def __repr__(self) -> str:
-        return self.binary_str(self.val)
+        return self.binary_str(self)
 
     @classmethod
     # @lru_cache
     def from_roles(cls, *args: Role) -> RoleBits:
-        new_bits = cls()
+        new_bits = cls.__new__(cls, 0)
         for role in args:
             assert role in SORTED_ROLE_SET  # TODO REMOVE
-            new_bits.set_bit(ROLE_TO_BITS[role], True)
+            new_bits = new_bits.set_bit(ROLE_TO_BITS[role], True)
         return new_bits
 
-    @classmethod
-    def from_role_bits(cls, role_bits: RoleBits) -> RoleBits:
-        return cls.from_num(role_bits.val)
-
-    def set_bit(self, index: int, new_val: bool) -> None:
+    def set_bit(self, index: int, new_val: bool) -> RoleBits:
         """ Mark an index as the given value of its current state. """
         assert index < NUM_UNIQUE_ROLES
         reversed_index = NUM_UNIQUE_ROLES - index - 1
         if new_val:
-            self.val |= 1 << reversed_index
+            return RoleBits(self | 1 << reversed_index)
         else:
-            self.val &= ~(1 << reversed_index)
+            return RoleBits(self & ~(1 << reversed_index))
 
     @property
     def is_solo(self) -> bool:
-        return self.val != 0 and (self.val & (self.val - 1)) == 0
+        int_self = int(self)
+        return int_self != 0 and (int_self & (int_self - 1)) == 0
 
     @property
     def solo_role(self) -> Role:
         """ Assumes is_solo is True. """
         assert self.is_solo
-        return BITS_TO_ROLE[NUM_UNIQUE_ROLES - int(math.log2(self.val)) - 1]
+        return BITS_TO_ROLE[NUM_UNIQUE_ROLES - int(math.log2(int(self))) - 1]
 
     @property
     def as_tuple(self) -> Tuple[Role, ...]:
@@ -208,21 +208,14 @@ class RoleBits:
     def flip_index(self, index: int) -> RoleBits:
         """ Mark an index as opposite of its current state. """
         reversed_index = NUM_UNIQUE_ROLES - index - 1
-        new_val = self.val
+        new_val = self
         new_val &= ~(1 << reversed_index)
-        if new_val == self.val:
+        if new_val == self:
             new_val |= 1 << reversed_index
-        return RoleBits.from_num(new_val)
-
-    @classmethod
-    # @lru_cache
-    def from_num(cls, val: int) -> RoleBits:
-        new_bits = cls()
-        new_bits.val = int(f"{val:b}", 2)
-        return new_bits
+        return new_val
 
     def __bool__(self) -> bool:
-        return self.val != 0
+        return self != 0
 
     def __len__(self) -> int:  # TODO REMOVE
         return NUM_UNIQUE_ROLES
@@ -232,63 +225,62 @@ class RoleBits:
         assert isinstance(other, Role)
         if other not in ROLE_TO_BITS:
             return False
-        return self.val & (1 << ROLE_TO_BITS[other]) != 0
+        return self & (1 << ROLE_TO_BITS[other]) != 0
 
     def __eq__(self, other: object) -> bool:
         """ Intersection of two role sets. """
         assert isinstance(other, RoleBits)
-        return self.val == other.val
+        return super().__eq__(other)
 
     def __neq__(self, other: object) -> bool:
         """ Intersection of two role sets. """
         assert isinstance(other, RoleBits)
-        return self.val != other.val
+        return not super().__eq__(other)
 
     def __invert__(self) -> RoleBits:
         """ Inverts all bits. """
-        return RoleBits.from_num(~self.val & (2 ** NUM_UNIQUE_ROLES - 1))
+        return RoleBits(~int(self)) & (2 ** NUM_UNIQUE_ROLES - 1)
 
     def __and__(self, other: object) -> RoleBits:
         """ Intersection of two role sets. """
         if isinstance(other, Role):
-            return RoleBits.from_num(self.val & (1 << ROLE_TO_BITS[other]))
-        elif isinstance(other, RoleBits):
-            return RoleBits.from_num(self.val & other.val)
+            return RoleBits(self & (1 << ROLE_TO_BITS[other]))
+        if isinstance(other, (RoleBits, int)):
+            return RoleBits(super().__and__(other))
         raise TypeError
 
     def __iand__(self, other: object) -> RoleBits:   # TODO REMOVE
         """ Intersection of two role sets. """
-        return self & other
+        return self.__and__(other)
 
     def __or__(self, other: object) -> RoleBits:
         """ Intersection of two role sets. """
         if isinstance(other, Role):
-            return RoleBits.from_num(self.val | (1 << ROLE_TO_BITS[other]))
-        elif isinstance(other, RoleBits):
-            return RoleBits.from_num(self.val | other.val)
+            return RoleBits(self | (1 << ROLE_TO_BITS[other]))
+        if isinstance(other, (RoleBits, int)):
+            return RoleBits(super().__or__(other))
         raise TypeError
 
     def __ior__(self, other: object) -> RoleBits:
         """ Intersection of two role sets. """
-        return self | other
+        return self.__or__(other)
 
     def __sub__(self, other: object) -> RoleBits:
         """ Intersection of two role sets. """
-        new_bits = RoleBits.from_num(self.val)
         if isinstance(other, Role):
-            new_bits.set_bit(ROLE_TO_BITS[other], False)
+            new_bits = self.set_bit(ROLE_TO_BITS[other], False)
             return new_bits
         raise TypeError
 
     def __isub__(self, other: object) -> RoleBits:
         """ Intersection of two role sets. """
-        return self - other
+        return self.__sub__(other)
 
     def __hash__(self) -> int:
-        return hash(self.val)
+        return hash(self)
 
     def json_repr(self) -> Dict[str, Any]:
-        return {"type": "RoleBits", "data": self.val}
+        return {"type": "RoleBits", "data": self}
 
 
 ROLE_BITSET = RoleBits.from_roles(*ROLE_SET)
@@ -318,11 +310,11 @@ VILLAGE_ROLES = frozenset({
 }) & ROLE_SET
 EVIL_ROLES = frozenset({Role.TANNER, Role.WOLF, Role.MINION}) & ROLE_SET
 
-VILLAGE_ROLE_BITS = RoleBits.from_num(0)
+VILLAGE_ROLE_BITS = RoleBits(0)
 for role in VILLAGE_ROLES:
-    VILLAGE_ROLE_BITS &= role
+    VILLAGE_ROLE_BITS = VILLAGE_ROLE_BITS & role
 
-EVIL_ROLES_BITS = RoleBits.from_num(0)
+EVIL_ROLES_BITS = RoleBits(0)
 for role in EVIL_ROLES:
     EVIL_ROLES_BITS &= role
 

@@ -60,11 +60,11 @@ def set_roles(*roles: Role) -> None:
     }) & const.ROLE_SET
     const.EVIL_ROLES = frozenset({Role.TANNER, Role.WOLF, Role.MINION}) & const.ROLE_SET
 
-    const.VILLAGE_ROLE_BITS = RoleBits.from_num(0)
+    const.VILLAGE_ROLE_BITS = RoleBits(0)
     for role in const.VILLAGE_ROLES:
         const.VILLAGE_ROLE_BITS &= role
 
-    const.EVIL_ROLES_BITS = RoleBits.from_num(0)
+    const.EVIL_ROLES_BITS = RoleBits(0)
     for role in const.EVIL_ROLES:
         const.EVIL_ROLES_BITS &= role
 

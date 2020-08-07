@@ -51,7 +51,7 @@ class TestIsConsistent:
     @staticmethod
     def test_invalid_state(example_statement: Statement) -> None:
         """ Should return None for inconsistent states. """
-        possible_roles = tuple([RoleBits.from_roles(Role.VILLAGER) for _ in range(3)])
+        possible_roles = (RoleBits.from_roles(Role.VILLAGER),) * 3
         start_state = SolverState(possible_roles, path=(True,))
 
         invalid_state = start_state.is_consistent(example_statement)
@@ -64,9 +64,8 @@ class TestIsConsistent:
         Should check a new statement against accumulated statements for consistency.
         Should not change result.path - that is done in the switching_solver function.
         """
-        possible_roles = tuple(
-            [RoleBits.from_roles(Role.SEER)]
-            + [RoleBits.from_role_bits(const.ROLE_BITSET) for _ in range(const.NUM_ROLES - 1)]
+        possible_roles = (
+            (RoleBits.from_roles(Role.SEER),) + (const.ROLE_BITSET,) * (const.NUM_ROLES - 1)
         )
         example_solverstate = SolverState(possible_roles, path=(True,))
         new_statement = Statement(
@@ -82,9 +81,8 @@ class TestIsConsistent:
         """
         Modifying one SolverState should not affect other SolverStates created by is_consistent.
         """
-        possible_roles = tuple(
-            [RoleBits.from_roles(Role.SEER)]
-            + [RoleBits.from_role_bits(const.ROLE_BITSET) for _ in range(const.NUM_ROLES - 1)]
+        possible_roles = (
+            (RoleBits.from_roles(Role.SEER),) + (const.ROLE_BITSET,) * (const.NUM_ROLES - 1)
         )
         example = SolverState(possible_roles, path=(True,))
         new_statement = Statement(
@@ -194,7 +192,7 @@ class TestSwitchingSolver:
             RoleBits.from_roles(Role.VILLAGER),
             RoleBits.from_roles(Role.SEER),
             RoleBits.from_roles(Role.VILLAGER),
-        ) + (RoleBits.from_role_bits(const.ROLE_BITSET),) * 2
+        ) + (const.ROLE_BITSET,) * 2
 
         result = SolverState(possible_roles_list).get_role_counts()
 
