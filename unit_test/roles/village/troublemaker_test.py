@@ -3,7 +3,7 @@ from typing import Tuple
 
 from conftest import set_roles
 from src import const
-from src.const import Role, SwitchPriority
+from src.const import Role, RoleBits, SwitchPriority
 from src.roles import Troublemaker
 from src.statements import Statement
 
@@ -22,7 +22,7 @@ class TestTroublemaker:
         expected = (
             Statement(
                 "I am a Troublemaker and I swapped Player 6 and Player 7.",
-                ((11, frozenset({Role.TROUBLEMAKER})),),
+                ((11, RoleBits.from_roles(Role.TROUBLEMAKER)),),
                 ((SwitchPriority.TROUBLEMAKER, 6, 7),),
                 Role.TROUBLEMAKER,
             ),
@@ -47,7 +47,7 @@ class TestTroublemaker:
         assert result == (
             Statement(
                 "I am a Troublemaker and I swapped Player 6 and Player 3.",
-                ((1, frozenset({Role.TROUBLEMAKER})),),
+                ((1, RoleBits.from_roles(Role.TROUBLEMAKER)),),
                 ((SwitchPriority.TROUBLEMAKER, 6, 3),),
                 Role.TROUBLEMAKER,
             ),
@@ -63,7 +63,7 @@ class TestTroublemaker:
         expected_statements = (
             Statement(
                 "I am a Troublemaker and I swapped Player 0 and Player 1.",
-                ((2, frozenset({Role.TROUBLEMAKER})),),
+                ((2, RoleBits.from_roles(Role.TROUBLEMAKER)),),
                 ((SwitchPriority.TROUBLEMAKER, 0, 1),),
                 Role.TROUBLEMAKER,
             ),

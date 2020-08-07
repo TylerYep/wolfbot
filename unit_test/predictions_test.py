@@ -2,7 +2,7 @@
 from typing import Tuple
 
 from src import const, predictions
-from src.const import Role
+from src.const import Role, RoleBits
 from src.solvers import SolverState
 
 
@@ -333,7 +333,7 @@ class TestGetSwitchDict:
     @staticmethod
     def test_get_empty_switch_dict(small_game_roles: Tuple[Role, ...]) -> None:
         """ Should return the identity switch dict. """
-        possible_roles = (frozenset({Role.ROBBER, Role.VILLAGER, Role.SEER}),) * 3
+        possible_roles = (RoleBits.from_roles(Role.ROBBER, Role.VILLAGER, Role.SEER),) * 3
         state = SolverState(possible_roles)
 
         result = predictions.get_switch_dict(state)

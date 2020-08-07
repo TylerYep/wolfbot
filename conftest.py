@@ -32,18 +32,38 @@ from fixtures import (
     small_statement_list,
 )
 from src import const
-from src.const import Role
+from src.const import Role, RoleBits
 
 
 def set_roles(*roles: Role) -> None:
     """ Changes to ROLES should propagate to all of its descendants. """
     const.ROLES = roles  # type: ignore
-    const.ROLE_SET = frozenset(const.ROLES)
-    const.SORTED_ROLE_SET = sorted(const.ROLE_SET)
+    const.SORTED_ROLE_SET = sorted(set(const.ROLES))
+    const.ROLE_TO_BITS = {role: i for i, role in enumerate(const.SORTED_ROLE_SET)}
+    const.BITS_TO_ROLE = {i: role for i, role in enumerate(const.SORTED_ROLE_SET)}
     const.ROLE_COUNTS = const.get_counts(const.ROLES)
     const.NUM_ROLES = len(const.ROLES)
-    const.VILLAGE_ROLES &= const.ROLE_SET
-    const.EVIL_ROLES &= const.ROLE_SET
+    const.NUM_UNIQUE_ROLES = len(const.SORTED_ROLE_SET)
+    const.ROLE_SET = RoleBits.from_roles(*set(const.ROLES))
+
+    const.VILLAGE_ROLES = RoleBits()
+    for role in (
+        Role.VILLAGER,
+        Role.MASON,
+        Role.SEER,
+        Role.ROBBER,
+        Role.TROUBLEMAKER,
+        Role.DRUNK,
+        Role.INSOMNIAC,
+        Role.HUNTER,
+    ):
+        if role in set(const.ROLES):
+            const.VILLAGE_ROLES &= role
+
+    const.EVIL_ROLES = RoleBits()
+    for role in (Role.TANNER, Role.WOLF, Role.MINION):
+        if role in set(const.ROLES):
+            const.EVIL_ROLES &= role
     const.IS_USER = [False] * const.NUM_ROLES
 
 
@@ -63,19 +83,6 @@ def reset_const(seed: int = 0) -> None:
     const.logger.set_level(0)
     const.NUM_PLAYERS = 12
     const.NUM_CENTER = 3
-    const.VILLAGE_ROLES = frozenset(
-        {
-            Role.VILLAGER,
-            Role.MASON,
-            Role.SEER,
-            Role.ROBBER,
-            Role.TROUBLEMAKER,
-            Role.DRUNK,
-            Role.INSOMNIAC,
-            Role.HUNTER,
-        }
-    )
-    const.EVIL_ROLES = frozenset({Role.TANNER, Role.WOLF, Role.MINION})
 
     # Game Modes
     const.RANDOMIZE_ROLES = True

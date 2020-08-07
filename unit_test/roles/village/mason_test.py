@@ -3,7 +3,7 @@ from typing import Tuple
 
 from conftest import set_roles
 from src import const
-from src.const import Role
+from src.const import Role, RoleBits
 from src.roles import Mason
 from src.statements import Statement
 
@@ -22,7 +22,7 @@ class TestMason:
         assert mason.statements == (
             Statement(
                 "I am a Mason. The other Mason is Player 9.",
-                ((6, frozenset({Role.MASON})), (9, frozenset({Role.MASON}))),
+                ((6, RoleBits.from_roles(Role.MASON)), (9, RoleBits.from_roles(Role.MASON))),
             ),
         )
 
@@ -36,7 +36,7 @@ class TestMason:
         assert result == (
             Statement(
                 "I am a Mason. The other Mason is Player 6.",
-                ((9, frozenset({Role.MASON})), (6, frozenset({Role.MASON}))),
+                ((9, RoleBits.from_roles(Role.MASON)), (6, RoleBits.from_roles(Role.MASON))),
             ),
         )
 
@@ -52,9 +52,9 @@ class TestMason:
             Statement(
                 "I am a Mason. The other Mason is not present.",
                 (
-                    (2, frozenset({Role.MASON})),
-                    (0, frozenset({Role.WOLF, Role.SEER, Role.VILLAGER})),
-                    (1, frozenset({Role.WOLF, Role.SEER, Role.VILLAGER})),
+                    (2, RoleBits.from_roles(Role.MASON)),
+                    (0, RoleBits.from_roles(Role.WOLF, Role.SEER, Role.VILLAGER)),
+                    (1, RoleBits.from_roles(Role.WOLF, Role.SEER, Role.VILLAGER)),
                 ),
             ),
         )
@@ -69,18 +69,18 @@ class TestMason:
             Statement(
                 "I am a Mason. The other Mason is not present.",
                 (
-                    (2, frozenset({Role.MASON})),
-                    (0, frozenset({Role.WOLF, Role.SEER, Role.VILLAGER})),
-                    (1, frozenset({Role.WOLF, Role.SEER, Role.VILLAGER})),
+                    (2, RoleBits.from_roles(Role.MASON)),
+                    (0, RoleBits.from_roles(Role.WOLF, Role.SEER, Role.VILLAGER)),
+                    (1, RoleBits.from_roles(Role.WOLF, Role.SEER, Role.VILLAGER)),
                 ),
             ),
             Statement(
                 "I am a Mason. The other Mason is Player 0.",
-                ((2, frozenset({Role.MASON})), (0, frozenset({Role.MASON}))),
+                ((2, RoleBits.from_roles(Role.MASON)), (0, RoleBits.from_roles(Role.MASON))),
             ),
             Statement(
                 "I am a Mason. The other Mason is Player 1.",
-                ((2, frozenset({Role.MASON})), (1, frozenset({Role.MASON}))),
+                ((2, RoleBits.from_roles(Role.MASON)), (1, RoleBits.from_roles(Role.MASON))),
             ),
         )
 

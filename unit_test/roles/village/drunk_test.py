@@ -3,7 +3,7 @@ from typing import Tuple
 
 from conftest import set_roles
 from src import const
-from src.const import Role, SwitchPriority
+from src.const import Role, RoleBits, SwitchPriority
 from src.roles import Drunk
 from src.statements import Statement
 
@@ -29,7 +29,7 @@ class TestDrunk:
         assert drunk.statements == (
             Statement(
                 "I am a Drunk and I swapped with Center 1.",
-                ((6, frozenset({Role.DRUNK})),),
+                ((6, RoleBits.from_roles(Role.DRUNK)),),
                 ((SwitchPriority.DRUNK, 6, 13),),
                 Role.DRUNK,
             ),
@@ -45,7 +45,7 @@ class TestDrunk:
         assert result == (
             Statement(
                 "I am a Drunk and I swapped with Center 0.",
-                ((4, frozenset({Role.DRUNK})),),
+                ((4, RoleBits.from_roles(Role.DRUNK)),),
                 ((SwitchPriority.DRUNK, 4, 12),),
                 Role.DRUNK,
             ),
@@ -61,19 +61,19 @@ class TestDrunk:
         expected_statements = (
             Statement(
                 "I am a Drunk and I swapped with Center 0.",
-                ((2, frozenset({Role.DRUNK})),),
+                ((2, RoleBits.from_roles(Role.DRUNK)),),
                 ((SwitchPriority.DRUNK, 2, 3),),
                 Role.DRUNK,
             ),
             Statement(
                 "I am a Drunk and I swapped with Center 1.",
-                ((2, frozenset({Role.DRUNK})),),
+                ((2, RoleBits.from_roles(Role.DRUNK)),),
                 ((SwitchPriority.DRUNK, 2, 4),),
                 Role.DRUNK,
             ),
             Statement(
                 "I am a Drunk and I swapped with Center 2.",
-                ((2, frozenset({Role.DRUNK})),),
+                ((2, RoleBits.from_roles(Role.DRUNK)),),
                 ((SwitchPriority.DRUNK, 2, 5),),
                 Role.DRUNK,
             ),

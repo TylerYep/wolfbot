@@ -4,7 +4,7 @@ from __future__ import annotations
 from typing import Any, Dict, List, Tuple
 
 from src import const, util
-from src.const import Role, SwitchPriority, logger, lru_cache
+from src.const import Role, RoleBits, SwitchPriority, logger, lru_cache
 from src.roles.player import Player
 from src.statements import Statement
 
@@ -40,7 +40,7 @@ class Drunk(Player):
     def get_drunk_statements(player_index: int, choice_ind: int) -> Tuple[Statement, ...]:
         """ Gets Drunk Statement. """
         sentence = f"I am a Drunk and I swapped with Center {choice_ind - const.NUM_PLAYERS}."
-        knowledge = ((player_index, frozenset({Role.DRUNK})),)
+        knowledge = ((player_index, RoleBits.from_roles(Role.DRUNK)),)
         switches = ((SwitchPriority.DRUNK, player_index, choice_ind),)
         return (Statement(sentence, knowledge, switches),)
 

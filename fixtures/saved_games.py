@@ -5,7 +5,7 @@ from typing import Tuple
 import pytest
 
 from src import const
-from src.const import Role, SwitchPriority
+from src.const import Role, RoleBits, SwitchPriority
 from src.roles import Drunk, Hunter, Mason, Minion, Robber, Seer, Tanner, Villager, Wolf
 from src.statements import Statement
 from src.stats import SavedGame
@@ -17,15 +17,15 @@ def example_small_saved_game(small_game_roles: Tuple[Role, ...]) -> SavedGame:
         (Role.VILLAGER, Role.ROBBER, Role.SEER),
         (Role.VILLAGER, Role.SEER, Role.ROBBER),
         (
-            Statement("I am a Villager.", ((0, frozenset({Role.VILLAGER})),)),
+            Statement("I am a Villager.", ((0, RoleBits.from_roles(Role.VILLAGER)),)),
             Statement(
                 "I am a Robber and I swapped with Player 2. I am now a Seer.",
-                ((1, frozenset({Role.ROBBER})), (2, frozenset({Role.SEER})),),
+                ((1, RoleBits.from_roles(Role.ROBBER)), (2, RoleBits.from_roles(Role.SEER)),),
                 ((SwitchPriority.ROBBER, 1, 2),),
             ),
             Statement(
                 "I am a Seer and I saw that Player 1 was a Robber.",
-                ((2, frozenset({Role.SEER})), (1, frozenset({Role.ROBBER})),),
+                ((2, RoleBits.from_roles(Role.SEER)), (1, RoleBits.from_roles(Role.ROBBER)),),
             ),
         ),
         (Villager(0), Robber(1, 2, Role.SEER), Seer(2, (1, Role.ROBBER), (None, None))),
@@ -40,26 +40,26 @@ def example_medium_saved_game(medium_game_roles: Tuple[Role, ...]) -> SavedGame:
         (
             Statement(
                 "I am a Seer and I saw that Player 2 was a Drunk.",
-                ((0, frozenset({Role.SEER})), (2, frozenset({Role.DRUNK})),),
+                ((0, RoleBits.from_roles(Role.SEER)), (2, RoleBits.from_roles(Role.DRUNK)),),
             ),
             Statement(
                 "I am a Robber and I swapped with Player 0. I am now a Seer.",
-                ((1, frozenset({Role.ROBBER})), (0, frozenset({Role.SEER})),),
+                ((1, RoleBits.from_roles(Role.ROBBER)), (0, RoleBits.from_roles(Role.SEER)),),
                 ((SwitchPriority.ROBBER, 1, 0),),
             ),
             Statement(
                 "I am a Drunk and I swapped with Center 0.",
-                ((2, frozenset({Role.DRUNK})),),
+                ((2, RoleBits.from_roles(Role.DRUNK)),),
                 ((SwitchPriority.DRUNK, 2, 5),),
             ),
             Statement(
                 "I am a Robber and I swapped with Player 2. I am now a Drunk.",
-                ((3, frozenset({Role.ROBBER})), (2, frozenset({Role.DRUNK})),),
+                ((3, RoleBits.from_roles(Role.ROBBER)), (2, RoleBits.from_roles(Role.DRUNK)),),
                 ((SwitchPriority.ROBBER, 3, 2),),
             ),
             Statement(
                 "I am a Seer and I saw that Player 3 was a Robber.",
-                ((4, frozenset({Role.SEER})), (3, frozenset({Role.ROBBER})),),
+                ((4, RoleBits.from_roles(Role.SEER)), (3, RoleBits.from_roles(Role.ROBBER)),),
             ),
         ),
         (
@@ -75,7 +75,7 @@ def example_medium_saved_game(medium_game_roles: Tuple[Role, ...]) -> SavedGame:
 @pytest.fixture
 def example_large_saved_game(large_game_roles: Tuple[Role, ...]) -> SavedGame:
     mason_roles = tuple(
-        [(i, const.ROLE_SET - frozenset({Role.MASON})) for i in range(const.NUM_PLAYERS) if i != 2]
+        [(i, ~RoleBits.from_roles(Role.MASON)) for i in range(const.NUM_PLAYERS) if i != 2]
     )
     return SavedGame(
         (
@@ -113,25 +113,25 @@ def example_large_saved_game(large_game_roles: Tuple[Role, ...]) -> SavedGame:
             Role.ROBBER,
         ),
         (
-            Statement("I am a Villager.", ((0, frozenset({Role.VILLAGER})),)),
+            Statement("I am a Villager.", ((0, RoleBits.from_roles(Role.VILLAGER)),)),
             Statement(
                 "I am a Drunk and I swapped with Center 2.",
-                ((1, frozenset({Role.DRUNK})),),
+                ((1, RoleBits.from_roles(Role.DRUNK)),),
                 ((SwitchPriority.DRUNK, 1, 14),),
             ),
             Statement(
                 "I am a Mason. The other Mason is not present.",
-                ((2, frozenset({Role.MASON})),) + mason_roles,
+                ((2, RoleBits.from_roles(Role.MASON)),) + mason_roles,
             ),
             Statement(
                 "I am a Robber and I swapped with Player 10. I am now a Insomniac.",
-                ((3, frozenset({Role.ROBBER})), (10, frozenset({Role.INSOMNIAC})),),
+                ((3, RoleBits.from_roles(Role.ROBBER)), (10, RoleBits.from_roles(Role.INSOMNIAC)),),
                 ((SwitchPriority.ROBBER, 3, 10),),
             ),
-            Statement("I am a Villager.", ((4, frozenset({Role.VILLAGER})),)),
+            Statement("I am a Villager.", ((4, RoleBits.from_roles(Role.VILLAGER)),)),
             Statement(
                 "I am a Robber and I swapped with Player 1. I am now a Drunk.",
-                ((5, frozenset({Role.ROBBER})), (1, frozenset({Role.DRUNK})),),
+                ((5, RoleBits.from_roles(Role.ROBBER)), (1, RoleBits.from_roles(Role.DRUNK)),),
                 ((SwitchPriority.ROBBER, 5, 1),),
             ),
             Statement(
@@ -140,27 +140,27 @@ def example_large_saved_game(large_game_roles: Tuple[Role, ...]) -> SavedGame:
                     "Center 0 was a Troublemaker."
                 ),
                 (
-                    (6, frozenset({Role.SEER})),
-                    (13, frozenset({Role.MASON})),
-                    (12, frozenset({Role.TROUBLEMAKER})),
+                    (6, RoleBits.from_roles(Role.SEER)),
+                    (13, RoleBits.from_roles(Role.MASON)),
+                    (12, RoleBits.from_roles(Role.TROUBLEMAKER)),
                 ),
             ),
             Statement(
                 "I am a Seer and I saw that Player 3 was a Robber.",
-                ((7, frozenset({Role.SEER})), (3, frozenset({Role.ROBBER})),),
+                ((7, RoleBits.from_roles(Role.SEER)), (3, RoleBits.from_roles(Role.ROBBER)),),
             ),
             Statement(
                 "I am a Troublemaker and I swapped Player 0 and Player 1.",
-                ((8, frozenset({Role.TROUBLEMAKER})),),
+                ((8, RoleBits.from_roles(Role.TROUBLEMAKER)),),
                 ((SwitchPriority.TROUBLEMAKER, 0, 1),),
             ),
-            Statement("I am a Villager.", ((9, frozenset({Role.VILLAGER})),)),
+            Statement("I am a Villager.", ((9, RoleBits.from_roles(Role.VILLAGER)),)),
             Statement(
                 "I am a Troublemaker and I swapped Player 3 and Player 4.",
-                ((10, frozenset({Role.TROUBLEMAKER})),),
+                ((10, RoleBits.from_roles(Role.TROUBLEMAKER)),),
                 ((SwitchPriority.TROUBLEMAKER, 3, 4),),
             ),
-            Statement("I am a Hunter.", ((11, frozenset({Role.HUNTER})),)),
+            Statement("I am a Hunter.", ((11, RoleBits.from_roles(Role.HUNTER)),)),
         ),
         (
             Villager(0),

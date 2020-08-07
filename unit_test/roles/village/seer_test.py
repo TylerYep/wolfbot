@@ -3,7 +3,7 @@ from typing import Tuple
 
 from conftest import set_roles
 from src import const
-from src.const import Role
+from src.const import Role, RoleBits
 from src.roles import Seer
 from src.statements import Statement
 
@@ -27,9 +27,9 @@ class TestSeer:
                     "and that Center 0 was a Troublemaker."
                 ),
                 (
-                    (11, frozenset({Role.SEER})),
-                    (13, frozenset({Role.INSOMNIAC})),
-                    (12, frozenset({Role.TROUBLEMAKER})),
+                    (11, RoleBits.from_roles(Role.SEER)),
+                    (13, RoleBits.from_roles(Role.INSOMNIAC)),
+                    (12, RoleBits.from_roles(Role.TROUBLEMAKER)),
                 ),
             ),
         )
@@ -52,7 +52,7 @@ class TestSeer:
         expected = (
             Statement(
                 "I am a Seer and I saw that Player 6 was a Mason.",
-                ((11, frozenset({Role.SEER})), (6, frozenset({Role.MASON}))),
+                ((11, RoleBits.from_roles(Role.SEER)), (6, RoleBits.from_roles(Role.MASON))),
             ),
         )
 
@@ -72,7 +72,7 @@ class TestSeer:
         assert result == (
             Statement(
                 "I am a Seer and I saw that Player 6 was a Robber.",
-                ((1, frozenset({Role.SEER})), (6, frozenset({Role.ROBBER}))),
+                ((1, RoleBits.from_roles(Role.SEER)), (6, RoleBits.from_roles(Role.ROBBER))),
             ),
         )
 
@@ -86,27 +86,27 @@ class TestSeer:
         expected = (
             Statement(
                 "I am a Seer and I saw that Player 0 was a Villager.",
-                ((1, frozenset({Role.SEER})), (0, frozenset({Role.VILLAGER}))),
+                ((1, RoleBits.from_roles(Role.SEER)), (0, RoleBits.from_roles(Role.VILLAGER))),
             ),
             Statement(
                 "I am a Seer and I saw that Player 1 was a Villager.",
-                ((1, frozenset({Role.SEER})), (1, frozenset({Role.VILLAGER}))),
+                ((1, RoleBits.from_roles(Role.SEER)), (1, RoleBits.from_roles(Role.VILLAGER))),
             ),
             Statement(
                 "I am a Seer and I saw that Player 0 was a Wolf.",
-                ((1, frozenset({Role.SEER})), (0, frozenset({Role.WOLF}))),
+                ((1, RoleBits.from_roles(Role.SEER)), (0, RoleBits.from_roles(Role.WOLF))),
             ),
             Statement(
                 "I am a Seer and I saw that Player 1 was a Wolf.",
-                ((1, frozenset({Role.SEER})), (1, frozenset({Role.WOLF}))),
+                ((1, RoleBits.from_roles(Role.SEER)), (1, RoleBits.from_roles(Role.WOLF))),
             ),
             Statement(
                 "I am a Seer and I saw that Player 0 was a Seer.",
-                ((1, frozenset({Role.SEER})), (0, frozenset({Role.SEER}))),
+                ((1, RoleBits.from_roles(Role.SEER)), (0, RoleBits.from_roles(Role.SEER))),
             ),
             Statement(
                 "I am a Seer and I saw that Player 1 was a Seer.",
-                ((1, frozenset({Role.SEER})), (1, frozenset({Role.SEER}))),
+                ((1, RoleBits.from_roles(Role.SEER)), (1, RoleBits.from_roles(Role.SEER))),
             ),
             Statement(
                 (
@@ -114,9 +114,9 @@ class TestSeer:
                     "that Center 1 was a Wolf."
                 ),
                 (
-                    (1, frozenset({Role.SEER})),
-                    (2, frozenset({Role.VILLAGER})),
-                    (3, frozenset({Role.WOLF})),
+                    (1, RoleBits.from_roles(Role.SEER)),
+                    (2, RoleBits.from_roles(Role.VILLAGER)),
+                    (3, RoleBits.from_roles(Role.WOLF)),
                 ),
             ),
             Statement(
@@ -125,17 +125,17 @@ class TestSeer:
                     "that Center 1 was a Villager."
                 ),
                 (
-                    (1, frozenset({Role.SEER})),
-                    (2, frozenset({Role.WOLF})),
-                    (3, frozenset({Role.VILLAGER})),
+                    (1, RoleBits.from_roles(Role.SEER)),
+                    (2, RoleBits.from_roles(Role.WOLF)),
+                    (3, RoleBits.from_roles(Role.VILLAGER)),
                 ),
             ),
             Statement(
                 ("I am a Seer and I saw that Center 0 was a Wolf and that Center 1 was a Wolf."),
                 (
-                    (1, frozenset({Role.SEER})),
-                    (2, frozenset({Role.WOLF})),
-                    (3, frozenset({Role.WOLF})),
+                    (1, RoleBits.from_roles(Role.SEER)),
+                    (2, RoleBits.from_roles(Role.WOLF)),
+                    (3, RoleBits.from_roles(Role.WOLF)),
                 ),
             ),
         )

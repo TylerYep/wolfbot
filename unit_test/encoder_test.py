@@ -2,7 +2,7 @@
 import json
 
 from src import encoder
-from src.const import Role, SwitchPriority, Team
+from src.const import Role, RoleBits, SwitchPriority, Team
 from src.encoder import WolfBotDecoder, WolfBotEncoder
 from src.roles import Player, Robber, Seer, Villager
 from src.statements import Statement
@@ -118,17 +118,19 @@ class TestWolfBotEncoderDecoder:
         player_strs = ", ".join([json.dumps(player, cls=WolfBotEncoder) for player in player_objs])
         statement_objs = [
             Statement(
-                "I am a Villager.", ((0, frozenset({Role.VILLAGER})),), speaker=Role.VILLAGER
+                "I am a Villager.",
+                ((0, RoleBits.from_roles(Role.VILLAGER)),),
+                speaker=Role.VILLAGER,
             ),
             Statement(
                 "I am a Robber and I swapped with Player 2. I am now a Seer.",
-                ((1, frozenset({Role.ROBBER})), (2, frozenset({Role.SEER})),),
+                ((1, RoleBits.from_roles(Role.ROBBER)), (2, RoleBits.from_roles(Role.SEER)),),
                 ((SwitchPriority.ROBBER, 1, 2),),
                 Role.ROBBER,
             ),
             Statement(
                 "I am a Seer and I saw that Player 1 was a Robber.",
-                ((2, frozenset({Role.SEER})), (1, frozenset({Role.ROBBER})),),
+                ((2, RoleBits.from_roles(Role.SEER)), (1, RoleBits.from_roles(Role.ROBBER)),),
                 speaker=Role.SEER,
             ),
         ]

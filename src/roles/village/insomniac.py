@@ -4,7 +4,7 @@ from __future__ import annotations
 from typing import Any, Dict, List, Optional, Tuple
 
 from src import const
-from src.const import Role, logger, lru_cache
+from src.const import Role, RoleBits, logger, lru_cache
 from src.roles.player import Player
 from src.statements import KnowledgeBase, Statement
 
@@ -36,7 +36,7 @@ class Insomniac(Player):
         player_index: int, insomniac_new_role: Role, new_insomniac_index: Optional[int] = None
     ) -> Tuple[Statement, ...]:
         """ Gets Insomniac Statement. """
-        knowledge = ((player_index, frozenset({Role.INSOMNIAC})),)
+        knowledge = ((player_index, RoleBits.from_roles(Role.INSOMNIAC)),)
         sentence = f"I am a Insomniac and when I woke up I was a {insomniac_new_role}."
         if new_insomniac_index is None:
             if insomniac_new_role is not Role.INSOMNIAC:

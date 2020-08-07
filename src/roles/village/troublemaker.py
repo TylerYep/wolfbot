@@ -4,7 +4,7 @@ from __future__ import annotations
 from typing import Any, Dict, List, Tuple
 
 from src import const, util
-from src.const import Role, SwitchPriority, logger, lru_cache
+from src.const import Role, RoleBits, SwitchPriority, logger, lru_cache
 from src.roles.player import Player
 from src.statements import Statement
 
@@ -44,7 +44,7 @@ class Troublemaker(Player):
     ) -> Tuple[Statement, ...]:
         """ Gets Troublemaker Statement. """
         sentence = f"I am a Troublemaker and I swapped Player {tmkr_ind1} and Player {tmkr_ind2}."
-        knowledge = ((player_index, frozenset({Role.TROUBLEMAKER})),)
+        knowledge = ((player_index, RoleBits.from_roles(Role.TROUBLEMAKER)),)
         switches = ((SwitchPriority.TROUBLEMAKER, tmkr_ind1, tmkr_ind2),)
         return (Statement(sentence, knowledge, switches),)
 

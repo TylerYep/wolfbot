@@ -3,7 +3,7 @@ from _pytest.logging import LogCaptureFixture
 
 from conftest import verify_output
 from src import stats
-from src.const import Role, SwitchPriority, Team
+from src.const import Role, RoleBits, SwitchPriority, Team
 from src.roles import Robber, Seer, Villager
 from src.statements import Statement
 from src.stats import GameResult, SavedGame, Statistics
@@ -15,7 +15,9 @@ class TestSavedGame:
     @staticmethod
     def test_constructor() -> None:
         """ Should initialize correctly. """
-        villager_statement = Statement("I am a Villager.", ((0, frozenset({Role.VILLAGER})),))
+        villager_statement = Statement(
+            "I am a Villager.", ((0, RoleBits.from_roles(Role.VILLAGER)),)
+        )
 
         result = SavedGame(
             (Role.VILLAGER,), (Role.VILLAGER,), (villager_statement,), (Villager(0),)
@@ -30,15 +32,15 @@ class TestSavedGame:
 
         assert result == {
             "all_statements": (
-                Statement("I am a Villager.", ((0, frozenset({Role.VILLAGER})),)),
+                Statement("I am a Villager.", ((0, RoleBits.from_roles(Role.VILLAGER)),)),
                 Statement(
                     "I am a Robber and I swapped with Player 2. I am now a Seer.",
-                    ((1, frozenset({Role.ROBBER})), (2, frozenset({Role.SEER}))),
+                    ((1, RoleBits.from_roles(Role.ROBBER)), (2, RoleBits.from_roles(Role.SEER))),
                     ((SwitchPriority.ROBBER, 1, 2),),
                 ),
                 Statement(
                     "I am a Seer and I saw that Player 1 was a Robber.",
-                    ((2, frozenset({Role.SEER})), (1, frozenset({Role.ROBBER}))),
+                    ((2, RoleBits.from_roles(Role.SEER)), (1, RoleBits.from_roles(Role.ROBBER))),
                 ),
             ),
             "game_roles": (Role.VILLAGER, Role.SEER, Role.ROBBER),

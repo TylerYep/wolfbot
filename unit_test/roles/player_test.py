@@ -4,7 +4,7 @@ from typing import Tuple
 from _pytest.monkeypatch import MonkeyPatch
 
 from src import const
-from src.const import Role
+from src.const import Role, RoleBits
 from src.roles import Drunk, Hunter, Minion, Player, Robber, Seer, Villager, Wolf
 from src.statements import KnowledgeBase, Statement
 
@@ -38,7 +38,9 @@ class TestPlayer:
 
         statement = villager.get_statement(knowledge_base)
 
-        assert statement == Statement("I am a Villager.", ((0, frozenset({Role.VILLAGER})),))
+        assert statement == Statement(
+            "I am a Villager.", ((0, RoleBits.from_roles(Role.VILLAGER)),)
+        )
 
     @staticmethod
     def test_json_repr() -> None:

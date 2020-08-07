@@ -5,7 +5,7 @@ import random
 from typing import Any, Dict, List, Tuple
 
 from src import const, util
-from src.const import Role, StatementLevel, logger, lru_cache
+from src.const import Role, RoleBits, StatementLevel, logger, lru_cache
 from src.predictions import make_prediction, make_random_prediction
 from src.solvers import switching_solver as solver
 from src.statements import KnowledgeBase, Statement
@@ -33,9 +33,9 @@ class Player:
         zero_sent = "I don't want to say who I am just yet."
         partial_statements.append(Statement(zero_sent, priority=StatementLevel.NO_INFO))
 
-        if self.role not in const.EVIL_ROLES | frozenset({Role.VILLAGER, Role.HUNTER}):
+        if self.role not in const.EVIL_ROLES | RoleBits.from_roles(Role.VILLAGER, Role.HUNTER):
             partial_sent = f"I am a {self.role}, but I'm not going to say what I did or saw yet!"
-            knowledge = ((self.player_index, frozenset({self.role})),)
+            knowledge = ((self.player_index, RoleBits.from_roles(self.role)),)
             statement = Statement(partial_sent, knowledge, priority=StatementLevel.SOME_INFO)
             partial_statements.append(statement)
         return tuple(partial_statements)

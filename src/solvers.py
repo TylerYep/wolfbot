@@ -2,10 +2,10 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Dict, FrozenSet, List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple
 
 from src import const
-from src.const import Role
+from src.const import Role, RoleBits
 from src.statements import Statement, Switch
 
 
@@ -13,10 +13,11 @@ from src.statements import Statement, Switch
 class SolverState:
     """
     Each solver returns a SolverState object with the result.
+    @param possible_roles: RoleBits for each player index.
     @param path: tuple of (True, False, True ...) values.
     """
 
-    possible_roles: Tuple[FrozenSet[Role], ...] = ()
+    possible_roles: Tuple[RoleBits, ...] = ()
     switches: Tuple[Switch, ...] = ()
     path: Tuple[bool, ...] = ()
     role_counts: Dict[Role, int] = field(default_factory=dict)
@@ -25,7 +26,7 @@ class SolverState:
     def __post_init__(self) -> None:
         # We share the same reference here because frozen sets are immutable.
         if not self.possible_roles:
-            self.possible_roles = (const.ROLE_SET,) * const.NUM_ROLES
+            self.possible_roles = tuple([RoleBits(ones=True) for _ in range(const.NUM_ROLES)])
         if self.count_true == -1:
             self.count_true = self.path.count(True)
         if not self.role_counts:
@@ -43,21 +44,26 @@ class SolverState:
         new_possible_roles = list(self.possible_roles)
         new_role_counts = None
         for proposed_ind, proposed_roles in statement.knowledge:
-            old_length = len(new_possible_roles[proposed_ind])
             new_possible_roles[proposed_ind] &= proposed_roles
             possible_roles = new_possible_roles[proposed_ind]
-            if not possible_roles:
+            if not possible_roles:  # RoleBits is all 0
                 return None
 
-            new_length = len(possible_roles)
-            if new_length == 1 and new_length != old_length:
-                [single_role] = possible_roles
+            if possible_roles.is_solo:  # and new_possible_roles != possible_roles:
+                single_role = possible_roles.solo_role
                 if new_role_counts is None:
                     new_role_counts = dict(self.role_counts)
                 if new_role_counts[single_role] == 0:
                     return None
                 new_role_counts[single_role] -= 1
 
+        print(SolverState(
+            tuple(new_possible_roles),
+            self.switches + statement.switches,
+            self.path + (assumption,),
+            self.role_counts if new_role_counts is None else new_role_counts,
+            self.count_true + int(assumption),
+        ))
         return SolverState(
             tuple(new_possible_roles),
             self.switches + statement.switches,
@@ -78,8 +84,8 @@ class SolverState:
             return {}
         counts_dict = dict(const.ROLE_COUNTS)
         for possible_roles in self.possible_roles:
-            if len(possible_roles) == 1:
-                [single_role] = possible_roles
+            if possible_roles.is_solo:
+                single_role = possible_roles.solo_role
                 assert counts_dict[single_role] > 0
                 counts_dict[single_role] -= 1
         return counts_dict

@@ -4,7 +4,7 @@ from __future__ import annotations
 from typing import Any, Dict, List, Optional, Tuple
 
 from src import const, util
-from src.const import Role, logger, lru_cache
+from src.const import Role, RoleBits, logger, lru_cache
 from src.roles.player import Player
 from src.statements import Statement
 
@@ -73,13 +73,16 @@ class Seer(Player):
         seen_index, seen_role = choice_1
         seen_index2, seen_role2 = choice_2
         sentence = f"I am a Seer and I saw that Player {seen_index} was a {seen_role}."
-        knowledge = [(player_index, frozenset({Role.SEER})), (seen_index, frozenset({seen_role}))]
+        knowledge = [
+            (player_index, RoleBits.from_roles(Role.SEER)),
+            (seen_index, RoleBits.from_roles(seen_role)),
+        ]
         if seen_index2 is not None and seen_role2 is not None:
             sentence = (
                 f"I am a Seer and I saw that Center {seen_index - const.NUM_PLAYERS} was a "
                 f"{seen_role} and that Center {seen_index2 - const.NUM_PLAYERS} was a {seen_role2}."
             )
-            knowledge.append((seen_index2, frozenset({seen_role2})))
+            knowledge.append((seen_index2, RoleBits.from_roles(seen_role2)))
         return (Statement(sentence, tuple(knowledge)),)
 
     @staticmethod

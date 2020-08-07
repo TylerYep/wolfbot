@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from typing import List, Tuple
 
-from src.const import Role, lru_cache
+from src.const import Role, RoleBits, lru_cache
 from src.roles.player import Player
 from src.statements import Statement
 
@@ -27,7 +27,7 @@ class Hunter(Player):
     @lru_cache
     def get_hunter_statements(player_index: int) -> Tuple[Statement, ...]:
         """ Gets Hunter Statement. """
-        return (Statement("I am a Hunter.", ((player_index, frozenset({Role.HUNTER})),)),)
+        return (Statement("I am a Hunter.", ((player_index, RoleBits.from_roles(Role.HUNTER)),)),)
 
     @staticmethod
     @lru_cache

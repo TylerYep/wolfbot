@@ -1,7 +1,34 @@
 """ const_test.py """
 from src import const
-from src.const import Role
+from src.const import Role, RoleBits
 from src.roles import Mason, Seer
+
+
+class TestRoleBits:
+    """ Tests for the Bits class. """
+
+def test_everything(medium_game_roles):
+    # Role.DRUNK, Role.MINION, Role.ROBBER, Role.SEER, Role.TROUBLEMAKER, Role.WOLF
+    x = RoleBits.from_num(5)
+
+    y = RoleBits.from_roles(Role.MINION, Role.ROBBER, Role.WOLF)
+    assert str(y) == "011001"
+    assert y.is_solo is False
+
+    assert str(~y) == "100110"
+
+    y.set_bit(3, True)
+    assert str(y) == "011101"
+    y.set_bit(3, False)
+    assert str(y) == "011001"
+    y.set_bit(0, False)
+    assert str(y) == "011001"
+    y.set_bit(5, False)
+    y.set_bit(1, False)
+    assert str(y) == "001000"
+
+    assert y.is_solo is True
+    assert y.solo_role == Role.ROBBER
 
 
 class TestLRUCache:
