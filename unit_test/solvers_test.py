@@ -66,7 +66,7 @@ class TestIsConsistent:
         """
         possible_roles = tuple(
             [RoleBits.from_roles(Role.SEER)]
-            + [RoleBits.from_role_bits(const.ROLE_SET) for _ in range(const.NUM_ROLES - 1)]
+            + [RoleBits.from_role_bits(const.ROLE_BITSET) for _ in range(const.NUM_ROLES - 1)]
         )
         example_solverstate = SolverState(possible_roles, path=(True,))
         new_statement = Statement(
@@ -84,7 +84,7 @@ class TestIsConsistent:
         """
         possible_roles = tuple(
             [RoleBits.from_roles(Role.SEER)]
-            + [RoleBits.from_role_bits(const.ROLE_SET) for _ in range(const.NUM_ROLES - 1)]
+            + [RoleBits.from_role_bits(const.ROLE_BITSET) for _ in range(const.NUM_ROLES - 1)]
         )
         example = SolverState(possible_roles, path=(True,))
         new_statement = Statement(
@@ -194,7 +194,7 @@ class TestSwitchingSolver:
             RoleBits.from_roles(Role.VILLAGER),
             RoleBits.from_roles(Role.SEER),
             RoleBits.from_roles(Role.VILLAGER),
-        ) + (RoleBits.from_role_bits(const.ROLE_SET),) * 2
+        ) + (RoleBits.from_role_bits(const.ROLE_BITSET),) * 2
 
         result = SolverState(possible_roles_list).get_role_counts()
 

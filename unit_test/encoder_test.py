@@ -61,9 +61,8 @@ class TestWolfBotEncoderDecoder:
         assert result == (
             '{"type": "Statement",'
             ' "sentence": "test",'
-            ' "knowledge": [[2, {"type": "FrozenSet",'
-            ' "data": [{"type": "Role", "data": "Robber"}]}],'
-            ' [0, {"type": "FrozenSet", "data": [{"type": "Role", "data": "Seer"}]}]],'
+            ' "knowledge": [[2, {"type": "RoleBits", "data": 32}],'
+            ' [0, {"type": "RoleBits", "data": 16}]],'
             ' "switches": [[1, 2, 0]], "speaker": {"type": "Role", "data": "Robber"}}'
         )
 

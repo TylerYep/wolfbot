@@ -41,7 +41,7 @@ class WolfBotDecoder(json.JSONDecoder):
         if obj_type == "Role":
             return Role(obj["data"])
         if obj_type == "RoleBits":
-            return RoleBits(obj["data"])
+            return RoleBits.from_num(obj["data"])
         if obj_type == "Team":
             return Team(obj["data"])
         if obj_type == "Statement":

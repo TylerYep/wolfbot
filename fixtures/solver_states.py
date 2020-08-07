@@ -192,7 +192,7 @@ def example_large_solverstate(large_game_roles: Tuple[Role, ...]) -> SolverState
             Role.VILLAGER,
             Role.TROUBLEMAKER,
         ),
-    ) + (const.ROLE_SET,) * 7
+    ) + (RoleBits.from_role_bits(const.ROLE_BITSET),) * 7
     switches = ((SwitchPriority.ROBBER, 6, 0), (SwitchPriority.ROBBER, 9, 6))
     path = (True, False, True, True, True, True, True, False)
     return SolverState(possible_roles, switches, path)

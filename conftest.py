@@ -38,16 +38,17 @@ from src.const import Role, RoleBits
 def set_roles(*roles: Role) -> None:
     """ Changes to ROLES should propagate to all of its descendants. """
     const.ROLES = roles  # type: ignore
-    const.SORTED_ROLE_SET = sorted(set(const.ROLES))
+    const.ROLE_SET = frozenset(const.ROLES)
+    const.SORTED_ROLE_SET = sorted(const.ROLE_SET)
     const.ROLE_TO_BITS = {role: i for i, role in enumerate(const.SORTED_ROLE_SET)}
     const.BITS_TO_ROLE = {i: role for i, role in enumerate(const.SORTED_ROLE_SET)}
     const.ROLE_COUNTS = const.get_counts(const.ROLES)
     const.NUM_ROLES = len(const.ROLES)
     const.NUM_UNIQUE_ROLES = len(const.SORTED_ROLE_SET)
-    const.ROLE_SET = RoleBits.from_roles(*set(const.ROLES))
+    const.ROLE_BITSET = RoleBits.from_roles(*const.ROLE_SET)
+    const.IS_USER = [False] * const.NUM_ROLES
 
-    const.VILLAGE_ROLES = RoleBits()
-    for role in (
+    const.VILLAGE_ROLES = frozenset({
         Role.VILLAGER,
         Role.MASON,
         Role.SEER,
@@ -56,15 +57,16 @@ def set_roles(*roles: Role) -> None:
         Role.DRUNK,
         Role.INSOMNIAC,
         Role.HUNTER,
-    ):
-        if role in set(const.ROLES):
-            const.VILLAGE_ROLES &= role
+    }) & const.ROLE_SET
+    const.EVIL_ROLES = frozenset({Role.TANNER, Role.WOLF, Role.MINION}) & const.ROLE_SET
 
-    const.EVIL_ROLES = RoleBits()
-    for role in (Role.TANNER, Role.WOLF, Role.MINION):
-        if role in set(const.ROLES):
-            const.EVIL_ROLES &= role
-    const.IS_USER = [False] * const.NUM_ROLES
+    const.VILLAGE_ROLE_BITS = RoleBits.from_num(0)
+    for role in const.VILLAGE_ROLES:
+        const.VILLAGE_ROLE_BITS &= role
+
+    const.EVIL_ROLES_BITS = RoleBits.from_num(0)
+    for role in const.EVIL_ROLES:
+        const.EVIL_ROLES_BITS &= role
 
 
 @pytest.fixture(autouse=True)

@@ -144,6 +144,7 @@ REPLAY_STATE = "data/replay_state.json"
 REPLAY = ARGS.replay
 
 """ Util Constants """
+ROLE_SET = frozenset(ROLES)
 SORTED_ROLE_SET = sorted(set(ROLES))
 NUM_ROLES = len(ROLES)
 NUM_UNIQUE_ROLES = len(SORTED_ROLE_SET)
@@ -198,6 +199,11 @@ class RoleBits:
         assert self.is_solo
         return BITS_TO_ROLE[NUM_UNIQUE_ROLES - int(math.log2(self.val)) - 1]
 
+    @property
+    def as_tuple(self) -> Tuple[Role, ...]:
+        result = [BITS_TO_ROLE[i] for i, bit in enumerate(str(self)) if int(bit) == 1]
+        return tuple(result)
+
     def flip_index(self, index: int) -> RoleBits:
         """ Mark an index as opposite of its current state. """
         reversed_index = NUM_UNIQUE_ROLES - index - 1
@@ -222,6 +228,8 @@ class RoleBits:
     def __contains__(self, other: object) -> bool:
         """ Intersection of two role sets. """
         assert isinstance(other, Role)
+        if other not in ROLE_TO_BITS:
+            return False
         return self.val & (1 << ROLE_TO_BITS[other]) != 0
 
     def __eq__(self, other: object) -> bool:
@@ -244,6 +252,7 @@ class RoleBits:
             return RoleBits.from_num(self.val & (1 << ROLE_TO_BITS[other]))
         elif isinstance(other, RoleBits):
             return RoleBits.from_num(self.val & other.val)
+        raise TypeError
 
     def __iand__(self, other: object) -> RoleBits:   # TODO REMOVE
         """ Intersection of two role sets. """
@@ -255,23 +264,36 @@ class RoleBits:
             return RoleBits.from_num(self.val | (1 << ROLE_TO_BITS[other]))
         elif isinstance(other, RoleBits):
             return RoleBits.from_num(self.val | other.val)
+        raise TypeError
 
     def __ior__(self, other: object) -> RoleBits:
         """ Intersection of two role sets. """
         return self | other
 
-    def __iter__(self) -> Any:
-        for bit in SORTED_ROLE_SET:
-            yield bit
+    def __sub__(self, other: object) -> RoleBits:
+        """ Intersection of two role sets. """
+        if isinstance(other, Role):
+            return RoleBits.from_num(self.val & ~(1 << ROLE_TO_BITS[other]))
+        elif isinstance(other, RoleBits):
+            return RoleBits.from_num(self.val & ~other.val)
+        raise TypeError
 
-    def __hash__(self):
+    def __isub__(self, other: object) -> RoleBits:
+        """ Intersection of two role sets. """
+        return self | other
+
+    # def __iter__(self) -> Any:
+    #     for bit in SORTED_ROLE_SET:
+    #         yield bit
+
+    def __hash__(self) -> int:
         return hash(self.val)
 
     def json_repr(self) -> Dict[str, Any]:
         return {"type": "RoleBits", "data": self.val}
 
 
-ROLE_SET = RoleBits.from_roles(*set(ROLES))
+ROLE_BITSET = RoleBits.from_roles(*ROLE_SET)
 
 
 """ Game Rules """
@@ -286,8 +308,7 @@ AWAKE_ORDER = (
     Role.INSOMNIAC,
 )
 
-VILLAGE_ROLES = RoleBits.from_num(0)
-for role in (
+VILLAGE_ROLES = frozenset({
     Role.VILLAGER,
     Role.MASON,
     Role.SEER,
@@ -296,14 +317,16 @@ for role in (
     Role.DRUNK,
     Role.INSOMNIAC,
     Role.HUNTER,
-):
-    if role in set(ROLES):
-        VILLAGE_ROLES &= role
+}) & ROLE_SET
+EVIL_ROLES = frozenset({Role.TANNER, Role.WOLF, Role.MINION}) & ROLE_SET
 
-EVIL_ROLES = RoleBits.from_num(0)
-for role in (Role.TANNER, Role.WOLF, Role.MINION):
-    if role in set(ROLES):
-        EVIL_ROLES &= role
+VILLAGE_ROLE_BITS = RoleBits.from_num(0)
+for role in VILLAGE_ROLES:
+    VILLAGE_ROLE_BITS &= role
+
+EVIL_ROLES_BITS = RoleBits.from_num(0)
+for role in EVIL_ROLES:
+    EVIL_ROLES_BITS &= role
 
 """ Village Players """
 CENTER_SEER_PROB = 0.9

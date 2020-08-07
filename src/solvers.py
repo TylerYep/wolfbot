@@ -44,12 +44,13 @@ class SolverState:
         new_possible_roles = list(self.possible_roles)
         new_role_counts = None
         for proposed_ind, proposed_roles in statement.knowledge:
+            old_possible = RoleBits.from_role_bits(new_possible_roles[proposed_ind])
             new_possible_roles[proposed_ind] &= proposed_roles
             possible_roles = new_possible_roles[proposed_ind]
             if not possible_roles:  # RoleBits is all 0
                 return None
 
-            if possible_roles.is_solo:  # and new_possible_roles != possible_roles:
+            if possible_roles.is_solo and new_possible_roles[proposed_ind] != old_possible:
                 single_role = possible_roles.solo_role
                 if new_role_counts is None:
                     new_role_counts = dict(self.role_counts)
@@ -57,13 +58,6 @@ class SolverState:
                     return None
                 new_role_counts[single_role] -= 1
 
-        print(SolverState(
-            tuple(new_possible_roles),
-            self.switches + statement.switches,
-            self.path + (assumption,),
-            self.role_counts if new_role_counts is None else new_role_counts,
-            self.count_true + int(assumption),
-        ))
         return SolverState(
             tuple(new_possible_roles),
             self.switches + statement.switches,

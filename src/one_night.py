@@ -128,7 +128,7 @@ def night_falls(game_roles: List[Role], original_roles: Tuple[Role, ...]) -> Tup
     # All other players wake up at the same time.
     logger.info("Everyone, wake up!\n")
     for i, role_name in enumerate(original_roles):
-        if role_name in const.ROLE_SET - set(const.AWAKE_ORDER):
+        if role_name not in const.AWAKE_ORDER:
             role_obj = get_role_obj(role_name)
             player_objs[i] = role_obj.awake_init(i, game_roles, original_roles)
 
