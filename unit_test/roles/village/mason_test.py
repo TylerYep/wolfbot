@@ -22,7 +22,7 @@ class TestMason:
         assert mason.statements == (
             Statement(
                 "I am a Mason. The other Mason is Player 9.",
-                ((6, RoleBits.from_roles(Role.MASON)), (9, RoleBits.from_roles(Role.MASON))),
+                ((6, RoleBits(Role.MASON)), (9, RoleBits(Role.MASON))),
             ),
         )
 
@@ -36,7 +36,7 @@ class TestMason:
         assert result == (
             Statement(
                 "I am a Mason. The other Mason is Player 6.",
-                ((9, RoleBits.from_roles(Role.MASON)), (6, RoleBits.from_roles(Role.MASON))),
+                ((9, RoleBits(Role.MASON)), (6, RoleBits(Role.MASON))),
             ),
         )
 
@@ -52,9 +52,9 @@ class TestMason:
             Statement(
                 "I am a Mason. The other Mason is not present.",
                 (
-                    (2, RoleBits.from_roles(Role.MASON)),
-                    (0, RoleBits.from_roles(Role.WOLF, Role.SEER, Role.VILLAGER)),
-                    (1, RoleBits.from_roles(Role.WOLF, Role.SEER, Role.VILLAGER)),
+                    (2, RoleBits(Role.MASON)),
+                    (0, RoleBits(Role.WOLF, Role.SEER, Role.VILLAGER)),
+                    (1, RoleBits(Role.WOLF, Role.SEER, Role.VILLAGER)),
                 ),
             ),
         )
@@ -69,18 +69,18 @@ class TestMason:
             Statement(
                 "I am a Mason. The other Mason is not present.",
                 (
-                    (2, RoleBits.from_roles(Role.MASON)),
-                    (0, RoleBits.from_roles(Role.WOLF, Role.SEER, Role.VILLAGER)),
-                    (1, RoleBits.from_roles(Role.WOLF, Role.SEER, Role.VILLAGER)),
+                    (2, RoleBits(Role.MASON)),
+                    (0, RoleBits(Role.WOLF, Role.SEER, Role.VILLAGER)),
+                    (1, RoleBits(Role.WOLF, Role.SEER, Role.VILLAGER)),
                 ),
             ),
             Statement(
                 "I am a Mason. The other Mason is Player 0.",
-                ((2, RoleBits.from_roles(Role.MASON)), (0, RoleBits.from_roles(Role.MASON))),
+                ((2, RoleBits(Role.MASON)), (0, RoleBits(Role.MASON))),
             ),
             Statement(
                 "I am a Mason. The other Mason is Player 1.",
-                ((2, RoleBits.from_roles(Role.MASON)), (1, RoleBits.from_roles(Role.MASON))),
+                ((2, RoleBits(Role.MASON)), (1, RoleBits(Role.MASON))),
             ),
         )
 

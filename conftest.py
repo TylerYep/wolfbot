@@ -45,26 +45,31 @@ def set_roles(*roles: Role) -> None:
     const.ROLE_COUNTS = const.get_counts(const.ROLES)
     const.NUM_ROLES = len(const.ROLES)
     const.NUM_UNIQUE_ROLES = len(const.SORTED_ROLE_SET)
-    const.ROLE_BITSET = RoleBits.from_roles(*const.ROLE_SET)
+    const.ROLE_BITSET = RoleBits(*const.ROLE_SET)
     const.IS_USER = [False] * const.NUM_ROLES
 
-    const.VILLAGE_ROLES = frozenset({
-        Role.VILLAGER,
-        Role.MASON,
-        Role.SEER,
-        Role.ROBBER,
-        Role.TROUBLEMAKER,
-        Role.DRUNK,
-        Role.INSOMNIAC,
-        Role.HUNTER,
-    }) & const.ROLE_SET
+    const.VILLAGE_ROLES = (
+        frozenset(
+            {
+                Role.VILLAGER,
+                Role.MASON,
+                Role.SEER,
+                Role.ROBBER,
+                Role.TROUBLEMAKER,
+                Role.DRUNK,
+                Role.INSOMNIAC,
+                Role.HUNTER,
+            }
+        )
+        & const.ROLE_SET
+    )
     const.EVIL_ROLES = frozenset({Role.TANNER, Role.WOLF, Role.MINION}) & const.ROLE_SET
 
-    const.VILLAGE_ROLE_BITS = RoleBits(0)
+    const.VILLAGE_ROLE_BITS = RoleBits(val=0)
     for role in const.VILLAGE_ROLES:
         const.VILLAGE_ROLE_BITS &= role
 
-    const.EVIL_ROLES_BITS = RoleBits(0)
+    const.EVIL_ROLES_BITS = RoleBits(val=0)
     for role in const.EVIL_ROLES:
         const.EVIL_ROLES_BITS &= role
 

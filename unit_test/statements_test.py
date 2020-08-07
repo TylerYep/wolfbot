@@ -13,7 +13,7 @@ class TestKnowledgeBase:
     def test_add_knowledge(example_statement: Statement) -> None:
         """ Should initialize using the given sentence and knowledge. """
         knowledge_base = KnowledgeBase()
-        next_statement = Statement("test", ((1, RoleBits.from_roles(Role.VILLAGER)),))
+        next_statement = Statement("test", ((1, RoleBits(Role.VILLAGER)),))
 
         knowledge_base.add(example_statement, 0)
         knowledge_base.add(next_statement, 1)
@@ -32,10 +32,10 @@ class TestStatement:
     @staticmethod
     def test_constructor() -> None:
         """ Should initialize using the given sentence and knowledge. """
-        result = Statement("test", ((1, RoleBits.from_roles(Role.VILLAGER)),))
+        result = Statement("test", ((1, RoleBits(Role.VILLAGER)),))
 
         assert result.sentence == "test"
-        assert result.knowledge == ((1, RoleBits.from_roles(Role.VILLAGER)),)
+        assert result.knowledge == ((1, RoleBits(Role.VILLAGER)),)
         assert result.switches == ()
         assert result.speaker is Role.VILLAGER
 
@@ -56,9 +56,7 @@ class TestStatement:
     @staticmethod
     def test_negation(large_game_roles: Tuple[Role, ...], example_statement: Statement) -> None:
         """ Negated statements only contain the speaker and the opposite of the first clause. """
-        expected = Statement(
-            "NOT - test", ((2, ~RoleBits.from_roles(Role.ROBBER)),), speaker=Role.ROBBER
-        )
+        expected = Statement("NOT - test", ((2, ~RoleBits(Role.ROBBER)),), speaker=Role.ROBBER)
 
         result = example_statement.negation
 
@@ -69,7 +67,7 @@ class TestStatement:
         """ Negate-all statements contain the opposite of all clauses. """
         expected = Statement(
             "NOT - test",
-            ((2, ~RoleBits.from_roles(Role.ROBBER)), (0, ~RoleBits.from_roles(Role.SEER)),),
+            ((2, ~RoleBits(Role.ROBBER)), (0, ~RoleBits(Role.SEER)),),
             speaker=Role.ROBBER,
         )
 
@@ -85,10 +83,7 @@ class TestStatement:
         assert result == {
             "type": "Statement",
             "sentence": "test",
-            "knowledge": (
-                (2, RoleBits.from_roles(Role.ROBBER)),
-                (0, RoleBits.from_roles(Role.SEER)),
-            ),
+            "knowledge": ((2, RoleBits(Role.ROBBER)), (0, RoleBits(Role.SEER)),),
             "switches": ((SwitchPriority.ROBBER, 2, 0),),
             "speaker": Role.ROBBER,
         }
@@ -98,7 +93,7 @@ class TestStatement:
         """ Should declare two Statements with identical fields to be equal. """
         result = Statement(
             "test",
-            ((2, RoleBits.from_roles(Role.ROBBER)), (0, RoleBits.from_roles(Role.SEER)),),
+            ((2, RoleBits(Role.ROBBER)), (0, RoleBits(Role.SEER)),),
             ((SwitchPriority.ROBBER, 2, 0),),
         )
 
@@ -109,7 +104,7 @@ class TestStatement:
         """ Should give two Statements with identical fields the same hash. """
         identical_statement = Statement(
             "test",
-            ((2, RoleBits.from_roles(Role.ROBBER)), (0, RoleBits.from_roles(Role.SEER)),),
+            ((2, RoleBits(Role.ROBBER)), (0, RoleBits(Role.SEER)),),
             ((SwitchPriority.ROBBER, 2, 0),),
         )
 

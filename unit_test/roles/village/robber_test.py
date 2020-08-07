@@ -25,7 +25,7 @@ class TestRobber:
         expected = (
             Statement(
                 "I am a Robber and I swapped with Player 7. I am now a Wolf.",
-                ((2, RoleBits.from_roles(Role.ROBBER)), (7, RoleBits.from_roles(Role.WOLF))),
+                ((2, RoleBits(Role.ROBBER)), (7, RoleBits(Role.WOLF))),
                 ((SwitchPriority.ROBBER, 2, 7),),
                 Role.ROBBER,
             ),
@@ -48,7 +48,7 @@ class TestRobber:
         assert result == (
             Statement(
                 "I am a Robber and I swapped with Player 3. I am now a Seer.",
-                ((4, RoleBits.from_roles(Role.ROBBER)), (3, RoleBits.from_roles(Role.SEER))),
+                ((4, RoleBits(Role.ROBBER)), (3, RoleBits(Role.SEER))),
                 ((SwitchPriority.ROBBER, 4, 3),),
                 Role.ROBBER,
             ),
@@ -63,19 +63,19 @@ class TestRobber:
         expected = (
             Statement(
                 "I am a Robber and I swapped with Player 0. I am now a Villager.",
-                ((1, RoleBits.from_roles(Role.ROBBER)), (0, RoleBits.from_roles(Role.VILLAGER))),
+                ((1, RoleBits(Role.ROBBER)), (0, RoleBits(Role.VILLAGER))),
                 ((SwitchPriority.ROBBER, 1, 0),),
                 Role.ROBBER,
             ),
             Statement(
                 "I am a Robber and I swapped with Player 0. I am now a Wolf.",
-                ((1, RoleBits.from_roles(Role.ROBBER)), (0, RoleBits.from_roles(Role.WOLF))),
+                ((1, RoleBits(Role.ROBBER)), (0, RoleBits(Role.WOLF))),
                 ((SwitchPriority.ROBBER, 1, 0),),
                 Role.ROBBER,
             ),
             Statement(
                 "I am a Robber and I swapped with Player 0. I am now a Robber.",
-                ((1, RoleBits.from_roles(Role.ROBBER)), (0, RoleBits.from_roles(Role.ROBBER))),
+                ((1, RoleBits(Role.ROBBER)), (0, RoleBits(Role.ROBBER))),
                 ((SwitchPriority.ROBBER, 1, 0),),
                 Role.ROBBER,
             ),

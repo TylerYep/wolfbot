@@ -14,7 +14,7 @@ class TestSolverState:
     @staticmethod
     def test_constructor() -> None:
         """ Should initialize a SolverState. """
-        result = SolverState((RoleBits.from_roles(Role.VILLAGER),), path=(True,))
+        result = SolverState((RoleBits(Role.VILLAGER),), path=(True,))
 
         assert isinstance(result, SolverState)
 
@@ -22,9 +22,9 @@ class TestSolverState:
     def test_eq(example_small_solverstate: SolverState) -> None:
         """ Should be able to compare two identical SolverStates. """
         possible_roles = (
-            RoleBits.from_roles(Role.SEER),
-            RoleBits.from_roles(Role.ROBBER, Role.VILLAGER, Role.SEER),
-            RoleBits.from_roles(Role.ROBBER),
+            RoleBits(Role.SEER),
+            RoleBits(Role.ROBBER, Role.VILLAGER, Role.SEER),
+            RoleBits(Role.ROBBER),
         )
         switches = ((SwitchPriority.ROBBER, 2, 0),)
         path = (True,)
@@ -51,7 +51,7 @@ class TestIsConsistent:
     @staticmethod
     def test_invalid_state(example_statement: Statement) -> None:
         """ Should return None for inconsistent states. """
-        possible_roles = (RoleBits.from_roles(Role.VILLAGER),) * 3
+        possible_roles = (RoleBits(Role.VILLAGER),) * 3
         start_state = SolverState(possible_roles, path=(True,))
 
         invalid_state = start_state.is_consistent(example_statement)
@@ -64,12 +64,10 @@ class TestIsConsistent:
         Should check a new statement against accumulated statements for consistency.
         Should not change result.path - that is done in the switching_solver function.
         """
-        possible_roles = (
-            (RoleBits.from_roles(Role.SEER),) + (const.ROLE_BITSET,) * (const.NUM_ROLES - 1)
-        )
+        possible_roles = (RoleBits(Role.SEER),) + (const.ROLE_BITSET,) * (const.NUM_ROLES - 1)
         example_solverstate = SolverState(possible_roles, path=(True,))
         new_statement = Statement(
-            "next", ((2, RoleBits.from_roles(Role.DRUNK)),), ((SwitchPriority.DRUNK, 2, 5),)
+            "next", ((2, RoleBits(Role.DRUNK)),), ((SwitchPriority.DRUNK, 2, 5),)
         )
 
         result = example_solverstate.is_consistent(new_statement)
@@ -81,18 +79,16 @@ class TestIsConsistent:
         """
         Modifying one SolverState should not affect other SolverStates created by is_consistent.
         """
-        possible_roles = (
-            (RoleBits.from_roles(Role.SEER),) + (const.ROLE_BITSET,) * (const.NUM_ROLES - 1)
-        )
+        possible_roles = (RoleBits(Role.SEER),) + (const.ROLE_BITSET,) * (const.NUM_ROLES - 1)
         example = SolverState(possible_roles, path=(True,))
         new_statement = Statement(
-            "next", ((2, RoleBits.from_roles(Role.DRUNK)),), ((SwitchPriority.DRUNK, 2, 5),)
+            "next", ((2, RoleBits(Role.DRUNK)),), ((SwitchPriority.DRUNK, 2, 5),)
         )
 
         result = example.is_consistent(new_statement)
-        example.possible_roles += (RoleBits.from_roles(Role.WOLF),)
+        example.possible_roles += (RoleBits(Role.WOLF),)
         example.switches += ((SwitchPriority.DRUNK, 5, 5),)
-        example.possible_roles = (example.possible_roles[0] & RoleBits.from_roles(Role.WOLF),)
+        example.possible_roles = (example.possible_roles[0] & RoleBits(Role.WOLF),)
 
         assert result == example_medium_solverstate
 
@@ -149,14 +145,12 @@ class TestSwitchingSolver:
     ) -> None:
         """ Should return a SolverState with the most likely solution. """
         possible_roles = (
-            RoleBits.from_roles(Role.DRUNK, Role.MINION, Role.TROUBLEMAKER, Role.WOLF, Role.ROBBER),
-            RoleBits.from_roles(Role.SEER),
-            RoleBits.from_roles(Role.DRUNK),
-            RoleBits.from_roles(Role.MINION),
-            RoleBits.from_roles(Role.DRUNK, Role.MINION, Role.TROUBLEMAKER, Role.WOLF, Role.ROBBER),
-            RoleBits.from_roles(
-                Role.ROBBER, Role.MINION, Role.TROUBLEMAKER, Role.SEER, Role.WOLF, Role.DRUNK
-            ),
+            RoleBits(Role.DRUNK, Role.MINION, Role.TROUBLEMAKER, Role.WOLF, Role.ROBBER),
+            RoleBits(Role.SEER),
+            RoleBits(Role.DRUNK),
+            RoleBits(Role.MINION),
+            RoleBits(Role.DRUNK, Role.MINION, Role.TROUBLEMAKER, Role.WOLF, Role.ROBBER),
+            RoleBits(Role.ROBBER, Role.MINION, Role.TROUBLEMAKER, Role.SEER, Role.WOLF, Role.DRUNK),
         )
 
         result = solvers.switching_solver(medium_statement_list, (1,))
@@ -189,9 +183,9 @@ class TestSwitchingSolver:
         """ Should return True if there is a a dict with counts of all certain roles. """
         set_roles(Role.WOLF, Role.SEER, Role.VILLAGER, Role.ROBBER, Role.VILLAGER)
         possible_roles_list = (
-            RoleBits.from_roles(Role.VILLAGER),
-            RoleBits.from_roles(Role.SEER),
-            RoleBits.from_roles(Role.VILLAGER),
+            RoleBits(Role.VILLAGER),
+            RoleBits(Role.SEER),
+            RoleBits(Role.VILLAGER),
         ) + (const.ROLE_BITSET,) * 2
 
         result = SolverState(possible_roles_list).get_role_counts()

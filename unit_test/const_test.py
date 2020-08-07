@@ -9,11 +9,12 @@ from src.roles import Mason, Seer
 class TestRoleBits:
     """ Tests for the Bits class. """
 
+
 def test_everything(medium_game_roles: Tuple[Role, ...]) -> None:
     # Role.DRUNK, Role.MINION, Role.ROBBER, Role.SEER, Role.TROUBLEMAKER, Role.WOLF
-    x = RoleBits(0)
+    x = RoleBits(val=0)
 
-    y = RoleBits.from_roles(Role.MINION, Role.ROBBER, Role.WOLF)
+    y = RoleBits(Role.MINION, Role.ROBBER, Role.WOLF)
     assert str(y) == "011001"
     assert y.is_solo is False
     assert y.as_tuple == (Role.MINION, Role.ROBBER, Role.WOLF)

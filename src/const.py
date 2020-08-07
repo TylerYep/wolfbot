@@ -156,12 +156,17 @@ BITS_TO_ROLE = {i: role for i, role in enumerate(SORTED_ROLE_SET)}
 
 class RoleBits(int):
     """ Acts like a Set. """
-    def __new__(cls, val: Optional[int] = None) -> int:  #, *args, **kwargs):
+
+    def __new__(cls, *args: Role, val: Optional[int] = None) -> int:  # , *args, **kwargs):
+        if args:
+            new_bits = super().__new__(cls, 0)
+            for role in args:
+                assert role in SORTED_ROLE_SET  # TODO REMOVE
+                new_bits = new_bits.set_bit(ROLE_TO_BITS[role], True)
+            return new_bits
+
         val = (1 << NUM_UNIQUE_ROLES) - 1 if val is None else val
         return super().__new__(cls, val)
-
-    # def __init__(self, ones: bool = False) -> None:
-    #     self.val = (1 << NUM_UNIQUE_ROLES) - 1 if ones else 0
 
     @staticmethod
     def binary_str(val: int) -> str:
@@ -171,23 +176,14 @@ class RoleBits(int):
     def __repr__(self) -> str:
         return self.binary_str(self)
 
-    @classmethod
-    # @lru_cache
-    def from_roles(cls, *args: Role) -> RoleBits:
-        new_bits = cls.__new__(cls, 0)
-        for role in args:
-            assert role in SORTED_ROLE_SET  # TODO REMOVE
-            new_bits = new_bits.set_bit(ROLE_TO_BITS[role], True)
-        return new_bits
-
     def set_bit(self, index: int, new_val: bool) -> RoleBits:
         """ Mark an index as the given value of its current state. """
         assert index < NUM_UNIQUE_ROLES
         reversed_index = NUM_UNIQUE_ROLES - index - 1
         if new_val:
-            return RoleBits(self | 1 << reversed_index)
+            return RoleBits(val=self | 1 << reversed_index)
         else:
-            return RoleBits(self & ~(1 << reversed_index))
+            return RoleBits(val=self & ~(1 << reversed_index))
 
     @property
     def is_solo(self) -> bool:
@@ -204,15 +200,6 @@ class RoleBits(int):
     def as_tuple(self) -> Tuple[Role, ...]:
         result = [BITS_TO_ROLE[i] for i, bit in enumerate(str(self)) if int(bit) == 1]
         return tuple(result)
-
-    def flip_index(self, index: int) -> RoleBits:
-        """ Mark an index as opposite of its current state. """
-        reversed_index = NUM_UNIQUE_ROLES - index - 1
-        new_val = self
-        new_val &= ~(1 << reversed_index)
-        if new_val == self:
-            new_val |= 1 << reversed_index
-        return new_val
 
     def __bool__(self) -> bool:
         return self != 0
@@ -239,26 +226,26 @@ class RoleBits(int):
 
     def __invert__(self) -> RoleBits:
         """ Inverts all bits. """
-        return RoleBits(~int(self)) & (2 ** NUM_UNIQUE_ROLES - 1)
+        return RoleBits(val=~int(self)) & (2 ** NUM_UNIQUE_ROLES - 1)
 
     def __and__(self, other: object) -> RoleBits:
         """ Intersection of two role sets. """
         if isinstance(other, Role):
-            return RoleBits(self & (1 << ROLE_TO_BITS[other]))
+            return RoleBits(val=self & (1 << ROLE_TO_BITS[other]))
         if isinstance(other, (RoleBits, int)):
-            return RoleBits(super().__and__(other))
+            return RoleBits(val=super().__and__(other))
         raise TypeError
 
-    def __iand__(self, other: object) -> RoleBits:   # TODO REMOVE
+    def __iand__(self, other: object) -> RoleBits:  # TODO REMOVE
         """ Intersection of two role sets. """
         return self.__and__(other)
 
     def __or__(self, other: object) -> RoleBits:
         """ Intersection of two role sets. """
         if isinstance(other, Role):
-            return RoleBits(self | (1 << ROLE_TO_BITS[other]))
+            return RoleBits(val=self | (1 << ROLE_TO_BITS[other]))
         if isinstance(other, (RoleBits, int)):
-            return RoleBits(super().__or__(other))
+            return RoleBits(val=super().__or__(other))
         raise TypeError
 
     def __ior__(self, other: object) -> RoleBits:
@@ -283,7 +270,7 @@ class RoleBits(int):
         return {"type": "RoleBits", "data": self}
 
 
-ROLE_BITSET = RoleBits.from_roles(*ROLE_SET)
+ROLE_BITSET = RoleBits(*ROLE_SET)
 
 
 """ Game Rules """
@@ -298,23 +285,28 @@ AWAKE_ORDER = (
     Role.INSOMNIAC,
 )
 
-VILLAGE_ROLES = frozenset({
-    Role.VILLAGER,
-    Role.MASON,
-    Role.SEER,
-    Role.ROBBER,
-    Role.TROUBLEMAKER,
-    Role.DRUNK,
-    Role.INSOMNIAC,
-    Role.HUNTER,
-}) & ROLE_SET
+VILLAGE_ROLES = (
+    frozenset(
+        {
+            Role.VILLAGER,
+            Role.MASON,
+            Role.SEER,
+            Role.ROBBER,
+            Role.TROUBLEMAKER,
+            Role.DRUNK,
+            Role.INSOMNIAC,
+            Role.HUNTER,
+        }
+    )
+    & ROLE_SET
+)
 EVIL_ROLES = frozenset({Role.TANNER, Role.WOLF, Role.MINION}) & ROLE_SET
 
-VILLAGE_ROLE_BITS = RoleBits(0)
+VILLAGE_ROLE_BITS = RoleBits(val=0)
 for role in VILLAGE_ROLES:
     VILLAGE_ROLE_BITS = VILLAGE_ROLE_BITS & role
 
-EVIL_ROLES_BITS = RoleBits(0)
+EVIL_ROLES_BITS = RoleBits(val=0)
 for role in EVIL_ROLES:
     EVIL_ROLES_BITS &= role
 

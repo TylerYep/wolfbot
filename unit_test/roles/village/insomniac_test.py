@@ -19,7 +19,7 @@ class TestInsomniac:
                     "I am a Insomniac and when I woke up I was a Robber. "
                     "I don't know who I switched with."
                 ),
-                ((1, RoleBits.from_roles(Role.INSOMNIAC)),),
+                ((1, RoleBits(Role.INSOMNIAC)),),
             ),
         )
 
@@ -38,7 +38,7 @@ class TestInsomniac:
                     "I am a Insomniac and when I woke up I was a Hunter. "
                     "I don't know who I switched with."
                 ),
-                ((0, RoleBits.from_roles(Role.INSOMNIAC)),),
+                ((0, RoleBits(Role.INSOMNIAC)),),
             ),
         )
 
@@ -57,18 +57,18 @@ class TestInsomniac:
                     "I am a Insomniac and when I woke up I was a Wolf. I don't know "
                     "who I switched with."
                 ),
-                ((2, RoleBits.from_roles(Role.INSOMNIAC)),),
+                ((2, RoleBits(Role.INSOMNIAC)),),
             ),
             Statement(
                 "I am a Insomniac and when I woke up I was a Insomniac.",
-                ((2, RoleBits.from_roles(Role.INSOMNIAC)),),
+                ((2, RoleBits(Role.INSOMNIAC)),),
             ),
             Statement(
                 (
                     "I am a Insomniac and when I woke up I was a Seer. I don't know "
                     "who I switched with."
                 ),
-                ((2, RoleBits.from_roles(Role.INSOMNIAC)),),
+                ((2, RoleBits(Role.INSOMNIAC)),),
             ),
         )
 

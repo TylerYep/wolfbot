@@ -15,7 +15,7 @@ class TestVillager:
         villager = Villager.awake_init(player_index, [], ())  # Other params are unused.
 
         assert villager.statements == (
-            Statement("I am a Villager.", ((5, RoleBits.from_roles(Role.VILLAGER)),)),
+            Statement("I am a Villager.", ((5, RoleBits(Role.VILLAGER)),)),
         )
 
     @staticmethod
@@ -25,9 +25,7 @@ class TestVillager:
 
         result = Villager.get_villager_statements(player_index)
 
-        assert result == (
-            Statement("I am a Villager.", ((0, RoleBits.from_roles(Role.VILLAGER)),)),
-        )
+        assert result == (Statement("I am a Villager.", ((0, RoleBits(Role.VILLAGER)),)),)
 
     @staticmethod
     def test_get_all_statements() -> None:
@@ -36,6 +34,4 @@ class TestVillager:
 
         result = Villager.get_all_statements(player_index)
 
-        assert result == (
-            Statement("I am a Villager.", ((2, RoleBits.from_roles(Role.VILLAGER)),)),
-        )
+        assert result == (Statement("I am a Villager.", ((2, RoleBits(Role.VILLAGER)),)),)

@@ -27,9 +27,9 @@ class TestSeer:
                     "and that Center 0 was a Troublemaker."
                 ),
                 (
-                    (11, RoleBits.from_roles(Role.SEER)),
-                    (13, RoleBits.from_roles(Role.INSOMNIAC)),
-                    (12, RoleBits.from_roles(Role.TROUBLEMAKER)),
+                    (11, RoleBits(Role.SEER)),
+                    (13, RoleBits(Role.INSOMNIAC)),
+                    (12, RoleBits(Role.TROUBLEMAKER)),
                 ),
             ),
         )
@@ -52,7 +52,7 @@ class TestSeer:
         expected = (
             Statement(
                 "I am a Seer and I saw that Player 6 was a Mason.",
-                ((11, RoleBits.from_roles(Role.SEER)), (6, RoleBits.from_roles(Role.MASON))),
+                ((11, RoleBits(Role.SEER)), (6, RoleBits(Role.MASON))),
             ),
         )
 
@@ -72,7 +72,7 @@ class TestSeer:
         assert result == (
             Statement(
                 "I am a Seer and I saw that Player 6 was a Robber.",
-                ((1, RoleBits.from_roles(Role.SEER)), (6, RoleBits.from_roles(Role.ROBBER))),
+                ((1, RoleBits(Role.SEER)), (6, RoleBits(Role.ROBBER))),
             ),
         )
 
@@ -86,57 +86,45 @@ class TestSeer:
         expected = (
             Statement(
                 "I am a Seer and I saw that Player 0 was a Villager.",
-                ((1, RoleBits.from_roles(Role.SEER)), (0, RoleBits.from_roles(Role.VILLAGER))),
+                ((1, RoleBits(Role.SEER)), (0, RoleBits(Role.VILLAGER))),
             ),
             Statement(
                 "I am a Seer and I saw that Player 1 was a Villager.",
-                ((1, RoleBits.from_roles(Role.SEER)), (1, RoleBits.from_roles(Role.VILLAGER))),
+                ((1, RoleBits(Role.SEER)), (1, RoleBits(Role.VILLAGER))),
             ),
             Statement(
                 "I am a Seer and I saw that Player 0 was a Wolf.",
-                ((1, RoleBits.from_roles(Role.SEER)), (0, RoleBits.from_roles(Role.WOLF))),
+                ((1, RoleBits(Role.SEER)), (0, RoleBits(Role.WOLF))),
             ),
             Statement(
                 "I am a Seer and I saw that Player 1 was a Wolf.",
-                ((1, RoleBits.from_roles(Role.SEER)), (1, RoleBits.from_roles(Role.WOLF))),
+                ((1, RoleBits(Role.SEER)), (1, RoleBits(Role.WOLF))),
             ),
             Statement(
                 "I am a Seer and I saw that Player 0 was a Seer.",
-                ((1, RoleBits.from_roles(Role.SEER)), (0, RoleBits.from_roles(Role.SEER))),
+                ((1, RoleBits(Role.SEER)), (0, RoleBits(Role.SEER))),
             ),
             Statement(
                 "I am a Seer and I saw that Player 1 was a Seer.",
-                ((1, RoleBits.from_roles(Role.SEER)), (1, RoleBits.from_roles(Role.SEER))),
+                ((1, RoleBits(Role.SEER)), (1, RoleBits(Role.SEER))),
             ),
             Statement(
                 (
                     "I am a Seer and I saw that Center 0 was a Villager and "
                     "that Center 1 was a Wolf."
                 ),
-                (
-                    (1, RoleBits.from_roles(Role.SEER)),
-                    (2, RoleBits.from_roles(Role.VILLAGER)),
-                    (3, RoleBits.from_roles(Role.WOLF)),
-                ),
+                ((1, RoleBits(Role.SEER)), (2, RoleBits(Role.VILLAGER)), (3, RoleBits(Role.WOLF)),),
             ),
             Statement(
                 (
                     "I am a Seer and I saw that Center 0 was a Wolf and "
                     "that Center 1 was a Villager."
                 ),
-                (
-                    (1, RoleBits.from_roles(Role.SEER)),
-                    (2, RoleBits.from_roles(Role.WOLF)),
-                    (3, RoleBits.from_roles(Role.VILLAGER)),
-                ),
+                ((1, RoleBits(Role.SEER)), (2, RoleBits(Role.WOLF)), (3, RoleBits(Role.VILLAGER)),),
             ),
             Statement(
                 ("I am a Seer and I saw that Center 0 was a Wolf and that Center 1 was a Wolf."),
-                (
-                    (1, RoleBits.from_roles(Role.SEER)),
-                    (2, RoleBits.from_roles(Role.WOLF)),
-                    (3, RoleBits.from_roles(Role.WOLF)),
-                ),
+                ((1, RoleBits(Role.SEER)), (2, RoleBits(Role.WOLF)), (3, RoleBits(Role.WOLF)),),
             ),
         )
 

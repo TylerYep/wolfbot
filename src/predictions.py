@@ -98,7 +98,7 @@ def get_basic_guesses(solution: SolverState) -> Tuple[Tuple[Role, ...], Dict[Rol
         if j >= len(solution.path) or solution.path[j]:
             guess_set = solution.possible_roles[j]
             # Remove already chosen cards
-            for rol in const.ROLE_SET: # SORTED_ROLE_SET
+            for rol in const.ROLE_SET:  # SORTED_ROLE_SET
                 if curr_role_counts[rol] == 0:
                     guess_set -= rol
 

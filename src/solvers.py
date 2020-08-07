@@ -26,7 +26,7 @@ class SolverState:
     def __post_init__(self) -> None:
         # We share the same reference here because frozen sets are immutable.
         if not self.possible_roles:
-            self.possible_roles = tuple([RoleBits(None) for _ in range(const.NUM_ROLES)])
+            self.possible_roles = tuple([RoleBits(val=None) for _ in range(const.NUM_ROLES)])
         if self.count_true == -1:
             self.count_true = self.path.count(True)
         if not self.role_counts:

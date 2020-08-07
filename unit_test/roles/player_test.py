@@ -38,9 +38,7 @@ class TestPlayer:
 
         statement = villager.get_statement(knowledge_base)
 
-        assert statement == Statement(
-            "I am a Villager.", ((0, RoleBits.from_roles(Role.VILLAGER)),)
-        )
+        assert statement == Statement("I am a Villager.", ((0, RoleBits(Role.VILLAGER)),))
 
     @staticmethod
     def test_json_repr() -> None:

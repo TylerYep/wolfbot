@@ -22,7 +22,7 @@ class TestTroublemaker:
         expected = (
             Statement(
                 "I am a Troublemaker and I swapped Player 6 and Player 7.",
-                ((11, RoleBits.from_roles(Role.TROUBLEMAKER)),),
+                ((11, RoleBits(Role.TROUBLEMAKER)),),
                 ((SwitchPriority.TROUBLEMAKER, 6, 7),),
                 Role.TROUBLEMAKER,
             ),
@@ -47,7 +47,7 @@ class TestTroublemaker:
         assert result == (
             Statement(
                 "I am a Troublemaker and I swapped Player 6 and Player 3.",
-                ((1, RoleBits.from_roles(Role.TROUBLEMAKER)),),
+                ((1, RoleBits(Role.TROUBLEMAKER)),),
                 ((SwitchPriority.TROUBLEMAKER, 6, 3),),
                 Role.TROUBLEMAKER,
             ),
@@ -63,7 +63,7 @@ class TestTroublemaker:
         expected_statements = (
             Statement(
                 "I am a Troublemaker and I swapped Player 0 and Player 1.",
-                ((2, RoleBits.from_roles(Role.TROUBLEMAKER)),),
+                ((2, RoleBits(Role.TROUBLEMAKER)),),
                 ((SwitchPriority.TROUBLEMAKER, 0, 1),),
                 Role.TROUBLEMAKER,
             ),

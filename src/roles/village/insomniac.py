@@ -36,7 +36,7 @@ class Insomniac(Player):
         player_index: int, insomniac_new_role: Role, new_insomniac_index: Optional[int] = None
     ) -> Tuple[Statement, ...]:
         """ Gets Insomniac Statement. """
-        knowledge = ((player_index, RoleBits.from_roles(Role.INSOMNIAC)),)
+        knowledge = ((player_index, RoleBits(Role.INSOMNIAC)),)
         sentence = f"I am a Insomniac and when I woke up I was a {insomniac_new_role}."
         if new_insomniac_index is None:
             if insomniac_new_role is not Role.INSOMNIAC:

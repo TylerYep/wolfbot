@@ -44,7 +44,7 @@ class Troublemaker(Player):
     ) -> Tuple[Statement, ...]:
         """ Gets Troublemaker Statement. """
         sentence = f"I am a Troublemaker and I swapped Player {tmkr_ind1} and Player {tmkr_ind2}."
-        knowledge = ((player_index, RoleBits.from_roles(Role.TROUBLEMAKER)),)
+        knowledge = ((player_index, RoleBits(Role.TROUBLEMAKER)),)
         switches = ((SwitchPriority.TROUBLEMAKER, tmkr_ind1, tmkr_ind2),)
         return (Statement(sentence, knowledge, switches),)
 

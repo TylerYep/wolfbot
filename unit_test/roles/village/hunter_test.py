@@ -14,9 +14,7 @@ class TestHunter:
 
         hunter = Hunter.awake_init(player_index, [], ())  # Other params are unused.
 
-        assert hunter.statements == (
-            Statement("I am a Hunter.", ((5, RoleBits.from_roles(Role.HUNTER)),)),
-        )
+        assert hunter.statements == (Statement("I am a Hunter.", ((5, RoleBits(Role.HUNTER)),)),)
 
     @staticmethod
     def test_get_hunter_statements() -> None:
@@ -25,7 +23,7 @@ class TestHunter:
 
         result = Hunter.get_hunter_statements(player_index)
 
-        assert result == (Statement("I am a Hunter.", ((0, RoleBits.from_roles(Role.HUNTER)),)),)
+        assert result == (Statement("I am a Hunter.", ((0, RoleBits(Role.HUNTER)),)),)
 
     @staticmethod
     def test_get_all_statements() -> None:
@@ -34,4 +32,4 @@ class TestHunter:
 
         result = Hunter.get_all_statements(player_index)
 
-        assert result == (Statement("I am a Hunter.", ((2, RoleBits.from_roles(Role.HUNTER)),)),)
+        assert result == (Statement("I am a Hunter.", ((2, RoleBits(Role.HUNTER)),)),)
