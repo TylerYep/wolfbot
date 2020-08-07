@@ -98,7 +98,7 @@ def get_basic_guesses(solution: SolverState) -> Tuple[Tuple[Role, ...], Dict[Rol
         if j >= len(solution.path) or solution.path[j]:
             guess_set = solution.possible_roles[j]
             # Remove already chosen cards
-            for rol in const.SORTED_ROLE_SET:
+            for rol in const.ROLE_SET: # SORTED_ROLE_SET
                 if curr_role_counts[rol] == 0:
                     guess_set -= rol
 
@@ -146,10 +146,10 @@ def recurse_assign(
     for i in range(const.NUM_ROLES):
         if all_role_guesses[i] is Role.NONE:
             # sorted() will convert possible_roles sets into a sorted list.
-            leftover_roles = sorted(
-                solution.possible_roles[i].as_tuple
+            leftover_roles = (
+                list(solution.possible_roles[i].as_tuple)
                 if restrict_possible
-                else [k for k, v in curr_role_counts.items() if v > 0]
+                else sorted([k for k, v in curr_role_counts.items() if v > 0])
             )
             random.shuffle(leftover_roles)
             for rol in leftover_roles:

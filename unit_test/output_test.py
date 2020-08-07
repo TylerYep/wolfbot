@@ -29,15 +29,15 @@ class TestPlayOneNightWerewolf:
         assert result == example_medium_game_result
         verify_output_file(caplog, "unit_test/test_data/one_night_medium.out")
 
-    # @staticmethod
-    # def test_one_night_large(
-    #     caplog: LogCaptureFixture, example_large_game_result: GameResult, override_random: None
-    # ) -> None:
-    #     """ Correctly play one round of one night werewolf. """
-    #     result = one_night.play_one_night_werewolf()
+    @staticmethod
+    def test_one_night_large(
+        caplog: LogCaptureFixture, example_large_game_result: GameResult, override_random: None
+    ) -> None:
+        """ Correctly play one round of one night werewolf. """
+        result = one_night.play_one_night_werewolf()
 
-    #     assert result == example_large_game_result
-    #     verify_output_file(caplog, "unit_test/test_data/one_night_large.out")
+        assert result == example_large_game_result
+        verify_output_file(caplog, "unit_test/test_data/one_night_large.out")
 
 
 # class TestPlayOneNightWerewolfInteractive:

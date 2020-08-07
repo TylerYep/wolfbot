@@ -34,15 +34,15 @@ class TestReplay:
 
         assert game_result == replay_game_result
 
-    # @staticmethod
-    # def test_replay_game_state_large(
-    #     large_game_roles: Tuple[Role, ...], override_random: None
-    # ) -> None:
-    #     """
-    #     Correctly replay last round of one night werewolf using saved random numbers.
-    #     """
-    #     game_result = one_night.play_one_night_werewolf()
+    @staticmethod
+    def test_replay_game_state_large(
+        large_game_roles: Tuple[Role, ...], override_random: None
+    ) -> None:
+        """
+        Correctly replay last round of one night werewolf using saved random numbers.
+        """
+        game_result = one_night.play_one_night_werewolf()
 
-    #     replay_game_result = replay.replay_game_from_state()
+        replay_game_result = replay.replay_game_from_state()
 
-    #     assert game_result == replay_game_result
+        assert game_result == replay_game_result

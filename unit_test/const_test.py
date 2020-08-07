@@ -32,6 +32,8 @@ def test_everything(medium_game_roles: Tuple[Role, ...]) -> None:
 
     assert y.is_solo is True
     assert y.solo_role == Role.ROBBER
+    y -= Role.ROBBER
+    assert str(y) == "000000"
 
 
 class TestLRUCache:
