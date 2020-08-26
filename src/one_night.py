@@ -24,7 +24,6 @@ def simulate_game(
     """ Collects statistics about several simulations of play_one_night_werewolf. """
     if not enable_logging:
         logger.set_level(logging.WARNING)
-
     stat_tracker = Statistics()
     for _ in tqdm(range(num_games), disable=not enable_tqdm):
         game_result = play_one_night_werewolf(save_replay)
@@ -79,7 +78,6 @@ def get_player_multistatements(player_objs: Tuple[Player, ...]) -> Tuple[Stateme
     heapq.heapify(heap)
     while heap:
         _, curr_ind = heapq.heappop(heap)
-
         if knowledge_base.final_claims[curr_ind].priority < StatementLevel.PRIMARY:
             player_objs[curr_ind].analyze(knowledge_base)
             statement = player_objs[curr_ind].get_statement(knowledge_base)

@@ -101,7 +101,7 @@ class Role(Enum):
 
     def json_repr(self) -> Dict[str, Any]:
         """ Gets JSON representation of a Role enum. """
-        return {"type": "Role", "data": self.value}
+        return dict(type="Role", data=self.value)
 
 
 ARGS = init_program("pytest" in sys.modules)

@@ -122,13 +122,13 @@ class TestWolfBotEncoderDecoder:
             ),
             Statement(
                 "I am a Robber and I swapped with Player 2. I am now a Seer.",
-                ((1, frozenset({Role.ROBBER})), (2, frozenset({Role.SEER})),),
+                ((1, frozenset({Role.ROBBER})), (2, frozenset({Role.SEER}))),
                 ((SwitchPriority.ROBBER, 1, 2),),
                 Role.ROBBER,
             ),
             Statement(
                 "I am a Seer and I saw that Player 1 was a Robber.",
-                ((2, frozenset({Role.SEER})), (1, frozenset({Role.ROBBER})),),
+                ((2, frozenset({Role.SEER})), (1, frozenset({Role.ROBBER}))),
                 speaker=Role.SEER,
             ),
         ]

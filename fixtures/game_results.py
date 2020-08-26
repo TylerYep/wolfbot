@@ -41,7 +41,7 @@ def example_medium_game_result(medium_game_roles: Tuple[Role, ...]) -> GameResul
         (
             Statement(
                 "I am a Robber and I swapped with Player 4. I am now a Seer.",
-                ((0, frozenset({Role.ROBBER})), (4, frozenset({Role.SEER})),),
+                ((0, frozenset({Role.ROBBER})), (4, frozenset({Role.SEER}))),
                 ((SwitchPriority.ROBBER, 0, 4),),
             ),
             Statement(
@@ -51,7 +51,7 @@ def example_medium_game_result(medium_game_roles: Tuple[Role, ...]) -> GameResul
             ),
             Statement(
                 "I am a Seer and I saw that Player 4 was a Wolf.",
-                ((2, frozenset({Role.SEER})), (4, frozenset({Role.WOLF})),),
+                ((2, frozenset({Role.SEER})), (4, frozenset({Role.WOLF}))),
             ),
             Statement(
                 "I am a Troublemaker and I swapped Player 4 and Player 1.",
@@ -60,7 +60,7 @@ def example_medium_game_result(medium_game_roles: Tuple[Role, ...]) -> GameResul
             ),
             Statement(
                 "I am a Seer and I saw that Player 3 was a Troublemaker.",
-                ((4, frozenset({Role.SEER})), (3, frozenset({Role.TROUBLEMAKER})),),
+                ((4, frozenset({Role.SEER})), (3, frozenset({Role.TROUBLEMAKER}))),
             ),
         ),
     )

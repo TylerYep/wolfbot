@@ -98,7 +98,7 @@ class TestStatement:
         """ Should declare two Statements with identical fields to be equal. """
         result = Statement(
             "test",
-            ((2, frozenset({Role.ROBBER})), (0, frozenset({Role.SEER})),),
+            ((2, frozenset({Role.ROBBER})), (0, frozenset({Role.SEER}))),
             ((SwitchPriority.ROBBER, 2, 0),),
         )
 
@@ -109,7 +109,7 @@ class TestStatement:
         """ Should give two Statements with identical fields the same hash. """
         identical_statement = Statement(
             "test",
-            ((2, frozenset({Role.ROBBER})), (0, frozenset({Role.SEER})),),
+            ((2, frozenset({Role.ROBBER})), (0, frozenset({Role.SEER}))),
             ((SwitchPriority.ROBBER, 2, 0),),
         )
 

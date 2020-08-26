@@ -47,12 +47,12 @@ class Player:
             Hunter,
             Insomniac,
             Mason,
+            Minion,
             Robber,
             Seer,
+            Tanner,
             Troublemaker,
             Villager,
-            Minion,
-            Tanner,
             Wolf,
         )
 
