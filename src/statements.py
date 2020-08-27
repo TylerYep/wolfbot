@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from functools import cached_property  # type: ignore
+from functools import cached_property
 from typing import Any, Dict, FrozenSet, List, Tuple
 
 from src import const

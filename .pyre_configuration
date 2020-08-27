@@ -1,11 +1,8 @@
 {
-  "binary": "/Users/tyler.yep/.pyenv/versions/3.8.3/bin/pyre.bin",
   "source_directories": ["."],
   "search_path": [
     { "site-package": "tqdm" },
     { "site-package": "pytest" },
     { "site-package": "_pytest" }
-  ],
-  "taint_models_path": "/Users/tyler.yep/.pyenv/versions/3.8.3/lib/pyre_check/taint/",
-  "typeshed": "/Users/tyler.yep/.pyenv/versions/3.8.3/lib/pyre_check/typeshed/"
+  ]
 }

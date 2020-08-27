@@ -1,5 +1,4 @@
 """ knowledge_bases.py """
-# pylint: disable=missing-function-docstring
 from typing import Tuple
 
 import pytest

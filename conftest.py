@@ -1,5 +1,4 @@
 """ conftest.py """
-# pylint: disable=missing-function-docstring, unused-import
 import csv
 import os
 import random
@@ -9,7 +8,7 @@ import pytest
 from _pytest.logging import LogCaptureFixture
 from _pytest.monkeypatch import MonkeyPatch
 
-from fixtures import (
+from fixtures import (  # pylint: disable=unused-import
     example_large_game_result,
     example_large_saved_game,
     example_large_solverstate,
@@ -37,7 +36,7 @@ from src.const import Role
 
 def set_roles(*roles: Role) -> None:
     """ Changes to ROLES should propagate to all of its descendants. """
-    const.ROLES = roles  # type: ignore
+    const.ROLES = roles  # type: ignore[assignment]
     const.ROLE_SET = frozenset(const.ROLES)
     const.SORTED_ROLE_SET = sorted(const.ROLE_SET)
     const.ROLE_COUNTS = const.get_counts(const.ROLES)
@@ -175,6 +174,7 @@ def standard_game_roles() -> Tuple[Role, ...]:
 
 @pytest.fixture(scope="session")
 def large_individual_preds() -> Tuple[Tuple[Role, ...], ...]:
+    """ These predictions are long enough to deserve their own fixture. """
     # fmt: off
     return (
         (Role.VILLAGER, Role.MASON, Role.MASON, Role.MINION, Role.VILLAGER, Role.DRUNK,
@@ -219,6 +219,8 @@ def large_individual_preds() -> Tuple[Tuple[Role, ...], ...]:
 
 @pytest.fixture
 def override_random(monkeypatch: MonkeyPatch, seed: int = 0) -> None:
+    """ Overrides all functions from the built-in random module. """
+
     def fix_seed(orig_function: Callable[..., Any]) -> Callable[..., Any]:
         """
         Returns the exact same function, but adds a call to random.seed(0) first.
