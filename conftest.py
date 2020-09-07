@@ -278,18 +278,18 @@ def write_results(stat_results: Dict[str, float], file_path: str) -> None:
 
 
 def verify_output_file(caplog: LogCaptureFixture, filename: str) -> None:
-    """ Helper method for debugging print differences using a file. """
+    """ Helper method for comparing file output differences. """
     with open(filename) as output_file:
         expected = tuple(output_file.read().split("\n"))
     verify_output(caplog, expected)
 
 
 def verify_output(caplog: LogCaptureFixture, expected: Tuple[str, ...]) -> None:
-    """ Helper method for debugging print differences. """
+    """ Helper method for comparing logging output differences. """
     captured = list(map(lambda x: x.getMessage(), caplog.records))
     assert "\n".join(captured) == "\n".join(expected)
 
 
 def verify_output_string(caplog: LogCaptureFixture, expected: str) -> None:
-    """ Helper method for debugging print differences. """
+    """ Helper method for comparing string output differences. """
     assert caplog.records[0].getMessage() == expected

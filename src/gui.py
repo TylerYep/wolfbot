@@ -10,6 +10,8 @@ from src.statements import Statement
 class GUIState:
     """ If INTERACTIVE_MODE is False, all actions are no-ops. """
 
+    __slots__ = ("disable_gui",)
+
     def __init__(self) -> None:
         self.disable_gui = not const.INTERACTIVE_MODE
 

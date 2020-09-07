@@ -40,7 +40,7 @@ class SavedGame:
 class GameResult:
     """ Each round of one_night returns a GameResult. """
 
-    __slots__ = ["actual", "guessed", "wolf_inds", "winning_team", "statements"]
+    __slots__ = ("actual", "guessed", "wolf_inds", "winning_team", "statements")
     actual: Tuple[Role, ...]
     guessed: Tuple[Role, ...]
     wolf_inds: Tuple[int, ...]

@@ -126,6 +126,8 @@ class Player:
             new_player_obj = self.transform(self.new_role)
             new_player_obj.prev_priority = self.prev_priority
             self = new_player_obj  # pylint: disable=self-cls-assignment
+
+            # If you have no statements in your new role, randomly choose a statement.
             if not [x for x in self.statements if x.priority > self.prev_priority]:
                 from src.roles.werewolf.wolf_variants import get_wolf_statements_random
 

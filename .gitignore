@@ -11,6 +11,7 @@ __pycache__/
 data/profile.txt
 .vscode
 results/
+fil-result/
 
 # C extensions
 *.so
