@@ -4,11 +4,14 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Dict, FrozenSet, List, Optional, Tuple
 
+from dataslots import with_slots
+
 from src import const
 from src.const import Role
 from src.statements import Statement, Switch
 
 
+@with_slots
 @dataclass
 class SolverState:
     """
@@ -23,7 +26,7 @@ class SolverState:
     count_true: int = -1
 
     def __post_init__(self) -> None:
-        # We share the same reference here because frozen sets are immutable.
+        # We share the same reference here because frozensets are immutable.
         if not self.possible_roles:
             self.possible_roles = (const.ROLE_SET,) * const.NUM_ROLES
         if self.count_true == -1:

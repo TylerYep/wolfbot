@@ -14,8 +14,6 @@ class OneNightLogger:
         WARNING = Results only
     """
 
-    __slots__ = ("trace_level", "logger", "output_cache")
-
     def __init__(self, filename: str = "") -> None:
         self.trace_level = 5
         if filename:

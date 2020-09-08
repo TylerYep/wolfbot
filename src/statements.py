@@ -5,6 +5,8 @@ from dataclasses import dataclass, field
 from functools import cached_property
 from typing import Any, Dict, FrozenSet, List, Tuple
 
+from dataslots import with_slots
+
 from src import const
 from src.const import Role, StatementLevel, SwitchPriority
 
@@ -12,6 +14,7 @@ Knowledge = Tuple[int, FrozenSet[Role]]
 Switch = Tuple[SwitchPriority, int, int]
 
 
+@with_slots
 @dataclass
 class KnowledgeBase:
     """
@@ -45,11 +48,13 @@ class KnowledgeBase:
         return knowledge_base
 
 
+@with_slots(add_dict=True)
 @dataclass
 class Statement:
     """
     Model for all statements in the game. Statements are intended to be immutable.
     All member variables are converted into an immutable type to be used in hash().
+    __slots__ must contain __dict__ to use @cached_property.
     Args:
         sentence: a string representation of the statement
         knowledge: a list of (player_index, set(role)) tuples

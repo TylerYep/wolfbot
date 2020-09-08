@@ -3,17 +3,19 @@ import time
 from dataclasses import dataclass
 from typing import Any, Callable, Dict, Tuple
 
+from dataslots import with_slots
+
 from src import const
 from src.const import Role, Team, logger
 from src.roles import Player
 from src.statements import Statement
 
 
+@with_slots
 @dataclass
 class SavedGame:
     """ All of the necessary data needed to rerun a game. """
 
-    __slots__ = ["original_roles", "game_roles", "all_statements", "player_objs"]
     original_roles: Tuple[Role, ...]
     game_roles: Tuple[Role, ...]
     all_statements: Tuple[Statement, ...]
@@ -36,11 +38,11 @@ class SavedGame:
         }
 
 
+@with_slots
 @dataclass
 class GameResult:
     """ Each round of one_night returns a GameResult. """
 
-    __slots__ = ("actual", "guessed", "wolf_inds", "winning_team", "statements")
     actual: Tuple[Role, ...]
     guessed: Tuple[Role, ...]
     wolf_inds: Tuple[int, ...]
@@ -59,6 +61,7 @@ class GameResult:
         }
 
 
+@with_slots
 @dataclass
 class Metric:
     """ One metric for a game. """
