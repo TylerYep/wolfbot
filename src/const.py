@@ -101,7 +101,7 @@ class Role(Enum):
 
     def json_repr(self) -> Dict[str, Any]:
         """ Gets JSON representation of a Role enum. """
-        return dict(type="Role", data=self.value)
+        return {"type": "Role", "data": self.value}
 
 
 ARGS = init_program("pytest" in sys.modules)
@@ -131,7 +131,7 @@ NUM_CENTER = 3
 # Randomize or use literally the order of the ROLES constant above.
 RANDOMIZE_ROLES = True
 # Enable multi-statement rounds.
-MULTI_STATEMENT = False
+MULTI_STATEMENT = True
 
 """ Simulation Constants """
 NUM_GAMES = ARGS.num_games
@@ -184,6 +184,7 @@ SMART_VILLAGERS = True
 """ Werewolf Players """
 # Basic Wolf Player (Pruned statement set)
 USE_REG_WOLF = True
+INCLUDE_STATEMENT_RATE = 0.7
 
 # Expectimax Wolf, Minion, Tanner
 EXPECTIMAX_WOLF = False

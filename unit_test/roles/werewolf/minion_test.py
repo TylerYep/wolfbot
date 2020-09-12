@@ -35,7 +35,7 @@ class TestMinion:
         minion.analyze(medium_knowledge_base)
         _ = minion.get_statement(medium_knowledge_base)
 
-        assert len(minion.statements) == 16
+        assert len(minion.statements) == 11
 
     @staticmethod
     def test_get_random_statement_large(
@@ -62,4 +62,4 @@ class TestMinion:
         minion.analyze(large_knowledge_base)
         _ = minion.get_statement(large_knowledge_base)
 
-        assert len(minion.statements) == 76
+        assert len(minion.statements) == 73

@@ -79,7 +79,7 @@ class TestWolf:
         wolf.analyze(medium_knowledge_base)
         _ = wolf.get_statement(medium_knowledge_base)
 
-        assert len(wolf.statements) == 12
+        assert len(wolf.statements) == 7
 
     @staticmethod
     def test_get_center_statement_medium(
@@ -120,7 +120,7 @@ class TestWolf:
         wolf.analyze(large_knowledge_base)
         _ = wolf.get_statement(large_knowledge_base)
 
-        assert len(wolf.statements) == 77
+        assert len(wolf.statements) == 74
 
     # @staticmethod
     # def test_eval_fn() -> None:
