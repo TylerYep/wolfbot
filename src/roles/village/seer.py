@@ -46,8 +46,8 @@ class Seer(Player):
                 peek_char2 = game_roles[peek_ind2]
                 logger.debug(
                     f"[Hidden] Seer sees that Center {peek_ind1 - const.NUM_PLAYERS} "
-                    f"is a {peek_char1}, "
-                    f"Center {peek_ind2 - const.NUM_PLAYERS} is a {peek_char2}."
+                    f"is a {peek_char1}, Center {peek_ind2 - const.NUM_PLAYERS} "
+                    f"is a {peek_char2}."
                 )
                 if is_user:
                     logger.info(
@@ -85,8 +85,8 @@ class Seer(Player):
         if seen_index2 is not None and seen_role2 is not None:
             sentence = (
                 f"I am a Seer and I saw that Center {seen_index - const.NUM_PLAYERS} "
-                f"was a {seen_role} and that "
-                f"Center {seen_index2 - const.NUM_PLAYERS} was a {seen_role2}."
+                f"was a {seen_role} and that Center {seen_index2 - const.NUM_PLAYERS} "
+                f"was a {seen_role2}."
             )
             knowledge.append((seen_index2, frozenset({seen_role2})))
         return (Statement(sentence, tuple(knowledge)),)
