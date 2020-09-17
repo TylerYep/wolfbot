@@ -15,7 +15,9 @@ class TestSavedGame:
     @staticmethod
     def test_constructor() -> None:
         """ Should initialize correctly. """
-        villager_statement = Statement("I am a Villager.", ((0, frozenset({Role.VILLAGER})),))
+        villager_statement = Statement(
+            "I am a Villager.", ((0, frozenset({Role.VILLAGER})),)
+        )
 
         result = SavedGame(
             (Role.VILLAGER,), (Role.VILLAGER,), (villager_statement,), (Villager(0),)
@@ -43,7 +45,11 @@ class TestSavedGame:
             ),
             "game_roles": (Role.VILLAGER, Role.SEER, Role.ROBBER),
             "original_roles": (Role.VILLAGER, Role.ROBBER, Role.SEER),
-            "player_objs": (Villager(0), Robber(1, 2, Role.SEER), Seer(2, (1, Role.ROBBER))),
+            "player_objs": (
+                Villager(0),
+                Robber(1, 2, Role.SEER),
+                Seer(2, (1, Role.ROBBER)),
+            ),
             "type": "SavedGame",
         }
 
@@ -62,7 +68,8 @@ class TestGameResult:
     def test_json_repr(example_small_game_result: GameResult) -> None:
         """
         Should convert a GameResult into a dict with all of its fields.
-        Identical to the example_small_game_result fixture, so this is an unnecessary test.
+        Identical to the example_small_game_result fixture,
+        so this is an unnecessary test.
         """
         result = example_small_game_result.json_repr()
 

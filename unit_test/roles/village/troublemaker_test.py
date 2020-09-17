@@ -14,8 +14,9 @@ class TestTroublemaker:
     @staticmethod
     def test_awake_init(large_game_roles: Tuple[Role, ...]) -> None:
         """
-        Should initialize a Troublemaker. Note that the player_index of the Troublemaker is
-        not necessarily the index where the true Troublemaker is located.
+        Should initialize a Troublemaker. Note that the player_index of the
+        Troublemaker is not necessarily the index where the
+        true Troublemaker is located.
         """
         player_index = 11
         game_roles = list(large_game_roles)
@@ -39,7 +40,7 @@ class TestTroublemaker:
 
     @staticmethod
     def test_get_troublemaker_statements() -> None:
-        """ Should execute initialization actions and return the possible statements. """
+        """ Execute initialization actions and return the possible statements. """
         player_index = 1
 
         result = Troublemaker.get_troublemaker_statements(player_index, 6, 3)
@@ -55,9 +56,16 @@ class TestTroublemaker:
 
     @staticmethod
     def test_get_all_statements() -> None:
-        """ Should return the possible statements from all possible initialization actions. """
+        """ Should return possible statements from all possible initializations. """
         player_index = 2
-        set_roles(Role.WOLF, Role.SEER, Role.TROUBLEMAKER, Role.VILLAGER, Role.ROBBER, Role.WOLF)
+        set_roles(
+            Role.WOLF,
+            Role.SEER,
+            Role.TROUBLEMAKER,
+            Role.VILLAGER,
+            Role.ROBBER,
+            Role.WOLF,
+        )
         const.NUM_PLAYERS = 3
         const.NUM_CENTER = 3
         expected_statements = (

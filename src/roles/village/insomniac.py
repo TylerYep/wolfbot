@@ -33,7 +33,9 @@ class Insomniac(Player):
     @staticmethod
     @lru_cache
     def get_insomniac_statements(
-        player_index: int, insomniac_new_role: Role, new_insomniac_index: Optional[int] = None
+        player_index: int,
+        insomniac_new_role: Role,
+        new_insomniac_index: Optional[int] = None,
     ) -> Tuple[Statement, ...]:
         """ Gets Insomniac Statement. """
         knowledge = ((player_index, frozenset({Role.INSOMNIAC})),)

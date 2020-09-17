@@ -39,7 +39,8 @@ class Wolf(Player):
         cls, player_index: int, game_roles: List[Role], original_roles: Tuple[Role, ...]
     ) -> Wolf:
         """
-        Constructor: original_roles defaults to [] when a player becomes a Wolf and realizes it.
+        Constructor: original_roles defaults to [] when a player becomes
+        a Wolf and realizes it.
         Initializes Wolf - gets Wolf indices and a random center card, if applicable.
         """
         is_user = const.IS_USER[player_index]
@@ -50,7 +51,8 @@ class Wolf(Player):
             center_role = game_roles[center_index]
             if is_user:
                 logger.info(
-                    f"You see Center {center_index - const.NUM_PLAYERS} is a {center_role}.",
+                    f"You see Center {center_index - const.NUM_PLAYERS} "
+                    f"is a {center_role}.",
                     cache=True,
                 )
         logger.debug(f"[Hidden] Wolves are at indices: {list(wolf_indices)}")

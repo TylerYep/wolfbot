@@ -29,7 +29,9 @@ class GUIState:
         logger.clear()
 
         user_index = const.IS_USER.index(True)
-        logger.info(f"Player {user_index}, you are a {original_roles[user_index]}!", cache=True)
+        logger.info(
+            f"Player {user_index}, you are a {original_roles[user_index]}!", cache=True
+        )
         self.print_cache()
 
     def night_falls(self) -> None:

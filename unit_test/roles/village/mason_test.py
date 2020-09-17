@@ -28,7 +28,7 @@ class TestMason:
 
     @staticmethod
     def test_get_mason_statements() -> None:
-        """ Should execute initialization actions and return the possible statements. """
+        """ Execute initialization actions and return the possible statements. """
         player_index = 9
 
         result = Mason.get_mason_statements(player_index, (6, 9))
@@ -61,7 +61,7 @@ class TestMason:
 
     @staticmethod
     def test_get_all_statements() -> None:
-        """ Should return the possible statements from all possible initialization actions. """
+        """ Should return possible statements from all possible initializations. """
         player_index = 2
         set_roles(Role.WOLF, Role.SEER, Role.MASON, Role.VILLAGER)
         const.NUM_PLAYERS = 3

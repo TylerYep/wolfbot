@@ -9,6 +9,7 @@ from fixtures.knowledge_bases import (
     medium_knowledge_base,
     small_knowledge_base,
 )
+from fixtures.predictions import large_individual_preds
 from fixtures.saved_games import (
     example_large_saved_game,
     example_medium_saved_game,

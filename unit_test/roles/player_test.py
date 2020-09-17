@@ -38,7 +38,9 @@ class TestPlayer:
 
         statement = villager.get_statement(knowledge_base)
 
-        assert statement == Statement("I am a Villager.", ((0, frozenset({Role.VILLAGER})),))
+        assert statement == Statement(
+            "I am a Villager.", ((0, frozenset({Role.VILLAGER})),)
+        )
 
     @staticmethod
     def test_json_repr() -> None:
@@ -119,7 +121,14 @@ class TestGetVote:
     @staticmethod
     def test_vote_for_wolf(medium_game_roles: Tuple[str, ...]) -> None:
         """ If a player suspects a Wolf, they should vote for that player. """
-        prediction = (Role.SEER, Role.WOLF, Role.TROUBLEMAKER, Role.DRUNK, Role.MINION, Role.ROBBER)
+        prediction = (
+            Role.SEER,
+            Role.WOLF,
+            Role.TROUBLEMAKER,
+            Role.DRUNK,
+            Role.MINION,
+            Role.ROBBER,
+        )
 
         result = Player(2).vote(prediction)
 
@@ -127,8 +136,17 @@ class TestGetVote:
 
     @staticmethod
     def test_no_vote_for_center_wolf(medium_game_roles: Tuple[str, ...]) -> None:
-        """ If a player suspects a Wolf in the center, they should not vote for that player. """
-        prediction = (Role.SEER, Role.TROUBLEMAKER, Role.DRUNK, Role.MINION, Role.ROBBER, Role.WOLF)
+        """
+        If a player suspects a Wolf in the center, they should not vote for that player.
+        """
+        prediction = (
+            Role.SEER,
+            Role.TROUBLEMAKER,
+            Role.DRUNK,
+            Role.MINION,
+            Role.ROBBER,
+            Role.WOLF,
+        )
 
         result = Player(2).vote(prediction)
 
@@ -136,7 +154,9 @@ class TestGetVote:
 
     @staticmethod
     def test_vote_right(small_game_roles: Tuple[str, ...]) -> None:
-        """ If no Wolves are found, players should vote for the person to their right. """
+        """
+        If no Wolves are found, players should vote for the person to their right.
+        """
         prediction = (Role.VILLAGER, Role.SEER, Role.ROBBER)
 
         result = [Player(i).vote(prediction) for i in range(const.NUM_PLAYERS)]
@@ -144,11 +164,20 @@ class TestGetVote:
         assert result == [1, 2, 0]
 
     @staticmethod
-    def test_interactive_vote(monkeypatch: MonkeyPatch, medium_game_roles: Tuple[str, ...]) -> None:
+    def test_interactive_vote(
+        monkeypatch: MonkeyPatch, medium_game_roles: Tuple[str, ...]
+    ) -> None:
         """ Prompt the user for their vote. """
         player_index = 2
         const.IS_USER[player_index] = True
-        prediction = (Role.SEER, Role.TROUBLEMAKER, Role.DRUNK, Role.MINION, Role.ROBBER, Role.WOLF)
+        prediction = (
+            Role.SEER,
+            Role.TROUBLEMAKER,
+            Role.DRUNK,
+            Role.MINION,
+            Role.ROBBER,
+            Role.WOLF,
+        )
         monkeypatch.setattr("builtins.input", lambda x: "4")
 
         result = Player(player_index).vote(prediction)

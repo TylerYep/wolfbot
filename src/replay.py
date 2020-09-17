@@ -12,7 +12,9 @@ def replay_game_from_state() -> GameResult:
     with open(const.REPLAY_STATE) as f_replay:
         save_game = json.load(f_replay)
     game_state = save_game["rng_state"]
-    rng_state = tuple([tuple(item) if isinstance(item, list) else item for item in game_state])
+    rng_state = tuple(
+        [tuple(item) if isinstance(item, list) else item for item in game_state]
+    )
     random.setstate(rng_state)
 
     stat_tracker = Statistics()

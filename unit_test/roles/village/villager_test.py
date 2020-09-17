@@ -20,18 +20,22 @@ class TestVillager:
 
     @staticmethod
     def test_get_villager_statements() -> None:
-        """ Should execute initialization actions and return the possible statements. """
+        """ Execute initialization actions and return the possible statements. """
         player_index = 0
 
         result = Villager.get_villager_statements(player_index)
 
-        assert result == (Statement("I am a Villager.", ((0, frozenset({Role.VILLAGER})),)),)
+        assert result == (
+            Statement("I am a Villager.", ((0, frozenset({Role.VILLAGER})),)),
+        )
 
     @staticmethod
     def test_get_all_statements() -> None:
-        """ Should return the possible statements from all possible initialization actions. """
+        """ Should return possible statements from all possible initializations. """
         player_index = 2
 
         result = Villager.get_all_statements(player_index)
 
-        assert result == (Statement("I am a Villager.", ((2, frozenset({Role.VILLAGER})),)),)
+        assert result == (
+            Statement("I am a Villager.", ((2, frozenset({Role.VILLAGER})),)),
+        )

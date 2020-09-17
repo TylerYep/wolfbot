@@ -23,9 +23,16 @@ class SavedGame:
 
     def load_game(
         self,
-    ) -> Tuple[Tuple[Role, ...], Tuple[Role, ...], Tuple[Statement, ...], Tuple[Player, ...]]:
+    ) -> Tuple[
+        Tuple[Role, ...], Tuple[Role, ...], Tuple[Statement, ...], Tuple[Player, ...]
+    ]:
         """ Returns game data. """
-        return self.original_roles, self.game_roles, self.all_statements, self.player_objs
+        return (
+            self.original_roles,
+            self.game_roles,
+            self.all_statements,
+            self.player_objs,
+        )
 
     def json_repr(self) -> Dict[str, Any]:
         """ Returns json representation of the GameResult. """
@@ -108,7 +115,9 @@ class Statistics:
             metric_fns = metric_fns[-3:]
             sentences = sentences[-3:]
         self.num_games = 0
-        self.metrics = [Metric(metric_fns[i], sentences[i]) for i in range(len(metric_fns))]
+        self.metrics = [
+            Metric(metric_fns[i], sentences[i]) for i in range(len(metric_fns))
+        ]
         self.start_time = time.perf_counter()
         self.end_time = 0.0
 
@@ -143,7 +152,9 @@ class Statistics:
 
     @staticmethod
     def correctness_strict(game_result: GameResult) -> Tuple[int, int]:
-        """ Returns fraction of how many roles were guessed correctly out of all roles. """
+        """
+        Returns fraction of how many roles were guessed correctly out of all roles.
+        """
         correct = 0
         for i in range(const.NUM_ROLES):
             if game_result.actual[i] is game_result.guessed[i]:

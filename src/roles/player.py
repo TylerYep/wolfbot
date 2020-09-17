@@ -34,9 +34,13 @@ class Player:
         partial_statements.append(Statement(zero_sent, priority=StatementLevel.NO_INFO))
 
         if self.role not in const.EVIL_ROLES | frozenset({Role.VILLAGER, Role.HUNTER}):
-            partial_sent = f"I am a {self.role}, but I'm not going to say what I did or saw yet!"
+            partial_sent = (
+                f"I am a {self.role}, but I'm not going to say what I did or saw yet!"
+            )
             knowledge = ((self.player_index, frozenset({self.role})),)
-            statement = Statement(partial_sent, knowledge, priority=StatementLevel.SOME_INFO)
+            statement = Statement(
+                partial_sent, knowledge, priority=StatementLevel.SOME_INFO
+            )
             partial_statements.append(statement)
         return tuple(partial_statements)
 
@@ -56,7 +60,9 @@ class Player:
             Wolf,
         )
 
-        logger.debug(f"[Hidden] Player {self.player_index} ({self.role}) is a {role_type} now!")
+        logger.debug(
+            f"[Hidden] Player {self.player_index} ({self.role}) is a {role_type} now!"
+        )
 
         if role_type is Role.WOLF:
             return Wolf(self.player_index, ())
@@ -75,7 +81,9 @@ class Player:
             rand_center = util.get_center(const.IS_USER[self.player_index])
             return Drunk(self.player_index, rand_center)
 
-        rand_int1 = util.get_player(const.IS_USER[self.player_index], exclude=(self.player_index,))
+        rand_int1 = util.get_player(
+            const.IS_USER[self.player_index], exclude=(self.player_index,)
+        )
         if role_type is Role.MASON:
             return Mason(self.player_index, (self.player_index, rand_int1))
 
@@ -108,7 +116,8 @@ class Player:
 
     def analyze(self, knowledge_base: KnowledgeBase) -> None:
         """ Updates Player state given new information. """
-        # If someone says a Statement that involves you, set your new_role to their theory.
+        # If someone says a Statement that involves you,
+        # set your new_role to their theory.
         if self.role in const.VILLAGE_ROLES:
             solver_result = random.choice(solver(tuple(knowledge_base.all_statements)))
             for i, truth in enumerate(solver_result.path):
@@ -133,13 +142,19 @@ class Player:
 
                 self.statements = get_wolf_statements_random(self.player_index)
 
-        self.statements = tuple([x for x in self.statements if x.priority > self.prev_priority])
+        self.statements = tuple(
+            [x for x in self.statements if x.priority > self.prev_priority]
+        )
 
         # Choose a statement
         next_statement = random.choice(self.statements)
 
         # Evil players try to avoid giving info
-        if const.MULTI_STATEMENT and const.USE_REG_WOLF and self.role in const.EVIL_ROLES:
+        if (
+            const.MULTI_STATEMENT
+            and const.USE_REG_WOLF
+            and self.role in const.EVIL_ROLES
+        ):
             next_statement = min(self.statements, key=lambda x: x.priority)
 
         if const.IS_USER[self.player_index]:
@@ -187,7 +202,8 @@ class Player:
 
         if const.IS_USER[self.player_index]:
             logger.info(
-                f"\nWhich Player is a Wolf? (Enter {no_wolves_guess} if there are no Wolves)"
+                f"\nWhich Player is a Wolf? "
+                f"(Enter {no_wolves_guess} if there are no Wolves)"
             )
             return util.get_player(is_user=True, exclude=(self.player_index,))
 
@@ -214,7 +230,10 @@ class Player:
         return no_wolves_guess
 
     def __eq__(self, other: object) -> bool:
-        """ Checks for equality between Players. Ensure that all fields exist and are identical. """
+        """
+        Checks for equality between Players.
+        Ensure that all fields exist and are identical.
+        """
         assert isinstance(other, Player)
         self_json, other_json = self.json_repr(), other.json_repr()
         is_equal = all(self_json[key] == other_json[key] for key in self_json)

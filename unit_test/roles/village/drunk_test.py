@@ -14,8 +14,8 @@ class TestDrunk:
     @staticmethod
     def test_awake_init(large_game_roles: Tuple[Role, ...]) -> None:
         """
-        Should initialize a Drunk. Note that the player_index of the Drunk is not necessarily
-        the index where the true Drunk is located.
+        Should initialize a Drunk. Note that the player_index of the Drunk
+        is not necessarily the index where the true Drunk is located.
         """
         player_index = 6
         game_roles = list(large_game_roles)
@@ -37,7 +37,7 @@ class TestDrunk:
 
     @staticmethod
     def test_get_drunk_statements() -> None:
-        """ Should execute initialization actions and return the possible statements. """
+        """ Execute initialization actions and return the possible statements. """
         player_index = 4
 
         result = Drunk.get_drunk_statements(player_index, 12)
@@ -53,9 +53,11 @@ class TestDrunk:
 
     @staticmethod
     def test_get_all_statements() -> None:
-        """ Should return the possible statements from all possible initialization actions. """
+        """ Should return possible statements from all possible initializations. """
         player_index = 2
-        set_roles(Role.WOLF, Role.SEER, Role.DRUNK, Role.VILLAGER, Role.ROBBER, Role.WOLF)
+        set_roles(
+            Role.WOLF, Role.SEER, Role.DRUNK, Role.VILLAGER, Role.ROBBER, Role.WOLF
+        )
         const.NUM_PLAYERS = 3
         const.NUM_CENTER = 3
         expected_statements = (

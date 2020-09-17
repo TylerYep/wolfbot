@@ -27,7 +27,9 @@ class Hunter(Player):
     @lru_cache
     def get_hunter_statements(player_index: int) -> Tuple[Statement, ...]:
         """ Gets Hunter Statement. """
-        return (Statement("I am a Hunter.", ((player_index, frozenset({Role.HUNTER})),)),)
+        return (
+            Statement("I am a Hunter.", ((player_index, frozenset({Role.HUNTER})),)),
+        )
 
     @staticmethod
     @lru_cache

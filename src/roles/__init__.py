@@ -4,7 +4,16 @@ from typing import Any
 
 from src.const import Role
 from src.roles.player import Player
-from src.roles.village import Drunk, Hunter, Insomniac, Mason, Robber, Seer, Troublemaker, Villager
+from src.roles.village import (
+    Drunk,
+    Hunter,
+    Insomniac,
+    Mason,
+    Robber,
+    Seer,
+    Troublemaker,
+    Villager,
+)
 from src.roles.werewolf import Minion, Tanner, Wolf
 
 

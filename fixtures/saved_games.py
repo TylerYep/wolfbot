@@ -74,7 +74,11 @@ def example_medium_saved_game(medium_game_roles: Tuple[Role, ...]) -> SavedGame:
 @pytest.fixture
 def example_large_saved_game(large_game_roles: Tuple[Role, ...]) -> SavedGame:
     mason_roles = tuple(
-        [(i, const.ROLE_SET - frozenset({Role.MASON})) for i in range(const.NUM_PLAYERS) if i != 2]
+        [
+            (i, const.ROLE_SET - frozenset({Role.MASON}))
+            for i in range(const.NUM_PLAYERS)
+            if i != 2
+        ]
     )
     return SavedGame(
         (

@@ -7,11 +7,15 @@ from src import const
 from src.const import Role, logger
 
 
-def print_roles(game_roles: Sequence[Role], tag: str, log_level: int = logging.DEBUG) -> None:
+def print_roles(
+    game_roles: Sequence[Role], tag: str, log_level: int = logging.DEBUG
+) -> None:
     """ Formats hidden roles to console. """
+    players = list(game_roles[: const.NUM_PLAYERS])
+    centers = list(game_roles[const.NUM_PLAYERS :])
     role_output = (
-        f"[{tag}] Player roles: {list(game_roles[:const.NUM_PLAYERS])}\n{' ' * (len(tag) + 3)}"
-        f"Center cards: {list(game_roles[const.NUM_PLAYERS:])}\n"
+        f"[{tag}] Player roles: {players}\n{' ' * (len(tag) + 3)}"
+        f"Center cards: {centers}\n"
     )
     logger.log(log_level, role_output.replace("'", ""))
 
@@ -28,7 +32,11 @@ def find_all_player_indices(
 ) -> Tuple[int, ...]:
     """ Util function to find all indices of a given role. """
     return tuple(
-        [i for i in range(const.NUM_PLAYERS) if game_roles[i] is role and i not in exclude]
+        [
+            i
+            for i in range(const.NUM_PLAYERS)
+            if game_roles[i] is role and i not in exclude
+        ]
     )
 
 
@@ -39,7 +47,9 @@ def get_player(is_user: bool, exclude: Tuple[int, ...] = ()) -> int:
         while choice_ind < 0 or choice_ind >= const.NUM_PLAYERS:
             user_input = ""
             while not user_input.isdigit():
-                user_input = input(f"Which player index (0 - {const.NUM_PLAYERS - 1})? ")
+                user_input = input(
+                    f"Which player index (0 - {const.NUM_PLAYERS - 1})? "
+                )
             choice_ind = int(user_input)
 
             if choice_ind in exclude:
@@ -75,8 +85,9 @@ def get_center(is_user: bool, exclude: Tuple[int, ...] = ()) -> int:
 
 def get_numeric_input(end: int, start: Optional[int] = None) -> int:
     """
-    Prompts the user for an index between [start, end). Note that if two parameters are supplied,
-    the order of the parameters flips in order to achieve a Pythonic range() function.
+    Prompts the user for an index between [start, end). Note that
+    if two parameters are supplied, the order of the parameters flips
+    in order to achieve a Pythonic range() function.
     """
     if start is None:
         start = 0

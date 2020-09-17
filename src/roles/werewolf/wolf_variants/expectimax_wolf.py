@@ -26,7 +26,9 @@ def get_expected_statements() -> Dict[int, Tuple[Statement, ...]]:
     return possible
 
 
-def get_statement_expectimax(player_obj: Any, knowledge_base: KnowledgeBase) -> Statement:
+def get_statement_expectimax(
+    player_obj: Any, knowledge_base: KnowledgeBase
+) -> Statement:
     """ Gets Expectimax Wolf statement. """
     prev_statements = tuple(knowledge_base.final_claims)
     expected_statements = get_expected_statements()
@@ -37,7 +39,11 @@ def get_statement_expectimax(player_obj: Any, knowledge_base: KnowledgeBase) -> 
     # Initialize start_state to use all previous statements
     start_state = random.choice(solver(prev_statements))
     best_val, best_move = expectimax(
-        player_obj, expected_statements, prev_statements, start_state, player_obj.player_index
+        player_obj,
+        expected_statements,
+        prev_statements,
+        start_state,
+        player_obj.player_index,
     )
     logger.debug(f"[Hidden] Evaluation Function Score: {best_val}")
     assert best_move is not None

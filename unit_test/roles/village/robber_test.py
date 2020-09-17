@@ -14,8 +14,8 @@ class TestRobber:
     @staticmethod
     def test_awake_init(large_game_roles: Tuple[Role, ...]) -> None:
         """
-        Should initialize a Robber. Note that the player_index of the Robber is not necessarily
-        the index where the true Robber is located.
+        Should initialize a Robber. Note that the player_index of the Robber
+        is not necessarily the index where the true Robber is located.
         """
         player_index = 2
         game_roles = list(large_game_roles)
@@ -40,7 +40,7 @@ class TestRobber:
 
     @staticmethod
     def test_get_robber_statements() -> None:
-        """ Should execute initialization actions and return the possible statements. """
+        """ Execute initialization actions and return the possible statements. """
         player_index = 4
 
         result = Robber.get_robber_statements(player_index, 3, Role.SEER)
@@ -56,7 +56,7 @@ class TestRobber:
 
     @staticmethod
     def test_get_all_statements() -> None:
-        """ Should return the possible statements from all possible initialization actions. """
+        """ Should return possible statements from all possible initializations. """
         player_index = 1
         set_roles(Role.WOLF, Role.ROBBER, Role.VILLAGER)
         const.NUM_PLAYERS = 2

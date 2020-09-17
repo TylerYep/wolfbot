@@ -11,7 +11,9 @@ class TestPlayOneNightWerewolf:
 
     @staticmethod
     def test_one_night_small(
-        caplog: LogCaptureFixture, example_small_game_result: GameResult, override_random: None
+        caplog: LogCaptureFixture,
+        example_small_game_result: GameResult,
+        override_random: None,
     ) -> None:
         """ Correctly play one round of one night werewolf. """
         result = one_night.play_one_night_werewolf()
@@ -21,7 +23,9 @@ class TestPlayOneNightWerewolf:
 
     @staticmethod
     def test_one_night_medium(
-        caplog: LogCaptureFixture, example_medium_game_result: GameResult, override_random: None
+        caplog: LogCaptureFixture,
+        example_medium_game_result: GameResult,
+        override_random: None,
     ) -> None:
         """ Correctly play one round of one night werewolf. """
         result = one_night.play_one_night_werewolf()
@@ -31,7 +35,9 @@ class TestPlayOneNightWerewolf:
 
     @staticmethod
     def test_one_night_large(
-        caplog: LogCaptureFixture, example_large_game_result: GameResult, override_random: None
+        caplog: LogCaptureFixture,
+        example_large_game_result: GameResult,
+        override_random: None,
     ) -> None:
         """ Correctly play one round of one night werewolf. """
         result = one_night.play_one_night_werewolf()

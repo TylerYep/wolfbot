@@ -30,7 +30,8 @@ class Mason(Player):
         logger.debug(f"[Hidden] Masons are at indices: {list(mason_indices)}")
         if is_user:
             logger.info(
-                f"Masons are players: {list(mason_indices)} (You are player {player_index})",
+                f"Masons are players: {list(mason_indices)} "
+                f"(You are player {player_index})",
                 cache=True,
             )
         return cls(player_index, mason_indices)
@@ -49,7 +50,11 @@ class Mason(Player):
                 if ind != player_index:
                     knowledge.append((ind, const.ROLE_SET - frozenset({Role.MASON})))
         else:
-            other_mason = mason_indices[0] if mason_indices[0] != player_index else mason_indices[1]
+            other_mason = (
+                mason_indices[0]
+                if mason_indices[0] != player_index
+                else mason_indices[1]
+            )
             sentence = f"I am a Mason. The other Mason is Player {other_mason}."
             knowledge = [
                 (player_index, frozenset({Role.MASON})),

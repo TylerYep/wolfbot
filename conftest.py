@@ -23,6 +23,7 @@ from fixtures import (  # pylint: disable=unused-import
     example_small_solverstate,
     example_small_solverstate_solved,
     example_statement,
+    large_individual_preds,
     large_knowledge_base,
     large_statement_list,
     medium_knowledge_base,
@@ -52,11 +53,11 @@ def reset_const(seed: int = 0) -> None:
     This fixture sets the constants for ALL unit + integration tests.
 
     IMPORTANT:
-    -   No caching is able to be used between different tests, as some cached functions have
-        side effects because they rely on other constants.
-    -   All random() methods are monkeypatched to always return the same result. This was done
-        to prevent results from changing when new calls to random() are added. Beware of using
-        random() functions in any loop or sequence.
+    -   No caching is able to be used between different tests, as some
+        cached functions have side effects because they rely on other constants.
+    -   All random() methods are monkeypatched to always return the same result.
+        This was done to prevent results from changing when new calls to random()
+        are added. Beware of using random() functions in any loop or sequence.
     """
     random.seed(seed)
     const.logger.set_level(0)
@@ -125,7 +126,9 @@ def small_game_roles() -> Tuple[Role, ...]:
 def medium_game_roles() -> Tuple[Role, ...]:
     const.NUM_PLAYERS = 5
     const.NUM_CENTER = 1
-    set_roles(Role.ROBBER, Role.DRUNK, Role.WOLF, Role.TROUBLEMAKER, Role.SEER, Role.MINION)
+    set_roles(
+        Role.ROBBER, Role.DRUNK, Role.WOLF, Role.TROUBLEMAKER, Role.SEER, Role.MINION
+    )
     return const.ROLES
 
 
@@ -172,51 +175,6 @@ def standard_game_roles() -> Tuple[Role, ...]:
     return const.ROLES
 
 
-@pytest.fixture(scope="session")
-def large_individual_preds() -> Tuple[Tuple[Role, ...], ...]:
-    """ These predictions are long enough to deserve their own fixture. """
-    # fmt: off
-    return (
-        (Role.VILLAGER, Role.MASON, Role.MASON, Role.MINION, Role.VILLAGER, Role.DRUNK,
-            Role.TANNER, Role.TROUBLEMAKER, Role.VILLAGER, Role.WOLF, Role.WOLF,
-            Role.HUNTER, Role.INSOMNIAC, Role.SEER, Role.ROBBER),
-        (Role.VILLAGER, Role.INSOMNIAC, Role.MASON, Role.TANNER, Role.VILLAGER, Role.DRUNK,
-            Role.SEER, Role.MINION, Role.WOLF, Role.VILLAGER, Role.WOLF, Role.HUNTER,
-            Role.TROUBLEMAKER, Role.MASON, Role.ROBBER),
-        (Role.VILLAGER, Role.INSOMNIAC, Role.MASON, Role.TANNER, Role.VILLAGER, Role.DRUNK,
-            Role.SEER, Role.WOLF, Role.MINION, Role.VILLAGER, Role.WOLF, Role.HUNTER,
-            Role.TROUBLEMAKER, Role.MASON, Role.ROBBER),
-        (Role.VILLAGER, Role.INSOMNIAC, Role.MASON, Role.WOLF, Role.VILLAGER, Role.WOLF,
-            Role.SEER, Role.MINION, Role.ROBBER, Role.VILLAGER, Role.TANNER, Role.HUNTER,
-            Role.TROUBLEMAKER, Role.MASON, Role.DRUNK),
-        (Role.VILLAGER, Role.INSOMNIAC, Role.MASON, Role.WOLF, Role.VILLAGER, Role.DRUNK,
-            Role.SEER, Role.WOLF, Role.TANNER, Role.VILLAGER, Role.MINION, Role.HUNTER,
-            Role.TROUBLEMAKER, Role.MASON, Role.ROBBER),
-        (Role.VILLAGER, Role.INSOMNIAC, Role.MASON, Role.TANNER, Role.VILLAGER, Role.DRUNK,
-            Role.MINION, Role.TROUBLEMAKER, Role.VILLAGER, Role.WOLF, Role.WOLF, Role.HUNTER,
-            Role.SEER, Role.MASON, Role.ROBBER),
-        (Role.VILLAGER, Role.INSOMNIAC, Role.MASON, Role.WOLF, Role.VILLAGER, Role.DRUNK,
-            Role.SEER, Role.WOLF, Role.MINION, Role.VILLAGER, Role.TANNER, Role.HUNTER,
-            Role.TROUBLEMAKER, Role.MASON, Role.ROBBER),
-        (Role.VILLAGER, Role.MASON, Role.MASON, Role.WOLF, Role.VILLAGER, Role.DRUNK,
-            Role.TANNER, Role.TROUBLEMAKER, Role.VILLAGER, Role.MINION, Role.WOLF,
-            Role.HUNTER, Role.INSOMNIAC, Role.SEER, Role.ROBBER),
-        (Role.VILLAGER, Role.WOLF, Role.MASON, Role.MINION, Role.VILLAGER, Role.TANNER,
-            Role.WOLF, Role.TROUBLEMAKER, Role.VILLAGER, Role.SEER, Role.MASON,
-            Role.ROBBER, Role.HUNTER, Role.DRUNK, Role.INSOMNIAC),
-        (Role.VILLAGER, Role.INSOMNIAC, Role.MASON, Role.TANNER, Role.VILLAGER, Role.DRUNK,
-            Role.MINION, Role.TROUBLEMAKER, Role.VILLAGER, Role.WOLF, Role.WOLF, Role.HUNTER,
-            Role.MASON, Role.SEER, Role.ROBBER),
-        (Role.VILLAGER, Role.TROUBLEMAKER, Role.MASON, Role.WOLF, Role.VILLAGER, Role.WOLF,
-            Role.MINION, Role.TANNER, Role.ROBBER, Role.VILLAGER, Role.SEER, Role.HUNTER,
-            Role.INSOMNIAC, Role.MASON, Role.DRUNK),
-        (Role.VILLAGER, Role.INSOMNIAC, Role.MASON, Role.MINION, Role.VILLAGER, Role.DRUNK,
-            Role.SEER, Role.TANNER, Role.WOLF, Role.VILLAGER, Role.WOLF, Role.HUNTER,
-            Role.TROUBLEMAKER, Role.MASON, Role.ROBBER)
-    )
-    # fmt: on
-
-
 @pytest.fixture
 def override_random(monkeypatch: MonkeyPatch, seed: int = 0) -> None:
     """ Overrides all functions from the built-in random module. """
@@ -224,8 +182,8 @@ def override_random(monkeypatch: MonkeyPatch, seed: int = 0) -> None:
     def fix_seed(orig_function: Callable[..., Any]) -> Callable[..., Any]:
         """
         Returns the exact same function, but adds a call to random.seed(0) first.
-        Ensures idempotency, which means that, for example, multiple random.shuffle() calls
-        always produce the same result.
+        Ensures idempotency, which means that, for example, multiple
+        random.shuffle() calls always produce the same result.
         """
 
         def fixed_seed_version(param: Any, *args: Any, **kwargs: Any) -> Any:
@@ -248,12 +206,14 @@ def override_random(monkeypatch: MonkeyPatch, seed: int = 0) -> None:
 
 def override_input(inputs: List[str]) -> Callable[[str], str]:
     """
-    Returns a new input() function that accepts a string and repeatedly pops strings from
-    the front the provided list and returns them as calls to input().
+    Returns a new input() function that accepts a string and repeatedly pops strings
+    from the front the provided list and returns them as calls to input().
     """
 
     def _input(prompt: str) -> str:
-        """ The new input() function. Prints a prompt and then modifies the provided list. """
+        """
+        The new input() function. Prints a prompt and then modifies the provided list.
+        """
         print(prompt)
         if not inputs:
             raise RuntimeError("Not enough inputs provided.")

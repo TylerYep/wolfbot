@@ -31,7 +31,10 @@ def get_wolf_state(
     """ Fetches Wolf statement from Game. """
     states, statements = [], []
     for wolf_ind in game.wolf_inds:
-        state = (game.wolf_inds, tuple([s.sentence for s in game.statements[:wolf_ind]]))
+        state = (
+            game.wolf_inds,
+            tuple([s.sentence for s in game.statements[:wolf_ind]]),
+        )
         states.append(state)
         statements.append(game.statements[wolf_ind].sentence)
     return states, statements
@@ -41,7 +44,9 @@ def remap_keys(
     mapping: DefaultDict[Any, DefaultDict[Any, float]]
 ) -> DefaultDict[Any, DefaultDict[Any, float]]:
     """ Remaps keys for jsonifying. """
-    exp_dict: DefaultDict[Any, DefaultDict[Any, float]] = defaultdict(lambda: defaultdict(float))
+    exp_dict: DefaultDict[Any, DefaultDict[Any, float]] = defaultdict(
+        lambda: defaultdict(float)
+    )
     for k, val in mapping.items():
         exp_dict[str(k)] = val
     return exp_dict
@@ -64,9 +69,9 @@ def train(folder: str, eta: float = 0.01) -> None:
                         test()
                     states, statements = get_wolf_state(game)
                     for state, statement in zip(states, statements):
-                        experience_dict[state][statement] = (1 - eta) * experience_dict[state][
-                            statement
-                        ] + eta * evaluate(game)
+                        experience_dict[state][statement] = (1 - eta) * experience_dict[
+                            state
+                        ][statement] + eta * evaluate(game)
                         count_dict[(state)] += 1
                     counter += 1
 

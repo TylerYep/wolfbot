@@ -34,14 +34,17 @@ class SolverState:
         if not self.role_counts:
             self.role_counts = self.get_role_counts()
 
-    def is_consistent(self, statement: Statement, assumption: bool = True) -> Optional[SolverState]:
+    def is_consistent(
+        self, statement: Statement, assumption: bool = True
+    ) -> Optional[SolverState]:
         """
         Returns the new state if the statement is consistent with state,
         otherwise returns an empty state.
         @param assumption: whether we are assuming the statement is True or False
 
         Warning: only creates a new_role_counts dict if the role_counts dict changes.
-        Otherwise the new state will share the same role_counts dict as the previous state.
+        Otherwise the new state will share the same role_counts
+        dict as the previous state.
         """
         new_possible_roles = list(self.possible_roles)
         new_role_counts = None
@@ -71,11 +74,12 @@ class SolverState:
 
     def get_role_counts(self) -> Dict[Role, int]:
         """
-        Ensures that all current sets in possible_roles_list that contain only one element
-        are still within the bounds of the ROLE_COUNTS dict. E.g.
+        Ensures that all current sets in possible_roles_list that contain only
+        one element are still within the bounds of the ROLE_COUNTS dict. E.g.
         {'Villager': 3, 'Robber': 0, 'Seer': 0, 'Wolf': 1}
 
-        Does not benefit from @cached_property because it is only called once per instance.
+        Does not benefit from @cached_property, because the function
+        is only called once per instance.
         """
         if not self.possible_roles:
             return {}
@@ -106,7 +110,9 @@ def switching_solver(
     """
     num_statements = len(statements)
 
-    def _switch_recurse(solutions: List[SolverState], state: SolverState, ind: int = 0) -> None:
+    def _switch_recurse(
+        solutions: List[SolverState], state: SolverState, ind: int = 0
+    ) -> None:
         """ ind = index of statement being considered. """
         curr_max = solutions[0].count_true
         if ind == num_statements:
@@ -134,7 +140,7 @@ def switching_solver(
 
 
 def cached_solver(statements: Tuple[Statement, ...]) -> int:
-    """ Returns maximium number of statements that can be true from a list of Statements. """
+    """ Returns max number of statements that can be true from a list of Statements. """
     num_statements = len(statements)
 
     def _cache_recurse(state: SolverState, ind: int = 0) -> int:

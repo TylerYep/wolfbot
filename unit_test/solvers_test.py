@@ -41,7 +41,9 @@ class TestIsConsistent:
     def test_is_consistent_on_empty_state(
         example_small_solverstate: SolverState, example_statement: Statement
     ) -> None:
-        """ Should check a new statement against an empty SolverState for consistency. """
+        """
+        Should check a new statement against an empty SolverState for consistency.
+        """
         start_state = SolverState()
 
         result = start_state.is_consistent(example_statement)
@@ -58,12 +60,16 @@ class TestIsConsistent:
         assert invalid_state is None
 
     @staticmethod
-    def test_is_consistent_on_existing_state(example_medium_solverstate: SolverState) -> None:
+    def test_is_consistent_on_existing_state(
+        example_medium_solverstate: SolverState,
+    ) -> None:
         """
         Should check a new statement against accumulated statements for consistency.
         Should not change result.path - that is done in the switching_solver function.
         """
-        possible_roles = (frozenset({Role.SEER}),) + (const.ROLE_SET,) * (const.NUM_ROLES - 1)
+        possible_roles = (frozenset({Role.SEER}),) + (const.ROLE_SET,) * (
+            const.NUM_ROLES - 1
+        )
         example_solverstate = SolverState(possible_roles, path=(True,))
         new_statement = Statement(
             "next", ((2, frozenset({Role.DRUNK})),), ((SwitchPriority.DRUNK, 2, 5),)
@@ -74,11 +80,16 @@ class TestIsConsistent:
         assert result == example_medium_solverstate
 
     @staticmethod
-    def test_is_consistent_deepcopy_mechanics(example_medium_solverstate: SolverState) -> None:
+    def test_is_consistent_deepcopy_mechanics(
+        example_medium_solverstate: SolverState,
+    ) -> None:
         """
-        Modifying one SolverState should not affect other SolverStates created by is_consistent.
+        Modifying one SolverState should not affect
+        other SolverStates created by is_consistent.
         """
-        possible_roles = (frozenset({Role.SEER}),) + (const.ROLE_SET,) * (const.NUM_ROLES - 1)
+        possible_roles = (frozenset({Role.SEER}),) + (const.ROLE_SET,) * (
+            const.NUM_ROLES - 1
+        )
         example = SolverState(possible_roles, path=(True,))
         new_statement = Statement(
             "next", ((2, frozenset({Role.DRUNK})),), ((SwitchPriority.DRUNK, 2, 5),)
@@ -122,7 +133,8 @@ class TestSwitchingSolver:
 
     @staticmethod
     def test_solver_small(
-        small_statement_list: Tuple[Statement], example_small_solverstate_solved: SolverState
+        small_statement_list: Tuple[Statement],
+        example_small_solverstate_solved: SolverState,
     ) -> None:
         """ Should return a SolverState with the most likely solution. """
         result = solvers.switching_solver(small_statement_list)
@@ -131,7 +143,8 @@ class TestSwitchingSolver:
 
     @staticmethod
     def test_solver_medium(
-        medium_statement_list: Tuple[Statement], example_medium_solverstate_solved: SolverState
+        medium_statement_list: Tuple[Statement],
+        example_medium_solverstate_solved: SolverState,
     ) -> None:
         """ Should return a SolverState with the most likely solution. """
         result = solvers.switching_solver(medium_statement_list)
@@ -140,24 +153,38 @@ class TestSwitchingSolver:
 
     @staticmethod
     def test_solver_medium_known_true(
-        medium_statement_list: Tuple[Statement, ...], medium_game_roles: Tuple[Role, ...]
+        medium_statement_list: Tuple[Statement, ...],
+        medium_game_roles: Tuple[Role, ...],
     ) -> None:
         """ Should return a SolverState with the most likely solution. """
         possible_roles = (
-            frozenset({Role.DRUNK, Role.MINION, Role.TROUBLEMAKER, Role.WOLF, Role.ROBBER}),
+            frozenset(
+                {Role.DRUNK, Role.MINION, Role.TROUBLEMAKER, Role.WOLF, Role.ROBBER}
+            ),
             frozenset({Role.SEER}),
             frozenset({Role.DRUNK}),
             frozenset({Role.MINION}),
-            frozenset({Role.DRUNK, Role.MINION, Role.TROUBLEMAKER, Role.WOLF, Role.ROBBER}),
             frozenset(
-                {Role.ROBBER, Role.MINION, Role.TROUBLEMAKER, Role.SEER, Role.WOLF, Role.DRUNK}
+                {Role.DRUNK, Role.MINION, Role.TROUBLEMAKER, Role.WOLF, Role.ROBBER}
+            ),
+            frozenset(
+                {
+                    Role.ROBBER,
+                    Role.MINION,
+                    Role.TROUBLEMAKER,
+                    Role.SEER,
+                    Role.WOLF,
+                    Role.DRUNK,
+                }
             ),
         )
 
         result = solvers.switching_solver(medium_statement_list, (1,))
 
         assert result[0] == SolverState(
-            possible_roles, ((SwitchPriority.DRUNK, 2, 5),), (False, True, True, False, False)
+            possible_roles,
+            ((SwitchPriority.DRUNK, 2, 5),),
+            (False, True, True, False, False),
         )
 
     @staticmethod
@@ -172,7 +199,8 @@ class TestSwitchingSolver:
 
     @staticmethod
     def test_solver_large(
-        large_statement_list: Tuple[Statement, ...], example_large_solverstate: SolverState
+        large_statement_list: Tuple[Statement, ...],
+        example_large_solverstate: SolverState,
     ) -> None:
         """ Should return a SolverState with the most likely solution. """
         result = solvers.switching_solver(large_statement_list)
@@ -181,7 +209,9 @@ class TestSwitchingSolver:
 
     @staticmethod
     def test_get_role_counts() -> None:
-        """ Should return True if there is a a dict with counts of all certain roles. """
+        """
+        Should return True if there is a a dict with counts of all certain roles.
+        """
         set_roles(Role.WOLF, Role.SEER, Role.VILLAGER, Role.ROBBER, Role.VILLAGER)
         possible_roles_list = (
             frozenset({Role.VILLAGER}),

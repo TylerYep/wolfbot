@@ -35,7 +35,8 @@ class Seer(Player):
                 logger.info("Do you want to see 1 player card or 2 center cards?")
                 choose_center = bool(util.get_numeric_input(1, 3) - 1)
             else:
-                # Pick two center cards more often, because that generally yields higher win rates.
+                # Pick two center cards more often, because
+                # that generally yields higher win rates.
                 choose_center = util.weighted_coin_flip(const.CENTER_SEER_PROB)
 
             if choose_center:
@@ -44,16 +45,20 @@ class Seer(Player):
                 peek_char1 = game_roles[peek_ind1]
                 peek_char2 = game_roles[peek_ind2]
                 logger.debug(
-                    f"[Hidden] Seer sees that Center {peek_ind1 - const.NUM_PLAYERS} is a "
-                    f"{peek_char1}, Center {peek_ind2 - const.NUM_PLAYERS} is a {peek_char2}."
+                    f"[Hidden] Seer sees that Center {peek_ind1 - const.NUM_PLAYERS} "
+                    f"is a {peek_char1}, "
+                    f"Center {peek_ind2 - const.NUM_PLAYERS} is a {peek_char2}."
                 )
                 if is_user:
                     logger.info(
-                        f"You see that Center {peek_ind1 - const.NUM_PLAYERS} is a {peek_char1}, "
-                        f"and Center {peek_ind2 - const.NUM_PLAYERS} is a {peek_char2}.",
+                        f"You see that Center {peek_ind1 - const.NUM_PLAYERS} "
+                        f"is a {peek_char1}, and "
+                        f"Center {peek_ind2 - const.NUM_PLAYERS} is a {peek_char2}.",
                         cache=True,
                     )
-                return cls(player_index, (peek_ind1, peek_char1), (peek_ind2, peek_char2))
+                return cls(
+                    player_index, (peek_ind1, peek_char1), (peek_ind2, peek_char2)
+                )
 
         peek_ind = util.get_player(is_user, (player_index,))
         peek_char = game_roles[peek_ind]
@@ -73,11 +78,15 @@ class Seer(Player):
         seen_index, seen_role = choice_1
         seen_index2, seen_role2 = choice_2
         sentence = f"I am a Seer and I saw that Player {seen_index} was a {seen_role}."
-        knowledge = [(player_index, frozenset({Role.SEER})), (seen_index, frozenset({seen_role}))]
+        knowledge = [
+            (player_index, frozenset({Role.SEER})),
+            (seen_index, frozenset({seen_role})),
+        ]
         if seen_index2 is not None and seen_role2 is not None:
             sentence = (
-                f"I am a Seer and I saw that Center {seen_index - const.NUM_PLAYERS} was a "
-                f"{seen_role} and that Center {seen_index2 - const.NUM_PLAYERS} was a {seen_role2}."
+                f"I am a Seer and I saw that Center {seen_index - const.NUM_PLAYERS} "
+                f"was a {seen_role} and that "
+                f"Center {seen_index2 - const.NUM_PLAYERS} was a {seen_role2}."
             )
             knowledge.append((seen_index2, frozenset({seen_role2})))
         return (Statement(sentence, tuple(knowledge)),)
@@ -88,7 +97,9 @@ class Seer(Player):
         """ Required for all player types. Returns all possible role statements. """
         statements: Tuple[Statement, ...] = ()
         for role in const.SORTED_ROLE_SET:
-            for i in range(const.NUM_PLAYERS):  # OK: 'Hey, I'm a Seer and I saw another Seer...'
+            for i in range(
+                const.NUM_PLAYERS
+            ):  # OK: 'Hey, I'm a Seer and I saw another Seer...'
                 statements += Seer.get_seer_statements(player_index, (i, role))
         # Wolf using these usually gives themselves away
         role_set = list(const.SORTED_ROLE_SET)
@@ -100,7 +111,9 @@ class Seer(Player):
                         if role1 != role2 or const.ROLE_COUNTS[role1] >= 2:
                             choice_1 = (cent1 + const.NUM_PLAYERS, role1)
                             choice_2 = (cent2 + const.NUM_PLAYERS, role2)
-                            statements += Seer.get_seer_statements(player_index, choice_1, choice_2)
+                            statements += Seer.get_seer_statements(
+                                player_index, choice_1, choice_2
+                            )
         return statements
 
     def json_repr(self) -> Dict[str, Any]:

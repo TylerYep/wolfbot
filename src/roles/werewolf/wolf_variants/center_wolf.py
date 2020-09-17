@@ -3,7 +3,15 @@ from typing import Any, Tuple
 
 from src import const
 from src.const import Role
-from src.roles.village import Drunk, Hunter, Insomniac, Robber, Seer, Troublemaker, Villager
+from src.roles.village import (
+    Drunk,
+    Hunter,
+    Insomniac,
+    Robber,
+    Seer,
+    Troublemaker,
+    Villager,
+)
 from src.statements import KnowledgeBase, Statement
 
 
@@ -33,7 +41,9 @@ def get_center_wolf_statements(
         for i in range(num_stated):
             for j in range(i + 1, num_stated):
                 if j not in wolf_indices:
-                    statements += Troublemaker.get_troublemaker_statements(player_index, i, j)
+                    statements += Troublemaker.get_troublemaker_statements(
+                        player_index, i, j
+                    )
     elif center_role is Role.DRUNK:
         statements += Drunk.get_drunk_statements(player_index, center_index)
     elif center_role is Role.SEER:

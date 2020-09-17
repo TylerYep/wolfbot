@@ -64,7 +64,7 @@ class TestSeer:
 
     @staticmethod
     def test_get_seer_statements() -> None:
-        """ Should execute initialization actions and return the possible statements. """
+        """ Execute initialization actions and return the possible statements. """
         player_index = 1
 
         result = Seer.get_seer_statements(player_index, (6, Role.ROBBER))
@@ -78,7 +78,7 @@ class TestSeer:
 
     @staticmethod
     def test_get_all_statements() -> None:
-        """ Should return the possible statements from all possible initialization actions. """
+        """ Should return possible statements from all possible initializations. """
         player_index = 1
         set_roles(Role.WOLF, Role.SEER, Role.VILLAGER, Role.WOLF)
         const.NUM_PLAYERS = 2
@@ -131,7 +131,10 @@ class TestSeer:
                 ),
             ),
             Statement(
-                ("I am a Seer and I saw that Center 0 was a Wolf and that Center 1 was a Wolf."),
+                (
+                    "I am a Seer and I saw that Center 0 was a Wolf "
+                    "and that Center 1 was a Wolf."
+                ),
                 (
                     (1, frozenset({Role.SEER})),
                     (2, frozenset({Role.WOLF})),

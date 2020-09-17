@@ -58,7 +58,7 @@ class TestWolf:
     def test_get_random_statement_medium(
         medium_game_roles: Tuple[Role, ...], medium_knowledge_base: KnowledgeBase
     ) -> None:
-        """ Should execute initialization actions and return the possible statements. """
+        """ Execute initialization actions and return the possible statements. """
         player_index = 4
         wolf = Wolf(player_index, (1, player_index))
 
@@ -71,7 +71,7 @@ class TestWolf:
     def test_get_reg_wolf_statement_medium(
         medium_game_roles: Tuple[Role, ...], medium_knowledge_base: KnowledgeBase
     ) -> None:
-        """ Should execute initialization actions and return the possible statements. """
+        """ Execute initialization actions and return the possible statements. """
         const.USE_REG_WOLF = True
         player_index = 4
         wolf = Wolf(player_index, (1, player_index))
@@ -85,7 +85,7 @@ class TestWolf:
     def test_get_center_statement_medium(
         medium_game_roles: Tuple[Role, ...], medium_knowledge_base: KnowledgeBase
     ) -> None:
-        """ Should execute initialization actions and return the possible statements. """
+        """ Execute initialization actions and return the possible statements. """
         const.USE_REG_WOLF = True
         player_index = 2
         wolf = Wolf(player_index, (1, player_index), 5, Role.ROBBER)
@@ -99,7 +99,7 @@ class TestWolf:
     def test_get_random_statement_large(
         large_game_roles: Tuple[Role, ...], large_knowledge_base: KnowledgeBase
     ) -> None:
-        """ Should execute initialization actions and return the possible statements. """
+        """ Execute initialization actions and return the possible statements. """
         player_index = 4
         wolf = Wolf(player_index, (1, player_index))
 
@@ -112,7 +112,7 @@ class TestWolf:
     def test_get_reg_wolf_statement_large(
         large_game_roles: Tuple[Role, ...], large_knowledge_base: KnowledgeBase
     ) -> None:
-        """ Should execute initialization actions and return the possible statements. """
+        """ Execute initialization actions and return the possible statements. """
         const.USE_REG_WOLF = True
         player_index = 4
         wolf = Wolf(player_index, (1, player_index))

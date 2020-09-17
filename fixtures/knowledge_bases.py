@@ -12,7 +12,9 @@ def small_knowledge_base(small_statement_list: Tuple[Statement, ...]) -> Knowled
 
 
 @pytest.fixture
-def medium_knowledge_base(medium_statement_list: Tuple[Statement, ...]) -> KnowledgeBase:
+def medium_knowledge_base(
+    medium_statement_list: Tuple[Statement, ...]
+) -> KnowledgeBase:
     return KnowledgeBase.from_statement_list(medium_statement_list)
 
 

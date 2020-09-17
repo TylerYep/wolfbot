@@ -18,7 +18,8 @@ def make_evil_prediction(solution_arr: Tuple[SolverState, ...]) -> Tuple[Role, .
     """
     Makes the Wolf character's prediction for the game.
     """
-    # TODO Find better than random solution when the Wolf gets contradicted by a later statement.
+    # TODO Find better than random solution when the
+    # Wolf gets contradicted by a later statement.
     if not solution_arr[0].path:
         return make_random_prediction()
 
@@ -35,10 +36,14 @@ def make_unrestricted_prediction(solution: SolverState) -> Tuple[Role, ...]:
     # if len(solution.possible_roles) != const.NUM_ROLES:
     #     return []
     all_role_guesses, curr_role_counts = get_basic_guesses(solution)
-    solved = recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts), False)
+    solved = recurse_assign(
+        solution, list(all_role_guesses), dict(curr_role_counts), False
+    )
     switch_dict = get_switch_dict(solution)
     final_guesses = [solved[switch_dict[i]] for i in range(len(solved))]
-    assert len(final_guesses) == const.NUM_ROLES, "Could not find unrestricted assignment of roles."
+    assert (
+        len(final_guesses) == const.NUM_ROLES
+    ), "Could not find unrestricted assignment of roles."
     return tuple(final_guesses)
 
 
@@ -64,7 +69,9 @@ def make_prediction(
             return make_random_prediction()
         solution_index = index
         all_role_guesses, curr_role_counts = get_basic_guesses(solution)
-        if solved := recurse_assign(solution, list(all_role_guesses), dict(curr_role_counts)):
+        if solved := recurse_assign(
+            solution, list(all_role_guesses), dict(curr_role_counts)
+        ):
             break
 
     # Assume all players that could lie are lying.
@@ -73,17 +80,24 @@ def make_prediction(
             solution_index = index
             all_role_guesses, curr_role_counts = get_basic_guesses(solution)
             if solved := recurse_assign(
-                solution, list(all_role_guesses), dict(curr_role_counts), restrict_possible=False
+                solution,
+                list(all_role_guesses),
+                dict(curr_role_counts),
+                restrict_possible=False,
             ):
                 break
 
     switch_dict = get_switch_dict(solution_arr[solution_index])
     final_guesses = [solved[switch_dict[i]] for i in range(len(solved))]
-    assert len(final_guesses) == const.NUM_ROLES, "Could not find consistent assignment of roles."
+    assert (
+        len(final_guesses) == const.NUM_ROLES
+    ), "Could not find consistent assignment of roles."
     return tuple(final_guesses)
 
 
-def get_basic_guesses(solution: SolverState) -> Tuple[Tuple[Role, ...], Dict[Role, int]]:
+def get_basic_guesses(
+    solution: SolverState,
+) -> Tuple[Tuple[Role, ...], Dict[Role, int]]:
     """
     Populates the basic set of predictions, or adds the empty string if the
     possible roles set is not of size 1. For each statement, take the

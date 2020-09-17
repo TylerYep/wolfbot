@@ -27,7 +27,11 @@ class Villager(Player):
     @lru_cache
     def get_villager_statements(player_index: int) -> Tuple[Statement, ...]:
         """ Gets Villager Statements. """
-        return (Statement("I am a Villager.", ((player_index, frozenset({Role.VILLAGER})),)),)
+        return (
+            Statement(
+                "I am a Villager.", ((player_index, frozenset({Role.VILLAGER})),)
+            ),
+        )
 
     @staticmethod
     @lru_cache

@@ -19,7 +19,8 @@ Switch = Tuple[SwitchPriority, int, int]
 class KnowledgeBase:
     """
     Class for storing all available knowledge shared by all players.
-    Used during one_night, to avoid repeated computation and to help players make decisions.
+    Used during one_night, to avoid repeated computation and
+    to help players make decisions.
     """
 
     all_statements: List[Statement] = field(default_factory=list)
@@ -39,7 +40,9 @@ class KnowledgeBase:
         self.final_claims[curr_ind] = statement
 
     @classmethod
-    def from_statement_list(cls, statement_list: Tuple[Statement, ...]) -> KnowledgeBase:
+    def from_statement_list(
+        cls, statement_list: Tuple[Statement, ...]
+    ) -> KnowledgeBase:
         """ Create a new statement from a Statement list. """
         knowledge_base = cls()
         for statement in statement_list:
@@ -112,9 +115,9 @@ class Statement:
 
     def __hash__(self) -> int:
         """
-        The sentence field currently uniquely identifies the fields of a statement, however
-        this could change with the introduction of statements (e.g. user-generated) in which
-        different sentences carry the same knowledge.
+        The sentence field currently uniquely identifies the fields of a statement,
+        however this could change with the introduction of statements
+        (e.g. user-generated) in which different sentences carry the same knowledge.
         """
         return hash(self.sentence)
 

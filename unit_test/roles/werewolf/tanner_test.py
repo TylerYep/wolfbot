@@ -26,7 +26,7 @@ class TestTanner:
     def test_get_random_statement(
         large_game_roles: Tuple[Role, ...], large_knowledge_base: KnowledgeBase
     ) -> None:
-        """ Should execute initialization actions and return the possible statements. """
+        """ Execute initialization actions and return the possible statements. """
         player_index = 1
         tanner = Tanner(player_index)
 

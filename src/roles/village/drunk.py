@@ -37,9 +37,13 @@ class Drunk(Player):
 
     @staticmethod
     @lru_cache
-    def get_drunk_statements(player_index: int, choice_ind: int) -> Tuple[Statement, ...]:
+    def get_drunk_statements(
+        player_index: int, choice_ind: int
+    ) -> Tuple[Statement, ...]:
         """ Gets Drunk Statement. """
-        sentence = f"I am a Drunk and I swapped with Center {choice_ind - const.NUM_PLAYERS}."
+        sentence = (
+            f"I am a Drunk and I swapped with Center {choice_ind - const.NUM_PLAYERS}."
+        )
         knowledge = ((player_index, frozenset({Role.DRUNK})),)
         switches = ((SwitchPriority.DRUNK, player_index, choice_ind),)
         return (Statement(sentence, knowledge, switches),)
@@ -50,7 +54,9 @@ class Drunk(Player):
         """ Required for all player types. Returns all possible role statements. """
         statements: Tuple[Statement, ...] = ()
         for k in range(const.NUM_CENTER):
-            statements += Drunk.get_drunk_statements(player_index, const.NUM_PLAYERS + k)
+            statements += Drunk.get_drunk_statements(
+                player_index, const.NUM_PLAYERS + k
+            )
         return statements
 
     def json_repr(self) -> Dict[str, Any]:

@@ -14,14 +14,17 @@ class TestPrintRoles:
     """ Tests for the print_roles function. """
 
     @staticmethod
-    def test_print_roles(caplog: LogCaptureFixture, small_game_roles: Tuple[Role, ...]) -> None:
+    def test_print_roles(
+        caplog: LogCaptureFixture, small_game_roles: Tuple[Role, ...]
+    ) -> None:
         """ Correctly print and format roles. """
         shuffled_roles = [Role.SEER, Role.VILLAGER, Role.WOLF, Role.ROBBER]
 
         util.print_roles(shuffled_roles, "Hidden")
 
         expected = (
-            f"[Hidden] Player roles: [Seer, Villager, Wolf]\n{' ' * 9}Center cards: [Robber]\n"
+            f"[Hidden] Player roles: [Seer, Villager, Wolf]\n"
+            f"{' ' * 9}Center cards: [Robber]\n"
         )
         verify_output_string(caplog, expected)
 

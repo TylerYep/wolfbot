@@ -58,17 +58,27 @@ def play_one_night_werewolf(save_replay: bool = True) -> GameResult:
 
     orig_wolf_inds = util.find_all_player_indices(original_roles, Role.WOLF)
     indiv_preds = get_individual_preds(player_objs, all_statements)
-    most_freq_guesses, guessed_wolf_inds, vote_inds = get_voting_result(player_objs, indiv_preds)
+    most_freq_guesses, guessed_wolf_inds, vote_inds = get_voting_result(
+        player_objs, indiv_preds
+    )
     util.print_roles(game_roles, "Solution", logging.INFO)
     util.print_roles(most_freq_guesses, "WolfBot")
     _ = get_confidence(indiv_preds)
-    winning_team = eval_winning_team(tuple(game_roles), list(guessed_wolf_inds), vote_inds)
+    winning_team = eval_winning_team(
+        tuple(game_roles), list(guessed_wolf_inds), vote_inds
+    )
     return GameResult(
-        tuple(game_roles), most_freq_guesses, orig_wolf_inds, winning_team, all_statements
+        tuple(game_roles),
+        most_freq_guesses,
+        orig_wolf_inds,
+        winning_team,
+        all_statements,
     )
 
 
-def get_player_multistatements(player_objs: Tuple[Player, ...]) -> Tuple[Statement, ...]:
+def get_player_multistatements(
+    player_objs: Tuple[Player, ...]
+) -> Tuple[Statement, ...]:
     """
     Returns array of each player's statements.
     TODO players should choose with what priority they want to speak
@@ -86,7 +96,8 @@ def get_player_multistatements(player_objs: Tuple[Player, ...]) -> Tuple[Stateme
             logger.info(f"Player {curr_ind}: {statement.sentence}")
 
             if statement.priority < StatementLevel.PRIMARY:
-                # New statements have priority at least NUM_PLAYERS to ensure everyone spoke once
+                # New statements have priority at least NUM_PLAYERS
+                # to ensure everyone spoke once
                 new_priority = const.NUM_PLAYERS + random.randrange(len(heap) + 1)
                 heapq.heappush(heap, (new_priority, curr_ind))
 
@@ -106,8 +117,12 @@ def get_player_statements(player_objs: Tuple[Player, ...]) -> Tuple[Statement, .
     return tuple(knowledge_base.final_claims)
 
 
-def night_falls(game_roles: List[Role], original_roles: Tuple[Role, ...]) -> Tuple[Player, ...]:
-    """ Initialize role object list and perform all switching and peeking actions to begin. """
+def night_falls(
+    game_roles: List[Role], original_roles: Tuple[Role, ...]
+) -> Tuple[Player, ...]:
+    """
+    Initialize role object list and perform all switching and peeking actions.
+    """
     assert game_roles == list(original_roles)
     logger.info("\n-- NIGHT FALLS --\n")
     util.print_roles(game_roles, "Hidden")
@@ -138,14 +153,18 @@ def get_individual_preds(
 ) -> Tuple[Tuple[Role, ...], ...]:
     """ Let each player make a prediction of every player's true role. """
     logger.trace("\n[Trace] Predictions:")
-    all_preds = [player_objs[i].predict(all_statements) for i in range(const.NUM_PLAYERS)]
+    all_preds = [
+        player_objs[i].predict(all_statements) for i in range(const.NUM_PLAYERS)
+    ]
     number_length = len(str(const.NUM_ROLES))
     for i, pred in enumerate(all_preds):
         logger.trace(f"Player {i:{number_length}}: {pred}".replace("'", ""))
     return tuple(all_preds)
 
 
-def get_confidence(all_role_guesses_arr: Tuple[Tuple[Role, ...], ...]) -> Tuple[float, ...]:
+def get_confidence(
+    all_role_guesses_arr: Tuple[Tuple[Role, ...], ...]
+) -> Tuple[float, ...]:
     """
     Creates confidence levels for each prediction and takes most
     common role guess array as the final guess for that index.
@@ -191,7 +210,9 @@ def get_voting_result(
 
 
 def eval_winning_team(
-    game_roles: Tuple[Role, ...], guessed_wolf_inds: List[int], vote_inds: Tuple[int, ...]
+    game_roles: Tuple[Role, ...],
+    guessed_wolf_inds: List[int],
+    vote_inds: Tuple[int, ...],
 ) -> Team:
     """ Decide which team won based on the final vote. """
     killed_wolf, killed_tanner, villager_win = False, False, False
@@ -205,11 +226,15 @@ def eval_winning_team(
     else:
         # Hunter kills the player he voted for if he dies.
         for i in guessed_wolf_inds:
-            logger.info(f"Player {i} was chosen as a Wolf.\nPlayer {i} was a {game_roles[i]}!\n")
+            logger.info(
+                f"Player {i} was chosen as a Wolf.\nPlayer {i} was a {game_roles[i]}!\n"
+            )
             if game_roles[i] is Role.HUNTER:
                 if vote_inds[i] not in guessed_wolf_inds:
                     guessed_wolf_inds.append(vote_inds[i])
-                logger.info(f"(Player {i}) Hunter died and killed Player {vote_inds[i]} too!\n")
+                logger.info(
+                    f"(Player {i}) Hunter died and killed Player {vote_inds[i]} too!\n"
+                )
             elif game_roles[i] is Role.WOLF:
                 killed_wolf = True
             elif game_roles[i] is Role.TANNER:
@@ -229,16 +254,18 @@ def eval_winning_team(
 
 def override_players(game_roles: List[Role]) -> None:
     """
-    Makes changes to the randomized set of game_roles using the specifications in const.py.
-    For example, we can swap a Wolf to the const.FIXED_WOLF_INDEX, or
-    choose what player role we want to have.
+    Makes changes to the randomized set of game_roles using the
+    specifications in const.py. For example, we can swap a Wolf to
+    the const.FIXED_WOLF_INDEX, or choose what player role we want to have.
     """
     if const.INTERACTIVE_MODE:
         if const.USER_ROLE is Role.NONE:
             user_index = random.randrange(const.NUM_PLAYERS)
             const.IS_USER[user_index] = True
         else:
-            if role_indices := util.find_all_player_indices(game_roles, const.USER_ROLE):
+            if role_indices := util.find_all_player_indices(
+                game_roles, const.USER_ROLE
+            ):
                 new_user_ind = random.choice(role_indices)
                 const.IS_USER[new_user_ind] = True
             else:

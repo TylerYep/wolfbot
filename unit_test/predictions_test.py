@@ -44,7 +44,9 @@ class TestMakeEvilPrediction:
         )
 
     @staticmethod
-    def test_evil_prediction(example_medium_solverstate_list: Tuple[SolverState, ...]) -> None:
+    def test_evil_prediction(
+        example_medium_solverstate_list: Tuple[SolverState, ...]
+    ) -> None:
         """ Should give a random prediction when an empty SolverState is passed in. """
         result = predictions.make_evil_prediction(example_medium_solverstate_list)
 
@@ -79,7 +81,10 @@ class TestMakeUnrestrictedPrediction:
 
     @staticmethod
     def test_unrestricted_prediction(example_medium_solverstate: SolverState) -> None:
-        """ Should return a list of predictions without requiring adherence to possible sets. """
+        """
+        Should return a list of predictions without
+        requiring adherence to possible sets.
+        """
         result = predictions.make_unrestricted_prediction(example_medium_solverstate)
 
         assert result == (
@@ -96,9 +101,13 @@ class TestMakePrediction:
     """ Tests for the make_prediction function. """
 
     @staticmethod
-    def test_make_evil_prediction(example_medium_solverstate_list: Tuple[SolverState, ...]) -> None:
+    def test_make_evil_prediction(
+        example_medium_solverstate_list: Tuple[SolverState, ...]
+    ) -> None:
         """ Should return evil prediction when is_evil=True. """
-        result = predictions.make_prediction(example_medium_solverstate_list, is_evil=True)
+        result = predictions.make_prediction(
+            example_medium_solverstate_list, is_evil=True
+        )
 
         assert result == (
             Role.SEER,
@@ -110,9 +119,13 @@ class TestMakePrediction:
         )
 
     @staticmethod
-    def test_make_prediction(example_medium_solverstate_list: Tuple[SolverState, ...]) -> None:
+    def test_make_prediction(
+        example_medium_solverstate_list: Tuple[SolverState, ...]
+    ) -> None:
         """ Should return valid prediction for villager players. """
-        result = predictions.make_prediction(example_medium_solverstate_list, is_evil=False)
+        result = predictions.make_prediction(
+            example_medium_solverstate_list, is_evil=False
+        )
 
         assert result == (
             Role.ROBBER,
@@ -242,24 +255,39 @@ class TestRecurseAssign:
             Role.WOLF: 2,
         }
 
-        result = predictions.recurse_assign(example_medium_solverstate, role_guesses, counts)
+        result = predictions.recurse_assign(
+            example_medium_solverstate, role_guesses, counts
+        )
 
         assert result == []
 
     @staticmethod
     def test_small_predict_solution(example_small_solverstate: SolverState) -> None:
-        """ Should return solved list if there is an arrangement of valid assignments. """
+        """
+        Should return solved list if there is an arrangement of valid assignments.
+        """
         role_guesses = [Role.SEER, Role.NONE, Role.ROBBER]
         counts = {Role.ROBBER: 0, Role.SEER: 0, Role.VILLAGER: 1}
 
-        result = predictions.recurse_assign(example_small_solverstate, role_guesses, counts)
+        result = predictions.recurse_assign(
+            example_small_solverstate, role_guesses, counts
+        )
 
         assert result == [Role.SEER, Role.VILLAGER, Role.ROBBER]
 
     @staticmethod
     def test_medium_predict_solution(example_medium_solverstate: SolverState) -> None:
-        """ Should return solved list if there is an arrangement of valid assignments. """
-        role_guesses = [Role.SEER, Role.NONE, Role.DRUNK, Role.NONE, Role.NONE, Role.NONE]
+        """
+        Should return solved list if there is an arrangement of valid assignments.
+        """
+        role_guesses = [
+            Role.SEER,
+            Role.NONE,
+            Role.DRUNK,
+            Role.NONE,
+            Role.NONE,
+            Role.NONE,
+        ]
         counts = {
             Role.DRUNK: 0,
             Role.MINION: 1,
@@ -269,7 +297,9 @@ class TestRecurseAssign:
             Role.WOLF: 1,
         }
 
-        result = predictions.recurse_assign(example_medium_solverstate, role_guesses, counts)
+        result = predictions.recurse_assign(
+            example_medium_solverstate, role_guesses, counts
+        )
 
         assert result == [
             Role.SEER,
@@ -282,7 +312,9 @@ class TestRecurseAssign:
 
     @staticmethod
     def test_large_predict_solution(example_large_solverstate: SolverState) -> None:
-        """ Should return solved list if there is an arrangement of valid assignments. """
+        """
+        Should return solved list if there is an arrangement of valid assignments.
+        """
         role_guesses = [
             Role.ROBBER,
             Role.NONE,
@@ -306,7 +338,9 @@ class TestRecurseAssign:
             Role.WOLF: 2,
         }
 
-        result = predictions.recurse_assign(example_large_solverstate, role_guesses, counts)
+        result = predictions.recurse_assign(
+            example_large_solverstate, role_guesses, counts
+        )
 
         assert result == [
             Role.ROBBER,

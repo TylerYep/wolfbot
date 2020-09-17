@@ -32,7 +32,8 @@ def init_program(is_unit_test: bool) -> argparse.Namespace:
     # fmt: off
     parser.add_argument("--num_games", "-n", type=int, default=1,
                         help="specify number of games")
-    parser.add_argument("--log_level", "-l", type=str, choices=["trace", "debug", "info", "warn"],
+    parser.add_argument("--log_level", "-l", type=str,
+                        choices=["trace", "debug", "info", "warn"],
                         help="set logging level")
     parser.add_argument("--replay", "-r", action="store_true", default=False,
                         help="replay previous game")
@@ -46,8 +47,9 @@ def init_program(is_unit_test: bool) -> argparse.Namespace:
 
 def get_counts(arr: Sequence[T]) -> Dict[T, int]:
     """
-    Returns a dict of counts of each item in a list. When there are fewer than ~40 items, using
-    a regular dictionary is faster than using a Counter.
+    Returns a dict of counts of each item in a list.
+    When there are fewer than ~40 items, using a regular
+    dictionary is faster than using a Counter.
     """
     if len(arr) < 40:
         counts: Dict[T, int] = {}
@@ -94,7 +96,9 @@ class Role(Enum):
         return self.value
 
     @lru_cache
-    def __format__(self, formatstr: str) -> str:  # pylint: disable=invalid-format-returned
+    def __format__(  # pylint: disable=invalid-format-returned
+        self, formatstr: str
+    ) -> str:
         del formatstr
         assert isinstance(self.value, str)
         return self.value

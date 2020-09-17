@@ -18,9 +18,13 @@ class TestKnowledgeBase:
         knowledge_base.add(example_statement, 0)
         knowledge_base.add(next_statement, 1)
 
-        not_yet_spoken = statements.Statement("", priority=StatementLevel.NOT_YET_SPOKEN)
+        not_yet_spoken = statements.Statement(
+            "", priority=StatementLevel.NOT_YET_SPOKEN
+        )
         assert knowledge_base.all_statements == [example_statement, next_statement]
-        assert knowledge_base.stated_roles == [Role.ROBBER, Role.VILLAGER] + ([Role.NONE] * 10)
+        assert knowledge_base.stated_roles == [Role.ROBBER, Role.VILLAGER] + (
+            [Role.NONE] * 10
+        )
         assert knowledge_base.final_claims == (
             [example_statement, next_statement] + ([not_yet_spoken] * 10)
         )
@@ -54,10 +58,17 @@ class TestStatement:
         assert result is False
 
     @staticmethod
-    def test_negation(large_game_roles: Tuple[Role, ...], example_statement: Statement) -> None:
-        """ Negated statements only contain the speaker and the opposite of the first clause. """
+    def test_negation(
+        large_game_roles: Tuple[Role, ...], example_statement: Statement
+    ) -> None:
+        """
+        Negated statements only contain the speaker and
+        the opposite of the first clause.
+        """
         expected = Statement(
-            "NOT - test", ((2, const.ROLE_SET - frozenset({Role.ROBBER})),), speaker=Role.ROBBER
+            "NOT - test",
+            ((2, const.ROLE_SET - frozenset({Role.ROBBER})),),
+            speaker=Role.ROBBER,
         )
 
         result = example_statement.negation
@@ -65,7 +76,9 @@ class TestStatement:
         assert str(result) == str(expected)
 
     @staticmethod
-    def test_negate_all(large_game_roles: Tuple[Role, ...], example_statement: Statement) -> None:
+    def test_negate_all(
+        large_game_roles: Tuple[Role, ...], example_statement: Statement
+    ) -> None:
         """ Negate-all statements contain the opposite of all clauses. """
         expected = Statement(
             "NOT - test",

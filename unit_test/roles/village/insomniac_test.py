@@ -30,7 +30,7 @@ class TestInsomniac:
 
     @staticmethod
     def test_get_insomniac_statements() -> None:
-        """ Should execute initialization actions and return the possible statements. """
+        """ Execute initialization actions and return the possible statements. """
         player_index = 0
         expected = (
             Statement(
@@ -48,7 +48,7 @@ class TestInsomniac:
 
     @staticmethod
     def test_get_all_statements() -> None:
-        """ Should return the possible statements from all possible initialization actions. """
+        """ Should return possible statements from all possible initializations. """
         player_index = 2
         set_roles(Role.WOLF, Role.INSOMNIAC, Role.SEER)
         expected = (

@@ -17,7 +17,10 @@ def expectimax(
     """
     Runs expectimax on the list of statements and current state up to a max depth.
     """
-    if ind == const.NUM_PLAYERS or ind - player_obj.player_index == const.EXPECTIMAX_DEPTH:
+    if (
+        ind == const.NUM_PLAYERS
+        or ind - player_obj.player_index == const.EXPECTIMAX_DEPTH
+    ):
         return player_obj.eval_fn(statement_list), None
 
     next_statements = player_obj.statements
@@ -37,7 +40,11 @@ def expectimax(
         new_state = state if player_obj.is_evil() else state.is_consistent(statement)
         if new_state is not None:
             val, _ = expectimax(
-                player_obj, expected_statements, statement_list + (statement,), new_state, ind + 1
+                player_obj,
+                expected_statements,
+                statement_list + (statement,),
+                new_state,
+                ind + 1,
             )
             vals.append(val)
 

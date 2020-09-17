@@ -21,7 +21,9 @@ class TestWolfBotEncoderDecoder:
         input_obj = [Role.WOLF, Role.VILLAGER]
 
         result = json.dumps(input_obj, cls=WolfBotEncoder)
-        assert result == '[{"type": "Role", "data": "Wolf"}, {"type": "Role", "data": "Villager"}]'
+        assert result == (
+            '[{"type": "Role", "data": "Wolf"}, {"type": "Role", "data": "Villager"}]'
+        )
 
         reverted_result = json.loads(result, cls=WolfBotDecoder)
         assert reverted_result == input_obj
@@ -33,8 +35,8 @@ class TestWolfBotEncoderDecoder:
 
         result = json.dumps(input_obj, cls=WolfBotEncoder)
         assert result == (
-            '{"type": "Set",'
-            ' "data": [{"type": "Role", "data": "Villager"}, {"type": "Role", "data": "Wolf"}]}'
+            '{"type": "Set", "data": [{"type": "Role", "data": "Villager"}, '
+            '{"type": "Role", "data": "Wolf"}]}'
         )
 
         reverted_result = json.loads(result, cls=WolfBotDecoder)
@@ -48,7 +50,8 @@ class TestWolfBotEncoderDecoder:
         result = json.dumps(input_obj, cls=WolfBotEncoder)
         assert result == (
             '{"type": "FrozenSet",'
-            ' "data": [{"type": "Role", "data": "Villager"}, {"type": "Role", "data": "Wolf"}]}'
+            ' "data": [{"type": "Role", "data": "Villager"}, '
+            '{"type": "Role", "data": "Wolf"}]}'
         )
 
         reverted_result = json.loads(result, cls=WolfBotDecoder)
@@ -115,10 +118,14 @@ class TestWolfBotEncoderDecoder:
     def test_default_saved_game(example_small_saved_game: SavedGame) -> None:
         """ Should convert objects of different types to JSON. """
         player_objs = [Villager(0), Robber(1, 2, Role.SEER), Seer(2, (1, Role.ROBBER))]
-        player_strs = ", ".join([json.dumps(player, cls=WolfBotEncoder) for player in player_objs])
+        player_strs = ", ".join(
+            [json.dumps(player, cls=WolfBotEncoder) for player in player_objs]
+        )
         statement_objs = [
             Statement(
-                "I am a Villager.", ((0, frozenset({Role.VILLAGER})),), speaker=Role.VILLAGER
+                "I am a Villager.",
+                ((0, frozenset({Role.VILLAGER})),),
+                speaker=Role.VILLAGER,
             ),
             Statement(
                 "I am a Robber and I swapped with Player 2. I am now a Seer.",

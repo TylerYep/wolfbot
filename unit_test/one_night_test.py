@@ -15,7 +15,8 @@ class TestGetIndividualPreds:
 
     @staticmethod
     def test_medium_individual_preds(
-        medium_game_roles: Tuple[Role, ...], medium_statement_list: Tuple[Statement, ...]
+        medium_game_roles: Tuple[Role, ...],
+        medium_statement_list: Tuple[Statement, ...],
     ) -> None:
         """ Should get the individual predictions for all players. """
         player_objs: Tuple[Player, ...] = (
@@ -29,11 +30,46 @@ class TestGetIndividualPreds:
         result = one_night.get_individual_preds(player_objs, medium_statement_list)
 
         assert result == (
-            (Role.SEER, Role.MINION, Role.TROUBLEMAKER, Role.DRUNK, Role.WOLF, Role.ROBBER),
-            (Role.MINION, Role.SEER, Role.TROUBLEMAKER, Role.WOLF, Role.ROBBER, Role.DRUNK),
-            (Role.SEER, Role.MINION, Role.TROUBLEMAKER, Role.DRUNK, Role.WOLF, Role.ROBBER),
-            (Role.SEER, Role.MINION, Role.TROUBLEMAKER, Role.DRUNK, Role.WOLF, Role.ROBBER),
-            (Role.MINION, Role.WOLF, Role.TROUBLEMAKER, Role.DRUNK, Role.SEER, Role.ROBBER),
+            (
+                Role.SEER,
+                Role.MINION,
+                Role.TROUBLEMAKER,
+                Role.DRUNK,
+                Role.WOLF,
+                Role.ROBBER,
+            ),
+            (
+                Role.MINION,
+                Role.SEER,
+                Role.TROUBLEMAKER,
+                Role.WOLF,
+                Role.ROBBER,
+                Role.DRUNK,
+            ),
+            (
+                Role.SEER,
+                Role.MINION,
+                Role.TROUBLEMAKER,
+                Role.DRUNK,
+                Role.WOLF,
+                Role.ROBBER,
+            ),
+            (
+                Role.SEER,
+                Role.MINION,
+                Role.TROUBLEMAKER,
+                Role.DRUNK,
+                Role.WOLF,
+                Role.ROBBER,
+            ),
+            (
+                Role.MINION,
+                Role.WOLF,
+                Role.TROUBLEMAKER,
+                Role.DRUNK,
+                Role.SEER,
+                Role.ROBBER,
+            ),
         )
 
 
@@ -56,11 +92,46 @@ class TestConfidence:
     def test_medium_confidence(medium_game_roles: Tuple[Role, ...]) -> None:
         """ Should get voting results from the individual predictions. """
         indiv_preds = (
-            (Role.SEER, Role.WOLF, Role.TROUBLEMAKER, Role.DRUNK, Role.MINION, Role.ROBBER),
-            (Role.WOLF, Role.SEER, Role.ROBBER, Role.MINION, Role.TROUBLEMAKER, Role.DRUNK),
-            (Role.SEER, Role.WOLF, Role.TROUBLEMAKER, Role.DRUNK, Role.MINION, Role.ROBBER),
-            (Role.WOLF, Role.MINION, Role.TROUBLEMAKER, Role.DRUNK, Role.SEER, Role.ROBBER),
-            (Role.WOLF, Role.MINION, Role.TROUBLEMAKER, Role.DRUNK, Role.SEER, Role.ROBBER),
+            (
+                Role.SEER,
+                Role.WOLF,
+                Role.TROUBLEMAKER,
+                Role.DRUNK,
+                Role.MINION,
+                Role.ROBBER,
+            ),
+            (
+                Role.WOLF,
+                Role.SEER,
+                Role.ROBBER,
+                Role.MINION,
+                Role.TROUBLEMAKER,
+                Role.DRUNK,
+            ),
+            (
+                Role.SEER,
+                Role.WOLF,
+                Role.TROUBLEMAKER,
+                Role.DRUNK,
+                Role.MINION,
+                Role.ROBBER,
+            ),
+            (
+                Role.WOLF,
+                Role.MINION,
+                Role.TROUBLEMAKER,
+                Role.DRUNK,
+                Role.SEER,
+                Role.ROBBER,
+            ),
+            (
+                Role.WOLF,
+                Role.MINION,
+                Role.TROUBLEMAKER,
+                Role.DRUNK,
+                Role.SEER,
+                Role.ROBBER,
+            ),
         )
 
         result = one_night.get_confidence(indiv_preds)
@@ -69,7 +140,8 @@ class TestConfidence:
 
     @staticmethod
     def test_large_confidence(
-        large_game_roles: Tuple[Role, ...], large_individual_preds: Tuple[Tuple[Role, ...], ...]
+        large_game_roles: Tuple[Role, ...],
+        large_individual_preds: Tuple[Tuple[Role, ...], ...],
     ) -> None:
         """ Should get voting results from the individual predictions. """
         result = one_night.get_confidence(large_individual_preds)
@@ -115,18 +187,60 @@ class TestGetVotingResult:
     ) -> None:
         """ Should get voting results from the individual predictions. """
         indiv_preds = (
-            (Role.SEER, Role.WOLF, Role.TROUBLEMAKER, Role.DRUNK, Role.MINION, Role.ROBBER),
-            (Role.WOLF, Role.SEER, Role.ROBBER, Role.MINION, Role.TROUBLEMAKER, Role.DRUNK),
-            (Role.SEER, Role.WOLF, Role.TROUBLEMAKER, Role.DRUNK, Role.MINION, Role.ROBBER),
-            (Role.WOLF, Role.MINION, Role.TROUBLEMAKER, Role.DRUNK, Role.SEER, Role.ROBBER),
-            (Role.WOLF, Role.MINION, Role.TROUBLEMAKER, Role.DRUNK, Role.SEER, Role.ROBBER),
+            (
+                Role.SEER,
+                Role.WOLF,
+                Role.TROUBLEMAKER,
+                Role.DRUNK,
+                Role.MINION,
+                Role.ROBBER,
+            ),
+            (
+                Role.WOLF,
+                Role.SEER,
+                Role.ROBBER,
+                Role.MINION,
+                Role.TROUBLEMAKER,
+                Role.DRUNK,
+            ),
+            (
+                Role.SEER,
+                Role.WOLF,
+                Role.TROUBLEMAKER,
+                Role.DRUNK,
+                Role.MINION,
+                Role.ROBBER,
+            ),
+            (
+                Role.WOLF,
+                Role.MINION,
+                Role.TROUBLEMAKER,
+                Role.DRUNK,
+                Role.SEER,
+                Role.ROBBER,
+            ),
+            (
+                Role.WOLF,
+                Role.MINION,
+                Role.TROUBLEMAKER,
+                Role.DRUNK,
+                Role.SEER,
+                Role.ROBBER,
+            ),
         )
         player_list = tuple([Player(i) for i in range(len(medium_game_roles))])
 
         result = one_night.get_voting_result(player_list, indiv_preds)
 
         assert result == (
-            (Role.SEER, Role.WOLF, Role.TROUBLEMAKER, Role.DRUNK, Role.MINION, Role.ROBBER),
+            (
+                Role.SEER,
+                Role.WOLF,
+                Role.TROUBLEMAKER,
+                Role.DRUNK,
+                Role.MINION,
+                Role.ROBBER,
+            ),
             (0,),
             (1, 0, 1, 0, 0),
         )
@@ -164,19 +278,25 @@ class TestGetVotingResult:
             (10,),
             (10, 10, 7, 5, 7, 10, 7, 10, 6, 10, 3, 10),
         )
-        verify_output_string(caplog, "\nVote Array: [0, 0, 0, 1, 0, 1, 1, 3, 0, 0, 6, 0]\n")
+        verify_output_string(
+            caplog, "\nVote Array: [0, 0, 0, 1, 0, 1, 1, 3, 0, 0, 6, 0]\n"
+        )
 
 
 class TestEvalWinningTeam:
     """ Tests for the eval_winning_team function. """
 
     @staticmethod
-    def test_werewolf_wins(caplog: LogCaptureFixture, medium_game_roles: Tuple[Role, ...]) -> None:
+    def test_werewolf_wins(
+        caplog: LogCaptureFixture, medium_game_roles: Tuple[Role, ...]
+    ) -> None:
         """ Should declare Werewolf victory if no wolves are found, but one exists. """
         guessed_wolf_inds = list(range(const.NUM_PLAYERS))
         vote_inds = (1,) * const.NUM_PLAYERS
 
-        result = one_night.eval_winning_team(medium_game_roles, guessed_wolf_inds, vote_inds)
+        result = one_night.eval_winning_team(
+            medium_game_roles, guessed_wolf_inds, vote_inds
+        )
 
         expected = (
             "No wolves were found.",
@@ -190,13 +310,21 @@ class TestEvalWinningTeam:
     def test_village_wins_no_wolf(
         caplog: LogCaptureFixture, small_game_roles: Tuple[Role, ...]
     ) -> None:
-        """ Should declare Villager victory if no wolves are found, and there are none. """
+        """
+        Should declare Villager victory if no wolves are found, and there are none.
+        """
         guessed_wolf_inds = list(range(const.NUM_PLAYERS))
         vote_inds = (1,) * const.NUM_PLAYERS
 
-        result = one_night.eval_winning_team(small_game_roles, guessed_wolf_inds, vote_inds)
+        result = one_night.eval_winning_team(
+            small_game_roles, guessed_wolf_inds, vote_inds
+        )
 
-        expected = ("No wolves were found.", "That was correct!\n", "Village Team wins!")
+        expected = (
+            "No wolves were found.",
+            "That was correct!\n",
+            "Village Team wins!",
+        )
         assert result is Team.VILLAGE
         verify_output(caplog, expected)
 
@@ -204,11 +332,15 @@ class TestEvalWinningTeam:
     def test_village_wins_found_wolf(
         caplog: LogCaptureFixture, medium_game_roles: Tuple[Role, ...]
     ) -> None:
-        """ Should declare Villager victory if no wolves are found, and there are none. """
+        """
+        Should declare Villager victory if no wolves are found, and there are none.
+        """
         guessed_wolf_inds = [2]
         vote_inds = (1, 2, 2, 2, 1)
 
-        result = one_night.eval_winning_team(medium_game_roles, guessed_wolf_inds, vote_inds)
+        result = one_night.eval_winning_team(
+            medium_game_roles, guessed_wolf_inds, vote_inds
+        )
 
         expected = (
             "Player 2 was chosen as a Wolf.",
@@ -219,7 +351,9 @@ class TestEvalWinningTeam:
         verify_output(caplog, expected)
 
     @staticmethod
-    def test_hunter_wins(caplog: LogCaptureFixture, large_game_roles: Tuple[Role, ...]) -> None:
+    def test_hunter_wins(
+        caplog: LogCaptureFixture, large_game_roles: Tuple[Role, ...]
+    ) -> None:
         """
         Should declare Village victory if no wolves are found,
         Hunter is killed, and Hunter voted for a true Wolf.
@@ -244,12 +378,18 @@ class TestEvalWinningTeam:
         verify_output(caplog, expected)
 
     @staticmethod
-    def test_tanner_wins(caplog: LogCaptureFixture, large_game_roles: Tuple[Role, ...]) -> None:
-        """ Should declare Tanner victory if no wolves are found, and Tanner was chosen. """
+    def test_tanner_wins(
+        caplog: LogCaptureFixture, large_game_roles: Tuple[Role, ...]
+    ) -> None:
+        """
+        Should declare Tanner victory if no wolves are found, and Tanner was chosen.
+        """
         guessed_wolf_inds = [2, 5]
         vote_inds = (8, 7, 1, 9, 5, 10, 5, 3, 3, 10, 10, 3)
 
-        result = one_night.eval_winning_team(large_game_roles, guessed_wolf_inds, vote_inds)
+        result = one_night.eval_winning_team(
+            large_game_roles, guessed_wolf_inds, vote_inds
+        )
 
         expected = (
             "Player 2 was chosen as a Wolf.",
