@@ -114,6 +114,12 @@ class Wolf(Player):
 
     def json_repr(self) -> Dict[str, Any]:
         """ Gets JSON representation of a Wolf player. """
+        # TODO Python 3.9
+        # return super().json_repr() | {
+        #    "wolf_indices": self.wolf_indices,
+        #    "center_index": self.center_index,
+        #    "center_role": self.center_role,
+        # }
         json_dict = super().json_repr()
         json_dict.update(
             {

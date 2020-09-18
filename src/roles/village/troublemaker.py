@@ -74,6 +74,10 @@ class Troublemaker(Player):
 
     def json_repr(self) -> Dict[str, Any]:
         """ Gets JSON representation of a Troublemaker player. """
+        # TODO Python 3.9
+        # return super().json_repr() | {
+        #    "choice_ind1": self.choice_ind1, "choice_ind2": self.choice_ind2
+        # }
         json_dict = super().json_repr()
         json_dict.update(
             {"choice_ind1": self.choice_ind1, "choice_ind2": self.choice_ind2}

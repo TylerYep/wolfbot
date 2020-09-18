@@ -118,6 +118,10 @@ class Seer(Player):
 
     def json_repr(self) -> Dict[str, Any]:
         """ Gets JSON representation of a Seer player. """
+        # TODO Python 3.9
+        # return super().json_repr() | {
+        #    "choice_1": self.choice_1, "choice_2": self.choice_2
+        # }
         json_dict = super().json_repr()
         json_dict.update({"choice_1": self.choice_1, "choice_2": self.choice_2})
         return json_dict

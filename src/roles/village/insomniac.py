@@ -70,6 +70,8 @@ class Insomniac(Player):
 
     def json_repr(self) -> Dict[str, Any]:
         """ Gets JSON representation of an Insomniac player. """
+        # TODO Python 3.9
+        # return super().json_repr() | {"new_role": self.new_role}
         json_dict = super().json_repr()
         json_dict.update({"new_role": self.new_role})
         return json_dict
