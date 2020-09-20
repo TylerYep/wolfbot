@@ -43,8 +43,8 @@ class WolfBotDecoder(json.JSONDecoder):
         if obj_type == "Team":
             return Team(obj["data"])
         if obj_type == "Statement":
-            obj["knowledge"] = tuple([tuple(know) for know in obj["knowledge"]])
-            obj["switches"] = tuple([tuple(switch) for switch in obj["switches"]])
+            obj["knowledge"] = tuple(tuple(know) for know in obj["knowledge"])
+            obj["switches"] = tuple(tuple(switch) for switch in obj["switches"])
             return get_object_initializer(obj_type)(**obj)
         if obj_type == "GameResult":
             for key, value in obj.items():
@@ -55,7 +55,7 @@ class WolfBotDecoder(json.JSONDecoder):
             for key, value in obj.items():
                 obj[key] = tuple(value)
             return get_object_initializer(obj_type)(**obj)
-        if obj_type in {rol.value for rol in const.ROLE_SET}:
+        if obj_type in (rol.value for rol in const.ROLE_SET):
             if obj_type == Role.SEER.value:
                 obj["choice_1"] = tuple(obj["choice_1"])
                 obj["choice_2"] = tuple(obj["choice_2"])

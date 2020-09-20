@@ -27,6 +27,39 @@ class Player:
         if const.MULTI_STATEMENT:
             self.statements += self.get_partial_statements()
 
+    def __eq__(self, other: object) -> bool:
+        """
+        Checks for equality between Players.
+        Ensure that all fields exist and are identical.
+        """
+        assert isinstance(other, Player)
+        self_json, other_json = self.json_repr(), other.json_repr()
+        is_equal = all(self_json[key] == other_json[key] for key in self_json)
+        return self.__dict__ == other.__dict__ and is_equal
+
+    def __repr__(self) -> str:
+        """ Gets string representation of a Player object. """
+        attrs = ""
+        for key, item in self.json_repr().items():
+            if key != "type":
+                if key != "player_index":
+                    attrs += f"{key}="
+                attrs += f"{item}, "
+        return f"{self.role}({attrs[:-2]})"
+
+    @classmethod
+    def awake_init(
+        cls, player_index: int, game_roles: List[Role], original_roles: Tuple[Role, ...]
+    ) -> Player:
+        """ Initializes Player and performs their nighttime actions. """
+        raise NotImplementedError
+
+    @staticmethod
+    @lru_cache
+    def get_all_statements(player_index: int) -> Tuple[Statement, ...]:
+        """ Required for all player types. Returns all possible role statements. """
+        raise NotImplementedError
+
     def get_partial_statements(self) -> Tuple[Statement, ...]:
         """ Gets generic partial statements for each player. """
         partial_statements = []
@@ -101,19 +134,6 @@ class Player:
 
         raise TypeError(f"Role Type: {role_type} is not a valid role.")
 
-    @classmethod
-    def awake_init(
-        cls, player_index: int, game_roles: List[Role], original_roles: Tuple[Role, ...]
-    ) -> Player:
-        """ Initializes Player and performs their nighttime actions. """
-        raise NotImplementedError
-
-    @staticmethod
-    @lru_cache
-    def get_all_statements(player_index: int) -> Tuple[Statement, ...]:
-        """ Required for all player types. Returns all possible role statements. """
-        raise NotImplementedError
-
     def analyze(self, knowledge_base: KnowledgeBase) -> None:
         """ Updates Player state given new information. """
         # If someone says a Statement that involves you,
@@ -143,7 +163,7 @@ class Player:
                 self.statements = get_wolf_statements_random(self.player_index)
 
         self.statements = tuple(
-            [x for x in self.statements if x.priority > self.prev_priority]
+            x for x in self.statements if x.priority > self.prev_priority
         )
 
         # Choose a statement
@@ -229,26 +249,6 @@ class Player:
 
         return no_wolves_guess
 
-    def __eq__(self, other: object) -> bool:
-        """
-        Checks for equality between Players.
-        Ensure that all fields exist and are identical.
-        """
-        assert isinstance(other, Player)
-        self_json, other_json = self.json_repr(), other.json_repr()
-        is_equal = all(self_json[key] == other_json[key] for key in self_json)
-        return self.__dict__ == other.__dict__ and is_equal
-
     def json_repr(self) -> Dict[str, Any]:
         """ Gets JSON representation of a Player object. """
         return {"type": self.role.value, "player_index": self.player_index}
-
-    def __repr__(self) -> str:
-        """ Gets string representation of a Player object. """
-        attrs = ""
-        for key, item in self.json_repr().items():
-            if key != "type":
-                if key != "player_index":
-                    attrs += f"{key}="
-                attrs += f"{item}, "
-        return f"{self.role}({attrs[:-2]})"

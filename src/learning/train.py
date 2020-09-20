@@ -33,7 +33,7 @@ def get_wolf_state(
     for wolf_ind in game.wolf_inds:
         state = (
             game.wolf_inds,
-            tuple([s.sentence for s in game.statements[:wolf_ind]]),
+            tuple(s.sentence for s in game.statements[:wolf_ind]),
         )
         states.append(state)
         statements.append(game.statements[wolf_ind].sentence)

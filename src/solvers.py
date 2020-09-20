@@ -34,6 +34,13 @@ class SolverState:
         if not self.role_counts:
             self.role_counts = self.get_role_counts()
 
+    def __hash__(self) -> int:
+        """
+        Not recommended to hash SolverStates because each possible_roles is very large,
+        but SolverStates are hashable nonetheless.
+        """
+        return hash((self.possible_roles, self.switches, self.path))
+
     def is_consistent(
         self, statement: Statement, assumption: bool = True
     ) -> Optional[SolverState]:
@@ -90,13 +97,6 @@ class SolverState:
                 assert counts_dict[single_role] > 0
                 counts_dict[single_role] -= 1
         return counts_dict
-
-    def __hash__(self) -> int:
-        """
-        Not recommended to hash SolverStates because each possible_roles is very large,
-        but SolverStates are hashable nonetheless.
-        """
-        return hash((self.possible_roles, self.switches, self.path))
 
 
 def switching_solver(

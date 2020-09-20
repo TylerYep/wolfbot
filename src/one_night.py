@@ -263,10 +263,8 @@ def override_players(game_roles: List[Role]) -> None:
             user_index = random.randrange(const.NUM_PLAYERS)
             const.IS_USER[user_index] = True
         else:
-            if role_indices := util.find_all_player_indices(
-                game_roles, const.USER_ROLE
-            ):
-                new_user_ind = random.choice(role_indices)
+            if role_inds := util.find_all_player_indices(game_roles, const.USER_ROLE):
+                new_user_ind = random.choice(role_inds)
                 const.IS_USER[new_user_ind] = True
             else:
                 role_ind = game_roles.index(const.USER_ROLE)

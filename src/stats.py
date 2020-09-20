@@ -126,30 +126,6 @@ class Statistics:
         assert isinstance(other, Statistics)
         return self.get_metric_results(False) == other.get_metric_results(False)
 
-    def add_result(self, game_result: GameResult) -> None:
-        """ Updates the Statistics object with a GameResult. """
-        self.num_games += 1
-        for metric in self.metrics:
-            metric.update(game_result)
-        self.end_time = time.perf_counter() - self.start_time
-
-    def get_metric_results(self, include_time: bool = True) -> Dict[str, float]:
-        """
-        Returns the dictionary of metric name to metric name.
-        """
-        results = {metric.function.__name__: metric.average for metric in self.metrics}
-        results["num_games"] = self.num_games
-        if include_time:
-            results["time_elapsed"] = self.end_time
-        return results
-
-    def print_statistics(self) -> None:
-        """ Outputs overall statistics of inputed game results. """
-        logger.warning(f"\nNumber of Games: {self.num_games}")
-        for metric in self.metrics:
-            logger.warning(f"{metric.sentence}{metric.average}")
-        print(f"\nTime Elapsed: {self.end_time}")
-
     @staticmethod
     def correctness_strict(game_result: GameResult) -> Tuple[int, int]:
         """
@@ -225,3 +201,27 @@ class Statistics:
     def werewolf_wins(game_result: GameResult) -> Tuple[int, int]:
         """ Returns 1/1 if the Werewolf team won. """
         return int(game_result.winning_team is Team.WEREWOLF), 1
+
+    def add_result(self, game_result: GameResult) -> None:
+        """ Updates the Statistics object with a GameResult. """
+        self.num_games += 1
+        for metric in self.metrics:
+            metric.update(game_result)
+        self.end_time = time.perf_counter() - self.start_time
+
+    def get_metric_results(self, include_time: bool = True) -> Dict[str, float]:
+        """
+        Returns the dictionary of metric name to metric name.
+        """
+        results = {metric.function.__name__: metric.average for metric in self.metrics}
+        results["num_games"] = self.num_games
+        if include_time:
+            results["time_elapsed"] = self.end_time
+        return results
+
+    def print_statistics(self) -> None:
+        """ Outputs overall statistics of inputed game results. """
+        logger.warning(f"\nNumber of Games: {self.num_games}")
+        for metric in self.metrics:
+            logger.warning(f"{metric.sentence}{metric.average}")
+        print(f"\nTime Elapsed: {self.end_time}")

@@ -33,12 +33,6 @@ class KnowledgeBase:
         zero_priority = StatementLevel.NOT_YET_SPOKEN
         self.final_claims = [Statement("", priority=zero_priority)] * const.NUM_PLAYERS
 
-    def add(self, statement: Statement, curr_ind: int) -> None:
-        """ Adds a new statement to the knowledge base. """
-        self.all_statements.append(statement)
-        self.stated_roles[curr_ind] = statement.speaker
-        self.final_claims[curr_ind] = statement
-
     @classmethod
     def from_statement_list(
         cls, statement_list: Tuple[Statement, ...]
@@ -49,6 +43,12 @@ class KnowledgeBase:
             speaker_index = statement.knowledge[0][0]
             knowledge_base.add(statement, speaker_index)
         return knowledge_base
+
+    def add(self, statement: Statement, curr_ind: int) -> None:
+        """ Adds a new statement to the knowledge base. """
+        self.all_statements.append(statement)
+        self.stated_roles[curr_ind] = statement.speaker
+        self.final_claims[curr_ind] = statement
 
 
 @with_slots(add_dict=True)
@@ -76,6 +76,30 @@ class Statement:
         if self.speaker is Role.NONE and self.knowledge:
             [self.speaker] = self.knowledge[0][1]
 
+    def __hash__(self) -> int:
+        """
+        The sentence field currently uniquely identifies the fields of a statement,
+        however this could change with the introduction of statements
+        (e.g. user-generated) in which different sentences carry the same knowledge.
+        """
+        return hash(self.sentence)
+
+    @cached_property
+    def negation(self) -> Statement:
+        """ Returns a negated version of the first clause in a statement. """
+        not_sentence = "NOT - " + self.sentence
+        if self.knowledge:
+            index, player_clause = self.knowledge[0]
+            negated_knowledge = ((index, const.ROLE_SET - player_clause),)
+            return Statement(not_sentence, negated_knowledge, speaker=self.speaker)
+        return Statement(not_sentence, speaker=self.speaker)
+
+    def negate_all(self) -> Statement:
+        """ Returns a negated version of every clause in the statement. """
+        not_sentence = "NOT - " + self.sentence
+        neg = [(i, const.ROLE_SET - role_set) for i, role_set in self.knowledge]
+        return Statement(not_sentence, tuple(neg), speaker=self.speaker)
+
     def references(self, player_index: int) -> bool:
         """ Returns True if a given player_index is referenced in a statement. """
         for i, _ in self.knowledge[1:]:
@@ -96,30 +120,6 @@ class Statement:
             if player_index in (i, j) and player_index < len(stated_roles):
                 return stated_roles[player_index]
         return Role.NONE
-
-    @cached_property
-    def negation(self) -> Statement:
-        """ Returns a negated version of the first clause in a statement. """
-        not_sentence = "NOT - " + self.sentence
-        if self.knowledge:
-            index, player_clause = self.knowledge[0]
-            negated_knowledge = ((index, const.ROLE_SET - player_clause),)
-            return Statement(not_sentence, negated_knowledge, speaker=self.speaker)
-        return Statement(not_sentence, speaker=self.speaker)
-
-    def negate_all(self) -> Statement:
-        """ Returns a negated version of every clause in the statement. """
-        not_sentence = "NOT - " + self.sentence
-        neg = [(i, const.ROLE_SET - role_set) for i, role_set in self.knowledge]
-        return Statement(not_sentence, tuple(neg), speaker=self.speaker)
-
-    def __hash__(self) -> int:
-        """
-        The sentence field currently uniquely identifies the fields of a statement,
-        however this could change with the introduction of statements
-        (e.g. user-generated) in which different sentences carry the same knowledge.
-        """
-        return hash(self.sentence)
 
     def json_repr(self) -> Dict[str, Any]:
         """ Returns json representation of the Statement. """

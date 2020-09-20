@@ -174,7 +174,7 @@ class TestGetVotingResult:
     ) -> None:
         """ Should get voting results from the individual predictions. """
         indiv_preds = ((Role.VILLAGER, Role.SEER, Role.ROBBER),) * len(small_game_roles)
-        player_list = tuple([Player(i) for i in range(len(small_game_roles))])
+        player_list = tuple(Player(i) for i in range(len(small_game_roles)))
 
         result = one_night.get_voting_result(player_list, indiv_preds)
 
@@ -228,7 +228,7 @@ class TestGetVotingResult:
                 Role.ROBBER,
             ),
         )
-        player_list = tuple([Player(i) for i in range(len(medium_game_roles))])
+        player_list = tuple(Player(i) for i in range(len(medium_game_roles)))
 
         result = one_night.get_voting_result(player_list, indiv_preds)
 
@@ -253,7 +253,7 @@ class TestGetVotingResult:
         large_individual_preds: Tuple[Tuple[Role, ...], ...],
     ) -> None:
         """ Should get voting results from the individual predictions. """
-        player_list = tuple([Player(i) for i in range(len(large_game_roles))])
+        player_list = tuple(Player(i) for i in range(len(large_game_roles)))
 
         result = one_night.get_voting_result(player_list, large_individual_preds)
 
