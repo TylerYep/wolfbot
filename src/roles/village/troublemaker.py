@@ -25,7 +25,6 @@ class Troublemaker(Player):
     ) -> Troublemaker:
         """ Initializes Troublemaker - switches one player with another player. """
         del original_roles
-        assert const.NUM_PLAYERS > 2
         is_user = const.IS_USER[player_index]
         if is_user:
             logger.info("Choose two players to switch places:")

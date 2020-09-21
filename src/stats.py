@@ -123,8 +123,9 @@ class Statistics:
 
     def __eq__(self, other: object) -> bool:
         """ Checks for equality between Statistics objects. """
-        assert isinstance(other, Statistics)
-        return self.get_metric_results(False) == other.get_metric_results(False)
+        if isinstance(other, Statistics):
+            return self.get_metric_results(False) == other.get_metric_results(False)
+        return False
 
     @staticmethod
     def correctness_strict(game_result: GameResult) -> Tuple[int, int]:

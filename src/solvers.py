@@ -94,7 +94,8 @@ class SolverState:
         for possible_roles in self.possible_roles:
             if len(possible_roles) == 1:
                 [single_role] = possible_roles
-                assert counts_dict[single_role] > 0
+                if counts_dict[single_role] <= 0:
+                    raise RuntimeError("Count should never go below 0.")
                 counts_dict[single_role] -= 1
         return counts_dict
 

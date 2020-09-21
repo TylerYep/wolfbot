@@ -22,7 +22,8 @@ def get_statement_rl(
     with open(const.EXPERIENCE_PATH) as exp_file:
         exp_dict = json.load(exp_file, cls=WolfBotDecoder)
     experience = defaultdict(lambda: defaultdict(int), exp_dict)
-    assert experience
+    if not experience:
+        logger.info("Experience dict did not load properly.")
 
     state = (tuple(player_obj.wolf_indices), tuple(knowledge_base.all_statements))
     scores = experience[str(state)]

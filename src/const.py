@@ -8,7 +8,7 @@ import random
 import sys
 from collections import Counter
 from enum import Enum, IntEnum, auto, unique
-from typing import Any, Callable, Dict, Sequence, TypeVar
+from typing import Any, Callable, Dict, Sequence, TypeVar, cast
 
 from src.log import OneNightLogger
 
@@ -87,21 +87,18 @@ class Role(Enum):
         if not isinstance(other, Role):
             raise NotImplementedError
         result = self.value < other.value  # pylint: disable=comparison-with-callable
-        assert isinstance(result, bool)
-        return result
+        return cast(bool, result)
 
     @lru_cache
     def __repr__(self) -> str:  # pylint: disable=invalid-repr-returned
-        assert isinstance(self.value, str)
-        return self.value
+        return cast(str, self.value)
 
     @lru_cache
     def __format__(  # pylint: disable=invalid-format-returned
         self, formatstr: str
     ) -> str:
         del formatstr
-        assert isinstance(self.value, str)
-        return self.value
+        return cast(str, self.value)
 
     def json_repr(self) -> Dict[str, Any]:
         """ Gets JSON representation of a Role enum. """
@@ -198,7 +195,7 @@ EXPECTIMAX_TANNER = False
 EXPECTIMAX_MINION = EXPECTIMAX_WOLF
 
 # Reinforcement Learning Wolf
-USE_RL_WOLF = False
+RL_WOLF = False
 EXPERIENCE_PATH = "src/learning/simulations/wolf.json"
 
 """ Interactive Game Constants """
@@ -222,9 +219,6 @@ if ARGS.log_level:
 elif INTERACTIVE_MODE:
     logger.set_level(logging.INFO)
 
-
-assert USER_ROLE is Role.NONE or USER_ROLE in ROLES
-assert not (EXPECTIMAX_WOLF and USE_RL_WOLF)
 if sys.version_info < (3, 8):
     sys.stdout.write("Python " + sys.version)
     sys.stdout.write("\n\nWolfBot requires Python 3.8+ to work!\n\n")

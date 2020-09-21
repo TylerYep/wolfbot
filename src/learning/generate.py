@@ -16,12 +16,11 @@ MAX_INDEX = 7
 
 def generate_data() -> None:
     """ Simulate games and store data in simulations folder. """
-    assert MAX_INDEX <= const.NUM_PLAYERS
     # weights = [3 ** i for i in range(1, MAX_INDEX + 1)]
-    weights = [300 for i in range(MAX_INDEX + 1)]
+    weights = [300 for i in range(min(MAX_INDEX, const.NUM_PLAYERS) + 1)]
     sim_list = []
     logger.set_level(logging.WARNING)
-    const.USE_RL_WOLF = False
+    const.RL_WOLF = False
     for i, weight in enumerate(weights):
         const.FIXED_WOLF_INDEX = i
         logger.warning(f"Computing index: {i}")

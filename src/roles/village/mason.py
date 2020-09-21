@@ -16,6 +16,8 @@ class Mason(Player):
         super().__init__(player_index)
         self.mason_indices = mason_indices
         self.statements += self.get_mason_statements(player_index, mason_indices)
+        if self.player_index not in self.mason_indices:
+            raise RuntimeError("Player index is not one of the Mason indices.")
 
     @classmethod
     def awake_init(
@@ -25,8 +27,6 @@ class Mason(Player):
         del game_roles
         is_user = const.IS_USER[player_index]
         mason_indices = util.find_all_player_indices(original_roles, Role.MASON)
-        assert player_index in mason_indices
-        assert len(mason_indices) <= 2
         logger.debug(f"[Hidden] Masons are at indices: {list(mason_indices)}")
         if is_user:
             logger.info(
@@ -42,7 +42,6 @@ class Mason(Player):
         player_index: int, mason_indices: Tuple[int, ...]
     ) -> Tuple[Statement, ...]:
         """ Gets Mason Statement. """
-        assert player_index in mason_indices
         if len(mason_indices) == 1:
             sentence = "I am a Mason. The other Mason is not present."
             knowledge = [(player_index, frozenset({Role.MASON}))]

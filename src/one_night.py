@@ -34,6 +34,7 @@ def simulate_game(
 
 def play_one_night_werewolf(save_replay: bool = True) -> GameResult:
     """ Plays one round of One Night Ultimate Werewolf. """
+    util.verify_const()
     if save_replay:
         with open(const.REPLAY_STATE, "w") as replay_file:
             json.dump({"rng_state": random.getstate()}, replay_file)
@@ -123,7 +124,8 @@ def night_falls(
     """
     Initialize role object list and perform all switching and peeking actions.
     """
-    assert game_roles == list(original_roles)
+    if game_roles != list(original_roles):
+        raise RuntimeError("game_roles should match original_roles.")
     logger.info("\n-- NIGHT FALLS --\n")
     util.print_roles(game_roles, "Hidden")
 
@@ -200,8 +202,6 @@ def get_voting_result(
         vote_inds.append(vote_ind)
 
     logger.info(f"\nVote Array: {wolf_votes}\n")
-    assert sum(wolf_votes) == const.NUM_PLAYERS
-
     guess_histogram = const.get_counts(all_role_guesses_arr)
     avg_role_guesses, _ = max(guess_histogram.items(), key=lambda x: x[1])
     max_votes = max(wolf_votes)

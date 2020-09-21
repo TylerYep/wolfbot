@@ -46,5 +46,6 @@ def get_statement_expectimax(
         player_obj.player_index,
     )
     logger.debug(f"[Hidden] Evaluation Function Score: {best_val}")
-    assert best_move is not None
+    if best_move is None:
+        raise RuntimeError("best_move should not be None.")
     return best_move

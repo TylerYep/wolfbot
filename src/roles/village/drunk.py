@@ -23,7 +23,6 @@ class Drunk(Player):
     ) -> Drunk:
         """ Initializes Drunk - switches with a card in the center. """
         del original_roles
-        assert const.NUM_CENTER > 0
         is_user = const.IS_USER[player_index]
         choice_ind = util.get_center(is_user)
         logger.debug(

@@ -28,7 +28,6 @@ class Seer(Player):
     ) -> Seer:
         """ Initializes Seer - either sees 2 center cards or 1 player card. """
         del original_roles
-        assert const.NUM_PLAYERS > 1
         is_user = const.IS_USER[player_index]
         if const.NUM_CENTER > 1:
             if is_user:

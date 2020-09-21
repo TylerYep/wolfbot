@@ -85,7 +85,7 @@ class Wolf(Player):
 
     def get_statement(self, knowledge_base: KnowledgeBase) -> Statement:
         """ Get Wolf Statement. """
-        if const.USE_RL_WOLF:
+        if const.RL_WOLF:
             # Choose one statement to return by default
             default_statement = super().get_statement(knowledge_base)
             return get_statement_rl(self, knowledge_base, default_statement)

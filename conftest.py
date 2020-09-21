@@ -33,6 +33,7 @@ from fixtures import (  # pylint: disable=unused-import
 )
 from src import const
 from src.const import Role
+from src.util import verify_const
 
 
 def set_roles(*roles: Role) -> None:
@@ -89,7 +90,7 @@ def reset_const(seed: int = 0) -> None:
     const.EXPECTIMAX_WOLF = False
     const.EXPECTIMAX_MINION = False
     const.EXPECTIMAX_TANNER = False
-    const.USE_RL_WOLF = False
+    const.RL_WOLF = False
 
     const.REPLAY_FILE = "unit_test/test_data/replay.json"
     set_roles(
@@ -109,6 +110,7 @@ def reset_const(seed: int = 0) -> None:
         Role.MASON,
         Role.HUNTER,
     )
+    verify_const()
 
     for cached_function in const.CACHED_FUNCTIONS:
         cached_function.cache_clear()

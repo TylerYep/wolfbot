@@ -7,6 +7,23 @@ from src import const
 from src.const import Role, logger
 
 
+def verify_const() -> None:
+    if const.USER_ROLE is not Role.NONE and const.USER_ROLE not in const.ROLE_SET:
+        raise RuntimeError(f"USER_ROLE is invalid: {const.USER_ROLE}")
+    if const.EXPECTIMAX_WOLF and const.RL_WOLF:
+        raise RuntimeError("EXPECTIMAX_WOLF and RL_WOLF cannot both be enabled.")
+    if Role.DRUNK in const.ROLE_SET and const.NUM_CENTER <= 0:
+        raise RuntimeError("Drunk cannot be included when there are no center cards.")
+    if Role.MASON in const.ROLE_SET and const.ROLE_COUNTS[Role.MASON] != 2:
+        raise RuntimeError("Exactly 2 Masons must be included to play.")
+    if const.NUM_PLAYERS <= 1 and (
+        Role.ROBBER in const.ROLE_SET or Role.SEER in const.ROLE_SET
+    ):
+        raise RuntimeError("There are too few players to include Robber and Seer.")
+    if const.NUM_PLAYERS <= 2 and Role.TROUBLEMAKER in const.ROLE_SET:
+        raise RuntimeError("There are too few players to include Troublemaker.")
+
+
 def print_roles(
     game_roles: Sequence[Role], tag: str, log_level: int = logging.DEBUG
 ) -> None:
@@ -22,8 +39,10 @@ def print_roles(
 
 def swap_characters(game_roles: List[Role], ind1: int, ind2: int) -> None:
     """ Util function to swap two characters, updating game_roles. """
-    assert ind1 != ind2
-    assert 0 <= ind1 < const.NUM_ROLES and 0 <= ind2 < const.NUM_ROLES
+    if ind1 == ind2:
+        raise RuntimeError("Cannot swap the same index.")
+    if not (0 <= ind1 < const.NUM_ROLES and 0 <= ind2 < const.NUM_ROLES):
+        raise RuntimeError(f"ind1 and/or ind2 is out of bounds: {ind1} {ind2}")
     game_roles[ind1], game_roles[ind2] = game_roles[ind2], game_roles[ind1]
 
 

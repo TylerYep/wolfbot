@@ -41,9 +41,8 @@ def make_unrestricted_prediction(solution: SolverState) -> Tuple[Role, ...]:
     )
     switch_dict = get_switch_dict(solution)
     final_guesses = [solved[switch_dict[i]] for i in range(len(solved))]
-    assert (
-        len(final_guesses) == const.NUM_ROLES
-    ), "Could not find unrestricted assignment of roles."
+    if len(final_guesses) != const.NUM_ROLES:
+        raise RuntimeError("Could not find unrestricted assignment of roles.")
     return tuple(final_guesses)
 
 
@@ -89,9 +88,8 @@ def make_prediction(
 
     switch_dict = get_switch_dict(solution_arr[solution_index])
     final_guesses = [solved[switch_dict[i]] for i in range(len(solved))]
-    assert (
-        len(final_guesses) == const.NUM_ROLES
-    ), "Could not find consistent assignment of roles."
+    if len(final_guesses) != const.NUM_ROLES:
+        raise RuntimeError("Could not find consistent assignment of roles.")
     return tuple(final_guesses)
 
 
@@ -103,7 +101,8 @@ def get_basic_guesses(
     possible roles set is not of size 1. For each statement, take the
     intersection and update the role counts for each character.
     """
-    assert len(solution.possible_roles) == const.NUM_ROLES
+    if len(solution.possible_roles) != const.NUM_ROLES:
+        raise RuntimeError("Solution is invalid.")
 
     all_role_guesses = []
     curr_role_counts = dict(const.ROLE_COUNTS)

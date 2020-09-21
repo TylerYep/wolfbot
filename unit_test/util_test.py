@@ -48,7 +48,7 @@ class TestSwapCharacters:
     @staticmethod
     def test_same_index_error(small_game_roles: Tuple[Role, ...]) -> None:
         """ Don't attempt to swap the same index. """
-        with pytest.raises(AssertionError):  # pyre-ignore[16]
+        with pytest.raises(RuntimeError):  # pyre-ignore[16]
             util.swap_characters(list(small_game_roles), 2, 2)
 
     @staticmethod

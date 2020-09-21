@@ -28,7 +28,6 @@ def expectimax(
     # Randomly choose a subset of the expected player statements and get expected value
     # of remaining statements. Adjust sample size based on const.BRANCH_FACTOR.
     if ind != player_obj.player_index:
-        assert const.EXPECTIMAX_DEPTH != 1
         sample_size = const.BRANCH_FACTOR * player_obj.player_index
         indices = random.sample(range(len(expected_statements[ind])), sample_size)
         next_statements = [expected_statements[ind][i] for i in sorted(indices)]
