@@ -4,14 +4,14 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Dict, FrozenSet, List, Optional, Tuple
 
-from dataslots import with_slots
+from dataslots import dataslots
 
 from src import const
 from src.const import Role
 from src.statements import Statement, Switch
 
 
-@with_slots
+@dataslots
 @dataclass
 class SolverState:
     """

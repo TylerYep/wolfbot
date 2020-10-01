@@ -3,7 +3,7 @@ import time
 from dataclasses import dataclass
 from typing import Any, Callable, Dict, Tuple
 
-from dataslots import with_slots
+from dataslots import dataslots
 
 from src import const
 from src.const import Role, Team, logger
@@ -11,7 +11,7 @@ from src.roles import Player
 from src.statements import Statement
 
 
-@with_slots
+@dataslots
 @dataclass
 class SavedGame:
     """ All of the necessary data needed to rerun a game. """
@@ -45,7 +45,7 @@ class SavedGame:
         }
 
 
-@with_slots
+@dataslots
 @dataclass
 class GameResult:
     """ Each round of one_night returns a GameResult. """
@@ -68,7 +68,7 @@ class GameResult:
         }
 
 
-@with_slots
+@dataslots
 @dataclass
 class Metric:
     """ One metric for a game. """

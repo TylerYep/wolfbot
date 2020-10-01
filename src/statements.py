@@ -5,7 +5,7 @@ from dataclasses import dataclass, field
 from functools import cached_property
 from typing import Any, Dict, FrozenSet, List, Tuple
 
-from dataslots import with_slots
+from dataslots import dataslots
 
 from src import const
 from src.const import Role, StatementLevel, SwitchPriority
@@ -14,7 +14,7 @@ Knowledge = Tuple[int, FrozenSet[Role]]
 Switch = Tuple[SwitchPriority, int, int]
 
 
-@with_slots
+@dataslots
 @dataclass
 class KnowledgeBase:
     """
@@ -51,7 +51,7 @@ class KnowledgeBase:
         self.final_claims[curr_ind] = statement
 
 
-@with_slots(add_dict=True)
+@dataslots(add_dict=True)
 @dataclass
 class Statement:
     """
