@@ -7,3 +7,14 @@ from src.roles.village.robber import Robber
 from src.roles.village.seer import Seer
 from src.roles.village.troublemaker import Troublemaker
 from src.roles.village.villager import Villager
+
+__all__ = (
+    "Drunk",
+    "Hunter",
+    "Insomniac",
+    "Mason",
+    "Robber",
+    "Seer",
+    "Troublemaker",
+    "Villager",
+)

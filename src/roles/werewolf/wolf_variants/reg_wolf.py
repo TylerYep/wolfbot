@@ -3,7 +3,7 @@ from typing import Any, Dict, Tuple
 
 from src import const
 from src.const import Role
-from src.roles.village import (
+from src.roles import (
     Drunk,
     Hunter,
     Insomniac,

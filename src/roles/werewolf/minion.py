@@ -78,10 +78,4 @@ class Minion(Player):
 
     def json_repr(self) -> Dict[str, Any]:
         """ Gets JSON representation of a Minion player. """
-        # TODO Python 3.9
-        # return super().json_repr() | {
-        #    "wolf_indices": self.wolf_indices
-        # }
-        json_dict = super().json_repr()
-        json_dict.update({"wolf_indices": self.wolf_indices})
-        return json_dict
+        return super().json_repr() | {"wolf_indices": self.wolf_indices}  # type: ignore

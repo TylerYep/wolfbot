@@ -3,15 +3,7 @@ from typing import Any, Tuple
 
 from src import const
 from src.const import Role
-from src.roles.village import (
-    Drunk,
-    Hunter,
-    Insomniac,
-    Robber,
-    Seer,
-    Troublemaker,
-    Villager,
-)
+from src.roles import Drunk, Hunter, Insomniac, Robber, Seer, Troublemaker, Villager
 from src.statements import KnowledgeBase, Statement
 
 

@@ -23,3 +23,21 @@ def get_role_obj(role_str: Role) -> Any:
     if role_str is Role.NONE:
         role_class_name = "Player"
     return getattr(sys.modules[__name__], role_class_name)
+
+
+__all__ = (
+    "Role",
+    "Player",
+    "Drunk",
+    "Hunter",
+    "Insomniac",
+    "Mason",
+    "Robber",
+    "Seer",
+    "Troublemaker",
+    "Villager",
+    "Minion",
+    "Tanner",
+    "Wolf",
+    "get_role_obj",
+)

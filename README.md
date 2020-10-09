@@ -2,7 +2,7 @@
 ### One Night Ultimate Werewolf: AI Edition
 By Tyler Yep & Harry Sha
 
-[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/release/python-380/)
+[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/release/python-390/)
 [![Build Status](https://travis-ci.org/TylerYep/wolfbot.svg?branch=master)](https://travis-ci.org/TylerYep/wolfbot)
 [![GitHub license](https://img.shields.io/github/license/TylerYep/wolfbot)](https://github.com/TylerYep/wolfbot/blob/master/LICENSE)
 [![codecov](https://codecov.io/gh/TylerYep/wolfbot/branch/master/graph/badge.svg)](https://codecov.io/gh/TylerYep/wolfbot)
