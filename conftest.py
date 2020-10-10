@@ -233,7 +233,7 @@ def write_results(stat_results: Dict[str, float], file_path: str) -> None:
 
     results_filename = os.path.join(destination, filename)
     with open(results_filename, "a+") as out_file:
-        writer = csv.DictWriter(out_file, fieldnames=stat_results.keys())
+        writer = csv.DictWriter(out_file, fieldnames=stat_results)
         if os.path.getsize(results_filename) == 0:
             writer.writeheader()
         writer.writerow(stat_results)

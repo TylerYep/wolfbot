@@ -4,6 +4,7 @@
     { "site-package": "tqdm" },
     { "site-package": "dataslots" },
     { "site-package": "pytest" },
-    { "site-package": "_pytest" }
+    { "site-package": "_pytest" },
+    { "site-package": "setuptools" }
   ]
 }

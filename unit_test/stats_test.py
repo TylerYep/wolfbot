@@ -73,7 +73,7 @@ class TestGameResult:
         """
         result = example_small_game_result.json_repr()
 
-        assert list(result.keys()) == [
+        assert list(result) == [
             "type",
             "actual",
             "guessed",
