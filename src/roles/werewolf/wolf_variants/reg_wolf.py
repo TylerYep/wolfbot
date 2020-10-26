@@ -73,6 +73,7 @@ def get_wolf_statements(
                     for _, poss_set in knowledge_base.all_statements[i].knowledge:
                         if Role.ROBBER in poss_set:
                             use_index = False
+                            break
                     if not use_index:
                         continue
                 statements += Robber.get_robber_statements(player_index, i, stated_role)
