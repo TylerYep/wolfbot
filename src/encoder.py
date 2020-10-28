@@ -1,13 +1,15 @@
 """ encoder.py """
 import json
 import sys
-from typing import Any, Dict
+from typing import Any, Dict, Generic, Type, TypeVar, cast
 
 from src import const
 from src.const import Role, Team
 from src.roles import Player, get_role_obj
 from src.statements import Statement
 from src.stats import GameResult, SavedGame
+
+T = TypeVar("T")  # pylint: disable=invalid-name
 
 
 class WolfBotEncoder(json.JSONEncoder):
@@ -45,16 +47,16 @@ class WolfBotDecoder(json.JSONDecoder):
         if obj_type == "Statement":
             obj["knowledge"] = tuple(tuple(know) for know in obj["knowledge"])
             obj["switches"] = tuple(tuple(switch) for switch in obj["switches"])
-            return get_object_initializer(obj_type)(**obj)
+            return ObjectInitializer[Statement]().get(obj_type)(**obj)
         if obj_type == "GameResult":
             for key, value in obj.items():
                 if key != "winning_team":
                     obj[key] = tuple(value)
-            return get_object_initializer(obj_type)(**obj)
+            return ObjectInitializer[GameResult]().get(obj_type)(**obj)
         if obj_type == "SavedGame":
             for key, value in obj.items():
                 obj[key] = tuple(value)
-            return get_object_initializer(obj_type)(**obj)
+            return ObjectInitializer[SavedGame]().get(obj_type)(**obj)
         if obj_type in (rol.value for rol in const.ROLE_SET):
             if obj_type == Role.SEER.value:
                 obj["choice_1"] = tuple(obj["choice_1"])
@@ -65,6 +67,10 @@ class WolfBotDecoder(json.JSONDecoder):
         return obj
 
 
-def get_object_initializer(obj_name: str) -> Any:
-    """ Retrieves class initializer from its string name. """
-    return getattr(sys.modules[__name__], obj_name)
+class ObjectInitializer(Generic[T]):
+    """ Generic class used to initialize an object of a given type. """
+
+    @staticmethod
+    def get(obj_name: str) -> Any:
+        """ Retrieves class initializer from its string name. """
+        return cast(Type[T], getattr(sys.modules[__name__], obj_name))

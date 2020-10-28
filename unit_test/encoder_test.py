@@ -1,9 +1,8 @@
 """ encoder_test.py """
 import json
 
-from src import encoder
 from src.const import Role, SwitchPriority, Team
-from src.encoder import WolfBotDecoder, WolfBotEncoder
+from src.encoder import ObjectInitializer, WolfBotDecoder, WolfBotEncoder
 from src.roles import Player, Robber, Seer, Villager
 from src.statements import Statement
 from src.stats import GameResult, SavedGame
@@ -165,10 +164,10 @@ class TestGetObjectInitializer:
     def test_get_object_initializers() -> None:
         """ Should return the correct object initializer. """
         result = (
-            encoder.get_object_initializer("Player"),
-            encoder.get_object_initializer("Statement"),
-            encoder.get_object_initializer("GameResult"),
-            encoder.get_object_initializer("SavedGame"),
+            ObjectInitializer.get("Player"),
+            ObjectInitializer.get("Statement"),
+            ObjectInitializer.get("GameResult"),
+            ObjectInitializer.get("SavedGame"),
         )
 
         assert result == (Player, Statement, GameResult, SavedGame)

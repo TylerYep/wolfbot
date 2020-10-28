@@ -18,7 +18,7 @@ def get_expected_statements() -> Dict[int, Tuple[Statement, ...]]:
     """
     possible: Dict[int, Tuple[Statement, ...]] = {}
     for player_index in range(const.NUM_PLAYERS):
-        statements = ()
+        statements: Tuple[Any, ...] = ()
         for role in sorted(const.VILLAGE_ROLES):
             role_obj = roles.get_role_obj(role)
             statements += role_obj.get_all_statements(player_index)
