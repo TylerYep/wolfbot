@@ -20,7 +20,7 @@ def make_evil_prediction(solution_arr: Tuple[SolverState, ...]) -> Tuple[Role, .
     """
     # TODO Find better than random solution when the
     # Wolf gets contradicted by a later statement.
-    if not solution_arr[0].path:
+    if not solution_arr:
         return make_random_prediction()
 
     solution = random.choice(solution_arr)
@@ -33,8 +33,6 @@ def make_unrestricted_prediction(solution: SolverState) -> Tuple[Role, ...]:
     to return a rushed list of predictions for all roles.
     Does not restrict guesses to the possible sets.
     """
-    # if len(solution.possible_roles) != const.NUM_ROLES:
-    #     return []
     all_role_guesses, curr_role_counts = get_basic_guesses(solution)
     solved = recurse_assign(
         solution, list(all_role_guesses), dict(curr_role_counts), False
@@ -53,7 +51,8 @@ def make_prediction(
     Uses a list of true/false statements and possible role sets
     to return a list of predictions for all roles.
     """
-    if is_evil:
+    # This case only occurs when Wolves tell a perfect lie.
+    if is_evil or not solution_arr:
         return make_evil_prediction(solution_arr)
 
     solutions_lst = list(solution_arr)
@@ -63,9 +62,6 @@ def make_prediction(
     solved: List[Role] = []
     solution_index = 0
     for index, solution in enumerate(solution_arr):
-        # This case only occurs when Wolves tell a perfect lie.
-        if len(solution.possible_roles) != const.NUM_ROLES:
-            return make_random_prediction()
         solution_index = index
         all_role_guesses, curr_role_counts = get_basic_guesses(solution)
         if solved := recurse_assign(

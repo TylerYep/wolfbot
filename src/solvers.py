@@ -115,7 +115,7 @@ def switching_solver(
         solutions: List[SolverState], state: SolverState, ind: int = 0
     ) -> None:
         """ ind = index of statement being considered. """
-        curr_max = solutions[0].count_true
+        curr_max = solutions[0].count_true if solutions else 0
         if ind == num_statements:
             if state.count_true > curr_max:
                 solutions.clear()
@@ -135,8 +135,8 @@ def switching_solver(
         if false_state is not None and ind not in known_true:
             _switch_recurse(solutions, false_state, ind + 1)
 
-    solutions = [SolverState()]
-    _switch_recurse(solutions, solutions[0])
+    solutions: List[SolverState] = []
+    _switch_recurse(solutions, SolverState())
     return solutions
 
 

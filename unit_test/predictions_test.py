@@ -30,7 +30,7 @@ class TestMakeEvilPrediction:
     @staticmethod
     def test_random_evil_prediction(medium_game_roles: Tuple[Role, ...]) -> None:
         """ Should give a random prediction when an empty SolverState is passed in. """
-        solution_arr = (SolverState(),)
+        solution_arr = ()
 
         result = predictions.make_evil_prediction(solution_arr)
 
