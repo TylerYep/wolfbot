@@ -7,7 +7,7 @@ from typing import Dict, FrozenSet, List, Optional, Tuple
 from dataslots import dataslots
 
 from src import const
-from src.const import Role
+from src.const import Role, formatter
 from src.statements import Statement, Switch
 
 
@@ -40,6 +40,9 @@ class SolverState:
         but SolverStates are hashable nonetheless.
         """
         return hash((self.possible_roles, self.switches, self.path))
+
+    def __repr__(self) -> str:
+        return str(formatter.pformat(self))
 
     def is_consistent(
         self, statement: Statement, assumption: bool = True
@@ -98,6 +101,39 @@ class SolverState:
                     raise RuntimeError("Count should never go below 0.")
                 counts_dict[single_role] -= 1
         return counts_dict
+
+
+def relaxed_solver(
+    statements: Tuple[Statement, ...], known_true: Tuple[int, ...] = ()
+) -> List[SolverState]:
+    """
+    Returns maximal list of statements that can be true from a list
+    of Statements. Handles switching characters.
+    Returns a list of [True, False, True ...] values and
+    the possible role sets for each player.
+    """
+    num_statements = len(statements)
+
+    def _relaxed_recurse(
+        solutions: List[SolverState], state: SolverState, ind: int = 0
+    ) -> None:
+        """ ind = index of statement being considered. """
+        if ind == num_statements:
+            solutions.append(state)
+            return
+
+        truth_state = state.is_consistent(statements[ind])
+        false_state = state.is_consistent(statements[ind].negation, False)
+
+        if truth_state is not None:
+            _relaxed_recurse(solutions, truth_state, ind + 1)
+
+        if false_state is not None and ind not in known_true:
+            _relaxed_recurse(solutions, false_state, ind + 1)
+
+    solutions: List[SolverState] = []
+    _relaxed_recurse(solutions, SolverState())
+    return solutions
 
 
 def switching_solver(

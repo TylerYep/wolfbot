@@ -33,6 +33,22 @@ class TestSolverState:
 
         assert result == example_small_solverstate
 
+    @staticmethod
+    def test_get_role_counts() -> None:
+        """
+        Should return True if there is a a dict with counts of all certain roles.
+        """
+        set_roles(Role.WOLF, Role.SEER, Role.VILLAGER, Role.ROBBER, Role.VILLAGER)
+        possible_roles_list = (
+            frozenset({Role.VILLAGER}),
+            frozenset({Role.SEER}),
+            frozenset({Role.VILLAGER}),
+        ) + (const.ROLE_SET,) * 2
+
+        result = SolverState(possible_roles_list).get_role_counts()
+
+        assert result == {Role.SEER: 0, Role.VILLAGER: 0, Role.WOLF: 1, Role.ROBBER: 1}
+
 
 class TestIsConsistent:
     """ Tests for the is_consistent function. """
@@ -129,7 +145,7 @@ class TestCachedSolver:
 
 
 class TestSwitchingSolver:
-    """ Tests for the switching_solver and count_roles function. """
+    """ Tests for the switching_solver. """
 
     @staticmethod
     def test_solver_small(
@@ -207,18 +223,82 @@ class TestSwitchingSolver:
 
         assert result[0] == example_large_solverstate
 
+
+class TestRelaxedSolver:
+    """ Tests for the relaxed_solver. """
+
     @staticmethod
-    def test_get_role_counts() -> None:
-        """
-        Should return True if there is a a dict with counts of all certain roles.
-        """
-        set_roles(Role.WOLF, Role.SEER, Role.VILLAGER, Role.ROBBER, Role.VILLAGER)
-        possible_roles_list = (
-            frozenset({Role.VILLAGER}),
+    def test_solver_small(
+        small_statement_list: Tuple[Statement],
+        example_small_solverstate_solved: SolverState,
+    ) -> None:
+        """ Should return a SolverState with the most likely solution. """
+        result = solvers.relaxed_solver(small_statement_list)
+
+        assert result[0] == example_small_solverstate_solved
+
+    @staticmethod
+    def test_solver_medium(
+        medium_statement_list: Tuple[Statement],
+        example_medium_solverstate_solved: SolverState,
+    ) -> None:
+        """ Should return a SolverState with the most likely solution. """
+        result = solvers.relaxed_solver(medium_statement_list)
+
+        assert result[0] == example_medium_solverstate_solved
+
+    @staticmethod
+    def test_solver_medium_known_true(
+        medium_statement_list: Tuple[Statement, ...],
+        medium_game_roles: Tuple[Role, ...],
+    ) -> None:
+        """ Should return a SolverState with the most likely solution. """
+        possible_roles = (
+            frozenset(
+                {Role.DRUNK, Role.MINION, Role.TROUBLEMAKER, Role.WOLF, Role.ROBBER}
+            ),
             frozenset({Role.SEER}),
-            frozenset({Role.VILLAGER}),
-        ) + (const.ROLE_SET,) * 2
+            frozenset({Role.DRUNK}),
+            frozenset({Role.MINION}),
+            frozenset(
+                {Role.DRUNK, Role.MINION, Role.TROUBLEMAKER, Role.WOLF, Role.ROBBER}
+            ),
+            frozenset(
+                {
+                    Role.ROBBER,
+                    Role.MINION,
+                    Role.TROUBLEMAKER,
+                    Role.SEER,
+                    Role.WOLF,
+                    Role.DRUNK,
+                }
+            ),
+        )
 
-        result = SolverState(possible_roles_list).get_role_counts()
+        result = solvers.relaxed_solver(medium_statement_list, (1,))
 
-        assert result == {Role.SEER: 0, Role.VILLAGER: 0, Role.WOLF: 1, Role.ROBBER: 1}
+        assert result[0] == SolverState(
+            possible_roles,
+            ((SwitchPriority.DRUNK, 2, 5),),
+            (False, True, True, False, False),
+        )
+
+    @staticmethod
+    def test_solver_medium_multiple_solns(
+        medium_statement_list: Tuple[Statement, ...],
+        example_medium_solved_list: Tuple[SolverState, ...],
+    ) -> None:
+        """ Should return a SolverState with the most likely solution. """
+        result = solvers.relaxed_solver(medium_statement_list)
+
+        assert len(result) == 10
+
+    @staticmethod
+    def test_solver_large(
+        large_statement_list: Tuple[Statement, ...],
+        example_large_solverstate: SolverState,
+    ) -> None:
+        """ Should return a SolverState with the most likely solution. """
+        result = solvers.relaxed_solver(large_statement_list)
+
+        assert result[0] == example_large_solverstate

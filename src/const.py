@@ -4,11 +4,15 @@ from __future__ import annotations
 import argparse
 import functools
 import logging
+import os
 import random
 import sys
 from collections import Counter
 from enum import Enum, IntEnum, auto, unique
 from typing import Any, Callable, Dict, Sequence, TypeVar, cast
+
+import prettyprinter
+from prettyprinter.prettyprinter import IMPLICIT_MODULES
 
 from src.log import OneNightLogger
 
@@ -43,6 +47,18 @@ def init_program(is_unit_test: bool) -> argparse.Namespace:
                         help="enable interactive mode")
     # fmt: on
     return parser.parse_args("" if is_unit_test else sys.argv[1:])
+
+
+def init_prettyprinter() -> Any:
+    """ Initialize prettyprinter and add all IMPLICIT_MODULES. """
+    prettyprinter.install_extras(include={"python", "dataclasses"})
+    for root, _, files in os.walk("src"):
+        for filename in files:
+            if filename.endswith(".py") and "__" not in filename:
+                module_name = os.path.splitext(filename)[0]
+                prefix = ".".join(root.split(os.sep) + [module_name])
+                IMPLICIT_MODULES.add(prefix)
+    return prettyprinter
 
 
 def get_counts(arr: Sequence[T]) -> Dict[T, int]:
@@ -206,6 +222,7 @@ NUM_OPTIONS = 5
 INFLUENCE_PROB = 0.1
 
 """ Logging """
+formatter = init_prettyprinter()
 logger = OneNightLogger()
 
 if ARGS.log_level:
