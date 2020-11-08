@@ -149,7 +149,7 @@ class TestGetBasicGuesses:
         result = predictions.get_basic_guesses(example_small_solverstate)
 
         assert result == (
-            (Role.SEER, Role.NONE, Role.ROBBER),
+            [Role.SEER, Role.NONE, Role.ROBBER],
             {Role.ROBBER: 0, Role.SEER: 0, Role.VILLAGER: 1},
         )
 
@@ -159,8 +159,10 @@ class TestGetBasicGuesses:
         Should correctly interpret a solution as a list of current predictions
         as well as a dictionary of counts.
         """
-        expected = (
-            (Role.SEER, Role.NONE, Role.DRUNK, Role.NONE, Role.NONE, Role.NONE),
+        result = predictions.get_basic_guesses(example_medium_solverstate)
+
+        assert result == (
+            [Role.SEER, Role.NONE, Role.DRUNK, Role.NONE, Role.NONE, Role.NONE],
             {
                 Role.DRUNK: 0,
                 Role.MINION: 1,
@@ -171,18 +173,16 @@ class TestGetBasicGuesses:
             },
         )
 
-        result = predictions.get_basic_guesses(example_medium_solverstate)
-
-        assert result == expected
-
     @staticmethod
     def test_guesses_large(example_large_solverstate: SolverState) -> None:
         """
         Should correctly interpret a solution as a list of current predictions
         as well as a dictionary of counts.
         """
-        expected = (
-            (
+        result = predictions.get_basic_guesses(example_large_solverstate)
+
+        assert result == (
+            [
                 Role.ROBBER,
                 Role.MINION,
                 Role.SEER,
@@ -191,8 +191,8 @@ class TestGetBasicGuesses:
                 Role.MASON,
                 Role.DRUNK,
                 Role.WOLF,
-            )
-            + (Role.NONE,) * 7,
+            ]
+            + [Role.NONE] * 7,
             {
                 Role.DRUNK: 0,
                 Role.HUNTER: 1,
@@ -207,10 +207,6 @@ class TestGetBasicGuesses:
                 Role.WOLF: 1,
             },
         )
-
-        result = predictions.get_basic_guesses(example_large_solverstate)
-
-        assert result == expected
 
 
 class TestRecurseAssign:

@@ -34,14 +34,12 @@ def make_unrestricted_prediction(solution: SolverState) -> Tuple[Role, ...]:
     Does not restrict guesses to the possible sets.
     """
     all_role_guesses, curr_role_counts = get_basic_guesses(solution)
-    solved = recurse_assign(
-        solution, list(all_role_guesses), dict(curr_role_counts), False
-    )
+    solved = recurse_assign(solution, all_role_guesses, curr_role_counts, False)
     switch_dict = get_switch_dict(solution)
-    final_guesses = [solved[switch_dict[i]] for i in range(len(solved))]
+    final_guesses = tuple(solved[switch_dict[i]] for i in range(len(solved)))
     if len(final_guesses) != const.NUM_ROLES:
         raise RuntimeError("Could not find unrestricted assignment of roles.")
-    return tuple(final_guesses)
+    return final_guesses
 
 
 def make_prediction(
@@ -64,9 +62,7 @@ def make_prediction(
     for index, solution in enumerate(solution_arr):
         solution_index = index
         all_role_guesses, curr_role_counts = get_basic_guesses(solution)
-        if solved := recurse_assign(
-            solution, list(all_role_guesses), dict(curr_role_counts)
-        ):
+        if solved := recurse_assign(solution, all_role_guesses, curr_role_counts):
             break
 
     # Assume all players that could lie are lying.
@@ -75,27 +71,24 @@ def make_prediction(
             solution_index = index
             all_role_guesses, curr_role_counts = get_basic_guesses(solution)
             if solved := recurse_assign(
-                solution,
-                list(all_role_guesses),
-                dict(curr_role_counts),
-                restrict_possible=False,
+                solution, all_role_guesses, curr_role_counts, restrict_possible=False
             ):
                 break
 
     switch_dict = get_switch_dict(solution_arr[solution_index])
-    final_guesses = [solved[switch_dict[i]] for i in range(len(solved))]
+    final_guesses = tuple(solved[switch_dict[i]] for i in range(len(solved)))
     if len(final_guesses) != const.NUM_ROLES:
         raise RuntimeError("Could not find consistent assignment of roles.")
-    return tuple(final_guesses)
+    return final_guesses
 
 
-def get_basic_guesses(
-    solution: SolverState,
-) -> Tuple[Tuple[Role, ...], Dict[Role, int]]:
+def get_basic_guesses(solution: SolverState) -> Tuple[List[Role], Dict[Role, int]]:
     """
     Populates the basic set of predictions, or adds the empty string if the
     possible roles set is not of size 1. For each statement, take the
     intersection and update the role counts for each character.
+
+    Returns mutable objects because they are immediately used in recurse_assign().
     """
     if len(solution.possible_roles) != const.NUM_ROLES:
         raise RuntimeError("Solution is invalid.")
@@ -135,7 +128,7 @@ def get_basic_guesses(
             if choice is not Role.NONE:
                 curr_role_counts[choice] -= 1
 
-    return tuple(all_role_guesses), curr_role_counts
+    return all_role_guesses, curr_role_counts
 
 
 def recurse_assign(
