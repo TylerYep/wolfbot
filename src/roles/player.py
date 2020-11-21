@@ -6,7 +6,12 @@ from typing import Any, Dict, List, Tuple
 
 from src import const, util
 from src.const import Role, StatementLevel, logger, lru_cache
-from src.predictions import make_prediction, make_random_prediction
+from src.predictions import (
+    make_prediction,
+    make_random_prediction,
+    make_relaxed_prediction,
+)
+from src.solvers import relaxed_solver
 from src.solvers import switching_solver as solver
 from src.statements import KnowledgeBase, Statement
 
@@ -207,8 +212,12 @@ class Player:
         """ Gets a player's predictions for each index given all statements. """
         is_evil = self.is_evil()
         if const.SMART_VILLAGERS or is_evil:
-            all_solutions = tuple(solver(statements, (self.player_index,)))
-            prediction = make_prediction(all_solutions, is_evil)
+            if const.USE_RELAXED_SOLVER:
+                all_solutions = tuple(relaxed_solver(statements, (self.player_index,)))
+                prediction = make_relaxed_prediction(all_solutions, is_evil)
+            else:
+                all_solutions = tuple(solver(statements, (self.player_index,)))
+                prediction = make_prediction(all_solutions, is_evil)
         else:
             prediction = make_random_prediction()
         return prediction

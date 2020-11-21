@@ -197,6 +197,7 @@ EVIL_ROLES = frozenset({Role.TANNER, Role.WOLF, Role.MINION}) & ROLE_SET
 """ Village Players """
 CENTER_SEER_PROB = 0.9
 SMART_VILLAGERS = True
+USE_RELAXED_SOLVER = False
 
 """ Werewolf Players """
 # Basic Wolf Player (Pruned statement set)

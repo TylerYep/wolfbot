@@ -235,7 +235,8 @@ class TestRelaxedSolver:
         """ Should return a SolverState with the most likely solution. """
         result = solvers.relaxed_solver(small_statement_list)
 
-        assert result[0] == example_small_solverstate_solved
+        # There are no desirable alternative solutions.
+        assert example_small_solverstate_solved in result
 
     @staticmethod
     def test_solver_medium(
@@ -245,7 +246,9 @@ class TestRelaxedSolver:
         """ Should return a SolverState with the most likely solution. """
         result = solvers.relaxed_solver(medium_statement_list)
 
-        assert result[0] == example_medium_solverstate_solved
+        # Ensure alternative solution was a proposed result (3 lie statements)
+        assert (True, False, True, False, False) in (state.path for state in result)
+        assert example_medium_solverstate_solved in result
 
     @staticmethod
     def test_solver_medium_known_true(
@@ -277,10 +280,13 @@ class TestRelaxedSolver:
 
         result = solvers.relaxed_solver(medium_statement_list, (1,))
 
-        assert result[0] == SolverState(
-            possible_roles,
-            ((SwitchPriority.DRUNK, 2, 5),),
-            (False, True, True, False, False),
+        assert (
+            SolverState(
+                possible_roles,
+                ((SwitchPriority.DRUNK, 2, 5),),
+                (False, True, True, False, False),
+            )
+            in result
         )
 
     @staticmethod
@@ -301,4 +307,11 @@ class TestRelaxedSolver:
         """ Should return a SolverState with the most likely solution. """
         result = solvers.relaxed_solver(large_statement_list)
 
-        assert result[0] == example_large_solverstate
+        # Ensure alternative solutions were in proposed results (4-5 lie statements)
+        # 5 lie statements is not possible because a partial lie is still True to the
+        # solver. These cases are handled in the prediction engine escape hatch.
+        # (e.g. "I am a Seer" is False, but the action is consistent)
+        assert (False, False, True, True, True, True, False, False) in (
+            state.path for state in result
+        )
+        assert example_large_solverstate in result

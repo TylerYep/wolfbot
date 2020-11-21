@@ -83,9 +83,12 @@ def reset_const(seed: int = 0) -> None:
     const.MULTI_STATEMENT = False
     const.INTERACTIVE_MODE = False
 
-    # Player Settings
+    # Village Settings
     const.CENTER_SEER_PROB = 0.9
     const.SMART_VILLAGERS = True
+    const.USE_RELAXED_SOLVER = False
+
+    # Werewolf Settings
     const.USE_REG_WOLF = False
     const.EXPECTIMAX_WOLF = False
     const.EXPECTIMAX_MINION = False

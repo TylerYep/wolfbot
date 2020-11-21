@@ -1,7 +1,10 @@
 """ solvers.py """
 from __future__ import annotations
 
+import heapq
+import shutil
 from dataclasses import dataclass, field
+from functools import total_ordering
 from typing import Dict, FrozenSet, List, Optional, Tuple
 
 from dataslots import dataslots
@@ -12,6 +15,7 @@ from src.statements import Statement, Switch
 
 
 @dataslots
+@total_ordering
 @dataclass
 class SolverState:
     """
@@ -42,7 +46,13 @@ class SolverState:
         return hash((self.possible_roles, self.switches, self.path))
 
     def __repr__(self) -> str:
-        return str(formatter.pformat(self))
+        width, _ = shutil.get_terminal_size()
+        return str(formatter.pformat(self, width=width, ribbon_width=width))
+
+    def __lt__(self, other: object) -> bool:
+        if isinstance(other, SolverState):
+            return self.count_true < other.count_true
+        raise TypeError
 
     def is_consistent(
         self, statement: Statement, assumption: bool = True
@@ -113,13 +123,22 @@ def relaxed_solver(
     the possible role sets for each player.
     """
     num_statements = len(statements)
+    max_avg = 10  # len(const.VILLAGE_ROLES)
 
     def _relaxed_recurse(
         solutions: List[SolverState], state: SolverState, ind: int = 0
     ) -> None:
         """ ind = index of statement being considered. """
         if ind == num_statements:
-            solutions.append(state)
+            # if len(solutions) == 0 or (
+            #     state.count_true
+            #     >= sum(x.count_true for x in solutions) / len(solutions)
+            # ):
+            num_sols = len(solutions)
+            if num_sols < max_avg:
+                heapq.heappush(solutions, state)
+            elif num_sols == max_avg:
+                heapq.heappushpop(solutions, state)
             return
 
         truth_state = state.is_consistent(statements[ind])

@@ -65,15 +65,10 @@ def play_one_night_werewolf(save_replay: bool = True) -> GameResult:
     util.print_roles(game_roles, "Solution", logging.INFO)
     util.print_roles(most_freq_guesses, "WolfBot")
     _ = get_confidence(indiv_preds)
-    winning_team = eval_winning_team(
-        tuple(game_roles), list(guessed_wolf_inds), vote_inds
-    )
+    end_game_roles = tuple(game_roles)
+    winning_team = eval_winning_team(end_game_roles, list(guessed_wolf_inds), vote_inds)
     return GameResult(
-        tuple(game_roles),
-        most_freq_guesses,
-        orig_wolf_inds,
-        winning_team,
-        all_statements,
+        end_game_roles, most_freq_guesses, orig_wolf_inds, winning_team, all_statements
     )
 
 
