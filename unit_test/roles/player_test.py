@@ -1,7 +1,7 @@
 """ player_test.py """
 from typing import Tuple
 
-from _pytest.monkeypatch import MonkeyPatch
+from pytest import MonkeyPatch
 
 from src import const
 from src.const import Role

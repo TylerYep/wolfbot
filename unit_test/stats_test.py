@@ -1,5 +1,5 @@
 """ stats_test.py """
-from _pytest.logging import LogCaptureFixture
+from pytest import LogCaptureFixture
 
 from conftest import verify_output
 from src import stats

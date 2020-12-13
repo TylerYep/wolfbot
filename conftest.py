@@ -5,8 +5,7 @@ import random
 from typing import Any, Callable, Dict, List, Tuple
 
 import pytest
-from _pytest.logging import LogCaptureFixture
-from _pytest.monkeypatch import MonkeyPatch
+from pytest import LogCaptureFixture, MonkeyPatch
 
 from fixtures import (  # pylint: disable=unused-import
     example_large_game_result,

@@ -1,10 +1,12 @@
 """ standard_test.py """
+import logging
 import random
 from typing import Tuple
 
 from conftest import set_roles, write_results
 from src import const, one_night
-from src.const import Role
+from src.const import Role, Team
+from src.stats import Statistics
 
 
 class TestStandard:
@@ -144,3 +146,32 @@ class TestStandard:
         stat_results = stat_tracker.get_metric_results()
         write_results(stat_results, "standard/expectimax_tanner.csv")
         assert stat_results["tanner_wins"] > 0.8
+
+    @staticmethod
+    def test_relaxed_solver_improvement(large_game_roles: Tuple[Role, ...]) -> None:
+        """ Correctly play one round of one night werewolf. """
+        const.USE_REG_WOLF = True
+        const.logger.set_level(logging.WARNING)
+        stat_tracker_1, stat_tracker_2 = Statistics(), Statistics()
+
+        games_won_with_relaxed_solver = 0
+        for i in range(5):
+            random.seed(i)
+            const.USE_RELAXED_SOLVER = True
+            game_result_1 = one_night.play_one_night_werewolf(save_replay=False)
+            stat_tracker_1.add_result(game_result_1)
+
+            random.seed(i)
+            const.USE_RELAXED_SOLVER = False
+            game_result_2 = one_night.play_one_night_werewolf(save_replay=False)
+            stat_tracker_2.add_result(game_result_2)
+
+            if (
+                game_result_1.winning_team is Team.VILLAGE
+                and game_result_2.winning_team is not Team.VILLAGE
+            ):
+                games_won_with_relaxed_solver += 1
+
+        stat_tracker_1.print_statistics()
+        stat_tracker_2.print_statistics()
+        assert games_won_with_relaxed_solver > 0

@@ -1,5 +1,5 @@
 """ output_test.py """
-from _pytest.logging import LogCaptureFixture
+from pytest import LogCaptureFixture
 
 from conftest import verify_output_file
 from src import one_night

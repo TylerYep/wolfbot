@@ -1,7 +1,7 @@
 """ one_night_test.py """
 from typing import Tuple
 
-from _pytest.logging import LogCaptureFixture
+from pytest import LogCaptureFixture
 
 from conftest import set_roles, verify_output, verify_output_string
 from src import const, one_night

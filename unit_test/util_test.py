@@ -2,8 +2,7 @@
 from typing import Tuple
 
 import pytest
-from _pytest.logging import LogCaptureFixture
-from _pytest.monkeypatch import MonkeyPatch
+from pytest import LogCaptureFixture, MonkeyPatch
 
 from conftest import override_input, verify_output_string
 from src import util
@@ -48,7 +47,7 @@ class TestSwapCharacters:
     @staticmethod
     def test_same_index_error(small_game_roles: Tuple[Role, ...]) -> None:
         """ Don't attempt to swap the same index. """
-        with pytest.raises(RuntimeError):  # pyre-ignore[16]
+        with pytest.raises(RuntimeError):
             util.swap_characters(list(small_game_roles), 2, 2)
 
     @staticmethod
