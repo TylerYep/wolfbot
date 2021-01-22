@@ -84,7 +84,7 @@ class Metric:
         correct, total = self.function(game_result)
         self.correct += correct
         self.total += total
-        self.average = self.correct / (self.total if self.total > 0 else 1)
+        self.average = self.correct / (self.total or 1)
 
 
 class Statistics:

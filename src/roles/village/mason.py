@@ -74,6 +74,4 @@ class Mason(Player):
 
     def json_repr(self) -> Dict[str, Any]:
         """ Gets JSON representation of a Mason player. """
-        return super().json_repr() | {  # type: ignore
-            "mason_indices": self.mason_indices
-        }
+        return super().json_repr() | {"mason_indices": self.mason_indices}

@@ -73,7 +73,7 @@ class Robber(Player):
 
     def json_repr(self) -> Dict[str, Any]:
         """ Gets JSON representation of a Robber player. """
-        return super().json_repr() | {  # type: ignore
+        return super().json_repr() | {
             "choice_ind": self.choice_ind,
             "new_role": self.new_role,
         }

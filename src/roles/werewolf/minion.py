@@ -78,4 +78,4 @@ class Minion(Player):
 
     def json_repr(self) -> Dict[str, Any]:
         """ Gets JSON representation of a Minion player. """
-        return super().json_repr() | {"wolf_indices": self.wolf_indices}  # type: ignore
+        return super().json_repr() | {"wolf_indices": self.wolf_indices}

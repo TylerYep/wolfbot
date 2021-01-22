@@ -117,7 +117,7 @@ class Seer(Player):
 
     def json_repr(self) -> Dict[str, Any]:
         """ Gets JSON representation of a Seer player. """
-        return super().json_repr() | {  # type: ignore
+        return super().json_repr() | {
             "choice_1": self.choice_1,
             "choice_2": self.choice_2,
         }

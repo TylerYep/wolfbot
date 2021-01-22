@@ -60,4 +60,4 @@ class Drunk(Player):
 
     def json_repr(self) -> Dict[str, Any]:
         """ Gets JSON representation of a Drunk player. """
-        return super().json_repr() | {"choice_ind": self.choice_ind}  # type: ignore
+        return super().json_repr() | {"choice_ind": self.choice_ind}
