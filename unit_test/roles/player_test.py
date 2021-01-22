@@ -1,7 +1,7 @@
 """ player_test.py """
 from typing import Tuple
 
-from pytest import MonkeyPatch
+import pytest
 
 from src import const
 from src.const import Role
@@ -165,7 +165,7 @@ class TestGetVote:
 
     @staticmethod
     def test_interactive_vote(
-        monkeypatch: MonkeyPatch, medium_game_roles: Tuple[str, ...]
+        monkeypatch: pytest.MonkeyPatch, medium_game_roles: Tuple[str, ...]
     ) -> None:
         """ Prompt the user for their vote. """
         player_index = 2

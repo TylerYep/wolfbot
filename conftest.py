@@ -5,7 +5,6 @@ import random
 from typing import Any, Callable, Dict, List, Tuple
 
 import pytest
-from pytest import LogCaptureFixture, MonkeyPatch
 
 from fixtures import (  # pylint: disable=unused-import
     example_large_game_result,
@@ -48,7 +47,7 @@ def set_roles(*roles: Role) -> None:
 
 
 @pytest.fixture(autouse=True)
-def reset_const(seed: int = 0) -> None:
+def _reset_const(seed: int = 0) -> None:
     """
     This fixture sets the constants for ALL unit + integration tests.
 
@@ -180,7 +179,7 @@ def standard_game_roles() -> Tuple[Role, ...]:
 
 
 @pytest.fixture
-def override_random(monkeypatch: MonkeyPatch, seed: int = 0) -> None:
+def override_random(monkeypatch: pytest.MonkeyPatch, seed: int = 0) -> None:
     """ Overrides all functions from the built-in random module. """
 
     def fix_seed(orig_function: Callable[..., Any]) -> Callable[..., Any]:
@@ -241,19 +240,19 @@ def write_results(stat_results: Dict[str, float], file_path: str) -> None:
         writer.writerow(stat_results)
 
 
-def verify_output_file(caplog: LogCaptureFixture, filename: str) -> None:
+def verify_output_file(caplog: pytest.LogCaptureFixture, filename: str) -> None:
     """ Helper method for comparing file output differences. """
     with open(filename) as output_file:
         expected = tuple(output_file.read().split("\n"))
     verify_output(caplog, expected)
 
 
-def verify_output(caplog: LogCaptureFixture, expected: Tuple[str, ...]) -> None:
+def verify_output(caplog: pytest.LogCaptureFixture, expected: Tuple[str, ...]) -> None:
     """ Helper method for comparing logging output differences. """
     captured = list(map(lambda x: x.getMessage(), caplog.records))
     assert "\n".join(captured) == "\n".join(expected)
 
 
-def verify_output_string(caplog: LogCaptureFixture, expected: str) -> None:
+def verify_output_string(caplog: pytest.LogCaptureFixture, expected: str) -> None:
     """ Helper method for comparing string output differences. """
     assert caplog.records[0].getMessage() == expected

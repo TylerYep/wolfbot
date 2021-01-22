@@ -49,7 +49,15 @@ def init_program(is_unit_test: bool) -> argparse.Namespace:
     return parser.parse_args("" if is_unit_test else sys.argv[1:])
 
 
-def init_prettyprinter() -> Any:
+class Formatter:
+    """ Wrapper class for PrettyPrinter. """
+
+    def __init__(self, prettyprinter: Any) -> None:
+        self.pformat = prettyprinter.pformat
+        self.pprint = prettyprinter.pprint
+
+
+def init_prettyprinter() -> Formatter:
     """ Initialize prettyprinter and add all IMPLICIT_MODULES. """
     prettyprinter.install_extras(include={"python", "dataclasses"})
     for root, _, files in os.walk("src"):
@@ -58,7 +66,7 @@ def init_prettyprinter() -> Any:
                 module_name = os.path.splitext(filename)[0]
                 prefix = ".".join(root.split(os.sep) + [module_name])
                 IMPLICIT_MODULES.add(prefix)
-    return prettyprinter
+    return Formatter(prettyprinter)
 
 
 def get_counts(arr: Sequence[T]) -> Dict[T, int]:
@@ -144,11 +152,12 @@ ROLES = (
     Role.VILLAGER,
     Role.VILLAGER,
 )
-NUM_CENTER = 3
+NUM_ROLES = len(ROLES)
+NUM_CENTER = 3 if NUM_ROLES > 8 else 0
 # Randomize or use literally the order of the ROLES constant above.
 RANDOMIZE_ROLES = True
 # Enable multi-statement rounds.
-MULTI_STATEMENT = True
+MULTI_STATEMENT = False
 
 """ Simulation Constants """
 NUM_GAMES = ARGS.num_games
@@ -162,7 +171,6 @@ REPLAY = ARGS.replay
 """ Util Constants """
 ROLE_SET = frozenset(ROLES)
 SORTED_ROLE_SET = sorted(ROLE_SET)
-NUM_ROLES = len(ROLES)
 ROLE_COUNTS = get_counts(ROLES)  # Dict of {Role.VILLAGER: 3, Role.WOLF: 2, ... }
 NUM_PLAYERS = NUM_ROLES - NUM_CENTER
 
@@ -197,7 +205,7 @@ EVIL_ROLES = frozenset({Role.TANNER, Role.WOLF, Role.MINION}) & ROLE_SET
 """ Village Players """
 CENTER_SEER_PROB = 0.9
 SMART_VILLAGERS = True
-USE_RELAXED_SOLVER = False
+USE_RELAXED_SOLVER = True
 
 """ Werewolf Players """
 # Basic Wolf Player (Pruned statement set)

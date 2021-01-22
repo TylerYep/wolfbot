@@ -5,7 +5,7 @@ import logging
 import random
 from typing import Dict, List, Tuple
 
-from tqdm import tqdm
+from tqdm import trange
 
 from src import const, util
 from src.const import Role, StatementLevel, Team, logger
@@ -25,7 +25,7 @@ def simulate_game(
     if not enable_logging:
         logger.set_level(logging.WARNING)
     stat_tracker = Statistics()
-    for _ in tqdm(range(num_games), disable=not enable_tqdm):
+    for _ in trange(num_games, disable=not enable_tqdm):
         game_result = play_one_night_werewolf(save_replay)
         stat_tracker.add_result(game_result)
     stat_tracker.print_statistics()

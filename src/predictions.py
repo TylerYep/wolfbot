@@ -252,11 +252,10 @@ def get_basic_guesses(solution: SolverState) -> Tuple[List[Role], Dict[Role, int
     for j in range(const.NUM_ROLES):
         # Center card or is truth
         if j >= len(solution.path) or solution.path[j]:
-            guess_set = solution.possible_roles[j]
             # Remove already chosen cards
-            for rol in const.ROLE_SET:
-                if curr_role_counts[rol] == 0:
-                    guess_set -= {rol}
+            guess_set = {
+                rol for rol in solution.possible_roles[j] if curr_role_counts[rol] > 0
+            }
 
             # Player is telling the truth
             if len(guess_set) == 1:

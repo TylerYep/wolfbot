@@ -1,5 +1,5 @@
 """ output_test.py """
-from pytest import LogCaptureFixture
+import pytest
 
 from conftest import verify_output_file
 from src import one_night
@@ -11,7 +11,7 @@ class TestPlayOneNightWerewolf:
 
     @staticmethod
     def test_one_night_small(
-        caplog: LogCaptureFixture,
+        caplog: pytest.LogCaptureFixture,
         example_small_game_result: GameResult,
         override_random: None,
     ) -> None:
@@ -23,7 +23,7 @@ class TestPlayOneNightWerewolf:
 
     @staticmethod
     def test_one_night_medium(
-        caplog: LogCaptureFixture,
+        caplog: pytest.LogCaptureFixture,
         example_medium_game_result: GameResult,
         override_random: None,
     ) -> None:
@@ -35,7 +35,7 @@ class TestPlayOneNightWerewolf:
 
     @staticmethod
     def test_one_night_large(
-        caplog: LogCaptureFixture,
+        caplog: pytest.LogCaptureFixture,
         example_large_game_result: GameResult,
         override_random: None,
     ) -> None:

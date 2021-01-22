@@ -2,7 +2,6 @@
 from typing import Tuple
 
 import pytest
-from pytest import LogCaptureFixture, MonkeyPatch
 
 from conftest import override_input, verify_output_string
 from src import util
@@ -14,7 +13,7 @@ class TestPrintRoles:
 
     @staticmethod
     def test_print_roles(
-        caplog: LogCaptureFixture, small_game_roles: Tuple[Role, ...]
+        caplog: pytest.LogCaptureFixture, small_game_roles: Tuple[Role, ...]
     ) -> None:
         """ Correctly print and format roles. """
         shuffled_roles = [Role.SEER, Role.VILLAGER, Role.WOLF, Role.ROBBER]
@@ -29,7 +28,7 @@ class TestPrintRoles:
 
     @staticmethod
     def test_print_wolfbot_guesses(
-        caplog: LogCaptureFixture, medium_game_roles: Tuple[Role, ...]
+        caplog: pytest.LogCaptureFixture, medium_game_roles: Tuple[Role, ...]
     ) -> None:
         """ Correctly print and format roles. """
         util.print_roles(medium_game_roles, "WolfBot")
@@ -93,7 +92,7 @@ class TestGetPlayer:
 
     @staticmethod
     def test_user_input_indices(
-        monkeypatch: MonkeyPatch, large_game_roles: Tuple[Role, ...]
+        monkeypatch: pytest.MonkeyPatch, large_game_roles: Tuple[Role, ...]
     ) -> None:
         """ Generated indices should be random. """
         inputs = [0, 2, 20, 1]
@@ -105,7 +104,7 @@ class TestGetPlayer:
 
     @staticmethod
     def test_user_excludes_values(
-        monkeypatch: MonkeyPatch, large_game_roles: Tuple[Role, ...]
+        monkeypatch: pytest.MonkeyPatch, large_game_roles: Tuple[Role, ...]
     ) -> None:
         """ Generated indices should exclude specified values. """
         exclude = (6, 7, 8)
@@ -140,7 +139,7 @@ class TestGetCenter:
 
     @staticmethod
     def test_user_center_indices(
-        monkeypatch: MonkeyPatch, large_game_roles: Tuple[Role, ...]
+        monkeypatch: pytest.MonkeyPatch, large_game_roles: Tuple[Role, ...]
     ) -> None:
         """ Generated indices should be random. """
         inputs = [1, 2, 0, 2]
@@ -152,7 +151,7 @@ class TestGetCenter:
 
     @staticmethod
     def test_user_excludes_values(
-        monkeypatch: MonkeyPatch, large_game_roles: Tuple[Role, ...]
+        monkeypatch: pytest.MonkeyPatch, large_game_roles: Tuple[Role, ...]
     ) -> None:
         """ Generated indices should exclude specified values. """
         exclude = (12, 13)
@@ -169,7 +168,7 @@ class TestGetNumericInput:
     """ Tests for the get_numeric_input function. """
 
     @staticmethod
-    def test_numeric_input(monkeypatch: MonkeyPatch) -> None:
+    def test_numeric_input(monkeypatch: pytest.MonkeyPatch) -> None:
         """ Generated indices should be random. """
         inputs = [1, 7, 10, 15, 2, 0]
         monkeypatch.setattr("builtins.input", override_input([str(i) for i in inputs]))
@@ -179,7 +178,7 @@ class TestGetNumericInput:
         assert result == [1, 7, 2, 0]
 
     @staticmethod
-    def test_numeric_input_range(monkeypatch: MonkeyPatch) -> None:
+    def test_numeric_input_range(monkeypatch: pytest.MonkeyPatch) -> None:
         """ Generated indices should be random. """
         inputs = [1, 37, 30, 34, 0, 33]
         monkeypatch.setattr("builtins.input", override_input([str(i) for i in inputs]))

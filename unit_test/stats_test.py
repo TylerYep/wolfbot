@@ -1,5 +1,5 @@
 """ stats_test.py """
-from pytest import LogCaptureFixture
+import pytest
 
 from conftest import verify_output
 from src import stats
@@ -110,7 +110,7 @@ class TestStatistics:
 
     @staticmethod
     def test_print_statistics(
-        caplog: LogCaptureFixture, example_medium_game_result: GameResult
+        caplog: pytest.LogCaptureFixture, example_medium_game_result: GameResult
     ) -> None:
         """ Should correctly print out the current statistics for the games. """
         stat_tracker = Statistics()

@@ -1,7 +1,7 @@
 """ one_night_test.py """
 from typing import Tuple
 
-from pytest import LogCaptureFixture
+import pytest
 
 from conftest import set_roles, verify_output, verify_output_string
 from src import const, one_night
@@ -170,7 +170,7 @@ class TestGetVotingResult:
 
     @staticmethod
     def test_small_voting_result(
-        caplog: LogCaptureFixture, small_game_roles: Tuple[Role, ...]
+        caplog: pytest.LogCaptureFixture, small_game_roles: Tuple[Role, ...]
     ) -> None:
         """ Should get voting results from the individual predictions. """
         indiv_preds = ((Role.VILLAGER, Role.SEER, Role.ROBBER),) * len(small_game_roles)
@@ -183,7 +183,7 @@ class TestGetVotingResult:
 
     @staticmethod
     def test_medium_voting_result(
-        caplog: LogCaptureFixture, medium_game_roles: Tuple[Role, ...]
+        caplog: pytest.LogCaptureFixture, medium_game_roles: Tuple[Role, ...]
     ) -> None:
         """ Should get voting results from the individual predictions. """
         indiv_preds = (
@@ -248,7 +248,7 @@ class TestGetVotingResult:
 
     @staticmethod
     def test_large_voting_result(
-        caplog: LogCaptureFixture,
+        caplog: pytest.LogCaptureFixture,
         large_game_roles: Tuple[Role, ...],
         large_individual_preds: Tuple[Tuple[Role, ...], ...],
     ) -> None:
@@ -288,7 +288,7 @@ class TestEvalWinningTeam:
 
     @staticmethod
     def test_werewolf_wins(
-        caplog: LogCaptureFixture, medium_game_roles: Tuple[Role, ...]
+        caplog: pytest.LogCaptureFixture, medium_game_roles: Tuple[Role, ...]
     ) -> None:
         """ Should declare Werewolf victory if no wolves are found, but one exists. """
         guessed_wolf_inds = list(range(const.NUM_PLAYERS))
@@ -308,7 +308,7 @@ class TestEvalWinningTeam:
 
     @staticmethod
     def test_village_wins_no_wolf(
-        caplog: LogCaptureFixture, small_game_roles: Tuple[Role, ...]
+        caplog: pytest.LogCaptureFixture, small_game_roles: Tuple[Role, ...]
     ) -> None:
         """
         Should declare Villager victory if no wolves are found, and there are none.
@@ -330,7 +330,7 @@ class TestEvalWinningTeam:
 
     @staticmethod
     def test_village_wins_found_wolf(
-        caplog: LogCaptureFixture, medium_game_roles: Tuple[Role, ...]
+        caplog: pytest.LogCaptureFixture, medium_game_roles: Tuple[Role, ...]
     ) -> None:
         """
         Should declare Villager victory if no wolves are found, and there are none.
@@ -352,7 +352,7 @@ class TestEvalWinningTeam:
 
     @staticmethod
     def test_hunter_wins(
-        caplog: LogCaptureFixture, large_game_roles: Tuple[Role, ...]
+        caplog: pytest.LogCaptureFixture, large_game_roles: Tuple[Role, ...]
     ) -> None:
         """
         Should declare Village victory if no wolves are found,
@@ -379,7 +379,7 @@ class TestEvalWinningTeam:
 
     @staticmethod
     def test_tanner_wins(
-        caplog: LogCaptureFixture, large_game_roles: Tuple[Role, ...]
+        caplog: pytest.LogCaptureFixture, large_game_roles: Tuple[Role, ...]
     ) -> None:
         """
         Should declare Tanner victory if no wolves are found, and Tanner was chosen.
