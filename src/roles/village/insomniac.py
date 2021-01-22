@@ -1,7 +1,7 @@
 """ insomniac.py """
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 from src import const
 from src.const import Role, logger, lru_cache
@@ -19,7 +19,7 @@ class Insomniac(Player):
 
     @classmethod
     def awake_init(
-        cls, player_index: int, game_roles: List[Role], original_roles: Tuple[Role, ...]
+        cls, player_index: int, game_roles: list[Role], original_roles: tuple[Role, ...]
     ) -> Insomniac:
         """ Initializes Insomniac - learns new role. """
         del original_roles
@@ -36,7 +36,7 @@ class Insomniac(Player):
         player_index: int,
         insomniac_new_role: Role,
         new_insomniac_index: Optional[int] = None,
-    ) -> Tuple[Statement, ...]:
+    ) -> tuple[Statement, ...]:
         """ Gets Insomniac Statement. """
         knowledge = ((player_index, frozenset({Role.INSOMNIAC})),)
         sentence = f"I am a Insomniac and when I woke up I was a {insomniac_new_role}."
@@ -50,16 +50,16 @@ class Insomniac(Player):
 
     @staticmethod
     @lru_cache
-    def get_all_statements(player_index: int) -> Tuple[Statement, ...]:
+    def get_all_statements(player_index: int) -> tuple[Statement, ...]:
         """ Required for all player types. Returns all possible role statements. """
-        statements: List[Statement] = []
+        statements: list[Statement] = []
         for role in const.SORTED_ROLE_SET:
             statements += Insomniac.get_insomniac_statements(player_index, role)
         return tuple(statements)
 
     def analyze(self, knowledge_base: KnowledgeBase) -> None:
         """ Overrides analyze. """
-        possible_switches: List[int] = []
+        possible_switches: list[int] = []
         for i, stated_role in enumerate(knowledge_base.stated_roles):
             if stated_role is self.new_role:
                 possible_switches.append(i)
@@ -68,6 +68,6 @@ class Insomniac(Player):
                 self.player_index, self.new_role, possible_switches[0]
             )
 
-    def json_repr(self) -> Dict[str, Any]:
+    def json_repr(self) -> dict[str, Any]:
         """ Gets JSON representation of an Insomniac player. """
         return super().json_repr() | {"new_role": self.new_role}

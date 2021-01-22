@@ -1,6 +1,6 @@
 """ expectimax_wolf.py """
 import random
-from typing import Any, Dict, Tuple
+from typing import Any
 
 from src import const, roles
 from src.algorithms import expectimax
@@ -10,15 +10,15 @@ from src.statements import KnowledgeBase, Statement
 
 
 @lru_cache
-def get_expected_statements() -> Dict[int, Tuple[Statement, ...]]:
+def get_expected_statements() -> dict[int, tuple[Statement, ...]]:
     """
     Gets all possible statements that can be made by a Village player from any index.
     Used to find the 'expect' part of the Expectimax algorithm.
     Returns set of statement objects.
     """
-    possible: Dict[int, Tuple[Statement, ...]] = {}
+    possible: dict[int, tuple[Statement, ...]] = {}
     for player_index in range(const.NUM_PLAYERS):
-        statements: Tuple[Any, ...] = ()
+        statements: tuple[Any, ...] = ()
         for role in sorted(const.VILLAGE_ROLES):
             role_obj = roles.get_role_obj(role)
             statements += role_obj.get_all_statements(player_index)

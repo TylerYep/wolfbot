@@ -1,7 +1,7 @@
 """ mason.py """
 from __future__ import annotations
 
-from typing import Any, Dict, List, Tuple
+from typing import Any
 
 from src import const, util
 from src.const import Role, logger, lru_cache
@@ -12,7 +12,7 @@ from src.statements import Statement
 class Mason(Player):
     """ Mason Player class. """
 
-    def __init__(self, player_index: int, mason_indices: Tuple[int, ...]):
+    def __init__(self, player_index: int, mason_indices: tuple[int, ...]):
         super().__init__(player_index)
         self.mason_indices = mason_indices
         self.statements += self.get_mason_statements(player_index, mason_indices)
@@ -21,7 +21,7 @@ class Mason(Player):
 
     @classmethod
     def awake_init(
-        cls, player_index: int, game_roles: List[Role], original_roles: Tuple[Role, ...]
+        cls, player_index: int, game_roles: list[Role], original_roles: tuple[Role, ...]
     ) -> Mason:
         """ Initializes Mason - sees all other Masons. """
         del game_roles
@@ -39,8 +39,8 @@ class Mason(Player):
     @staticmethod
     @lru_cache
     def get_mason_statements(
-        player_index: int, mason_indices: Tuple[int, ...]
-    ) -> Tuple[Statement, ...]:
+        player_index: int, mason_indices: tuple[int, ...]
+    ) -> tuple[Statement, ...]:
         """ Gets Mason Statement. """
         if len(mason_indices) == 1:
             sentence = "I am a Mason. The other Mason is not present."
@@ -63,7 +63,7 @@ class Mason(Player):
 
     @staticmethod
     @lru_cache
-    def get_all_statements(player_index: int) -> Tuple[Statement, ...]:
+    def get_all_statements(player_index: int) -> tuple[Statement, ...]:
         """ Required for all player types. Returns all possible role statements. """
         statements = Mason.get_mason_statements(player_index, (player_index,))
         for i in range(const.NUM_PLAYERS):
@@ -72,6 +72,6 @@ class Mason(Player):
                 statements += Mason.get_mason_statements(player_index, mason_indices)
         return statements
 
-    def json_repr(self) -> Dict[str, Any]:
+    def json_repr(self) -> dict[str, Any]:
         """ Gets JSON representation of a Mason player. """
         return super().json_repr() | {"mason_indices": self.mason_indices}

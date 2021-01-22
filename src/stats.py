@@ -1,7 +1,7 @@
 """ stats.py """
 import time
 from dataclasses import dataclass
-from typing import Any, Callable, Dict, Tuple
+from typing import Any, Callable
 
 from dataslots import dataslots
 
@@ -16,15 +16,15 @@ from src.statements import Statement
 class SavedGame:
     """ All of the necessary data needed to rerun a game. """
 
-    original_roles: Tuple[Role, ...]
-    game_roles: Tuple[Role, ...]
-    all_statements: Tuple[Statement, ...]
-    player_objs: Tuple[Player, ...]
+    original_roles: tuple[Role, ...]
+    game_roles: tuple[Role, ...]
+    all_statements: tuple[Statement, ...]
+    player_objs: tuple[Player, ...]
 
     def load_game(
         self,
-    ) -> Tuple[
-        Tuple[Role, ...], Tuple[Role, ...], Tuple[Statement, ...], Tuple[Player, ...]
+    ) -> tuple[
+        tuple[Role, ...], tuple[Role, ...], tuple[Statement, ...], tuple[Player, ...]
     ]:
         """ Returns game data. """
         return (
@@ -34,7 +34,7 @@ class SavedGame:
             self.player_objs,
         )
 
-    def json_repr(self) -> Dict[str, Any]:
+    def json_repr(self) -> dict[str, Any]:
         """ Returns json representation of the GameResult. """
         return {
             "type": "SavedGame",
@@ -50,13 +50,13 @@ class SavedGame:
 class GameResult:
     """ Each round of one_night returns a GameResult. """
 
-    actual: Tuple[Role, ...]
-    guessed: Tuple[Role, ...]
-    wolf_inds: Tuple[int, ...]
+    actual: tuple[Role, ...]
+    guessed: tuple[Role, ...]
+    wolf_inds: tuple[int, ...]
     winning_team: Team
-    statements: Tuple[Statement, ...]
+    statements: tuple[Statement, ...]
 
-    def json_repr(self) -> Dict[str, Any]:
+    def json_repr(self) -> dict[str, Any]:
         """ Returns json representation of the GameResult. """
         return {
             "type": "GameResult",
@@ -73,7 +73,7 @@ class GameResult:
 class Metric:
     """ One metric for a game. """
 
-    function: Callable[..., Tuple[int, int]]
+    function: Callable[..., tuple[int, int]]
     sentence: str
     correct: int = 0
     total: int = 0
@@ -128,7 +128,7 @@ class Statistics:
         return False
 
     @staticmethod
-    def correctness_strict(game_result: GameResult) -> Tuple[int, int]:
+    def correctness_strict(game_result: GameResult) -> tuple[int, int]:
         """
         Returns fraction of how many roles were guessed correctly out of all roles.
         """
@@ -139,7 +139,7 @@ class Statistics:
         return correct, const.NUM_ROLES
 
     @staticmethod
-    def correctness_lenient_center(game_result: GameResult) -> Tuple[int, int]:
+    def correctness_lenient_center(game_result: GameResult) -> tuple[int, int]:
         """
         Returns fraction of how many player roles were guessed correctly.
         Optionally adds a bonus for a matching center set.
@@ -158,7 +158,7 @@ class Statistics:
         return correct, const.NUM_ROLES
 
     @staticmethod
-    def wolf_predictions_one(game_result: GameResult) -> Tuple[int, int]:
+    def wolf_predictions_one(game_result: GameResult) -> tuple[int, int]:
         """ Returns 1/1 if at least one Wolf was correctly identified. """
         correct_guesses, total_wolves = 0, 1
         for i in range(const.NUM_PLAYERS):
@@ -167,7 +167,7 @@ class Statistics:
         return int(correct_guesses > 0), total_wolves
 
     @staticmethod
-    def wolf_predictions_all(game_result: GameResult) -> Tuple[int, int]:
+    def wolf_predictions_all(game_result: GameResult) -> tuple[int, int]:
         """ Returns 1/1 if all Wolves were correctly identified. """
         correct_guesses, total_wolves = 0, 0
         for i in range(const.NUM_PLAYERS):
@@ -178,7 +178,7 @@ class Statistics:
         return int(correct_guesses == total_wolves), 1
 
     @staticmethod
-    def wolf_predictions_center(game_result: GameResult) -> Tuple[int, int]:
+    def wolf_predictions_center(game_result: GameResult) -> tuple[int, int]:
         """ Returns fraction of how many Wolves were correctly identified. """
         correct_guesses, total_wolves = 0, 0
         for i in range(const.NUM_ROLES):
@@ -189,17 +189,17 @@ class Statistics:
         return correct_guesses, total_wolves
 
     @staticmethod
-    def villager_wins(game_result: GameResult) -> Tuple[int, int]:
+    def villager_wins(game_result: GameResult) -> tuple[int, int]:
         """ Returns 1/1 if the Village team won. """
         return int(game_result.winning_team is Team.VILLAGE), 1
 
     @staticmethod
-    def tanner_wins(game_result: GameResult) -> Tuple[int, int]:
+    def tanner_wins(game_result: GameResult) -> tuple[int, int]:
         """ Returns 1/1 if the Tanner won. """
         return int(game_result.winning_team is Team.TANNER), 1
 
     @staticmethod
-    def werewolf_wins(game_result: GameResult) -> Tuple[int, int]:
+    def werewolf_wins(game_result: GameResult) -> tuple[int, int]:
         """ Returns 1/1 if the Werewolf team won. """
         return int(game_result.winning_team is Team.WEREWOLF), 1
 
@@ -210,7 +210,7 @@ class Statistics:
             metric.update(game_result)
         self.end_time = time.perf_counter() - self.start_time
 
-    def get_metric_results(self, include_time: bool = True) -> Dict[str, float]:
+    def get_metric_results(self, include_time: bool = True) -> dict[str, float]:
         """
         Returns the dictionary of metric name to metric name.
         """

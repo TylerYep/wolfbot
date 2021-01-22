@@ -1,6 +1,4 @@
 """ replay_test.py """
-from typing import Tuple
-
 from src import one_night, replay
 from src.const import Role
 
@@ -10,7 +8,7 @@ class TestReplay:
 
     @staticmethod
     def test_replay_game_state_small(
-        small_game_roles: Tuple[Role, ...], override_random: None
+        small_game_roles: tuple[Role, ...], override_random: None
     ) -> None:
         """
         Correctly replay last round of one night werewolf using saved random numbers.
@@ -23,7 +21,7 @@ class TestReplay:
 
     @staticmethod
     def test_replay_game_state_medium(
-        medium_game_roles: Tuple[Role, ...], override_random: None
+        medium_game_roles: tuple[Role, ...], override_random: None
     ) -> None:
         """
         Correctly replay last round of one night werewolf using saved random numbers.
@@ -36,7 +34,7 @@ class TestReplay:
 
     @staticmethod
     def test_replay_game_state_large(
-        large_game_roles: Tuple[Role, ...], override_random: None
+        large_game_roles: tuple[Role, ...], override_random: None
     ) -> None:
         """
         Correctly replay last round of one night werewolf using saved random numbers.

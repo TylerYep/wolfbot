@@ -1,6 +1,4 @@
 """ solvers_test.py """
-from typing import Tuple
-
 from conftest import set_roles
 from src import const, solvers
 from src.const import Role, SwitchPriority
@@ -123,21 +121,21 @@ class TestCachedSolver:
     """ Tests for the cached_solver and count_roles function. """
 
     @staticmethod
-    def test_solver_small(small_statement_list: Tuple[Statement, ...]) -> None:
+    def test_solver_small(small_statement_list: tuple[Statement, ...]) -> None:
         """ Should return a SolverState with the most likely solution. """
         result = solvers.cached_solver(small_statement_list)
 
         assert result == 3
 
     @staticmethod
-    def test_solver_medium(medium_statement_list: Tuple[Statement, ...]) -> None:
+    def test_solver_medium(medium_statement_list: tuple[Statement, ...]) -> None:
         """ Should return a SolverState with the most likely solution. """
         result = solvers.cached_solver(medium_statement_list)
 
         assert result == 3
 
     @staticmethod
-    def test_solver_large(large_statement_list: Tuple[Statement, ...]) -> None:
+    def test_solver_large(large_statement_list: tuple[Statement, ...]) -> None:
         """ Should return a SolverState with the most likely solution. """
         result = solvers.cached_solver(large_statement_list)
 
@@ -149,7 +147,7 @@ class TestSwitchingSolver:
 
     @staticmethod
     def test_solver_small(
-        small_statement_list: Tuple[Statement],
+        small_statement_list: tuple[Statement],
         example_small_solverstate_solved: SolverState,
     ) -> None:
         """ Should return a SolverState with the most likely solution. """
@@ -159,7 +157,7 @@ class TestSwitchingSolver:
 
     @staticmethod
     def test_solver_medium(
-        medium_statement_list: Tuple[Statement],
+        medium_statement_list: tuple[Statement],
         example_medium_solverstate_solved: SolverState,
     ) -> None:
         """ Should return a SolverState with the most likely solution. """
@@ -169,8 +167,8 @@ class TestSwitchingSolver:
 
     @staticmethod
     def test_solver_medium_known_true(
-        medium_statement_list: Tuple[Statement, ...],
-        medium_game_roles: Tuple[Role, ...],
+        medium_statement_list: tuple[Statement, ...],
+        medium_game_roles: tuple[Role, ...],
     ) -> None:
         """ Should return a SolverState with the most likely solution. """
         possible_roles = (
@@ -205,8 +203,8 @@ class TestSwitchingSolver:
 
     @staticmethod
     def test_solver_medium_multiple_solns(
-        medium_statement_list: Tuple[Statement, ...],
-        example_medium_solved_list: Tuple[SolverState, ...],
+        medium_statement_list: tuple[Statement, ...],
+        example_medium_solved_list: tuple[SolverState, ...],
     ) -> None:
         """ Should return a SolverState with the most likely solution. """
         result = solvers.switching_solver(medium_statement_list)
@@ -215,7 +213,7 @@ class TestSwitchingSolver:
 
     @staticmethod
     def test_solver_large(
-        large_statement_list: Tuple[Statement, ...],
+        large_statement_list: tuple[Statement, ...],
         example_large_solverstate: SolverState,
     ) -> None:
         """ Should return a SolverState with the most likely solution. """
@@ -229,7 +227,7 @@ class TestRelaxedSolver:
 
     @staticmethod
     def test_solver_small(
-        small_statement_list: Tuple[Statement],
+        small_statement_list: tuple[Statement],
         example_small_solverstate_solved: SolverState,
     ) -> None:
         """ Should return a SolverState with the most likely solution. """
@@ -240,7 +238,7 @@ class TestRelaxedSolver:
 
     @staticmethod
     def test_solver_medium(
-        medium_statement_list: Tuple[Statement],
+        medium_statement_list: tuple[Statement],
         example_medium_solverstate_solved: SolverState,
     ) -> None:
         """ Should return a SolverState with the most likely solution. """
@@ -252,8 +250,8 @@ class TestRelaxedSolver:
 
     @staticmethod
     def test_solver_medium_known_true(
-        medium_statement_list: Tuple[Statement, ...],
-        medium_game_roles: Tuple[Role, ...],
+        medium_statement_list: tuple[Statement, ...],
+        medium_game_roles: tuple[Role, ...],
     ) -> None:
         """ Should return a SolverState with the most likely solution. """
         possible_roles = (
@@ -291,8 +289,8 @@ class TestRelaxedSolver:
 
     @staticmethod
     def test_solver_medium_multiple_solns(
-        medium_statement_list: Tuple[Statement, ...],
-        example_medium_solved_list: Tuple[SolverState, ...],
+        medium_statement_list: tuple[Statement, ...],
+        example_medium_solved_list: tuple[SolverState, ...],
     ) -> None:
         """ Should return a SolverState with the most likely solution. """
         result = solvers.relaxed_solver(medium_statement_list)
@@ -301,7 +299,7 @@ class TestRelaxedSolver:
 
     @staticmethod
     def test_solver_large(
-        large_statement_list: Tuple[Statement, ...],
+        large_statement_list: tuple[Statement, ...],
         example_large_solverstate: SolverState,
     ) -> None:
         """ Should return a SolverState with the most likely solution. """

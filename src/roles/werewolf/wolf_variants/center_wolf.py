@@ -1,5 +1,5 @@
 """ center_wolf.py """
-from typing import Any, Tuple
+from typing import Any
 
 from src import const
 from src.const import Role
@@ -9,9 +9,9 @@ from src.statements import KnowledgeBase, Statement
 
 def get_center_wolf_statements(
     player_obj: Any, knowledge_base: KnowledgeBase
-) -> Tuple[Statement, ...]:
+) -> tuple[Statement, ...]:
     """ Center Wolf Player logic. """
-    statements: Tuple[Statement, ...] = ()
+    statements: tuple[Statement, ...] = ()
     player_index = player_obj.player_index
     wolf_indices = player_obj.wolf_indices
     center_role = player_obj.center_role

@@ -1,6 +1,5 @@
 """ gui.py """
 import os
-from typing import Tuple
 
 from src import const
 from src.const import Role, logger
@@ -20,7 +19,7 @@ class GUIState:
         for log_level, line in logger.output_cache:
             logger.log(log_level, line)
 
-    def intro(self, original_roles: Tuple[Role, ...]) -> None:
+    def intro(self, original_roles: tuple[Role, ...]) -> None:
         """ Tells the player what their assigned role is. """
         if self.disable_gui:
             return
@@ -41,7 +40,7 @@ class GUIState:
         input("Press Enter to continue...")
         self.print_cache()
 
-    def print_statements(self, all_statements: Tuple[Statement, ...]) -> None:
+    def print_statements(self, all_statements: tuple[Statement, ...]) -> None:
         """ Prints all statements that have been said so far. """
         if self.disable_gui:
             return

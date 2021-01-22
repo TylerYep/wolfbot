@@ -1,5 +1,5 @@
 """ reg_wolf.py """
-from typing import Any, Dict, Tuple
+from typing import Any
 
 from src import const
 from src.const import Role
@@ -17,17 +17,17 @@ from src.statements import KnowledgeBase, Statement
 from src.util import weighted_coin_flip
 
 
-def should_include_role(counts_dict: Dict[Role, int], role: Role) -> bool:
+def should_include_role(counts_dict: dict[Role, int], role: Role) -> bool:
     return counts_dict[role] > 0 or weighted_coin_flip(const.INCLUDE_STATEMENT_RATE)
 
 
 def get_wolf_statements(
     player_obj: Any, knowledge_base: KnowledgeBase
-) -> Tuple[Statement, ...]:
+) -> tuple[Statement, ...]:
     """
     Gets Regular Wolf statement. Includes custom logic to maximize Wolf win rate.
     """
-    statements: Tuple[Statement, ...] = ()
+    statements: tuple[Statement, ...] = ()
     stated_roles = knowledge_base.stated_roles
     player_index = player_obj.player_index
     counts_dict = dict(const.ROLE_COUNTS)

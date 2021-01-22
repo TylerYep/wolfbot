@@ -1,8 +1,6 @@
 """ villager.py """
 from __future__ import annotations
 
-from typing import List, Tuple
-
 from src.const import Role, lru_cache
 from src.roles.player import Player
 from src.statements import Statement
@@ -17,7 +15,7 @@ class Villager(Player):
 
     @classmethod
     def awake_init(
-        cls, player_index: int, game_roles: List[Role], original_roles: Tuple[Role, ...]
+        cls, player_index: int, game_roles: list[Role], original_roles: tuple[Role, ...]
     ) -> Villager:
         """ Initializes Villager when night falls. """
         del game_roles, original_roles
@@ -25,7 +23,7 @@ class Villager(Player):
 
     @staticmethod
     @lru_cache
-    def get_villager_statements(player_index: int) -> Tuple[Statement, ...]:
+    def get_villager_statements(player_index: int) -> tuple[Statement, ...]:
         """ Gets Villager Statements. """
         return (
             Statement(
@@ -35,6 +33,6 @@ class Villager(Player):
 
     @staticmethod
     @lru_cache
-    def get_all_statements(player_index: int) -> Tuple[Statement, ...]:
+    def get_all_statements(player_index: int) -> tuple[Statement, ...]:
         """ Required for all player types. Returns all possible role statements. """
         return Villager.get_villager_statements(player_index)

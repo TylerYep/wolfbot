@@ -1,7 +1,7 @@
 """ encoder.py """
 import json
 import sys
-from typing import Any, Dict, Generic, Type, TypeVar, cast
+from typing import Any, Generic, Type, TypeVar, cast
 
 from src import const
 from src.const import Role, Team
@@ -33,7 +33,7 @@ class WolfBotDecoder(json.JSONDecoder):
         super().__init__(object_hook=self.json_to_objects)
 
     @staticmethod
-    def json_to_objects(obj: Dict[str, Any]) -> Any:
+    def json_to_objects(obj: dict[str, Any]) -> Any:
         """ Implements decoding method. """
         obj_type = obj.pop("type", None)
         if obj_type == "Set":

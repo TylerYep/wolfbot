@@ -1,6 +1,4 @@
 """ player_test.py """
-from typing import Tuple
-
 import pytest
 
 from src import const
@@ -78,7 +76,7 @@ class TestIsEvil:
     """ Tests for the is_evil function. """
 
     @staticmethod
-    def test_no_evil_player(small_game_roles: Tuple[str, ...]) -> None:
+    def test_no_evil_player(small_game_roles: tuple[str, ...]) -> None:
         """ Should determine if a player has turned evil after night falls. """
         villager = Villager(0)
 
@@ -87,9 +85,9 @@ class TestIsEvil:
         assert result is False
 
     @staticmethod
-    def test_find_evil_players(medium_game_roles: Tuple[str, ...]) -> None:
+    def test_find_evil_players(medium_game_roles: tuple[str, ...]) -> None:
         """ Should determine if a player has turned evil after night falls. """
-        player_list: Tuple[Player, ...] = (
+        player_list: tuple[Player, ...] = (
             Seer(0, (2, Role.DRUNK)),
             Wolf(1, (1,), 5, Role.TROUBLEMAKER),
             Drunk(2, 5),
@@ -102,7 +100,7 @@ class TestIsEvil:
         assert result == [False, True, False, False, True]
 
     @staticmethod
-    def test_turned_evil_player(medium_game_roles: Tuple[str, ...]) -> None:
+    def test_turned_evil_player(medium_game_roles: tuple[str, ...]) -> None:
         """ Should determine if a player has turned evil after night falls. """
         robber = Robber(3, 1, Role.WOLF)
 
@@ -119,7 +117,7 @@ class TestGetVote:
     """
 
     @staticmethod
-    def test_vote_for_wolf(medium_game_roles: Tuple[str, ...]) -> None:
+    def test_vote_for_wolf(medium_game_roles: tuple[str, ...]) -> None:
         """ If a player suspects a Wolf, they should vote for that player. """
         prediction = (
             Role.SEER,
@@ -135,7 +133,7 @@ class TestGetVote:
         assert result == 1
 
     @staticmethod
-    def test_no_vote_for_center_wolf(medium_game_roles: Tuple[str, ...]) -> None:
+    def test_no_vote_for_center_wolf(medium_game_roles: tuple[str, ...]) -> None:
         """
         If a player suspects a Wolf in the center, they should not vote for that player.
         """
@@ -153,7 +151,7 @@ class TestGetVote:
         assert result == 3
 
     @staticmethod
-    def test_vote_right(small_game_roles: Tuple[str, ...]) -> None:
+    def test_vote_right(small_game_roles: tuple[str, ...]) -> None:
         """
         If no Wolves are found, players should vote for the person to their right.
         """
@@ -165,7 +163,7 @@ class TestGetVote:
 
     @staticmethod
     def test_interactive_vote(
-        monkeypatch: pytest.MonkeyPatch, medium_game_roles: Tuple[str, ...]
+        monkeypatch: pytest.MonkeyPatch, medium_game_roles: tuple[str, ...]
     ) -> None:
         """ Prompt the user for their vote. """
         player_index = 2

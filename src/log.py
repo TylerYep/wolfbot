@@ -1,6 +1,5 @@
 """ log.py """
 import logging
-from typing import List, Tuple
 
 
 class OneNightLogger:
@@ -26,7 +25,7 @@ class OneNightLogger:
         else:
             logging.basicConfig(format="%(message)s", level=logging.DEBUG)
         self.logger = logging.getLogger()
-        self.output_cache: List[Tuple[int, str]] = []
+        self.output_cache: list[tuple[int, str]] = []
 
     def set_level(self, log_level: int) -> None:
         """ Sets log level. """

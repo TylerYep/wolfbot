@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import random
-from typing import List, Tuple
 
 from src import const
 from src.const import Role, lru_cache
@@ -21,7 +20,7 @@ class Tanner(Player):
 
     @classmethod
     def awake_init(
-        cls, player_index: int, game_roles: List[Role], original_roles: Tuple[Role, ...]
+        cls, player_index: int, game_roles: list[Role], original_roles: tuple[Role, ...]
     ) -> Tanner:
         """ Initializes Tanner when night falls. """
         del game_roles, original_roles
@@ -29,7 +28,7 @@ class Tanner(Player):
 
     @staticmethod
     @lru_cache
-    def get_all_statements(player_index: int) -> Tuple[Statement, ...]:
+    def get_all_statements(player_index: int) -> tuple[Statement, ...]:
         """ Required for all player types. Returns all possible role statements. """
         raise NotImplementedError
 
@@ -44,7 +43,7 @@ class Tanner(Player):
             return get_statement_expectimax(self, knowledge_base)
         return super().get_statement(knowledge_base)
 
-    def eval_fn(self, statement_list: Tuple[Statement]) -> int:
+    def eval_fn(self, statement_list: tuple[Statement]) -> int:
         """
         Evaluates a complete or incomplete game.
         """

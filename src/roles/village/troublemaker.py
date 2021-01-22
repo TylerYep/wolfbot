@@ -1,7 +1,7 @@
 """ troublemaker.py """
 from __future__ import annotations
 
-from typing import Any, Dict, List, Tuple
+from typing import Any
 
 from src import const, util
 from src.const import Role, SwitchPriority, logger, lru_cache
@@ -21,7 +21,7 @@ class Troublemaker(Player):
 
     @classmethod
     def awake_init(
-        cls, player_index: int, game_roles: List[Role], original_roles: Tuple[Role, ...]
+        cls, player_index: int, game_roles: list[Role], original_roles: tuple[Role, ...]
     ) -> Troublemaker:
         """ Initializes Troublemaker - switches one player with another player. """
         del original_roles
@@ -46,7 +46,7 @@ class Troublemaker(Player):
     @lru_cache
     def get_troublemaker_statements(
         player_index: int, tmkr_ind1: int, tmkr_ind2: int
-    ) -> Tuple[Statement, ...]:
+    ) -> tuple[Statement, ...]:
         """ Gets Troublemaker Statement. """
         sentence = (
             f"I am a Troublemaker and I swapped Player {tmkr_ind1} "
@@ -58,9 +58,9 @@ class Troublemaker(Player):
 
     @staticmethod
     @lru_cache
-    def get_all_statements(player_index: int) -> Tuple[Statement, ...]:
+    def get_all_statements(player_index: int) -> tuple[Statement, ...]:
         """ Required for all player types. Returns all possible role statements. """
-        statements: Tuple[Statement, ...] = ()
+        statements: tuple[Statement, ...] = ()
         for i in range(const.NUM_PLAYERS):
             for j in range(i + 1, const.NUM_PLAYERS):
                 # Troublemaker should not refer to themselves;
@@ -71,7 +71,7 @@ class Troublemaker(Player):
                     )
         return statements
 
-    def json_repr(self) -> Dict[str, Any]:
+    def json_repr(self) -> dict[str, Any]:
         """ Gets JSON representation of a Troublemaker player. """
         return super().json_repr() | {
             "choice_ind1": self.choice_ind1,

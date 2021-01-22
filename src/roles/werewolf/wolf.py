@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import random
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 from src import const, util
 from src.const import Role, logger, lru_cache
@@ -25,7 +25,7 @@ class Wolf(Player):
     def __init__(
         self,
         player_index: int,
-        wolf_indices: Tuple[int, ...],
+        wolf_indices: tuple[int, ...],
         center_index: Optional[int] = None,
         center_role: Optional[Role] = None,
     ):
@@ -36,7 +36,7 @@ class Wolf(Player):
 
     @classmethod
     def awake_init(
-        cls, player_index: int, game_roles: List[Role], original_roles: Tuple[Role, ...]
+        cls, player_index: int, game_roles: list[Role], original_roles: tuple[Role, ...]
     ) -> Wolf:
         """
         Constructor: original_roles defaults to [] when a player becomes
@@ -63,7 +63,7 @@ class Wolf(Player):
 
     @staticmethod
     @lru_cache
-    def get_all_statements(player_index: int) -> Tuple[Statement, ...]:
+    def get_all_statements(player_index: int) -> tuple[Statement, ...]:
         """ Required for all player types. Returns all possible role statements. """
         raise NotImplementedError
 
@@ -95,7 +95,7 @@ class Wolf(Player):
 
         return super().get_statement(knowledge_base)
 
-    def eval_fn(self, statement_list: Tuple[Statement]) -> int:
+    def eval_fn(self, statement_list: tuple[Statement]) -> int:
         """
         Evaluates a complete or incomplete game.
         # wolves in a positions - # of ones that are actually wolves, size of set
@@ -112,7 +112,7 @@ class Wolf(Player):
                 val -= 5
         return val
 
-    def json_repr(self) -> Dict[str, Any]:
+    def json_repr(self) -> dict[str, Any]:
         """ Gets JSON representation of a Wolf player. """
         return super().json_repr() | {
             "wolf_indices": self.wolf_indices,

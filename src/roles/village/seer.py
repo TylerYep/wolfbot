@@ -1,7 +1,7 @@
 """ seer.py """
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 from src import const, util
 from src.const import Role, logger, lru_cache
@@ -15,8 +15,8 @@ class Seer(Player):
     def __init__(
         self,
         player_index: int,
-        choice_1: Tuple[int, Role],
-        choice_2: Tuple[Optional[int], Optional[Role]] = (None, None),
+        choice_1: tuple[int, Role],
+        choice_2: tuple[Optional[int], Optional[Role]] = (None, None),
     ):
         super().__init__(player_index)
         self.choice_1, self.choice_2 = choice_1, choice_2
@@ -24,7 +24,7 @@ class Seer(Player):
 
     @classmethod
     def awake_init(
-        cls, player_index: int, game_roles: List[Role], original_roles: Tuple[Role, ...]
+        cls, player_index: int, game_roles: list[Role], original_roles: tuple[Role, ...]
     ) -> Seer:
         """ Initializes Seer - either sees 2 center cards or 1 player card. """
         del original_roles
@@ -70,9 +70,9 @@ class Seer(Player):
     @lru_cache
     def get_seer_statements(
         player_index: int,
-        choice_1: Tuple[int, Role],
-        choice_2: Tuple[Optional[int], Optional[Role]] = (None, None),
-    ) -> Tuple[Statement, ...]:
+        choice_1: tuple[int, Role],
+        choice_2: tuple[Optional[int], Optional[Role]] = (None, None),
+    ) -> tuple[Statement, ...]:
         """ Gets Seer Statement. """
         seen_index, seen_role = choice_1
         seen_index2, seen_role2 = choice_2
@@ -92,9 +92,9 @@ class Seer(Player):
 
     @staticmethod
     @lru_cache
-    def get_all_statements(player_index: int) -> Tuple[Statement, ...]:
+    def get_all_statements(player_index: int) -> tuple[Statement, ...]:
         """ Required for all player types. Returns all possible role statements. """
-        statements: Tuple[Statement, ...] = ()
+        statements: tuple[Statement, ...] = ()
         for role in const.SORTED_ROLE_SET:
             for i in range(
                 const.NUM_PLAYERS
@@ -115,7 +115,7 @@ class Seer(Player):
                             )
         return statements
 
-    def json_repr(self) -> Dict[str, Any]:
+    def json_repr(self) -> dict[str, Any]:
         """ Gets JSON representation of a Seer player. """
         return super().json_repr() | {
             "choice_1": self.choice_1,

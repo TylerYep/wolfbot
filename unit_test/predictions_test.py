@@ -1,6 +1,4 @@
 """ predictions_test.py """
-from typing import Tuple
-
 from src import const, predictions
 from src.const import Role
 from src.solvers import SolverState
@@ -10,7 +8,7 @@ class TestMakeRandomPrediction:
     """ Tests for the random_prediction function. """
 
     @staticmethod
-    def test_random_prediction(medium_game_roles: Tuple[Role, ...]) -> None:
+    def test_random_prediction(medium_game_roles: tuple[Role, ...]) -> None:
         """ Should return a random shuffled list as the predicted roles. """
         result = predictions.make_random_prediction()
 
@@ -28,7 +26,7 @@ class TestMakeEvilPrediction:
     """ Tests for the make_evil_prediction function. """
 
     @staticmethod
-    def test_random_evil_prediction(medium_game_roles: Tuple[Role, ...]) -> None:
+    def test_random_evil_prediction(medium_game_roles: tuple[Role, ...]) -> None:
         """ Should give a random prediction when an empty SolverState is passed in. """
         solution_arr = ()
 
@@ -45,7 +43,7 @@ class TestMakeEvilPrediction:
 
     @staticmethod
     def test_evil_prediction(
-        example_medium_solverstate_list: Tuple[SolverState, ...]
+        example_medium_solverstate_list: tuple[SolverState, ...]
     ) -> None:
         """ Should give a random prediction when an empty SolverState is passed in. """
         result = predictions.make_evil_prediction(example_medium_solverstate_list)
@@ -64,7 +62,7 @@ class TestMakeUnrestrictedPrediction:
     """ Tests for the make_unrestricted_prediction function. """
 
     @staticmethod
-    def test_empty_unrestricted_prediction(medium_game_roles: Tuple[Role, ...]) -> None:
+    def test_empty_unrestricted_prediction(medium_game_roles: tuple[Role, ...]) -> None:
         """ Should return an empty list to denote that no prediction could be made. """
         solution = SolverState()
 
@@ -102,7 +100,7 @@ class TestMakePrediction:
 
     @staticmethod
     def test_make_evil_prediction(
-        example_medium_solverstate_list: Tuple[SolverState, ...]
+        example_medium_solverstate_list: tuple[SolverState, ...]
     ) -> None:
         """ Should return evil prediction when is_evil=True. """
         result = predictions.make_prediction(
@@ -120,7 +118,7 @@ class TestMakePrediction:
 
     @staticmethod
     def test_make_prediction(
-        example_medium_solverstate_list: Tuple[SolverState, ...]
+        example_medium_solverstate_list: tuple[SolverState, ...]
     ) -> None:
         """ Should return valid prediction for villager players. """
         result = predictions.make_prediction(
@@ -214,7 +212,7 @@ class TestRecurseAssign:
 
     @staticmethod
     def test_no_action(
-        example_small_solverstate: SolverState, small_game_roles: Tuple[Role, ...]
+        example_small_solverstate: SolverState, small_game_roles: tuple[Role, ...]
     ) -> None:
         """ Should not make any assignments if all assignments are made. """
         counts = {Role.ROBBER: 0, Role.SEER: 0, Role.VILLAGER: 0}
@@ -361,7 +359,7 @@ class TestGetSwitchDict:
     """ Tests for the get_switch_dict function. """
 
     @staticmethod
-    def test_get_empty_switch_dict(small_game_roles: Tuple[Role, ...]) -> None:
+    def test_get_empty_switch_dict(small_game_roles: tuple[Role, ...]) -> None:
         """ Should return the identity switch dict. """
         possible_roles = (frozenset({Role.ROBBER, Role.VILLAGER, Role.SEER}),) * 3
         state = SolverState(possible_roles)

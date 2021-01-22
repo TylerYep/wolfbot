@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import random
-from typing import Any, Dict, List, Tuple
+from typing import Any
 
 from src import const, util
 from src.const import Role, logger, lru_cache
@@ -20,13 +20,13 @@ from src.statements import KnowledgeBase, Statement
 class Minion(Player):
     """ Minion Player class. """
 
-    def __init__(self, player_index: int, wolf_indices: Tuple[int, ...]):
+    def __init__(self, player_index: int, wolf_indices: tuple[int, ...]):
         super().__init__(player_index)
         self.wolf_indices = wolf_indices
 
     @classmethod
     def awake_init(
-        cls, player_index: int, game_roles: List[Role], original_roles: Tuple[Role, ...]
+        cls, player_index: int, game_roles: list[Role], original_roles: tuple[Role, ...]
     ) -> Minion:
         """ Initializes Minion - gets Wolf indices. """
         del game_roles
@@ -39,7 +39,7 @@ class Minion(Player):
 
     @staticmethod
     @lru_cache
-    def get_all_statements(player_index: int) -> Tuple[Statement, ...]:
+    def get_all_statements(player_index: int) -> tuple[Statement, ...]:
         """ Required for all player types. Returns all possible role statements. """
         raise NotImplementedError
 
@@ -58,7 +58,7 @@ class Minion(Player):
 
         return super().get_statement(knowledge_base)
 
-    def eval_fn(self, statement_list: Tuple[Statement]) -> int:
+    def eval_fn(self, statement_list: tuple[Statement]) -> int:
         """
         Evaluates a complete or incomplete game.
         """
@@ -76,6 +76,6 @@ class Minion(Player):
                 val -= 5
         return val
 
-    def json_repr(self) -> Dict[str, Any]:
+    def json_repr(self) -> dict[str, Any]:
         """ Gets JSON representation of a Minion player. """
         return super().json_repr() | {"wolf_indices": self.wolf_indices}

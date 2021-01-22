@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import random
-from typing import Any, Dict, List, Tuple
+from typing import Any
 
 from src import const, util
 from src.const import Role, StatementLevel, logger, lru_cache
@@ -27,7 +27,7 @@ class Player:
         self.player_index = player_index
         self.role = Role(class_name) if class_name != "Player" else Role.NONE
         self.new_role = Role.NONE
-        self.statements: Tuple[Statement, ...] = ()
+        self.statements: tuple[Statement, ...] = ()
         self.prev_priority = StatementLevel.NOT_YET_SPOKEN
         if const.MULTI_STATEMENT:
             self.statements += self.get_partial_statements()
@@ -55,18 +55,18 @@ class Player:
 
     @classmethod
     def awake_init(
-        cls, player_index: int, game_roles: List[Role], original_roles: Tuple[Role, ...]
+        cls, player_index: int, game_roles: list[Role], original_roles: tuple[Role, ...]
     ) -> Player:
         """ Initializes Player and performs their nighttime actions. """
         raise NotImplementedError
 
     @staticmethod
     @lru_cache
-    def get_all_statements(player_index: int) -> Tuple[Statement, ...]:
+    def get_all_statements(player_index: int) -> tuple[Statement, ...]:
         """ Required for all player types. Returns all possible role statements. """
         raise NotImplementedError
 
-    def get_partial_statements(self) -> Tuple[Statement, ...]:
+    def get_partial_statements(self) -> tuple[Statement, ...]:
         """ Gets generic partial statements for each player. """
         partial_statements = []
         zero_sent = "I don't want to say who I am just yet."
@@ -184,7 +184,7 @@ class Player:
             next_statement = min(self.statements, key=lambda x: x.priority)
 
         if const.IS_USER[self.player_index]:
-            sample_statements: Tuple[Statement, ...] = ()
+            sample_statements: tuple[Statement, ...] = ()
             # If the user selects "Next Page", choice is NUM_OPTIONS
             choice = const.NUM_OPTIONS
             while choice == const.NUM_OPTIONS:
@@ -208,7 +208,7 @@ class Player:
             self.role in const.EVIL_ROLES and self.new_role is Role.NONE
         ) or self.new_role in const.EVIL_ROLES
 
-    def predict(self, statements: Tuple[Statement, ...]) -> Tuple[Role, ...]:
+    def predict(self, statements: tuple[Statement, ...]) -> tuple[Role, ...]:
         """ Gets a player's predictions for each index given all statements. """
         is_evil = self.is_evil()
         if const.SMART_VILLAGERS or is_evil:
@@ -222,7 +222,7 @@ class Player:
             prediction = make_random_prediction()
         return prediction
 
-    def vote(self, prediction: Tuple[Role, ...]) -> int:
+    def vote(self, prediction: tuple[Role, ...]) -> int:
         """
         Gets the player's vote for who the Wolf is for a given prediction.
         There are some really complicated game mechanics for the Minion.
@@ -259,6 +259,6 @@ class Player:
 
         return no_wolves_guess
 
-    def json_repr(self) -> Dict[str, Any]:
+    def json_repr(self) -> dict[str, Any]:
         """ Gets JSON representation of a Player object. """
         return {"type": self.role.value, "player_index": self.player_index}

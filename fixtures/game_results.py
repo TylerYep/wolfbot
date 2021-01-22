@@ -1,6 +1,4 @@
 """ gameresults.py """
-from typing import Tuple
-
 import pytest
 
 from src.const import Role, SwitchPriority, Team
@@ -9,7 +7,7 @@ from src.stats import GameResult
 
 
 @pytest.fixture
-def example_small_game_result(small_game_roles: Tuple[Role, ...]) -> GameResult:
+def example_small_game_result(small_game_roles: tuple[Role, ...]) -> GameResult:
     return GameResult(
         (Role.VILLAGER, Role.ROBBER, Role.SEER),
         (Role.VILLAGER, Role.ROBBER, Role.SEER),
@@ -31,7 +29,7 @@ def example_small_game_result(small_game_roles: Tuple[Role, ...]) -> GameResult:
 
 
 @pytest.fixture
-def example_medium_game_result(medium_game_roles: Tuple[Role, ...]) -> GameResult:
+def example_medium_game_result(medium_game_roles: tuple[Role, ...]) -> GameResult:
     return GameResult(
         (Role.SEER, Role.MINION, Role.WOLF, Role.TROUBLEMAKER, Role.DRUNK, Role.ROBBER),
         (Role.SEER, Role.WOLF, Role.MINION, Role.TROUBLEMAKER, Role.DRUNK, Role.ROBBER),
@@ -66,7 +64,7 @@ def example_medium_game_result(medium_game_roles: Tuple[Role, ...]) -> GameResul
 
 
 @pytest.fixture
-def example_large_game_result(large_game_roles: Tuple[Role, ...]) -> GameResult:
+def example_large_game_result(large_game_roles: tuple[Role, ...]) -> GameResult:
     return GameResult(
         (
             Role.WOLF,

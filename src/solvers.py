@@ -5,7 +5,7 @@ import heapq
 import shutil
 from dataclasses import dataclass, field
 from functools import total_ordering
-from typing import Dict, FrozenSet, List, Optional, Tuple
+from typing import Optional
 
 from dataslots import dataslots
 
@@ -23,10 +23,10 @@ class SolverState:
     @param path: tuple of (True, False, True ...) values.
     """
 
-    possible_roles: Tuple[FrozenSet[Role], ...] = ()
-    switches: Tuple[Switch, ...] = ()
-    path: Tuple[bool, ...] = ()
-    role_counts: Dict[Role, int] = field(default_factory=dict)
+    possible_roles: tuple[frozenset[Role], ...] = ()
+    switches: tuple[Switch, ...] = ()
+    path: tuple[bool, ...] = ()
+    role_counts: dict[Role, int] = field(default_factory=dict)
     count_true: int = -1
 
     def __post_init__(self) -> None:
@@ -92,7 +92,7 @@ class SolverState:
             self.count_true + int(assumption),
         )
 
-    def get_role_counts(self) -> Dict[Role, int]:
+    def get_role_counts(self) -> dict[Role, int]:
         """
         Ensures that all current sets in possible_roles_list that contain only
         one element are still within the bounds of the ROLE_COUNTS dict. E.g.
@@ -114,8 +114,8 @@ class SolverState:
 
 
 def relaxed_solver(
-    statements: Tuple[Statement, ...], known_true: Tuple[int, ...] = ()
-) -> List[SolverState]:
+    statements: tuple[Statement, ...], known_true: tuple[int, ...] = ()
+) -> list[SolverState]:
     """
     Returns maximal list of statements that can be true from a list
     of Statements. Handles switching characters.
@@ -126,7 +126,7 @@ def relaxed_solver(
     max_avg = 10  # len(const.VILLAGE_ROLES)
 
     def _relaxed_recurse(
-        solutions: List[SolverState], state: SolverState, ind: int = 0
+        solutions: list[SolverState], state: SolverState, ind: int = 0
     ) -> None:
         """ ind = index of statement being considered. """
         if ind == num_statements:
@@ -150,14 +150,14 @@ def relaxed_solver(
         if false_state is not None and ind not in known_true:
             _relaxed_recurse(solutions, false_state, ind + 1)
 
-    solutions: List[SolverState] = []
+    solutions: list[SolverState] = []
     _relaxed_recurse(solutions, SolverState())
     return solutions
 
 
 def switching_solver(
-    statements: Tuple[Statement, ...], known_true: Tuple[int, ...] = ()
-) -> List[SolverState]:
+    statements: tuple[Statement, ...], known_true: tuple[int, ...] = ()
+) -> list[SolverState]:
     """
     Returns maximal list of statements that can be true from a list
     of Statements. Handles switching characters.
@@ -167,7 +167,7 @@ def switching_solver(
     num_statements = len(statements)
 
     def _switch_recurse(
-        solutions: List[SolverState], state: SolverState, ind: int = 0
+        solutions: list[SolverState], state: SolverState, ind: int = 0
     ) -> None:
         """ ind = index of statement being considered. """
         curr_max = solutions[0].count_true if solutions else 0
@@ -190,12 +190,12 @@ def switching_solver(
         if false_state is not None and ind not in known_true:
             _switch_recurse(solutions, false_state, ind + 1)
 
-    solutions: List[SolverState] = []
+    solutions: list[SolverState] = []
     _switch_recurse(solutions, SolverState())
     return solutions
 
 
-def cached_solver(statements: Tuple[Statement, ...]) -> int:
+def cached_solver(statements: tuple[Statement, ...]) -> int:
     """ Returns max number of statements that can be true from a list of Statements. """
     num_statements = len(statements)
 

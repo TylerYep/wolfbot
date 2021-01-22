@@ -1,14 +1,13 @@
 """ predictions.py """
 import random
-from typing import Dict, List, Tuple
 
 from src import const
 from src.const import Role
 from src.solvers import SolverState
 
 
-def get_probs(solution_arr: Tuple[SolverState, ...]) -> Tuple[Dict[Role, float], ...]:
-    result: Tuple[Dict[Role, float], ...] = tuple(
+def get_probs(solution_arr: tuple[SolverState, ...]) -> tuple[dict[Role, float], ...]:
+    result: tuple[dict[Role, float], ...] = tuple(
         {role: 0.0 for role in const.ROLE_SET} for _ in range(const.NUM_ROLES)
     )
     for solution in solution_arr:
@@ -29,8 +28,8 @@ def get_probs(solution_arr: Tuple[SolverState, ...]) -> Tuple[Dict[Role, float],
 
 
 def make_relaxed_prediction(
-    solution_arr: Tuple[SolverState, ...], is_evil: bool = False
-) -> Tuple[Role, ...]:
+    solution_arr: tuple[SolverState, ...], is_evil: bool = False
+) -> tuple[Role, ...]:
     """
     Uses a list of true/false statements and possible role sets
     to return a list of predictions for all roles.
@@ -47,7 +46,7 @@ def make_relaxed_prediction(
     # from pprint import pprint
     # pprint([{k: round(v, 3) for k, v in probs.items()} for probs in solution_probs])
 
-    solved_counts: Dict[Tuple[Role, ...], Tuple[int, SolverState]] = {}
+    solved_counts: dict[tuple[Role, ...], tuple[int, SolverState]] = {}
     for solution in solution_arr:
         all_role_guesses, curr_role_counts = get_probable_guesses(solution)
         if result := tuple(
@@ -70,7 +69,9 @@ def make_relaxed_prediction(
     return final_guesses
 
 
-def get_probable_guesses(solution: SolverState) -> Tuple[List[Role], Dict[Role, int]]:
+def get_probable_basic_guesses(
+    solution: SolverState, solution_probs: tuple[dict[Role, float], ...]
+) -> tuple[list[Role], dict[Role, int]]:
     """
     Populates the basic set of predictions, or adds the empty string if the
     possible roles set is not of size 1. For each statement, take the
@@ -120,11 +121,11 @@ def get_probable_guesses(solution: SolverState) -> Tuple[List[Role], Dict[Role, 
 
 
 def prob_recurse_assign(
-    solution_probs: Tuple[Dict[Role, float], ...],
-    all_role_guesses: List[Role],
-    curr_role_counts: Dict[Role, int],
+    solution_probs: tuple[dict[Role, float], ...],
+    all_role_guesses: list[Role],
+    curr_role_counts: dict[Role, int],
     restrict_possible: bool = True,
-) -> List[Role]:
+) -> list[Role]:
     """
     Assign the remaining unknown cards by recursing and finding a consistent placement.
     If restrict_possible is enabled, then uses the possible_roles sets to assign.
@@ -161,14 +162,14 @@ def prob_recurse_assign(
     return []
 
 
-def make_random_prediction() -> Tuple[Role, ...]:
+def make_random_prediction() -> tuple[Role, ...]:
     """ Makes a random prediction. """
     random_guesses = list(const.ROLES)
     random.shuffle(random_guesses)
     return tuple(random_guesses)
 
 
-def make_evil_prediction(solution_arr: Tuple[SolverState, ...]) -> Tuple[Role, ...]:
+def make_evil_prediction(solution_arr: tuple[SolverState, ...]) -> tuple[Role, ...]:
     """
     Makes the Wolf character's prediction for the game.
     """
@@ -181,7 +182,7 @@ def make_evil_prediction(solution_arr: Tuple[SolverState, ...]) -> Tuple[Role, .
     return make_unrestricted_prediction(solution)
 
 
-def make_unrestricted_prediction(solution: SolverState) -> Tuple[Role, ...]:
+def make_unrestricted_prediction(solution: SolverState) -> tuple[Role, ...]:
     """
     Uses a list of true/false statements and possible role sets
     to return a rushed list of predictions for all roles.
@@ -197,8 +198,8 @@ def make_unrestricted_prediction(solution: SolverState) -> Tuple[Role, ...]:
 
 
 def make_prediction(
-    solution_arr: Tuple[SolverState, ...], is_evil: bool = False
-) -> Tuple[Role, ...]:
+    solution_arr: tuple[SolverState, ...], is_evil: bool = False
+) -> tuple[Role, ...]:
     """
     Uses a list of true/false statements and possible role sets
     to return a list of predictions for all roles.
@@ -211,7 +212,7 @@ def make_prediction(
     random.shuffle(solutions_lst)
     solution_arr = tuple(solutions_lst)
 
-    solved: List[Role] = []
+    solved: list[Role] = []
     solution_index = 0
     for index, solution in enumerate(solution_arr):
         solution_index = index
@@ -236,7 +237,7 @@ def make_prediction(
     return final_guesses
 
 
-def get_basic_guesses(solution: SolverState) -> Tuple[List[Role], Dict[Role, int]]:
+def get_basic_guesses(solution: SolverState) -> tuple[list[Role], dict[Role, int]]:
     """
     Populates the basic set of predictions, or adds the empty string if the
     possible roles set is not of size 1. For each statement, take the
@@ -286,10 +287,10 @@ def get_basic_guesses(solution: SolverState) -> Tuple[List[Role], Dict[Role, int
 
 def recurse_assign(
     solution: SolverState,
-    all_role_guesses: List[Role],
-    curr_role_counts: Dict[Role, int],
+    all_role_guesses: list[Role],
+    curr_role_counts: dict[Role, int],
     restrict_possible: bool = True,
-) -> List[Role]:
+) -> list[Role]:
     """
     Assign the remaining unknown cards by recursing and finding a consistent placement.
     If restrict_possible is enabled, then uses the possible_roles sets to assign.
@@ -321,7 +322,7 @@ def recurse_assign(
     return []
 
 
-def get_switch_dict(solution: SolverState) -> Dict[int, int]:
+def get_switch_dict(solution: SolverState) -> dict[int, int]:
     """
     Converts array of switches into a dictionary to index with.
     Sorts by priority before iterating.

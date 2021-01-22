@@ -3,15 +3,15 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from functools import cached_property
-from typing import Any, Dict, FrozenSet, List, Tuple
+from typing import Any
 
 from dataslots import dataslots
 
 from src import const
 from src.const import Role, StatementLevel, SwitchPriority
 
-Knowledge = Tuple[int, FrozenSet[Role]]
-Switch = Tuple[SwitchPriority, int, int]
+Knowledge = tuple[int, frozenset[Role]]
+Switch = tuple[SwitchPriority, int, int]
 
 
 @dataslots
@@ -23,9 +23,9 @@ class KnowledgeBase:
     to help players make decisions.
     """
 
-    all_statements: List[Statement] = field(default_factory=list)
-    stated_roles: List[Role] = field(default_factory=list)
-    final_claims: List[Statement] = field(default_factory=list)
+    all_statements: list[Statement] = field(default_factory=list)
+    stated_roles: list[Role] = field(default_factory=list)
+    final_claims: list[Statement] = field(default_factory=list)
 
     def __post_init__(self) -> None:
         self.stated_roles = [Role.NONE] * const.NUM_PLAYERS
@@ -35,7 +35,7 @@ class KnowledgeBase:
 
     @classmethod
     def from_statement_list(
-        cls, statement_list: Tuple[Statement, ...]
+        cls, statement_list: tuple[Statement, ...]
     ) -> KnowledgeBase:
         """ Create a new statement from a Statement list. """
         knowledge_base = cls()
@@ -67,8 +67,8 @@ class Statement:
     """
 
     sentence: str
-    knowledge: Tuple[Knowledge, ...] = ()
-    switches: Tuple[Switch, ...] = ()
+    knowledge: tuple[Knowledge, ...] = ()
+    switches: tuple[Switch, ...] = ()
     speaker: Role = Role.NONE
     priority: StatementLevel = StatementLevel.PRIMARY
 
@@ -110,7 +110,7 @@ class Statement:
                 return True
         return False
 
-    def get_references(self, player_index: int, stated_roles: List[Role]) -> Role:
+    def get_references(self, player_index: int, stated_roles: list[Role]) -> Role:
         """ Returns True if a given player_index is referenced in a statement. """
         for i, role_set in self.knowledge[1:]:
             if i == player_index and len(role_set) == 1:
@@ -121,7 +121,7 @@ class Statement:
                 return stated_roles[player_index]
         return Role.NONE
 
-    def json_repr(self) -> Dict[str, Any]:
+    def json_repr(self) -> dict[str, Any]:
         """ Returns json representation of the Statement. """
         return {
             "type": "Statement",

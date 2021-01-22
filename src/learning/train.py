@@ -7,7 +7,7 @@ import os
 
 # import time
 from collections import defaultdict
-from typing import Any, DefaultDict, List, Tuple
+from typing import Any
 
 from src import const
 from src.const import Role
@@ -27,7 +27,7 @@ def evaluate(game: GameResult) -> int:
 
 def get_wolf_state(
     game: GameResult,
-) -> Tuple[List[Tuple[Tuple[int, ...], Tuple[str, ...]]], List[str]]:
+) -> tuple[list[tuple[tuple[int, ...], tuple[str, ...]]], list[str]]:
     """ Fetches Wolf statement from Game. """
     states, statements = [], []
     for wolf_ind in game.wolf_inds:
@@ -41,10 +41,10 @@ def get_wolf_state(
 
 
 def remap_keys(
-    mapping: DefaultDict[Any, DefaultDict[Any, float]]
-) -> DefaultDict[Any, DefaultDict[Any, float]]:
+    mapping: defaultdict[Any, defaultdict[Any, float]]
+) -> defaultdict[Any, defaultdict[Any, float]]:
     """ Remaps keys for jsonifying. """
-    exp_dict: DefaultDict[Any, DefaultDict[Any, float]] = defaultdict(
+    exp_dict: defaultdict[Any, defaultdict[Any, float]] = defaultdict(
         lambda: defaultdict(float)
     )
     for k, val in mapping.items():
@@ -55,10 +55,10 @@ def remap_keys(
 def train(folder: str, eta: float = 0.01) -> None:
     """ Trains Wolf using games stored in simulations. """
     counter = 0
-    experience_dict: DefaultDict[Any, DefaultDict[Any, float]] = defaultdict(
+    experience_dict: defaultdict[Any, defaultdict[Any, float]] = defaultdict(
         lambda: defaultdict(float)
     )
-    count_dict: DefaultDict[Any, int] = defaultdict(int)  # NOTE: For testing purposes
+    count_dict: defaultdict[Any, int] = defaultdict(int)  # NOTE: For testing purposes
     for file in os.listdir(folder):
         file_path = os.path.join(folder, file)
         if file_path.lower().endswith(".json"):

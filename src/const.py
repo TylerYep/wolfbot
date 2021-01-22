@@ -7,9 +7,9 @@ import logging
 import os
 import random
 import sys
-from collections import Counter
+from collections import Callable, Counter, Sequence
 from enum import Enum, IntEnum, auto, unique
-from typing import Any, Callable, Dict, Sequence, TypeVar, cast
+from typing import Any, TypeVar, cast
 
 import prettyprinter
 from prettyprinter.prettyprinter import IMPLICIT_MODULES
@@ -69,14 +69,14 @@ def init_prettyprinter() -> Formatter:
     return Formatter(prettyprinter)
 
 
-def get_counts(arr: Sequence[T]) -> Dict[T, int]:
+def get_counts(arr: Sequence[T]) -> dict[T, int]:
     """
     Returns a dict of counts of each item in a list.
     When there are fewer than ~40 items, using a regular
     dictionary is faster than using a Counter.
     """
     if len(arr) < 40:
-        counts: Dict[T, int] = {}
+        counts: dict[T, int] = {}
         for item in arr:
             if item in counts:
                 counts[item] += 1
@@ -124,7 +124,7 @@ class Role(Enum):
         del formatstr
         return cast(str, self.value)
 
-    def json_repr(self) -> Dict[str, Any]:
+    def json_repr(self) -> dict[str, Any]:
         """ Gets JSON representation of a Role enum. """
         return {"type": "Role", "data": self.value}
 
@@ -274,6 +274,6 @@ class Team(Enum):
 
     VILLAGE, TANNER, WEREWOLF = auto(), auto(), auto()
 
-    def json_repr(self) -> Dict[str, Any]:
+    def json_repr(self) -> dict[str, Any]:
         """ Gets JSON representation of a Role enum. """
         return {"type": "Team", "data": self.value}

@@ -1,6 +1,4 @@
 """ solverstates.py """
-from typing import Tuple
-
 import pytest
 
 from src import const
@@ -9,7 +7,7 @@ from src.solvers import SolverState
 
 
 @pytest.fixture
-def example_small_solverstate(small_game_roles: Tuple[Role, ...]) -> SolverState:
+def example_small_solverstate(small_game_roles: tuple[Role, ...]) -> SolverState:
     possible_roles = (
         frozenset({Role.SEER}),
         frozenset({Role.ROBBER, Role.VILLAGER, Role.SEER}),
@@ -24,7 +22,7 @@ def example_small_solverstate(small_game_roles: Tuple[Role, ...]) -> SolverState
 
 
 @pytest.fixture
-def example_small_solverstate_solved(small_game_roles: Tuple[Role, ...]) -> SolverState:
+def example_small_solverstate_solved(small_game_roles: tuple[Role, ...]) -> SolverState:
     possible_roles = (
         frozenset({Role.VILLAGER}),
         frozenset({Role.ROBBER}),
@@ -36,7 +34,7 @@ def example_small_solverstate_solved(small_game_roles: Tuple[Role, ...]) -> Solv
 
 
 @pytest.fixture
-def example_medium_solverstate(medium_game_roles: Tuple[Role, ...]) -> SolverState:
+def example_medium_solverstate(medium_game_roles: tuple[Role, ...]) -> SolverState:
     possible_roles = (
         frozenset({Role.SEER}),
         frozenset(
@@ -86,7 +84,7 @@ def example_medium_solverstate(medium_game_roles: Tuple[Role, ...]) -> SolverSta
 
 @pytest.fixture
 def example_medium_solverstate_solved(
-    medium_game_roles: Tuple[Role, ...]
+    medium_game_roles: tuple[Role, ...]
 ) -> SolverState:
     possible_roles = (
         frozenset({Role.SEER}),
@@ -112,8 +110,8 @@ def example_medium_solverstate_solved(
 
 @pytest.fixture
 def example_medium_solved_list(
-    medium_game_roles: Tuple[Role, ...]
-) -> Tuple[SolverState, ...]:
+    medium_game_roles: tuple[Role, ...]
+) -> tuple[SolverState, ...]:
     possible_roles_1 = (
         frozenset({Role.SEER}),
         frozenset({Role.ROBBER, Role.TROUBLEMAKER, Role.WOLF, Role.DRUNK, Role.MINION}),
@@ -164,8 +162,8 @@ def example_medium_solved_list(
 
 @pytest.fixture
 def example_medium_solverstate_list(
-    medium_game_roles: Tuple[Role, ...]
-) -> Tuple[SolverState, ...]:
+    medium_game_roles: tuple[Role, ...]
+) -> tuple[SolverState, ...]:
     possible_roles_1 = (
         frozenset({Role.SEER}),
         frozenset({Role.ROBBER}),
@@ -237,7 +235,7 @@ def example_medium_solverstate_list(
 
 
 @pytest.fixture
-def example_large_solverstate(large_game_roles: Tuple[Role, ...]) -> SolverState:
+def example_large_solverstate(large_game_roles: tuple[Role, ...]) -> SolverState:
     possible_roles = (
         frozenset({Role.ROBBER}),
         frozenset(

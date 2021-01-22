@@ -1,13 +1,11 @@
 """ predictions.py """
-from typing import Tuple
-
 import pytest
 
 from src.roles import Role
 
 
 @pytest.fixture(scope="session")
-def large_individual_preds() -> Tuple[Tuple[Role, ...], ...]:
+def large_individual_preds() -> tuple[tuple[Role, ...], ...]:
     """ These predictions are long enough to deserve their own fixture. """
     return (
         (

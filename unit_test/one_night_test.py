@@ -1,6 +1,4 @@
 """ one_night_test.py """
-from typing import Tuple
-
 import pytest
 
 from conftest import set_roles, verify_output, verify_output_string
@@ -15,11 +13,11 @@ class TestGetIndividualPreds:
 
     @staticmethod
     def test_medium_individual_preds(
-        medium_game_roles: Tuple[Role, ...],
-        medium_statement_list: Tuple[Statement, ...],
+        medium_game_roles: tuple[Role, ...],
+        medium_statement_list: tuple[Statement, ...],
     ) -> None:
         """ Should get the individual predictions for all players. """
-        player_objs: Tuple[Player, ...] = (
+        player_objs: tuple[Player, ...] = (
             Seer(0, (2, Role.DRUNK)),
             Wolf(1, (1,), 5, Role.TROUBLEMAKER),
             Drunk(2, 5),
@@ -80,7 +78,7 @@ class TestConfidence:
     """
 
     @staticmethod
-    def test_small_confidence(small_game_roles: Tuple[Role, ...]) -> None:
+    def test_small_confidence(small_game_roles: tuple[Role, ...]) -> None:
         """ Should get voting results from the individual predictions. """
         indiv_preds = ((Role.VILLAGER, Role.SEER, Role.ROBBER),) * 3
 
@@ -89,7 +87,7 @@ class TestConfidence:
         assert result == (1.0,) * 3
 
     @staticmethod
-    def test_medium_confidence(medium_game_roles: Tuple[Role, ...]) -> None:
+    def test_medium_confidence(medium_game_roles: tuple[Role, ...]) -> None:
         """ Should get voting results from the individual predictions. """
         indiv_preds = (
             (
@@ -140,8 +138,8 @@ class TestConfidence:
 
     @staticmethod
     def test_large_confidence(
-        large_game_roles: Tuple[Role, ...],
-        large_individual_preds: Tuple[Tuple[Role, ...], ...],
+        large_game_roles: tuple[Role, ...],
+        large_individual_preds: tuple[tuple[Role, ...], ...],
     ) -> None:
         """ Should get voting results from the individual predictions. """
         result = one_night.get_confidence(large_individual_preds)
@@ -170,7 +168,7 @@ class TestGetVotingResult:
 
     @staticmethod
     def test_small_voting_result(
-        caplog: pytest.LogCaptureFixture, small_game_roles: Tuple[Role, ...]
+        caplog: pytest.LogCaptureFixture, small_game_roles: tuple[Role, ...]
     ) -> None:
         """ Should get voting results from the individual predictions. """
         indiv_preds = ((Role.VILLAGER, Role.SEER, Role.ROBBER),) * len(small_game_roles)
@@ -183,7 +181,7 @@ class TestGetVotingResult:
 
     @staticmethod
     def test_medium_voting_result(
-        caplog: pytest.LogCaptureFixture, medium_game_roles: Tuple[Role, ...]
+        caplog: pytest.LogCaptureFixture, medium_game_roles: tuple[Role, ...]
     ) -> None:
         """ Should get voting results from the individual predictions. """
         indiv_preds = (
@@ -249,8 +247,8 @@ class TestGetVotingResult:
     @staticmethod
     def test_large_voting_result(
         caplog: pytest.LogCaptureFixture,
-        large_game_roles: Tuple[Role, ...],
-        large_individual_preds: Tuple[Tuple[Role, ...], ...],
+        large_game_roles: tuple[Role, ...],
+        large_individual_preds: tuple[tuple[Role, ...], ...],
     ) -> None:
         """ Should get voting results from the individual predictions. """
         player_list = tuple(Player(i) for i in range(len(large_game_roles)))
@@ -288,7 +286,7 @@ class TestEvalWinningTeam:
 
     @staticmethod
     def test_werewolf_wins(
-        caplog: pytest.LogCaptureFixture, medium_game_roles: Tuple[Role, ...]
+        caplog: pytest.LogCaptureFixture, medium_game_roles: tuple[Role, ...]
     ) -> None:
         """ Should declare Werewolf victory if no wolves are found, but one exists. """
         guessed_wolf_inds = list(range(const.NUM_PLAYERS))
@@ -308,7 +306,7 @@ class TestEvalWinningTeam:
 
     @staticmethod
     def test_village_wins_no_wolf(
-        caplog: pytest.LogCaptureFixture, small_game_roles: Tuple[Role, ...]
+        caplog: pytest.LogCaptureFixture, small_game_roles: tuple[Role, ...]
     ) -> None:
         """
         Should declare Villager victory if no wolves are found, and there are none.
@@ -330,7 +328,7 @@ class TestEvalWinningTeam:
 
     @staticmethod
     def test_village_wins_found_wolf(
-        caplog: pytest.LogCaptureFixture, medium_game_roles: Tuple[Role, ...]
+        caplog: pytest.LogCaptureFixture, medium_game_roles: tuple[Role, ...]
     ) -> None:
         """
         Should declare Villager victory if no wolves are found, and there are none.
@@ -352,7 +350,7 @@ class TestEvalWinningTeam:
 
     @staticmethod
     def test_hunter_wins(
-        caplog: pytest.LogCaptureFixture, large_game_roles: Tuple[Role, ...]
+        caplog: pytest.LogCaptureFixture, large_game_roles: tuple[Role, ...]
     ) -> None:
         """
         Should declare Village victory if no wolves are found,
@@ -379,7 +377,7 @@ class TestEvalWinningTeam:
 
     @staticmethod
     def test_tanner_wins(
-        caplog: pytest.LogCaptureFixture, large_game_roles: Tuple[Role, ...]
+        caplog: pytest.LogCaptureFixture, large_game_roles: tuple[Role, ...]
     ) -> None:
         """
         Should declare Tanner victory if no wolves are found, and Tanner was chosen.

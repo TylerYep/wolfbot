@@ -1,6 +1,4 @@
 """ statements.py """
-from typing import Tuple
-
 import pytest
 
 from src.const import Role, SwitchPriority
@@ -18,7 +16,7 @@ def example_statement() -> Statement:
 
 
 @pytest.fixture(scope="session")
-def small_statement_list() -> Tuple[Statement, ...]:
+def small_statement_list() -> tuple[Statement, ...]:
     return (
         Statement("I am a Villager.", ((0, frozenset({Role.VILLAGER})),)),
         Statement(
@@ -34,7 +32,7 @@ def small_statement_list() -> Tuple[Statement, ...]:
 
 
 @pytest.fixture(scope="session")
-def medium_statement_list() -> Tuple[Statement, ...]:
+def medium_statement_list() -> tuple[Statement, ...]:
     return (
         Statement(
             "I am a Seer and I saw that Player 2 was a Drunk.",
@@ -62,7 +60,7 @@ def medium_statement_list() -> Tuple[Statement, ...]:
 
 
 @pytest.fixture(scope="session")
-def large_statement_list() -> Tuple[Statement, ...]:
+def large_statement_list() -> tuple[Statement, ...]:
     return (
         Statement(
             "I am a Robber and I swapped with Player 6. I am now a Drunk.",

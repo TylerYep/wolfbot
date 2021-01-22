@@ -1,6 +1,4 @@
 """ savedgames.py """
-from typing import Tuple
-
 import pytest
 
 from src import const
@@ -11,7 +9,7 @@ from src.stats import SavedGame
 
 
 @pytest.fixture
-def example_small_saved_game(small_game_roles: Tuple[Role, ...]) -> SavedGame:
+def example_small_saved_game(small_game_roles: tuple[Role, ...]) -> SavedGame:
     return SavedGame(
         (Role.VILLAGER, Role.ROBBER, Role.SEER),
         (Role.VILLAGER, Role.SEER, Role.ROBBER),
@@ -32,7 +30,7 @@ def example_small_saved_game(small_game_roles: Tuple[Role, ...]) -> SavedGame:
 
 
 @pytest.fixture
-def example_medium_saved_game(medium_game_roles: Tuple[Role, ...]) -> SavedGame:
+def example_medium_saved_game(medium_game_roles: tuple[Role, ...]) -> SavedGame:
     return SavedGame(
         (Role.SEER, Role.WOLF, Role.DRUNK, Role.ROBBER, Role.MINION, Role.TROUBLEMAKER),
         (Role.SEER, Role.WOLF, Role.TROUBLEMAKER, Role.DRUNK, Role.MINION, Role.ROBBER),
@@ -72,7 +70,7 @@ def example_medium_saved_game(medium_game_roles: Tuple[Role, ...]) -> SavedGame:
 
 
 @pytest.fixture
-def example_large_saved_game(large_game_roles: Tuple[Role, ...]) -> SavedGame:
+def example_large_saved_game(large_game_roles: tuple[Role, ...]) -> SavedGame:
     mason_roles = tuple(
         (i, const.ROLE_SET - frozenset({Role.MASON}))
         for i in range(const.NUM_PLAYERS)

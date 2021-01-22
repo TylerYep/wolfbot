@@ -1,6 +1,4 @@
 """ statements_test.py """
-from typing import Tuple
-
 from src import const, statements
 from src.const import Role, StatementLevel, SwitchPriority
 from src.statements import KnowledgeBase, Statement
@@ -59,7 +57,7 @@ class TestStatement:
 
     @staticmethod
     def test_negation(
-        large_game_roles: Tuple[Role, ...], example_statement: Statement
+        large_game_roles: tuple[Role, ...], example_statement: Statement
     ) -> None:
         """
         Negated statements only contain the speaker and
@@ -77,7 +75,7 @@ class TestStatement:
 
     @staticmethod
     def test_negate_all(
-        large_game_roles: Tuple[Role, ...], example_statement: Statement
+        large_game_roles: tuple[Role, ...], example_statement: Statement
     ) -> None:
         """ Negate-all statements contain the opposite of all clauses. """
         expected = Statement(

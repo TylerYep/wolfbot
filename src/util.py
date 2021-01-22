@@ -1,7 +1,7 @@
 """ util.py """
 import logging
 import random
-from typing import List, Optional, Sequence, Tuple
+from typing import Optional, Sequence
 
 from src import const
 from src.const import Role, logger
@@ -37,7 +37,7 @@ def print_roles(
     logger.log(log_level, role_output.replace("'", ""))
 
 
-def swap_characters(game_roles: List[Role], ind1: int, ind2: int) -> None:
+def swap_characters(game_roles: list[Role], ind1: int, ind2: int) -> None:
     """ Util function to swap two characters, updating game_roles. """
     if ind1 == ind2:
         raise RuntimeError("Cannot swap the same index.")
@@ -47,8 +47,8 @@ def swap_characters(game_roles: List[Role], ind1: int, ind2: int) -> None:
 
 
 def find_all_player_indices(
-    game_roles: Sequence[Role], role: Role, exclude: Tuple[int, ...] = ()
-) -> Tuple[int, ...]:
+    game_roles: Sequence[Role], role: Role, exclude: tuple[int, ...] = ()
+) -> tuple[int, ...]:
     """ Util function to find all indices of a given role. """
     return tuple(
         i
@@ -57,7 +57,7 @@ def find_all_player_indices(
     )
 
 
-def get_player(is_user: bool, exclude: Tuple[int, ...] = ()) -> int:
+def get_player(is_user: bool, exclude: tuple[int, ...] = ()) -> int:
     """ Gets a random player index (not in the center) or prompts the user. """
     if is_user:
         choice_ind = -1
@@ -77,7 +77,7 @@ def get_player(is_user: bool, exclude: Tuple[int, ...] = ()) -> int:
     return random.choice([i for i in range(const.NUM_PLAYERS) if i not in exclude])
 
 
-def get_center(is_user: bool, exclude: Tuple[int, ...] = ()) -> int:
+def get_center(is_user: bool, exclude: tuple[int, ...] = ()) -> int:
     """ Gets a random index of a center card or prompts the user. """
     if is_user:
         choice_ind = -1

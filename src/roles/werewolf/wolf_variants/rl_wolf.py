@@ -18,7 +18,7 @@ def get_statement_rl(
     # Necessary to put this here to avoid circular import
     from src.encoder import WolfBotDecoder
 
-    exp_dict: Dict[str, Dict[Statement, int]] = {}
+    exp_dict: dict[str, dict[Statement, int]] = {}
     with open(const.EXPERIENCE_PATH) as exp_file:
         exp_dict = json.load(exp_file, cls=WolfBotDecoder)
     experience = defaultdict(lambda: defaultdict(int), exp_dict)

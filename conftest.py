@@ -2,7 +2,7 @@
 import csv
 import os
 import random
-from typing import Any, Callable, Dict, List, Tuple
+from typing import Any, Callable
 
 import pytest
 
@@ -118,7 +118,7 @@ def _reset_const(seed: int = 0) -> None:
 
 
 @pytest.fixture
-def small_game_roles() -> Tuple[Role, ...]:
+def small_game_roles() -> tuple[Role, ...]:
     const.NUM_PLAYERS = 3
     const.NUM_CENTER = 0
     set_roles(Role.VILLAGER, Role.SEER, Role.ROBBER)
@@ -126,7 +126,7 @@ def small_game_roles() -> Tuple[Role, ...]:
 
 
 @pytest.fixture
-def medium_game_roles() -> Tuple[Role, ...]:
+def medium_game_roles() -> tuple[Role, ...]:
     const.NUM_PLAYERS = 5
     const.NUM_CENTER = 1
     set_roles(
@@ -136,7 +136,7 @@ def medium_game_roles() -> Tuple[Role, ...]:
 
 
 @pytest.fixture
-def large_game_roles() -> Tuple[Role, ...]:
+def large_game_roles() -> tuple[Role, ...]:
     const.NUM_PLAYERS = 12
     const.NUM_CENTER = 3
     set_roles(
@@ -160,7 +160,7 @@ def large_game_roles() -> Tuple[Role, ...]:
 
 
 @pytest.fixture
-def standard_game_roles() -> Tuple[Role, ...]:
+def standard_game_roles() -> tuple[Role, ...]:
     const.NUM_PLAYERS = 7
     const.NUM_CENTER = 3
     set_roles(
@@ -207,7 +207,7 @@ def override_random(monkeypatch: pytest.MonkeyPatch, seed: int = 0) -> None:
     monkeypatch.setattr("random.shuffle", fixed_seed_shuffle)
 
 
-def override_input(inputs: List[str]) -> Callable[[str], str]:
+def override_input(inputs: list[str]) -> Callable[[str], str]:
     """
     Returns a new input() function that accepts a string and repeatedly pops strings
     from the front the provided list and returns them as calls to input().
@@ -225,7 +225,7 @@ def override_input(inputs: List[str]) -> Callable[[str], str]:
     return _input
 
 
-def write_results(stat_results: Dict[str, float], file_path: str) -> None:
+def write_results(stat_results: dict[str, float], file_path: str) -> None:
     """ Writes stat_results to corresponding csv file. """
     sub_folder, filename = os.path.split(file_path)
     destination = os.path.join("integration_test", "results", sub_folder)
@@ -247,7 +247,7 @@ def verify_output_file(caplog: pytest.LogCaptureFixture, filename: str) -> None:
     verify_output(caplog, expected)
 
 
-def verify_output(caplog: pytest.LogCaptureFixture, expected: Tuple[str, ...]) -> None:
+def verify_output(caplog: pytest.LogCaptureFixture, expected: tuple[str, ...]) -> None:
     """ Helper method for comparing logging output differences. """
     captured = list(map(lambda x: x.getMessage(), caplog.records))
     assert "\n".join(captured) == "\n".join(expected)
