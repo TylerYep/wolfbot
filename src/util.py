@@ -1,7 +1,8 @@
 """ util.py """
 import logging
 import random
-from typing import Optional, Sequence
+from collections.abc import Sequence
+from typing import Optional
 
 from src import const
 from src.const import Role, logger

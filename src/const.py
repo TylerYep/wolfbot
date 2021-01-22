@@ -7,7 +7,8 @@ import logging
 import os
 import random
 import sys
-from collections import Callable, Counter, Sequence
+from collections import Counter
+from collections.abc import Callable, Sequence
 from enum import Enum, IntEnum, auto, unique
 from typing import Any, TypeVar, cast
 
@@ -52,9 +53,9 @@ def init_program(is_unit_test: bool) -> argparse.Namespace:
 class Formatter:
     """ Wrapper class for PrettyPrinter. """
 
-    def __init__(self, prettyprinter: Any) -> None:
-        self.pformat = prettyprinter.pformat
-        self.pprint = prettyprinter.pprint
+    def __init__(self, prettyprinter_module: Any) -> None:
+        self.pformat = prettyprinter_module.pformat
+        self.pprint = prettyprinter_module.pprint
 
 
 def init_prettyprinter() -> Formatter:

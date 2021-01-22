@@ -69,8 +69,8 @@ def make_relaxed_prediction(
     return final_guesses
 
 
-def get_probable_basic_guesses(
-    solution: SolverState, solution_probs: tuple[dict[Role, float], ...]
+def get_probable_guesses(
+    solution: SolverState,  # , solution_probs: tuple[dict[Role, float], ...]
 ) -> tuple[list[Role], dict[Role, int]]:
     """
     Populates the basic set of predictions, or adds the empty string if the
