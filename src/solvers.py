@@ -5,7 +5,6 @@ import heapq
 import shutil
 from dataclasses import dataclass, field
 from functools import total_ordering
-from typing import Optional
 
 from dataslots import dataslots
 
@@ -56,7 +55,7 @@ class SolverState:
 
     def is_consistent(
         self, statement: Statement, assumption: bool = True
-    ) -> Optional[SolverState]:
+    ) -> SolverState | None:
         """
         Returns the new state if the statement is consistent with state,
         otherwise returns an empty state.

@@ -1,6 +1,8 @@
 """ expectimax.py """
+from __future__ import annotations
+
 import random
-from typing import Any, Optional
+from typing import Any
 
 from src import const
 from src.solvers import SolverState
@@ -13,7 +15,7 @@ def expectimax(
     statement_list: tuple[Statement, ...],
     state: SolverState,
     ind: int,
-) -> tuple[float, Optional[Statement]]:
+) -> tuple[float, Statement | None]:
     """
     Runs expectimax on the list of statements and current state up to a max depth.
     """

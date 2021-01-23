@@ -1,7 +1,7 @@
 """ seer.py """
 from __future__ import annotations
 
-from typing import Any, Optional
+from typing import Any
 
 from src import const, util
 from src.const import Role, logger, lru_cache
@@ -16,7 +16,7 @@ class Seer(Player):
         self,
         player_index: int,
         choice_1: tuple[int, Role],
-        choice_2: tuple[Optional[int], Optional[Role]] = (None, None),
+        choice_2: tuple[int | None, Role | None] = (None, None),
     ):
         super().__init__(player_index)
         self.choice_1, self.choice_2 = choice_1, choice_2
@@ -71,7 +71,7 @@ class Seer(Player):
     def get_seer_statements(
         player_index: int,
         choice_1: tuple[int, Role],
-        choice_2: tuple[Optional[int], Optional[Role]] = (None, None),
+        choice_2: tuple[int | None, Role | None] = (None, None),
     ) -> tuple[Statement, ...]:
         """ Gets Seer Statement. """
         seen_index, seen_role = choice_1

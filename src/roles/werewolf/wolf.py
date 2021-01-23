@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import random
-from typing import Any, Optional
+from typing import Any
 
 from src import const, util
 from src.const import Role, logger, lru_cache
@@ -26,8 +26,8 @@ class Wolf(Player):
         self,
         player_index: int,
         wolf_indices: tuple[int, ...],
-        center_index: Optional[int] = None,
-        center_role: Optional[Role] = None,
+        center_index: int | None = None,
+        center_role: Role | None = None,
     ):
         super().__init__(player_index)
         self.wolf_indices = wolf_indices

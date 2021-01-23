@@ -1,7 +1,7 @@
 """ insomniac.py """
 from __future__ import annotations
 
-from typing import Any, Optional
+from typing import Any
 
 from src import const
 from src.const import Role, logger, lru_cache
@@ -35,7 +35,7 @@ class Insomniac(Player):
     def get_insomniac_statements(
         player_index: int,
         insomniac_new_role: Role,
-        new_insomniac_index: Optional[int] = None,
+        new_insomniac_index: int | None = None,
     ) -> tuple[Statement, ...]:
         """ Gets Insomniac Statement. """
         knowledge = ((player_index, frozenset({Role.INSOMNIAC})),)

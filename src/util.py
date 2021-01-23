@@ -1,8 +1,9 @@
 """ util.py """
+from __future__ import annotations
+
 import logging
 import random
 from collections.abc import Sequence
-from typing import Optional
 
 from src import const
 from src.const import Role, logger
@@ -101,7 +102,7 @@ def get_center(is_user: bool, exclude: tuple[int, ...] = ()) -> int:
     return random.choice(choices)
 
 
-def get_numeric_input(end: int, start: Optional[int] = None) -> int:
+def get_numeric_input(end: int, start: int | None = None) -> int:
     """
     Prompts the user for an index between [start, end). Note that
     if two parameters are supplied, the order of the parameters flips
