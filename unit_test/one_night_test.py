@@ -84,7 +84,7 @@ class TestConfidence:
 
         result = one_night.get_confidence(indiv_preds)
 
-        assert result == (1.0,) * 3
+        assert result == (1,) * 3
 
     @staticmethod
     def test_medium_confidence(medium_game_roles: tuple[Role, ...]) -> None:
@@ -145,11 +145,11 @@ class TestConfidence:
         result = one_night.get_confidence(large_individual_preds)
 
         assert result == (
-            1.0,
+            1,
             2 / 3,
-            1.0,
+            1,
             5 / 12,
-            1.0,
+            1,
             0.75,
             0.5,
             5 / 12,

@@ -37,10 +37,10 @@ class TestStandard:
         stat_tracker = one_night.simulate_game(num_games=10)
 
         stat_results = stat_tracker.get_metric_results()
-        assert stat_results["villager_wins"] == 1.0
-        assert stat_results["correctness_lenient_center"] == 1.0
-        assert stat_results["wolf_predictions_one"] == 0.0
-        assert stat_results["wolf_predictions_all"] == 1.0
+        assert stat_results["villager_wins"] == 1
+        assert stat_results["correctness_lenient_center"] == 1
+        assert stat_results["wolf_predictions_one"] == 0
+        assert stat_results["wolf_predictions_all"] == 1
 
     @staticmethod
     def test_small_game(small_game_roles: tuple[Role, ...]) -> None:
@@ -50,7 +50,7 @@ class TestStandard:
         stat_tracker = one_night.simulate_game(num_games=10)
 
         stat_results = stat_tracker.get_metric_results()
-        assert stat_results["villager_wins"] == 1.0
+        assert stat_results["villager_wins"] == 1
 
     @staticmethod
     def test_random_wolf(standard_game_roles: tuple[Role, ...]) -> None:
