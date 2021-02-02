@@ -26,7 +26,7 @@ def lru_cache(  # pylint: disable=protected-access
     func: Callable[..., T]
 ) -> functools._lru_cache_wrapper[T]:
     """ Allows lru_cache to type check correctly. """
-    new_func = functools.lru_cache()(func)
+    new_func = functools.lru_cache(func)
     CACHED_FUNCTIONS.append(new_func)
     return new_func
 

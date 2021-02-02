@@ -1,7 +1,7 @@
 """ encoder.py """
 import json
 import sys
-from typing import Any, Generic, Type, TypeVar, cast
+from typing import Any, Generic, TypeVar, cast
 
 from src import const
 from src.const import Role, Team
@@ -73,4 +73,4 @@ class ObjectInitializer(Generic[T]):
     @staticmethod
     def get(obj_name: str) -> Any:
         """ Retrieves class initializer from its string name. """
-        return cast(Type[T], getattr(sys.modules[__name__], obj_name))
+        return cast(type[T], getattr(sys.modules[__name__], obj_name))
