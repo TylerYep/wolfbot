@@ -1,9 +1,9 @@
 """ gui.py """
-import os
-
 from src import const
 from src.const import Role, logger
 from src.statements import Statement
+
+CLEAR_TERMINAL = "\033c"
 
 
 class GUIState:
@@ -15,7 +15,7 @@ class GUIState:
     @staticmethod
     def print_cache() -> None:
         """ Clears console and then output all lines stored in the logging cache. """
-        os.system("clear")
+        logger.info(CLEAR_TERMINAL)
         for log_level, line in logger.output_cache:
             logger.log(log_level, line)
 
@@ -24,7 +24,7 @@ class GUIState:
         if self.disable_gui:
             return
         input("Press Enter to continue...")
-        os.system("clear")
+        logger.info(CLEAR_TERMINAL)
         logger.clear()
 
         user_index = const.IS_USER.index(True)
