@@ -19,7 +19,7 @@ class TestPrintRoles:
         util.print_roles(shuffled_roles, "Hidden")
 
         expected = (
-            f"[Hidden] Player roles: [Seer, Villager, Wolf]\n"
+            "[Hidden] Player roles: [Seer, Villager, Wolf]\n"
             f"{' ' * 9}Center cards: [Robber]\n"
         )
         verify_output_string(caplog, expected)

@@ -232,7 +232,7 @@ class Player:
 
         if const.IS_USER[self.player_index]:
             logger.info(
-                f"\nWhich Player is a Wolf? "
+                "\nWhich Player is a Wolf? "
                 f"(Enter {no_wolves_guess} if there are no Wolves)"
             )
             return util.get_player(is_user=True, exclude=(self.player_index,))
