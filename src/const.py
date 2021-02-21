@@ -115,13 +115,13 @@ class Role(Enum):
         return cast(bool, result)
 
     @lru_cache
-    def __repr__(self) -> str:  # pylint: disable=invalid-repr-returned
+    def __repr__(self) -> str:
+        # pylint: disable=invalid-repr-returned
         return cast(str, self.value)
 
     @lru_cache
-    def __format__(  # pylint: disable=invalid-format-returned
-        self, formatstr: str
-    ) -> str:
+    def __format__(self, formatstr: str) -> str:
+        # pylint: disable=invalid-format-returned
         del formatstr
         return cast(str, self.value)
 
