@@ -109,10 +109,11 @@ class Role(Enum):
     @lru_cache
     def __lt__(self, other: object) -> bool:
         """ This function is necessary to make Role sortable alphabetically. """
-        if not isinstance(other, Role):
-            raise NotImplementedError
-        result = self.value < other.value  # pylint: disable=comparison-with-callable
-        return cast(bool, result)
+        if isinstance(other, Role):
+            # pylint: disable=comparison-with-callable
+            result = self.value < other.value
+            return cast(bool, result)
+        raise NotImplementedError
 
     @lru_cache
     def __repr__(self) -> str:

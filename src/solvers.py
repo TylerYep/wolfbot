@@ -51,7 +51,7 @@ class SolverState:
     def __lt__(self, other: object) -> bool:
         if isinstance(other, SolverState):
             return self.count_true < other.count_true
-        raise TypeError
+        raise NotImplementedError
 
     def is_consistent(
         self, statement: Statement, assumption: bool = True

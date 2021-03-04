@@ -7,7 +7,7 @@ from typing import Any
 
 import pytest
 
-from fixtures import (  # pylint: disable=unused-import
+from fixtures import (
     example_large_game_result,
     example_large_saved_game,
     example_large_solverstate,
