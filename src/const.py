@@ -113,7 +113,7 @@ class Role(Enum):
             # pylint: disable=comparison-with-callable
             result = self.value < other.value
             return cast(bool, result)
-        raise NotImplementedError
+        return NotImplemented
 
     @lru_cache
     def __repr__(self) -> str:
