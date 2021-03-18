@@ -40,11 +40,11 @@ def init_program(is_unit_test: bool) -> argparse.Namespace:
     parser.add_argument("--log_level", "-l", type=str,
                         choices=["trace", "debug", "info", "warn"],
                         help="set logging level")
-    parser.add_argument("--replay", "-r", action="store_true", default=False,
+    parser.add_argument("--replay", "-r", action="store_true",
                         help="replay previous game")
     parser.add_argument("--seed", "-s",
                         help="specify game seed")
-    parser.add_argument("--user", "-u", action="store_true", default=False,
+    parser.add_argument("--user", "-u", action="store_true",
                         help="enable interactive mode")
     # fmt: on
     return parser.parse_args("" if is_unit_test else sys.argv[1:])
@@ -70,13 +70,13 @@ def init_prettyprinter() -> Formatter:
     return Formatter(prettyprinter)
 
 
-def get_counts(arr: Sequence[T]) -> dict[T, int]:
+def get_counts(arr: Sequence[T], use_counter_threshold: int = 40) -> dict[T, int]:
     """
     Returns a dict of counts of each item in a list.
     When there are fewer than ~40 items, using a regular
     dictionary is faster than using a Counter.
     """
-    if len(arr) < 40:
+    if len(arr) < use_counter_threshold:
         counts: dict[T, int] = {}
         for item in arr:
             if item in counts:
