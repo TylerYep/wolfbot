@@ -4,12 +4,12 @@ from __future__ import annotations
 import argparse
 import functools
 import logging
-import os
 import random
 import sys
 from collections import Counter
 from collections.abc import Callable, Sequence
 from enum import Enum, IntEnum, auto, unique
+from pathlib import Path
 from typing import Any, TypeVar, cast
 
 import prettyprinter
@@ -61,12 +61,11 @@ class Formatter:
 def init_prettyprinter() -> Formatter:
     """ Initialize prettyprinter and add all IMPLICIT_MODULES. """
     prettyprinter.install_extras(include={"python", "dataclasses"})
-    for root, _, files in os.walk("src"):
-        for filename in files:
-            if filename.endswith(".py") and "__" not in filename:
-                module_name = os.path.splitext(filename)[0]
-                prefix = ".".join(root.split(os.sep) + [module_name])
-                IMPLICIT_MODULES.add(prefix)
+    for filepath in Path("src").rglob("*.py"):
+        module_name = filepath.stem
+        if "__" not in module_name:
+            prefix = ".".join(filepath.parts[:-1] + (module_name,))
+            IMPLICIT_MODULES.add(prefix)
     return Formatter(prettyprinter)
 
 

@@ -1,8 +1,8 @@
 """ conftest.py """
 import csv
-import os
 import random
 from collections.abc import Callable
+from pathlib import Path
 from typing import Any
 
 import pytest
@@ -228,15 +228,15 @@ def override_input(inputs: list[str]) -> Callable[[str], str]:
 
 def write_results(stat_results: dict[str, float], file_path: str) -> None:
     """ Writes stat_results to corresponding csv file. """
-    sub_folder, filename = os.path.split(file_path)
-    destination = os.path.join("integration_test", "results", sub_folder)
-    if not os.path.isdir(destination):
-        os.makedirs(destination)
+    filepath = Path(file_path)
+    destination = Path(f"integration_test/results/{filepath.parent}")
+    if not destination.is_dir():
+        destination.mkdir(parents=True)
 
-    results_filename = os.path.join(destination, filename)
+    results_filename = destination / filepath.name
     with open(results_filename, "a+") as out_file:
         writer = csv.DictWriter(out_file, fieldnames=stat_results)
-        if os.path.getsize(results_filename) == 0:
+        if results_filename.stat().st_size == 0:
             writer.writeheader()
         writer.writerow(stat_results)
 

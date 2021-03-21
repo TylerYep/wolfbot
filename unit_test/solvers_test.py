@@ -47,6 +47,36 @@ class TestSolverState:
 
         assert result == {Role.SEER: 0, Role.VILLAGER: 0, Role.WOLF: 1, Role.ROBBER: 1}
 
+    @staticmethod
+    def test_repr() -> None:
+        """ Should pretty-print SolverStates using the custom formatter. """
+        result = SolverState((frozenset({Role.VILLAGER}),), path=(True,))
+
+        assert (
+            str(result)
+            == repr(result)
+            == (
+                "SolverState(\n"
+                "    possible_roles=(frozenset([Role.VILLAGER]),),\n"
+                "    path=(True,),\n"
+                "    role_counts={\n"
+                "        Role.INSOMNIAC: 1,\n"
+                "        Role.VILLAGER: 2,\n"
+                "        Role.ROBBER: 1,\n"
+                "        Role.DRUNK: 1,\n"
+                "        Role.WOLF: 2,\n"
+                "        Role.SEER: 1,\n"
+                "        Role.TANNER: 1,\n"
+                "        Role.MASON: 2,\n"
+                "        Role.MINION: 1,\n"
+                "        Role.TROUBLEMAKER: 1,\n"
+                "        Role.HUNTER: 1\n"
+                "    },\n"
+                "    count_true=1\n"
+                ")"
+            )
+        )
+
 
 class TestIsConsistent:
     """ Tests for the is_consistent function. """

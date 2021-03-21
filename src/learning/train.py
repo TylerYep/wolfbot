@@ -3,10 +3,10 @@ train.py
 To run: python -m src.learning.train
 """
 import json
-import os
 
 # import time
 from collections import defaultdict
+from pathlib import Path
 from typing import Any
 
 from src import const
@@ -59,21 +59,19 @@ def train(folder: str, eta: float = 0.01) -> None:
         lambda: defaultdict(float)
     )
     count_dict: defaultdict[Any, int] = defaultdict(int)  # NOTE: For testing purposes
-    for file in os.listdir(folder):
-        file_path = os.path.join(folder, file)
-        if file_path.lower().endswith(".json"):
-            with open(file_path) as data_file:
-                for game in json.load(data_file, cls=WolfBotDecoder):
-                    # See how training improves over time
-                    if counter % 100 == 0:
-                        test()
-                    states, statements = get_wolf_state(game)
-                    for state, statement in zip(states, statements):
-                        experience_dict[state][statement] = (1 - eta) * experience_dict[
-                            state
-                        ][statement] + eta * evaluate(game)
-                        count_dict[(state)] += 1
-                    counter += 1
+    for filepath in Path(folder).glob("*.json"):
+        with open(filepath) as data_file:
+            for game in json.load(data_file, cls=WolfBotDecoder):
+                # See how training improves over time
+                if counter % 100 == 0:
+                    test()
+                states, statements = get_wolf_state(game)
+                for state, statement in zip(states, statements):
+                    experience_dict[state][statement] = (1 - eta) * experience_dict[
+                        state
+                    ][statement] + eta * evaluate(game)
+                    count_dict[(state)] += 1
+                counter += 1
 
     exp_dict = remap_keys(experience_dict)
     with open("src/learning/simulations/wolf.json", "w") as wolf_file:
