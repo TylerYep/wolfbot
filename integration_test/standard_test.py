@@ -9,11 +9,11 @@ from src.stats import Statistics
 
 
 class TestStandard:
-    """ Tests for the play_one_night_werewolf function. """
+    """Tests for the play_one_night_werewolf function."""
 
     @staticmethod
     def test_perfect_villagers() -> None:
-        """ Correctly play one round of one night werewolf. """
+        """Correctly play one round of one night werewolf."""
         const.NUM_PLAYERS = 10
         const.NUM_CENTER = 3
         const.RANDOMIZE_ROLES = False
@@ -44,7 +44,7 @@ class TestStandard:
 
     @staticmethod
     def test_small_game(small_game_roles: tuple[Role, ...]) -> None:
-        """ Correctly play one round of one night werewolf. """
+        """Correctly play one round of one night werewolf."""
         random.seed()
 
         stat_tracker = one_night.simulate_game(num_games=10)
@@ -54,7 +54,7 @@ class TestStandard:
 
     @staticmethod
     def test_random_wolf(standard_game_roles: tuple[Role, ...]) -> None:
-        """ Correctly play one round of one night werewolf. """
+        """Correctly play one round of one night werewolf."""
         stat_tracker = one_night.simulate_game(num_games=1000)
 
         stat_results = stat_tracker.get_metric_results()
@@ -65,7 +65,7 @@ class TestStandard:
 
     @staticmethod
     def test_reg_wolf(standard_game_roles: tuple[Role, ...]) -> None:
-        """ Correctly play one round of one night werewolf. """
+        """Correctly play one round of one night werewolf."""
         const.USE_REG_WOLF = True
 
         stat_tracker = one_night.simulate_game(num_games=1000)
@@ -78,7 +78,7 @@ class TestStandard:
 
     @staticmethod
     def test_expectimax_wolf(standard_game_roles: tuple[Role, ...]) -> None:
-        """ Correctly play one round of one night werewolf. """
+        """Correctly play one round of one night werewolf."""
         const.USE_REG_WOLF = True
         const.EXPECTIMAX_WOLF = True
 
@@ -105,7 +105,7 @@ class TestStandard:
 
     @staticmethod
     def test_random_villagers(standard_game_roles: tuple[Role, ...]) -> None:
-        """ Correctly play one round of one night werewolf. """
+        """Correctly play one round of one night werewolf."""
         const.USE_REG_WOLF = True
         const.EXPECTIMAX_WOLF = True
         const.SMART_VILLAGERS = False
@@ -120,7 +120,7 @@ class TestStandard:
 
     @staticmethod
     def test_expectimax_tanner() -> None:
-        """ Correctly play one round of one night werewolf. """
+        """Correctly play one round of one night werewolf."""
         const.NUM_PLAYERS = 9
         const.NUM_CENTER = 3
         const.EXPECTIMAX_TANNER = True
@@ -148,7 +148,7 @@ class TestStandard:
 
     @staticmethod
     def test_relaxed_solver_improvement(large_game_roles: tuple[Role, ...]) -> None:
-        """ Correctly play one round of one night werewolf. """
+        """Correctly play one round of one night werewolf."""
         const.USE_REG_WOLF = True
         const.logger.set_level(logging.WARNING)
         stat_tracker_1, stat_tracker_2 = Statistics(), Statistics()

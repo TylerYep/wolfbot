@@ -7,7 +7,7 @@ from src.stats import GameResult
 
 
 class TestPlayOneNightWerewolf:
-    """ Tests for the play_one_night_werewolf function. """
+    """Tests for the play_one_night_werewolf function."""
 
     @staticmethod
     def test_one_night_small(
@@ -15,7 +15,7 @@ class TestPlayOneNightWerewolf:
         example_small_game_result: GameResult,
         override_random: None,
     ) -> None:
-        """ Correctly play one round of one night werewolf. """
+        """Correctly play one round of one night werewolf."""
         result = one_night.play_one_night_werewolf()
 
         assert result == example_small_game_result
@@ -27,7 +27,7 @@ class TestPlayOneNightWerewolf:
         example_medium_game_result: GameResult,
         override_random: None,
     ) -> None:
-        """ Correctly play one round of one night werewolf. """
+        """Correctly play one round of one night werewolf."""
         result = one_night.play_one_night_werewolf()
 
         assert result == example_medium_game_result
@@ -39,7 +39,7 @@ class TestPlayOneNightWerewolf:
         example_large_game_result: GameResult,
         override_random: None,
     ) -> None:
-        """ Correctly play one round of one night werewolf. """
+        """Correctly play one round of one night werewolf."""
         result = one_night.play_one_night_werewolf()
 
         assert result == example_large_game_result

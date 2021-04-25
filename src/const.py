@@ -25,14 +25,14 @@ CACHED_FUNCTIONS = []
 def lru_cache(  # pylint: disable=protected-access
     func: Callable[..., T]
 ) -> functools._lru_cache_wrapper[T]:
-    """ Allows lru_cache to type check correctly. """
+    """Allows lru_cache to type check correctly."""
     new_func = functools.lru_cache(func)
     CACHED_FUNCTIONS.append(new_func)
     return new_func
 
 
 def init_program(is_unit_test: bool) -> argparse.Namespace:
-    """ Command Line Arguments """
+    """Command Line Arguments"""
     parser = argparse.ArgumentParser(description="config constants for main.py")
     # fmt: off
     parser.add_argument("--num_games", "-n", type=int, default=1,
@@ -51,7 +51,7 @@ def init_program(is_unit_test: bool) -> argparse.Namespace:
 
 
 class Formatter:
-    """ Wrapper class for PrettyPrinter. """
+    """Wrapper class for PrettyPrinter."""
 
     def __init__(self, prettyprinter_module: Any) -> None:
         self.pformat = prettyprinter_module.pformat
@@ -59,7 +59,7 @@ class Formatter:
 
 
 def init_prettyprinter() -> Formatter:
-    """ Initialize prettyprinter and add all IMPLICIT_MODULES. """
+    """Initialize prettyprinter and add all IMPLICIT_MODULES."""
     prettyprinter.install_extras(include={"python", "dataclasses"})
     for filepath in Path("src").rglob("*.py"):
         module_name = filepath.stem
@@ -90,7 +90,7 @@ def get_counts(arr: Sequence[T], use_counter_threshold: int = 40) -> dict[T, int
 @unique
 @functools.total_ordering
 class Role(Enum):
-    """ Role Type. """
+    """Role Type."""
 
     DRUNK = "Drunk"
     HUNTER = "Hunter"
@@ -107,7 +107,7 @@ class Role(Enum):
 
     @lru_cache
     def __lt__(self, other: object) -> bool:
-        """ This function is necessary to make Role sortable alphabetically. """
+        """This function is necessary to make Role sortable alphabetically."""
         if isinstance(other, Role):
             # pylint: disable=comparison-with-callable
             result = self.value < other.value
@@ -126,7 +126,7 @@ class Role(Enum):
         return cast(str, self.value)
 
     def json_repr(self) -> dict[str, Any]:
-        """ Gets JSON representation of a Role enum. """
+        """Gets JSON representation of a Role enum."""
         return {"type": "Role", "data": self.value}
 
 
@@ -247,21 +247,20 @@ elif INTERACTIVE_MODE:
     logger.set_level(logging.INFO)
 
 if sys.version_info < (3, 9):
-    sys.stdout.write("Python " + sys.version)
-    sys.stdout.write("\n\nWolfBot requires Python 3.9+ to work!\n\n")
+    sys.stdout.write(f"Python {sys.version}\n\nWolfBot requires Python 3.9+ to work!\n")
     sys.exit()
 
 
 @unique
 class SwitchPriority(IntEnum):
-    """ Priorities for switch actions, in order that they are performed. """
+    """Priorities for switch actions, in order that they are performed."""
 
     ROBBER, TROUBLEMAKER, DRUNK = 1, 2, 3
 
 
 @unique
 class StatementLevel(IntEnum):
-    """ Statement Priority Levels. Only the order of the values matters. """
+    """Statement Priority Levels. Only the order of the values matters."""
 
     NOT_YET_SPOKEN = -1
     NO_INFO = 0
@@ -271,10 +270,10 @@ class StatementLevel(IntEnum):
 
 @unique
 class Team(Enum):
-    """ Team names, order doesn't matter. """
+    """Team names, order doesn't matter."""
 
     VILLAGE, TANNER, WEREWOLF = auto(), auto(), auto()
 
     def json_repr(self) -> dict[str, Any]:
-        """ Gets JSON representation of a Role enum. """
+        """Gets JSON representation of a Role enum."""
         return {"type": "Team", "data": self.value}

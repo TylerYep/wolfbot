@@ -7,18 +7,18 @@ from src.statements import Statement
 
 
 class TestSolverState:
-    """ Tests for the SolverState class. """
+    """Tests for the SolverState class."""
 
     @staticmethod
     def test_constructor() -> None:
-        """ Should initialize a SolverState. """
+        """Should initialize a SolverState."""
         result = SolverState((frozenset({Role.VILLAGER}),), path=(True,))
 
         assert isinstance(result, SolverState)
 
     @staticmethod
     def test_eq(example_small_solverstate: SolverState) -> None:
-        """ Should be able to compare two identical SolverStates. """
+        """Should be able to compare two identical SolverStates."""
         possible_roles = (
             frozenset({Role.SEER}),
             frozenset({Role.ROBBER, Role.VILLAGER, Role.SEER}),
@@ -49,7 +49,7 @@ class TestSolverState:
 
     @staticmethod
     def test_repr() -> None:
-        """ Should pretty-print SolverStates using the custom formatter. """
+        """Should pretty-print SolverStates using the custom formatter."""
         result = SolverState((frozenset({Role.VILLAGER}),), path=(True,))
 
         assert (
@@ -79,7 +79,7 @@ class TestSolverState:
 
 
 class TestIsConsistent:
-    """ Tests for the is_consistent function. """
+    """Tests for the is_consistent function."""
 
     @staticmethod
     def test_is_consistent_on_empty_state(
@@ -96,7 +96,7 @@ class TestIsConsistent:
 
     @staticmethod
     def test_invalid_state(example_statement: Statement) -> None:
-        """ Should return None for inconsistent states. """
+        """Should return None for inconsistent states."""
         start_state = SolverState((frozenset({Role.VILLAGER}),) * 3, path=(True,))
 
         invalid_state = start_state.is_consistent(example_statement)
@@ -148,39 +148,39 @@ class TestIsConsistent:
 
 
 class TestCachedSolver:
-    """ Tests for the cached_solver and count_roles function. """
+    """Tests for the cached_solver and count_roles function."""
 
     @staticmethod
     def test_solver_small(small_statement_list: tuple[Statement, ...]) -> None:
-        """ Should return a SolverState with the most likely solution. """
+        """Should return a SolverState with the most likely solution."""
         result = solvers.cached_solver(small_statement_list)
 
         assert result == 3
 
     @staticmethod
     def test_solver_medium(medium_statement_list: tuple[Statement, ...]) -> None:
-        """ Should return a SolverState with the most likely solution. """
+        """Should return a SolverState with the most likely solution."""
         result = solvers.cached_solver(medium_statement_list)
 
         assert result == 3
 
     @staticmethod
     def test_solver_large(large_statement_list: tuple[Statement, ...]) -> None:
-        """ Should return a SolverState with the most likely solution. """
+        """Should return a SolverState with the most likely solution."""
         result = solvers.cached_solver(large_statement_list)
 
         assert result == 6
 
 
 class TestSwitchingSolver:
-    """ Tests for the switching_solver. """
+    """Tests for the switching_solver."""
 
     @staticmethod
     def test_solver_small(
         small_statement_list: tuple[Statement],
         example_small_solverstate_solved: SolverState,
     ) -> None:
-        """ Should return a SolverState with the most likely solution. """
+        """Should return a SolverState with the most likely solution."""
         result = solvers.switching_solver(small_statement_list)
 
         assert result[0] == example_small_solverstate_solved
@@ -190,7 +190,7 @@ class TestSwitchingSolver:
         medium_statement_list: tuple[Statement],
         example_medium_solverstate_solved: SolverState,
     ) -> None:
-        """ Should return a SolverState with the most likely solution. """
+        """Should return a SolverState with the most likely solution."""
         result = solvers.switching_solver(medium_statement_list)
 
         assert result[0] == example_medium_solverstate_solved
@@ -200,7 +200,7 @@ class TestSwitchingSolver:
         medium_statement_list: tuple[Statement, ...],
         medium_game_roles: tuple[Role, ...],
     ) -> None:
-        """ Should return a SolverState with the most likely solution. """
+        """Should return a SolverState with the most likely solution."""
         possible_roles = (
             frozenset(
                 {Role.DRUNK, Role.MINION, Role.TROUBLEMAKER, Role.WOLF, Role.ROBBER}
@@ -236,7 +236,7 @@ class TestSwitchingSolver:
         medium_statement_list: tuple[Statement, ...],
         example_medium_solved_list: tuple[SolverState, ...],
     ) -> None:
-        """ Should return a SolverState with the most likely solution. """
+        """Should return a SolverState with the most likely solution."""
         result = solvers.switching_solver(medium_statement_list)
 
         assert tuple(result) == example_medium_solved_list
@@ -246,21 +246,21 @@ class TestSwitchingSolver:
         large_statement_list: tuple[Statement, ...],
         example_large_solverstate: SolverState,
     ) -> None:
-        """ Should return a SolverState with the most likely solution. """
+        """Should return a SolverState with the most likely solution."""
         result = solvers.switching_solver(large_statement_list)
 
         assert result[0] == example_large_solverstate
 
 
 class TestRelaxedSolver:
-    """ Tests for the relaxed_solver. """
+    """Tests for the relaxed_solver."""
 
     @staticmethod
     def test_solver_small(
         small_statement_list: tuple[Statement],
         example_small_solverstate_solved: SolverState,
     ) -> None:
-        """ Should return a SolverState with the most likely solution. """
+        """Should return a SolverState with the most likely solution."""
         result = solvers.relaxed_solver(small_statement_list)
 
         # There are no desirable alternative solutions.
@@ -271,7 +271,7 @@ class TestRelaxedSolver:
         medium_statement_list: tuple[Statement],
         example_medium_solverstate_solved: SolverState,
     ) -> None:
-        """ Should return a SolverState with the most likely solution. """
+        """Should return a SolverState with the most likely solution."""
         result = solvers.relaxed_solver(medium_statement_list)
 
         # Ensure alternative solution was a proposed result (3 lie statements)
@@ -283,7 +283,7 @@ class TestRelaxedSolver:
         medium_statement_list: tuple[Statement, ...],
         medium_game_roles: tuple[Role, ...],
     ) -> None:
-        """ Should return a SolverState with the most likely solution. """
+        """Should return a SolverState with the most likely solution."""
         possible_roles = (
             frozenset(
                 {Role.DRUNK, Role.MINION, Role.TROUBLEMAKER, Role.WOLF, Role.ROBBER}
@@ -322,7 +322,7 @@ class TestRelaxedSolver:
         medium_statement_list: tuple[Statement, ...],
         example_medium_solved_list: tuple[SolverState, ...],
     ) -> None:
-        """ Should return a SolverState with the most likely solution. """
+        """Should return a SolverState with the most likely solution."""
         result = solvers.relaxed_solver(medium_statement_list)
 
         assert len(result) == 10
@@ -332,7 +332,7 @@ class TestRelaxedSolver:
         large_statement_list: tuple[Statement, ...],
         example_large_solverstate: SolverState,
     ) -> None:
-        """ Should return a SolverState with the most likely solution. """
+        """Should return a SolverState with the most likely solution."""
         result = solvers.relaxed_solver(large_statement_list)
 
         # Ensure alternative solutions were in proposed results (4-5 lie statements)

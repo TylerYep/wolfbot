@@ -6,13 +6,13 @@ from src.statements import KnowledgeBase
 
 
 class TestMinion:
-    """ Tests for the Minion player class. """
+    """Tests for the Minion player class."""
 
     @staticmethod
     def test_get_random_statement_medium(
         medium_game_roles: tuple[Role, ...], medium_knowledge_base: KnowledgeBase
     ) -> None:
-        """ Execute initialization actions and return the possible statements. """
+        """Execute initialization actions and return the possible statements."""
         player_index = 4
         minion = Minion(player_index, (1, 5))
 
@@ -25,7 +25,7 @@ class TestMinion:
     def test_get_reg_wolf_statement_medium(
         medium_game_roles: tuple[Role, ...], medium_knowledge_base: KnowledgeBase
     ) -> None:
-        """ Execute initialization actions and return the possible statements. """
+        """Execute initialization actions and return the possible statements."""
         const.USE_REG_WOLF = True
         player_index = 4
         minion = Minion(player_index, (1, 5))
@@ -39,7 +39,7 @@ class TestMinion:
     def test_get_random_statement_large(
         large_game_roles: tuple[Role, ...], large_knowledge_base: KnowledgeBase
     ) -> None:
-        """ Execute initialization actions and return the possible statements. """
+        """Execute initialization actions and return the possible statements."""
         player_index = 4
         minion = Minion(player_index, (1, 5))
 
@@ -52,7 +52,7 @@ class TestMinion:
     def test_get_reg_wolf_statement_large(
         large_game_roles: tuple[Role, ...], large_knowledge_base: KnowledgeBase
     ) -> None:
-        """ Execute initialization actions and return the possible statements. """
+        """Execute initialization actions and return the possible statements."""
         const.USE_REG_WOLF = True
         player_index = 4
         minion = Minion(player_index, (1, 5))

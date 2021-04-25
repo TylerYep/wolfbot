@@ -5,11 +5,11 @@ from src.statements import Statement
 
 
 class TestHunter:
-    """ Tests for the Hunter player class. """
+    """Tests for the Hunter player class."""
 
     @staticmethod
     def test_awake_init() -> None:
-        """ Should initialize a Hunter. """
+        """Should initialize a Hunter."""
         player_index = 5
 
         hunter = Hunter.awake_init(player_index, [], ())  # Other params are unused.
@@ -20,7 +20,7 @@ class TestHunter:
 
     @staticmethod
     def test_get_hunter_statements() -> None:
-        """ Execute initialization actions and return the possible statements. """
+        """Execute initialization actions and return the possible statements."""
         player_index = 0
 
         result = Hunter.get_hunter_statements(player_index)
@@ -31,7 +31,7 @@ class TestHunter:
 
     @staticmethod
     def test_get_all_statements() -> None:
-        """ Should return possible statements from all possible initializations. """
+        """Should return possible statements from all possible initializations."""
         player_index = 2
 
         result = Hunter.get_all_statements(player_index)

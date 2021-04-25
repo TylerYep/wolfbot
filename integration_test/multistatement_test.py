@@ -5,11 +5,11 @@ from src.const import Role
 
 
 class TestMultistatement:
-    """ Tests for the play_one_night_werewolf function. """
+    """Tests for the play_one_night_werewolf function."""
 
     @staticmethod
     def test_random_wolf(standard_game_roles: tuple[Role, ...]) -> None:
-        """ Correctly play one round of one night werewolf. """
+        """Correctly play one round of one night werewolf."""
         const.MULTI_STATEMENT = True
 
         stat_tracker = one_night.simulate_game(num_games=1000)
@@ -22,7 +22,7 @@ class TestMultistatement:
 
     @staticmethod
     def test_reg_wolf(standard_game_roles: tuple[Role, ...]) -> None:
-        """ Correctly play one round of one night werewolf. """
+        """Correctly play one round of one night werewolf."""
         const.MULTI_STATEMENT = True
         const.USE_REG_WOLF = True
 
@@ -36,7 +36,7 @@ class TestMultistatement:
 
     @staticmethod
     def test_expectimax_wolf(standard_game_roles: tuple[Role, ...]) -> None:
-        """ Correctly play one round of one night werewolf. """
+        """Correctly play one round of one night werewolf."""
         const.USE_REG_WOLF = True
         const.EXPECTIMAX_WOLF = True
         const.MULTI_STATEMENT = True

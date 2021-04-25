@@ -36,7 +36,7 @@ from src.util import verify_const
 
 
 def set_roles(*roles: Role) -> None:
-    """ Changes to ROLES should propagate to all of its descendants. """
+    """Changes to ROLES should propagate to all of its descendants."""
     const.ROLES = roles  # type: ignore[assignment]
     const.ROLE_SET = frozenset(const.ROLES)
     const.SORTED_ROLE_SET = sorted(const.ROLE_SET)
@@ -181,7 +181,7 @@ def standard_game_roles() -> tuple[Role, ...]:
 
 @pytest.fixture
 def override_random(monkeypatch: pytest.MonkeyPatch, seed: int = 0) -> None:
-    """ Overrides all functions from the built-in random module. """
+    """Overrides all functions from the built-in random module."""
 
     def fix_seed(orig_function: Callable[..., Any]) -> Callable[..., Any]:
         """
@@ -191,14 +191,14 @@ def override_random(monkeypatch: pytest.MonkeyPatch, seed: int = 0) -> None:
         """
 
         def fixed_seed_version(param: Any, *args: Any, **kwargs: Any) -> Any:
-            """ Sets the random seed and then returns the original function result. """
+            """Sets the random seed and then returns the original function result."""
             random.seed(seed)
             return orig_function(param, *args, **kwargs)
 
         return fixed_seed_version
 
     def fixed_seed_shuffle(param: Any) -> Any:
-        """ Sets the random seed and then returns the original function result. """
+        """Sets the random seed and then returns the original function result."""
         random.seed(seed)
         param = random.sample(param, len(param))
 
@@ -227,7 +227,7 @@ def override_input(inputs: list[str]) -> Callable[[str], str]:
 
 
 def write_results(stat_results: dict[str, float], file_path: str) -> None:
-    """ Writes stat_results to corresponding csv file. """
+    """Writes stat_results to corresponding csv file."""
     filepath = Path(file_path)
     destination = Path(f"integration_test/results/{filepath.parent}")
     if not destination.is_dir():
@@ -242,18 +242,18 @@ def write_results(stat_results: dict[str, float], file_path: str) -> None:
 
 
 def verify_output_file(caplog: pytest.LogCaptureFixture, filename: str) -> None:
-    """ Helper method for comparing file output differences. """
+    """Helper method for comparing file output differences."""
     with open(filename) as output_file:
         expected = tuple(output_file.read().split("\n"))
     verify_output(caplog, expected)
 
 
 def verify_output(caplog: pytest.LogCaptureFixture, expected: tuple[str, ...]) -> None:
-    """ Helper method for comparing logging output differences. """
+    """Helper method for comparing logging output differences."""
     captured = list(map(lambda x: x.getMessage(), caplog.records))
     assert "\n".join(captured) == "\n".join(expected)
 
 
 def verify_output_string(caplog: pytest.LogCaptureFixture, expected: str) -> None:
-    """ Helper method for comparing string output differences. """
+    """Helper method for comparing string output differences."""
     assert caplog.records[0].getMessage() == expected

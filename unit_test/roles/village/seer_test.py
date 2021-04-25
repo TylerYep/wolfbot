@@ -7,7 +7,7 @@ from src.statements import Statement
 
 
 class TestSeer:
-    """ Tests for the Seer player class. """
+    """Tests for the Seer player class."""
 
     @staticmethod
     def test_awake_init_center_choice(large_game_roles: tuple[Role, ...]) -> None:
@@ -62,7 +62,7 @@ class TestSeer:
 
     @staticmethod
     def test_get_seer_statements() -> None:
-        """ Execute initialization actions and return the possible statements. """
+        """Execute initialization actions and return the possible statements."""
         player_index = 1
 
         result = Seer.get_seer_statements(player_index, (6, Role.ROBBER))
@@ -76,7 +76,7 @@ class TestSeer:
 
     @staticmethod
     def test_get_all_statements() -> None:
-        """ Should return possible statements from all possible initializations. """
+        """Should return possible statements from all possible initializations."""
         player_index = 1
         set_roles(Role.WOLF, Role.SEER, Role.VILLAGER, Role.WOLF)
         const.NUM_PLAYERS = 2

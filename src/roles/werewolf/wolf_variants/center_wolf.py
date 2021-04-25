@@ -10,7 +10,7 @@ from src.statements import KnowledgeBase, Statement
 def get_center_wolf_statements(
     player_obj: Any, knowledge_base: KnowledgeBase
 ) -> tuple[Statement, ...]:
-    """ Center Wolf Player logic. """
+    """Center Wolf Player logic."""
     statements: tuple[Statement, ...] = ()
     player_index = player_obj.player_index
     wolf_indices = player_obj.wolf_indices

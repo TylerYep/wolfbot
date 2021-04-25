@@ -7,11 +7,11 @@ from src.statements import Statement
 
 
 class TestMason:
-    """ Tests for the Mason player class. """
+    """Tests for the Mason player class."""
 
     @staticmethod
     def test_awake_init(large_game_roles: tuple[Role, ...]) -> None:
-        """ Should initialize a Mason. """
+        """Should initialize a Mason."""
         player_index = 6
 
         mason = Mason.awake_init(player_index, [], large_game_roles)
@@ -26,7 +26,7 @@ class TestMason:
 
     @staticmethod
     def test_get_mason_statements() -> None:
-        """ Execute initialization actions and return the possible statements. """
+        """Execute initialization actions and return the possible statements."""
         player_index = 9
 
         result = Mason.get_mason_statements(player_index, (6, 9))
@@ -40,7 +40,7 @@ class TestMason:
 
     @staticmethod
     def test_get_single_mason_statement() -> None:
-        """ Should give the proper statement when only one Mason is present. """
+        """Should give the proper statement when only one Mason is present."""
         player_index = 2
         set_roles(Role.WOLF, Role.SEER, Role.MASON, Role.VILLAGER)
         const.NUM_PLAYERS = 3
@@ -59,7 +59,7 @@ class TestMason:
 
     @staticmethod
     def test_get_all_statements() -> None:
-        """ Should return possible statements from all possible initializations. """
+        """Should return possible statements from all possible initializations."""
         player_index = 2
         set_roles(Role.WOLF, Role.SEER, Role.MASON, Role.VILLAGER)
         const.NUM_PLAYERS = 3

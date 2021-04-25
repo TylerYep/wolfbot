@@ -29,7 +29,7 @@ def get_expected_statements() -> dict[int, tuple[Statement, ...]]:
 def get_statement_expectimax(
     player_obj: Any, knowledge_base: KnowledgeBase
 ) -> Statement:
-    """ Gets Expectimax Wolf statement. """
+    """Gets Expectimax Wolf statement."""
     prev_statements = tuple(knowledge_base.final_claims)
     expected_statements = get_expected_statements()
     player_obj.statements = [

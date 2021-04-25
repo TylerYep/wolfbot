@@ -7,13 +7,13 @@ from src.const import Role
 
 
 class TestPrintRoles:
-    """ Tests for the print_roles function. """
+    """Tests for the print_roles function."""
 
     @staticmethod
     def test_print_roles(
         caplog: pytest.LogCaptureFixture, small_game_roles: tuple[Role, ...]
     ) -> None:
-        """ Correctly print and format roles. """
+        """Correctly print and format roles."""
         shuffled_roles = [Role.SEER, Role.VILLAGER, Role.WOLF, Role.ROBBER]
 
         util.print_roles(shuffled_roles, "Hidden")
@@ -28,7 +28,7 @@ class TestPrintRoles:
     def test_print_wolfbot_guesses(
         caplog: pytest.LogCaptureFixture, medium_game_roles: tuple[Role, ...]
     ) -> None:
-        """ Correctly print and format roles. """
+        """Correctly print and format roles."""
         util.print_roles(medium_game_roles, "WolfBot")
 
         expected = (
@@ -39,17 +39,17 @@ class TestPrintRoles:
 
 
 class TestSwapCharacters:
-    """ Tests for the swap_characters function. """
+    """Tests for the swap_characters function."""
 
     @staticmethod
     def test_same_index_error(small_game_roles: tuple[Role, ...]) -> None:
-        """ Don't attempt to swap the same index. """
+        """Don't attempt to swap the same index."""
         with pytest.raises(RuntimeError):
             util.swap_characters(list(small_game_roles), 2, 2)
 
     @staticmethod
     def test_swap(small_game_roles: tuple[Role, ...]) -> None:
-        """ Correctly swap two players. """
+        """Correctly swap two players."""
         roles = list(small_game_roles)
 
         util.swap_characters(roles, 0, 2)
@@ -58,29 +58,29 @@ class TestSwapCharacters:
 
 
 class TestFindAllPlayerIndices:
-    """ Tests for the find_all_player_indices function. """
+    """Tests for the find_all_player_indices function."""
 
     @staticmethod
     def test_returns_correct_indices(large_game_roles: tuple[Role, ...]) -> None:
-        """ Don't attempt to swap the same index. """
+        """Don't attempt to swap the same index."""
         result = util.find_all_player_indices(large_game_roles, Role.VILLAGER)
 
         assert result == (1, 4, 11)
 
 
 class TestGetPlayer:
-    """ Tests for the get_player function. """
+    """Tests for the get_player function."""
 
     @staticmethod
     def test_generates_random_indices(large_game_roles: tuple[Role, ...]) -> None:
-        """ Generated indices should be random. """
+        """Generated indices should be random."""
         result = [util.get_player(is_user=False) for _ in range(10)]
 
         assert result == [6, 6, 0, 4, 8, 7, 6, 4, 7, 5]
 
     @staticmethod
     def test_random_excludes_values(large_game_roles: tuple[Role, ...]) -> None:
-        """ Generated indices should exclude specified values. """
+        """Generated indices should exclude specified values."""
         exclude = (6, 7, 8)
 
         result = [util.get_player(is_user=False, exclude=exclude) for _ in range(10)]
@@ -92,7 +92,7 @@ class TestGetPlayer:
     def test_user_input_indices(
         monkeypatch: pytest.MonkeyPatch, large_game_roles: tuple[Role, ...]
     ) -> None:
-        """ Generated indices should be random. """
+        """Generated indices should be random."""
         inputs = [0, 2, 20, 1]
         monkeypatch.setattr("builtins.input", override_input([str(i) for i in inputs]))
 
@@ -104,7 +104,7 @@ class TestGetPlayer:
     def test_user_excludes_values(
         monkeypatch: pytest.MonkeyPatch, large_game_roles: tuple[Role, ...]
     ) -> None:
-        """ Generated indices should exclude specified values. """
+        """Generated indices should exclude specified values."""
         exclude = (6, 7, 8)
         inputs = [0, 20, 4, 7, 5, 6]
         monkeypatch.setattr("builtins.input", override_input([str(i) for i in inputs]))
@@ -116,18 +116,18 @@ class TestGetPlayer:
 
 
 class TestGetCenter:
-    """ Tests for the get_center function. """
+    """Tests for the get_center function."""
 
     @staticmethod
     def test_generates_random_indices(large_game_roles: tuple[Role, ...]) -> None:
-        """ Generated indices should be random. """
+        """Generated indices should be random."""
         result = [util.get_center(is_user=False) for _ in range(10)]
 
         assert result == [13, 13, 12, 13, 14, 13, 13, 13, 13, 13]
 
     @staticmethod
     def test_excludes_values(large_game_roles: tuple[str, ...]) -> None:
-        """ Generated indices should exclude specified values. """
+        """Generated indices should exclude specified values."""
         exclude = (12, 13)
 
         result = [util.get_center(is_user=False, exclude=exclude) for _ in range(10)]
@@ -139,7 +139,7 @@ class TestGetCenter:
     def test_user_center_indices(
         monkeypatch: pytest.MonkeyPatch, large_game_roles: tuple[Role, ...]
     ) -> None:
-        """ Generated indices should be random. """
+        """Generated indices should be random."""
         inputs = [1, 2, 0, 2]
         monkeypatch.setattr("builtins.input", override_input([str(i) for i in inputs]))
 
@@ -151,7 +151,7 @@ class TestGetCenter:
     def test_user_excludes_values(
         monkeypatch: pytest.MonkeyPatch, large_game_roles: tuple[Role, ...]
     ) -> None:
-        """ Generated indices should exclude specified values. """
+        """Generated indices should exclude specified values."""
         exclude = (12, 13)
         inputs = [2, 0, 4, 1, 2, 2]
         monkeypatch.setattr("builtins.input", override_input([str(i) for i in inputs]))
@@ -163,11 +163,11 @@ class TestGetCenter:
 
 
 class TestGetNumericInput:
-    """ Tests for the get_numeric_input function. """
+    """Tests for the get_numeric_input function."""
 
     @staticmethod
     def test_numeric_input(monkeypatch: pytest.MonkeyPatch) -> None:
-        """ Generated indices should be random. """
+        """Generated indices should be random."""
         inputs = [1, 7, 10, 15, 2, 0]
         monkeypatch.setattr("builtins.input", override_input([str(i) for i in inputs]))
 
@@ -177,7 +177,7 @@ class TestGetNumericInput:
 
     @staticmethod
     def test_numeric_input_range(monkeypatch: pytest.MonkeyPatch) -> None:
-        """ Generated indices should be random. """
+        """Generated indices should be random."""
         inputs = [1, 37, 30, 34, 0, 33]
         monkeypatch.setattr("builtins.input", override_input([str(i) for i in inputs]))
 

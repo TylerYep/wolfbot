@@ -10,11 +10,11 @@ from src.stats import GameResult, SavedGame, Statistics
 
 
 class TestSavedGame:
-    """ Tests for the SavedGame class. """
+    """Tests for the SavedGame class."""
 
     @staticmethod
     def test_constructor() -> None:
-        """ Should initialize correctly. """
+        """Should initialize correctly."""
         villager_statement = Statement(
             "I am a Villager.", ((0, frozenset({Role.VILLAGER})),)
         )
@@ -27,7 +27,7 @@ class TestSavedGame:
 
     @staticmethod
     def test_json_repr(example_small_saved_game: SavedGame) -> None:
-        """ Should convert a SavedGame into a dict with all of its fields. """
+        """Should convert a SavedGame into a dict with all of its fields."""
         result = example_small_saved_game.json_repr()
 
         assert result == {
@@ -55,11 +55,11 @@ class TestSavedGame:
 
 
 class TestGameResult:
-    """ Tests for the GameResult class. """
+    """Tests for the GameResult class."""
 
     @staticmethod
     def test_constructor() -> None:
-        """ Should initialize correctly. """
+        """Should initialize correctly."""
         result = GameResult((Role.WOLF,), (Role.WOLF,), (0,), Team.WEREWOLF, ())
 
         assert isinstance(result, stats.GameResult)
@@ -84,11 +84,11 @@ class TestGameResult:
 
 
 class TestStatistics:
-    """ Tests for the Statistics class. """
+    """Tests for the Statistics class."""
 
     @staticmethod
     def test_constructor() -> None:
-        """ Should initialize correctly. """
+        """Should initialize correctly."""
         result = Statistics()
 
         assert result.num_games == 0
@@ -96,7 +96,7 @@ class TestStatistics:
 
     @staticmethod
     def test_add_result(example_medium_game_result: GameResult) -> None:
-        """ Should correctly add a single game result to the aggregate. """
+        """Should correctly add a single game result to the aggregate."""
         stat_tracker = Statistics()
 
         stat_tracker.add_result(example_medium_game_result)
@@ -112,7 +112,7 @@ class TestStatistics:
     def test_print_statistics(
         caplog: pytest.LogCaptureFixture, example_medium_game_result: GameResult
     ) -> None:
-        """ Should correctly print out the current statistics for the games. """
+        """Should correctly print out the current statistics for the games."""
         stat_tracker = Statistics()
         stat_tracker.add_result(example_medium_game_result)
 

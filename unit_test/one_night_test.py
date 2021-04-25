@@ -9,14 +9,14 @@ from src.statements import Statement
 
 
 class TestGetIndividualPreds:
-    """ Tests for the get_individual_preds function. """
+    """Tests for the get_individual_preds function."""
 
     @staticmethod
     def test_medium_individual_preds(
         medium_game_roles: tuple[Role, ...],
         medium_statement_list: tuple[Statement, ...],
     ) -> None:
-        """ Should get the individual predictions for all players. """
+        """Should get the individual predictions for all players."""
         player_objs: tuple[Player, ...] = (
             Seer(0, (2, Role.DRUNK)),
             Wolf(1, (1,), 5, Role.TROUBLEMAKER),
@@ -79,7 +79,7 @@ class TestConfidence:
 
     @staticmethod
     def test_small_confidence(small_game_roles: tuple[Role, ...]) -> None:
-        """ Should get voting results from the individual predictions. """
+        """Should get voting results from the individual predictions."""
         indiv_preds = ((Role.VILLAGER, Role.SEER, Role.ROBBER),) * 3
 
         result = one_night.get_confidence(indiv_preds)
@@ -88,7 +88,7 @@ class TestConfidence:
 
     @staticmethod
     def test_medium_confidence(medium_game_roles: tuple[Role, ...]) -> None:
-        """ Should get voting results from the individual predictions. """
+        """Should get voting results from the individual predictions."""
         indiv_preds = (
             (
                 Role.SEER,
@@ -141,7 +141,7 @@ class TestConfidence:
         large_game_roles: tuple[Role, ...],
         large_individual_preds: tuple[tuple[Role, ...], ...],
     ) -> None:
-        """ Should get voting results from the individual predictions. """
+        """Should get voting results from the individual predictions."""
         result = one_night.get_confidence(large_individual_preds)
 
         assert result == (
@@ -164,13 +164,13 @@ class TestConfidence:
 
 
 class TestGetVotingResult:
-    """ Tests for the get_voting_result function. """
+    """Tests for the get_voting_result function."""
 
     @staticmethod
     def test_small_voting_result(
         caplog: pytest.LogCaptureFixture, small_game_roles: tuple[Role, ...]
     ) -> None:
-        """ Should get voting results from the individual predictions. """
+        """Should get voting results from the individual predictions."""
         indiv_preds = ((Role.VILLAGER, Role.SEER, Role.ROBBER),) * len(small_game_roles)
         player_list = tuple(Player(i) for i in range(len(small_game_roles)))
 
@@ -183,7 +183,7 @@ class TestGetVotingResult:
     def test_medium_voting_result(
         caplog: pytest.LogCaptureFixture, medium_game_roles: tuple[Role, ...]
     ) -> None:
-        """ Should get voting results from the individual predictions. """
+        """Should get voting results from the individual predictions."""
         indiv_preds = (
             (
                 Role.SEER,
@@ -250,7 +250,7 @@ class TestGetVotingResult:
         large_game_roles: tuple[Role, ...],
         large_individual_preds: tuple[tuple[Role, ...], ...],
     ) -> None:
-        """ Should get voting results from the individual predictions. """
+        """Should get voting results from the individual predictions."""
         player_list = tuple(Player(i) for i in range(len(large_game_roles)))
 
         result = one_night.get_voting_result(player_list, large_individual_preds)
@@ -282,13 +282,13 @@ class TestGetVotingResult:
 
 
 class TestEvalWinningTeam:
-    """ Tests for the eval_winning_team function. """
+    """Tests for the eval_winning_team function."""
 
     @staticmethod
     def test_werewolf_wins(
         caplog: pytest.LogCaptureFixture, medium_game_roles: tuple[Role, ...]
     ) -> None:
-        """ Should declare Werewolf victory if no wolves are found, but one exists. """
+        """Should declare Werewolf victory if no wolves are found, but one exists."""
         guessed_wolf_inds = list(range(const.NUM_PLAYERS))
         vote_inds = (1,) * const.NUM_PLAYERS
 

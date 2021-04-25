@@ -8,7 +8,7 @@ from src.stats import GameResult, Statistics
 
 
 def replay_game_from_state() -> GameResult:
-    """ Runs last game stored in replay_state.json. """
+    """Runs last game stored in replay_state.json."""
     with open(const.REPLAY_STATE) as f_replay:
         save_game = json.load(f_replay)
     game_state = save_game["rng_state"]

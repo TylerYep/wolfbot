@@ -5,7 +5,7 @@ from src.statements import KnowledgeBase
 
 
 class TestTanner:
-    """ Tests for the Tanner player class. """
+    """Tests for the Tanner player class."""
 
     @staticmethod
     def test_awake_init(large_game_roles: tuple[Role, ...]) -> None:
@@ -24,7 +24,7 @@ class TestTanner:
     def test_get_random_statement(
         large_game_roles: tuple[Role, ...], large_knowledge_base: KnowledgeBase
     ) -> None:
-        """ Execute initialization actions and return the possible statements. """
+        """Execute initialization actions and return the possible statements."""
         player_index = 1
         tanner = Tanner(player_index)
 

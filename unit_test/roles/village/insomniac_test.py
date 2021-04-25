@@ -6,11 +6,11 @@ from src.statements import Statement
 
 
 class TestInsomniac:
-    """ Tests for the Insomniac player class. """
+    """Tests for the Insomniac player class."""
 
     @staticmethod
     def test_awake_init() -> None:
-        """ Should initialize a Insomniac. """
+        """Should initialize a Insomniac."""
         player_index = 1
         game_roles = [Role.INSOMNIAC, Role.ROBBER, Role.VILLAGER]
         expected = (
@@ -30,7 +30,7 @@ class TestInsomniac:
 
     @staticmethod
     def test_get_insomniac_statements() -> None:
-        """ Execute initialization actions and return the possible statements. """
+        """Execute initialization actions and return the possible statements."""
         player_index = 0
         expected = (
             Statement(
@@ -48,7 +48,7 @@ class TestInsomniac:
 
     @staticmethod
     def test_get_all_statements() -> None:
-        """ Should return possible statements from all possible initializations. """
+        """Should return possible statements from all possible initializations."""
         player_index = 2
         set_roles(Role.WOLF, Role.INSOMNIAC, Role.SEER)
         expected = (

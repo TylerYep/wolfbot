@@ -29,7 +29,7 @@ def verify_const() -> None:
 def print_roles(
     game_roles: Sequence[Role], tag: str, log_level: int = logging.DEBUG
 ) -> None:
-    """ Formats hidden roles to console. """
+    """Formats hidden roles to console."""
     players = list(game_roles[: const.NUM_PLAYERS])
     centers = list(game_roles[const.NUM_PLAYERS :])
     role_output = (
@@ -40,7 +40,7 @@ def print_roles(
 
 
 def swap_characters(game_roles: list[Role], ind1: int, ind2: int) -> None:
-    """ Util function to swap two characters, updating game_roles. """
+    """Util function to swap two characters, updating game_roles."""
     if ind1 == ind2:
         raise RuntimeError("Cannot swap the same index.")
     if not (0 <= ind1 < const.NUM_ROLES and 0 <= ind2 < const.NUM_ROLES):
@@ -51,7 +51,7 @@ def swap_characters(game_roles: list[Role], ind1: int, ind2: int) -> None:
 def find_all_player_indices(
     game_roles: Sequence[Role], role: Role, exclude: tuple[int, ...] = ()
 ) -> tuple[int, ...]:
-    """ Util function to find all indices of a given role. """
+    """Util function to find all indices of a given role."""
     return tuple(
         i
         for i in range(const.NUM_PLAYERS)
@@ -60,7 +60,7 @@ def find_all_player_indices(
 
 
 def get_player(is_user: bool, exclude: tuple[int, ...] = ()) -> int:
-    """ Gets a random player index (not in the center) or prompts the user. """
+    """Gets a random player index (not in the center) or prompts the user."""
     if is_user:
         choice_ind = -1
         while choice_ind < 0 or choice_ind >= const.NUM_PLAYERS:
@@ -80,7 +80,7 @@ def get_player(is_user: bool, exclude: tuple[int, ...] = ()) -> int:
 
 
 def get_center(is_user: bool, exclude: tuple[int, ...] = ()) -> int:
-    """ Gets a random index of a center card or prompts the user. """
+    """Gets a random index of a center card or prompts the user."""
     if is_user:
         choice_ind = -1
         while choice_ind < 0 or choice_ind >= const.NUM_CENTER:
@@ -123,5 +123,5 @@ def get_numeric_input(end: int, start: int | None = None) -> int:
 
 
 def weighted_coin_flip(prob: float) -> bool:
-    """ Flips a weighted coin with probability prob and 1 - prob. """
+    """Flips a weighted coin with probability prob and 1 - prob."""
     return random.choices([True, False], [prob, 1 - prob])[0]

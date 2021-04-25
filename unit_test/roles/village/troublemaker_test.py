@@ -7,7 +7,7 @@ from src.statements import Statement
 
 
 class TestTroublemaker:
-    """ Tests for the Troublemaker player class. """
+    """Tests for the Troublemaker player class."""
 
     @staticmethod
     def test_awake_init(large_game_roles: tuple[Role, ...]) -> None:
@@ -38,7 +38,7 @@ class TestTroublemaker:
 
     @staticmethod
     def test_get_troublemaker_statements() -> None:
-        """ Execute initialization actions and return the possible statements. """
+        """Execute initialization actions and return the possible statements."""
         player_index = 1
 
         result = Troublemaker.get_troublemaker_statements(player_index, 6, 3)
@@ -54,7 +54,7 @@ class TestTroublemaker:
 
     @staticmethod
     def test_get_all_statements() -> None:
-        """ Should return possible statements from all possible initializations. """
+        """Should return possible statements from all possible initializations."""
         player_index = 2
         set_roles(
             Role.WOLF,

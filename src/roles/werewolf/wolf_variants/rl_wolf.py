@@ -12,7 +12,7 @@ from src.statements import KnowledgeBase, Statement
 def get_statement_rl(
     player_obj: Any, knowledge_base: KnowledgeBase, default_answer: Statement
 ) -> Statement:
-    """ Gets Reinforcement Learning Wolf statement. """
+    """Gets Reinforcement Learning Wolf statement."""
     statements = get_wolf_statements(player_obj, knowledge_base)
 
     # Necessary to put this here to avoid circular import

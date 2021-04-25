@@ -8,11 +8,11 @@ from src.statements import KnowledgeBase, Statement
 
 
 class TestPlayer:
-    """ Tests for the Player class. """
+    """Tests for the Player class."""
 
     @staticmethod
     def test_constructor() -> None:
-        """ Should initialize a Player. """
+        """Should initialize a Player."""
         player_index = 5
 
         empty_player = Player(player_index)
@@ -22,7 +22,7 @@ class TestPlayer:
 
     @staticmethod
     def test_inheritance() -> None:
-        """ Classes extending Player should be able to access Player fields. """
+        """Classes extending Player should be able to access Player fields."""
         robber = Robber(2, 3, Role.VILLAGER)
 
         assert robber.choice_ind == 3
@@ -30,7 +30,7 @@ class TestPlayer:
 
     @staticmethod
     def test_get_statement_inheritance() -> None:
-        """ Classes extending Player should contain a get_statement method. """
+        """Classes extending Player should contain a get_statement method."""
         villager = Villager(0)
         knowledge_base = KnowledgeBase()
 
@@ -42,7 +42,7 @@ class TestPlayer:
 
     @staticmethod
     def test_json_repr() -> None:
-        """ Should convert a Player into a dict with all of its fields. """
+        """Should convert a Player into a dict with all of its fields."""
         villager = Villager(0)
 
         result = villager.json_repr()
@@ -51,7 +51,7 @@ class TestPlayer:
 
     @staticmethod
     def test_repr() -> None:
-        """ Should convert a Player into a representative string. """
+        """Should convert a Player into a representative string."""
         villager = Villager(3)
 
         result = str(villager)
@@ -60,7 +60,7 @@ class TestPlayer:
 
     @staticmethod
     def test_eq() -> None:
-        """ Should convert a Player into a representative string. """
+        """Should convert a Player into a representative string."""
         villager = Villager(3)
         hunter = Hunter(3)
         drunk_1 = Drunk(4, 5)
@@ -73,11 +73,11 @@ class TestPlayer:
 
 
 class TestIsEvil:
-    """ Tests for the is_evil function. """
+    """Tests for the is_evil function."""
 
     @staticmethod
     def test_no_evil_player(small_game_roles: tuple[str, ...]) -> None:
-        """ Should determine if a player has turned evil after night falls. """
+        """Should determine if a player has turned evil after night falls."""
         villager = Villager(0)
 
         result = villager.is_evil()
@@ -86,7 +86,7 @@ class TestIsEvil:
 
     @staticmethod
     def test_find_evil_players(medium_game_roles: tuple[str, ...]) -> None:
-        """ Should determine if a player has turned evil after night falls. """
+        """Should determine if a player has turned evil after night falls."""
         player_list: tuple[Player, ...] = (
             Seer(0, (2, Role.DRUNK)),
             Wolf(1, (1,), 5, Role.TROUBLEMAKER),
@@ -101,7 +101,7 @@ class TestIsEvil:
 
     @staticmethod
     def test_turned_evil_player(medium_game_roles: tuple[str, ...]) -> None:
-        """ Should determine if a player has turned evil after night falls. """
+        """Should determine if a player has turned evil after night falls."""
         robber = Robber(3, 1, Role.WOLF)
 
         result = robber.is_evil()
@@ -118,7 +118,7 @@ class TestGetVote:
 
     @staticmethod
     def test_vote_for_wolf(medium_game_roles: tuple[str, ...]) -> None:
-        """ If a player suspects a Wolf, they should vote for that player. """
+        """If a player suspects a Wolf, they should vote for that player."""
         prediction = (
             Role.SEER,
             Role.WOLF,
@@ -165,7 +165,7 @@ class TestGetVote:
     def test_interactive_vote(
         monkeypatch: pytest.MonkeyPatch, medium_game_roles: tuple[str, ...]
     ) -> None:
-        """ Prompt the user for their vote. """
+        """Prompt the user for their vote."""
         player_index = 2
         const.IS_USER[player_index] = True
         prediction = (

@@ -13,10 +13,10 @@ T = TypeVar("T")  # pylint: disable=invalid-name
 
 
 class WolfBotEncoder(json.JSONEncoder):
-    """ Encoder for all WolfBot objects. """
+    """Encoder for all WolfBot objects."""
 
     def default(self, o: Any) -> Any:
-        """ Overrides encoding method. """
+        """Overrides encoding method."""
         if isinstance(o, (Role, Team, Player, Statement, GameResult, SavedGame)):
             return o.json_repr()
         if isinstance(o, set):
@@ -27,14 +27,14 @@ class WolfBotEncoder(json.JSONEncoder):
 
 
 class WolfBotDecoder(json.JSONDecoder):
-    """ Decoder for all WolfBot objects. """
+    """Decoder for all WolfBot objects."""
 
     def __init__(self) -> None:
         super().__init__(object_hook=self.json_to_objects)
 
     @staticmethod
     def json_to_objects(obj: dict[str, Any]) -> Any:
-        """ Implements decoding method. """
+        """Implements decoding method."""
         obj_type = obj.pop("type", None)
         if obj_type == "Set":
             return set(obj["data"])
@@ -68,9 +68,9 @@ class WolfBotDecoder(json.JSONDecoder):
 
 
 class ObjectInitializer(Generic[T]):
-    """ Generic class used to initialize an object of a given type. """
+    """Generic class used to initialize an object of a given type."""
 
     @staticmethod
     def get(obj_name: str) -> Any:
-        """ Retrieves class initializer from its string name. """
+        """Retrieves class initializer from its string name."""
         return cast(type[T], getattr(sys.modules[__name__], obj_name))

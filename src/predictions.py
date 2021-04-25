@@ -7,6 +7,10 @@ from src.solvers import SolverState
 
 
 def get_probs(solution_arr: tuple[SolverState, ...]) -> tuple[dict[Role, float], ...]:
+    """
+    Combines all solutions to create a probability distribution for the
+    possible roles at each index.
+    """
     result: tuple[dict[Role, float], ...] = tuple(
         {role: 0 for role in const.ROLE_SET} for _ in range(const.NUM_ROLES)
     )
@@ -20,10 +24,6 @@ def get_probs(solution_arr: tuple[SolverState, ...]) -> tuple[dict[Role, float],
             denom = sum(this_dict.values())
             for option in this_dict:
                 this_dict[option] /= denom
-    # for i in range(len(result)):
-    #     choices = list(result[i])
-    #     weights = list(result[i].values())
-    #     z = random.choices(choices, weights)[0]
     return result
 
 
@@ -162,7 +162,7 @@ def prob_recurse_assign(
 
 
 def make_random_prediction() -> tuple[Role, ...]:
-    """ Makes a random prediction. """
+    """Makes a random prediction."""
     random_guesses = list(const.ROLES)
     random.shuffle(random_guesses)
     return tuple(random_guesses)

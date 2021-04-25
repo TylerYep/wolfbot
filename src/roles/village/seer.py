@@ -10,7 +10,7 @@ from src.statements import Statement
 
 
 class Seer(Player):
-    """ Seer Player class. """
+    """Seer Player class."""
 
     def __init__(
         self,
@@ -26,7 +26,7 @@ class Seer(Player):
     def awake_init(
         cls, player_index: int, game_roles: list[Role], original_roles: tuple[Role, ...]
     ) -> Seer:
-        """ Initializes Seer - either sees 2 center cards or 1 player card. """
+        """Initializes Seer - either sees 2 center cards or 1 player card."""
         del original_roles
         is_user = const.IS_USER[player_index]
         if const.NUM_CENTER > 1:
@@ -73,7 +73,7 @@ class Seer(Player):
         choice_1: tuple[int, Role],
         choice_2: tuple[int | None, Role | None] = (None, None),
     ) -> tuple[Statement, ...]:
-        """ Gets Seer Statement. """
+        """Gets Seer Statement."""
         seen_index, seen_role = choice_1
         seen_index2, seen_role2 = choice_2
         sentence = f"I am a Seer and I saw that Player {seen_index} was a {seen_role}."
@@ -93,7 +93,7 @@ class Seer(Player):
     @staticmethod
     @lru_cache
     def get_all_statements(player_index: int) -> tuple[Statement, ...]:
-        """ Required for all player types. Returns all possible role statements. """
+        """Required for all player types. Returns all possible role statements."""
         statements: tuple[Statement, ...] = ()
         for role in const.SORTED_ROLE_SET:
             for i in range(
@@ -116,7 +116,7 @@ class Seer(Player):
         return statements
 
     def json_repr(self) -> dict[str, Any]:
-        """ Gets JSON representation of a Seer player. """
+        """Gets JSON representation of a Seer player."""
         return super().json_repr() | {
             "choice_1": self.choice_1,
             "choice_2": self.choice_2,

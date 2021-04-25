@@ -17,7 +17,7 @@ from src.stats import GameResult
 
 
 def evaluate(game: GameResult) -> int:
-    """ Evaluation function. """
+    """Evaluation function."""
     val = 5
     for wolf_ind in game.wolf_inds:
         if game.guessed[wolf_ind] is Role.WOLF:
@@ -28,7 +28,7 @@ def evaluate(game: GameResult) -> int:
 def get_wolf_state(
     game: GameResult,
 ) -> tuple[list[tuple[tuple[int, ...], tuple[str, ...]]], list[str]]:
-    """ Fetches Wolf statement from Game. """
+    """Fetches Wolf statement from Game."""
     states, statements = [], []
     for wolf_ind in game.wolf_inds:
         state = (
@@ -43,7 +43,7 @@ def get_wolf_state(
 def remap_keys(
     mapping: defaultdict[Any, defaultdict[Any, float]]
 ) -> defaultdict[Any, defaultdict[Any, float]]:
-    """ Remaps keys for jsonifying. """
+    """Remaps keys for jsonifying."""
     exp_dict: defaultdict[Any, defaultdict[Any, float]] = defaultdict(
         lambda: defaultdict(float)
     )
@@ -53,7 +53,7 @@ def remap_keys(
 
 
 def train(folder: str, eta: float = 0.01) -> None:
-    """ Trains Wolf using games stored in simulations. """
+    """Trains Wolf using games stored in simulations."""
     counter = 0
     experience_dict: defaultdict[Any, defaultdict[Any, float]] = defaultdict(
         lambda: defaultdict(float)
@@ -80,7 +80,7 @@ def train(folder: str, eta: float = 0.01) -> None:
 
 
 def test() -> None:  # experience_dict as param
-    """ Run play_one_night_werewolf with a specific experience_dict. """
+    """Run play_one_night_werewolf with a specific experience_dict."""
     const.RL_WOLF = False
     simulate_game(num_games=const.NUM_GAMES, enable_tqdm=True)
 

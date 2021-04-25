@@ -5,11 +5,11 @@ from src.roles import Mason, Seer
 
 
 class TestLRUCache:
-    """ Tests for the lru_cache function. """
+    """Tests for the lru_cache function."""
 
     @staticmethod
     def test_lru_cache_hit() -> None:
-        """ Correctly cache a function call cache hit. """
+        """Correctly cache a function call cache hit."""
         result_1 = Seer.get_seer_statements(1, (6, Role.ROBBER))
 
         result_2 = Seer.get_seer_statements(1, (6, Role.ROBBER))
@@ -22,7 +22,7 @@ class TestLRUCache:
 
     @staticmethod
     def test_lru_cache_miss() -> None:
-        """ Correctly cache a function call cache miss. """
+        """Correctly cache a function call cache miss."""
         result_1 = Seer.get_seer_statements(2, (6, Role.ROBBER))
 
         result_2 = Seer.get_seer_statements(2, (2, Role.ROBBER))
@@ -35,7 +35,7 @@ class TestLRUCache:
 
     @staticmethod
     def test_lru_cache_side_effects() -> None:
-        """ Showcase the problem with using a cache and changing internal constants. """
+        """Showcase the problem with using a cache and changing internal constants."""
         result_1 = Mason.get_mason_statements(6, (6,))
         const.NUM_PLAYERS = 3
 

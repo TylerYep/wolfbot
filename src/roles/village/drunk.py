@@ -10,7 +10,7 @@ from src.statements import Statement
 
 
 class Drunk(Player):
-    """ Drunk Player class. """
+    """Drunk Player class."""
 
     def __init__(self, player_index: int, choice_ind: int):
         super().__init__(player_index)
@@ -21,7 +21,7 @@ class Drunk(Player):
     def awake_init(
         cls, player_index: int, game_roles: list[Role], original_roles: tuple[Role, ...]
     ) -> Drunk:
-        """ Initializes Drunk - switches with a card in the center. """
+        """Initializes Drunk - switches with a card in the center."""
         del original_roles
         is_user = const.IS_USER[player_index]
         choice_ind = util.get_center(is_user)
@@ -39,7 +39,7 @@ class Drunk(Player):
     def get_drunk_statements(
         player_index: int, choice_ind: int
     ) -> tuple[Statement, ...]:
-        """ Gets Drunk Statement. """
+        """Gets Drunk Statement."""
         sentence = (
             f"I am a Drunk and I swapped with Center {choice_ind - const.NUM_PLAYERS}."
         )
@@ -50,7 +50,7 @@ class Drunk(Player):
     @staticmethod
     @lru_cache
     def get_all_statements(player_index: int) -> tuple[Statement, ...]:
-        """ Required for all player types. Returns all possible role statements. """
+        """Required for all player types. Returns all possible role statements."""
         statements: tuple[Statement, ...] = ()
         for k in range(const.NUM_CENTER):
             statements += Drunk.get_drunk_statements(
@@ -59,5 +59,5 @@ class Drunk(Player):
         return statements
 
     def json_repr(self) -> dict[str, Any]:
-        """ Gets JSON representation of a Drunk player. """
+        """Gets JSON representation of a Drunk player."""
         return super().json_repr() | {"choice_ind": self.choice_ind}

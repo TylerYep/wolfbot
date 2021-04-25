@@ -20,7 +20,7 @@ from src.statements import KnowledgeBase, Statement
 
 
 class Wolf(Player):
-    """ Wolf Player class. """
+    """Wolf Player class."""
 
     def __init__(
         self,
@@ -64,11 +64,11 @@ class Wolf(Player):
     @staticmethod
     @lru_cache
     def get_all_statements(player_index: int) -> tuple[Statement, ...]:
-        """ Required for all player types. Returns all possible role statements. """
+        """Required for all player types. Returns all possible role statements."""
         raise NotImplementedError
 
     def analyze(self, knowledge_base: KnowledgeBase) -> None:
-        """ Updates Player state given new information. """
+        """Updates Player state given new information."""
         super().analyze(knowledge_base)
         if const.USE_REG_WOLF:
             if self.center_role not in (None, Role.WOLF, Role.MASON):
@@ -84,7 +84,7 @@ class Wolf(Player):
             self.statements += get_wolf_statements_random(self.player_index)
 
     def get_statement(self, knowledge_base: KnowledgeBase) -> Statement:
-        """ Get Wolf Statement. """
+        """Get Wolf Statement."""
         if const.RL_WOLF:
             # Choose one statement to return by default
             default_statement = super().get_statement(knowledge_base)
@@ -113,7 +113,7 @@ class Wolf(Player):
         return val
 
     def json_repr(self) -> dict[str, Any]:
-        """ Gets JSON representation of a Wolf player. """
+        """Gets JSON representation of a Wolf player."""
         return super().json_repr() | {
             "wolf_indices": self.wolf_indices,
             "center_index": self.center_index,

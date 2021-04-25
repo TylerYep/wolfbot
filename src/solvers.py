@@ -127,7 +127,7 @@ def relaxed_solver(
     def _relaxed_recurse(
         solutions: list[SolverState], state: SolverState, ind: int = 0
     ) -> None:
-        """ ind = index of statement being considered. """
+        """ind = index of statement being considered."""
         if ind == num_statements:
             # if len(solutions) == 0 or (
             #     state.count_true
@@ -168,7 +168,7 @@ def switching_solver(
     def _switch_recurse(
         solutions: list[SolverState], state: SolverState, ind: int = 0
     ) -> None:
-        """ ind = index of statement being considered. """
+        """ind = index of statement being considered."""
         curr_max = solutions[0].count_true if solutions else 0
         if ind == num_statements:
             if state.count_true > curr_max:
@@ -195,7 +195,7 @@ def switching_solver(
 
 
 def cached_solver(statements: tuple[Statement, ...]) -> int:
-    """ Returns max number of statements that can be true from a list of Statements. """
+    """Returns max number of statements that can be true from a list of Statements."""
     num_statements = len(statements)
 
     def _cache_recurse(state: SolverState, ind: int = 0) -> int:

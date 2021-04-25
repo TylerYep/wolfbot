@@ -18,7 +18,7 @@ from src.statements import KnowledgeBase, Statement
 
 
 class Minion(Player):
-    """ Minion Player class. """
+    """Minion Player class."""
 
     def __init__(self, player_index: int, wolf_indices: tuple[int, ...]):
         super().__init__(player_index)
@@ -28,7 +28,7 @@ class Minion(Player):
     def awake_init(
         cls, player_index: int, game_roles: list[Role], original_roles: tuple[Role, ...]
     ) -> Minion:
-        """ Initializes Minion - gets Wolf indices. """
+        """Initializes Minion - gets Wolf indices."""
         del game_roles
         is_user = const.IS_USER[player_index]
         wolf_indices = util.find_all_player_indices(original_roles, Role.WOLF)
@@ -40,11 +40,11 @@ class Minion(Player):
     @staticmethod
     @lru_cache
     def get_all_statements(player_index: int) -> tuple[Statement, ...]:
-        """ Required for all player types. Returns all possible role statements. """
+        """Required for all player types. Returns all possible role statements."""
         raise NotImplementedError
 
     def analyze(self, knowledge_base: KnowledgeBase) -> None:
-        """ Updates Player state given new information. """
+        """Updates Player state given new information."""
         super().analyze(knowledge_base)
         if const.USE_REG_WOLF:
             self.statements += get_wolf_statements(self, knowledge_base)
@@ -52,7 +52,7 @@ class Minion(Player):
             self.statements += get_wolf_statements_random(self.player_index)
 
     def get_statement(self, knowledge_base: KnowledgeBase) -> Statement:
-        """ Get Minion Statement. """
+        """Get Minion Statement."""
         if const.EXPECTIMAX_MINION:
             return get_statement_expectimax(self, knowledge_base)
 
@@ -77,5 +77,5 @@ class Minion(Player):
         return val
 
     def json_repr(self) -> dict[str, Any]:
-        """ Gets JSON representation of a Minion player. """
+        """Gets JSON representation of a Minion player."""
         return super().json_repr() | {"wolf_indices": self.wolf_indices}

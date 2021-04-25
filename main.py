@@ -3,7 +3,7 @@ from src import const, one_night, replay
 
 
 def main() -> None:
-    """ Simulate play_one_night_werewolf. """
+    """Simulate play_one_night_werewolf."""
     if const.REPLAY:
         replay.replay_game_from_state()
     else:

@@ -10,7 +10,7 @@ from src.statements import Statement
 
 
 class Troublemaker(Player):
-    """ Troublemaker Player class. """
+    """Troublemaker Player class."""
 
     def __init__(self, player_index: int, choice_ind1: int, choice_ind2: int):
         super().__init__(player_index)
@@ -23,7 +23,7 @@ class Troublemaker(Player):
     def awake_init(
         cls, player_index: int, game_roles: list[Role], original_roles: tuple[Role, ...]
     ) -> Troublemaker:
-        """ Initializes Troublemaker - switches one player with another player. """
+        """Initializes Troublemaker - switches one player with another player."""
         del original_roles
         is_user = const.IS_USER[player_index]
         if is_user:
@@ -47,7 +47,7 @@ class Troublemaker(Player):
     def get_troublemaker_statements(
         player_index: int, tmkr_ind1: int, tmkr_ind2: int
     ) -> tuple[Statement, ...]:
-        """ Gets Troublemaker Statement. """
+        """Gets Troublemaker Statement."""
         sentence = (
             f"I am a Troublemaker and I swapped Player {tmkr_ind1} "
             f"and Player {tmkr_ind2}."
@@ -59,7 +59,7 @@ class Troublemaker(Player):
     @staticmethod
     @lru_cache
     def get_all_statements(player_index: int) -> tuple[Statement, ...]:
-        """ Required for all player types. Returns all possible role statements. """
+        """Required for all player types. Returns all possible role statements."""
         statements: tuple[Statement, ...] = ()
         for i in range(const.NUM_PLAYERS):
             for j in range(i + 1, const.NUM_PLAYERS):
@@ -72,7 +72,7 @@ class Troublemaker(Player):
         return statements
 
     def json_repr(self) -> dict[str, Any]:
-        """ Gets JSON representation of a Troublemaker player. """
+        """Gets JSON representation of a Troublemaker player."""
         return super().json_repr() | {
             "choice_ind1": self.choice_ind1,
             "choice_ind2": self.choice_ind2,

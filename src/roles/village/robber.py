@@ -10,7 +10,7 @@ from src.statements import Statement
 
 
 class Robber(Player):
-    """ Robber Player class. """
+    """Robber Player class."""
 
     def __init__(self, player_index: int, choice_ind: int, new_role: Role):
         super().__init__(player_index)
@@ -24,7 +24,7 @@ class Robber(Player):
     def awake_init(
         cls, player_index: int, game_roles: list[Role], original_roles: tuple[Role, ...]
     ) -> Robber:
-        """ Initializes Robber - switches roles with another player. """
+        """Initializes Robber - switches roles with another player."""
         del original_roles
         is_user = const.IS_USER[player_index]
         choice_ind = util.get_player(is_user, (player_index,))
@@ -46,7 +46,7 @@ class Robber(Player):
     def get_robber_statements(
         player_index: int, choice_ind: int, choice_char: Role
     ) -> tuple[Statement, ...]:
-        """ Gets Robber Statement. """
+        """Gets Robber Statement."""
         sentence = (
             f"I am a Robber and I swapped with Player {choice_ind}. "
             f"I am now a {choice_char}."
@@ -61,7 +61,7 @@ class Robber(Player):
     @staticmethod
     @lru_cache
     def get_all_statements(player_index: int) -> tuple[Statement, ...]:
-        """ Required for all player types. Returns all possible role statements. """
+        """Required for all player types. Returns all possible role statements."""
         statements: tuple[Statement, ...] = ()
         for i in range(const.NUM_PLAYERS):
             for role in const.SORTED_ROLE_SET:
@@ -72,7 +72,7 @@ class Robber(Player):
         return statements
 
     def json_repr(self) -> dict[str, Any]:
-        """ Gets JSON representation of a Robber player. """
+        """Gets JSON representation of a Robber player."""
         return super().json_repr() | {
             "choice_ind": self.choice_ind,
             "new_role": self.new_role,

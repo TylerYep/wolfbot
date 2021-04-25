@@ -20,7 +20,7 @@ def simulate_game(
     enable_tqdm: bool = False,
     enable_logging: bool = False,
 ) -> Statistics:
-    """ Collects statistics about several simulations of play_one_night_werewolf. """
+    """Collects statistics about several simulations of play_one_night_werewolf."""
     if not enable_logging:
         logger.set_level(logging.WARNING)
     stat_tracker = Statistics()
@@ -32,7 +32,7 @@ def simulate_game(
 
 
 def play_one_night_werewolf(save_replay: bool = True) -> GameResult:
-    """ Plays one round of One Night Ultimate Werewolf. """
+    """Plays one round of One Night Ultimate Werewolf."""
     util.verify_const()
     if save_replay:
         with open(const.REPLAY_STATE, "w") as replay_file:
@@ -100,7 +100,7 @@ def get_player_multistatements(
 
 
 def get_player_statements(player_objs: tuple[Player, ...]) -> tuple[Statement, ...]:
-    """ Returns array of each player's statements. """
+    """Returns array of each player's statements."""
     knowledge_base = KnowledgeBase()
     curr_ind = 0
     while curr_ind < const.NUM_PLAYERS:
@@ -147,7 +147,7 @@ def night_falls(
 def get_individual_preds(
     player_objs: tuple[Player, ...], all_statements: tuple[Statement, ...]
 ) -> tuple[tuple[Role, ...], ...]:
-    """ Let each player make a prediction of every player's true role. """
+    """Let each player make a prediction of every player's true role."""
     logger.trace("\n[Trace] Predictions:")
     all_preds = [
         player_objs[i].predict(all_statements) for i in range(const.NUM_PLAYERS)
@@ -208,7 +208,7 @@ def eval_winning_team(
     guessed_wolf_inds: list[int],
     vote_inds: tuple[int, ...],
 ) -> Team:
-    """ Decide which team won based on the final vote. """
+    """Decide which team won based on the final vote."""
     killed_wolf, killed_tanner, villager_win = False, False, False
     if len(guessed_wolf_inds) == const.NUM_PLAYERS:
         logger.info("No wolves were found.")

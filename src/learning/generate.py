@@ -15,7 +15,7 @@ MAX_INDEX = 7
 
 
 def generate_data() -> None:
-    """ Simulate games and store data in simulations folder. """
+    """Simulate games and store data in simulations folder."""
     # weights = [3 ** i for i in range(1, MAX_INDEX + 1)]
     weights = [300 for i in range(min(MAX_INDEX, const.NUM_PLAYERS) + 1)]
     sim_list = []

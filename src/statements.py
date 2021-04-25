@@ -37,7 +37,7 @@ class KnowledgeBase:
     def from_statement_list(
         cls, statement_list: tuple[Statement, ...]
     ) -> KnowledgeBase:
-        """ Create a new statement from a Statement list. """
+        """Create a new statement from a Statement list."""
         knowledge_base = cls()
         for statement in statement_list:
             speaker_index = statement.knowledge[0][0]
@@ -45,7 +45,7 @@ class KnowledgeBase:
         return knowledge_base
 
     def add(self, statement: Statement, curr_ind: int) -> None:
-        """ Adds a new statement to the knowledge base. """
+        """Adds a new statement to the knowledge base."""
         self.all_statements.append(statement)
         self.stated_roles[curr_ind] = statement.speaker
         self.final_claims[curr_ind] = statement
@@ -86,7 +86,7 @@ class Statement:
 
     @cached_property
     def negation(self) -> Statement:
-        """ Returns a negated version of the first clause in a statement. """
+        """Returns a negated version of the first clause in a statement."""
         not_sentence = "NOT - " + self.sentence
         if self.knowledge:
             index, player_clause = self.knowledge[0]
@@ -95,13 +95,13 @@ class Statement:
         return Statement(not_sentence, speaker=self.speaker)
 
     def negate_all(self) -> Statement:
-        """ Returns a negated version of every clause in the statement. """
+        """Returns a negated version of every clause in the statement."""
         not_sentence = "NOT - " + self.sentence
         neg = [(i, const.ROLE_SET - role_set) for i, role_set in self.knowledge]
         return Statement(not_sentence, tuple(neg), speaker=self.speaker)
 
     def references(self, player_index: int) -> bool:
-        """ Returns True if a given player_index is referenced in a statement. """
+        """Returns True if a given player_index is referenced in a statement."""
         for i, _ in self.knowledge[1:]:
             if i == player_index:
                 return True
@@ -111,7 +111,7 @@ class Statement:
         return False
 
     def get_references(self, player_index: int, stated_roles: list[Role]) -> Role:
-        """ Returns True if a given player_index is referenced in a statement. """
+        """Returns True if a given player_index is referenced in a statement."""
         for i, role_set in self.knowledge[1:]:
             if i == player_index and len(role_set) == 1:
                 [role] = role_set
@@ -122,7 +122,7 @@ class Statement:
         return Role.NONE
 
     def json_repr(self) -> dict[str, Any]:
-        """ Returns json representation of the Statement. """
+        """Returns json representation of the Statement."""
         return {
             "type": "Statement",
             "sentence": self.sentence,

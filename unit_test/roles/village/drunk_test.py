@@ -7,7 +7,7 @@ from src.statements import Statement
 
 
 class TestDrunk:
-    """ Tests for the Drunk player class. """
+    """Tests for the Drunk player class."""
 
     @staticmethod
     def test_awake_init(large_game_roles: tuple[Role, ...]) -> None:
@@ -35,7 +35,7 @@ class TestDrunk:
 
     @staticmethod
     def test_get_drunk_statements() -> None:
-        """ Execute initialization actions and return the possible statements. """
+        """Execute initialization actions and return the possible statements."""
         player_index = 4
 
         result = Drunk.get_drunk_statements(player_index, 12)
@@ -51,7 +51,7 @@ class TestDrunk:
 
     @staticmethod
     def test_get_all_statements() -> None:
-        """ Should return possible statements from all possible initializations. """
+        """Should return possible statements from all possible initializations."""
         player_index = 2
         set_roles(
             Role.WOLF, Role.SEER, Role.DRUNK, Role.VILLAGER, Role.ROBBER, Role.WOLF

@@ -10,7 +10,7 @@ from src.statements import Statement
 
 
 class Mason(Player):
-    """ Mason Player class. """
+    """Mason Player class."""
 
     def __init__(self, player_index: int, mason_indices: tuple[int, ...]):
         super().__init__(player_index)
@@ -23,7 +23,7 @@ class Mason(Player):
     def awake_init(
         cls, player_index: int, game_roles: list[Role], original_roles: tuple[Role, ...]
     ) -> Mason:
-        """ Initializes Mason - sees all other Masons. """
+        """Initializes Mason - sees all other Masons."""
         del game_roles
         is_user = const.IS_USER[player_index]
         mason_indices = util.find_all_player_indices(original_roles, Role.MASON)
@@ -41,7 +41,7 @@ class Mason(Player):
     def get_mason_statements(
         player_index: int, mason_indices: tuple[int, ...]
     ) -> tuple[Statement, ...]:
-        """ Gets Mason Statement. """
+        """Gets Mason Statement."""
         if len(mason_indices) == 1:
             sentence = "I am a Mason. The other Mason is not present."
             knowledge = [(player_index, frozenset({Role.MASON}))]
@@ -64,7 +64,7 @@ class Mason(Player):
     @staticmethod
     @lru_cache
     def get_all_statements(player_index: int) -> tuple[Statement, ...]:
-        """ Required for all player types. Returns all possible role statements. """
+        """Required for all player types. Returns all possible role statements."""
         statements = Mason.get_mason_statements(player_index, (player_index,))
         for i in range(const.NUM_PLAYERS):
             if player_index != i:
@@ -73,5 +73,5 @@ class Mason(Player):
         return statements
 
     def json_repr(self) -> dict[str, Any]:
-        """ Gets JSON representation of a Mason player. """
+        """Gets JSON representation of a Mason player."""
         return super().json_repr() | {"mason_indices": self.mason_indices}

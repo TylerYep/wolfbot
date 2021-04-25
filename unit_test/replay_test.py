@@ -4,7 +4,7 @@ from src.const import Role
 
 
 class TestReplay:
-    """ Tests for the replay_game function. """
+    """Tests for the replay_game function."""
 
     @staticmethod
     def test_replay_game_state_small(

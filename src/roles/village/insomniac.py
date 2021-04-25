@@ -10,7 +10,7 @@ from src.statements import KnowledgeBase, Statement
 
 
 class Insomniac(Player):
-    """ Insomniac Player class. """
+    """Insomniac Player class."""
 
     def __init__(self, player_index: int, new_role: Role):
         super().__init__(player_index)
@@ -21,7 +21,7 @@ class Insomniac(Player):
     def awake_init(
         cls, player_index: int, game_roles: list[Role], original_roles: tuple[Role, ...]
     ) -> Insomniac:
-        """ Initializes Insomniac - learns new role. """
+        """Initializes Insomniac - learns new role."""
         del original_roles
         is_user = const.IS_USER[player_index]
         insomniac_new_role = game_roles[player_index]
@@ -37,7 +37,7 @@ class Insomniac(Player):
         insomniac_new_role: Role,
         new_insomniac_index: int | None = None,
     ) -> tuple[Statement, ...]:
-        """ Gets Insomniac Statement. """
+        """Gets Insomniac Statement."""
         knowledge = ((player_index, frozenset({Role.INSOMNIAC})),)
         sentence = f"I am a Insomniac and when I woke up I was a {insomniac_new_role}."
         if new_insomniac_index is None:
@@ -51,14 +51,14 @@ class Insomniac(Player):
     @staticmethod
     @lru_cache
     def get_all_statements(player_index: int) -> tuple[Statement, ...]:
-        """ Required for all player types. Returns all possible role statements. """
+        """Required for all player types. Returns all possible role statements."""
         statements: list[Statement] = []
         for role in const.SORTED_ROLE_SET:
             statements += Insomniac.get_insomniac_statements(player_index, role)
         return tuple(statements)
 
     def analyze(self, knowledge_base: KnowledgeBase) -> None:
-        """ Overrides analyze. """
+        """Overrides analyze."""
         possible_switches: list[int] = []
         for i, stated_role in enumerate(knowledge_base.stated_roles):
             if stated_role is self.new_role:
@@ -69,5 +69,5 @@ class Insomniac(Player):
             )
 
     def json_repr(self) -> dict[str, Any]:
-        """ Gets JSON representation of an Insomniac player. """
+        """Gets JSON representation of an Insomniac player."""
         return super().json_repr() | {"new_role": self.new_role}

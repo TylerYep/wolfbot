@@ -7,7 +7,7 @@ from src.statements import Statement
 
 
 class TestRobber:
-    """ Tests for the Robber player class. """
+    """Tests for the Robber player class."""
 
     @staticmethod
     def test_awake_init(large_game_roles: tuple[Role, ...]) -> None:
@@ -38,7 +38,7 @@ class TestRobber:
 
     @staticmethod
     def test_get_robber_statements() -> None:
-        """ Execute initialization actions and return the possible statements. """
+        """Execute initialization actions and return the possible statements."""
         player_index = 4
 
         result = Robber.get_robber_statements(player_index, 3, Role.SEER)
@@ -54,7 +54,7 @@ class TestRobber:
 
     @staticmethod
     def test_get_all_statements() -> None:
-        """ Should return possible statements from all possible initializations. """
+        """Should return possible statements from all possible initializations."""
         player_index = 1
         set_roles(Role.WOLF, Role.ROBBER, Role.VILLAGER)
         const.NUM_PLAYERS = 2

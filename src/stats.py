@@ -15,7 +15,7 @@ from src.statements import Statement
 @dataslots
 @dataclass
 class SavedGame:
-    """ All of the necessary data needed to rerun a game. """
+    """All of the necessary data needed to rerun a game."""
 
     original_roles: tuple[Role, ...]
     game_roles: tuple[Role, ...]
@@ -27,7 +27,7 @@ class SavedGame:
     ) -> tuple[
         tuple[Role, ...], tuple[Role, ...], tuple[Statement, ...], tuple[Player, ...]
     ]:
-        """ Returns game data. """
+        """Returns game data."""
         return (
             self.original_roles,
             self.game_roles,
@@ -36,7 +36,7 @@ class SavedGame:
         )
 
     def json_repr(self) -> dict[str, Any]:
-        """ Returns json representation of the GameResult. """
+        """Returns json representation of the GameResult."""
         return {
             "type": "SavedGame",
             "original_roles": self.original_roles,
@@ -49,7 +49,7 @@ class SavedGame:
 @dataslots
 @dataclass
 class GameResult:
-    """ Each round of one_night returns a GameResult. """
+    """Each round of one_night returns a GameResult."""
 
     actual: tuple[Role, ...]
     guessed: tuple[Role, ...]
@@ -58,7 +58,7 @@ class GameResult:
     statements: tuple[Statement, ...]
 
     def json_repr(self) -> dict[str, Any]:
-        """ Returns json representation of the GameResult. """
+        """Returns json representation of the GameResult."""
         return {
             "type": "GameResult",
             "actual": self.actual,
@@ -72,7 +72,7 @@ class GameResult:
 @dataslots
 @dataclass
 class Metric:
-    """ One metric for a game. """
+    """One metric for a game."""
 
     function: Callable[..., tuple[int, int]]
     sentence: str
@@ -81,7 +81,7 @@ class Metric:
     average: float = 0
 
     def update(self, game_result: GameResult) -> None:
-        """ Update the Metric by aggregating a new result. """
+        """Update the Metric by aggregating a new result."""
         correct, total = self.function(game_result)
         self.correct += correct
         self.total += total
@@ -89,7 +89,7 @@ class Metric:
 
 
 class Statistics:
-    """ Initialize a Statistics object. """
+    """Initialize a Statistics object."""
 
     def __init__(self) -> None:
         metric_fns = [
@@ -123,10 +123,10 @@ class Statistics:
         self.end_time = 0.0
 
     def __eq__(self, other: object) -> bool:
-        """ Checks for equality between Statistics objects. """
+        """Checks for equality between Statistics objects."""
         if isinstance(other, Statistics):
             return self.get_metric_results(False) == other.get_metric_results(False)
-        return False
+        return NotImplemented
 
     @staticmethod
     def correctness_strict(game_result: GameResult) -> tuple[int, int]:
@@ -160,7 +160,7 @@ class Statistics:
 
     @staticmethod
     def wolf_predictions_one(game_result: GameResult) -> tuple[int, int]:
-        """ Returns 1/1 if at least one Wolf was correctly identified. """
+        """Returns 1/1 if at least one Wolf was correctly identified."""
         correct_guesses, total_wolves = 0, 1
         for i in range(const.NUM_PLAYERS):
             if game_result.actual[i] is Role.WOLF is game_result.guessed[i]:
@@ -169,7 +169,7 @@ class Statistics:
 
     @staticmethod
     def wolf_predictions_all(game_result: GameResult) -> tuple[int, int]:
-        """ Returns 1/1 if all Wolves were correctly identified. """
+        """Returns 1/1 if all Wolves were correctly identified."""
         correct_guesses, total_wolves = 0, 0
         for i in range(const.NUM_PLAYERS):
             if game_result.actual[i] is Role.WOLF:
@@ -180,7 +180,7 @@ class Statistics:
 
     @staticmethod
     def wolf_predictions_center(game_result: GameResult) -> tuple[int, int]:
-        """ Returns fraction of how many Wolves were correctly identified. """
+        """Returns fraction of how many Wolves were correctly identified."""
         correct_guesses, total_wolves = 0, 0
         for i in range(const.NUM_ROLES):
             if game_result.actual[i] is Role.WOLF:
@@ -191,21 +191,21 @@ class Statistics:
 
     @staticmethod
     def villager_wins(game_result: GameResult) -> tuple[int, int]:
-        """ Returns 1/1 if the Village team won. """
+        """Returns 1/1 if the Village team won."""
         return int(game_result.winning_team is Team.VILLAGE), 1
 
     @staticmethod
     def tanner_wins(game_result: GameResult) -> tuple[int, int]:
-        """ Returns 1/1 if the Tanner won. """
+        """Returns 1/1 if the Tanner won."""
         return int(game_result.winning_team is Team.TANNER), 1
 
     @staticmethod
     def werewolf_wins(game_result: GameResult) -> tuple[int, int]:
-        """ Returns 1/1 if the Werewolf team won. """
+        """Returns 1/1 if the Werewolf team won."""
         return int(game_result.winning_team is Team.WEREWOLF), 1
 
     def add_result(self, game_result: GameResult) -> None:
-        """ Updates the Statistics object with a GameResult. """
+        """Updates the Statistics object with a GameResult."""
         self.num_games += 1
         for metric in self.metrics:
             metric.update(game_result)
@@ -222,7 +222,7 @@ class Statistics:
         return results
 
     def print_statistics(self) -> None:
-        """ Outputs overall statistics of inputed game results. """
+        """Outputs overall statistics of inputed game results."""
         logger.warning(f"\nNumber of Games: {self.num_games}")
         for metric in self.metrics:
             logger.warning(f"{metric.sentence}{metric.average}")

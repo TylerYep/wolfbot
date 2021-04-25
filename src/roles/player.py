@@ -17,7 +17,7 @@ from src.statements import KnowledgeBase, Statement
 
 
 class Player:
-    """ Player class. """
+    """Player class."""
 
     def __init__(self, player_index: int):
         # Exit early if we are creating a placeholder Player
@@ -41,10 +41,10 @@ class Player:
             self_json, other_json = self.json_repr(), other.json_repr()
             is_equal = all(self_json[key] == other_json[key] for key in self_json)
             return self.__dict__ == other.__dict__ and is_equal
-        return False
+        return NotImplemented
 
     def __repr__(self) -> str:
-        """ Gets string representation of a Player object. """
+        """Gets string representation of a Player object."""
         attrs = ""
         for key, item in self.json_repr().items():
             if key != "type":
@@ -57,17 +57,17 @@ class Player:
     def awake_init(
         cls, player_index: int, game_roles: list[Role], original_roles: tuple[Role, ...]
     ) -> Player:
-        """ Initializes Player and performs their nighttime actions. """
+        """Initializes Player and performs their nighttime actions."""
         raise NotImplementedError
 
     @staticmethod
     @lru_cache
     def get_all_statements(player_index: int) -> tuple[Statement, ...]:
-        """ Required for all player types. Returns all possible role statements. """
+        """Required for all player types. Returns all possible role statements."""
         raise NotImplementedError
 
     def get_partial_statements(self) -> tuple[Statement, ...]:
-        """ Gets generic partial statements for each player. """
+        """Gets generic partial statements for each player."""
         partial_statements = []
         zero_sent = "I don't want to say who I am just yet."
         partial_statements.append(Statement(zero_sent, priority=StatementLevel.NO_INFO))
@@ -84,7 +84,7 @@ class Player:
         return tuple(partial_statements)
 
     def transform(self, role_type: Role) -> Player:  # pylint: disable=too-many-locals
-        """ Returns new Player identity. """
+        """Returns new Player identity."""
         from src.roles import (
             Drunk,
             Hunter,
@@ -141,7 +141,7 @@ class Player:
         raise TypeError(f"Role Type: {role_type} is not a valid role.")
 
     def analyze(self, knowledge_base: KnowledgeBase) -> None:
-        """ Updates Player state given new information. """
+        """Updates Player state given new information."""
         # If someone says a Statement that involves you,
         # set your new_role to their theory.
         if self.role in const.VILLAGE_ROLES:
@@ -154,7 +154,7 @@ class Player:
                     )
 
     def get_statement(self, knowledge_base: KnowledgeBase) -> Statement:
-        """ Gets Player Statement. """
+        """Gets Player Statement."""
         del knowledge_base
         # If have a new role and are now evil, transform into that role.
         if self.new_role is not Role.NONE and self.new_role in const.EVIL_ROLES:
@@ -202,14 +202,14 @@ class Player:
         return next_statement
 
     def is_evil(self) -> bool:
-        """ Decide whether a character should make an evil prediction or not. """
+        """Decide whether a character should make an evil prediction or not."""
         # TODO When a wolf becomes good? Do I need to check for Wolf twice?
         return (
             self.role in const.EVIL_ROLES and self.new_role is Role.NONE
         ) or self.new_role in const.EVIL_ROLES
 
     def predict(self, statements: tuple[Statement, ...]) -> tuple[Role, ...]:
-        """ Gets a player's predictions for each index given all statements. """
+        """Gets a player's predictions for each index given all statements."""
         is_evil = self.is_evil()
         if const.SMART_VILLAGERS or is_evil:
             if const.USE_RELAXED_SOLVER:
@@ -260,5 +260,5 @@ class Player:
         return no_wolves_guess
 
     def json_repr(self) -> dict[str, Any]:
-        """ Gets JSON representation of a Player object. """
+        """Gets JSON representation of a Player object."""
         return {"type": self.role.value, "player_index": self.player_index}
