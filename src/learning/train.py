@@ -31,10 +31,7 @@ def get_wolf_state(
     """Fetches Wolf statement from Game."""
     states, statements = [], []
     for wolf_ind in game.wolf_inds:
-        state = (
-            game.wolf_inds,
-            tuple(s.sentence for s in game.statements[:wolf_ind]),
-        )
+        state = (game.wolf_inds, tuple(s.sentence for s in game.statements[:wolf_ind]))
         states.append(state)
         statements.append(game.statements[wolf_ind].sentence)
     return states, statements
