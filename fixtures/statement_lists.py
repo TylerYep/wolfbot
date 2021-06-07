@@ -1,8 +1,8 @@
 """ statements.py """
 import pytest
 
-from src.const import Role, SwitchPriority
-from src.statements import Statement
+from wolfbot.const import Role, SwitchPriority
+from wolfbot.statements import Statement
 
 
 @pytest.fixture(scope="session")

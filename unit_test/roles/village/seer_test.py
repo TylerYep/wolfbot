@@ -1,9 +1,9 @@
 """ seer_test.py """
 from conftest import set_roles
-from src import const
-from src.const import Role
-from src.roles import Seer
-from src.statements import Statement
+from wolfbot import const
+from wolfbot.const import Role
+from wolfbot.roles import Seer
+from wolfbot.statements import Statement
 
 
 class TestSeer:

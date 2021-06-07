@@ -1,7 +1,7 @@
 """ knowledge_bases.py """
 import pytest
 
-from src.statements import KnowledgeBase, Statement
+from wolfbot.statements import KnowledgeBase, Statement
 
 
 @pytest.fixture

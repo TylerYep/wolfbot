@@ -1,6 +1,6 @@
 """ replay_test.py """
-from src import one_night, replay
-from src.const import Role
+from wolfbot import one_night, replay
+from wolfbot.const import Role
 
 
 class TestReplay:

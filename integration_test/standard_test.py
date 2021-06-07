@@ -3,9 +3,9 @@ import logging
 import random
 
 from conftest import set_roles, write_results
-from src import const, one_night
-from src.const import Role, Team
-from src.stats import Statistics
+from wolfbot import const, one_night
+from wolfbot.const import Role, Team
+from wolfbot.stats import Statistics
 
 
 class TestStandard:

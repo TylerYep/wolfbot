@@ -1,9 +1,9 @@
 """ solvers_test.py """
 from conftest import set_roles
-from src import const, solvers
-from src.const import Role, SwitchPriority
-from src.solvers import SolverState
-from src.statements import Statement
+from wolfbot import const, solvers
+from wolfbot.const import Role, SwitchPriority
+from wolfbot.solvers import SolverState
+from wolfbot.statements import Statement
 
 
 class TestSolverState:

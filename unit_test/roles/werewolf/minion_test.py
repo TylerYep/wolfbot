@@ -1,8 +1,8 @@
 """ minion_test.py """
-from src import const
-from src.const import Role
-from src.roles import Minion
-from src.statements import KnowledgeBase
+from wolfbot import const
+from wolfbot.const import Role
+from wolfbot.roles import Minion
+from wolfbot.statements import KnowledgeBase
 
 
 class TestMinion:

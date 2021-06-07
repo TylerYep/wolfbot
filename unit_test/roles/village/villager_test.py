@@ -1,7 +1,7 @@
 """ villager_test.py """
-from src.const import Role
-from src.roles import Villager
-from src.statements import Statement
+from wolfbot.const import Role
+from wolfbot.roles import Villager
+from wolfbot.statements import Statement
 
 
 class TestVillager:

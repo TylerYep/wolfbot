@@ -1,8 +1,8 @@
 """ insomniac_test.py """
 from conftest import set_roles
-from src.const import Role
-from src.roles import Insomniac
-from src.statements import Statement
+from wolfbot.const import Role
+from wolfbot.roles import Insomniac
+from wolfbot.statements import Statement
 
 
 class TestInsomniac:

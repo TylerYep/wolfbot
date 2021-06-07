@@ -1,7 +1,7 @@
 """ tanner_test.py """
-from src.const import Role
-from src.roles import Tanner
-from src.statements import KnowledgeBase
+from wolfbot.const import Role
+from wolfbot.roles import Tanner
+from wolfbot.statements import KnowledgeBase
 
 
 class TestTanner:

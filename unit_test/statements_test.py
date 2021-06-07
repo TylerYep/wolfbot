@@ -1,7 +1,7 @@
 """ statements_test.py """
-from src import const, statements
-from src.const import Role, StatementLevel, SwitchPriority
-from src.statements import KnowledgeBase, Statement
+from wolfbot import const, statements
+from wolfbot.const import Role, StatementLevel, SwitchPriority
+from wolfbot.statements import KnowledgeBase, Statement
 
 
 class TestKnowledgeBase:

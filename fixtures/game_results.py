@@ -1,9 +1,9 @@
 """ gameresults.py """
 import pytest
 
-from src.const import Role, SwitchPriority, Team
-from src.statements import Statement
-from src.stats import GameResult
+from wolfbot.const import Role, SwitchPriority, Team
+from wolfbot.statements import Statement
+from wolfbot.stats import GameResult
 
 
 @pytest.fixture

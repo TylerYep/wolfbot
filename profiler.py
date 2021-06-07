@@ -3,7 +3,7 @@ import cProfile
 import pstats
 import random
 
-from src import one_night  # pylint: disable=unused-import
+from wolfbot import one_night  # pylint: disable=unused-import
 
 
 def profile() -> None:

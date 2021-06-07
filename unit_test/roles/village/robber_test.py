@@ -1,9 +1,9 @@
 """ robber_test.py """
 from conftest import set_roles
-from src import const
-from src.const import Role, SwitchPriority
-from src.roles import Robber
-from src.statements import Statement
+from wolfbot import const
+from wolfbot.const import Role, SwitchPriority
+from wolfbot.roles import Robber
+from wolfbot.statements import Statement
 
 
 class TestRobber:

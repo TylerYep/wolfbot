@@ -1,7 +1,7 @@
 """ predictions_test.py """
-from src import const, predictions
-from src.const import Role
-from src.solvers import SolverState
+from wolfbot import const, predictions
+from wolfbot.const import Role
+from wolfbot.solvers import SolverState
 
 
 class TestMakeRandomPrediction:

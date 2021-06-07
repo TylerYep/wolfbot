@@ -16,7 +16,7 @@ This is an implementation of the popular board game One Night Ultimate Werewolf.
 To try it out, run `python main.py` in the terminal.
 (You may need to run `pip install -r requirements.txt` if you do not have tqdm already installed.)
 
-Constants, along with their use cases, are listed in src/const.py. You can change:
+Constants, along with their use cases, are listed in wolfbot/const.py. You can change:
 
 - \# of players
 - \# of center cards

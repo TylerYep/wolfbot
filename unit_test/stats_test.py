@@ -2,11 +2,11 @@
 import pytest
 
 from conftest import verify_output
-from src import stats
-from src.const import Role, SwitchPriority, Team
-from src.roles import Robber, Seer, Villager
-from src.statements import Statement
-from src.stats import GameResult, SavedGame, Statistics
+from wolfbot import stats
+from wolfbot.const import Role, SwitchPriority, Team
+from wolfbot.roles import Robber, Seer, Villager
+from wolfbot.statements import Statement
+from wolfbot.stats import GameResult, SavedGame, Statistics
 
 
 class TestSavedGame:

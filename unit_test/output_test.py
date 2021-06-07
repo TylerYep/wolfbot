@@ -2,8 +2,8 @@
 import pytest
 
 from conftest import verify_output_file
-from src import one_night
-from src.stats import GameResult
+from wolfbot import one_night
+from wolfbot.stats import GameResult
 
 
 class TestPlayOneNightWerewolf:

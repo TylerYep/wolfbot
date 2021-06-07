@@ -29,6 +29,6 @@ jobs:
         mypy .
     - name: pytest
       run: |
-        pytest --cov=src --cov-report= --durations=0
+        pytest --cov=wolfbot --cov-report= --durations=0
     - name: codecov
       uses: codecov/codecov-action@v1

@@ -1,7 +1,7 @@
 """ multistatement_test.py """
 from conftest import write_results
-from src import const, one_night
-from src.const import Role
+from wolfbot import const, one_night
+from wolfbot.const import Role
 
 
 class TestMultistatement:

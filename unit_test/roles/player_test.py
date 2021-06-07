@@ -1,10 +1,10 @@
 """ player_test.py """
 import pytest
 
-from src import const
-from src.const import Role
-from src.roles import Drunk, Hunter, Minion, Player, Robber, Seer, Villager, Wolf
-from src.statements import KnowledgeBase, Statement
+from wolfbot import const
+from wolfbot.const import Role
+from wolfbot.roles import Drunk, Hunter, Minion, Player, Robber, Seer, Villager, Wolf
+from wolfbot.statements import KnowledgeBase, Statement
 
 
 class TestPlayer:

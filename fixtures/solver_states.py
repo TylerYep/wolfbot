@@ -1,9 +1,9 @@
 """ solverstates.py """
 import pytest
 
-from src import const
-from src.const import Role, SwitchPriority
-from src.solvers import SolverState
+from wolfbot import const
+from wolfbot.const import Role, SwitchPriority
+from wolfbot.solvers import SolverState
 
 
 @pytest.fixture

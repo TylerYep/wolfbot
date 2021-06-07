@@ -30,9 +30,9 @@ from fixtures import (
     small_knowledge_base,
     small_statement_list,
 )
-from src import const
-from src.const import Role
-from src.util import verify_const
+from wolfbot import const
+from wolfbot.const import Role
+from wolfbot.util import verify_const
 
 
 def set_roles(*roles: Role) -> None:

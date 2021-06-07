@@ -1,9 +1,9 @@
 """ drunk_test.py """
 from conftest import set_roles
-from src import const
-from src.const import Role, SwitchPriority
-from src.roles import Drunk
-from src.statements import Statement
+from wolfbot import const
+from wolfbot.const import Role, SwitchPriority
+from wolfbot.roles import Drunk
+from wolfbot.statements import Statement
 
 
 class TestDrunk:

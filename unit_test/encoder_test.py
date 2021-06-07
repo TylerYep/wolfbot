@@ -1,11 +1,11 @@
 """ encoder_test.py """
 import json
 
-from src.const import Role, SwitchPriority, Team
-from src.encoder import ObjectInitializer, WolfBotDecoder, WolfBotEncoder
-from src.roles import Player, Robber, Seer, Villager
-from src.statements import Statement
-from src.stats import GameResult, SavedGame
+from wolfbot.const import Role, SwitchPriority, Team
+from wolfbot.encoder import ObjectInitializer, WolfBotDecoder, WolfBotEncoder
+from wolfbot.roles import Player, Robber, Seer, Villager
+from wolfbot.statements import Statement
+from wolfbot.stats import GameResult, SavedGame
 
 
 class TestWolfBotEncoderDecoder:

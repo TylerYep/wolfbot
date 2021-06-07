@@ -1,5 +1,5 @@
 """ main.py """
-from src import const, one_night, replay
+from wolfbot import const, one_night, replay
 
 
 def main() -> None:

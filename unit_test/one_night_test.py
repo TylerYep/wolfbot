@@ -2,10 +2,10 @@
 import pytest
 
 from conftest import set_roles, verify_output, verify_output_string
-from src import const, one_night
-from src.const import Role, Team
-from src.roles import Drunk, Minion, Player, Robber, Seer, Wolf
-from src.statements import Statement
+from wolfbot import const, one_night
+from wolfbot.const import Role, Team
+from wolfbot.roles import Drunk, Minion, Player, Robber, Seer, Wolf
+from wolfbot.statements import Statement
 
 
 class TestGetIndividualPreds:

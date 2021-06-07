@@ -2,8 +2,8 @@
 import pytest
 
 from conftest import override_input, verify_output_string
-from src import util
-from src.const import Role
+from wolfbot import util
+from wolfbot.const import Role
 
 
 class TestPrintRoles:

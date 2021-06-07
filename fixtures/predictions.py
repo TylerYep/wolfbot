@@ -1,7 +1,7 @@
 """ predictions.py """
 import pytest
 
-from src.roles import Role
+from wolfbot.roles import Role
 
 
 @pytest.fixture(scope="session")

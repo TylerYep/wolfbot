@@ -1,9 +1,9 @@
 """ troublemaker_test.py """
 from conftest import set_roles
-from src import const
-from src.const import Role, SwitchPriority
-from src.roles import Troublemaker
-from src.statements import Statement
+from wolfbot import const
+from wolfbot.const import Role, SwitchPriority
+from wolfbot.roles import Troublemaker
+from wolfbot.statements import Statement
 
 
 class TestTroublemaker:

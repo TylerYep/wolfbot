@@ -1,7 +1,7 @@
 """ const_test.py """
-from src import const
-from src.const import Role
-from src.roles import Mason, Seer
+from wolfbot import const
+from wolfbot.const import Role
+from wolfbot.roles import Mason, Seer
 
 
 class TestLRUCache:

@@ -1,11 +1,21 @@
 """ savedgames.py """
 import pytest
 
-from src import const
-from src.const import Role, SwitchPriority
-from src.roles import Drunk, Hunter, Mason, Minion, Robber, Seer, Tanner, Villager, Wolf
-from src.statements import Statement
-from src.stats import SavedGame
+from wolfbot import const
+from wolfbot.const import Role, SwitchPriority
+from wolfbot.roles import (
+    Drunk,
+    Hunter,
+    Mason,
+    Minion,
+    Robber,
+    Seer,
+    Tanner,
+    Villager,
+    Wolf,
+)
+from wolfbot.statements import Statement
+from wolfbot.stats import SavedGame
 
 
 @pytest.fixture
