@@ -5,7 +5,7 @@ from dataclasses import dataclass, field
 from functools import cached_property
 from typing import Any
 
-from dataslots import dataslots
+from dataslots import dataslots  # type: ignore[import]
 
 from src import const
 from src.const import Role, StatementLevel, SwitchPriority

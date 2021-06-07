@@ -12,8 +12,8 @@ from enum import Enum, IntEnum, auto, unique
 from pathlib import Path
 from typing import Any, TypeVar, cast
 
-import prettyprinter
-from prettyprinter.prettyprinter import IMPLICIT_MODULES
+import prettyprinter  # type: ignore[import]
+from prettyprinter.prettyprinter import IMPLICIT_MODULES  # type: ignore[import]
 
 from src.log import OneNightLogger
 
@@ -136,7 +136,7 @@ if ARGS.seed:
 
 # Game Constants
 # These are the player roles used in a game.
-ROLES = (
+ROLES: tuple[Role, ...] = (
     Role.DRUNK,
     Role.INSOMNIAC,
     Role.HUNTER,

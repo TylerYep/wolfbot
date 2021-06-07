@@ -6,7 +6,7 @@ import shutil
 from dataclasses import dataclass, field
 from functools import total_ordering
 
-from dataslots import dataslots
+from dataslots import dataslots  # type: ignore[import]
 
 from src import const
 from src.const import Role, formatter

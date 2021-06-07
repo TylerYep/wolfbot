@@ -37,7 +37,7 @@ from src.util import verify_const
 
 def set_roles(*roles: Role) -> None:
     """Changes to ROLES should propagate to all of its descendants."""
-    const.ROLES = roles  # type: ignore[assignment]
+    const.ROLES = roles
     const.ROLE_SET = frozenset(const.ROLES)
     const.SORTED_ROLE_SET = sorted(const.ROLE_SET)
     const.ROLE_COUNTS = const.get_counts(const.ROLES)

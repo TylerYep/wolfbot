@@ -4,7 +4,7 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from typing import Any
 
-from dataslots import dataslots
+from dataslots import dataslots  # type: ignore[import]
 
 from src import const
 from src.const import Role, Team, logger

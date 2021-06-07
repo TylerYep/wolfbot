@@ -1,9 +1,13 @@
 """ predictions.py """
 import random
+from typing import TYPE_CHECKING, Callable, cast
 
 from src import const
 from src.const import Role
 from src.solvers import SolverState
+
+if TYPE_CHECKING:
+    from _typeshed import SupportsLessThan  # pylint: disable=import-error
 
 
 def get_probs(solution_arr: tuple[SolverState, ...]) -> tuple[dict[Role, float], ...]:
@@ -138,7 +142,9 @@ def prob_recurse_assign(
             if restrict_possible:
                 probs = solution_probs[i]
                 leftover_roles = sorted(
-                    probs, key=probs.get, reverse=True  # type: ignore
+                    probs,
+                    key=cast(Callable[[Role], "SupportsLessThan"], probs.get),
+                    reverse=True,
                 )
             else:
                 leftover_roles = sorted(k for k, v in curr_role_counts.items() if v > 0)

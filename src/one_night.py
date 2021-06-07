@@ -4,7 +4,7 @@ import json
 import logging
 import random
 
-from tqdm import trange
+from tqdm import trange  # type: ignore[import]
 
 from src import const, util
 from src.const import Role, StatementLevel, Team, logger
