@@ -40,7 +40,7 @@ repos:
 
       - id: pytest
         name: pytest
-        entry: pytest --cov=wolfbot --cov-report=html --durations=0 unit_test
+        entry: pytest --cov=wolfbot --cov-report=html --durations=0 tests
         language: python
         types: [python]
         always_run: true

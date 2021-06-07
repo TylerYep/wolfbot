@@ -94,7 +94,7 @@ def _reset_const(seed: int = 0) -> None:
     const.EXPECTIMAX_TANNER = False
     const.RL_WOLF = False
 
-    const.REPLAY_FILE = "unit_test/test_data/replay.json"
+    const.REPLAY_FILE = "tests/test_data/replay.json"
     set_roles(
         Role.INSOMNIAC,
         Role.VILLAGER,

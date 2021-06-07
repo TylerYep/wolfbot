@@ -19,7 +19,7 @@ class TestPlayOneNightWerewolf:
         result = one_night.play_one_night_werewolf()
 
         assert result == example_small_game_result
-        verify_output_file(caplog, "unit_test/test_data/one_night_small.out")
+        verify_output_file(caplog, "tests/test_data/one_night_small.out")
 
     @staticmethod
     def test_one_night_medium(
@@ -31,7 +31,7 @@ class TestPlayOneNightWerewolf:
         result = one_night.play_one_night_werewolf()
 
         assert result == example_medium_game_result
-        verify_output_file(caplog, "unit_test/test_data/one_night_medium.out")
+        verify_output_file(caplog, "tests/test_data/one_night_medium.out")
 
     @staticmethod
     def test_one_night_large(
@@ -43,7 +43,7 @@ class TestPlayOneNightWerewolf:
         result = one_night.play_one_night_werewolf()
 
         assert result == example_large_game_result
-        verify_output_file(caplog, "unit_test/test_data/one_night_large.out")
+        verify_output_file(caplog, "tests/test_data/one_night_large.out")
 
 
 # class TestPlayOneNightWerewolfInteractive:

@@ -5,7 +5,7 @@ from pathlib import Path
 IGNORED_FOLDERS = {"__pycache__", "algorithms", "learning", "wolf_variants"}
 IGNORED_FILES = {"__init__.py", "gui.py", "log.py"}
 wolfbot_FOLDER = Path("wolfbot")
-TEST_FOLDER = Path("unit_test")
+TEST_FOLDER = Path("tests")
 
 
 def test_file_coverage() -> None:

@@ -60,5 +60,5 @@ All issues and pull requests are much appreciated!
 - First, run `pre-commit install`.
 - To see test coverage scripts and other auto-formatting tools, use `pre-commit run`.
 - To run all tests, run `pytest`.
-- To only run unit tests, run `pytest unit_test`.
+- To only run unit tests, run `pytest tests`.
 - To only run integration tests, run `pytest integration_test`.

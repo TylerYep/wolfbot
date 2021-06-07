@@ -31,7 +31,7 @@ def lru_cache(  # pylint: disable=protected-access
     return new_func
 
 
-def init_program(is_unit_test: bool) -> argparse.Namespace:
+def init_program(is_tests: bool) -> argparse.Namespace:
     """Command Line Arguments"""
     parser = argparse.ArgumentParser(description="config constants for main.py")
     # fmt: off
@@ -47,7 +47,7 @@ def init_program(is_unit_test: bool) -> argparse.Namespace:
     parser.add_argument("--user", "-u", action="store_true",
                         help="enable interactive mode")
     # fmt: on
-    return parser.parse_args("" if is_unit_test else sys.argv[1:])
+    return parser.parse_args("" if is_tests else sys.argv[1:])
 
 
 class Formatter:
