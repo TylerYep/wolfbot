@@ -235,7 +235,8 @@ def write_results(stat_results: dict[str, float], file_path: str) -> None:
 
     results_filename = destination / filepath.name
     with open(results_filename, "a+") as out_file:
-        writer = csv.DictWriter(out_file, fieldnames=stat_results)
+        # pylint: disable=unsubscriptable-object
+        writer = csv.DictWriter[Any](out_file, fieldnames=list(stat_results))
         if results_filename.stat().st_size == 0:
             writer.writeheader()
         writer.writerow(stat_results)
