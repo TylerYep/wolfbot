@@ -109,19 +109,16 @@ class Role(Enum):
     def __lt__(self, other: object) -> bool:
         """This function is necessary to make Role sortable alphabetically."""
         if isinstance(other, Role):
-            # pylint: disable=comparison-with-callable
             result = self.value < other.value
             return cast(bool, result)
         return NotImplemented
 
     @lru_cache
     def __repr__(self) -> str:
-        # pylint: disable=invalid-repr-returned
         return cast(str, self.value)
 
     @lru_cache
     def __format__(self, formatstr: str) -> str:
-        # pylint: disable=invalid-format-returned
         del formatstr
         return cast(str, self.value)
 

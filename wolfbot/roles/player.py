@@ -39,7 +39,7 @@ class Player:
         """
         if isinstance(other, Player):
             self_json, other_json = self.json_repr(), other.json_repr()
-            is_equal = all(self_json[key] == other_json[key] for key in self_json)
+            is_equal = all(value == other_json[key] for key, value in self_json.items())
             return self.__dict__ == other.__dict__ and is_equal
         return NotImplemented
 
