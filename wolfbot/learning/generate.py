@@ -31,7 +31,7 @@ def generate_data() -> None:
     fname = (
         f"wolfbot/learning/simulations/simulation_{time.strftime('%Y%m%d_%H%M%S')}.json"
     )
-    with open(fname, "w") as f_sim:
+    with open(fname, "w", encoding="utf-8") as f_sim:
         json.dump(sim_list, f_sim, cls=WolfBotEncoder, indent=2)
 
 

@@ -234,7 +234,7 @@ def write_results(stat_results: dict[str, float], file_path: str) -> None:
         destination.mkdir(parents=True)
 
     results_filename = destination / filepath.name
-    with open(results_filename, "a+") as out_file:
+    with open(results_filename, "a+", encoding="utf-8") as out_file:
         # pylint: disable=unsubscriptable-object
         writer: csv.DictWriter[Any] = csv.DictWriter(
             out_file, fieldnames=list(stat_results)
@@ -246,7 +246,7 @@ def write_results(stat_results: dict[str, float], file_path: str) -> None:
 
 def verify_output_file(caplog: pytest.LogCaptureFixture, filename: str) -> None:
     """Helper method for comparing file output differences."""
-    with open(filename) as output_file:
+    with open(filename, encoding="utf-8") as output_file:
         expected = tuple(output_file.read().split("\n"))
     verify_output(caplog, expected)
 

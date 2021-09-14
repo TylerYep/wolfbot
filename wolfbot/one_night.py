@@ -35,7 +35,7 @@ def play_one_night_werewolf(save_replay: bool = True) -> GameResult:
     """Plays one round of One Night Ultimate Werewolf."""
     util.verify_const()
     if save_replay:
-        with open(const.REPLAY_STATE, "w") as replay_file:
+        with open(const.REPLAY_STATE, "w", encoding="utf-8") as replay_file:
             json.dump({"rng_state": random.getstate()}, replay_file)
 
     game_roles = list(const.ROLES)

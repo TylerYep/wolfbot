@@ -7,7 +7,7 @@ from wolfbot.const import Role
 from wolfbot.solvers import SolverState
 
 if TYPE_CHECKING:
-    from _typeshed import SupportsLessThan  # pylint: disable=import-error
+    from _typeshed import SupportsLessThan
 
 
 def get_probs(solution_arr: tuple[SolverState, ...]) -> tuple[dict[Role, float], ...]:
