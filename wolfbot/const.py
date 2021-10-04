@@ -244,7 +244,7 @@ elif INTERACTIVE_MODE:
     logger.set_level(logging.INFO)
 
 if sys.version_info < (3, 9):
-    sys.stdout.write(f"Python {sys.version}\n\nWolfBot requires Python 3.9+ to work!\n")
+    print(f"Python {sys.version}\n\nWolfBot requires Python 3.9+ to work!\n")
     sys.exit()
 
 
