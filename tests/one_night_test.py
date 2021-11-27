@@ -1,7 +1,7 @@
 """ one_night_test.py """
 import pytest
 
-from conftest import set_roles, verify_output, verify_output_string
+from tests.conftest import set_roles, verify_output, verify_output_string
 from wolfbot import const, one_night
 from wolfbot.const import Role, Team
 from wolfbot.roles import Drunk, Minion, Player, Robber, Seer, Wolf

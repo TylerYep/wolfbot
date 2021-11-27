@@ -1,7 +1,7 @@
 """ stats_test.py """
 import pytest
 
-from conftest import verify_output
+from tests.conftest import verify_output
 from wolfbot import stats
 from wolfbot.const import Role, SwitchPriority, Team
 from wolfbot.roles import Robber, Seer, Villager

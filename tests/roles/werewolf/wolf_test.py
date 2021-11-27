@@ -1,5 +1,5 @@
 """ wolf_test.py """
-from conftest import set_roles
+from tests.conftest import set_roles
 from wolfbot import const
 from wolfbot.const import Role
 from wolfbot.roles import Wolf

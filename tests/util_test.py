@@ -1,7 +1,7 @@
 """ util_test.py """
 import pytest
 
-from conftest import override_input, verify_output_string
+from tests.conftest import override_input, verify_output_string
 from wolfbot import util
 from wolfbot.const import Role
 

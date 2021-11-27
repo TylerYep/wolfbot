@@ -1,5 +1,5 @@
 """ solvers_test.py """
-from conftest import set_roles
+from tests.conftest import set_roles
 from wolfbot import const, solvers
 from wolfbot.const import Role, SwitchPriority
 from wolfbot.solvers import SolverState

@@ -46,7 +46,7 @@ repos:
 
       - id: pytest
         name: pytest
-        entry: pytest --cov=wolfbot --cov-report=html --durations=0 tests
+        entry: pytest --cov=wolfbot --cov-report=html --durations=0 --ignore=tests/integration_test
         language: python
         types: [python]
         always_run: true

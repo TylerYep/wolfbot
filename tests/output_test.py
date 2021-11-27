@@ -1,7 +1,7 @@
 """ output_test.py """
 import pytest
 
-from conftest import verify_output_file
+from tests.conftest import verify_output_file
 from wolfbot import one_night
 from wolfbot.stats import GameResult
 

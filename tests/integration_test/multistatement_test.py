@@ -1,5 +1,5 @@
 """ multistatement_test.py """
-from conftest import write_results
+from tests.conftest import write_results
 from wolfbot import const, one_night
 from wolfbot.const import Role
 
