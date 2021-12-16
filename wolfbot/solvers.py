@@ -6,16 +6,13 @@ import shutil
 from dataclasses import dataclass, field
 from functools import total_ordering
 
-from dataslots import dataslots  # type: ignore[import]
-
 from wolfbot import const
 from wolfbot.const import Role, formatter
 from wolfbot.statements import Statement, Switch
 
 
-@dataslots
 @total_ordering
-@dataclass
+@dataclass(slots=True)
 class SolverState:
     """
     Each solver returns a SolverState object with the result.

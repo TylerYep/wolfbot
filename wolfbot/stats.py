@@ -4,16 +4,13 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from typing import Any
 
-from dataslots import dataslots  # type: ignore[import]
-
 from wolfbot import const
 from wolfbot.const import Role, Team, logger
 from wolfbot.roles import Player
 from wolfbot.statements import Statement
 
 
-@dataslots
-@dataclass
+@dataclass(slots=True)
 class SavedGame:
     """All of the necessary data needed to rerun a game."""
 
@@ -46,8 +43,7 @@ class SavedGame:
         }
 
 
-@dataslots
-@dataclass
+@dataclass(slots=True)
 class GameResult:
     """Each round of one_night returns a GameResult."""
 
@@ -69,8 +65,7 @@ class GameResult:
         }
 
 
-@dataslots
-@dataclass
+@dataclass(slots=True)
 class Metric:
     """One metric for a game."""
 

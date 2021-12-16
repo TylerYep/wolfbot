@@ -5,8 +5,6 @@ from dataclasses import dataclass, field
 from functools import cached_property
 from typing import Any
 
-from dataslots import dataslots  # type: ignore[import]
-
 from wolfbot import const
 from wolfbot.const import Role, StatementLevel, SwitchPriority
 
@@ -14,8 +12,7 @@ Knowledge = tuple[int, frozenset[Role]]
 Switch = tuple[SwitchPriority, int, int]
 
 
-@dataslots
-@dataclass
+@dataclass(slots=True)
 class KnowledgeBase:
     """
     Class for storing all available knowledge shared by all players.
@@ -51,13 +48,13 @@ class KnowledgeBase:
         self.final_claims[curr_ind] = statement
 
 
-@dataslots(add_dict=True)
 @dataclass
 class Statement:
     """
     Model for all statements in the game. Statements are intended to be immutable.
     All member variables are converted into an immutable type to be used in hash().
-    __slots__ must contain __dict__ to use @cached_property.
+    __slots__ must contain __dict__ to use @cached_property (most efficient), so
+    @dataslots(add_dict=True) works, but dataclass(slots=True) does not.
     Args:
         sentence: a string representation of the statement
         knowledge: a list of (player_index, set(role)) tuples

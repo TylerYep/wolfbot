@@ -22,9 +22,7 @@ T = TypeVar("T")  # pylint: disable=invalid-name
 CACHED_FUNCTIONS = []
 
 
-def lru_cache(  # pylint: disable=protected-access
-    func: Callable[..., T]
-) -> functools._lru_cache_wrapper[T]:
+def lru_cache(func: Callable[..., T]) -> functools._lru_cache_wrapper[T]:
     """Allows lru_cache to type check correctly."""
     new_func = functools.lru_cache(func)
     CACHED_FUNCTIONS.append(new_func)
@@ -203,7 +201,7 @@ EVIL_ROLES = frozenset({Role.TANNER, Role.WOLF, Role.MINION}) & ROLE_SET
 """ Village Players """
 CENTER_SEER_PROB = 0.9
 SMART_VILLAGERS = True
-USE_RELAXED_SOLVER = True
+USE_RELAXED_SOLVER = False
 
 """ Werewolf Players """
 # Basic Wolf Player (Pruned statement set)
