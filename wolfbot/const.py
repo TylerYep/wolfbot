@@ -4,15 +4,11 @@ import argparse
 import logging
 import random
 import sys
-from collections import Counter
-from collections.abc import Sequence
-from typing import TypeVar
+from types import ModuleType
 
 from wolfbot.enums import Role
 from wolfbot.log import logger
-
-# TODO https://github.com/PyCQA/pylint/issues/3401
-T = TypeVar("T")  # pylint: disable=invalid-name
+from wolfbot.util import get_counts
 
 
 def init_program(is_tests: bool) -> argparse.Namespace:
@@ -32,24 +28,6 @@ def init_program(is_tests: bool) -> argparse.Namespace:
                         help="enable interactive mode")
     # fmt: on
     return parser.parse_args("" if is_tests else sys.argv[1:])
-
-
-def get_counts(arr: Sequence[T], use_counter_threshold: int = 40) -> dict[T, int]:
-    """
-    Returns a dict of counts of each item in a list.
-    When there are fewer than ~40 items, using a regular
-    dictionary is faster than using a Counter.
-    """
-    if len(arr) < use_counter_threshold:
-        counts: dict[T, int] = {}
-        for item in arr:
-            if item in counts:
-                counts[item] += 1
-            else:
-                counts[item] = 1
-        return counts
-
-    return dict(Counter(arr))
 
 
 ARGS = init_program("pytest" in sys.modules)
@@ -169,3 +147,20 @@ elif INTERACTIVE_MODE:
 if sys.version_info < (3, 10):
     print(f"Python {sys.version}\n\nWolfBot requires Python 3.10+ to work!\n")
     sys.exit()
+
+
+def verify_valid_const_config(const: ModuleType) -> None:
+    if const.USER_ROLE is not Role.NONE and const.USER_ROLE not in const.ROLE_SET:
+        raise RuntimeError(f"USER_ROLE is invalid: {const.USER_ROLE}")
+    if const.EXPECTIMAX_WOLF and const.RL_WOLF:
+        raise RuntimeError("EXPECTIMAX_WOLF and RL_WOLF cannot both be enabled.")
+    if Role.DRUNK in const.ROLE_SET and const.NUM_CENTER <= 0:
+        raise RuntimeError("Drunk cannot be included when there are no center cards.")
+    if Role.MASON in const.ROLE_SET and const.ROLE_COUNTS[Role.MASON] != 2:
+        raise RuntimeError("Exactly 2 Masons must be included to play.")
+    if const.NUM_PLAYERS <= 1 and (
+        Role.ROBBER in const.ROLE_SET or Role.SEER in const.ROLE_SET
+    ):
+        raise RuntimeError("There are too few players to include Robber and Seer.")
+    if const.NUM_PLAYERS <= 2 and Role.TROUBLEMAKER in const.ROLE_SET:
+        raise RuntimeError("There are too few players to include Troublemaker.")

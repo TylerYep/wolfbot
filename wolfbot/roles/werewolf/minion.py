@@ -3,8 +3,9 @@ from __future__ import annotations
 import random
 from typing import Any
 
-from wolfbot import const, util
+from wolfbot import const
 from wolfbot.enums import Role, lru_cache
+from wolfbot.game_utils import find_all_player_indices
 from wolfbot.log import logger
 from wolfbot.predictions import make_unrestricted_prediction
 from wolfbot.roles.player import Player
@@ -31,7 +32,7 @@ class Minion(Player):
         """Initializes Minion - gets Wolf indices."""
         del game_roles
         is_user = const.IS_USER[player_index]
-        wolf_indices = util.find_all_player_indices(original_roles, Role.WOLF)
+        wolf_indices = find_all_player_indices(original_roles, Role.WOLF)
         logger.debug(f"[Hidden] Wolves are at indices: {list(wolf_indices)}")
         if is_user:
             logger.info(f"Wolves are at indices: {list(wolf_indices)}", cache=True)

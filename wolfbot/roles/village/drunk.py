@@ -2,12 +2,12 @@ from __future__ import annotations
 
 from typing import Any
 
-from wolfbot import const, util
+from wolfbot import const
 from wolfbot.enums import Role, SwitchPriority, lru_cache
+from wolfbot.game_utils import get_center, swap_characters
 from wolfbot.log import logger
 from wolfbot.roles.player import Player
 from wolfbot.statements import Statement
-from wolfbot.user import get_center
 
 
 class Drunk(Player):
@@ -32,7 +32,7 @@ class Drunk(Player):
         )
         if is_user:
             logger.info("You do not know your new role.", cache=True)
-        util.swap_characters(game_roles, player_index, choice_ind)
+        swap_characters(game_roles, player_index, choice_ind)
         return cls(player_index, choice_ind)
 
     @staticmethod

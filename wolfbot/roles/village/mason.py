@@ -2,8 +2,9 @@ from __future__ import annotations
 
 from typing import Any
 
-from wolfbot import const, util
+from wolfbot import const
 from wolfbot.enums import Role, lru_cache
+from wolfbot.game_utils import find_all_player_indices
 from wolfbot.log import logger
 from wolfbot.roles.player import Player
 from wolfbot.statements import Statement
@@ -26,7 +27,7 @@ class Mason(Player):
         """Initializes Mason - sees all other Masons."""
         del game_roles
         is_user = const.IS_USER[player_index]
-        mason_indices = util.find_all_player_indices(original_roles, Role.MASON)
+        mason_indices = find_all_player_indices(original_roles, Role.MASON)
         logger.debug(f"[Hidden] Masons are at indices: {list(mason_indices)}")
         if is_user:
             logger.info(

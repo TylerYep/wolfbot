@@ -3,8 +3,14 @@ from __future__ import annotations
 import random
 from typing import Any
 
-from wolfbot import const, util
+from wolfbot import const
 from wolfbot.enums import Role, StatementLevel, lru_cache
+from wolfbot.game_utils import (
+    find_all_player_indices,
+    get_center,
+    get_numeric_input,
+    get_player,
+)
 from wolfbot.log import logger
 from wolfbot.predictions import (
     make_prediction,
@@ -14,7 +20,7 @@ from wolfbot.predictions import (
 from wolfbot.solvers import relaxed_solver
 from wolfbot.solvers import switching_solver as solver
 from wolfbot.statements import KnowledgeBase, Statement
-from wolfbot.user import get_center, get_numeric_input, get_player
+from wolfbot.util import weighted_coin_flip
 
 
 class Player:
@@ -243,7 +249,7 @@ class Player:
         if (
             const.INTERACTIVE_MODE
             and self.player_index < const.NUM_PLAYERS
-            and util.weighted_coin_flip(const.INFLUENCE_PROB)
+            and weighted_coin_flip(const.INFLUENCE_PROB)
         ):
             # Convince other players to vote with you.
             logger.info(
@@ -255,7 +261,7 @@ class Player:
 
         # TODO find the most likely Wolf and only vote for that one
         # Players cannot vote for themselves.
-        if found_wolf_inds := util.find_all_player_indices(
+        if found_wolf_inds := find_all_player_indices(
             prediction, Role.WOLF, exclude=(self.player_index,)
         ):
             return random.choice(found_wolf_inds)

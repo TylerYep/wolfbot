@@ -2,12 +2,12 @@ from __future__ import annotations
 
 from typing import Any
 
-from wolfbot import const, util
+from wolfbot import const
 from wolfbot.enums import Role, SwitchPriority, lru_cache
+from wolfbot.game_utils import get_player, swap_characters
 from wolfbot.log import logger
 from wolfbot.roles.player import Player
 from wolfbot.statements import Statement
-from wolfbot.user import get_player
 
 
 class Robber(Player):
@@ -39,7 +39,7 @@ class Robber(Player):
                 f"You switched with Player {choice_ind} and are now a {choice_char}!",
                 cache=True,
             )
-        util.swap_characters(game_roles, player_index, choice_ind)
+        swap_characters(game_roles, player_index, choice_ind)
         return cls(player_index, choice_ind, choice_char)
 
     @staticmethod

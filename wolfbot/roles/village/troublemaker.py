@@ -2,12 +2,12 @@ from __future__ import annotations
 
 from typing import Any
 
-from wolfbot import const, util
+from wolfbot import const
 from wolfbot.enums import Role, SwitchPriority, lru_cache
+from wolfbot.game_utils import get_player, swap_characters
 from wolfbot.log import logger
 from wolfbot.roles.player import Player
 from wolfbot.statements import Statement
-from wolfbot.user import get_player
 
 
 class Troublemaker(Player):
@@ -32,7 +32,7 @@ class Troublemaker(Player):
         choice_1 = get_player(is_user, (player_index,))
         choice_2 = get_player(is_user, (player_index, choice_1))
 
-        util.swap_characters(game_roles, choice_1, choice_2)
+        swap_characters(game_roles, choice_1, choice_2)
         logger.debug(
             f"[Hidden] Troublemaker switches Player {choice_1} and Player {choice_2}."
         )

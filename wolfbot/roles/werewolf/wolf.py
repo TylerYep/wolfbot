@@ -3,8 +3,9 @@ from __future__ import annotations
 import random
 from typing import Any
 
-from wolfbot import const, util
+from wolfbot import const
 from wolfbot.enums import Role, lru_cache
+from wolfbot.game_utils import find_all_player_indices, get_center
 from wolfbot.log import logger
 from wolfbot.predictions import make_unrestricted_prediction
 from wolfbot.roles.player import Player
@@ -17,7 +18,6 @@ from wolfbot.roles.werewolf.wolf_variants import (
 )
 from wolfbot.solvers import switching_solver as solver
 from wolfbot.statements import KnowledgeBase, Statement
-from wolfbot.user import get_center
 
 
 class Wolf(Player):
@@ -46,7 +46,7 @@ class Wolf(Player):
         """
         is_user = const.IS_USER[player_index]
         center_index, center_role = None, None
-        wolf_indices = util.find_all_player_indices(original_roles, Role.WOLF)
+        wolf_indices = find_all_player_indices(original_roles, Role.WOLF)
         if len(wolf_indices) == 1 and const.NUM_CENTER > 0:
             center_index = get_center(is_user)
             center_role = game_roles[center_index]

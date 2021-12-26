@@ -32,15 +32,16 @@ from tests.fixtures import (  # noqa
     small_statement_list,
 )
 from wolfbot import const, enums
+from wolfbot.const import verify_valid_const_config
 from wolfbot.enums import Role
 from wolfbot.log import logger
-from wolfbot.util import verify_valid_const_config
+from wolfbot.util import get_counts
 
 
 def pytest_collection_modifyitems(
     session: pytest.Session, config: Config, items: list[Item]
 ) -> None:
-    """Run itegration tests at the very end."""
+    """Run integration tests at the very end of the test session."""
     del session, config
     items.sort(key=lambda item: "integration_test" in str(item.fspath))
 
@@ -50,7 +51,7 @@ def set_roles(*roles: Role) -> None:
     const.ROLES = roles
     const.ROLE_SET = frozenset(const.ROLES)
     const.SORTED_ROLE_SET = sorted(const.ROLE_SET)
-    const.ROLE_COUNTS = const.get_counts(const.ROLES)
+    const.ROLE_COUNTS = get_counts(const.ROLES)
     const.NUM_ROLES = len(const.ROLES)
     const.VILLAGE_ROLES &= const.ROLE_SET
     const.EVIL_ROLES &= const.ROLE_SET
@@ -123,7 +124,7 @@ def _reset_const(seed: int = 0) -> None:
         Role.MASON,
         Role.HUNTER,
     )
-    verify_valid_const_config()
+    verify_valid_const_config(const)
 
     for cached_function in enums.CACHED_FUNCTIONS:
         cached_function.cache_clear()
@@ -240,7 +241,7 @@ def override_input(inputs: list[str]) -> Callable[[str], str]:
 def write_results(stat_results: dict[str, float], file_path: str) -> None:
     """Writes stat_results to corresponding csv file."""
     filepath = Path(file_path)
-    destination = Path(f"integration_test/results/{filepath.parent}")
+    destination = Path(f"tests/integration_test/results/{filepath.parent}")
     if not destination.is_dir():
         destination.mkdir(parents=True)
 
@@ -264,7 +265,7 @@ def verify_output_file(caplog: pytest.LogCaptureFixture, filename: str) -> None:
 
 def verify_output(caplog: pytest.LogCaptureFixture, expected: tuple[str, ...]) -> None:
     """Helper method for comparing logging output differences."""
-    captured = list(map(lambda x: x.getMessage(), caplog.records))
+    captured = tuple(map(lambda x: x.getMessage(), caplog.records))
     assert "\n".join(captured) == "\n".join(expected)
 
 

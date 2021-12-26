@@ -8,6 +8,7 @@ from wolfbot.enums import Role, Team
 from wolfbot.log import logger
 from wolfbot.roles import Player
 from wolfbot.statements import Statement
+from wolfbot.util import get_counts
 
 
 @dataclass(slots=True)
@@ -144,7 +145,7 @@ class Statistics:
         for i in range(const.NUM_PLAYERS):
             if game_result.actual[i] is game_result.guessed[i]:
                 correct += 1
-        center_set = const.get_counts(game_result.actual[const.NUM_PLAYERS :])
+        center_set = get_counts(game_result.actual[const.NUM_PLAYERS :])
         center_set2 = game_result.guessed[const.NUM_PLAYERS :]
         for guess in center_set2:
             if guess not in center_set or center_set[guess] == 0:

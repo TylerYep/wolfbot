@@ -5,13 +5,15 @@ import random
 
 from tqdm import trange  # type: ignore[import]
 
-from wolfbot import const, util
+from wolfbot import const
 from wolfbot.enums import Role, StatementLevel, Team
+from wolfbot.game_utils import find_all_player_indices, print_roles, swap_characters
 from wolfbot.log import logger
 from wolfbot.roles import Player, get_role_obj
 from wolfbot.statements import KnowledgeBase, Statement
 from wolfbot.stats import GameResult, Statistics
 from wolfbot.user import UserState
+from wolfbot.util import get_counts
 
 
 def simulate_game(
@@ -33,7 +35,7 @@ def simulate_game(
 
 def play_one_night_werewolf(save_replay: bool = True) -> GameResult:
     """Plays one round of One Night Ultimate Werewolf."""
-    util.verify_valid_const_config()
+    const.verify_valid_const_config(const)
     if save_replay:
         with open(const.REPLAY_STATE, "w", encoding="utf-8") as replay_file:
             json.dump({"rng_state": random.getstate()}, replay_file)
@@ -56,13 +58,13 @@ def play_one_night_werewolf(save_replay: bool = True) -> GameResult:
     )
     user_state.print_statements(all_statements)
 
-    orig_wolf_inds = util.find_all_player_indices(original_roles, Role.WOLF)
+    orig_wolf_inds = find_all_player_indices(original_roles, Role.WOLF)
     indiv_preds = get_individual_preds(player_objs, all_statements)
     most_freq_guesses, guessed_wolf_inds, vote_inds = get_voting_result(
         player_objs, indiv_preds
     )
-    util.print_roles(game_roles, "Solution", logging.INFO)
-    util.print_roles(most_freq_guesses, "WolfBot")
+    print_roles(game_roles, "Solution", logging.INFO)
+    print_roles(most_freq_guesses, "WolfBot")
     _ = get_confidence(indiv_preds)
     end_game_roles = tuple(game_roles)
     winning_team = eval_winning_team(end_game_roles, list(guessed_wolf_inds), vote_inds)
@@ -121,7 +123,7 @@ def night_falls(
     if game_roles != list(original_roles):
         raise RuntimeError("game_roles should match original_roles.")
     logger.info("\n-- NIGHT FALLS --\n")
-    util.print_roles(game_roles, "Hidden")
+    print_roles(game_roles, "Hidden")
 
     # Awaken each player in order and initialize the Player object.
     player_objs = [Player(-1) for _ in range(const.NUM_ROLES)]
@@ -185,8 +187,8 @@ def get_voting_result(
     """
     Creates confidence levels for each prediction and takes most
     common role guess array as the final guess for that index.
-    guess_histogram stores counts of prediction arrays.
-    wolf_votes stores individual votes for Wolves.
+    - guess_histogram stores counts of prediction arrays.
+    - wolf_votes stores individual votes for Wolves.
     """
     wolf_votes = [0] * const.NUM_PLAYERS
     vote_inds = []
@@ -196,7 +198,7 @@ def get_voting_result(
         vote_inds.append(vote_ind)
 
     logger.info(f"\nVote Array: {wolf_votes}\n")
-    guess_histogram = const.get_counts(all_role_guesses_arr)
+    guess_histogram = get_counts(all_role_guesses_arr)
     avg_role_guesses, _ = max(guess_histogram.items(), key=lambda x: x[1])
     max_votes = max(wolf_votes)
     guessed_wolf_inds = [i for i, count in enumerate(wolf_votes) if count == max_votes]
@@ -212,7 +214,7 @@ def eval_winning_team(
     killed_wolf, killed_tanner, villager_win = False, False, False
     if len(guessed_wolf_inds) == const.NUM_PLAYERS:
         logger.info("No wolves were found.")
-        if final_wolf_inds := util.find_all_player_indices(game_roles, Role.WOLF):
+        if final_wolf_inds := find_all_player_indices(game_roles, Role.WOLF):
             logger.info(f"But Player(s) {list(final_wolf_inds)} was a Wolf!\n")
         else:
             logger.info("That was correct!\n")
@@ -257,19 +259,19 @@ def override_players(game_roles: list[Role]) -> None:
             user_index = random.randrange(const.NUM_PLAYERS)
             const.IS_USER[user_index] = True
         else:
-            if role_inds := util.find_all_player_indices(game_roles, const.USER_ROLE):
+            if role_inds := find_all_player_indices(game_roles, const.USER_ROLE):
                 new_user_ind = random.choice(role_inds)
                 const.IS_USER[new_user_ind] = True
             else:
                 role_ind = game_roles.index(const.USER_ROLE)
                 random_player_ind = random.randrange(const.NUM_PLAYERS)
-                util.swap_characters(game_roles, role_ind, random_player_ind)
+                swap_characters(game_roles, role_ind, random_player_ind)
 
     if (
         const.FIXED_WOLF_INDEX is not None
-        and (wolf_inds := util.find_all_player_indices(game_roles, Role.WOLF))
+        and (wolf_inds := find_all_player_indices(game_roles, Role.WOLF))
         and const.FIXED_WOLF_INDEX >= 0
     ):
         wolf_ind = random.choice(wolf_inds)
         if wolf_ind != const.FIXED_WOLF_INDEX:
-            util.swap_characters(game_roles, wolf_ind, const.FIXED_WOLF_INDEX)
+            swap_characters(game_roles, wolf_ind, const.FIXED_WOLF_INDEX)

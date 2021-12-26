@@ -2,12 +2,13 @@ from __future__ import annotations
 
 from typing import Any
 
-from wolfbot import const, util
+from wolfbot import const
 from wolfbot.enums import Role, lru_cache
+from wolfbot.game_utils import get_center, get_numeric_input, get_player
 from wolfbot.log import logger
 from wolfbot.roles.player import Player
 from wolfbot.statements import Statement
-from wolfbot.user import get_center, get_numeric_input, get_player
+from wolfbot.util import weighted_coin_flip
 
 
 class Seer(Player):
@@ -37,7 +38,7 @@ class Seer(Player):
             else:
                 # Pick two center cards more often, because
                 # that generally yields higher win rates.
-                choose_center = util.weighted_coin_flip(const.CENTER_SEER_PROB)
+                choose_center = weighted_coin_flip(const.CENTER_SEER_PROB)
 
             if choose_center:
                 peek_ind1 = get_center(is_user)
