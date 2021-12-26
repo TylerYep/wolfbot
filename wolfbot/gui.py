@@ -1,6 +1,7 @@
 """ gui.py """
 from wolfbot import const
-from wolfbot.const import Role, logger
+from wolfbot.const import logger
+from wolfbot.enums import Role
 from wolfbot.statements import Statement
 
 CLEAR_TERMINAL = "\033c"

@@ -4,7 +4,7 @@ import sys
 from typing import Any, Generic, TypeVar, cast
 
 from wolfbot import const
-from wolfbot.const import Role, Team
+from wolfbot.enums import Role, Team
 from wolfbot.roles import Player, get_role_obj
 from wolfbot.statements import Statement
 from wolfbot.stats import GameResult, SavedGame

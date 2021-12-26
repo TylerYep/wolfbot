@@ -5,7 +5,8 @@ import random
 from typing import Any
 
 from wolfbot import const, util
-from wolfbot.const import Role, StatementLevel, logger, lru_cache
+from wolfbot.const import logger
+from wolfbot.enums import Role, StatementLevel, lru_cache
 from wolfbot.predictions import (
     make_prediction,
     make_random_prediction,

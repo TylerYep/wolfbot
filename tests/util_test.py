@@ -3,7 +3,7 @@ import pytest
 
 from tests.conftest import override_input, verify_output_string
 from wolfbot import util
-from wolfbot.const import Role
+from wolfbot.enums import Role
 
 
 class TestPrintRoles:

@@ -1,7 +1,7 @@
 """ statements.py """
 import pytest
 
-from wolfbot.const import Role, SwitchPriority
+from wolfbot.enums import Role, SwitchPriority
 from wolfbot.statements import Statement
 
 

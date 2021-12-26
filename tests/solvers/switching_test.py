@@ -1,5 +1,5 @@
 from wolfbot import solvers
-from wolfbot.const import Role, SwitchPriority
+from wolfbot.enums import Role, SwitchPriority
 from wolfbot.solvers import SolverState
 from wolfbot.statements import Statement
 

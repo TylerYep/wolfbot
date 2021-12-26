@@ -5,7 +5,8 @@ import random
 from typing import Any
 
 from wolfbot import const, util
-from wolfbot.const import Role, logger, lru_cache
+from wolfbot.const import logger
+from wolfbot.enums import Role, lru_cache
 from wolfbot.predictions import make_unrestricted_prediction
 from wolfbot.roles.player import Player
 from wolfbot.roles.werewolf.wolf_variants import (

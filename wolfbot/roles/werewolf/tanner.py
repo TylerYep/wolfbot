@@ -4,7 +4,7 @@ from __future__ import annotations
 import random
 
 from wolfbot import const
-from wolfbot.const import Role, lru_cache
+from wolfbot.enums import Role, lru_cache
 from wolfbot.predictions import make_unrestricted_prediction
 from wolfbot.roles.player import Player
 from wolfbot.roles.werewolf.wolf_variants import (

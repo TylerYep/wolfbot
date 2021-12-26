@@ -4,7 +4,8 @@ from __future__ import annotations
 from typing import Any
 
 from wolfbot import const, util
-from wolfbot.const import Role, SwitchPriority, logger, lru_cache
+from wolfbot.const import logger
+from wolfbot.enums import Role, SwitchPriority, lru_cache
 from wolfbot.roles.player import Player
 from wolfbot.statements import Statement
 

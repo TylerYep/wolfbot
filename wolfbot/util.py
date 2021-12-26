@@ -6,7 +6,8 @@ import random
 from collections.abc import Sequence
 
 from wolfbot import const
-from wolfbot.const import Role, logger
+from wolfbot.const import logger
+from wolfbot.enums import Role
 
 
 def verify_valid_const_config() -> None:

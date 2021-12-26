@@ -1,6 +1,6 @@
 """ replay_test.py """
 from wolfbot import one_night, replay
-from wolfbot.const import Role
+from wolfbot.enums import Role
 
 
 class TestReplay:

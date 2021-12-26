@@ -2,7 +2,7 @@
 import pytest
 
 from wolfbot import const
-from wolfbot.const import Role
+from wolfbot.enums import Role
 from wolfbot.roles import Drunk, Hunter, Minion, Player, Robber, Seer, Villager, Wolf
 from wolfbot.statements import KnowledgeBase, Statement
 

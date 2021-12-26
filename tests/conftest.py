@@ -6,6 +6,8 @@ from pathlib import Path
 from typing import Any
 
 import pytest
+from _pytest.config import Config
+from _pytest.nodes import Item
 
 from tests.fixtures import (  # noqa
     example_large_game_result,
@@ -30,9 +32,17 @@ from tests.fixtures import (  # noqa
     small_knowledge_base,
     small_statement_list,
 )
-from wolfbot import const
-from wolfbot.const import Role
+from wolfbot import const, enums
+from wolfbot.enums import Role
 from wolfbot.util import verify_valid_const_config
+
+
+def pytest_collection_modifyitems(
+    session: pytest.Session, config: Config, items: list[Item]
+) -> None:
+    """Run itegration tests at the very end."""
+    del session, config
+    items.sort(key=lambda item: "integration_test" in str(item.fspath))
 
 
 def set_roles(*roles: Role) -> None:
@@ -114,7 +124,7 @@ def _reset_const(seed: int = 0) -> None:
     )
     verify_valid_const_config()
 
-    for cached_function in const.CACHED_FUNCTIONS:
+    for cached_function in enums.CACHED_FUNCTIONS:
         cached_function.cache_clear()
 
 

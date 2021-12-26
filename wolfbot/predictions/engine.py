@@ -1,7 +1,7 @@
 import random
 
 from wolfbot import const
-from wolfbot.const import Role
+from wolfbot.enums import Role
 from wolfbot.solvers import SolverState
 
 

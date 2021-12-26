@@ -5,7 +5,8 @@ from dataclasses import dataclass
 from typing import Any
 
 from wolfbot import const
-from wolfbot.const import Role, Team, logger
+from wolfbot.const import logger
+from wolfbot.enums import Role, Team
 from wolfbot.roles import Player
 from wolfbot.statements import Statement
 

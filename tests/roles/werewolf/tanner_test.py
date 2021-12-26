@@ -1,5 +1,5 @@
 """ tanner_test.py """
-from wolfbot.const import Role
+from wolfbot.enums import Role
 from wolfbot.roles import Tanner
 from wolfbot.statements import KnowledgeBase
 

@@ -1,7 +1,7 @@
 """ gameresults.py """
 import pytest
 
-from wolfbot.const import Role, SwitchPriority, Team
+from wolfbot.enums import Role, SwitchPriority, Team
 from wolfbot.statements import Statement
 from wolfbot.stats import GameResult
 

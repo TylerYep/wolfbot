@@ -2,7 +2,7 @@
 import sys
 from typing import cast
 
-from wolfbot.const import Role
+from wolfbot.enums import Role
 from wolfbot.roles.player import Player
 from wolfbot.roles.village import (
     Drunk,

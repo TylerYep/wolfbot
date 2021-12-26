@@ -1,7 +1,7 @@
 """ multistatement_test.py """
 from tests.conftest import write_results
 from wolfbot import const, one_night
-from wolfbot.const import Role
+from wolfbot.enums import Role
 
 
 class TestMultistatement:

@@ -2,7 +2,7 @@
 import pytest
 
 from wolfbot import const
-from wolfbot.const import Role, SwitchPriority
+from wolfbot.enums import Role, SwitchPriority
 from wolfbot.solvers import SolverState
 
 

@@ -4,7 +4,7 @@ import random
 
 from tests.conftest import set_roles, write_results
 from wolfbot import const, one_night
-from wolfbot.const import Role, Team
+from wolfbot.enums import Role, Team
 from wolfbot.stats import Statistics
 
 

@@ -5,7 +5,8 @@ from dataclasses import dataclass, field
 from functools import total_ordering
 
 from wolfbot import const
-from wolfbot.const import Role, formatter
+from wolfbot.const import formatter
+from wolfbot.enums import Role
 from wolfbot.statements import Statement, Switch
 
 

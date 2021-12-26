@@ -1,7 +1,7 @@
 """ villager.py """
 from __future__ import annotations
 
-from wolfbot.const import Role, lru_cache
+from wolfbot.enums import Role, lru_cache
 from wolfbot.roles.player import Player
 from wolfbot.statements import Statement
 

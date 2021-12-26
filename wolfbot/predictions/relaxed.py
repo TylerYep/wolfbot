@@ -2,7 +2,7 @@ import random
 from typing import TYPE_CHECKING, Callable, cast
 
 from wolfbot import const
-from wolfbot.const import Role
+from wolfbot.enums import Role
 from wolfbot.predictions.engine import get_switch_dict
 from wolfbot.predictions.evil import make_evil_prediction
 from wolfbot.solvers import SolverState

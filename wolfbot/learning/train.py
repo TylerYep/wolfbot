@@ -10,8 +10,8 @@ from pathlib import Path
 from typing import Any
 
 from wolfbot import const
-from wolfbot.const import Role
 from wolfbot.encoder import WolfBotDecoder, WolfBotEncoder
+from wolfbot.enums import Role
 from wolfbot.one_night import simulate_game
 from wolfbot.stats import GameResult
 

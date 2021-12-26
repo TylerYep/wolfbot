@@ -1,5 +1,5 @@
 """ villager_test.py """
-from wolfbot.const import Role
+from wolfbot.enums import Role
 from wolfbot.roles import Villager
 from wolfbot.statements import Statement
 

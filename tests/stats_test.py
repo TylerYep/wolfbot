@@ -3,7 +3,7 @@ import pytest
 
 from tests.conftest import verify_output
 from wolfbot import stats
-from wolfbot.const import Role, SwitchPriority, Team
+from wolfbot.enums import Role, SwitchPriority, Team
 from wolfbot.roles import Robber, Seer, Villager
 from wolfbot.statements import Statement
 from wolfbot.stats import GameResult, SavedGame, Statistics

@@ -1,7 +1,7 @@
 import random
 
 from wolfbot import const
-from wolfbot.const import Role
+from wolfbot.enums import Role
 from wolfbot.predictions.engine import (
     get_basic_guesses,
     get_switch_dict,

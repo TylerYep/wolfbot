@@ -1,7 +1,7 @@
 """ wolf_test.py """
 from tests.conftest import set_roles
 from wolfbot import const
-from wolfbot.const import Role
+from wolfbot.enums import Role
 from wolfbot.roles import Wolf
 from wolfbot.statements import KnowledgeBase
 

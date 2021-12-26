@@ -2,7 +2,7 @@
 from typing import Any
 
 from wolfbot import const
-from wolfbot.const import Role
+from wolfbot.enums import Role
 from wolfbot.roles import Drunk, Hunter, Insomniac, Robber, Seer, Troublemaker, Villager
 from wolfbot.statements import KnowledgeBase, Statement
 

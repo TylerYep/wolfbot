@@ -6,7 +6,7 @@ from functools import cached_property
 from typing import Any
 
 from wolfbot import const
-from wolfbot.const import Role, StatementLevel, SwitchPriority
+from wolfbot.enums import Role, StatementLevel, SwitchPriority
 
 Knowledge = tuple[int, frozenset[Role]]
 Switch = tuple[SwitchPriority, int, int]
