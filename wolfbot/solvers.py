@@ -113,6 +113,8 @@ def relaxed_solver(
     statements: tuple[Statement, ...], known_true: tuple[int, ...] = ()
 ) -> list[SolverState]:
     """
+    Does not assume the first largest subset of correct statements is the solution.
+
     Returns maximal list of statements that can be true from a list
     of Statements. Handles switching characters.
     Returns a list of [True, False, True ...] values and

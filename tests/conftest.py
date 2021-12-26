@@ -32,7 +32,7 @@ from tests.fixtures import (  # noqa
 )
 from wolfbot import const
 from wolfbot.const import Role
-from wolfbot.util import verify_const
+from wolfbot.util import verify_valid_const_config
 
 
 def set_roles(*roles: Role) -> None:
@@ -112,7 +112,7 @@ def _reset_const(seed: int = 0) -> None:
         Role.MASON,
         Role.HUNTER,
     )
-    verify_const()
+    verify_valid_const_config()
 
     for cached_function in const.CACHED_FUNCTIONS:
         cached_function.cache_clear()

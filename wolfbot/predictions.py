@@ -138,31 +138,33 @@ def prob_recurse_assign(
         return all_role_guesses
 
     for i in range(const.NUM_ROLES):
-        if all_role_guesses[i] is Role.NONE:
-            if restrict_possible:
-                probs = solution_probs[i]
-                leftover_roles = sorted(
-                    probs,
-                    key=cast(Callable[[Role], "SupportsLessThan"], probs.get),
-                    reverse=True,
-                )
-            else:
-                leftover_roles = sorted(k for k, v in curr_role_counts.items() if v > 0)
-                random.shuffle(leftover_roles)
+        if all_role_guesses[i] is not Role.NONE:
+            continue
 
-            for rol in leftover_roles:
-                if curr_role_counts[rol] > 0:
-                    curr_role_counts[rol] -= 1
-                    all_role_guesses[i] = rol
-                    if result := prob_recurse_assign(
-                        solution_probs,
-                        all_role_guesses,
-                        curr_role_counts,
-                        restrict_possible,
-                    ):
-                        return result
-                    curr_role_counts[rol] += 1
-                    all_role_guesses[i] = Role.NONE
+        if restrict_possible:
+            probs = solution_probs[i]
+            leftover_roles = sorted(
+                probs,
+                key=cast(Callable[[Role], "SupportsLessThan"], probs.get),
+                reverse=True,
+            )
+        else:
+            leftover_roles = sorted(k for k, v in curr_role_counts.items() if v > 0)
+            random.shuffle(leftover_roles)
+
+        for rol in leftover_roles:
+            if curr_role_counts[rol] > 0:
+                curr_role_counts[rol] -= 1
+                all_role_guesses[i] = rol
+                if result := prob_recurse_assign(
+                    solution_probs,
+                    all_role_guesses,
+                    curr_role_counts,
+                    restrict_possible,
+                ):
+                    return result
+                curr_role_counts[rol] += 1
+                all_role_guesses[i] = Role.NONE
     # Unable to assign all roles
     return []
 

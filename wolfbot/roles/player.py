@@ -235,7 +235,7 @@ class Player:
         if const.IS_USER[self.player_index]:
             logger.info(
                 "\nWhich Player is a Wolf? "
-                f"(Enter {no_wolves_guess} if there are no Wolves)"
+                f"(If you think there are no Wolves, enter {no_wolves_guess}.)"
             )
             return util.get_player(is_user=True, exclude=(self.player_index,))
 
@@ -248,7 +248,7 @@ class Player:
             logger.info(
                 f"\nPlayer {self.player_index} trusts you. "
                 f"Who should Player {self.player_index} vote for? "
-                f"(Enter {no_wolves_guess} if there are no Wolves)"
+                f"(If you think there are no Wolves, enter {no_wolves_guess}.)"
             )
             return util.get_player(is_user=True, exclude=(self.player_index,))
 

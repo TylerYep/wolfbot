@@ -9,7 +9,7 @@ from wolfbot import const
 from wolfbot.const import Role, logger
 
 
-def verify_const() -> None:
+def verify_valid_const_config() -> None:
     if const.USER_ROLE is not Role.NONE and const.USER_ROLE not in const.ROLE_SET:
         raise RuntimeError(f"USER_ROLE is invalid: {const.USER_ROLE}")
     if const.EXPECTIMAX_WOLF and const.RL_WOLF:

@@ -33,7 +33,7 @@ def simulate_game(
 
 def play_one_night_werewolf(save_replay: bool = True) -> GameResult:
     """Plays one round of One Night Ultimate Werewolf."""
-    util.verify_const()
+    util.verify_valid_const_config()
     if save_replay:
         with open(const.REPLAY_STATE, "w", encoding="utf-8") as replay_file:
             json.dump({"rng_state": random.getstate()}, replay_file)
