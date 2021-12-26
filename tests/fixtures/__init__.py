@@ -1,4 +1,3 @@
-""" fixtures """
 from tests.fixtures.game_results import (
     example_large_game_result,
     example_medium_game_result,

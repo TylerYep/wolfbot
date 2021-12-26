@@ -1,4 +1,3 @@
-""" solverstates.py """
 import pytest
 
 from wolfbot import const

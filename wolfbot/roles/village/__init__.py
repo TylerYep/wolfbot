@@ -1,4 +1,3 @@
-""" Imports all Village team objects. """
 from wolfbot.roles.village.drunk import Drunk
 from wolfbot.roles.village.hunter import Hunter
 from wolfbot.roles.village.insomniac import Insomniac

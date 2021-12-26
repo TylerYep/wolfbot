@@ -1,4 +1,3 @@
-""" player_test.py """
 import pytest
 
 from wolfbot import const

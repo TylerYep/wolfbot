@@ -1,4 +1,3 @@
-""" hunter.py """
 from __future__ import annotations
 
 from wolfbot.enums import Role, lru_cache

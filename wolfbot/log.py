@@ -1,4 +1,3 @@
-""" log.py """
 import logging
 
 

@@ -1,4 +1,3 @@
-""" knowledge_bases.py """
 import pytest
 
 from wolfbot.statements import KnowledgeBase, Statement

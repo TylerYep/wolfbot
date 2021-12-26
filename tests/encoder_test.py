@@ -1,4 +1,3 @@
-""" encoder_test.py """
 import json
 
 from wolfbot.encoder import ObjectInitializer, WolfBotDecoder, WolfBotEncoder

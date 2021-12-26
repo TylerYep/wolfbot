@@ -1,4 +1,3 @@
-""" minion_test.py """
 from wolfbot import const
 from wolfbot.enums import Role
 from wolfbot.roles import Minion

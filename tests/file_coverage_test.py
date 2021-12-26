@@ -1,4 +1,3 @@
-""" file_coverage_test.py """
 import pprint
 from pathlib import Path
 

@@ -1,4 +1,3 @@
-""" conftest.py """
 import csv
 import random
 from collections.abc import Callable

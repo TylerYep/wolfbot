@@ -1,4 +1,3 @@
-""" hunter_test.py """
 from wolfbot.enums import Role
 from wolfbot.roles import Hunter
 from wolfbot.statements import Statement

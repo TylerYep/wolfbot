@@ -1,4 +1,3 @@
-""" expectimax_wolf.py """
 import random
 from typing import Any
 

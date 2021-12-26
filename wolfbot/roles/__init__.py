@@ -1,4 +1,3 @@
-""" Imports all Player objects. """
 import sys
 from typing import cast
 

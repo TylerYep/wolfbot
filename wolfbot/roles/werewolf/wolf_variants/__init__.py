@@ -1,4 +1,3 @@
-""" Imports all Wolf variant methods. """
 from wolfbot.roles.werewolf.wolf_variants.center_wolf import get_center_wolf_statements
 from wolfbot.roles.werewolf.wolf_variants.expectimax_wolf import (
     get_statement_expectimax,

@@ -1,4 +1,3 @@
-""" predictions.py """
 import pytest
 
 from wolfbot.roles import Role

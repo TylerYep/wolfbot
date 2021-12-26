@@ -1,4 +1,3 @@
-""" replay.py """
 import json
 import random
 

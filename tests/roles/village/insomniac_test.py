@@ -1,4 +1,3 @@
-""" insomniac_test.py """
 from tests.conftest import set_roles
 from wolfbot.enums import Role
 from wolfbot.roles import Insomniac

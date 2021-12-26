@@ -1,4 +1,3 @@
-""" gameresults.py """
 import pytest
 
 from wolfbot.enums import Role, SwitchPriority, Team

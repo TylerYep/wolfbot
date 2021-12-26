@@ -1,4 +1,3 @@
-""" center_wolf.py """
 from typing import Any
 
 from wolfbot import const

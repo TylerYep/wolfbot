@@ -1,4 +1,3 @@
-""" robber_test.py """
 from tests.conftest import set_roles
 from wolfbot import const
 from wolfbot.enums import Role, SwitchPriority

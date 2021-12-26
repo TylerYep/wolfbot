@@ -1,4 +1,3 @@
-""" stats_test.py """
 import pytest
 
 from tests.conftest import verify_output

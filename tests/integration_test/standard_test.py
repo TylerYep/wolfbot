@@ -1,4 +1,3 @@
-""" standard_test.py """
 import logging
 import random
 
@@ -92,7 +91,7 @@ class TestStandard:
 
     # @staticmethod
     # def test_rl_wolf(medium_game_roles: tuple[Role, ...]) -> None:
-    #     """ Correctly play one round of one night werewolf. """
+    #     """Correctly play one round of one night werewolf."""
     #     const.USE_RL_WOLF = True
 
     #     stat_tracker = one_night.simulate_game(num_games=500)

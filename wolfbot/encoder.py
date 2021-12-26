@@ -1,4 +1,3 @@
-""" encoder.py """
 import json
 import sys
 from typing import Any, Generic, TypeVar, cast

@@ -1,4 +1,3 @@
-""" multistatement_test.py """
 from tests.conftest import write_results
 from wolfbot import const, one_night
 from wolfbot.enums import Role

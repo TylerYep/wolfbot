@@ -1,4 +1,3 @@
-""" output_test.py """
 import pytest
 
 from tests.conftest import verify_output_file
@@ -47,11 +46,11 @@ class TestPlayOneNightWerewolf:
 
 
 # class TestPlayOneNightWerewolfInteractive:
-#     """ Tests for the play_one_night_werewolf function. """
+#     """Tests for the play_one_night_werewolf function."""
 
 #     @staticmethod
 #     def test_one_night_small(monkeypatch, example_small_game_result) -> None:
-#         """ Correctly play one round of one night werewolf. """
+#         """Correctly play one round of one night werewolf."""
 #         const.INTERACTIVE_MODE = True
 #         monkeypatch.setattr('builtins.input', lambda x: "0")
 

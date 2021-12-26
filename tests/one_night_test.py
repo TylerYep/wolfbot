@@ -1,4 +1,3 @@
-""" one_night_test.py """
 import pytest
 
 from tests.conftest import set_roles, verify_output, verify_output_string

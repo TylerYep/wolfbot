@@ -1,4 +1,3 @@
-""" profiler.py """
 import cProfile
 import pstats
 import random

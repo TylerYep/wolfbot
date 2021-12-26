@@ -1,4 +1,3 @@
-""" statements_test.py """
 from wolfbot import const, statements
 from wolfbot.enums import Role, StatementLevel, SwitchPriority
 from wolfbot.statements import KnowledgeBase, Statement

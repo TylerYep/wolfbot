@@ -1,4 +1,3 @@
-""" tanner_test.py """
 from wolfbot.enums import Role
 from wolfbot.roles import Tanner
 from wolfbot.statements import KnowledgeBase

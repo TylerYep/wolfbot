@@ -1,4 +1,3 @@
-""" random_wolf.py """
 from wolfbot import const, roles
 from wolfbot.statements import Statement
 

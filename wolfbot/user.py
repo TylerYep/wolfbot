@@ -1,4 +1,3 @@
-""" gui.py """
 import random
 
 from wolfbot import const

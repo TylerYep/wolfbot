@@ -1,4 +1,3 @@
-""" one_night.py """
 import heapq
 import json
 import logging

@@ -1,4 +1,3 @@
-""" rl_wolf.py """
 import json
 from collections import defaultdict
 from typing import Any

@@ -1,4 +1,3 @@
-""" const_test.py """
 from wolfbot import const
 from wolfbot.enums import Role
 from wolfbot.roles import Mason, Seer

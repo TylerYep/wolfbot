@@ -1,4 +1,3 @@
-""" main.py """
 from wolfbot import const, one_night, replay
 
 

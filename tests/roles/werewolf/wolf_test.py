@@ -1,4 +1,3 @@
-""" wolf_test.py """
 from tests.conftest import set_roles
 from wolfbot import const
 from wolfbot.enums import Role
@@ -122,5 +121,5 @@ class TestWolf:
 
     # @staticmethod
     # def test_eval_fn() -> None:
-    #     """ Should return the value from the chosen statement action. """
+    #     """Should return the value from the chosen statement action."""
     #     pass
