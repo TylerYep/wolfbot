@@ -8,6 +8,7 @@ from wolfbot.const import logger
 from wolfbot.enums import Role, SwitchPriority, lru_cache
 from wolfbot.roles.player import Player
 from wolfbot.statements import Statement
+from wolfbot.user import get_player
 
 
 class Troublemaker(Player):
@@ -29,8 +30,8 @@ class Troublemaker(Player):
         is_user = const.IS_USER[player_index]
         if is_user:
             logger.info("Choose two players to switch places:")
-        choice_1 = util.get_player(is_user, (player_index,))
-        choice_2 = util.get_player(is_user, (player_index, choice_1))
+        choice_1 = get_player(is_user, (player_index,))
+        choice_2 = get_player(is_user, (player_index, choice_1))
 
         util.swap_characters(game_roles, choice_1, choice_2)
         logger.debug(

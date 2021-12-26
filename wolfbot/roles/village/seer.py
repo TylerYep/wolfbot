@@ -8,6 +8,7 @@ from wolfbot.const import logger
 from wolfbot.enums import Role, lru_cache
 from wolfbot.roles.player import Player
 from wolfbot.statements import Statement
+from wolfbot.user import get_center, get_numeric_input, get_player
 
 
 class Seer(Player):
@@ -33,15 +34,15 @@ class Seer(Player):
         if const.NUM_CENTER > 1:
             if is_user:
                 logger.info("Do you want to see 1 player card or 2 center cards?")
-                choose_center = bool(util.get_numeric_input(1, 3) - 1)
+                choose_center = bool(get_numeric_input(1, 3) - 1)
             else:
                 # Pick two center cards more often, because
                 # that generally yields higher win rates.
                 choose_center = util.weighted_coin_flip(const.CENTER_SEER_PROB)
 
             if choose_center:
-                peek_ind1 = util.get_center(is_user)
-                peek_ind2 = util.get_center(is_user, (peek_ind1,))
+                peek_ind1 = get_center(is_user)
+                peek_ind2 = get_center(is_user, (peek_ind1,))
                 peek_char1 = game_roles[peek_ind1]
                 peek_char2 = game_roles[peek_ind2]
                 logger.debug(
@@ -60,7 +61,7 @@ class Seer(Player):
                     player_index, (peek_ind1, peek_char1), (peek_ind2, peek_char2)
                 )
 
-        peek_ind = util.get_player(is_user, (player_index,))
+        peek_ind = get_player(is_user, (player_index,))
         peek_char = game_roles[peek_ind]
         logger.debug(f"[Hidden] Seer sees that Player {peek_ind} is a {peek_char}.")
         if is_user:

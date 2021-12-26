@@ -18,6 +18,7 @@ from wolfbot.roles.werewolf.wolf_variants import (
 )
 from wolfbot.solvers import switching_solver as solver
 from wolfbot.statements import KnowledgeBase, Statement
+from wolfbot.user import get_center
 
 
 class Wolf(Player):
@@ -48,7 +49,7 @@ class Wolf(Player):
         center_index, center_role = None, None
         wolf_indices = util.find_all_player_indices(original_roles, Role.WOLF)
         if len(wolf_indices) == 1 and const.NUM_CENTER > 0:
-            center_index = util.get_center(is_user)
+            center_index = get_center(is_user)
             center_role = game_roles[center_index]
             if is_user:
                 logger.info(

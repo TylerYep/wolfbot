@@ -9,10 +9,10 @@ from tqdm import trange  # type: ignore[import]
 from wolfbot import const, util
 from wolfbot.const import logger
 from wolfbot.enums import Role, StatementLevel, Team
-from wolfbot.gui import GUIState
 from wolfbot.roles import Player, get_role_obj
 from wolfbot.statements import KnowledgeBase, Statement
 from wolfbot.stats import GameResult, Statistics
+from wolfbot.user import UserState
 
 
 def simulate_game(
@@ -45,17 +45,17 @@ def play_one_night_werewolf(save_replay: bool = True) -> GameResult:
     override_players(game_roles)
     original_roles = tuple(game_roles)
 
-    gui_state = GUIState()
-    gui_state.intro(original_roles)
+    user_state = UserState()
+    user_state.intro(original_roles)
     player_objs = night_falls(game_roles, original_roles)
-    gui_state.night_falls()
+    user_state.night_falls()
     logger.info("\n-- GAME BEGINS --\n")
     all_statements = (
         get_player_multistatements(player_objs)
         if const.MULTI_STATEMENT
         else get_player_statements(player_objs)
     )
-    gui_state.print_statements(all_statements)
+    user_state.print_statements(all_statements)
 
     orig_wolf_inds = util.find_all_player_indices(original_roles, Role.WOLF)
     indiv_preds = get_individual_preds(player_objs, all_statements)

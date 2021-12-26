@@ -60,69 +60,6 @@ def find_all_player_indices(
     )
 
 
-def get_player(is_user: bool, exclude: tuple[int, ...] = ()) -> int:
-    """Gets a random player index (not in the center) or prompts the user."""
-    if is_user:
-        choice_ind = -1
-        while choice_ind < 0 or choice_ind >= const.NUM_PLAYERS:
-            user_input = ""
-            while not user_input.isdigit():
-                user_input = input(
-                    f"Which player index (0 - {const.NUM_PLAYERS - 1})? "
-                )
-            choice_ind = int(user_input)
-
-            if choice_ind in exclude:
-                logger.info("You cannot choose yourself or an index twice.")
-                choice_ind = -1
-        return choice_ind
-
-    return random.choice([i for i in range(const.NUM_PLAYERS) if i not in exclude])
-
-
-def get_center(is_user: bool, exclude: tuple[int, ...] = ()) -> int:
-    """Gets a random index of a center card or prompts the user."""
-    if is_user:
-        choice_ind = -1
-        while choice_ind < 0 or choice_ind >= const.NUM_CENTER:
-            user_input = ""
-            while not user_input.isdigit():
-                user_input = input(f"Which center card (0 - {const.NUM_CENTER - 1})? ")
-            choice_ind = int(user_input)
-
-            if choice_ind + const.NUM_PLAYERS in exclude:
-                logger.info("You cannot choose an index twice.")
-                choice_ind = -1
-        return choice_ind + const.NUM_PLAYERS
-
-    choices = [
-        const.NUM_PLAYERS + i
-        for i in range(const.NUM_CENTER)
-        if const.NUM_PLAYERS + i not in exclude
-    ]
-    return random.choice(choices)
-
-
-def get_numeric_input(end: int, start: int | None = None) -> int:
-    """
-    Prompts the user for an index between [start, end). Note that
-    if two parameters are supplied, the order of the parameters flips
-    in order to achieve a Pythonic range() function.
-    """
-    if start is None:
-        start = 0
-    else:
-        start, end = end, start
-
-    choice_ind = -1
-    while choice_ind < start or end <= choice_ind:
-        user_input = ""
-        while not user_input.isdigit():
-            user_input = input(f"Enter a number from {start} - {end - 1}: ")
-        choice_ind = int(user_input)
-    return choice_ind
-
-
 def weighted_coin_flip(prob: float) -> bool:
     """Flips a weighted coin with probability prob and 1 - prob."""
     return random.choices([True, False], [prob, 1 - prob])[0]

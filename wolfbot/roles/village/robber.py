@@ -8,6 +8,7 @@ from wolfbot.const import logger
 from wolfbot.enums import Role, SwitchPriority, lru_cache
 from wolfbot.roles.player import Player
 from wolfbot.statements import Statement
+from wolfbot.user import get_player
 
 
 class Robber(Player):
@@ -28,7 +29,7 @@ class Robber(Player):
         """Initializes Robber - switches roles with another player."""
         del original_roles
         is_user = const.IS_USER[player_index]
-        choice_ind = util.get_player(is_user, (player_index,))
+        choice_ind = get_player(is_user, (player_index,))
         choice_char = game_roles[choice_ind]
         logger.debug(
             f"[Hidden] Robber switches with Player {choice_ind} "

@@ -15,6 +15,7 @@ from wolfbot.predictions import (
 from wolfbot.solvers import relaxed_solver
 from wolfbot.solvers import switching_solver as solver
 from wolfbot.statements import KnowledgeBase, Statement
+from wolfbot.user import get_center, get_numeric_input, get_player
 
 
 class Player:
@@ -118,10 +119,10 @@ class Player:
             # TODO you can lie and say you are a different character.
             return Insomniac(self.player_index, Role.INSOMNIAC)
         if role_type is Role.DRUNK:
-            rand_center = util.get_center(const.IS_USER[self.player_index])
+            rand_center = get_center(const.IS_USER[self.player_index])
             return Drunk(self.player_index, rand_center)
 
-        rand_int1 = util.get_player(
+        rand_int1 = get_player(
             const.IS_USER[self.player_index], exclude=(self.player_index,)
         )
         if role_type is Role.MASON:
@@ -133,7 +134,7 @@ class Player:
         if role_type is Role.ROBBER:
             return Robber(self.player_index, rand_int1, rand_role)
 
-        rand_int2 = util.get_player(
+        rand_int2 = get_player(
             const.IS_USER[self.player_index], exclude=(self.player_index, rand_int1)
         )
         if role_type is Role.TROUBLEMAKER:
@@ -200,7 +201,7 @@ class Player:
                 )
                 for i, statement in enumerate(sample_statements):
                     logger.info(f"{i}. {statement.sentence}")
-                choice = util.get_numeric_input(len(sample_statements))
+                choice = get_numeric_input(len(sample_statements))
             next_statement = sample_statements[choice]
         return next_statement
 
@@ -238,7 +239,7 @@ class Player:
                 "\nWhich Player is a Wolf? "
                 f"(If you think there are no Wolves, enter {no_wolves_guess}.)"
             )
-            return util.get_player(is_user=True, exclude=(self.player_index,))
+            return get_player(is_user=True, exclude=(self.player_index,))
 
         if (
             const.INTERACTIVE_MODE
@@ -251,7 +252,7 @@ class Player:
                 f"Who should Player {self.player_index} vote for? "
                 f"(If you think there are no Wolves, enter {no_wolves_guess}.)"
             )
-            return util.get_player(is_user=True, exclude=(self.player_index,))
+            return get_player(is_user=True, exclude=(self.player_index,))
 
         # TODO find the most likely Wolf and only vote for that one
         # Players cannot vote for themselves.

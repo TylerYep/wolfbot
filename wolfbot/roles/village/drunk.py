@@ -8,6 +8,7 @@ from wolfbot.const import logger
 from wolfbot.enums import Role, SwitchPriority, lru_cache
 from wolfbot.roles.player import Player
 from wolfbot.statements import Statement
+from wolfbot.user import get_center
 
 
 class Drunk(Player):
@@ -25,7 +26,7 @@ class Drunk(Player):
         """Initializes Drunk - switches with a card in the center."""
         del original_roles
         is_user = const.IS_USER[player_index]
-        choice_ind = util.get_center(is_user)
+        choice_ind = get_center(is_user)
         logger.debug(
             f"[Hidden] Drunk switches with Center Card {choice_ind - const.NUM_PLAYERS}"
             f" and unknowingly becomes a {game_roles[choice_ind]}."
