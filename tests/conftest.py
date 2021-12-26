@@ -33,6 +33,7 @@ from tests.fixtures import (  # noqa
 )
 from wolfbot import const, enums
 from wolfbot.enums import Role
+from wolfbot.log import logger
 from wolfbot.util import verify_valid_const_config
 
 
@@ -69,7 +70,7 @@ def _reset_const(seed: int = 0) -> None:
         are added. Beware of using random() functions in any loop or sequence.
     """
     random.seed(seed)
-    const.logger.set_level(0)
+    logger.set_level(0)
     const.NUM_PLAYERS = 12
     const.NUM_CENTER = 3
     const.VILLAGE_ROLES = frozenset(

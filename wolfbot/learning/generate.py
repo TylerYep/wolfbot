@@ -7,8 +7,8 @@ import logging
 import time
 
 from wolfbot import const
-from wolfbot.const import logger
 from wolfbot.encoder import WolfBotEncoder
+from wolfbot.log import logger
 from wolfbot.one_night import play_one_night_werewolf
 
 MAX_INDEX = 7

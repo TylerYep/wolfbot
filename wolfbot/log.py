@@ -25,9 +25,6 @@ def init_prettyprinter() -> Formatter:
     return Formatter(prettyprinter)
 
 
-formatter = init_prettyprinter()
-
-
 class OneNightLogger:
     """
     Custom logger that caches all output.
@@ -82,3 +79,7 @@ class OneNightLogger:
     def warning(self, message: str, cache: bool = False) -> None:
         """Log function for WARNING output."""
         self.log(logging.WARNING, message, cache)
+
+
+formatter = init_prettyprinter()
+logger = OneNightLogger()

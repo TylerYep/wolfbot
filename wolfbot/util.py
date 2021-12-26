@@ -5,8 +5,8 @@ import random
 from collections.abc import Sequence
 
 from wolfbot import const
-from wolfbot.const import logger
 from wolfbot.enums import Role
+from wolfbot.log import logger
 
 
 def verify_valid_const_config() -> None:

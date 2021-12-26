@@ -1,8 +1,8 @@
 import random
 
 from wolfbot import const
-from wolfbot.const import logger
 from wolfbot.enums import Role
+from wolfbot.log import logger
 from wolfbot.statements import Statement
 
 CLEAR_TERMINAL = "\033c"

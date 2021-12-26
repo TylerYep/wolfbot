@@ -3,8 +3,8 @@ from __future__ import annotations
 from typing import Any
 
 from wolfbot import const
-from wolfbot.const import logger
 from wolfbot.enums import Role, lru_cache
+from wolfbot.log import logger
 from wolfbot.roles.player import Player
 from wolfbot.statements import KnowledgeBase, Statement
 

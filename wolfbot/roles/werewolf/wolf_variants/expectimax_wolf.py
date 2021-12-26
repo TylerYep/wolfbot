@@ -3,8 +3,8 @@ from typing import Any
 
 from wolfbot import const, roles
 from wolfbot.algorithms import expectimax
-from wolfbot.const import logger
 from wolfbot.enums import lru_cache
+from wolfbot.log import logger
 from wolfbot.solvers import switching_solver as solver
 from wolfbot.statements import KnowledgeBase, Statement
 

@@ -3,7 +3,7 @@ from collections import defaultdict
 from typing import Any
 
 from wolfbot import const
-from wolfbot.const import logger
+from wolfbot.log import logger
 from wolfbot.roles.werewolf.wolf_variants.reg_wolf import get_wolf_statements
 from wolfbot.statements import KnowledgeBase, Statement
 

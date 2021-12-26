@@ -9,7 +9,7 @@ from collections.abc import Sequence
 from typing import TypeVar
 
 from wolfbot.enums import Role
-from wolfbot.log import OneNightLogger
+from wolfbot.log import logger
 
 # TODO https://github.com/PyCQA/pylint/issues/3401
 T = TypeVar("T")  # pylint: disable=invalid-name
@@ -155,8 +155,6 @@ NUM_OPTIONS = 5
 INFLUENCE_PROB = 0.1
 
 """ Logging """
-logger = OneNightLogger()
-
 if ARGS.log_level:
     log_levels = {
         "trace": logger.trace_level,

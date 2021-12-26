@@ -6,8 +6,8 @@ import random
 from tqdm import trange  # type: ignore[import]
 
 from wolfbot import const, util
-from wolfbot.const import logger
 from wolfbot.enums import Role, StatementLevel, Team
+from wolfbot.log import logger
 from wolfbot.roles import Player, get_role_obj
 from wolfbot.statements import KnowledgeBase, Statement
 from wolfbot.stats import GameResult, Statistics

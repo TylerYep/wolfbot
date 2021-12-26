@@ -4,6 +4,7 @@ import random
 from tests.conftest import set_roles, write_results
 from wolfbot import const, one_night
 from wolfbot.enums import Role, Team
+from wolfbot.log import logger
 from wolfbot.stats import Statistics
 
 
@@ -149,7 +150,7 @@ class TestStandard:
     def test_relaxed_solver_improvement(large_game_roles: tuple[Role, ...]) -> None:
         """Correctly play one round of one night werewolf."""
         const.USE_REG_WOLF = True
-        const.logger.set_level(logging.WARNING)
+        logger.set_level(logging.WARNING)
         stat_tracker_1, stat_tracker_2 = Statistics(), Statistics()
 
         games_won_with_relaxed_solver = 0
