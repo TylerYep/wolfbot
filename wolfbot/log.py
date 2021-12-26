@@ -1,4 +1,31 @@
 import logging
+from pathlib import Path
+from typing import Any
+
+import prettyprinter  # type: ignore[import]
+from prettyprinter.prettyprinter import IMPLICIT_MODULES  # type: ignore[import]
+
+
+class Formatter:
+    """Wrapper class for PrettyPrinter."""
+
+    def __init__(self, prettyprinter_module: Any) -> None:
+        self.pformat = prettyprinter_module.pformat
+        self.pprint = prettyprinter_module.pprint
+
+
+def init_prettyprinter() -> Formatter:
+    """Initialize prettyprinter and add all IMPLICIT_MODULES."""
+    prettyprinter.install_extras(include={"python", "dataclasses"})
+    for filepath in Path("wolfbot").rglob("*.py"):
+        module_name = filepath.stem
+        if "__" not in module_name:
+            prefix = ".".join(filepath.parts[:-1] + (module_name,))
+            IMPLICIT_MODULES.add(prefix)
+    return Formatter(prettyprinter)
+
+
+formatter = init_prettyprinter()
 
 
 class OneNightLogger:

@@ -124,7 +124,7 @@ def night_falls(
     util.print_roles(game_roles, "Hidden")
 
     # Awaken each player in order and initialize the Player object.
-    player_objs = [Player(-1) for i in range(const.NUM_ROLES)]
+    player_objs = [Player(-1) for _ in range(const.NUM_ROLES)]
     for awaken_role in const.AWAKE_ORDER:
         if awaken_role in const.ROLE_SET:
             logger.info(f"{awaken_role}, wake up.")

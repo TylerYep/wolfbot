@@ -1,4 +1,4 @@
-from wolfbot import solvers
+from wolfbot import const, solvers
 from wolfbot.enums import Role, SwitchPriority
 from wolfbot.solvers import SolverState
 from wolfbot.statements import Statement
@@ -77,7 +77,7 @@ class TestRelaxedSolver:
         """Should return a SolverState with the most likely solution."""
         result = solvers.relaxed_solver(medium_statement_list)
 
-        assert len(result) == 10
+        assert len(result) == const.MAX_RELAXED_SOLVER_SOLUTIONS
 
     @staticmethod
     def test_solver_large(

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import heapq
 
+from wolfbot import const
 from wolfbot.solvers.state import SolverState
 from wolfbot.statements import Statement
 
@@ -18,7 +19,6 @@ def relaxed_solver(
     the possible role sets for each player.
     """
     num_statements = len(statements)
-    max_avg = 10  # len(const.VILLAGE_ROLES)
 
     def _relaxed_recurse(
         solutions: list[SolverState], state: SolverState, ind: int = 0
@@ -30,9 +30,9 @@ def relaxed_solver(
             #     >= sum(x.count_true for x in solutions) / len(solutions)
             # ):
             num_sols = len(solutions)
-            if num_sols < max_avg:
+            if num_sols < const.MAX_RELAXED_SOLVER_SOLUTIONS:
                 heapq.heappush(solutions, state)
-            elif num_sols == max_avg:
+            elif num_sols == const.MAX_RELAXED_SOLVER_SOLUTIONS:
                 heapq.heappushpop(solutions, state)
             return
 

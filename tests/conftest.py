@@ -95,6 +95,7 @@ def _reset_const(seed: int = 0) -> None:
     const.CENTER_SEER_PROB = 0.9
     const.SMART_VILLAGERS = True
     const.USE_RELAXED_SOLVER = False
+    const.MAX_RELAXED_SOLVER_SOLUTIONS = 10
 
     # Werewolf Settings
     const.USE_REG_WOLF = False
