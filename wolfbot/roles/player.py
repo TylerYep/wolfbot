@@ -233,8 +233,10 @@ class Player:
         """
         Gets the player's vote for who the Wolf is for a given prediction.
         There are some really complicated game mechanics for the Minion.
+
         https://boardgamegeek.com/thread/1422062/pointing-center-free-parking
         """
+        assert self.player_index < const.NUM_PLAYERS
         no_wolves_guess = (self.player_index + 1) % const.NUM_PLAYERS
 
         if const.IS_USER[self.player_index]:
@@ -246,7 +248,7 @@ class Player:
 
         if (
             const.INTERACTIVE_MODE
-            and self.player_index < const.NUM_PLAYERS
+            and const.INFLUENCE_PROB < 1
             and weighted_coin_flip(const.INFLUENCE_PROB)
         ):
             # Convince other players to vote with you.

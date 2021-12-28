@@ -18,7 +18,7 @@ def init_program(is_tests: bool) -> argparse.Namespace:
     parser.add_argument("--num_games", "-n", type=int, default=1,
                         help="specify number of games")
     parser.add_argument("--log_level", "-l", type=str,
-                        choices=["trace", "debug", "info", "warn"],
+                        choices=("trace", "debug", "info", "warn"),
                         help="set logging level")
     parser.add_argument("--replay", "-r", action="store_true",
                         help="replay previous game")

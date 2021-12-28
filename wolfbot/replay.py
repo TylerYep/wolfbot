@@ -16,8 +16,8 @@ def replay_game_from_state() -> GameResult:
     )
     random.setstate(rng_state)
 
-    stat_tracker = Statistics()
     game_result = play_one_night_werewolf(save_replay=False)
+    stat_tracker = Statistics()
     stat_tracker.add_result(game_result)
     stat_tracker.print_statistics()
     return game_result
