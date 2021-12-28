@@ -23,14 +23,21 @@ def relaxed_solver(
     def _relaxed_recurse(
         solutions: list[SolverState], state: SolverState, ind: int = 0
     ) -> None:
-        """ind = index of statement being considered."""
+        """
+        ind = index of statement being considered.
+
+        We might also consider a moving average eventually:
+        if len(solutions) == 0 or (
+            state.count_true >= sum(x.count_true for x in solutions) / len(solutions)
+        ):
+            ...
+        """
         if ind == num_statements:
-            # if len(solutions) == 0 or (
-            #     state.count_true
-            #     >= sum(x.count_true for x in solutions) / len(solutions)
-            # ):
             num_sols = len(solutions)
-            if num_sols < const.MAX_RELAXED_SOLVER_SOLUTIONS:
+            if (
+                const.MAX_RELAXED_SOLVER_SOLUTIONS is None
+                or num_sols < const.MAX_RELAXED_SOLVER_SOLUTIONS
+            ):
                 heapq.heappush(solutions, state)
             elif num_sols == const.MAX_RELAXED_SOLVER_SOLUTIONS:
                 heapq.heappushpop(solutions, state)
