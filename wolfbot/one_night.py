@@ -35,42 +35,84 @@ def simulate_game(
 
 def play_one_night_werewolf(save_replay: bool = True) -> GameResult:
     """Plays one round of One Night Ultimate Werewolf."""
-    const.verify_valid_const_config(const)
-    if save_replay:
-        with open(const.REPLAY_STATE, "w", encoding="utf-8") as replay_file:
-            json.dump({"rng_state": random.getstate()}, replay_file)
-
-    game_roles = list(const.ROLES)
-    if const.RANDOMIZE_ROLES:
-        random.shuffle(game_roles)
-    override_players(game_roles)
-    original_roles = tuple(game_roles)
-
-    user_state = UserState()
-    user_state.intro(original_roles)
-    player_objs = night_falls(game_roles, original_roles)
-    user_state.night_falls()
+    setup_game(save_replay)
+    original_roles, orig_wolf_inds = init_game_roles()
+    player_objs, game_roles = night_falls(original_roles)
     logger.info("\n-- GAME BEGINS --\n")
     all_statements = (
         get_player_multistatements(player_objs)
         if const.MULTI_STATEMENT
         else get_player_statements(player_objs)
     )
-    user_state.print_statements(all_statements)
-
-    orig_wolf_inds = find_all_player_indices(original_roles, Role.WOLF)
+    UserState.print_statements(all_statements)
     indiv_preds = get_individual_preds(player_objs, all_statements)
     most_freq_guesses, guessed_wolf_inds, vote_inds = get_voting_result(
         player_objs, indiv_preds
     )
-    print_roles(game_roles, "Solution", logging.INFO)
-    print_roles(most_freq_guesses, "WolfBot")
-    _ = get_confidence(indiv_preds)
+    print_analysis(game_roles, most_freq_guesses, indiv_preds)
     end_game_roles = tuple(game_roles)
     winning_team = eval_winning_team(end_game_roles, list(guessed_wolf_inds), vote_inds)
     return GameResult(
         end_game_roles, most_freq_guesses, orig_wolf_inds, winning_team, all_statements
     )
+
+
+def print_analysis(
+    game_roles: list[Role],
+    most_freq_guesses: tuple[Role, ...],
+    indiv_preds: tuple[tuple[Role, ...], ...],
+) -> None:
+    print_roles(game_roles, "Solution", logging.INFO)
+    print_roles(most_freq_guesses, "WolfBot")
+    _ = get_confidence(indiv_preds)
+
+
+def setup_game(save_replay: bool) -> None:
+    const.verify_valid_const_config(const)
+    if save_replay:
+        with open(const.REPLAY_STATE, "w", encoding="utf-8") as replay_file:
+            json.dump({"rng_state": random.getstate()}, replay_file)
+
+
+def init_game_roles() -> tuple[tuple[Role, ...], tuple[int, ...]]:
+    game_roles = list(const.ROLES)
+    if const.RANDOMIZE_ROLES:
+        random.shuffle(game_roles)
+    override_players(game_roles)
+    UserState.intro(game_roles)
+    return tuple(game_roles), find_all_player_indices(game_roles, Role.WOLF)
+
+
+def night_falls(
+    original_roles: tuple[Role, ...]
+) -> tuple[tuple[Player, ...], list[Role]]:
+    """
+    Initialize role object list and perform all switching and peeking actions.
+    """
+    logger.info("\n-- NIGHT FALLS --\n")
+    print_roles(original_roles, "Hidden")
+
+    game_roles = list(original_roles)
+    # Awaken each player in order and initialize the Player object.
+    player_objs = [Player(-1) for _ in range(const.NUM_ROLES)]
+    for awaken_role in const.AWAKE_ORDER:
+        if awaken_role in const.ROLE_SET:
+            logger.info(f"{awaken_role}, wake up.")
+            role_obj = get_role_obj(awaken_role)
+            for i in range(const.NUM_PLAYERS):
+                if original_roles[i] is awaken_role:
+                    player_objs[i] = role_obj.awake_init(i, game_roles, original_roles)
+            logger.info(f"{awaken_role}, go to sleep.\n")
+
+    # All other players wake up at the same time.
+    logger.info("Everyone, wake up!\n")
+    for i, role_name in enumerate(original_roles):
+        if role_name in const.ROLE_SET - set(const.AWAKE_ORDER):
+            role_obj = get_role_obj(role_name)
+            player_objs[i] = role_obj.awake_init(i, game_roles, original_roles)
+
+    UserState.night_falls()
+    return tuple(player_objs[: const.NUM_PLAYERS]), game_roles
 
 
 def get_player_multistatements(
@@ -112,38 +154,6 @@ def get_player_statements(player_objs: tuple[Player, ...]) -> tuple[Statement, .
         logger.info(f"Player {curr_ind}: {statement.sentence}")
         curr_ind += 1
     return tuple(knowledge_base.final_claims)
-
-
-def night_falls(
-    game_roles: list[Role], original_roles: tuple[Role, ...]
-) -> tuple[Player, ...]:
-    """
-    Initialize role object list and perform all switching and peeking actions.
-    """
-    if game_roles != list(original_roles):
-        raise RuntimeError("game_roles should match original_roles.")
-    logger.info("\n-- NIGHT FALLS --\n")
-    print_roles(game_roles, "Hidden")
-
-    # Awaken each player in order and initialize the Player object.
-    player_objs = [Player(-1) for _ in range(const.NUM_ROLES)]
-    for awaken_role in const.AWAKE_ORDER:
-        if awaken_role in const.ROLE_SET:
-            logger.info(f"{awaken_role}, wake up.")
-            role_obj = get_role_obj(awaken_role)
-            for i in range(const.NUM_PLAYERS):
-                if original_roles[i] is awaken_role:
-                    player_objs[i] = role_obj.awake_init(i, game_roles, original_roles)
-            logger.info(f"{awaken_role}, go to sleep.\n")
-
-    # All other players wake up at the same time.
-    logger.info("Everyone, wake up!\n")
-    for i, role_name in enumerate(original_roles):
-        if role_name in const.ROLE_SET - set(const.AWAKE_ORDER):
-            role_obj = get_role_obj(role_name)
-            player_objs[i] = role_obj.awake_init(i, game_roles, original_roles)
-
-    return tuple(player_objs[: const.NUM_PLAYERS])
 
 
 def get_individual_preds(

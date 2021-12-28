@@ -1,16 +1,20 @@
+from typing import Sequence
+
 from wolfbot import const
 from wolfbot.enums import Role
 from wolfbot.log import logger
 from wolfbot.statements import Statement
 
 CLEAR_TERMINAL = "\033c"
+DISABLE_USER_INPUT = not const.INTERACTIVE_MODE
 
 
 class UserState:
-    """If INTERACTIVE_MODE is False, all actions are no-ops."""
+    """
+    Contains logic for all of the official game logging.
 
-    def __init__(self) -> None:
-        self.disable_user_input = not const.INTERACTIVE_MODE
+    If INTERACTIVE_MODE is False, all actions are no-ops.
+    """
 
     @staticmethod
     def print_cache() -> None:
@@ -19,9 +23,10 @@ class UserState:
         for log_level, line in logger.output_cache:
             logger.log(log_level, line)
 
-    def intro(self, original_roles: tuple[Role, ...]) -> None:
+    @staticmethod
+    def intro(original_roles: Sequence[Role]) -> None:
         """Tells the player what their assigned role is."""
-        if self.disable_user_input:
+        if DISABLE_USER_INPUT:
             return
         input("Press Enter to continue...")
         logger.info(CLEAR_TERMINAL)
@@ -31,20 +36,22 @@ class UserState:
         logger.info(
             f"Player {user_index}, you are a {original_roles[user_index]}!", cache=True
         )
-        self.print_cache()
+        UserState.print_cache()
 
-    def night_falls(self) -> None:
+    @staticmethod
+    def night_falls() -> None:
         """Clears the output except for the player's role."""
-        if self.disable_user_input:
+        if DISABLE_USER_INPUT:
             return
         input("Press Enter to continue...")
-        self.print_cache()
+        UserState.print_cache()
 
-    def print_statements(self, all_statements: tuple[Statement, ...]) -> None:
+    @staticmethod
+    def print_statements(all_statements: tuple[Statement, ...]) -> None:
         """Prints all statements that have been said so far."""
-        if self.disable_user_input:
+        if DISABLE_USER_INPUT:
             return
         logger.info("\n-- GAME BEGINS --\n", cache=True)
         for j, statement in enumerate(all_statements):
             logger.info(f"Player {j}: {statement.sentence}", cache=True)
-        self.print_cache()
+        UserState.print_cache()
