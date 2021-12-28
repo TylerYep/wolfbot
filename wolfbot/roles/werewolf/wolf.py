@@ -72,10 +72,8 @@ class Wolf(Player):
         if const.USE_REG_WOLF:
             if self.center_role not in (None, Role.WOLF, Role.MASON):
                 center_statements = get_center_wolf_statements(self, knowledge_base)
-                self.statements += (
-                    center_statements
-                    if center_statements
-                    else get_wolf_statements(self, knowledge_base)
+                self.statements += center_statements or get_wolf_statements(
+                    self, knowledge_base
                 )
             else:
                 self.statements += get_wolf_statements(self, knowledge_base)

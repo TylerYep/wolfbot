@@ -2,7 +2,7 @@ import pprint
 from pathlib import Path
 
 IGNORED_FOLDERS = {"__pycache__", "algorithms", "learning", "wolf_variants"}
-IGNORED_FILES = {"__init__.py", "enums.py", "log.py", "user.py"}
+IGNORED_FILES = {"__init__.py", "const.py", "log.py", "user.py", "util.py"}
 WOLFBOT_FOLDER = Path("wolfbot")
 TEST_FOLDER = Path("tests")
 

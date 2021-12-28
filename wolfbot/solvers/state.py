@@ -83,7 +83,7 @@ class SolverState:
             tuple(new_possible_roles),
             self.switches + statement.switches,
             self.path + (assumption,),
-            self.role_counts if new_role_counts is None else new_role_counts,
+            new_role_counts or self.role_counts,
             self.count_true + int(assumption),
         )
 

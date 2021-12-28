@@ -7,7 +7,7 @@ def main() -> None:
         replay.replay_game_from_state()
     else:
         enable_logging = const.NUM_GAMES < const.MAX_LOG_GAMES
-        one_night.simulate_game(
+        _ = one_night.simulate_game(
             num_games=const.NUM_GAMES,
             save_replay=const.SAVE_REPLAY,
             enable_tqdm=not enable_logging,

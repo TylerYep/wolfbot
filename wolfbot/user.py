@@ -1,4 +1,4 @@
-from typing import Sequence
+from collections.abc import Sequence
 
 from wolfbot import const
 from wolfbot.enums import Role
