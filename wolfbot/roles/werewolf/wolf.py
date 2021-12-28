@@ -36,9 +36,7 @@ class Wolf(Player):
         self.center_role = center_role
 
     @classmethod
-    def awake_init(
-        cls, player_index: int, game_roles: list[Role], original_roles: tuple[Role, ...]
-    ) -> Wolf:
+    def awake_init(cls, player_index: int, game_roles: list[Role]) -> Wolf:
         """
         Constructor: original_roles defaults to [] when a player becomes
         a Wolf and realizes it.
@@ -46,7 +44,7 @@ class Wolf(Player):
         """
         is_user = const.IS_USER[player_index]
         center_index, center_role = None, None
-        wolf_indices = find_all_player_indices(original_roles, Role.WOLF)
+        wolf_indices = find_all_player_indices(game_roles, Role.WOLF)
         if len(wolf_indices) == 1 and const.NUM_CENTER > 0:
             center_index = get_center(is_user)
             center_role = game_roles[center_index]

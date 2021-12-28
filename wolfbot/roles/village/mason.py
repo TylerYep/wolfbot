@@ -21,13 +21,10 @@ class Mason(Player):
             raise RuntimeError("Player index is not one of the Mason indices.")
 
     @classmethod
-    def awake_init(
-        cls, player_index: int, game_roles: list[Role], original_roles: tuple[Role, ...]
-    ) -> Mason:
+    def awake_init(cls, player_index: int, game_roles: list[Role]) -> Mason:
         """Initializes Mason - sees all other Masons."""
-        del game_roles
         is_user = const.IS_USER[player_index]
-        mason_indices = find_all_player_indices(original_roles, Role.MASON)
+        mason_indices = find_all_player_indices(game_roles, Role.MASON)
         logger.debug(f"[Hidden] Masons are at indices: {list(mason_indices)}")
         if is_user:
             logger.info(

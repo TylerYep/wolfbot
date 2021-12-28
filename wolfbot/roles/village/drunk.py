@@ -19,11 +19,8 @@ class Drunk(Player):
         self.statements += self.get_drunk_statements(player_index, choice_ind)
 
     @classmethod
-    def awake_init(
-        cls, player_index: int, game_roles: list[Role], original_roles: tuple[Role, ...]
-    ) -> Drunk:
+    def awake_init(cls, player_index: int, game_roles: list[Role]) -> Drunk:
         """Initializes Drunk - switches with a card in the center."""
-        del original_roles
         is_user = const.IS_USER[player_index]
         choice_ind = get_center(is_user)
         logger.debug(

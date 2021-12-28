@@ -13,11 +13,9 @@ class Hunter(Player):
         self.statements += self.get_hunter_statements(player_index)
 
     @classmethod
-    def awake_init(
-        cls, player_index: int, game_roles: list[Role], original_roles: tuple[Role, ...]
-    ) -> Hunter:
+    def awake_init(cls, player_index: int, game_roles: list[Role]) -> Hunter:
         """Initializes Hunter when night falls."""
-        del game_roles, original_roles
+        del game_roles
         return cls(player_index)
 
     @staticmethod

@@ -28,7 +28,7 @@ class TestRobber:
             ),
         )
 
-        robber = Robber.awake_init(player_index, game_roles, ())
+        robber = Robber.awake_init(player_index, game_roles)
 
         assert robber.choice_ind == 7
         assert robber.new_role is Role.WOLF

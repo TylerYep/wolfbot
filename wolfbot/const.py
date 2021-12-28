@@ -80,6 +80,7 @@ AWAKE_ORDER = (
     Role.WOLF,
     Role.MINION,
     Role.MASON,
+    # Role.DOPPELGANGER,
     Role.SEER,
     Role.ROBBER,
     Role.TROUBLEMAKER,

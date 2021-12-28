@@ -61,9 +61,7 @@ class Player:
         return f"{self.role}({attrs[:-2]})"
 
     @classmethod
-    def awake_init(
-        cls, player_index: int, game_roles: list[Role], original_roles: tuple[Role, ...]
-    ) -> Player:
+    def awake_init(cls, player_index: int, game_roles: list[Role]) -> Player:
         """Initializes Player and performs their nighttime actions."""
         raise NotImplementedError
 

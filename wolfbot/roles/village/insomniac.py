@@ -18,11 +18,8 @@ class Insomniac(Player):
         self.statements += self.get_insomniac_statements(player_index, new_role)
 
     @classmethod
-    def awake_init(
-        cls, player_index: int, game_roles: list[Role], original_roles: tuple[Role, ...]
-    ) -> Insomniac:
+    def awake_init(cls, player_index: int, game_roles: list[Role]) -> Insomniac:
         """Initializes Insomniac - learns new role."""
-        del original_roles
         is_user = const.IS_USER[player_index]
         insomniac_new_role = game_roles[player_index]
         logger.debug(f"[Hidden] Insomniac wakes up as a {insomniac_new_role}.")

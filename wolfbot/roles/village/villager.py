@@ -13,11 +13,9 @@ class Villager(Player):
         self.statements += self.get_villager_statements(player_index)
 
     @classmethod
-    def awake_init(
-        cls, player_index: int, game_roles: list[Role], original_roles: tuple[Role, ...]
-    ) -> Villager:
+    def awake_init(cls, player_index: int, game_roles: list[Role]) -> Villager:
         """Initializes Villager when night falls."""
-        del game_roles, original_roles
+        del game_roles
         return cls(player_index)
 
     @staticmethod

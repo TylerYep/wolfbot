@@ -21,11 +21,8 @@ class Troublemaker(Player):
         )
 
     @classmethod
-    def awake_init(
-        cls, player_index: int, game_roles: list[Role], original_roles: tuple[Role, ...]
-    ) -> Troublemaker:
+    def awake_init(cls, player_index: int, game_roles: list[Role]) -> Troublemaker:
         """Initializes Troublemaker - switches one player with another player."""
-        del original_roles
         is_user = const.IS_USER[player_index]
         if is_user:
             logger.info("Choose two players to switch places:")

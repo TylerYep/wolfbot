@@ -22,7 +22,7 @@ class TestInsomniac:
             ),
         )
 
-        insomniac = Insomniac.awake_init(player_index, game_roles, ())
+        insomniac = Insomniac.awake_init(player_index, game_roles)
 
         assert insomniac.new_role is Role.ROBBER
         assert insomniac.statements == expected

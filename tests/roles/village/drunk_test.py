@@ -19,7 +19,7 @@ class TestDrunk:
         new_roles = list(large_game_roles)
         new_roles[13], new_roles[6] = new_roles[6], new_roles[13]
 
-        drunk = Drunk.awake_init(player_index, game_roles, large_game_roles)
+        drunk = Drunk.awake_init(player_index, game_roles)
 
         assert drunk.choice_ind == 13
         assert game_roles == new_roles

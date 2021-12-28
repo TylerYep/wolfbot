@@ -8,6 +8,15 @@ class TestMinion:
     """Tests for the Minion player class."""
 
     @staticmethod
+    def test_awake_init(large_game_roles: tuple[Role, ...]) -> None:
+        """Should initialize a Minion."""
+        player_index = 8
+
+        minion = Minion.awake_init(player_index, list(const.ROLES))
+
+        assert minion.wolf_indices == (0, 7)
+
+    @staticmethod
     def test_get_random_statement_medium(
         medium_game_roles: tuple[Role, ...], medium_knowledge_base: KnowledgeBase
     ) -> None:

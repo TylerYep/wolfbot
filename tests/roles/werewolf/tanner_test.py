@@ -13,11 +13,10 @@ class TestTanner:
         not necessarily the index where the true Tanner is located.
         """
         player_index = 3
-        expected = ()
 
-        tanner = Tanner.awake_init(player_index, [], ())
+        tanner = Tanner.awake_init(player_index, [])
 
-        assert tanner.statements == expected
+        assert tanner.statements == ()
 
     @staticmethod
     def test_get_random_statement(

@@ -26,13 +26,10 @@ class Minion(Player):
         self.wolf_indices = wolf_indices
 
     @classmethod
-    def awake_init(
-        cls, player_index: int, game_roles: list[Role], original_roles: tuple[Role, ...]
-    ) -> Minion:
+    def awake_init(cls, player_index: int, game_roles: list[Role]) -> Minion:
         """Initializes Minion - gets Wolf indices."""
-        del game_roles
         is_user = const.IS_USER[player_index]
-        wolf_indices = find_all_player_indices(original_roles, Role.WOLF)
+        wolf_indices = find_all_player_indices(game_roles, Role.WOLF)
         logger.debug(f"[Hidden] Wolves are at indices: {list(wolf_indices)}")
         if is_user:
             logger.info(f"Wolves are at indices: {list(wolf_indices)}", cache=True)

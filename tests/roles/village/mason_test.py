@@ -13,7 +13,7 @@ class TestMason:
         """Should initialize a Mason."""
         player_index = 6
 
-        mason = Mason.awake_init(player_index, [], large_game_roles)
+        mason = Mason.awake_init(player_index, list(large_game_roles))
 
         assert mason.mason_indices == (6, 9)
         assert mason.statements == (

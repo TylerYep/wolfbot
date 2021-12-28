@@ -25,11 +25,8 @@ class Seer(Player):
         self.statements += self.get_seer_statements(player_index, choice_1, choice_2)
 
     @classmethod
-    def awake_init(
-        cls, player_index: int, game_roles: list[Role], original_roles: tuple[Role, ...]
-    ) -> Seer:
+    def awake_init(cls, player_index: int, game_roles: list[Role]) -> Seer:
         """Initializes Seer - either sees 2 center cards or 1 player card."""
-        del original_roles
         is_user = const.IS_USER[player_index]
         if const.NUM_CENTER > 1:
             if is_user:

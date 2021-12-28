@@ -22,11 +22,8 @@ class Robber(Player):
         )
 
     @classmethod
-    def awake_init(
-        cls, player_index: int, game_roles: list[Role], original_roles: tuple[Role, ...]
-    ) -> Robber:
+    def awake_init(cls, player_index: int, game_roles: list[Role]) -> Robber:
         """Initializes Robber - switches roles with another player."""
-        del original_roles
         is_user = const.IS_USER[player_index]
         choice_ind = get_player(is_user, (player_index,))
         choice_char = game_roles[choice_ind]

@@ -31,7 +31,7 @@ class TestSeer:
             ),
         )
 
-        seer = Seer.awake_init(player_index, game_roles, ())
+        seer = Seer.awake_init(player_index, game_roles)
 
         assert seer.choice_1 == (13, Role.INSOMNIAC)
         assert seer.choice_2 == (12, Role.TROUBLEMAKER)
@@ -53,7 +53,7 @@ class TestSeer:
             ),
         )
 
-        seer = Seer.awake_init(player_index, game_roles, ())
+        seer = Seer.awake_init(player_index, game_roles)
 
         assert seer.choice_1 == (6, Role.MASON)
         assert seer.choice_2 == (None, None)

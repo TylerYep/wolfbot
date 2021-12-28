@@ -88,12 +88,16 @@ def night_falls(
 ) -> tuple[tuple[Player, ...], list[Role]]:
     """
     Initialize role object list and perform all switching and peeking actions.
+
+    Roles that find other roles go first in AWAKE_ORDER (e.g. Masons), which
+    means we don't need to pass in original_roles to these constructors.
+    The Doppelganger can take actions after these role types complete.
     """
     logger.info("\n-- NIGHT FALLS --\n")
     print_roles(original_roles, "Hidden")
 
-    game_roles = list(original_roles)
     # Awaken each player in order and initialize the Player object.
+    game_roles = list(original_roles)
     player_objs = [Player(-1) for _ in range(const.NUM_ROLES)]
     for awaken_role in const.AWAKE_ORDER:
         if awaken_role in const.ROLE_SET:
@@ -101,7 +105,7 @@ def night_falls(
             role_obj = get_role_obj(awaken_role)
             for i in range(const.NUM_PLAYERS):
                 if original_roles[i] is awaken_role:
-                    player_objs[i] = role_obj.awake_init(i, game_roles, original_roles)
+                    player_objs[i] = role_obj.awake_init(i, game_roles)
             logger.info(f"{awaken_role}, go to sleep.\n")
 
     # All other players wake up at the same time.
@@ -109,7 +113,7 @@ def night_falls(
     for i, role_name in enumerate(original_roles):
         if role_name in const.ROLE_SET - set(const.AWAKE_ORDER):
             role_obj = get_role_obj(role_name)
-            player_objs[i] = role_obj.awake_init(i, game_roles, original_roles)
+            player_objs[i] = role_obj.awake_init(i, game_roles)
 
     UserState.night_falls()
     return tuple(player_objs[: const.NUM_PLAYERS]), game_roles
