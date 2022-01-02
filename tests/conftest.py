@@ -1,5 +1,6 @@
 import csv
 import random
+from collections import Counter
 from collections.abc import Callable
 from pathlib import Path
 from typing import Any
@@ -35,7 +36,6 @@ from wolfbot import const, enums
 from wolfbot.const import verify_valid_const_config
 from wolfbot.enums import Role
 from wolfbot.log import logger
-from wolfbot.util import get_counts
 
 
 def pytest_collection_modifyitems(
@@ -51,7 +51,7 @@ def set_roles(*roles: Role) -> None:
     const.ROLES = roles
     const.ROLE_SET = frozenset(const.ROLES)
     const.SORTED_ROLE_SET = sorted(const.ROLE_SET)
-    const.ROLE_COUNTS = get_counts(const.ROLES)
+    const.ROLE_COUNTS = Counter(const.ROLES)
     const.NUM_ROLES = len(const.ROLES)
     const.VILLAGE_ROLES &= const.ROLE_SET
     const.EVIL_ROLES &= const.ROLE_SET
@@ -105,6 +105,7 @@ def _reset_const(seed: int = 0) -> None:
     const.EXPECTIMAX_MINION = False
     const.EXPECTIMAX_TANNER = False
     const.RL_WOLF = False
+    const.INCLUDE_STATEMENT_RATE = 0.7
 
     const.REPLAY_FILE = "tests/test_data/replay.json"
     set_roles(

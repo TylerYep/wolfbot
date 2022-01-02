@@ -4,11 +4,11 @@ import argparse
 import logging
 import random
 import sys
+from collections import Counter
 from types import ModuleType
 
 from wolfbot.enums import Role
 from wolfbot.log import logger
-from wolfbot.util import get_counts
 
 
 def init_program(is_tests: bool) -> argparse.Namespace:
@@ -72,7 +72,7 @@ REPLAY = ARGS.replay
 """ Util Constants """
 ROLE_SET = frozenset(ROLES)
 SORTED_ROLE_SET = sorted(ROLE_SET)
-ROLE_COUNTS = get_counts(ROLES)  # Dict of {Role.VILLAGER: 3, Role.WOLF: 2, ... }
+ROLE_COUNTS = Counter(ROLES)  # Dict of {Role.VILLAGER: 3, Role.WOLF: 2, ... }
 NUM_PLAYERS = NUM_ROLES - NUM_CENTER
 
 """ Game Rules """

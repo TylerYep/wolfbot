@@ -1,3 +1,4 @@
+from collections import Counter
 from typing import Any
 
 from wolfbot import const
@@ -17,22 +18,30 @@ from wolfbot.util import weighted_coin_flip
 
 
 def should_include_role(counts_dict: dict[Role, int], role: Role) -> bool:
-    return counts_dict[role] > 0 or weighted_coin_flip(const.INCLUDE_STATEMENT_RATE)
+    return (
+        counts_dict[role] > 0
+        or sum(counts_dict.values()) <= 0
+        or weighted_coin_flip(const.INCLUDE_STATEMENT_RATE)
+    )
 
 
 def get_wolf_statements(
     player_obj: Any, knowledge_base: KnowledgeBase
 ) -> tuple[Statement, ...]:
     """
-    Gets Regular Wolf statement. Includes custom logic to maximize Wolf win rate.
+    Gets Regular Wolf statement, which chooses Villager statements
+    with hardcoded logic to maximize Wolf win rate.
     """
     statements: tuple[Statement, ...] = ()
     stated_roles = knowledge_base.stated_roles
     player_index = player_obj.player_index
-    counts_dict = dict(const.ROLE_COUNTS)
-    for role in stated_roles:
-        if role is not Role.NONE:
-            counts_dict[role] -= 1
+    counts_dict = Counter(
+        {
+            role: count
+            for role, count in const.ROLE_COUNTS.items()
+            if role in const.VILLAGE_ROLES
+        }
+    ) - Counter(stated_roles)
 
     if Role.VILLAGER in const.ROLE_SET and should_include_role(
         counts_dict, Role.VILLAGER

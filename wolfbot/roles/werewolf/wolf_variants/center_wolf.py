@@ -1,7 +1,7 @@
 from typing import Any
 
 from wolfbot import const
-from wolfbot.enums import Role
+from wolfbot.enums import Role, UnhandledEnumValueError
 from wolfbot.roles import Drunk, Hunter, Insomniac, Robber, Seer, Troublemaker, Villager
 from wolfbot.statements import KnowledgeBase, Statement
 
@@ -53,4 +53,8 @@ def get_center_wolf_statements(
                                     (cent1 + const.NUM_PLAYERS, role1),
                                     (center_index, role2),
                                 )
+    elif center_role in const.EVIL_ROLES:
+        pass
+    else:
+        raise UnhandledEnumValueError(center_role)
     return statements

@@ -2,6 +2,7 @@ import heapq
 import json
 import logging
 import random
+from collections import Counter
 from typing import cast
 
 from tqdm import trange  # type: ignore[import]
@@ -19,7 +20,6 @@ from wolfbot.roles import Player, get_role_obj
 from wolfbot.statements import KnowledgeBase, Statement
 from wolfbot.stats import GameResult, Statistics
 from wolfbot.user import UserState
-from wolfbot.util import get_counts
 
 
 def simulate_game(
@@ -235,8 +235,7 @@ def get_voting_result(
 
     assert len(player_votes) == const.NUM_PLAYERS
     logger.info(f"\nVote Array: {wolf_votes}\n")
-    guess_histogram = get_counts(all_predictions)
-    avg_role_guesses, _ = max(guess_histogram.items(), key=lambda x: x[1])
+    [(avg_role_guesses, _)] = Counter(all_predictions).most_common(1)
     max_votes = max(wolf_votes)
     guessed_wolf_inds = [i for i, count in enumerate(wolf_votes) if count == max_votes]
     return avg_role_guesses, tuple(guessed_wolf_inds), tuple(player_votes)

@@ -180,6 +180,7 @@ class Player:
         )
 
         # Choose a statement
+        assert self.statements
         next_statement = random.choice(self.statements)
 
         # Evil players try to avoid giving info

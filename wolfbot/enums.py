@@ -82,3 +82,9 @@ class Team(Enum):
     def json_repr(self) -> dict[str, Any]:
         """Gets JSON representation of a Role enum."""
         return {"type": "Team", "data": self.value}
+
+
+class UnhandledEnumValueError(Exception):
+    """Unhandled enum value exception."""
+
+    message = "Encountered unhandled enum value."
