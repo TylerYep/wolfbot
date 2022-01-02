@@ -2,6 +2,7 @@ import heapq
 import json
 import logging
 import random
+from typing import cast
 
 from tqdm import trange  # type: ignore[import]
 
@@ -93,7 +94,7 @@ def night_falls(
 
     # Awaken each player in order and initialize the Player object.
     game_roles = list(original_roles)
-    player_objs = [Player(-1) for _ in range(const.NUM_ROLES)]
+    player_objs: list[Player] = cast(list[Player], [None] * const.NUM_PLAYERS)
     for awaken_role in const.AWAKE_ORDER:
         if awaken_role in const.ROLE_SET:
             logger.info(f"{awaken_role}, wake up.")
@@ -105,7 +106,7 @@ def night_falls(
 
     # All other players wake up at the same time.
     logger.info("Everyone, wake up!\n")
-    for i, role_name in enumerate(original_roles):
+    for i, role_name in enumerate(original_roles[: const.NUM_PLAYERS]):
         if role_name in const.ROLE_SET - set(const.AWAKE_ORDER):
             role_obj = get_role_obj(role_name)
             player_objs[i] = role_obj.awake_init(i, game_roles)
