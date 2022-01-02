@@ -1,7 +1,6 @@
 from tests.conftest import set_roles
 from wolfbot import const
 from wolfbot.enums import Role
-from wolfbot.game_utils import GameRoles
 from wolfbot.roles import Seer
 from wolfbot.statements import Statement
 
@@ -32,7 +31,7 @@ class TestSeer:
             ),
         )
 
-        seer = Seer.awake_init(player_index, GameRoles(game_roles))
+        seer = Seer.awake_init(player_index, game_roles)
 
         assert seer.choice_1 == (13, Role.INSOMNIAC)
         assert seer.choice_2 == (12, Role.TROUBLEMAKER)
@@ -54,7 +53,7 @@ class TestSeer:
             ),
         )
 
-        seer = Seer.awake_init(player_index, GameRoles(game_roles))
+        seer = Seer.awake_init(player_index, game_roles)
 
         assert seer.choice_1 == (6, Role.MASON)
         assert seer.choice_2 == (None, None)

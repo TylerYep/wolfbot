@@ -6,7 +6,6 @@ from typing import Any
 from wolfbot import const
 from wolfbot.enums import Role, StatementLevel, lru_cache
 from wolfbot.game_utils import (
-    GameRoles,
     find_all_player_indices,
     get_center,
     get_numeric_input,
@@ -62,7 +61,7 @@ class Player:
         return f"{self.role}({attrs[:-2]})"
 
     @classmethod
-    def awake_init(cls, player_index: int, game_roles: GameRoles) -> Player:
+    def awake_init(cls, player_index: int, game_roles: list[Role]) -> Player:
         """Initializes Player and performs their nighttime actions."""
         raise NotImplementedError
 

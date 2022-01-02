@@ -1,7 +1,6 @@
 from tests.conftest import set_roles
 from wolfbot import const
 from wolfbot.enums import Role
-from wolfbot.game_utils import GameRoles
 from wolfbot.roles import Wolf
 from wolfbot.statements import KnowledgeBase
 
@@ -18,7 +17,7 @@ class TestWolf:
         set_roles(Role.WOLF, *medium_game_roles[1:])
         player_index = 2
 
-        wolf = Wolf.awake_init(player_index, GameRoles(list(const.ROLES)))
+        wolf = Wolf.awake_init(player_index, list(const.ROLES))
         assert wolf.wolf_indices == (0, 2)
         assert wolf.center_index is None
         assert wolf.center_role is None
@@ -31,7 +30,7 @@ class TestWolf:
         """
         player_index = 7
 
-        wolf = Wolf.awake_init(player_index, GameRoles(list(const.ROLES)))
+        wolf = Wolf.awake_init(player_index, list(const.ROLES))
 
         assert wolf.wolf_indices == (0, 7)
         assert wolf.center_index is None
@@ -46,7 +45,7 @@ class TestWolf:
         set_roles(Role.VILLAGER, *large_game_roles[1:])
         player_index = 7
 
-        wolf = Wolf.awake_init(player_index, GameRoles(list(const.ROLES)))
+        wolf = Wolf.awake_init(player_index, list(const.ROLES))
 
         assert wolf.wolf_indices == (7,)
         assert wolf.center_index == 13

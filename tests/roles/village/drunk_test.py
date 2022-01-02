@@ -1,7 +1,6 @@
 from tests.conftest import set_roles
 from wolfbot import const
 from wolfbot.enums import Role, SwitchPriority
-from wolfbot.game_utils import GameRoles
 from wolfbot.roles import Drunk
 from wolfbot.statements import Statement
 
@@ -20,7 +19,7 @@ class TestDrunk:
         new_roles = list(large_game_roles)
         new_roles[13], new_roles[6] = new_roles[6], new_roles[13]
 
-        drunk = Drunk.awake_init(player_index, GameRoles(game_roles))
+        drunk = Drunk.awake_init(player_index, game_roles)
 
         assert drunk.choice_ind == 13
         assert game_roles == new_roles

@@ -10,7 +10,6 @@ from tqdm import trange  # type: ignore[import]
 from wolfbot import const
 from wolfbot.enums import Role, StatementLevel, Team
 from wolfbot.game_utils import (
-    GameRoles,
     find_all_player_indices,
     get_player,
     print_roles,
@@ -94,7 +93,7 @@ def night_falls(
     print_roles(original_roles, "Hidden")
 
     # Awaken each player in order and initialize the Player object.
-    game_roles = GameRoles(list(original_roles))
+    game_roles = list(original_roles)
     player_objs: list[Player] = cast(list[Player], [None] * const.NUM_PLAYERS)
     for awaken_role in const.AWAKE_ORDER:
         if awaken_role in const.ROLE_SET:
@@ -111,11 +110,6 @@ def night_falls(
         if role_name in const.ROLE_SET - set(const.AWAKE_ORDER):
             role_obj = get_role_obj(role_name)
             player_objs[i] = role_obj.awake_init(i, game_roles)
-
-    # Revert Doppelganger roles back to normal.
-    if Role.DOPPELGANGER in const.ROLE_SET:
-        for index in find_all_player_indices(original_roles, Role.DOPPELGANGER):
-            game_roles[game_roles.changelog[index]] = Role.DOPPELGANGER
 
     UserState.night_falls()
     logger.info("\n-- GAME BEGINS --\n")

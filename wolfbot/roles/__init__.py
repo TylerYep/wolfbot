@@ -4,7 +4,6 @@ from typing import cast
 from wolfbot.enums import Role
 from wolfbot.roles.player import Player
 from wolfbot.roles.village import (
-    Doppelganger,
     Drunk,
     Hunter,
     Insomniac,
@@ -28,7 +27,6 @@ def get_role_obj(role_str: Role) -> type[Player]:
 __all__ = (
     "Role",
     "Player",
-    "Doppelganger",
     "Drunk",
     "Hunter",
     "Insomniac",

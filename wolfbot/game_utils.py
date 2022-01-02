@@ -2,47 +2,11 @@ from __future__ import annotations
 
 import logging
 import random
-from collections.abc import Iterator, Sequence
-from dataclasses import dataclass, field
+from collections.abc import Sequence
 
 from wolfbot import const
 from wolfbot.enums import Role
 from wolfbot.log import logger
-
-Switch = tuple[int, int]
-
-
-@dataclass(slots=True)
-class GameRoles:
-    """Wrapper for the game_roles list."""
-
-    roles: list[Role]
-    changelog: list[int] = field(default_factory=list)
-
-    def __post_init__(self) -> None:
-        self.changelog = [0] * len(const.ROLES)
-
-    def __len__(self) -> int:
-        return len(self.roles)
-
-    def __iter__(self) -> Iterator[Role]:
-        yield from self.roles
-
-    def __bool__(self) -> bool:
-        return bool(self.roles)
-
-    def __contains__(self, role: Role) -> bool:
-        return role in self.roles
-
-    def __getitem__(self, index: int) -> Role:
-        return self.roles[index]
-
-    def __setitem__(self, index: int, new_role: Role) -> None:
-        self.roles[index] = new_role
-
-    def swap_characters(self, ind1: int, ind2: int) -> None:
-        swap_characters(self.roles, ind1, ind2)
-        self.changelog[ind1], self.changelog[ind2] = ind2, ind1
 
 
 def print_roles(

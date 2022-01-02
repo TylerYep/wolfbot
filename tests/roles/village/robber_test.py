@@ -1,7 +1,6 @@
 from tests.conftest import set_roles
 from wolfbot import const
 from wolfbot.enums import Role, SwitchPriority
-from wolfbot.game_utils import GameRoles
 from wolfbot.roles import Robber
 from wolfbot.statements import Statement
 
@@ -29,7 +28,7 @@ class TestRobber:
             ),
         )
 
-        robber = Robber.awake_init(player_index, GameRoles(game_roles))
+        robber = Robber.awake_init(player_index, game_roles)
 
         assert robber.choice_ind == 7
         assert robber.new_role is Role.WOLF

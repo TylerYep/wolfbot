@@ -37,7 +37,6 @@ if ARGS.seed:
 # Game Constants
 # These are the player roles used in a game.
 ROLES: tuple[Role, ...] = (
-    Role.DOPPELGANGER,
     Role.DRUNK,
     Role.INSOMNIAC,
     Role.HUNTER,
@@ -78,7 +77,6 @@ NUM_PLAYERS = NUM_ROLES - NUM_CENTER
 
 """ Game Rules """
 AWAKE_ORDER = (
-    Role.DOPPELGANGER,
     Role.WOLF,
     Role.MINION,
     Role.MASON,
@@ -100,7 +98,6 @@ VILLAGE_ROLES = (
             Role.DRUNK,
             Role.INSOMNIAC,
             Role.HUNTER,
-            Role.DOPPELGANGER,
         }
     )
     & ROLE_SET

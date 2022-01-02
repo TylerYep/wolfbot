@@ -1,6 +1,5 @@
 from wolfbot import const
 from wolfbot.enums import Role
-from wolfbot.game_utils import GameRoles
 from wolfbot.roles import Minion
 from wolfbot.statements import KnowledgeBase
 
@@ -13,7 +12,7 @@ class TestMinion:
         """Should initialize a Minion."""
         player_index = 8
 
-        minion = Minion.awake_init(player_index, GameRoles(list(const.ROLES)))
+        minion = Minion.awake_init(player_index, list(const.ROLES))
 
         assert minion.wolf_indices == (0, 7)
 

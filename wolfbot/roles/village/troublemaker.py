@@ -4,7 +4,7 @@ from typing import Any
 
 from wolfbot import const
 from wolfbot.enums import Role, SwitchPriority, lru_cache
-from wolfbot.game_utils import GameRoles, get_player
+from wolfbot.game_utils import get_player, swap_characters
 from wolfbot.log import logger
 from wolfbot.roles.player import Player
 from wolfbot.statements import Statement
@@ -21,7 +21,7 @@ class Troublemaker(Player):
         )
 
     @classmethod
-    def awake_init(cls, player_index: int, game_roles: GameRoles) -> Troublemaker:
+    def awake_init(cls, player_index: int, game_roles: list[Role]) -> Troublemaker:
         """Initializes Troublemaker - switches one player with another player."""
         is_user = const.IS_USER[player_index]
         if is_user:
@@ -29,7 +29,7 @@ class Troublemaker(Player):
         choice_1 = get_player(is_user, (player_index,))
         choice_2 = get_player(is_user, (player_index, choice_1))
 
-        game_roles.swap_characters(choice_1, choice_2)
+        swap_characters(game_roles, choice_1, choice_2)
         logger.debug(
             f"[Hidden] Troublemaker switches Player {choice_1} and Player {choice_2}."
         )

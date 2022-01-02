@@ -5,7 +5,7 @@ from typing import Any
 
 from wolfbot import const
 from wolfbot.enums import Role, lru_cache
-from wolfbot.game_utils import GameRoles, find_all_player_indices
+from wolfbot.game_utils import find_all_player_indices
 from wolfbot.log import logger
 from wolfbot.predictions import make_unrestricted_prediction
 from wolfbot.roles.player import Player
@@ -26,10 +26,10 @@ class Minion(Player):
         self.wolf_indices = wolf_indices
 
     @classmethod
-    def awake_init(cls, player_index: int, game_roles: GameRoles) -> Minion:
+    def awake_init(cls, player_index: int, game_roles: list[Role]) -> Minion:
         """Initializes Minion - gets Wolf indices."""
         is_user = const.IS_USER[player_index]
-        wolf_indices = find_all_player_indices(game_roles.roles, Role.WOLF)
+        wolf_indices = find_all_player_indices(game_roles, Role.WOLF)
         logger.debug(f"[Hidden] Wolves are at indices: {list(wolf_indices)}")
         if is_user:
             logger.info(f"Wolves are at indices: {list(wolf_indices)}", cache=True)

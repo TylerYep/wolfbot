@@ -1,6 +1,5 @@
 from tests.conftest import set_roles
 from wolfbot.enums import Role
-from wolfbot.game_utils import GameRoles
 from wolfbot.roles import Insomniac
 from wolfbot.statements import Statement
 
@@ -23,7 +22,7 @@ class TestInsomniac:
             ),
         )
 
-        insomniac = Insomniac.awake_init(player_index, GameRoles(game_roles))
+        insomniac = Insomniac.awake_init(player_index, game_roles)
 
         assert insomniac.new_role is Role.ROBBER
         assert insomniac.statements == expected

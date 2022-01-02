@@ -1,5 +1,4 @@
 from wolfbot.enums import Role
-from wolfbot.game_utils import GameRoles
 from wolfbot.roles import Villager
 from wolfbot.statements import Statement
 
@@ -12,7 +11,7 @@ class TestVillager:
         """Should initialize a Villager."""
         player_index = 5
 
-        villager = Villager.awake_init(player_index, GameRoles([]))  # unused
+        villager = Villager.awake_init(player_index, [])  # game_roles is unused.
 
         assert villager.statements == (
             Statement("I am a Villager.", ((5, frozenset({Role.VILLAGER})),)),

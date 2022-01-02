@@ -1,5 +1,4 @@
 from wolfbot.enums import Role
-from wolfbot.game_utils import GameRoles
 from wolfbot.roles import Hunter
 from wolfbot.statements import Statement
 
@@ -12,7 +11,7 @@ class TestHunter:
         """Should initialize a Hunter."""
         player_index = 5
 
-        hunter = Hunter.awake_init(player_index, GameRoles([]))  # unused
+        hunter = Hunter.awake_init(player_index, [])  # game_roles is unused.
 
         assert hunter.statements == (
             Statement("I am a Hunter.", ((5, frozenset({Role.HUNTER})),)),

@@ -4,7 +4,7 @@ from typing import Any
 
 from wolfbot import const
 from wolfbot.enums import Role, lru_cache
-from wolfbot.game_utils import GameRoles, get_center, get_numeric_input, get_player
+from wolfbot.game_utils import get_center, get_numeric_input, get_player
 from wolfbot.log import logger
 from wolfbot.roles.player import Player
 from wolfbot.statements import Statement
@@ -25,7 +25,7 @@ class Seer(Player):
         self.statements += self.get_seer_statements(player_index, choice_1, choice_2)
 
     @classmethod
-    def awake_init(cls, player_index: int, game_roles: GameRoles) -> Seer:
+    def awake_init(cls, player_index: int, game_roles: list[Role]) -> Seer:
         """Initializes Seer - either sees 2 center cards or 1 player card."""
         is_user = const.IS_USER[player_index]
         if const.NUM_CENTER > 1:
