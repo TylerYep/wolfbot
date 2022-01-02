@@ -4,7 +4,7 @@ from typing import Any
 
 from wolfbot import const
 from wolfbot.enums import Role, lru_cache
-from wolfbot.game_utils import find_all_player_indices
+from wolfbot.game_utils import GameRoles, find_all_player_indices
 from wolfbot.log import logger
 from wolfbot.roles.player import Player
 from wolfbot.statements import Statement
@@ -21,10 +21,10 @@ class Mason(Player):
             raise RuntimeError("Player index is not one of the Mason indices.")
 
     @classmethod
-    def awake_init(cls, player_index: int, game_roles: list[Role]) -> Mason:
+    def awake_init(cls, player_index: int, game_roles: GameRoles) -> Mason:
         """Initializes Mason - sees all other Masons."""
         is_user = const.IS_USER[player_index]
-        mason_indices = find_all_player_indices(game_roles, Role.MASON)
+        mason_indices = find_all_player_indices(game_roles.roles, Role.MASON)
         logger.debug(f"[Hidden] Masons are at indices: {list(mason_indices)}")
         if is_user:
             logger.info(

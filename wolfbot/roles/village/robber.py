@@ -4,7 +4,7 @@ from typing import Any
 
 from wolfbot import const
 from wolfbot.enums import Role, SwitchPriority, lru_cache
-from wolfbot.game_utils import get_player, swap_characters
+from wolfbot.game_utils import GameRoles, get_player
 from wolfbot.log import logger
 from wolfbot.roles.player import Player
 from wolfbot.statements import Statement
@@ -22,7 +22,7 @@ class Robber(Player):
         )
 
     @classmethod
-    def awake_init(cls, player_index: int, game_roles: list[Role]) -> Robber:
+    def awake_init(cls, player_index: int, game_roles: GameRoles) -> Robber:
         """Initializes Robber - switches roles with another player."""
         is_user = const.IS_USER[player_index]
         choice_ind = get_player(is_user, (player_index,))
@@ -36,7 +36,7 @@ class Robber(Player):
                 f"You switched with Player {choice_ind} and are now a {choice_char}!",
                 cache=True,
             )
-        swap_characters(game_roles, player_index, choice_ind)
+        game_roles.swap_characters(player_index, choice_ind)
         return cls(player_index, choice_ind, choice_char)
 
     @staticmethod

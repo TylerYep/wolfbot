@@ -1,4 +1,5 @@
 from wolfbot.enums import Role
+from wolfbot.game_utils import GameRoles
 from wolfbot.roles import Tanner
 from wolfbot.statements import KnowledgeBase
 
@@ -14,7 +15,7 @@ class TestTanner:
         """
         player_index = 3
 
-        tanner = Tanner.awake_init(player_index, [])
+        tanner = Tanner.awake_init(player_index, GameRoles([]))  # unused
 
         assert tanner.statements == ()
 

@@ -1,6 +1,7 @@
 from tests.conftest import set_roles
 from wolfbot import const
 from wolfbot.enums import Role, SwitchPriority
+from wolfbot.game_utils import GameRoles
 from wolfbot.roles import Troublemaker
 from wolfbot.statements import Statement
 
@@ -28,7 +29,7 @@ class TestTroublemaker:
         new_roles = list(large_game_roles)
         new_roles[6], new_roles[7] = new_roles[7], new_roles[6]
 
-        tmkr = Troublemaker.awake_init(player_index, game_roles)
+        tmkr = Troublemaker.awake_init(player_index, GameRoles(game_roles))
 
         assert tmkr.choice_ind1 == 6
         assert tmkr.choice_ind2 == 7

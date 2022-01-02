@@ -1,6 +1,7 @@
 from tests.conftest import set_roles
 from wolfbot import const
 from wolfbot.enums import Role
+from wolfbot.game_utils import GameRoles
 from wolfbot.roles import Mason
 from wolfbot.statements import Statement
 
@@ -13,7 +14,7 @@ class TestMason:
         """Should initialize a Mason."""
         player_index = 6
 
-        mason = Mason.awake_init(player_index, list(large_game_roles))
+        mason = Mason.awake_init(player_index, GameRoles(list(large_game_roles)))
 
         assert mason.mason_indices == (6, 9)
         assert mason.statements == (

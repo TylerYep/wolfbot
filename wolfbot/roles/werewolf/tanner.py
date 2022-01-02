@@ -4,6 +4,7 @@ import random
 
 from wolfbot import const
 from wolfbot.enums import Role, lru_cache
+from wolfbot.game_utils import GameRoles
 from wolfbot.predictions import make_unrestricted_prediction
 from wolfbot.roles.player import Player
 from wolfbot.roles.werewolf.wolf_variants import (
@@ -18,7 +19,7 @@ class Tanner(Player):
     """Tanner Player class."""
 
     @classmethod
-    def awake_init(cls, player_index: int, game_roles: list[Role]) -> Tanner:
+    def awake_init(cls, player_index: int, game_roles: GameRoles) -> Tanner:
         """Initializes Tanner when night falls."""
         del game_roles
         return cls(player_index)

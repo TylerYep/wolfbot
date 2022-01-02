@@ -4,7 +4,7 @@ from typing import Any
 
 from wolfbot import const
 from wolfbot.enums import Role, SwitchPriority, lru_cache
-from wolfbot.game_utils import get_center, swap_characters
+from wolfbot.game_utils import GameRoles, get_center
 from wolfbot.log import logger
 from wolfbot.roles.player import Player
 from wolfbot.statements import Statement
@@ -19,7 +19,7 @@ class Drunk(Player):
         self.statements += self.get_drunk_statements(player_index, choice_ind)
 
     @classmethod
-    def awake_init(cls, player_index: int, game_roles: list[Role]) -> Drunk:
+    def awake_init(cls, player_index: int, game_roles: GameRoles) -> Drunk:
         """Initializes Drunk - switches with a card in the center."""
         is_user = const.IS_USER[player_index]
         choice_ind = get_center(is_user)
@@ -29,7 +29,7 @@ class Drunk(Player):
         )
         if is_user:
             logger.info("You do not know your new role.", cache=True)
-        swap_characters(game_roles, player_index, choice_ind)
+        game_roles.swap_characters(player_index, choice_ind)
         return cls(player_index, choice_ind)
 
     @staticmethod

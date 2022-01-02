@@ -4,6 +4,7 @@ from typing import Any
 
 from wolfbot import const
 from wolfbot.enums import Role, lru_cache
+from wolfbot.game_utils import GameRoles
 from wolfbot.log import logger
 from wolfbot.roles.player import Player
 from wolfbot.statements import KnowledgeBase, Statement
@@ -18,7 +19,7 @@ class Insomniac(Player):
         self.statements += self.get_insomniac_statements(player_index, new_role)
 
     @classmethod
-    def awake_init(cls, player_index: int, game_roles: list[Role]) -> Insomniac:
+    def awake_init(cls, player_index: int, game_roles: GameRoles) -> Insomniac:
         """Initializes Insomniac - learns new role."""
         is_user = const.IS_USER[player_index]
         insomniac_new_role = game_roles[player_index]
