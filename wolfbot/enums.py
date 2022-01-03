@@ -21,6 +21,7 @@ def lru_cache(func: Callable[..., T]) -> functools._lru_cache_wrapper[T]:
 class Role(Enum):
     """Role Type."""
 
+    DOPPELGANGER = "Doppelganger"
     DRUNK = "Drunk"
     HUNTER = "Hunter"
     INSOMNIAC = "Insomniac"

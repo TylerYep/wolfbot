@@ -3,6 +3,7 @@ from typing import Any
 from wolfbot import const
 from wolfbot.enums import Role, UnhandledEnumValueError
 from wolfbot.roles import Drunk, Hunter, Insomniac, Robber, Seer, Troublemaker, Villager
+from wolfbot.roles.village.doppelganger import Doppelganger
 from wolfbot.statements import KnowledgeBase, Statement
 
 
@@ -53,6 +54,10 @@ def get_center_wolf_statements(
                                     (cent1 + const.NUM_PLAYERS, role1),
                                     (center_index, role2),
                                 )
+    elif center_role is Role.DOPPELGANGER:
+        statements += Doppelganger.get_doppelganger_statements(
+            player_index, center_role
+        )
     elif center_role in const.EVIL_ROLES:
         pass
     else:

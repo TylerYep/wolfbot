@@ -95,7 +95,19 @@ def night_falls(
     # Awaken each player in order and initialize the Player object.
     game_roles = list(original_roles)
     player_objs: list[Player] = cast(list[Player], [None] * const.NUM_PLAYERS)
+
     for awaken_role in const.AWAKE_ORDER:
+        if awaken_role is Role.NONE and Role.DOPPELGANGER in const.ROLE_SET:
+            logger.info("Doppelganger, wake up again!")
+            # Revert Doppelganger roles back to normal, and perform any actions now.
+            for i in range(const.NUM_PLAYERS):
+                if original_roles[i] is Role.DOPPELGANGER:
+                    game_roles[i] = Role.DOPPELGANGER
+                    if player_objs[i].new_role in const.AWAKE_ORDER[5:-1]:
+                        role_obj = get_role_obj(player_objs[i].new_role)
+                        _ = role_obj.awake_init(i, game_roles)  # TODO: save this info
+            logger.info("Doppelganger, go back to sleep.\n")
+
         if awaken_role in const.ROLE_SET:
             logger.info(f"{awaken_role}, wake up.")
             role_obj = get_role_obj(awaken_role)
