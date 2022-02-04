@@ -6,8 +6,6 @@ from pathlib import Path
 from typing import Any
 
 import pytest
-from _pytest.config import Config
-from _pytest.nodes import Item
 
 from tests.fixtures import (  # noqa
     example_large_game_result,
@@ -39,7 +37,7 @@ from wolfbot.log import logger
 
 
 def pytest_collection_modifyitems(
-    session: pytest.Session, config: Config, items: list[Item]
+    session: pytest.Session, config: pytest.Config, items: list[pytest.Item]
 ) -> None:
     """Run integration tests at the very end of the test session."""
     del session, config
