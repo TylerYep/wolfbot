@@ -8,7 +8,7 @@ from wolfbot.predictions.evil import make_evil_prediction
 from wolfbot.solvers import SolverState
 
 if TYPE_CHECKING:
-    from _typeshed import SupportsLessThan
+    from wolfbot.util import SupportsLessThan
 
 
 def get_probs(solution_arr: tuple[SolverState, ...]) -> tuple[dict[Role, float], ...]:

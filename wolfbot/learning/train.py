@@ -63,7 +63,7 @@ def train(folder: str, eta: float = 0.01) -> None:
                 if counter % 100 == 0:
                     test()
                 states, statements = get_wolf_state(game)
-                for state, statement in zip(states, statements):
+                for state, statement in zip(states, statements, strict=True):
                     experience_dict[state][statement] = (1 - eta) * experience_dict[
                         state
                     ][statement] + eta * evaluate(game)
