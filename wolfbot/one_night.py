@@ -56,6 +56,7 @@ def play_one_night_werewolf(save_replay: bool = True) -> GameResult:
     )
     print_analysis(game_roles, most_freq_guesses, all_predictions)
     winning_team = eval_winning_team(game_roles, list(guessed_wolf_inds), player_votes)
+    UserState.print_game_result(game_roles, winning_team)
     return GameResult(
         game_roles, most_freq_guesses, orig_wolf_inds, winning_team, all_statements
     )
@@ -94,7 +95,7 @@ def night_falls(
 
     # Awaken each player in order and initialize the Player object.
     game_roles = list(original_roles)
-    player_objs: list[Player] = cast(list[Player], [None] * const.NUM_PLAYERS)
+    player_objs = cast(list[Player], [None] * const.NUM_PLAYERS)
 
     for awaken_role in const.AWAKE_ORDER:
         if awaken_role is Role.NONE and Role.DOPPELGANGER in const.ROLE_SET:

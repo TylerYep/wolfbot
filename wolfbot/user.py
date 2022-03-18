@@ -1,7 +1,7 @@
 from collections.abc import Sequence
 
 from wolfbot import const
-from wolfbot.enums import Role
+from wolfbot.enums import Role, Team
 from wolfbot.log import logger
 from wolfbot.statements import Statement
 
@@ -55,3 +55,23 @@ class UserState:
         for j, statement in enumerate(all_statements):
             logger.info(f"Player {j}: {statement.sentence}", cache=True)
         UserState.print_cache()
+
+    @staticmethod
+    def print_game_result(game_roles: tuple[Role, ...], winning_team: Team) -> None:
+        if DISABLE_USER_INPUT:
+            return
+
+        user_index = const.IS_USER.index(True)
+        player_role = game_roles[user_index]
+        if (
+            (winning_team == Team.VILLAGE and player_role in const.VILLAGE_ROLES)
+            or (winning_team == Team.WEREWOLF and player_role in const.EVIL_ROLES)
+            or (winning_team == Team.TANNER and player_role == Role.TANNER)
+        ):
+            outcome = "won"
+        else:
+            outcome = "lost"
+
+        logger.info(
+            f"You were a {player_role} at the end of the game, " f"so you {outcome}!"
+        )
