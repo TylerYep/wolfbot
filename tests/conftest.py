@@ -1,5 +1,6 @@
 import csv
 import random
+import sys
 from collections import Counter
 from collections.abc import Callable
 from pathlib import Path
@@ -34,6 +35,11 @@ from wolfbot import const, enums
 from wolfbot.const import verify_valid_const_config
 from wolfbot.enums import Role
 from wolfbot.log import logger
+
+
+def pytest_addoption(parser: pytest.Parser) -> None:
+    """This allows us to check for these params in sys.argv."""
+    parser.addoption("--overwrite", action="store_true", default=False)
 
 
 def pytest_collection_modifyitems(
@@ -257,6 +263,15 @@ def write_results(stat_results: dict[str, float], file_path: str) -> None:
 
 def verify_output_file(caplog: pytest.LogCaptureFixture, filename: str) -> None:
     """Helper method for comparing file output differences."""
+    captured = "\n".join(map(lambda x: x.getMessage(), caplog.records))
+    filepath = Path(filename)
+    if not captured and not filepath.exists():
+        return
+    if "--overwrite" in sys.argv:
+        filepath.parent.mkdir(exist_ok=True)
+        filepath.touch(exist_ok=True)
+        filepath.write_text(captured, encoding="utf-8")
+
     with open(filename, encoding="utf-8") as output_file:
         expected = tuple(output_file.read().split("\n"))
     verify_output(caplog, expected)
