@@ -99,14 +99,14 @@ class Statistics:
             self.werewolf_wins,
         ]
         sentences = [
-            "Accuracy for all predictions: ",
-            "Accuracy with lenient center scores: ",
-            "S1: Found at least 1 Wolf player: ",
-            "S2: Found all Wolf players: ",
-            "Percentage of correct Wolf guesses (including center Wolves): ",
-            "Percentage of Villager Team wins: ",
-            "Percentage of Tanner Team wins: ",
-            "Percentage of Werewolf Team wins: ",
+            "Accuracy for all predictions",
+            "Accuracy with lenient center scores",
+            "S1: Found at least 1 Wolf player",
+            "S2: Found all Wolf players",
+            "Percentage of correct Wolf guesses",
+            "Percentage of Villager Team wins",
+            "Percentage of Tanner Team wins",
+            "Percentage of Werewolf Team wins",
         ]
         if const.INTERACTIVE_MODE:
             metric_fns = metric_fns[-3:]
@@ -220,6 +220,10 @@ class Statistics:
     def print_statistics(self) -> None:
         """Outputs overall statistics of inputed game results."""
         logger.warning(f"\nNumber of Games: {self.num_games}")
+        max_len_sentence = max(len(m.sentence) for m in self.metrics)
         for metric in self.metrics:
-            logger.warning(f"{metric.sentence}{metric.average}")
+            logger.warning(
+                f"{metric.sentence:<{max_len_sentence}}: "
+                f"{metric.correct}/{metric.total} ({metric.average * 100:.1f}%)"
+            )
         print(f"\nTime Elapsed: {self.end_time}")

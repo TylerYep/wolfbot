@@ -119,13 +119,13 @@ class TestStatistics:
 
         expected = (
             "\nNumber of Games: 1",
-            "Accuracy for all predictions: 0.6666666666666666",
-            "Accuracy with lenient center scores: 0.6666666666666666",
-            "S1: Found at least 1 Wolf player: 0.0",
-            "S2: Found all Wolf players: 0.0",
-            "Percentage of correct Wolf guesses (including center Wolves): 0.0",
-            "Percentage of Villager Team wins: 0.0",
-            "Percentage of Tanner Team wins: 0.0",
-            "Percentage of Werewolf Team wins: 1.0",
+            "Accuracy for all predictions       : 4/6 (66.7%)",
+            "Accuracy with lenient center scores: 4/6 (66.7%)",
+            "S1: Found at least 1 Wolf player   : 0/1 (0.0%)",
+            "S2: Found all Wolf players         : 0/1 (0.0%)",
+            "Percentage of correct Wolf guesses : 0/1 (0.0%)",
+            "Percentage of Villager Team wins   : 0/1 (0.0%)",
+            "Percentage of Tanner Team wins     : 0/1 (0.0%)",
+            "Percentage of Werewolf Team wins   : 1/1 (100.0%)",
         )
         verify_output(caplog, expected)
