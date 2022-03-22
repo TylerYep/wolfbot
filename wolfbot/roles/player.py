@@ -224,7 +224,9 @@ class Player:
         if const.SMART_VILLAGERS or is_evil:
             if const.USE_RELAXED_SOLVER:
                 all_solutions = tuple(relaxed_solver(statements, (self.player_index,)))
-                prediction = make_relaxed_prediction(all_solutions, is_evil)
+                prediction = make_relaxed_prediction(
+                    all_solutions, is_evil, self.player_index
+                )
             else:
                 all_solutions = tuple(solver(statements, (self.player_index,)))
                 prediction = make_prediction(all_solutions, is_evil)

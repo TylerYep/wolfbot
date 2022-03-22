@@ -1,8 +1,10 @@
 import random
+from pprint import pformat
 from typing import TYPE_CHECKING, Callable, cast
 
 from wolfbot import const
 from wolfbot.enums import Role
+from wolfbot.log import logger
 from wolfbot.predictions.engine import get_switch_dict
 from wolfbot.predictions.evil import make_evil_prediction
 from wolfbot.solvers import SolverState
@@ -32,8 +34,31 @@ def get_probs(solution_arr: tuple[SolverState, ...]) -> tuple[dict[Role, float],
     return result
 
 
+def log_probability_dist(solution_probs: tuple[dict[Role, float], ...]) -> None:
+    """
+    Logs probability distributions from solutions.
+    If the distribution is uniform, condenses it into a single 'All' key.
+    If the distibution only has one nonzero value, only prints that value.
+    Else prints all results as a dict.
+    """
+    results = {}
+    for index, probs in enumerate(solution_probs):
+        prob_values = set(probs.values())
+        if len(prob_values) == 1:
+            results[index] = {cast(Role, "ALL"): round(next(iter(prob_values)), 3)}
+        elif len(prob_values) == 2:
+            results[index] = {
+                role: round(score, 3) for role, score in probs.items() if score > 0
+            }
+        else:
+            results[index] = {role: round(score, 3) for role, score in probs.items()}
+    logger.debug(pformat(results))
+
+
 def make_relaxed_prediction(
-    solution_arr: tuple[SolverState, ...], is_evil: bool = False
+    solution_arr: tuple[SolverState, ...],
+    is_evil: bool = False,
+    player_index: int | None = None,
 ) -> tuple[Role, ...]:
     """
     Uses a list of true/false statements and possible role sets
@@ -48,8 +73,8 @@ def make_relaxed_prediction(
     )
     solution_probs = get_probs(solution_arr)
 
-    # from pprint import pprint
-    # pprint([{k: round(v, 3) for k, v in probs.items()} for probs in solution_probs])
+    if player_index is not None and player_index == 0:
+        log_probability_dist(solution_probs)
 
     solved_counts: dict[tuple[Role, ...], tuple[int, SolverState]] = {}
     for solution in solution_arr:
@@ -63,7 +88,6 @@ def make_relaxed_prediction(
                 solved_counts[result][0] + 1,
                 solved_counts[result][1],
             )
-    # print(len(solved_counts), len(solution_arr))
 
     solved = max(solved_counts, key=lambda x: solved_counts[x][0])
     _, majority_solution = solved_counts[solved]
@@ -78,7 +102,7 @@ def get_probable_guesses(
     solution: SolverState,  # , solution_probs: tuple[dict[Role, float], ...]
 ) -> tuple[list[Role], dict[Role, int]]:
     """
-    Populates the basic set of predictions, or adds the empty string if the
+    Populates the basic set of predictions, or adds Role.NONE if the
     possible roles set is not of size 1. For each statement, take the
     intersection and update the role counts for each character.
 
