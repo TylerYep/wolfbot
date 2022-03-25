@@ -3,8 +3,7 @@ from __future__ import annotations
 import random
 from typing import Any, Protocol, TypeVar
 
-# TODO https://github.com/PyCQA/pylint/issues/3401
-T = TypeVar("T")  # pylint: disable=invalid-name
+T = TypeVar("T")
 
 
 class SupportsLessThan(Protocol):

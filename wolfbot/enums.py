@@ -4,15 +4,14 @@ import functools
 from enum import Enum, IntEnum, auto, unique
 from typing import Any, Callable, TypeVar, cast
 
-# TODO https://github.com/PyCQA/pylint/issues/3401
-T = TypeVar("T")  # pylint: disable=invalid-name
-CACHED_FUNCTIONS = []
+T = TypeVar("T")
+CACHED_FUNCTIONS = set()
 
 
 def lru_cache(func: Callable[..., T]) -> functools._lru_cache_wrapper[T]:
     """Allows lru_cache to type check correctly."""
     new_func = functools.lru_cache(func)
-    CACHED_FUNCTIONS.append(new_func)
+    CACHED_FUNCTIONS.add(new_func)
     return new_func
 
 
@@ -35,19 +34,16 @@ class Role(Enum):
     WOLF = "Wolf"
     VILLAGER = "Villager"
 
-    @lru_cache
     def __lt__(self, other: object) -> bool:
         """This function is necessary to make Role sortable alphabetically."""
         if isinstance(other, Role):
             result = self.value < other.value
-            return cast(bool, result)
+            return result
         return NotImplemented
 
-    @lru_cache
     def __repr__(self) -> str:
         return cast(str, self.value)
 
-    @lru_cache
     def __format__(self, formatstr: str) -> str:
         del formatstr
         return cast(str, self.value)

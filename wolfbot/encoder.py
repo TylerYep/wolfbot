@@ -8,8 +8,7 @@ from wolfbot.roles import Player, get_role_obj
 from wolfbot.statements import Statement
 from wolfbot.stats import GameResult, SavedGame
 
-# TODO https://github.com/PyCQA/pylint/issues/3401
-T = TypeVar("T")  # pylint: disable=invalid-name
+T = TypeVar("T")
 
 
 class WolfBotEncoder(json.JSONEncoder):
