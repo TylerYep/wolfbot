@@ -3,7 +3,7 @@ import random
 
 from tests.conftest import set_roles, write_results
 from wolfbot import const, one_night
-from wolfbot.enums import Role, Team
+from wolfbot.enums import Role, Solver, Team
 from wolfbot.log import logger
 from wolfbot.stats import Statistics
 
@@ -156,12 +156,12 @@ class TestStandard:
         games_won_with_relaxed_solver = 0
         for i in range(5):
             random.seed(i)
-            const.USE_RELAXED_SOLVER = True
+            const.SOLVER = Solver.RELAXED
             game_result_1 = one_night.play_one_night_werewolf(save_replay=False)
             stat_tracker_1.add_result(game_result_1)
 
             random.seed(i)
-            const.USE_RELAXED_SOLVER = False
+            const.SOLVER = Solver.NORMAL
             game_result_2 = one_night.play_one_night_werewolf(save_replay=False)
             stat_tracker_2.add_result(game_result_2)
 

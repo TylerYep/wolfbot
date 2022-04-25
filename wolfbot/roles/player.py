@@ -4,7 +4,13 @@ import random
 from typing import Any
 
 from wolfbot import const
-from wolfbot.enums import Role, StatementLevel, lru_cache
+from wolfbot.enums import (
+    Role,
+    Solver,
+    StatementLevel,
+    UnhandledEnumValueError,
+    lru_cache,
+)
 from wolfbot.game_utils import (
     find_all_player_indices,
     get_center,
@@ -17,6 +23,7 @@ from wolfbot.predictions import (
     make_random_prediction,
     make_relaxed_prediction,
 )
+from wolfbot.predictions.max_flow import make_max_flow_prediction
 from wolfbot.solvers import relaxed_solver
 from wolfbot.solvers import switching_solver as solver
 from wolfbot.statements import KnowledgeBase, Statement
@@ -222,14 +229,21 @@ class Player:
         """Gets a player's predictions for each index given all statements."""
         is_evil = self.is_evil()
         if const.SMART_VILLAGERS or is_evil:
-            if const.USE_RELAXED_SOLVER:
+            if const.SOLVER == Solver.NORMAL:
+                all_solutions = tuple(solver(statements, (self.player_index,)))
+                prediction = make_prediction(all_solutions, is_evil)
+            elif const.SOLVER == Solver.RELAXED:
                 all_solutions = tuple(relaxed_solver(statements, (self.player_index,)))
                 prediction = make_relaxed_prediction(
                     all_solutions, is_evil, self.player_index
                 )
+            elif const.SOLVER == Solver.MAX_FLOW:
+                all_solutions = tuple(relaxed_solver(statements, (self.player_index,)))
+                prediction = make_max_flow_prediction(
+                    all_solutions, is_evil, self.player_index
+                )
             else:
-                all_solutions = tuple(solver(statements, (self.player_index,)))
-                prediction = make_prediction(all_solutions, is_evil)
+                raise UnhandledEnumValueError(const.SOLVER)
         else:
             prediction = make_random_prediction()
         return prediction

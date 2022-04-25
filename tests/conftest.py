@@ -8,6 +8,7 @@ from typing import Any
 
 import pytest
 
+# pylint: disable=unused-import
 from tests.fixtures import (  # noqa
     example_large_game_result,
     example_large_saved_game,
@@ -33,7 +34,7 @@ from tests.fixtures import (  # noqa
 )
 from wolfbot import const, enums
 from wolfbot.const import verify_valid_const_config
-from wolfbot.enums import Role
+from wolfbot.enums import Role, Solver
 from wolfbot.log import logger
 
 
@@ -100,7 +101,7 @@ def _reset_const(seed: int = 0) -> None:
     # Village Settings
     const.CENTER_SEER_PROB = 0.9
     const.SMART_VILLAGERS = True
-    const.USE_RELAXED_SOLVER = False
+    const.SOLVER = Solver.NORMAL
     const.MAX_RELAXED_SOLVER_SOLUTIONS = 10
 
     # Werewolf Settings

@@ -1,16 +1,15 @@
-import random
 from pprint import pformat
-from typing import TYPE_CHECKING, Callable, cast
+from typing import cast
+
+from cs.algorithms.graph.ford_fulkerson import ford_max_flow_network
+from cs.structures.graph import Graph
 
 from wolfbot import const
 from wolfbot.enums import Role
 from wolfbot.log import logger
-from wolfbot.predictions.engine import get_basic_guesses, get_switch_dict
+from wolfbot.predictions.engine import get_switch_dict
 from wolfbot.predictions.evil import make_evil_prediction
 from wolfbot.solvers import SolverState
-
-if TYPE_CHECKING:
-    from wolfbot.util import SupportsLessThan
 
 
 def get_probs(solution_arr: tuple[SolverState, ...]) -> tuple[dict[Role, float], ...]:
@@ -31,6 +30,10 @@ def get_probs(solution_arr: tuple[SolverState, ...]) -> tuple[dict[Role, float],
             denom = sum(this_dict.values())
             for option in this_dict:
                 this_dict[option] /= denom
+        # Incorrectly assume lying players are always one of EVIL_ROLES
+        # if i <= const.NUM_PLAYERS and not solution.path[i]:
+        #     for role in const.EVIL_ROLES:
+        #         this_dict[role] += 0.5
     return result
 
 
@@ -55,7 +58,7 @@ def log_probability_dist(solution_probs: tuple[dict[Role, float], ...]) -> None:
     logger.debug(pformat(results))
 
 
-def make_relaxed_prediction(
+def make_max_flow_prediction(
     solution_arr: tuple[SolverState, ...],
     is_evil: bool = False,
     player_index: int | None = None,
@@ -78,10 +81,7 @@ def make_relaxed_prediction(
 
     solved_counts: dict[tuple[Role, ...], tuple[int, SolverState]] = {}
     for solution in solution_arr:
-        all_role_guesses, curr_role_counts = get_basic_guesses(solution)
-        if result := tuple(
-            prob_recurse_assign(solution_probs, all_role_guesses, curr_role_counts)
-        ):
+        if result := tuple(max_flow_assign(solution_probs)):
             if result not in solved_counts:
                 solved_counts[result] = (0, solution)
             solved_counts[result] = (
@@ -98,47 +98,27 @@ def make_relaxed_prediction(
     return final_guesses
 
 
-def prob_recurse_assign(
-    solution_probs: tuple[dict[Role, float], ...],
-    all_role_guesses: list[Role],
-    curr_role_counts: dict[Role, int],
-    restrict_possible: bool = True,
-) -> list[Role]:
-    """
-    Assign the remaining unknown cards by recursing and finding a consistent placement.
-    If restrict_possible is enabled, then uses the possible_roles sets to assign.
-    Else simply fills in slots with curr_role_counts.
-    """
-    if Role.NONE not in all_role_guesses:
-        return all_role_guesses
-
+def max_flow_assign(solution_probs: tuple[dict[Role, float], ...]) -> list[Role]:
+    graph = Graph[str | int]()
+    graph.add_node("Source")
+    graph.add_node("Sink")
+    for role in const.SORTED_ROLE_SET:
+        graph.add_node(role.value)
+        graph.add_edge("Source", role.value, weight=const.ROLE_COUNTS[role])
     for i in range(const.NUM_ROLES):
-        if all_role_guesses[i] is not Role.NONE:
-            continue
+        graph.add_node(i)
+        graph.add_edge(i, "Sink")
+    for i, solution in enumerate(solution_probs):
+        for role, prob in solution.items():
+            if prob > 0:
+                graph.add_edge(role.value, i, weight=1)
 
-        if restrict_possible:
-            probs = solution_probs[i]
-            leftover_roles = sorted(
-                probs,
-                key=cast(Callable[[Role], "SupportsLessThan"], probs.get),
-                reverse=True,
-            )
-        else:
-            leftover_roles = sorted(k for k, v in curr_role_counts.items() if v > 0)
-            random.shuffle(leftover_roles)
-
-        for rol in leftover_roles:
-            if curr_role_counts[rol] > 0:
-                curr_role_counts[rol] -= 1
-                all_role_guesses[i] = rol
-                if result := prob_recurse_assign(
-                    solution_probs,
-                    all_role_guesses,
-                    curr_role_counts,
-                    restrict_possible,
-                ):
-                    return result
-                curr_role_counts[rol] += 1
-                all_role_guesses[i] = Role.NONE
-    # Unable to assign all roles
-    return []
+    max_flow_graph = ford_max_flow_network(graph, "Source", "Sink")
+    assert const.NUM_ROLES == sum(
+        edge["flow"] for edge in max_flow_graph["Source"].values()
+    )
+    result = [Role.NONE] * const.NUM_ROLES
+    for edge in max_flow_graph.edges:
+        if isinstance(edge.end, int) and edge["flow"] >= 1:
+            result[edge.end] = Role(edge.start)
+    return result

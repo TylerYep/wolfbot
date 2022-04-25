@@ -7,7 +7,7 @@ import sys
 from collections import Counter
 from types import ModuleType
 
-from wolfbot.enums import Role
+from wolfbot.enums import Role, Solver
 from wolfbot.log import logger
 
 
@@ -110,7 +110,7 @@ EVIL_ROLES = frozenset({Role.TANNER, Role.WOLF, Role.MINION}) & ROLE_SET
 """ Village Players """
 CENTER_SEER_PROB = 0.9
 SMART_VILLAGERS = True
-USE_RELAXED_SOLVER = False
+SOLVER = Solver.NORMAL
 MAX_RELAXED_SOLVER_SOLUTIONS = 5  # len(const.VILLAGE_ROLES)
 
 """ Werewolf Players """

@@ -81,6 +81,13 @@ class Team(Enum):
         return {"type": "Team", "data": self.value}
 
 
+@unique
+class Solver(Enum):
+    """Solver variants."""
+
+    NORMAL, RELAXED, MAX_FLOW = auto(), auto(), auto()
+
+
 class UnhandledEnumValueError(Exception):
     """Unhandled enum value exception."""
 
