@@ -14,7 +14,7 @@ By Tyler Yep & Harry Sha
 This is an implementation of the popular board game One Night Ultimate Werewolf.
 
 To try it out, run `python main.py` in the terminal.
-(You may need to run `pip install -r requirements.txt` if you do not have tqdm already installed.)
+(You may need to run `pip install -r requirements.txt` first.)
 
 Constants, along with their use cases, are listed in wolfbot/const.py. You can change:
 
@@ -51,6 +51,12 @@ To simulate many runs of the game, use the `-n` flag.
 python main.py -n 100
 ```
 
+or use the profiler:
+
+```
+python profiler.py
+```
+
 For additional information, please check out the GitHub Wiki!
 
 # Contributing
@@ -58,7 +64,7 @@ For additional information, please check out the GitHub Wiki!
 All issues and pull requests are much appreciated!
 
 - First, run `pre-commit install`.
-- To see test coverage scripts and other auto-formatting tools, use `pre-commit run`.
+- To see test coverage scripts and other auto-formatting tools, use `pre-commit run -a`.
 - To run all tests, run `pytest`.
 - To only run unit tests, run `pytest tests/unit_test`.
 - To only run integration tests, run `pytest tests/integration_test`.
