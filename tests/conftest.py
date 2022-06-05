@@ -264,7 +264,7 @@ def write_results(stat_results: dict[str, float], file_path: str) -> None:
 
 def verify_output_file(caplog: pytest.LogCaptureFixture, filename: str) -> None:
     """Helper method for comparing file output differences."""
-    captured = "\n".join(map(lambda x: x.getMessage(), caplog.records))
+    captured = "\n".join(record.getMessage() for record in caplog.records)
     filepath = Path(filename)
     if not captured and not filepath.exists():
         return
@@ -280,8 +280,8 @@ def verify_output_file(caplog: pytest.LogCaptureFixture, filename: str) -> None:
 
 def verify_output(caplog: pytest.LogCaptureFixture, expected: tuple[str, ...]) -> None:
     """Helper method for comparing logging output differences."""
-    captured = tuple(map(lambda x: x.getMessage(), caplog.records))
-    assert "\n".join(captured) == "\n".join(expected)
+    captured = "\n".join(record.getMessage() for record in caplog.records)
+    assert captured == "\n".join(expected)
 
 
 def verify_output_string(caplog: pytest.LogCaptureFixture, expected: str) -> None:
