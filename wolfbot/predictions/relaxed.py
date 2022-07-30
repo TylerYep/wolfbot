@@ -1,6 +1,7 @@
 import random
+from collections.abc import Callable
 from pprint import pformat
-from typing import TYPE_CHECKING, Callable, cast
+from typing import TYPE_CHECKING, cast
 
 from wolfbot import const
 from wolfbot.enums import Role

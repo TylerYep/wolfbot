@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 import functools
+from collections.abc import Callable
 from enum import Enum, IntEnum, auto, unique
-from typing import Any, Callable, TypeVar, cast
+from typing import Any, TypeVar, cast
 
 T = TypeVar("T")
 CACHED_FUNCTIONS = set()
