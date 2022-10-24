@@ -178,10 +178,10 @@ def example_large_saved_game(large_game_roles: tuple[Role, ...]) -> SavedGame:
             Villager(4),
             Robber(5, 1, Role.DRUNK),
             Seer(6, (13, Role.MASON), (12, Role.TROUBLEMAKER)),
-            Wolf(7, (7, 10), None, None),
+            Wolf(7, (7, 10)),
             Minion(8, (7, 10)),
             Villager(9),
-            Wolf(10, (7, 10), None, None),
+            Wolf(10, (7, 10)),
             Hunter(11),
         ),
     )
