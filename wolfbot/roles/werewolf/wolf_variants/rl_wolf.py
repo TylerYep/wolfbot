@@ -33,7 +33,7 @@ def get_statement_rl(
         if score > best_choice[1]:
             best_choice = (potential_statement, score)
     if best_choice[0] is None:
-        logger.info("Using default statement...")
+        logger.info("Using default statement...")  # type: ignore[unreachable]
         return default_answer
     for statement in statements:
         if best_choice[0] == statement:
