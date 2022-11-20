@@ -224,6 +224,6 @@ class Statistics:
         for metric in self.metrics:
             logger.warning(
                 f"{metric.sentence:<{max_len_sentence}}: "
-                f"{metric.correct}/{metric.total} ({metric.average * 100:.1f}%)"
+                f"{metric.correct}/{metric.total} ({metric.average:.1%})"
             )
         print(f"\nTime Elapsed: {self.end_time}")
