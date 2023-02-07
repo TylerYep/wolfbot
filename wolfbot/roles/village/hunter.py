@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Self
+
 from wolfbot.enums import Role, lru_cache
 from wolfbot.roles.player import Player
 from wolfbot.statements import Statement
@@ -13,7 +15,7 @@ class Hunter(Player):
         self.statements += self.get_hunter_statements(player_index)
 
     @classmethod
-    def awake_init(cls, player_index: int, game_roles: list[Role]) -> Hunter:
+    def awake_init(cls, player_index: int, game_roles: list[Role]) -> Self:
         """Initializes Hunter when night falls."""
         del game_roles
         return cls(player_index)

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Self
 
 from wolfbot import const
 from wolfbot.enums import Role, lru_cache
@@ -19,13 +19,13 @@ class Seer(Player):
         player_index: int,
         choice_1: tuple[int, Role],
         choice_2: tuple[int | None, Role | None] = (None, None),
-    ):
+    ) -> None:
         super().__init__(player_index)
         self.choice_1, self.choice_2 = choice_1, choice_2
         self.statements += self.get_seer_statements(player_index, choice_1, choice_2)
 
     @classmethod
-    def awake_init(cls, player_index: int, game_roles: list[Role]) -> Seer:
+    def awake_init(cls, player_index: int, game_roles: list[Role]) -> Self:
         """Initializes Seer - either sees 2 center cards or 1 player card."""
         is_user = const.IS_USER[player_index]
         if const.NUM_CENTER > 1:

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Self
 
 from wolfbot import const
 from wolfbot.enums import Role, SwitchPriority, lru_cache
@@ -13,13 +13,13 @@ from wolfbot.statements import Statement
 class Drunk(Player):
     """Drunk Player class."""
 
-    def __init__(self, player_index: int, choice_ind: int):
+    def __init__(self, player_index: int, choice_ind: int) -> None:
         super().__init__(player_index)
         self.choice_ind = choice_ind
         self.statements += self.get_drunk_statements(player_index, choice_ind)
 
     @classmethod
-    def awake_init(cls, player_index: int, game_roles: list[Role]) -> Drunk:
+    def awake_init(cls, player_index: int, game_roles: list[Role]) -> Self:
         """Initializes Drunk - switches with a card in the center."""
         is_user = const.IS_USER[player_index]
         choice_ind = get_center(is_user)

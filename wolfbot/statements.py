@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from functools import cached_property
-from typing import Any
+from typing import Any, Self
 
 from wolfbot import const
 from wolfbot.enums import Role, StatementLevel, SwitchPriority
@@ -30,9 +30,7 @@ class KnowledgeBase:
         self.final_claims = [Statement("", priority=zero_priority)] * const.NUM_PLAYERS
 
     @classmethod
-    def from_statement_list(
-        cls, statement_list: tuple[Statement, ...]
-    ) -> KnowledgeBase:
+    def from_statement_list(cls, statement_list: tuple[Statement, ...]) -> Self:
         """Create a new statement from a Statement list."""
         knowledge_base = cls()
         for statement in statement_list:

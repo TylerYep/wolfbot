@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import random
+from typing import Self
 
 from wolfbot import const
 from wolfbot.enums import Role, lru_cache
@@ -18,7 +19,7 @@ class Tanner(Player):
     """Tanner Player class."""
 
     @classmethod
-    def awake_init(cls, player_index: int, game_roles: list[Role]) -> Tanner:
+    def awake_init(cls, player_index: int, game_roles: list[Role]) -> Self:
         """Initializes Tanner when night falls."""
         del game_roles
         return cls(player_index)

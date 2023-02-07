@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Self
 
 from wolfbot import const
 from wolfbot.enums import Role, SwitchPriority, lru_cache
@@ -13,7 +13,7 @@ from wolfbot.statements import Statement
 class Troublemaker(Player):
     """Troublemaker Player class."""
 
-    def __init__(self, player_index: int, choice_ind1: int, choice_ind2: int):
+    def __init__(self, player_index: int, choice_ind1: int, choice_ind2: int) -> None:
         super().__init__(player_index)
         self.choice_ind1, self.choice_ind2 = choice_ind1, choice_ind2
         self.statements += self.get_troublemaker_statements(
@@ -21,7 +21,7 @@ class Troublemaker(Player):
         )
 
     @classmethod
-    def awake_init(cls, player_index: int, game_roles: list[Role]) -> Troublemaker:
+    def awake_init(cls, player_index: int, game_roles: list[Role]) -> Self:
         """Initializes Troublemaker - switches one player with another player."""
         is_user = const.IS_USER[player_index]
         if is_user:

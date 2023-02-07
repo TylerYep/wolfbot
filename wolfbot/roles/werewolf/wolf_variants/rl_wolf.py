@@ -17,9 +17,10 @@ def get_statement_rl(
     # Necessary to put this here to avoid circular import
     from wolfbot.encoder import WolfBotDecoder
 
-    exp_dict: dict[str, dict[Statement, int]] = {}
     with open(const.EXPERIENCE_PATH, encoding="utf-8") as exp_file:
-        exp_dict = json.load(exp_file, cls=WolfBotDecoder)
+        exp_dict: dict[str, dict[Statement, int]] = json.load(
+            exp_file, cls=WolfBotDecoder
+        )
     experience = defaultdict(lambda: defaultdict(int), exp_dict)
     if not experience:
         logger.info("Experience dict did not load properly.")

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Self
 
 from wolfbot import const
 from wolfbot.enums import Role, lru_cache
@@ -13,14 +13,14 @@ from wolfbot.statements import Statement
 class Doppelganger(Player):
     """Doppelganger Player class."""
 
-    def __init__(self, player_index: int, choice_ind: int, new_role: Role):
+    def __init__(self, player_index: int, choice_ind: int, new_role: Role) -> None:
         super().__init__(player_index)
         self.choice_ind = choice_ind
         self.new_role = new_role
         self.statements += self.get_doppelganger_statements(player_index, new_role)
 
     @classmethod
-    def awake_init(cls, player_index: int, game_roles: list[Role]) -> Doppelganger:
+    def awake_init(cls, player_index: int, game_roles: list[Role]) -> Self:
         """Initializes Doppelganger - learns new role."""
         from wolfbot.roles import get_role_obj
 

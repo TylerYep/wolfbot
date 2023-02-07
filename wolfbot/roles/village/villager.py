@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Self
+
 from wolfbot.enums import Role, lru_cache
 from wolfbot.roles.player import Player
 from wolfbot.statements import Statement
@@ -8,12 +10,12 @@ from wolfbot.statements import Statement
 class Villager(Player):
     """Villager Player class."""
 
-    def __init__(self, player_index: int):
+    def __init__(self, player_index: int) -> None:
         super().__init__(player_index)
         self.statements += self.get_villager_statements(player_index)
 
     @classmethod
-    def awake_init(cls, player_index: int, game_roles: list[Role]) -> Villager:
+    def awake_init(cls, player_index: int, game_roles: list[Role]) -> Self:
         """Initializes Villager when night falls."""
         del game_roles
         return cls(player_index)

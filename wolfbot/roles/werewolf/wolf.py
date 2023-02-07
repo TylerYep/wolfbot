@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import random
-from typing import Any
+from typing import Any, Self
 
 from wolfbot import const
 from wolfbot.enums import Role, lru_cache
@@ -29,14 +29,14 @@ class Wolf(Player):
         wolf_indices: tuple[int, ...],
         center_index: int | None = None,
         center_role: Role | None = None,
-    ):
+    ) -> None:
         super().__init__(player_index)
         self.wolf_indices = wolf_indices
         self.center_index = center_index
         self.center_role = center_role
 
     @classmethod
-    def awake_init(cls, player_index: int, game_roles: list[Role]) -> Wolf:
+    def awake_init(cls, player_index: int, game_roles: list[Role]) -> Self:
         """
         Constructor: original_roles defaults to [] when a player becomes
         a Wolf and realizes it.

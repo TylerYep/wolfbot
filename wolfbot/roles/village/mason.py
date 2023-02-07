@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Self
 
 from wolfbot import const
 from wolfbot.enums import Role, lru_cache
@@ -13,7 +13,7 @@ from wolfbot.statements import Statement
 class Mason(Player):
     """Mason Player class."""
 
-    def __init__(self, player_index: int, mason_indices: tuple[int, ...]):
+    def __init__(self, player_index: int, mason_indices: tuple[int, ...]) -> None:
         super().__init__(player_index)
         self.mason_indices = mason_indices
         self.statements += self.get_mason_statements(player_index, mason_indices)
@@ -21,7 +21,7 @@ class Mason(Player):
             raise RuntimeError("Player index is not one of the Mason indices.")
 
     @classmethod
-    def awake_init(cls, player_index: int, game_roles: list[Role]) -> Mason:
+    def awake_init(cls, player_index: int, game_roles: list[Role]) -> Self:
         """Initializes Mason - sees all other Masons."""
         is_user = const.IS_USER[player_index]
         mason_indices = find_all_player_indices(game_roles, Role.MASON)

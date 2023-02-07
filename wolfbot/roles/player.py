@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import random
-from typing import Any
+from typing import Any, Self
 
 from wolfbot import const
 from wolfbot.enums import (
@@ -33,7 +33,7 @@ from wolfbot.util import weighted_coin_flip
 class Player:
     """Player class."""
 
-    def __init__(self, player_index: int):
+    def __init__(self, player_index: int) -> None:
         # Exit early if we are creating a placeholder Player
         if player_index < 0:
             return
@@ -68,7 +68,7 @@ class Player:
         return f"{self.role}({attrs[:-2]})"
 
     @classmethod
-    def awake_init(cls, player_index: int, game_roles: list[Role]) -> Player:
+    def awake_init(cls, player_index: int, game_roles: list[Role]) -> Self:
         """Initializes Player and performs their nighttime actions."""
         raise NotImplementedError
 

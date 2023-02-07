@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Self
 
 from wolfbot import const
 from wolfbot.enums import Role, lru_cache
@@ -12,13 +12,13 @@ from wolfbot.statements import KnowledgeBase, Statement
 class Insomniac(Player):
     """Insomniac Player class."""
 
-    def __init__(self, player_index: int, new_role: Role):
+    def __init__(self, player_index: int, new_role: Role) -> None:
         super().__init__(player_index)
         self.new_role = new_role
         self.statements += self.get_insomniac_statements(player_index, new_role)
 
     @classmethod
-    def awake_init(cls, player_index: int, game_roles: list[Role]) -> Insomniac:
+    def awake_init(cls, player_index: int, game_roles: list[Role]) -> Self:
         """Initializes Insomniac - learns new role."""
         is_user = const.IS_USER[player_index]
         insomniac_new_role = game_roles[player_index]

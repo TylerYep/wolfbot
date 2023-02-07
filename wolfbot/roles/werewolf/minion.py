@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import random
-from typing import Any
+from typing import Any, Self
 
 from wolfbot import const
 from wolfbot.enums import Role, lru_cache
@@ -21,12 +21,12 @@ from wolfbot.statements import KnowledgeBase, Statement
 class Minion(Player):
     """Minion Player class."""
 
-    def __init__(self, player_index: int, wolf_indices: tuple[int, ...]):
+    def __init__(self, player_index: int, wolf_indices: tuple[int, ...]) -> None:
         super().__init__(player_index)
         self.wolf_indices = wolf_indices
 
     @classmethod
-    def awake_init(cls, player_index: int, game_roles: list[Role]) -> Minion:
+    def awake_init(cls, player_index: int, game_roles: list[Role]) -> Self:
         """Initializes Minion - gets Wolf indices."""
         is_user = const.IS_USER[player_index]
         wolf_indices = find_all_player_indices(game_roles, Role.WOLF)
