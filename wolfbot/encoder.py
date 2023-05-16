@@ -16,7 +16,7 @@ class WolfBotEncoder(json.JSONEncoder):
 
     def default(self, o: Any) -> Any:
         """Overrides encoding method."""
-        if isinstance(o, (Role, Team, Player, Statement, GameResult, SavedGame)):
+        if isinstance(o, Role | Team | Player | Statement | GameResult | SavedGame):
             return o.json_repr()
         if isinstance(o, set):
             return {"type": "Set", "data": sorted(o)}

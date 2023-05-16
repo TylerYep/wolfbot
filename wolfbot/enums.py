@@ -9,7 +9,9 @@ T = TypeVar("T")
 CACHED_FUNCTIONS = set()
 
 
-def lru_cache(func: Callable[..., T]) -> functools._lru_cache_wrapper[T]:
+def lru_cache(
+    func: Callable[..., T]
+) -> functools._lru_cache_wrapper[T]:  # noqa: SLF001
     """Allows lru_cache to type check correctly."""
     new_func = functools.lru_cache(func)
     CACHED_FUNCTIONS.add(new_func)

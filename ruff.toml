@@ -1,6 +1,29 @@
 select = ["ALL"]
 ignore = [
-    "D", "S101","ARG001", "ARG004", "ERA001", "T201", "C901",
-    "ARG003", "ANN101", "ANN102", "ANN401", "FBT001", "FBT002", "FBT003",
-    "EM101", "EM102"
+    "ANN101",  # Missing type annotation for `self` in method
+    "ANN102",  # Missing type annotation for `cls` in classmethod
+	"ANN401",  # Dynamically typed expressions (typing.Any) are disallowed
+	"ARG001",  # Unused function argument
+	"ARG004",  # Unused static method argument
+	"C901",    # function is too complex (12 > 10)
+	"COM812",  # Trailing comma missing
+	"D",       # Docstring rules
+	"EM101",   # Exception must not use a string literal, assign to variable first [autofix]
+	"EM102",   # Exception must not use an f-string literal, assign to variable first
+	"ERA001",  # Found commented-out code
+	"FBT001",  # Boolean positional arg in function definition
+	"FBT002",  # Boolean default value in function definition
+	"FBT003",  # Boolean positional value in function call
+    "PLR0911", # Too many return statements (11 > 6)
+	"PLR2004", # Magic value used in comparison, consider replacing 2 with a constant variable
+    "PLR0912", # Too many branches
+    "PT001",   # [*] Use `@pytest.fixture()` over `@pytest.fixture`
+    "PT004",   # Fixture `override_random` does not return anything, add leading underscore
+	"PTH123",  # `open()` should be replaced by `Path.open()`
+	"S101",    # Use of `assert` detected
+	"S311",    # Standard pseudo-random generators are not suitable for cryptographic purposes
+	"T201",    # print() found
+	"TCH001",  # Move application import `wolfbot.statements.Statement` into a type-checking block
+    "TCH003",  # Move standard library import `collections.abc.Callable` into a type-checking block
+	"TRY003",  # Avoid specifying long messages outside the exception class
 ]

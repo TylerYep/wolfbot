@@ -129,7 +129,7 @@ def example_large_saved_game(large_game_roles: tuple[Role, ...]) -> SavedGame:
             ),
             Statement(
                 "I am a Mason. The other Mason is not present.",
-                ((2, frozenset({Role.MASON})),) + mason_roles,
+                ((2, frozenset({Role.MASON})), *mason_roles),
             ),
             Statement(
                 "I am a Robber and I swapped with Player 10. I am now a Insomniac.",

@@ -47,13 +47,17 @@ def get_center_wolf_statements(
             for cent1 in range(const.NUM_CENTER):
                 if cent1 != center_index:
                     for role1 in const.SORTED_ROLE_SET:
-                        if role1 is not Role.SEER and role2 is not Role.SEER:
-                            if role1 != role2 or const.ROLE_COUNTS[role1] >= 2:
-                                statements += Seer.get_seer_statements(
-                                    player_index,
-                                    (cent1 + const.NUM_PLAYERS, role1),
-                                    (center_index, role2),
-                                )
+                        if (
+                            role1 is not Role.SEER
+                            and role2 is not Role.SEER
+                            and role1 != role2
+                            or const.ROLE_COUNTS[role1] >= 2
+                        ):
+                            statements += Seer.get_seer_statements(
+                                player_index,
+                                (cent1 + const.NUM_PLAYERS, role1),
+                                (center_index, role2),
+                            )
     elif center_role is Role.DOPPELGANGER:
         statements += Doppelganger.get_doppelganger_statements(
             player_index, center_role

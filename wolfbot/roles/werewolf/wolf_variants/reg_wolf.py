@@ -54,10 +54,14 @@ def get_wolf_statements(
     ):
         # TODO check for switches and prioritize those statements
         statements += Insomniac.get_insomniac_statements(player_index, Role.INSOMNIAC)
-    if Role.MASON in const.ROLE_SET and should_include_role(counts_dict, Role.MASON):
+    if (
+        Role.MASON in const.ROLE_SET
+        and should_include_role(counts_dict, Role.MASON)
         # Only say you are a Mason if you are the last player and there are no Masons.
-        if player_index == const.NUM_PLAYERS - 1 and Role.MASON not in stated_roles:
-            statements += Mason.get_mason_statements(player_index, (player_index,))
+        and player_index == const.NUM_PLAYERS - 1
+        and Role.MASON not in stated_roles
+    ):
+        statements += Mason.get_mason_statements(player_index, (player_index,))
     if Role.DRUNK in const.ROLE_SET and should_include_role(counts_dict, Role.DRUNK):
         statements += Drunk.get_all_statements(player_index)
     if Role.TROUBLEMAKER in const.ROLE_SET and should_include_role(

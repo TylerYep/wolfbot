@@ -42,7 +42,7 @@ def expectimax(
             val, _ = expectimax(
                 player_obj,
                 expected_statements,
-                statement_list + (statement,),
+                (*statement_list, statement),
                 new_state,
                 ind + 1,
             )

@@ -99,10 +99,7 @@ class Statement:
         for i, _ in self.knowledge[1:]:
             if i == player_index:
                 return True
-        for _, i, j in self.switches:
-            if player_index in (i, j):
-                return True
-        return False
+        return any(player_index in (i, j) for _, i, j in self.switches)
 
     def get_references(self, player_index: int, stated_roles: list[Role]) -> Role:
         """Returns True if a given player_index is referenced in a statement."""

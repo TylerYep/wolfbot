@@ -114,8 +114,9 @@ def max_flow_assign(solution_probs: tuple[dict[Role, float], ...]) -> list[Role]
                 graph.add_edge(role.value, i)
 
     max_flow_graph = ford_max_flow_network(graph, "Source", "Sink")
-    assert const.NUM_ROLES == sum(
-        edge["flow"] for edge in max_flow_graph["Source"].values()
+    assert (
+        sum(edge["flow"] for edge in max_flow_graph["Source"].values())
+        == const.NUM_ROLES
     )
     result = [Role.NONE] * const.NUM_ROLES
     for edge in max_flow_graph.edges:
