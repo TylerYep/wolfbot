@@ -5,7 +5,7 @@ import random
 from collections import Counter
 from typing import cast
 
-from tqdm import trange  # type: ignore[import]
+from tqdm import trange
 
 from wolfbot import const
 from wolfbot.enums import Role, StatementLevel, Team

@@ -56,10 +56,11 @@ class Insomniac(Player):
 
     def analyze(self, knowledge_base: KnowledgeBase) -> None:
         """Overrides analyze."""
-        possible_switches: list[int] = []
-        for i, stated_role in enumerate(knowledge_base.stated_roles):
-            if stated_role is self.new_role:
-                possible_switches.append(i)
+        possible_switches = [
+            i
+            for i, stated_role in enumerate(knowledge_base.stated_roles)
+            if stated_role is self.new_role
+        ]
         if len(possible_switches) == 1:  # TODO how to handle multiple possible switches
             self.statements += self.get_insomniac_statements(
                 self.player_index, self.new_role, possible_switches[0]

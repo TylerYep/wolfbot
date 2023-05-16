@@ -2,7 +2,7 @@ import cProfile
 import pstats
 import random
 
-from wolfbot import one_night  # pylint: disable=unused-import  # noqa
+from wolfbot import one_night  # pylint: disable=unused-import  # noqa: F401
 
 
 def profile() -> None:

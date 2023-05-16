@@ -246,7 +246,7 @@ class Player:
                 raise UnhandledEnumValueError(const.SOLVER)
         else:
             prediction = make_random_prediction()
-        return prediction
+        return prediction  # noqa: RET504
 
     def vote(self, prediction: tuple[Role, ...]) -> int:
         """

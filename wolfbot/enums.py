@@ -38,8 +38,7 @@ class Role(Enum):
     def __lt__(self, other: object) -> bool:
         """This function is necessary to make Role sortable alphabetically."""
         if isinstance(other, Role):
-            result = self.value < other.value
-            return result
+            return self.value < other.value
         return NotImplemented
 
     def __repr__(self) -> str:

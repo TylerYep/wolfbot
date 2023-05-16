@@ -175,7 +175,7 @@ class TestGetVote:
             Role.ROBBER,
             Role.WOLF,
         )
-        monkeypatch.setattr("builtins.input", lambda x: "4")
+        monkeypatch.setattr("builtins.input", lambda _: "4")
 
         result = Player(player_index).vote(prediction)
 

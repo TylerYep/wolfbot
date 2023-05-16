@@ -10,7 +10,7 @@ from wolfbot.statements import Statement
 class Hunter(Player):
     """Hunter Player class."""
 
-    def __init__(self, player_index: int):
+    def __init__(self, player_index: int) -> None:
         super().__init__(player_index)
         self.statements += self.get_hunter_statements(player_index)
 

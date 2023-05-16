@@ -73,5 +73,5 @@ class UserState:
             outcome = "lost"
 
         logger.info(
-            f"You were a {player_role} at the end of the game, " f"so you {outcome}!"
+            f"You were a {player_role} at the end of the game, so you {outcome}!"
         )
