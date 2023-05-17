@@ -5,6 +5,7 @@ import logging
 import random
 import sys
 from collections import Counter
+from pathlib import Path
 from types import ModuleType
 
 from wolfbot.enums import Role, Solver
@@ -66,8 +67,7 @@ NUM_GAMES = ARGS.num_games
 MAX_LOG_GAMES = 10
 FIXED_WOLF_INDEX = -1
 SAVE_REPLAY = NUM_GAMES < MAX_LOG_GAMES
-REPLAY_FILE = "data/replay.json"
-REPLAY_STATE = "data/replay_state.json"
+REPLAY_STATE = Path("data/replay_state.json")
 REPLAY = ARGS.replay
 
 """ Util Constants """
@@ -127,7 +127,7 @@ EXPECTIMAX_MINION = EXPECTIMAX_WOLF
 
 # Reinforcement Learning Wolf
 RL_WOLF = False
-EXPERIENCE_PATH = "wolfbot/learning/simulations/wolf.json"
+EXPERIENCE_PATH = Path("wolfbot/learning/simulations/wolf.json")
 
 """ Interactive Game Constants """
 INTERACTIVE_MODE = ARGS.user

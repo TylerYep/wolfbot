@@ -57,7 +57,7 @@ def train(folder: str, eta: float = 0.01) -> None:
     )
     count_dict: defaultdict[Any, int] = defaultdict(int)  # NOTE: For testing purposes
     for filepath in Path(folder).glob("*.json"):
-        with open(filepath, encoding="utf-8") as data_file:
+        with filepath.open(encoding="utf-8") as data_file:
             for game in json.load(data_file, cls=WolfBotDecoder):
                 # See how training improves over time
                 if counter % 100 == 0:
@@ -71,8 +71,8 @@ def train(folder: str, eta: float = 0.01) -> None:
                 counter += 1
 
     exp_dict = remap_keys(experience_dict)
-    with open(
-        "wolfbot/learning/simulations/wolf.json", "w", encoding="utf-8"
+    with Path("wolfbot/learning/simulations/wolf.json").open(
+        "w", encoding="utf-8"
     ) as wolf_file:
         # _{time.strftime('%Y%m%d_%H%M%S')}.json", "w") as wolf_file:
         json.dump(exp_dict, wolf_file, cls=WolfBotEncoder, indent=2)

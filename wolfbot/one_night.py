@@ -66,7 +66,7 @@ def setup_game(save_replay: bool) -> None:
     """Miscellaneous setup steps."""
     const.verify_valid_const_config(const)
     if save_replay:
-        with open(const.REPLAY_STATE, "w", encoding="utf-8") as replay_file:
+        with const.REPLAY_STATE.open("w", encoding="utf-8") as replay_file:
             json.dump({"rng_state": random.getstate()}, replay_file)
 
 

@@ -3,12 +3,10 @@ ignore = [
     "ANN101",  # Missing type annotation for `self` in method
     "ANN102",  # Missing type annotation for `cls` in classmethod
 	"ANN401",  # Dynamically typed expressions (typing.Any) are disallowed
-	"ARG001",  # Unused function argument
-	"ARG004",  # Unused static method argument
 	"C901",    # function is too complex (12 > 10)
 	"COM812",  # Trailing comma missing
 	"D",       # Docstring rules
-	"EM101",   # Exception must not use a string literal, assign to variable first [autofix]
+	"EM101",   # Exception must not use a string literal, assign to variable first
 	"EM102",   # Exception must not use an f-string literal, assign to variable first
 	"ERA001",  # Found commented-out code
 	"FBT001",  # Boolean positional arg in function definition
@@ -17,13 +15,20 @@ ignore = [
     "PLR0911", # Too many return statements (11 > 6)
 	"PLR2004", # Magic value used in comparison, consider replacing 2 with a constant variable
     "PLR0912", # Too many branches
-    "PT001",   # [*] Use `@pytest.fixture()` over `@pytest.fixture`
-    "PT004",   # Fixture `override_random` does not return anything, add leading underscore
-	"PTH123",  # `open()` should be replaced by `Path.open()`
+	"PLR0913", # Too many arguments to function call
+	"PLR0915", # Too many statements
 	"S101",    # Use of `assert` detected
 	"S311",    # Standard pseudo-random generators are not suitable for cryptographic purposes
 	"T201",    # print() found
-	"TCH001",  # Move application import `wolfbot.statements.Statement` into a type-checking block
-    "TCH003",  # Move standard library import `collections.abc.Callable` into a type-checking block
+	"TCH001",  # Move application import into a type-checking block
+    "TCH003",  # Move standard library import into a type-checking block
 	"TRY003",  # Avoid specifying long messages outside the exception class
+
+	# WolfBot-specific ignores
+	"ARG001",  # Unused function argument
+	"ARG004",  # Unused static method argument
+    "PT004",   # Fixture `override_random` does not return anything, add leading underscore
 ]
+
+[flake8-pytest-style]
+fixture-parentheses = false

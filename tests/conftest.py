@@ -112,7 +112,6 @@ def _reset_const(seed: int = 0) -> None:
     const.RL_WOLF = False
     const.INCLUDE_STATEMENT_RATE = 0.7
 
-    const.REPLAY_FILE = "tests/test_data/replay.json"
     set_roles(
         Role.INSOMNIAC,
         Role.VILLAGER,
@@ -251,13 +250,13 @@ def write_results(stat_results: dict[str, float], file_path: str) -> None:
     if not destination.is_dir():
         destination.mkdir(parents=True)
 
-    results_filename = destination / filepath.name
-    with open(results_filename, "a+", encoding="utf-8") as out_file:
+    results_filepath = destination / filepath.name
+    with results_filepath.open("a+", encoding="utf-8") as out_file:
         # pylint: disable=unsubscriptable-object
         writer: csv.DictWriter[Any] = csv.DictWriter(
             out_file, fieldnames=list(stat_results)
         )
-        if results_filename.stat().st_size == 0:
+        if results_filepath.stat().st_size == 0:
             writer.writeheader()
         writer.writerow(stat_results)
 
@@ -273,7 +272,7 @@ def verify_output_file(caplog: pytest.LogCaptureFixture, filename: str) -> None:
         filepath.touch(exist_ok=True)
         filepath.write_text(captured, encoding="utf-8")
 
-    with open(filename, encoding="utf-8") as output_file:
+    with filepath.open(encoding="utf-8") as output_file:
         expected = tuple(output_file.read().split("\n"))
     verify_output(caplog, expected)
 
