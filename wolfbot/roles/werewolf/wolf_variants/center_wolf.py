@@ -22,7 +22,7 @@ def get_center_wolf_statements(
     elif center_role is Role.HUNTER:
         statements += Hunter.get_hunter_statements(player_index)
     elif center_role is Role.INSOMNIAC:
-        # TODO check for switches and prioritize those statements
+        # TODO: check for switches and prioritize those statements
         statements += Insomniac.get_insomniac_statements(player_index, Role.INSOMNIAC)
     elif center_role is Role.ROBBER:
         for i, stated_role in enumerate(knowledge_base.stated_roles):

@@ -126,7 +126,7 @@ class Player:
         if role_type is Role.HUNTER:
             return Hunter(self.player_index)
         if role_type is Role.INSOMNIAC:
-            # TODO you can lie and say you are a different character.
+            # TODO: you can lie and say you are a different character.
             return Insomniac(self.player_index, Role.INSOMNIAC)
         if role_type is Role.DRUNK:
             rand_center = get_center(const.IS_USER[self.player_index])
@@ -220,7 +220,7 @@ class Player:
 
     def is_evil(self) -> bool:
         """Decide whether a character should make an evil prediction or not."""
-        # TODO When a wolf becomes good? Do I need to check for Wolf twice?
+        # TODO: When a wolf becomes good? Do I need to check for Wolf twice?
         return (
             self.role in const.EVIL_ROLES and self.new_role is Role.NONE
         ) or self.new_role in const.EVIL_ROLES
@@ -278,7 +278,7 @@ class Player:
             )
             return get_player(is_user=True, exclude=(self.player_index,))
 
-        # TODO find the most likely Wolf and only vote for that one
+        # TODO: find the most likely Wolf and only vote for that one
         # Players cannot vote for themselves.
         if found_wolf_inds := find_all_player_indices(
             prediction, Role.WOLF, exclude=(self.player_index,)

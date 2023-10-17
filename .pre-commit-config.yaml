@@ -3,7 +3,7 @@ repos:
     hooks:
       - id: ruff
         name: ruff
-        entry: ruff --fix --exit-non-zero-on-fix
+        entry: ruff --fix --exit-non-zero-on-fix --force-exclude
         language: python
         types: [python]
 

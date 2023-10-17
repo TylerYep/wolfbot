@@ -52,7 +52,7 @@ def get_wolf_statements(
     if Role.INSOMNIAC in const.ROLE_SET and should_include_role(
         counts_dict, Role.INSOMNIAC
     ):
-        # TODO check for switches and prioritize those statements
+        # TODO: check for switches and prioritize those statements
         statements += Insomniac.get_insomniac_statements(player_index, Role.INSOMNIAC)
     if (
         Role.MASON in const.ROLE_SET

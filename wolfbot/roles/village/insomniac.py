@@ -42,7 +42,7 @@ class Insomniac(Player):
                 sentence += " I don't know who I switched with."
         else:
             sentence += f" I switched with Player {new_insomniac_index}."
-        # switches = ((player_index, new_insomniac_index),)  # TODO
+        # switches = ((player_index, new_insomniac_index),)  # TODO: fix this
         return (Statement(sentence, knowledge),)
 
     @staticmethod
@@ -61,7 +61,8 @@ class Insomniac(Player):
             for i, stated_role in enumerate(knowledge_base.stated_roles)
             if stated_role is self.new_role
         ]
-        if len(possible_switches) == 1:  # TODO how to handle multiple possible switches
+        # TODO: how to handle multiple possible switches
+        if len(possible_switches) == 1:
             self.statements += self.get_insomniac_statements(
                 self.player_index, self.new_role, possible_switches[0]
             )

@@ -40,7 +40,7 @@ def get_basic_guesses(solution: SolverState) -> tuple[list[Role], dict[Role, int
             random.shuffle(evil_roles)
 
             # Choose a random evil player to be the guess.
-            # TODO this has room for improvement.
+            # TODO: this has room for improvement.
             choice = Role.NONE
             for role in evil_roles:
                 if curr_role_counts[role] > 0:

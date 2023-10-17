@@ -2,8 +2,8 @@ import logging
 from pathlib import Path
 from typing import Any
 
-import prettyprinter  # type: ignore[import]
-from prettyprinter.prettyprinter import IMPLICIT_MODULES  # type: ignore[import]
+import prettyprinter  # type: ignore[import-untyped]
+from prettyprinter.prettyprinter import IMPLICIT_MODULES  # type: ignore[import-untyped]
 
 
 class Formatter:

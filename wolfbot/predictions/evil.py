@@ -21,7 +21,7 @@ def make_evil_prediction(solution_arr: tuple[SolverState, ...]) -> tuple[Role, .
     """
     Makes the Wolf character's prediction for the game.
     """
-    # TODO Find better than random solution when the
+    # TODO: Find better than random solution when the
     # Wolf gets contradicted by a later statement.
     if not solution_arr:
         return make_random_prediction()
