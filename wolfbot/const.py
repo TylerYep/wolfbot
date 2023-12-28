@@ -148,10 +148,6 @@ if ARGS.log_level:
 elif INTERACTIVE_MODE:
     logger.set_level(logging.INFO)
 
-if sys.version_info < (3, 10):
-    print(f"Python {sys.version}\n\nWolfBot requires Python 3.10+ to work!\n")
-    sys.exit()
-
 
 def verify_valid_const_config(const: ModuleType) -> None:
     if const.USER_ROLE is not Role.NONE and const.USER_ROLE not in const.ROLE_SET:

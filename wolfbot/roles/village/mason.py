@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Self
+from typing import Any, Self, override
 
 from wolfbot import const
 from wolfbot.enums import Role, lru_cache
@@ -21,6 +21,7 @@ class Mason(Player):
             raise RuntimeError("Player index is not one of the Mason indices.")
 
     @classmethod
+    @override
     def awake_init(cls, player_index: int, game_roles: list[Role]) -> Self:
         """Initializes Mason - sees all other Masons."""
         is_user = const.IS_USER[player_index]
@@ -42,10 +43,11 @@ class Mason(Player):
         """Gets Mason Statement."""
         if len(mason_indices) == 1:
             sentence = "I am a Mason. The other Mason is not present."
-            knowledge = [(player_index, frozenset({Role.MASON}))]
-            for ind in range(const.NUM_PLAYERS):
-                if ind != player_index:
-                    knowledge.append((ind, const.ROLE_SET - frozenset({Role.MASON})))
+            knowledge = [(player_index, frozenset({Role.MASON}))] + [
+                (ind, const.ROLE_SET - frozenset({Role.MASON}))
+                for ind in range(const.NUM_PLAYERS)
+                if ind != player_index
+            ]
         else:
             other_mason = (
                 mason_indices[0]
@@ -61,6 +63,7 @@ class Mason(Player):
 
     @staticmethod
     @lru_cache
+    @override
     def get_all_statements(player_index: int) -> tuple[Statement, ...]:
         """Required for all player types. Returns all possible role statements."""
         statements = Mason.get_mason_statements(player_index, (player_index,))
@@ -70,6 +73,7 @@ class Mason(Player):
                 statements += Mason.get_mason_statements(player_index, mason_indices)
         return statements
 
+    @override
     def json_repr(self) -> dict[str, Any]:
         """Gets JSON representation of a Mason player."""
         return super().json_repr() | {"mason_indices": self.mason_indices}

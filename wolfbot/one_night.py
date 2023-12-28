@@ -81,7 +81,7 @@ def init_game_roles() -> tuple[tuple[Role, ...], tuple[int, ...]]:
 
 
 def night_falls(
-    original_roles: tuple[Role, ...]
+    original_roles: tuple[Role, ...],
 ) -> tuple[tuple[Player, ...], tuple[Role, ...]]:
     """
     Initialize role object list and perform all switching and peeking actions.
@@ -130,7 +130,7 @@ def night_falls(
 
 
 def get_player_multistatements(
-    player_objs: tuple[Player, ...]
+    player_objs: tuple[Player, ...],
 ) -> tuple[Statement, ...]:
     """
     Returns array of each player's statements.

@@ -252,7 +252,6 @@ def write_results(stat_results: dict[str, float], file_path: str) -> None:
 
     results_filepath = destination / filepath.name
     with results_filepath.open("a+", encoding="utf-8") as out_file:
-        # pylint: disable=unsubscriptable-object
         writer: csv.DictWriter[Any] = csv.DictWriter(
             out_file, fieldnames=list(stat_results)
         )

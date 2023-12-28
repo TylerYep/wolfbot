@@ -4,7 +4,7 @@
 
 By Tyler Yep & Harry Sha
 
-[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/release/python-3110/)
+[![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/release/python-3120/)
 [![Build Status](https://github.com/TylerYep/wolfbot/actions/workflows/test.yml/badge.svg)](https://github.com/TylerYep/wolfbot/actions/workflows/test.yml)
 [![GitHub license](https://img.shields.io/github/license/TylerYep/wolfbot)](https://github.com/TylerYep/wolfbot/blob/main/LICENSE)
 [![codecov](https://codecov.io/gh/TylerYep/wolfbot/branch/main/graph/badge.svg)](https://codecov.io/gh/TylerYep/wolfbot)

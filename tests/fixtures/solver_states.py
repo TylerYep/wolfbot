@@ -83,7 +83,7 @@ def example_medium_solverstate(medium_game_roles: tuple[Role, ...]) -> SolverSta
 
 @pytest.fixture
 def example_medium_solverstate_solved(
-    medium_game_roles: tuple[Role, ...]
+    medium_game_roles: tuple[Role, ...],
 ) -> SolverState:
     possible_roles = (
         frozenset({Role.SEER}),
@@ -109,7 +109,7 @@ def example_medium_solverstate_solved(
 
 @pytest.fixture
 def example_medium_solved_list(
-    medium_game_roles: tuple[Role, ...]
+    medium_game_roles: tuple[Role, ...],
 ) -> tuple[SolverState, ...]:
     possible_roles_1 = (
         frozenset({Role.SEER}),
@@ -161,7 +161,7 @@ def example_medium_solved_list(
 
 @pytest.fixture
 def example_medium_solverstate_list(
-    medium_game_roles: tuple[Role, ...]
+    medium_game_roles: tuple[Role, ...],
 ) -> tuple[SolverState, ...]:
     possible_roles_1 = (
         frozenset({Role.SEER}),

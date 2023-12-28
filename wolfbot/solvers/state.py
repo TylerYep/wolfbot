@@ -3,6 +3,7 @@ from __future__ import annotations
 import shutil
 from dataclasses import dataclass, field
 from functools import total_ordering
+from typing import override
 
 from wolfbot import const
 from wolfbot.enums import Role
@@ -33,6 +34,7 @@ class SolverState:
         if not self.role_counts:
             self.role_counts = self.get_role_counts()
 
+    @override
     def __hash__(self) -> int:
         """
         Not recommended to hash SolverStates because each possible_roles is very large,
@@ -40,6 +42,7 @@ class SolverState:
         """
         return hash((self.possible_roles, self.switches, self.path))
 
+    @override
     def __repr__(self) -> str:
         width, _ = shutil.get_terminal_size()
         return str(formatter.pformat(self, width=width, ribbon_width=width))

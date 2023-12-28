@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from functools import cached_property
-from typing import Any, Self
+from typing import Any, Self, override
 
 from wolfbot import const
 from wolfbot.enums import Role, StatementLevel, SwitchPriority
@@ -70,6 +70,7 @@ class Statement:
         if self.speaker is Role.NONE and self.knowledge:
             [self.speaker] = self.knowledge[0][1]
 
+    @override
     def __hash__(self) -> int:
         """
         The sentence field currently uniquely identifies the fields of a statement,

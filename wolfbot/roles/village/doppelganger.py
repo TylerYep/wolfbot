@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Self
+from typing import Any, Self, override
 
 from wolfbot import const
 from wolfbot.enums import Role, lru_cache
@@ -20,6 +20,7 @@ class Doppelganger(Player):
         self.statements += self.get_doppelganger_statements(player_index, new_role)
 
     @classmethod
+    @override
     def awake_init(cls, player_index: int, game_roles: list[Role]) -> Self:
         """Initializes Doppelganger - learns new role."""
         from wolfbot.roles import get_role_obj
@@ -57,6 +58,7 @@ class Doppelganger(Player):
 
     @staticmethod
     @lru_cache
+    @override
     def get_all_statements(player_index: int) -> tuple[Statement, ...]:
         """Required for all player types. Returns all possible role statements."""
         statements: list[Statement] = []
@@ -64,6 +66,7 @@ class Doppelganger(Player):
             statements += Doppelganger.get_doppelganger_statements(player_index, role)
         return tuple(statements)
 
+    @override
     def json_repr(self) -> dict[str, Any]:
         """Gets JSON representation of an Doppelganger player."""
         return super().json_repr() | {"new_role": self.new_role}

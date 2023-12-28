@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import random
-from typing import Any, Self
+from typing import Any, Self, override
 
 from wolfbot import const
 from wolfbot.enums import Role, lru_cache
@@ -36,6 +36,7 @@ class Wolf(Player):
         self.center_role = center_role
 
     @classmethod
+    @override
     def awake_init(cls, player_index: int, game_roles: list[Role]) -> Self:
         """
         Constructor: original_roles defaults to [] when a player becomes
@@ -62,10 +63,12 @@ class Wolf(Player):
 
     @staticmethod
     @lru_cache
+    @override
     def get_all_statements(player_index: int) -> tuple[Statement, ...]:
         """Required for all player types. Returns all possible role statements."""
         raise NotImplementedError
 
+    @override
     def analyze(self, knowledge_base: KnowledgeBase) -> None:
         """Updates Player state given new information."""
         super().analyze(knowledge_base)
@@ -80,6 +83,7 @@ class Wolf(Player):
         else:
             self.statements += get_wolf_statements_random(self.player_index)
 
+    @override
     def get_statement(self, knowledge_base: KnowledgeBase) -> Statement:
         """Get Wolf Statement."""
         if const.RL_WOLF:
@@ -109,6 +113,7 @@ class Wolf(Player):
                 val -= 5
         return val
 
+    @override
     def json_repr(self) -> dict[str, Any]:
         """Gets JSON representation of a Wolf player."""
         return super().json_repr() | {

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import random
-from typing import Any, Self
+from typing import Any, Self, override
 
 from wolfbot import const
 from wolfbot.enums import (
@@ -46,6 +46,7 @@ class Player:
         if const.MULTI_STATEMENT:
             self.statements += self.get_partial_statements()
 
+    @override
     def __eq__(self, other: object) -> bool:
         """
         Checks for equality between Players.
@@ -57,6 +58,7 @@ class Player:
             return self.__dict__ == other.__dict__ and is_equal
         return NotImplemented
 
+    @override
     def __repr__(self) -> str:
         """Gets string representation of a Player object."""
         attrs = ""

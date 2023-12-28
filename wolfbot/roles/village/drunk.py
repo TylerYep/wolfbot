@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Self
+from typing import Any, Self, override
 
 from wolfbot import const
 from wolfbot.enums import Role, SwitchPriority, lru_cache
@@ -19,6 +19,7 @@ class Drunk(Player):
         self.statements += self.get_drunk_statements(player_index, choice_ind)
 
     @classmethod
+    @override
     def awake_init(cls, player_index: int, game_roles: list[Role]) -> Self:
         """Initializes Drunk - switches with a card in the center."""
         is_user = const.IS_USER[player_index]
@@ -47,6 +48,7 @@ class Drunk(Player):
 
     @staticmethod
     @lru_cache
+    @override
     def get_all_statements(player_index: int) -> tuple[Statement, ...]:
         """Required for all player types. Returns all possible role statements."""
         statements: tuple[Statement, ...] = ()
@@ -56,6 +58,7 @@ class Drunk(Player):
             )
         return statements
 
+    @override
     def json_repr(self) -> dict[str, Any]:
         """Gets JSON representation of a Drunk player."""
         return super().json_repr() | {"choice_ind": self.choice_ind}

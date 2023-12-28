@@ -3,15 +3,13 @@ from __future__ import annotations
 import functools
 from collections.abc import Callable
 from enum import Enum, IntEnum, auto, unique
-from typing import Any, TypeVar, cast
+from typing import Any, TypeVar, cast, override
 
 T = TypeVar("T")
 CACHED_FUNCTIONS = set()
 
 
-def lru_cache(
-    func: Callable[..., T]
-) -> functools._lru_cache_wrapper[T]:  # noqa: SLF001
+def lru_cache(func: Callable[..., T]) -> functools._lru_cache_wrapper[T]:
     """Allows lru_cache to type check correctly."""
     new_func = functools.lru_cache(func)
     CACHED_FUNCTIONS.add(new_func)
@@ -43,9 +41,11 @@ class Role(Enum):
             return self.value < other.value
         return NotImplemented
 
+    @override
     def __repr__(self) -> str:
         return cast(str, self.value)
 
+    @override
     def __format__(self, formatstr: str) -> str:
         del formatstr
         return cast(str, self.value)

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Self
+from typing import Any, Self, override
 
 from wolfbot import const
 from wolfbot.enums import Role, lru_cache
@@ -25,6 +25,7 @@ class Seer(Player):
         self.statements += self.get_seer_statements(player_index, choice_1, choice_2)
 
     @classmethod
+    @override
     def awake_init(cls, player_index: int, game_roles: list[Role]) -> Self:
         """Initializes Seer - either sees 2 center cards or 1 player card."""
         is_user = const.IS_USER[player_index]
@@ -91,6 +92,7 @@ class Seer(Player):
 
     @staticmethod
     @lru_cache
+    @override
     def get_all_statements(player_index: int) -> tuple[Statement, ...]:
         """Required for all player types. Returns all possible role statements."""
         statements: tuple[Statement, ...] = ()
@@ -114,6 +116,7 @@ class Seer(Player):
                             )
         return statements
 
+    @override
     def json_repr(self) -> dict[str, Any]:
         """Gets JSON representation of a Seer player."""
         return super().json_repr() | {

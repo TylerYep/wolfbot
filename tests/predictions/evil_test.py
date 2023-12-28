@@ -42,7 +42,7 @@ class TestMakeEvilPrediction:
 
     @staticmethod
     def test_evil_prediction(
-        example_medium_solverstate_list: tuple[SolverState, ...]
+        example_medium_solverstate_list: tuple[SolverState, ...],
     ) -> None:
         """Should give a random prediction when an empty SolverState is passed in."""
         result = predictions.make_evil_prediction(example_medium_solverstate_list)

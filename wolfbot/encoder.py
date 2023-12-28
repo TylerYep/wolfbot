@@ -1,6 +1,6 @@
 import json
 import sys
-from typing import Any, Generic, TypeVar, cast
+from typing import Any, Generic, TypeVar, cast, override
 
 from wolfbot import const
 from wolfbot.enums import Role, Team
@@ -14,6 +14,7 @@ T = TypeVar("T")
 class WolfBotEncoder(json.JSONEncoder):
     """Encoder for all WolfBot objects."""
 
+    @override
     def default(self, o: Any) -> Any:
         """Overrides encoding method."""
         if isinstance(o, Role | Team | Player | Statement | GameResult | SavedGame):

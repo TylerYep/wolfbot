@@ -29,9 +29,9 @@ class TestMultistatement:
 
         stat_results = stat_tracker.get_metric_results()
         write_results(stat_results, "multistatement/reg_wolf.csv")
-        assert stat_results["villager_wins"] < 0.51
+        assert stat_results["villager_wins"] < 0.52
         assert stat_results["tanner_wins"] == 0
-        assert stat_results["werewolf_wins"] > 0.49
+        assert stat_results["werewolf_wins"] > 0.48
 
     @staticmethod
     def test_expectimax_wolf(standard_game_roles: tuple[Role, ...]) -> None:

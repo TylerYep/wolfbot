@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import random
-from typing import Self
+from typing import Self, override
 
 from wolfbot import const
 from wolfbot.enums import Role, lru_cache
@@ -19,6 +19,7 @@ class Tanner(Player):
     """Tanner Player class."""
 
     @classmethod
+    @override
     def awake_init(cls, player_index: int, game_roles: list[Role]) -> Self:
         """Initializes Tanner when night falls."""
         del game_roles
@@ -26,15 +27,18 @@ class Tanner(Player):
 
     @staticmethod
     @lru_cache
+    @override
     def get_all_statements(player_index: int) -> tuple[Statement, ...]:
         """Required for all player types. Returns all possible role statements."""
         raise NotImplementedError
 
+    @override
     def analyze(self, knowledge_base: KnowledgeBase) -> None:
         """Updates Player state given new information."""
         super().analyze(knowledge_base)
         self.statements += get_wolf_statements_random(self.player_index)
 
+    @override
     def get_statement(self, knowledge_base: KnowledgeBase) -> Statement:
         """Get Tanner Statement."""
         if const.EXPECTIMAX_TANNER:

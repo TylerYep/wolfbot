@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Self
+from typing import Any, Self, override
 
 from wolfbot import const
 from wolfbot.enums import Role, lru_cache
@@ -18,6 +18,7 @@ class Insomniac(Player):
         self.statements += self.get_insomniac_statements(player_index, new_role)
 
     @classmethod
+    @override
     def awake_init(cls, player_index: int, game_roles: list[Role]) -> Self:
         """Initializes Insomniac - learns new role."""
         is_user = const.IS_USER[player_index]
@@ -47,6 +48,7 @@ class Insomniac(Player):
 
     @staticmethod
     @lru_cache
+    @override
     def get_all_statements(player_index: int) -> tuple[Statement, ...]:
         """Required for all player types. Returns all possible role statements."""
         statements: list[Statement] = []
@@ -54,6 +56,7 @@ class Insomniac(Player):
             statements += Insomniac.get_insomniac_statements(player_index, role)
         return tuple(statements)
 
+    @override
     def analyze(self, knowledge_base: KnowledgeBase) -> None:
         """Overrides analyze."""
         possible_switches = [
@@ -67,6 +70,7 @@ class Insomniac(Player):
                 self.player_index, self.new_role, possible_switches[0]
             )
 
+    @override
     def json_repr(self) -> dict[str, Any]:
         """Gets JSON representation of an Insomniac player."""
         return super().json_repr() | {"new_role": self.new_role}

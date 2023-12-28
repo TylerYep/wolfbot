@@ -38,7 +38,7 @@ def get_wolf_state(
 
 
 def remap_keys(
-    mapping: defaultdict[Any, defaultdict[Any, float]]
+    mapping: defaultdict[Any, defaultdict[Any, float]],
 ) -> defaultdict[Any, defaultdict[Any, float]]:
     """Remaps keys for jsonifying."""
     exp_dict: defaultdict[Any, defaultdict[Any, float]] = defaultdict(

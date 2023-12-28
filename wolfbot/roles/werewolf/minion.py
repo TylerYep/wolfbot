@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import random
-from typing import Any, Self
+from typing import Any, Self, override
 
 from wolfbot import const
 from wolfbot.enums import Role, lru_cache
@@ -26,6 +26,7 @@ class Minion(Player):
         self.wolf_indices = wolf_indices
 
     @classmethod
+    @override
     def awake_init(cls, player_index: int, game_roles: list[Role]) -> Self:
         """Initializes Minion - gets Wolf indices."""
         is_user = const.IS_USER[player_index]
@@ -37,10 +38,12 @@ class Minion(Player):
 
     @staticmethod
     @lru_cache
+    @override
     def get_all_statements(player_index: int) -> tuple[Statement, ...]:
         """Required for all player types. Returns all possible role statements."""
         raise NotImplementedError
 
+    @override
     def analyze(self, knowledge_base: KnowledgeBase) -> None:
         """Updates Player state given new information."""
         super().analyze(knowledge_base)
@@ -49,6 +52,7 @@ class Minion(Player):
         else:
             self.statements += get_wolf_statements_random(self.player_index)
 
+    @override
     def get_statement(self, knowledge_base: KnowledgeBase) -> Statement:
         """Get Minion Statement."""
         if const.EXPECTIMAX_MINION:
@@ -74,6 +78,7 @@ class Minion(Player):
                 val -= 5
         return val
 
+    @override
     def json_repr(self) -> dict[str, Any]:
         """Gets JSON representation of a Minion player."""
         return super().json_repr() | {"wolf_indices": self.wolf_indices}

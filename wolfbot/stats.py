@@ -2,7 +2,7 @@ import time
 from collections import Counter
 from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, override
 
 from wolfbot import const
 from wolfbot.enums import Role, Team
@@ -118,6 +118,7 @@ class Statistics:
         self.start_time = time.perf_counter()
         self.end_time = 0.0
 
+    @override
     def __eq__(self, other: object) -> bool:
         """Checks for equality between Statistics objects."""
         if isinstance(other, Statistics):
