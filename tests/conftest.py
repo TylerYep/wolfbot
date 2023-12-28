@@ -8,7 +8,6 @@ from typing import Any
 
 import pytest
 
-# pylint: disable=unused-import
 from tests.fixtures import (  # noqa: F401
     example_large_game_result,
     example_large_saved_game,

@@ -97,7 +97,7 @@ class Player:
             partial_statements.append(statement)
         return tuple(partial_statements)
 
-    def transform(self, role_type: Role) -> Player:  # pylint: disable=too-many-locals
+    def transform(self, role_type: Role) -> Player:
         """Returns new Player identity."""
         from wolfbot.roles import (
             Drunk,
@@ -174,7 +174,7 @@ class Player:
         if self.new_role is not Role.NONE and self.new_role in const.EVIL_ROLES:
             new_player_obj = self.transform(self.new_role)
             new_player_obj.prev_priority = self.prev_priority
-            self = new_player_obj  # pylint: disable=self-cls-assignment
+            self = new_player_obj
 
             # If you have no statements in your new role, randomly choose a statement.
             if not [x for x in self.statements if x.priority > self.prev_priority]:
