@@ -1,11 +1,13 @@
 from __future__ import annotations
 
 import random
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from wolfbot import const
-from wolfbot.solvers import SolverState
-from wolfbot.statements import Statement
+
+if TYPE_CHECKING:
+    from wolfbot.solvers import SolverState
+    from wolfbot.statements import Statement
 
 
 def expectimax(

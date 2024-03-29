@@ -1,7 +1,11 @@
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from wolfbot.solvers.state import SolverState
-from wolfbot.statements import Statement
+
+if TYPE_CHECKING:
+    from wolfbot.statements import Statement
 
 
 def switching_solver(

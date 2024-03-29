@@ -2,6 +2,7 @@
 generate.py
 To run: python -m wolfbot.learning.generate
 """
+
 import json
 import logging
 import time

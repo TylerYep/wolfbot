@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import random
-from typing import Self, override
+from typing import TYPE_CHECKING, Self, override
 
 from wolfbot import const
 from wolfbot.enums import Role, lru_cache
@@ -12,7 +12,9 @@ from wolfbot.roles.werewolf.wolf_variants import (
     get_wolf_statements_random,
 )
 from wolfbot.solvers import switching_solver as solver
-from wolfbot.statements import KnowledgeBase, Statement
+
+if TYPE_CHECKING:
+    from wolfbot.statements import KnowledgeBase, Statement
 
 
 class Tanner(Player):

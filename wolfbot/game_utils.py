@@ -2,11 +2,15 @@ from __future__ import annotations
 
 import logging
 import random
-from collections.abc import Sequence
+from typing import TYPE_CHECKING
 
 from wolfbot import const
-from wolfbot.enums import Role
 from wolfbot.log import logger
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
+
+    from wolfbot.enums import Role
 
 
 def print_roles(

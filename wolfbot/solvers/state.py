@@ -3,12 +3,14 @@ from __future__ import annotations
 import shutil
 from dataclasses import dataclass, field
 from functools import total_ordering
-from typing import override
+from typing import TYPE_CHECKING, override
 
 from wolfbot import const
-from wolfbot.enums import Role
 from wolfbot.log import formatter
-from wolfbot.statements import Statement, Switch
+
+if TYPE_CHECKING:
+    from wolfbot.enums import Role
+    from wolfbot.statements import Statement, Switch
 
 
 @total_ordering

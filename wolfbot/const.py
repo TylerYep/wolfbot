@@ -6,10 +6,13 @@ import random
 import sys
 from collections import Counter
 from pathlib import Path
-from types import ModuleType
+from typing import TYPE_CHECKING
 
 from wolfbot.enums import Role, Solver
 from wolfbot.log import logger
+
+if TYPE_CHECKING:
+    from types import ModuleType
 
 
 def init_program(is_tests: bool) -> argparse.Namespace:
