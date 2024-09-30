@@ -174,7 +174,7 @@ class Player:
         if self.new_role is not Role.NONE and self.new_role in const.EVIL_ROLES:
             new_player_obj = self.transform(self.new_role)
             new_player_obj.prev_priority = self.prev_priority
-            self = new_player_obj
+            self = new_player_obj  # noqa: PLW0642
 
             # If you have no statements in your new role, randomly choose a statement.
             if not [x for x in self.statements if x.priority > self.prev_priority]:
