@@ -26,19 +26,19 @@ def get_role_obj(role_str: Role) -> type[Player]:
 
 
 __all__ = (
-    "Role",
-    "Player",
     "Doppelganger",
     "Drunk",
     "Hunter",
     "Insomniac",
     "Mason",
+    "Minion",
+    "Player",
     "Robber",
+    "Role",
     "Seer",
+    "Tanner",
     "Troublemaker",
     "Villager",
-    "Minion",
-    "Tanner",
     "Wolf",
     "get_role_obj",
 )
