@@ -51,8 +51,7 @@ def get_center_wolf_statements(
                             role1 is not Role.SEER
                             and role2 is not Role.SEER
                             and role1 != role2
-                            or const.ROLE_COUNTS[role1] >= 2
-                        ):
+                        ) or const.ROLE_COUNTS[role1] >= 2:
                             statements += Seer.get_seer_statements(
                                 player_index,
                                 (cent1 + const.NUM_PLAYERS, role1),

@@ -9,7 +9,7 @@ T = TypeVar("T")
 class SupportsLessThan(Protocol):
     """Enforces the type has __lt__ implemented."""
 
-    def __lt__(self, __other: Any) -> bool: ...
+    def __lt__(self, /, __other: Any) -> bool: ...
 
 
 def weighted_coin_flip(prob: float) -> bool:

@@ -9,7 +9,7 @@ from wolfbot.roles.werewolf.wolf_variants.rl_wolf import get_statement_rl
 __all__ = (
     "get_center_wolf_statements",
     "get_statement_expectimax",
-    "get_wolf_statements_random",
-    "get_wolf_statements",
     "get_statement_rl",
+    "get_wolf_statements",
+    "get_wolf_statements_random",
 )
