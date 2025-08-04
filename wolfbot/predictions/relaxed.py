@@ -20,7 +20,7 @@ def get_probs(solution_arr: tuple[SolverState, ...]) -> tuple[dict[Role, float],
     possible roles at each index.
     """
     result: tuple[dict[Role, float], ...] = tuple(
-        {role: 0 for role in const.ROLE_SET} for _ in range(const.NUM_ROLES)
+        dict.fromkeys(const.ROLE_SET, 0) for _ in range(const.NUM_ROLES)
     )
     for solution in solution_arr:
         for i, possible_roles_arr in enumerate(solution.possible_roles):
@@ -46,7 +46,7 @@ def log_probability_dist(solution_probs: tuple[dict[Role, float], ...]) -> None:
     for index, probs in enumerate(solution_probs):
         prob_values = set(probs.values())
         if len(prob_values) == 1:
-            results[index] = {cast(Role, "ALL"): round(next(iter(prob_values)), 3)}
+            results[index] = {cast("Role", "ALL"): round(next(iter(prob_values)), 3)}
         elif len(prob_values) == 2:
             results[index] = {
                 role: round(score, 3) for role, score in probs.items() if score > 0
@@ -121,7 +121,7 @@ def prob_recurse_assign(
             probs = solution_probs[i]
             leftover_roles = sorted(
                 probs,
-                key=cast(Callable[[Role], "SupportsLessThan"], probs.get),
+                key=cast("Callable[[Role], SupportsLessThan]", probs.get),
                 reverse=True,
             )
         else:

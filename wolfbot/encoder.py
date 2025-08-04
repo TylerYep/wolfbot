@@ -73,4 +73,4 @@ class ObjectInitializer(Generic[T]):
     @staticmethod
     def get(obj_name: str) -> Any:
         """Retrieves class initializer from its string name."""
-        return cast(type[T], getattr(sys.modules[__name__], obj_name))
+        return cast("type[T]", getattr(sys.modules[__name__], obj_name))

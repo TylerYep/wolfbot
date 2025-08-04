@@ -22,7 +22,7 @@ def get_role_obj(role_str: Role) -> type[Player]:
     role_class_name = role_str.value
     if role_str is Role.NONE:
         role_class_name = "Player"
-    return cast(type[Player], getattr(sys.modules[__name__], role_class_name))
+    return cast("type[Player]", getattr(sys.modules[__name__], role_class_name))
 
 
 __all__ = (
