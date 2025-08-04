@@ -45,12 +45,12 @@ class Role(Enum):
 
     @override
     def __repr__(self) -> str:
-        return cast(str, self.value)
+        return cast("str", self.value)
 
     @override
     def __format__(self, formatstr: str) -> str:
         del formatstr
-        return cast(str, self.value)
+        return cast("str", self.value)
 
     def json_repr(self) -> dict[str, Any]:
         """Gets JSON representation of a Role enum."""
