@@ -2,16 +2,15 @@ from __future__ import annotations
 
 import functools
 from enum import Enum, IntEnum, auto, unique
-from typing import TYPE_CHECKING, Any, TypeVar, override
+from typing import TYPE_CHECKING, Any, override
 
 if TYPE_CHECKING:
     from collections.abc import Callable
 
-T = TypeVar("T")
 CACHED_FUNCTIONS = set()
 
 
-def lru_cache(func: Callable[..., T]) -> functools._lru_cache_wrapper[T]:
+def lru_cache[T](func: Callable[..., T]) -> functools._lru_cache_wrapper[T]:
     """Allows lru_cache to type check correctly."""
     new_func = functools.lru_cache(func)
     CACHED_FUNCTIONS.add(new_func)

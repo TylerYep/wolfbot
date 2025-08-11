@@ -15,7 +15,7 @@ def get_statement_rl(
     statements = get_wolf_statements(player_obj, knowledge_base)
 
     # Necessary to put this here to avoid circular import
-    from wolfbot.encoder import WolfBotDecoder
+    from wolfbot.encoder import WolfBotDecoder  # noqa: PLC0415
 
     with const.EXPERIENCE_PATH.open(encoding="utf-8") as exp_file:
         exp_dict: dict[str, dict[Statement, int]] = json.load(

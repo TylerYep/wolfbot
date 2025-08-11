@@ -69,6 +69,11 @@ class Player:
                 attrs += f"{item}, "
         return f"{self.role}({attrs[:-2]})"
 
+    @override
+    def __hash__(self) -> int:
+        """Gets hash of a Player object."""
+        return hash((self.role, self.player_index))
+
     @classmethod
     def awake_init(cls, player_index: int, game_roles: list[Role]) -> Self:
         """Initializes Player and performs their nighttime actions."""
@@ -99,7 +104,7 @@ class Player:
 
     def transform(self, role_type: Role) -> Player:
         """Returns new Player identity."""
-        from wolfbot.roles import (
+        from wolfbot.roles import (  # noqa: PLC0415
             Drunk,
             Hunter,
             Insomniac,
@@ -178,7 +183,7 @@ class Player:
 
             # If you have no statements in your new role, randomly choose a statement.
             if not [x for x in self.statements if x.priority > self.prev_priority]:
-                from wolfbot.roles.werewolf.wolf_variants import (
+                from wolfbot.roles.werewolf.wolf_variants import (  # noqa: PLC0415
                     get_wolf_statements_random,
                 )
 

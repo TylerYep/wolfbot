@@ -1,14 +1,12 @@
 import json
 import sys
-from typing import Any, Generic, TypeVar, cast, override
+from typing import Any, cast, override
 
 from wolfbot import const
 from wolfbot.enums import Role, Team
 from wolfbot.roles import Player, get_role_obj
 from wolfbot.statements import Statement
 from wolfbot.stats import GameResult, SavedGame
-
-T = TypeVar("T")
 
 
 class WolfBotEncoder(json.JSONEncoder):
@@ -67,7 +65,7 @@ class WolfBotDecoder(json.JSONDecoder):
         return obj
 
 
-class ObjectInitializer(Generic[T]):
+class ObjectInitializer[T]:
     """Generic class used to initialize an object of a given type."""
 
     @staticmethod

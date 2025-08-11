@@ -125,6 +125,11 @@ class Statistics:
             return self.get_metric_results(False) == other.get_metric_results(False)
         return NotImplemented
 
+    @override
+    def __hash__(self) -> int:
+        """Gets hash of a Statistics object."""
+        return hash(tuple(metric.function.__name__ for metric in self.metrics))
+
     @staticmethod
     def correctness_strict(game_result: GameResult) -> tuple[int, int]:
         """

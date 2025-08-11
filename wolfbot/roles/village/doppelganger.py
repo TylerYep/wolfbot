@@ -23,7 +23,7 @@ class Doppelganger(Player):
     @override
     def awake_init(cls, player_index: int, game_roles: list[Role]) -> Self:
         """Initializes Doppelganger - learns new role."""
-        from wolfbot.roles import get_role_obj
+        from wolfbot.roles import get_role_obj  # noqa: PLC0415
 
         is_user = const.IS_USER[player_index]
         choice_ind = get_player(is_user, (player_index,))
