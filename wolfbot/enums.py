@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import functools
 from enum import Enum, IntEnum, auto, unique
-from typing import TYPE_CHECKING, Any, TypeVar, cast, override
+from typing import TYPE_CHECKING, Any, TypeVar, override
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -45,12 +45,12 @@ class Role(Enum):
 
     @override
     def __repr__(self) -> str:
-        return cast(str, self.value)
+        return self.value
 
     @override
     def __format__(self, formatstr: str) -> str:
         del formatstr
-        return cast(str, self.value)
+        return self.value
 
     def json_repr(self) -> dict[str, Any]:
         """Gets JSON representation of a Role enum."""

@@ -20,7 +20,7 @@ def init_prettyprinter() -> Formatter:
     for filepath in Path("wolfbot").rglob("*.py"):
         module_name = filepath.stem
         if "__" not in module_name:
-            prefix = ".".join(filepath.parts[:-1] + (module_name,))
+            prefix = ".".join((*filepath.parts[:-1], module_name))
             IMPLICIT_MODULES.add(prefix)
     return Formatter(prettyprinter)
 

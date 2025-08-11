@@ -20,7 +20,7 @@ def get_probs(solution_arr: tuple[SolverState, ...]) -> tuple[dict[Role, float],
     possible roles at each index.
     """
     result: tuple[dict[Role, float], ...] = tuple(
-        {role: 0 for role in const.ROLE_SET} for _ in range(const.NUM_ROLES)
+        dict.fromkeys(const.ROLE_SET, 0) for _ in range(const.NUM_ROLES)
     )
     for solution in solution_arr:
         for i, possible_roles_arr in enumerate(solution.possible_roles):

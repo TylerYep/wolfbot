@@ -193,7 +193,7 @@ def get_confidence(all_predictions: tuple[tuple[Role, ...], ...]) -> tuple[float
     """
     confidence = []
     for i in range(const.NUM_ROLES):
-        role_dict: dict[Role, int] = {role: 0 for role in const.ROLE_SET}
+        role_dict: dict[Role, int] = dict.fromkeys(const.ROLE_SET, 0)
         for prediction in all_predictions:
             role_dict[prediction[i]] += 1
         count = max(role_dict.values())

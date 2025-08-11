@@ -27,6 +27,7 @@ dependencies = [
     "ruff>=0.12.8",
     "tqdm>=4.67.1",
     "ty>=0.0.1a17",
+    "types-tqdm>=4.67.0.20250809",
 ]
 
 [build-system]

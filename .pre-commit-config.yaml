@@ -12,14 +12,14 @@ repos:
     hooks:
       - id: mypy
         name: mypy
-        entry: mypy
+        entry: uv run mypy
         language: python
         types: [python]
         require_serial: true
 
       - id: pytest
         name: pytest
-        entry: pytest --cov=wolfbot --cov-report=html --durations=0 --ignore=tests/integration_test
+        entry: uv run pytest --cov=wolfbot --cov-report=html --durations=0 --ignore=tests/integration_test
         language: python
         types: [python]
         always_run: true
