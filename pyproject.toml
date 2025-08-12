@@ -2,10 +2,10 @@
 name = "wolfbot"
 version = "0.0.1"
 description = "One Night Ultimate Werewolf: AI Edition"
-readme = "README.md"
 authors = [
     { name = "Tyler Yep", email = "tyep@cs.stanford.edu" },
 ]
+readme = "README.md"
 license = "MIT"
 classifiers = [
     "Operating System :: OS Independent",
@@ -15,20 +15,20 @@ classifiers = [
 ]
 requires-python = ">=3.13.6"
 dependencies = [
-    "csworkshop>=0.0.3",
-    "mypy>=1.17.1",
-    "pre-commit==4.1.0",
-    "prettyprinter>=0.18.0",
-    "pytest==8.3.4",
-    "pytest-cov==6.0.0",
-    "pytest-deadfixtures==2.2.1",
-    "pytest-idempotent==1.3.1",
-    "pytest-timeout==2.3.1",
-    "ruff>=0.12.8",
-    "tqdm>=4.67.1",
-    "ty>=0.0.1a17",
-    "types-setuptools>=80.9.0.20250809",
-    "types-tqdm>=4.67.0.20250809",
+    "csworkshop",
+    "prettyprinter",
+    "tqdm",
+]
+
+[dependency-groups]
+dev = [
+    "mypy",
+    "pre-commit",
+    "pytest",
+    "pytest-cov",
+    "ruff",
+    "types-setuptools",
+    "types-tqdm",
 ]
 
 [build-system]

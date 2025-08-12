@@ -26,6 +26,7 @@ jobs:
       run: |
         uv run mypy --install-types --non-interactive .
     - name: pytest
+      if: always()
       run: |
         uv run pytest --cov=wolfbot --cov-report= --durations=0
     - name: codecov

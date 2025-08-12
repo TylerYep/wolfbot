@@ -1,9 +1,7 @@
 from __future__ import annotations
 
 import random
-from typing import Any, Protocol, TypeVar
-
-T = TypeVar("T")
+from typing import Any, Protocol
 
 
 class SupportsLessThan(Protocol):
