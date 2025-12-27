@@ -128,7 +128,12 @@ class Statistics:
     @override
     def __hash__(self) -> int:
         """Gets hash of a Statistics object."""
-        return hash(tuple(metric.function.__name__ for metric in self.metrics))
+        return hash(
+            tuple(
+                getattr(metric.function, "__name__", "<unknown>")
+                for metric in self.metrics
+            )
+        )
 
     @staticmethod
     def correctness_strict(game_result: GameResult) -> tuple[int, int]:
@@ -217,7 +222,10 @@ class Statistics:
         """
         Returns the dictionary of metric name to metric name.
         """
-        results = {metric.function.__name__: metric.average for metric in self.metrics}
+        results = {
+            getattr(metric.function, "__name__", "<unknown>"): metric.average
+            for metric in self.metrics
+        }
         results["num_games"] = self.num_games
         if include_time:
             results["time_elapsed"] = self.end_time

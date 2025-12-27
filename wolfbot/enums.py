@@ -47,8 +47,8 @@ class Role(Enum):
         return self.value
 
     @override
-    def __format__(self, formatstr: str) -> str:
-        del formatstr
+    def __format__(self, format_spec: str) -> str:
+        del format_spec
         return self.value
 
     def json_repr(self) -> dict[str, Any]:

@@ -17,16 +17,16 @@ def get_probs(solution_arr: tuple[SolverState, ...]) -> tuple[dict[Role, float],
     Combines all solutions to create a probability distribution for the
     possible roles at each index.
     """
-    result: tuple[dict[Role, float], ...] = tuple(
-        dict.fromkeys(const.ROLE_SET, 0) for _ in range(const.NUM_ROLES)
-    )
+    result: list[dict[Role, float]] = [
+        dict.fromkeys(const.ROLE_SET, 0.0) for _ in range(const.NUM_ROLES)
+    ]
     for solution in solution_arr:
         for i, possible_roles_arr in enumerate(solution.possible_roles):
             this_dict = result[i]
             for option in possible_roles_arr:
                 if option not in this_dict:
-                    this_dict[option] = 0
-                this_dict[option] += 1
+                    this_dict[option] = 0.0
+                this_dict[option] += 1.0
             denom = sum(this_dict.values())
             for option in this_dict:
                 this_dict[option] /= denom
@@ -34,7 +34,7 @@ def get_probs(solution_arr: tuple[SolverState, ...]) -> tuple[dict[Role, float],
         # if i <= const.NUM_PLAYERS and not solution.path[i]:
         #     for role in const.EVIL_ROLES:
         #         this_dict[role] += 0.5
-    return result
+    return tuple(result)
 
 
 def log_probability_dist(solution_probs: tuple[dict[Role, float], ...]) -> None:
@@ -99,27 +99,29 @@ def make_max_flow_prediction(
 
 
 def max_flow_assign(solution_probs: tuple[dict[Role, float], ...]) -> list[Role]:
-    graph = Graph[str | int]()
+    graph = Graph[str]()  # ty: ignore[invalid-type-arguments]
     graph.add_node("Source")
     graph.add_node("Sink")
     for role in const.SORTED_ROLE_SET:
         graph.add_node(role.value)
         graph.add_edge("Source", role.value, weight=const.ROLE_COUNTS[role])
     for i in range(const.NUM_ROLES):
-        graph.add_node(i)
-        graph.add_edge(i, "Sink")
+        node_str = str(i)
+        graph.add_node(node_str)
+        graph.add_edge(node_str, "Sink")
     for i, solution in enumerate(solution_probs):
+        node_str = str(i)
         for role, prob in solution.items():
             if prob > 0:
-                graph.add_edge(role.value, i)
+                graph.add_edge(role.value, node_str)
 
-    max_flow_graph = ford_max_flow_network(graph, "Source", "Sink")
+    max_flow_graph = ford_max_flow_network(graph, "Source", "Sink")  # ty: ignore[invalid-argument-type]
     assert (
         sum(edge["flow"] for edge in max_flow_graph["Source"].values())
         == const.NUM_ROLES
     )
     result = [Role.NONE] * const.NUM_ROLES
     for edge in max_flow_graph.edges:
-        if isinstance(edge.end, int) and edge["flow"] >= 1:
-            result[edge.end] = Role(edge.start)
+        if edge.end.isdigit() and edge["flow"] >= 1:
+            result[int(edge.end)] = Role(edge.start)
     return result

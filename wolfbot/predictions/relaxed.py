@@ -19,20 +19,20 @@ def get_probs(solution_arr: tuple[SolverState, ...]) -> tuple[dict[Role, float],
     Combines all solutions to create a probability distribution for the
     possible roles at each index.
     """
-    result: tuple[dict[Role, float], ...] = tuple(
-        dict.fromkeys(const.ROLE_SET, 0) for _ in range(const.NUM_ROLES)
-    )
+    result: list[dict[Role, float]] = [
+        dict.fromkeys(const.ROLE_SET, 0.0) for _ in range(const.NUM_ROLES)
+    ]
     for solution in solution_arr:
         for i, possible_roles_arr in enumerate(solution.possible_roles):
             this_dict = result[i]
             for option in possible_roles_arr:
                 if option not in this_dict:
-                    this_dict[option] = 0
-                this_dict[option] += 1
+                    this_dict[option] = 0.0
+                this_dict[option] += 1.0
             denom = sum(this_dict.values())
             for option in this_dict:
                 this_dict[option] /= denom
-    return result
+    return tuple(result)
 
 
 def log_probability_dist(solution_probs: tuple[dict[Role, float], ...]) -> None:
