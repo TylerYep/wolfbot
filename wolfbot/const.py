@@ -58,26 +58,26 @@ ROLES: tuple[Role, ...] = (
     Role.VILLAGER,
     Role.VILLAGER,
 )
-NUM_ROLES = len(ROLES)
-NUM_CENTER = 3 if NUM_ROLES > 8 else 0
+NUM_ROLES: int = len(ROLES)
+NUM_CENTER: int = 3 if NUM_ROLES > 8 else 0
 # Randomize or use literally the order of the ROLES constant above.
-RANDOMIZE_ROLES = True
+RANDOMIZE_ROLES: bool = True
 # Enable multi-statement rounds.
-MULTI_STATEMENT = False
+MULTI_STATEMENT: bool = False
 
 """ Simulation Constants """
 NUM_GAMES = ARGS.num_games
 MAX_LOG_GAMES = 10
-FIXED_WOLF_INDEX = -1
+FIXED_WOLF_INDEX: int = -1
 SAVE_REPLAY = NUM_GAMES < MAX_LOG_GAMES
 REPLAY_STATE = Path("data/replay_state.json")
 REPLAY = ARGS.replay
 
 """ Util Constants """
-ROLE_SET = frozenset(ROLES)
+ROLE_SET: frozenset[Role] = frozenset(ROLES)
 SORTED_ROLE_SET = sorted(ROLE_SET)
 ROLE_COUNTS = Counter(ROLES)  # Dict of {Role.VILLAGER: 3, Role.WOLF: 2, ... }
-NUM_PLAYERS = NUM_ROLES - NUM_CENTER
+NUM_PLAYERS: int = NUM_ROLES - NUM_CENTER
 
 """ Game Rules """
 AWAKE_ORDER = (
@@ -111,21 +111,21 @@ VILLAGE_ROLES = (
 EVIL_ROLES = frozenset({Role.TANNER, Role.WOLF, Role.MINION}) & ROLE_SET
 
 """ Village Players """
-CENTER_SEER_PROB = 0.9
-SMART_VILLAGERS = True
-SOLVER = Solver.NORMAL
-MAX_RELAXED_SOLVER_SOLUTIONS = 5  # len(const.VILLAGE_ROLES)
+CENTER_SEER_PROB: float = 0.9
+SMART_VILLAGERS: bool = True
+SOLVER: Solver = Solver.NORMAL
+MAX_RELAXED_SOLVER_SOLUTIONS: int = 5  # len(const.VILLAGE_ROLES)
 
 """ Werewolf Players """
 # Basic Wolf Player (Pruned statement set)
-USE_REG_WOLF = True
+USE_REG_WOLF: bool = True
 INCLUDE_STATEMENT_RATE = 0.7
 
 # Expectimax Wolf, Minion, Tanner
-EXPECTIMAX_WOLF = False
+EXPECTIMAX_WOLF: bool = False
 EXPECTIMAX_DEPTH = 1
 BRANCH_FACTOR = 5
-EXPECTIMAX_TANNER = False
+EXPECTIMAX_TANNER: bool = False
 EXPECTIMAX_MINION = EXPECTIMAX_WOLF
 
 # Reinforcement Learning Wolf
