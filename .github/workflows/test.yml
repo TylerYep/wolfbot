@@ -21,9 +21,9 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install the latest version of uv
       uses: astral-sh/setup-uv@v6
-    - name: mypy
+    - name: ty
       run: |
-        uv run mypy --install-types --non-interactive .
+        uv run ty check
     - name: pytest
       if: always()
       run: |

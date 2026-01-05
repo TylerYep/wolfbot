@@ -1,5 +1,5 @@
 ci:
-  skip: [mypy, pytest]
+  skip: [ty, pytest]
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.14.9
@@ -13,14 +13,6 @@ repos:
       - id: ty
         name: ty
         entry: uvx ty check
-        language: system
-        types: [python]
-        pass_filenames: false
-        require_serial: true
-
-      - id: mypy
-        name: mypy
-        entry: uv run mypy .
         language: system
         types: [python]
         pass_filenames: false

@@ -22,7 +22,6 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-    "mypy",
     "pre-commit",
     "pytest",
     "pytest-cov",
@@ -51,13 +50,6 @@ include-package-data = true
 wolfbot = [
     "py.typed",
 ]
-
-[tool.mypy]
-strict = true
-warn_unreachable = true
-disallow_any_unimported = true
-extra_checks = true
-enable_error_code = "explicit-override,ignore-without-code"
 
 [tool.ruff]
 target-version = "py313"
