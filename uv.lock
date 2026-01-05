@@ -431,7 +431,7 @@ dev = [
     { name = "pytest" },
     { name = "pytest-cov" },
     { name = "ruff" },
-    { name = "ty", specifier = ">=0.0.3" },
+    { name = "ty" },
     { name = "types-setuptools" },
     { name = "types-tqdm" },
 ]
